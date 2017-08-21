@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <parent>
+    <groupId>org.onap.sdc.sdc-workflow-designer</groupId>
+    <artifactId>sdc-workflow-designer</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+  
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.onap.sdc.sdc-workflow-designer</groupId>
+  <artifactId>sdc-workflow-designer-ui</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>sdc-workflow-designer-ui</name>
+  
+  <profiles>
+        <profile>
+            <!-- windows -->
+            <id>env-windows</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                </os>
+            </activation>
+            <properties>
+                <build-cmd>./build.bat</build-cmd>
+            </properties>
+        </profile>
+        <profile>
+            <!-- unix -->
+            <id>env-unix</id>
+            <activation>
+                <os>
+                    <family>unix</family>
+                </os>
+            </activation>
+            <properties>
+                <build-cmd>sh ./build.sh</build-cmd>
+            </properties>
+        </profile>
+    </profiles>
+
+
+  <build>
+    <finalName>workflow-gui</finalName>
+    <plugins>
+      <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+          <version>1.5.0</version>
+          <executions>
+              <execution>
+                  <id>NPM package install</id>
+                  <phase>prepare-package</phase>
+                  <goals>
+                      <goal>exec</goal>
+                  </goals>
+                  <configuration>
+                      <executable>${build-cmd}</executable>
+                      <workingDirectory>./</workingDirectory>
+                  </configuration>
+              </execution>
+          </executions>
+      </plugin>
+      
+    </plugins>
+  </build>
+</project>
