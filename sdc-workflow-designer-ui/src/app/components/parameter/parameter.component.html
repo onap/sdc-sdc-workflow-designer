@@ -12,6 +12,9 @@
  */
 -->
 
-<b4t-toolbar></b4t-toolbar>
-
-<b4t-container></b4t-container>
+<div class="form-group row">
+    <label class="col-md-2 form-control-label text-md-right">{{param.name}}</label>
+    <div class="col-md-10">
+        <input class="form-control" type="text" [(ngModel)]="param.value">
+    </div>
+</div>

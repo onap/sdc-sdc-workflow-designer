@@ -1,4 +1,3 @@
-<!--
 /**
  * Copyright (c) 2017 ZTE Corporation.
  * All rights reserved. This program and the accompanying materials
@@ -10,8 +9,15 @@
  * Contributors:
  *     ZTE - initial API and implementation and/or initial documentation
  */
--->
 
-<b4t-toolbar></b4t-toolbar>
+// Angular 2
+import '@angular/common';
+import '@angular/core';
+import '@angular/http';
+import '@angular/platform-browser';
+import '@angular/platform-browser-dynamic';
+import '@angular/router';
+import 'angular-in-memory-web-api';
 
-<b4t-container></b4t-container>
+// RxJS
+import 'rxjs';

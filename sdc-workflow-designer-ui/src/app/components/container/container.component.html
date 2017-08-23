@@ -11,7 +11,8 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 -->
+<div id="canvas" class="canvas" (click)="canvasClick()">
+    <b4t-node *ngFor="let node of modelService.getNodes(); let last = last;" [node]="node" [last]="last"></b4t-node>
+</div>
 
-<b4t-toolbar></b4t-toolbar>
-
-<b4t-container></b4t-container>
+<b4t-properties></b4t-properties>

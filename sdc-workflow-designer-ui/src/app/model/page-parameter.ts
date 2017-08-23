@@ -1,4 +1,3 @@
-<!--
 /**
  * Copyright (c) 2017 ZTE Corporation.
  * All rights reserved. This program and the accompanying materials
@@ -10,8 +9,10 @@
  * Contributors:
  *     ZTE - initial API and implementation and/or initial documentation
  */
--->
 
-<b4t-toolbar></b4t-toolbar>
-
-<b4t-container></b4t-container>
+export class PageParameter {
+    public id: string;
+    public namespace: string;
+    public plan: string;
+    public repositoryURL: string;
+}

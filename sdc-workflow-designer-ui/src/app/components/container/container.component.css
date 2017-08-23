@@ -1,4 +1,3 @@
-<!--
 /**
  * Copyright (c) 2017 ZTE Corporation.
  * All rights reserved. This program and the accompanying materials
@@ -10,8 +9,18 @@
  * Contributors:
  *     ZTE - initial API and implementation and/or initial documentation
  */
--->
 
-<b4t-toolbar></b4t-toolbar>
-
-<b4t-container></b4t-container>
+.canvas {
+    -webkit-overflow-scrolling: touch;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    height: 100%;
+    position: relative;
+    overflow: scroll;
+    z-index: 0;
+    background-color: #84acb3;
+}

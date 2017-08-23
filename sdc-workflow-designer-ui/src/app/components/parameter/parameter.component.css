@@ -10,26 +10,32 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 
-body, html {
+.wm-properties-wrapper {
+    position: fixed;
+    width: 500px;
     height: 100%;
+    border-left: 1px solid #00aaff;
+    z-index: 2000;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    padding-left: 20px;
+    margin-bottom: 0;
+    padding-right: 20px;
+    padding-top: 40px;
+    -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+    border-radius: 0;
 }
 
-.canvas svg path {
-    fill: #000;
-    stroke: #000;
-    stroke-width: 1;
+.edit {
+    display: none;
 }
 
-.canvas svg > * {
-    fill: none;
-    stroke: #000;
-    stroke-linejoin: miter;
-    stroke-location: inside;
-    stroke-width: 1px;
+.editing .view {
+    display: none;
 }
 
-.canvas .guide {
-    background-color: rgba(0, 255, 255, 0);
-    position: absolute;
-    z-index: 1
+.editing .edit {
+    display: block;
 }

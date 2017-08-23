@@ -1,4 +1,3 @@
-<!--
 /**
  * Copyright (c) 2017 ZTE Corporation.
  * All rights reserved. This program and the accompanying materials
@@ -10,8 +9,23 @@
  * Contributors:
  *     ZTE - initial API and implementation and/or initial documentation
  */
--->
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+import { RouterModule } from '@angular/router';
 
-<b4t-toolbar></b4t-toolbar>
+const module = [
+    CommonModule,
+    FormsModule,
+    HttpModule,
+    RouterModule,
+];
 
-<b4t-container></b4t-container>
+@NgModule({
+    imports: module,
+    exports: module,
+})
+
+export class SharedModule {
+}

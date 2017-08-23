@@ -11,7 +11,14 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 -->
+<div class="toolbar">
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <button *ngFor="let nodeType of nodeTypes" type="button" class="btn btn-secondary item ui-draggable"
+                [attr.nodeType]="nodeType">{{nodeType}}
+        </button>
+    </div>
 
-<b4t-toolbar></b4t-toolbar>
-
-<b4t-container></b4t-container>
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-success" (click)="save()">Save</button>
+    </div>
+</div>
