@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_ea54bd22",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 43
+      },
+      "writtenOn": "2017-08-23T07:37:47Z",
+      "side": 1,
+      "message": "CMCC ?",
+      "revId": "460888ad040231b6439bba334bf3510a23249188",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_ca31f90c",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 43
+      },
+      "writtenOn": "2017-08-23T07:37:47Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "460888ad040231b6439bba334bf3510a23249188",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_aa36b501",
+        "filename": "sdc-workflow-designer-ui/build.bat",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 43
+      },
+      "writtenOn": "2017-08-23T07:37:47Z",
+      "side": 1,
+      "message": "license head?",
+      "revId": "460888ad040231b6439bba334bf3510a23249188",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
