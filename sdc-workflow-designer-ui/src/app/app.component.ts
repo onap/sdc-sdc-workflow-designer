@@ -10,13 +10,40 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 
-import { Component } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
+import { JsPlumbService } from "./services/jsplumb.service";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  title = 'SDC Workflow Designer';
+export class AppComponent implements AfterViewInit {
+    constructor(private jsplumbService: JsPlumbService) {}
+
+    public nodes = [
+        {
+            id: '001',
+            name: 'node001',
+            top: 50,
+            left: 50,
+        },
+        {
+            id: '002',
+            name: 'node002',
+            top: 250,
+            left: 50,
+        },
+        {
+            id: '003',
+            name: 'node003',
+            top: 140,
+            left: 450,
+        },
+    ];
+
+    ngAfterViewInit(): void {
+        this.jsplumbService.initJsPlumbInstance();
+        this.jsplumbService.initNode('.node');
+    }
 }

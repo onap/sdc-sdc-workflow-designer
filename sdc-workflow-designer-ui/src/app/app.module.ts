@@ -14,15 +14,18 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
+import { JsPlumbService } from "./services/jsplumb.service";
+import { NodeComponent } from "./components/node/node.component";
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        NodeComponent,
     ],
     imports: [
         BrowserModule
     ],
-    providers: [],
+    providers: [JsPlumbService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

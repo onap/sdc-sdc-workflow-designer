@@ -10,4 +10,7 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 
- /* to add css   */
+ body, html {
+     height: 100%;
+     margin: 0px;
+ }
