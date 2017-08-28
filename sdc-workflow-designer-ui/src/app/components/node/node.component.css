@@ -1,0 +1,187 @@
+ .node {
+     position:absolute;
+     width: 100px;
+     height: 50px;
+     border: 2px solid black;
+ }
+
+
+/**
+ * Anchors
+ */
+.anchors {
+    position: absolute;
+    border-radius: 1em;
+    z-index: 20;
+    display: none;
+    background-color: black;
+    width: 0;
+    height: 0;
+    cursor: pointer;
+    -ms-transition: all 0.15s ease-in-out;
+    transition: all 0.15s ease-in-out;
+    -moz-transition: all 0.15s ease-in-out;
+    -webkit-transition: all 0.15s ease-in-out;
+    -o-transition: all 0.15s ease-in-out;
+}
+
+.node:hover .anchors {
+    background-color: black;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    z-index: 20;
+}
+
+.anchor-left {
+    left: -5px;
+    top: 40%;
+}
+
+.anchor-right {
+    right: -5px;
+    top: 40%;
+}
+
+.anchor-top {
+    top: -5px;
+    left: 40%;
+}
+
+.anchor-bottom {
+    bottom: -5px;
+    left: 40%;
+}
+
+/*右箭头*/
+.right {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    left: 4px;
+    top: 1px;
+
+}
+
+.right-arrow1, .right-arrow2 {
+    width: 0;
+    height: 0;
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-top: 5px transparent dashed;
+    border-right: 5px transparent dashed;
+    border-bottom: 5px transparent dashed;
+    border-left: 5px black solid;
+    overflow: hidden;
+}
+
+.right-arrow1 {
+
+    border-left: 5px white solid;
+}
+
+.right-arrow2 {
+    left: -2px;
+}
+
+/*左箭头*/
+.left {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    left: -2px;
+    top: 1px;
+    z-index: 2;
+}
+
+.left-arrow1, .left-arrow2 {
+    width: 0;
+    height: 0;
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 5; /*兼容ie8-*/
+    border-top: 5px transparent dashed;
+    border-left: 5px transparent dashed;
+    border-bottom: 5px transparent dashed;
+    border-right: 5px black solid;
+    overflow: hidden;
+}
+
+.left-arrow1 {
+    border-right: 5px #fff solid;
+}
+
+.left-arrow2 {
+    left: 2px;
+}
+
+/*上箭头*/
+.top {
+    width: 9px;
+    height: 9px;
+    position: absolute;
+    left: 1px;
+    z-index: 2;
+}
+
+.top-arrow1, .top-arrow2 {
+    width: 0;
+    height: 0;
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 5;
+    border-bottom: 5px black solid;
+    border-left: 5px transparent dashed;
+    border-right: 5px transparent dashed;
+    border-top: 5px transparent dashed;
+    overflow: hidden;
+}
+
+.top-arrow1 {
+    z-index: 6;
+}
+
+.top-arrow2 {
+    top: -2px;
+    border-bottom: 4px white solid;
+}
+
+/*下箭头*/
+.bottom {
+    width: 9px;
+    height: 9px;
+    position: absolute;
+    left: 1px;
+    top: 4px;
+    z-index: 2;
+}
+
+.bottom-arrow1, .bottom-arrow2 {
+    width: 0;
+    height: 0;
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 5;
+    border-bottom: 4px transparent dashed;
+    border-left: 4px transparent dashed;
+    border-right: 4px transparent dashed;
+    border-top: 4px black solid;
+    overflow: hidden;
+}
+
+.bottom-arrow1 {
+    top: -2px;
+    z-index: 6;
+}
+
+.bottom-arrow2 {
+    border-top: 4px white solid;
+}

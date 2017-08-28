@@ -10,10 +10,23 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 
+import { Component, AfterViewInit, Input } from '@angular/core';
 
- .container {
-     width: 100%;
-     height: 100%;
-     background-color: cadetblue;
- }
+import { JsPlumbService } from '../../services/jsplumb.service';
 
+/**
+ * workflow node component
+ */
+@Component({
+    selector: 'b4t-node',
+    styleUrls: ['./node.component.css'],
+    templateUrl: 'node.component.html',
+})
+export class NodeComponent {
+    @Input() public node: Node;
+
+    constructor(private jsPlumbService: JsPlumbService) {
+
+    }
+
+}
