@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_40a04590",
+        "filename": "version.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 43
+      },
+      "writtenOn": "2017-08-28T04:03:06Z",
+      "side": 1,
+      "message": "should be 0",
+      "revId": "bdaffdf812fa909ebb37180451b68cde9c260d0a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
