@@ -10,31 +10,26 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 
-import { Component, AfterViewInit, Input } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 
 import { JsPlumbService } from '../../services/jsplumb.service';
 
 /**
- * workflow node component
+ * toolbar component contains some basic operations(save) and all of the supported workflow nodes.
+ * The supported nodes can be dragged to container component. which will add a new node to the workflow.
  */
 @Component({
-    selector: 'b4t-node',
-    styleUrls: ['./node.component.css'],
-    templateUrl: 'node.component.html',
+    selector: 'b4t-toolbar',
+    templateUrl: 'toolbar.component.html',
+    styleUrls: ['./toolbar.component.css']
 })
-export class NodeComponent implements AfterViewInit {
-
-    @Input() public node: Node;
-    @Input() public last: boolean;
+export class ToolbarComponent implements AfterViewInit {
 
     constructor(private jsPlumbService: JsPlumbService) {
-
     }
 
-    ngAfterViewInit(): void {
-        if(this.last) {
-            this.jsPlumbService.initNode('.node');
-        }
+    public ngAfterViewInit() {
+        this.jsPlumbService.buttonDraggable();
     }
 
 }

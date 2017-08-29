@@ -14,7 +14,9 @@
 
 <!--The content below is only a placeholder and can be replaced.-->
 
+<b4t-toolbar></b4t-toolbar>
+
 <div id="container" class="container">
-    <b4t-node *ngFor="let node of nodes" [node]="node"></b4t-node>
+    <b4t-node *ngFor="let node of getNodes(); let last = last;" [node]="node" [last]="last"></b4t-node>
 </div>
 

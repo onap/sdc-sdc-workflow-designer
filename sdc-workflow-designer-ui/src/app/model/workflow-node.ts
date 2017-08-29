@@ -10,9 +10,11 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 
+import { Injectable } from '@angular/core';
 
- .container {
-     width: 100%;
-     height: 100%;
- }
-
+/**
+ * WorkflowNode
+ */
+export class WorkflowNode {
+    constructor(public id: string, public name: string, public type: string, public top: number, public left: number) {}
+}

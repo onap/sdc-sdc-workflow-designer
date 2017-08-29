@@ -12,6 +12,7 @@
 
 import { Injectable } from '@angular/core';
 import * as jsp from 'jsplumb';
+import { WorkflowService } from "./workflow.service";
 
 /**
  * JsPlumbService
@@ -21,8 +22,8 @@ import * as jsp from 'jsplumb';
 export class JsPlumbService {
     private jsplumbInstance;
 
-    constructor() {
-
+    constructor(private workflowService: WorkflowService) {
+        this.initJsPlumbInstance();
     }
 
 
@@ -57,13 +58,9 @@ export class JsPlumbService {
 
         // add connection to model data while a new connection is build
         this.jsplumbInstance.bind('connection', info => {
-            this.jsplumbInstance.bind('connection', info => {
-
-				info.connection.bind('click', connection => {
-					this.jsplumbInstance.select({ connections: [connection] }).delete();
-				});
-			});
-			
+            info.connection.bind('click', connection => {
+                this.jsplumbInstance.select({ connections: [connection] }).delete();
+            });
         });
 
     }
@@ -92,4 +89,29 @@ export class JsPlumbService {
         });
 
     }
+
+    public buttonDraggable() {
+        const selector = this.jsplumbInstance.getSelector('.toolbar .item');
+        this.jsplumbInstance.draggable(selector,
+            {
+                scope: 'btn',
+                clone: true,
+            });
+    }
+
+    public buttonDroppable() {
+        const selector = this.jsplumbInstance.getSelector('.container');
+        this.jsplumbInstance.droppable(selector, {
+            scope: 'btn',
+            drop: event => {
+                const el = this.jsplumbInstance.getSelector(event.drag.el);
+                const type = el.attributes.nodeType.value;
+                const left = event.e.clientX - event.drop.position[0];
+                const top = event.e.clientY - event.drop.position[1];
+
+                this.workflowService.addNode(type, type, top, left);
+            },
+        });
+    }
+
 }

@@ -16,16 +16,19 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { JsPlumbService } from "./services/jsplumb.service";
 import { NodeComponent } from "./components/node/node.component";
+import { ToolbarComponent } from "./components/toolbar/toolbar.component";
+import { WorkflowService } from "./services/workflow.service";
 
 @NgModule({
     declarations: [
         AppComponent,
         NodeComponent,
+        ToolbarComponent,
     ],
     imports: [
         BrowserModule
     ],
-    providers: [JsPlumbService],
+    providers: [JsPlumbService, WorkflowService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

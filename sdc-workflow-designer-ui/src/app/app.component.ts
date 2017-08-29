@@ -12,6 +12,8 @@
 
 import { Component, AfterViewInit } from '@angular/core';
 import { JsPlumbService } from "./services/jsplumb.service";
+import { WorkflowService } from "./services/workflow.service";
+import { WorkflowNode } from "./model/workflow-node";
 
 @Component({
   selector: 'app-root',
@@ -19,31 +21,13 @@ import { JsPlumbService } from "./services/jsplumb.service";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements AfterViewInit {
-    constructor(private jsplumbService: JsPlumbService) {}
+    constructor(private jsplumbService: JsPlumbService, private workflowService: WorkflowService) {}
 
-    public nodes = [
-        {
-            id: '001',
-            name: 'node001',
-            top: 50,
-            left: 50,
-        },
-        {
-            id: '002',
-            name: 'node002',
-            top: 250,
-            left: 50,
-        },
-        {
-            id: '003',
-            name: 'node003',
-            top: 140,
-            left: 450,
-        },
-    ];
+    public getNodes(): WorkflowNode[] {
+        return this.workflowService.getNodes();
+    }
 
     ngAfterViewInit(): void {
-        this.jsplumbService.initJsPlumbInstance();
-        this.jsplumbService.initNode('.node');
+        this.jsplumbService.buttonDroppable();
     }
 }
