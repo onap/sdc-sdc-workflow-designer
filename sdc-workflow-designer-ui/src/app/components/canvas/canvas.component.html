@@ -11,11 +11,6 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 -->
-
-
-<b4t-toolbar></b4t-toolbar>
-
-<b4t-canvas></b4t-canvas>
-
-<b4t-properties></b4t-properties>
-
+<div id="canvas" class="canvas" (click)="canvasClick()">
+    <b4t-node *ngFor="let node of getWorkflow()?.nodes; let last = last;" [node]="node" [last]="last"></b4t-node>
+</div>

@@ -25,11 +25,16 @@ import { InMemoryWebApiModule } from "angular-in-memory-web-api";
 import { InMemoryDataService } from "./services/data-access/in-memory-data.service";
 import { HttpModule } from "@angular/http";
 import { RouterModule } from "@angular/router";
+import { BroadcastService } from "./services/broadcast.service";
+import { PropertiesComponent } from "./components/property/properties.component";
+import { CanvasComponent } from "./components/editor/canvas.component";
 
 @NgModule({
     declarations: [
         AppComponent,
+        CanvasComponent,
         NodeComponent,
+        PropertiesComponent,
         ToolbarComponent,
     ],
     imports: [
@@ -40,6 +45,7 @@ import { RouterModule } from "@angular/router";
         SharedModule,
     ],
     providers: [
+        BroadcastService,
         DataAccessService,
         HttpService,
         JsPlumbService,

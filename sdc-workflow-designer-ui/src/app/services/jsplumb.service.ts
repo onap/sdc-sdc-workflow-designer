@@ -20,7 +20,7 @@ import { WorkflowService } from "./workflow.service";
  */
 @Injectable()
 export class JsPlumbService {
-    private jsplumbInstance;
+    public jsplumbInstance;
 
     constructor(private workflowService: WorkflowService) {
         this.initJsPlumbInstance();
@@ -29,7 +29,7 @@ export class JsPlumbService {
 
     public initJsPlumbInstance() {
         this.jsplumbInstance = jsp.jsPlumb.getInstance({
-            Container: 'container'
+            Container: 'canvas'
         });
 
         this.jsplumbInstance.importDefaults({
@@ -90,6 +90,10 @@ export class JsPlumbService {
 
     }
 
+    public remove(nodeId: string) {
+        this.jsplumbInstance.remove(nodeId);
+    }
+
     public buttonDraggable() {
         const selector = this.jsplumbInstance.getSelector('.toolbar .item');
         this.jsplumbInstance.draggable(selector,
@@ -100,7 +104,8 @@ export class JsPlumbService {
     }
 
     public buttonDroppable() {
-        const selector = this.jsplumbInstance.getSelector('.container');
+        console.log('buttonDroppable');
+        const selector = this.jsplumbInstance.getSelector('.canvas');
         this.jsplumbInstance.droppable(selector, {
             scope: 'btn',
             drop: event => {
