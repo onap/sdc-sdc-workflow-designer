@@ -13,6 +13,8 @@
 import { Component, AfterViewInit, Input } from '@angular/core';
 
 import { JsPlumbService } from '../../services/jsplumb.service';
+import { BroadcastService } from "../../services/broadcast.service";
+import { WorkflowNode } from "../../model/workflow-node";
 
 /**
  * workflow node component
@@ -24,10 +26,11 @@ import { JsPlumbService } from '../../services/jsplumb.service';
 })
 export class NodeComponent implements AfterViewInit {
 
-    @Input() public node: Node;
+    @Input() public node: WorkflowNode;
     @Input() public last: boolean;
 
-    constructor(private jsPlumbService: JsPlumbService) {
+    constructor(private broadcastService: BroadcastService,
+        private jsPlumbService: JsPlumbService) {
 
     }
 
@@ -35,6 +38,11 @@ export class NodeComponent implements AfterViewInit {
         if(this.last) {
             this.jsPlumbService.initNode('.node');
         }
+    }
+
+    public showProperties() {
+        this.broadcastService.broadcast(this.broadcastService.nodeProperty, this.node);
+        this.broadcastService.broadcast(this.broadcastService.showProperty, true);
     }
 
 }

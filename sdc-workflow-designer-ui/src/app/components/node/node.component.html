@@ -11,8 +11,8 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 -->
-<div class="node" [style.top]="node.top + 'px'" [style.left]="node.left + 'px'">
-     <div>{{node.name}}</div>
+<div class="node" id="{{node.id}}" (dblclick)="showProperties()" [style.top]="node.top + 'px'" [style.left]="node.left + 'px'">
+    <div>{{node.name}}</div>
     <div class="anchor anchors anchor-left">
         <span class="left">
             <i class="left-arrow1"></i>

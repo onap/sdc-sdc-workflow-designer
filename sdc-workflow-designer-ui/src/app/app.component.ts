@@ -23,27 +23,6 @@ import { ActivatedRoute } from "@angular/router";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements AfterViewInit, OnInit {
-    constructor(private jsplumbService: JsPlumbService,
-        private dataAccessService: DataAccessService,
-        private route: ActivatedRoute,
-        private workflowService: WorkflowService) {}
+export class AppComponent {
 
-    ngOnInit(): void {
-        this.route.queryParams.subscribe(params => {
-            if(params.id) {
-                this.dataAccessService.catalogService.loadWorkflow(params.id).subscribe(workflow => {
-                    this.workflowService.workflow = workflow;
-                });
-            }
-        });
-    }
-
-    public getWorkflow(): Workflow {
-        return this.workflowService.workflow;
-    }
-
-    ngAfterViewInit(): void {
-        this.jsplumbService.buttonDroppable();
-    }
 }
