@@ -10,21 +10,31 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { JsPlumbService } from "./services/jsplumb.service";
 import { WorkflowService } from "./services/workflow.service";
 import { WorkflowNode } from "./model/workflow-node";
+import { Workflow } from "./model/workflow";
+import { DataAccessService } from "./services/data-access/data-access.service";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements AfterViewInit {
-    constructor(private jsplumbService: JsPlumbService, private workflowService: WorkflowService) {}
+export class AppComponent implements AfterViewInit, OnInit {
+    constructor(private jsplumbService: JsPlumbService,
+        private dataAccessService: DataAccessService,
+        private workflowService: WorkflowService) {}
 
-    public getNodes(): WorkflowNode[] {
-        return this.workflowService.getNodes();
+    ngOnInit(): void {
+        this.dataAccessService.catalogService.loadWorkflow('workflow1').subscribe(workflow => {
+            this.workflowService.workflow = workflow;
+        });
+    }
+
+    public getWorkflow(): Workflow {
+        return this.workflowService.workflow;
     }
 
     ngAfterViewInit(): void {

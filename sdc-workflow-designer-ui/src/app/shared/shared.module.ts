@@ -1,4 +1,3 @@
-<!--
 /**
  * Copyright (c) 2017 ZTE Corporation.
  * All rights reserved. This program and the accompanying materials
@@ -10,17 +9,22 @@
  * Contributors:
  *     ZTE - initial API and implementation and/or initial documentation
  */
--->
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Workflow Designer</title>
-  <base href="/">
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+import { RouterModule } from '@angular/router';
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-  <app-root></app-root>
-</body>
-</html>
+const module = [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+];
+
+@NgModule({
+    imports: module,
+    exports: module,
+})
+
+export class SharedModule {
+}

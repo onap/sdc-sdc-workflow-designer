@@ -18,6 +18,12 @@ import { JsPlumbService } from "./services/jsplumb.service";
 import { NodeComponent } from "./components/node/node.component";
 import { ToolbarComponent } from "./components/toolbar/toolbar.component";
 import { WorkflowService } from "./services/workflow.service";
+import { DataAccessService } from "./services/data-access/data-access.service";
+import { HttpService } from "./util/http.service";
+import { SharedModule } from "./shared/shared.module";
+import { InMemoryWebApiModule } from "angular-in-memory-web-api";
+import { InMemoryDataService } from "./services/data-access/in-memory-data.service";
+import { HttpModule } from "@angular/http";
 
 @NgModule({
     declarations: [
@@ -26,9 +32,17 @@ import { WorkflowService } from "./services/workflow.service";
         ToolbarComponent,
     ],
     imports: [
-        BrowserModule
+        BrowserModule,
+        HttpModule,
+        InMemoryWebApiModule.forRoot(InMemoryDataService),
+        SharedModule,
     ],
-    providers: [JsPlumbService, WorkflowService],
+    providers: [
+        DataAccessService,
+        HttpService,
+        JsPlumbService,
+        WorkflowService
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

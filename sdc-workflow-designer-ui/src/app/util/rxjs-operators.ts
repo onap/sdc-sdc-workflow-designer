@@ -1,4 +1,3 @@
-<!--
 /**
  * Copyright (c) 2017 ZTE Corporation.
  * All rights reserved. This program and the accompanying materials
@@ -10,17 +9,10 @@
  * Contributors:
  *     ZTE - initial API and implementation and/or initial documentation
  */
--->
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Workflow Designer</title>
-  <base href="/">
-
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-  <app-root></app-root>
-</body>
-</html>
+import 'rxjs/add/observable/throw';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/toPromise';

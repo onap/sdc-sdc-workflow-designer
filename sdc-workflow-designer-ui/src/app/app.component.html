@@ -17,6 +17,6 @@
 <b4t-toolbar></b4t-toolbar>
 
 <div id="container" class="container">
-    <b4t-node *ngFor="let node of getNodes(); let last = last;" [node]="node" [last]="last"></b4t-node>
+    <b4t-node *ngFor="let node of getWorkflow()?.nodes; let last = last;" [node]="node" [last]="last"></b4t-node>
 </div>
 

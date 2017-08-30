@@ -12,6 +12,9 @@
 
 import { Injectable } from '@angular/core';
 import { WorkflowNode } from "../model/workflow-node";
+import { DataAccessService } from "./data-access/data-access.service";
+import { Observable } from "rxjs/Observable";
+import { Workflow } from "../model/workflow";
 
 /**
  * WorkflowService
@@ -19,34 +22,41 @@ import { WorkflowNode } from "../model/workflow-node";
  */
 @Injectable()
 export class WorkflowService {
-    public nodes: WorkflowNode[] = [];
 
-    public getNodes(): WorkflowNode[] {
-        return this.nodes;
+    public workflow: Workflow;
+
+    constructor(private dataAccessService: DataAccessService) {
+
     }
 
-    public addNode(name: string, type: string,  top: number, left: number) {
-        this.nodes.push(new WorkflowNode(this.createId(), name, type, top, left));
+    public save(): Observable<boolean> {
+        return this.dataAccessService.catalogService.saveWorkflow(this.workflow);
+    }
+
+    public addNode(name: string, type: string, top: number, left: number): WorkflowNode {
+        const node = new WorkflowNode(this.createId(), name, type, top, left);
+        this.workflow.nodes.push(node);
+        return node;
     }
 
     public deleteNode(nodeId: string): WorkflowNode {
         // delete current node
-        const index = this.nodes.findIndex(node => node.id === nodeId);
+        const index = this.workflow.nodes.findIndex(node => node.id === nodeId);
         if (index !== -1) {
-            const node = this.nodes.splice(index, 1)[0];
+            const node = this.workflow.nodes.splice(index, 1)[0];
             return node;
         }
 
         return undefined;
     }
 
-    public getNode(sourceId: string): WorkflowNode {
-        return this.nodes.find(node => node.id === sourceId);
+    public getNodeById(sourceId: string): WorkflowNode {
+        return this.workflow.nodes.find(node => node.id === sourceId);
     }
 
     private createId() {
         const idSet = new Set();
-        this.nodes.forEach(node => idSet.add(node.id));
+        this.workflow.nodes.forEach(node => idSet.add(node.id));
 
         for (let i = 0; i < idSet.size; i++) {
             if (!idSet.has('node' + i)) {

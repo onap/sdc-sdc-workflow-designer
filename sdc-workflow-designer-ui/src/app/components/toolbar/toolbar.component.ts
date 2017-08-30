@@ -13,6 +13,7 @@
 import { AfterViewInit, Component } from '@angular/core';
 
 import { JsPlumbService } from '../../services/jsplumb.service';
+import { WorkflowService } from "../../services/workflow.service";
 
 /**
  * toolbar component contains some basic operations(save) and all of the supported workflow nodes.
@@ -25,11 +26,21 @@ import { JsPlumbService } from '../../services/jsplumb.service';
 })
 export class ToolbarComponent implements AfterViewInit {
 
-    constructor(private jsPlumbService: JsPlumbService) {
+    constructor(private jsPlumbService: JsPlumbService, private workflowService: WorkflowService) {
     }
 
     public ngAfterViewInit() {
         this.jsPlumbService.buttonDraggable();
+    }
+
+    public save() {
+        this.workflowService.save().subscribe(success => {
+            if(success) {
+                console.log(`save workflow success`);
+            } else {
+                console.log(`save workflow failed`);
+            }
+        });
     }
 
 }
