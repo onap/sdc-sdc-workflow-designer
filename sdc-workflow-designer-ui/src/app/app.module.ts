@@ -24,6 +24,7 @@ import { SharedModule } from "./shared/shared.module";
 import { InMemoryWebApiModule } from "angular-in-memory-web-api";
 import { InMemoryDataService } from "./services/data-access/in-memory-data.service";
 import { HttpModule } from "@angular/http";
+import { RouterModule } from "@angular/router";
 
 @NgModule({
     declarations: [
@@ -35,6 +36,7 @@ import { HttpModule } from "@angular/http";
         BrowserModule,
         HttpModule,
         InMemoryWebApiModule.forRoot(InMemoryDataService),
+        RouterModule.forRoot([]),
         SharedModule,
     ],
     providers: [

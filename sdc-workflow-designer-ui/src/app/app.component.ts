@@ -16,6 +16,7 @@ import { WorkflowService } from "./services/workflow.service";
 import { WorkflowNode } from "./model/workflow-node";
 import { Workflow } from "./model/workflow";
 import { DataAccessService } from "./services/data-access/data-access.service";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -25,11 +26,16 @@ import { DataAccessService } from "./services/data-access/data-access.service";
 export class AppComponent implements AfterViewInit, OnInit {
     constructor(private jsplumbService: JsPlumbService,
         private dataAccessService: DataAccessService,
+        private route: ActivatedRoute,
         private workflowService: WorkflowService) {}
 
     ngOnInit(): void {
-        this.dataAccessService.catalogService.loadWorkflow('workflow1').subscribe(workflow => {
-            this.workflowService.workflow = workflow;
+        this.route.queryParams.subscribe(params => {
+            if(params.id) {
+                this.dataAccessService.catalogService.loadWorkflow(params.id).subscribe(workflow => {
+                    this.workflowService.workflow = workflow;
+                });
+            }
         });
     }
 
