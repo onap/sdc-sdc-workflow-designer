@@ -11,10 +11,14 @@
  */
 
 import { Injectable } from '@angular/core';
-import { WorkflowNode } from "../model/workflow-node";
+import { WorkflowNode } from "../model/workflow/workflow-node";
 import { DataAccessService } from "./data-access/data-access.service";
 import { Observable } from "rxjs/Observable";
-import { Workflow } from "../model/workflow";
+import { Workflow } from "../model/workflow/workflow";
+import { Position } from "../model/workflow/position";
+import { NodeType } from "../model/workflow/node-type.enum";
+import { StartEvent } from "../model/workflow/start-event";
+import { SequenceFlow } from "../model/workflow/sequence-flow";
 
 /**
  * WorkflowService
@@ -34,20 +38,53 @@ export class WorkflowService {
     }
 
     public addNode(name: string, type: string, top: number, left: number): WorkflowNode {
-        const node = new WorkflowNode(this.createId(), name, type, top, left);
+        let node: WorkflowNode;
+        switch (type) {
+            case NodeType[NodeType.startEvent]:
+                node = new StartEvent(this.createId(), name, type, new Position(top, left), []);
+                break;
+            default:
+                node = new WorkflowNode(this.createId(), name, type, new Position(top, left), []);
+                break;
+        }
+
         this.workflow.nodes.push(node);
         return node;
     }
 
     public deleteNode(nodeId: string): WorkflowNode {
+        // delete related connections
+        this.workflow.nodes.forEach(node => this.deleteSequenceFlow(node.id, nodeId));
+
         // delete current node
         const index = this.workflow.nodes.findIndex(node => node.id === nodeId);
         if (index !== -1) {
             const node = this.workflow.nodes.splice(index, 1)[0];
+            node.sequenceFlows = [];
             return node;
         }
 
         return undefined;
+    }
+
+    public addSequenceFlow(sourceId: string, targetId: string) {
+        const node = this.getNodeById(sourceId);
+        if (node) {
+            const index = node.sequenceFlows.findIndex(sequenceFlow => sequenceFlow.targetRef === targetId);
+            if (index === -1) {
+                node.sequenceFlows.push(new SequenceFlow(sourceId, targetId));
+            }
+        }
+    }
+
+    public deleteSequenceFlow(sourceId: string, targetId: string) {
+        const node = this.getNodeById(sourceId);
+        if (node) {
+            const index = node.sequenceFlows.findIndex(sequenceFlow => sequenceFlow.targetRef === targetId);
+            if (index !== -1) {
+                node.sequenceFlows.splice(index, 1);
+            }
+        }
     }
 
     public getNodeById(sourceId: string): WorkflowNode {

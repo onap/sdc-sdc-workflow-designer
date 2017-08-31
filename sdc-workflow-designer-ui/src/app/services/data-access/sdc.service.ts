@@ -13,9 +13,9 @@
 import { Injectable } from '@angular/core';
 import { CatalogService } from "./catalog.service";
 import { Observable } from "rxjs/Observable";
-import { WorkflowNode } from "../../model/workflow-node";
+import { WorkflowNode } from "../../model/workflow/workflow-node";
 import { HttpService } from "../../util/http.service";
-import { Workflow } from "../../model/workflow";
+import { Workflow } from "../../model/workflow/workflow";
 
 /**
  * SdcService

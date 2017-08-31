@@ -12,7 +12,7 @@
 
 import { AfterViewInit, Component } from '@angular/core';
 
-import { WorkflowNode } from '../../model/workflow-node';
+import { WorkflowNode } from '../../model/workflow/workflow-node';
 import { BroadcastService } from '../../services/broadcast.service';
 import { JsPlumbService } from '../../services/jsplumb.service';
 import { WorkflowService } from '../../services/workflow.service';

@@ -11,10 +11,10 @@
  */
 
 import { Injectable } from '@angular/core';
-import { WorkflowNode } from "../../model/workflow-node";
+import { WorkflowNode } from "../../model/workflow/workflow-node";
 import { Observable } from "rxjs/Observable";
 import { HttpService } from "../../util/http.service";
-import { Workflow } from "../../model/workflow";
+import { Workflow } from "../../model/workflow/workflow";
 
 /**
  * CatalogService

@@ -58,8 +58,11 @@ export class JsPlumbService {
 
         // add connection to model data while a new connection is build
         this.jsplumbInstance.bind('connection', info => {
+            this.workflowService.addSequenceFlow(info.connection.sourceId, info.connection.targetId);
+
             info.connection.bind('click', connection => {
                 this.jsplumbInstance.select({ connections: [connection] }).delete();
+                this.workflowService.deleteSequenceFlow(connection.sourceId, connection.targetId);
             });
         });
 

@@ -13,8 +13,9 @@
 import { Injectable } from '@angular/core';
 
 /**
- * WorkflowNode
+ * Position
+ * Workflow node position
  */
-export class WorkflowNode {
-    constructor(public id: string, public name: string, public type: string, public top: number, public left: number) {}
+export class Position {
+    constructor(public top: number, public left: number, public width?: number, public height?: number) { }
 }

@@ -12,7 +12,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
-import { WorkflowNode } from '../model/workflow-node';
+import { WorkflowNode } from '../model/workflow/workflow-node';
 
 /**
  * BroadcastService

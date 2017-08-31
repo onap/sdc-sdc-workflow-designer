@@ -14,7 +14,7 @@ import { Component, AfterViewInit, Input } from '@angular/core';
 
 import { JsPlumbService } from '../../services/jsplumb.service';
 import { BroadcastService } from "../../services/broadcast.service";
-import { WorkflowNode } from "../../model/workflow-node";
+import { WorkflowNode } from "../../model/workflow/workflow-node";
 
 /**
  * workflow node component

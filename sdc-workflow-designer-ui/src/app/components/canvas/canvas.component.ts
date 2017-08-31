@@ -17,7 +17,7 @@ import { JsPlumbService } from '../../services/jsplumb.service';
 import { ActivatedRoute } from "@angular/router";
 import { DataAccessService } from "../../services/data-access/data-access.service";
 import { WorkflowService } from "../../services/workflow.service";
-import { Workflow } from "../../model/workflow";
+import { Workflow } from "../../model/workflow/workflow";
 
 /**
  * main canvas, it contains two parts: canvas and node property component

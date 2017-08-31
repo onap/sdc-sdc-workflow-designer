@@ -13,8 +13,8 @@
 import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { JsPlumbService } from "./services/jsplumb.service";
 import { WorkflowService } from "./services/workflow.service";
-import { WorkflowNode } from "./model/workflow-node";
-import { Workflow } from "./model/workflow";
+import { WorkflowNode } from "./model/workflow/workflow-node";
+import { Workflow } from "./model/workflow/workflow";
 import { DataAccessService } from "./services/data-access/data-access.service";
 import { ActivatedRoute } from "@angular/router";
 

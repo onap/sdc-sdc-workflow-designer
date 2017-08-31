@@ -28,13 +28,17 @@ import { RouterModule } from "@angular/router";
 import { BroadcastService } from "./services/broadcast.service";
 import { PropertiesComponent } from "./components/property/properties.component";
 import { CanvasComponent } from "./components/canvas/canvas.component";
+import { StartEventParametersComponent } from "./components/property/start-event-parameters/start-event-parameters.component";
+import { ParameterComponent } from "./components/parameter/parameter.component";
 
 @NgModule({
     declarations: [
         AppComponent,
         CanvasComponent,
         NodeComponent,
+        ParameterComponent,
         PropertiesComponent,
+        StartEventParametersComponent,
         ToolbarComponent,
     ],
     imports: [
