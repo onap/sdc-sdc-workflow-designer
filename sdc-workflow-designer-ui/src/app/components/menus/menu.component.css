@@ -10,7 +10,10 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 
- body, html {
-     height: 100%;
-     margin: 0px;
- }
+.btn-right{
+    float: right;
+}
+
+button i{
+    padding-right: 3px;
+}

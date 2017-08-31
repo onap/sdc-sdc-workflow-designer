@@ -17,5 +17,5 @@ import { Injectable } from '@angular/core';
  * Workflow node position
  */
 export class Position {
-    constructor(public top: number, public left: number, public width?: number, public height?: number) { }
+    constructor(public top: number, public left: number, public width: number = 200, public height: number = 100) { }
 }

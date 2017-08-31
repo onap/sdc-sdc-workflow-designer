@@ -30,11 +30,13 @@ import { PropertiesComponent } from "./components/property/properties.component"
 import { CanvasComponent } from "./components/canvas/canvas.component";
 import { StartEventParametersComponent } from "./components/property/start-event-parameters/start-event-parameters.component";
 import { ParameterComponent } from "./components/parameter/parameter.component";
+import { MenuComponent } from "./components/menus/menu.component";
 
 @NgModule({
     declarations: [
         AppComponent,
         CanvasComponent,
+        MenuComponent,
         NodeComponent,
         ParameterComponent,
         PropertiesComponent,

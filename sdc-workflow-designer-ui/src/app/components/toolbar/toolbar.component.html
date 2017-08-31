@@ -13,13 +13,11 @@
 -->
 <div class="toolbar">
     <div class="row">
-        <button type="button" class="btn btn-secondary item ui-draggable" [attr.nodeType]="'startEvent'">
-            <span>startEvent</span>
+        <button *ngFor="let nodeType of nodeTypes" type="button" [attr.nodeType]="nodeType"
+            class="btn btn-secondary item ui-draggable">
+            <div class="{{nodeType}}">
+            </div>
+            <span>{{getNameByType(nodeType)}}</span>
         </button>
-        <button type="button" class="btn btn-secondary item ui-draggable" [attr.nodeType]="'endEvent'">
-            <span>endEvent</span>
-        </button>
-
-        <button type="button" class="btn btn-success" (click)="save()">Save</button>
     </div>
 </div>

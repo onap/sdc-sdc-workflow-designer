@@ -45,4 +45,12 @@ export class NodeComponent implements AfterViewInit {
         this.broadcastService.broadcast(this.broadcastService.showProperty, true);
     }
 
+    public getDisplayName(): string {
+        if (this.node.type === 'restTask' || this.node.type === 'toscaTask') {
+            return this.node.name;
+        } else {
+            return '     ';
+        }
+    }
+
 }

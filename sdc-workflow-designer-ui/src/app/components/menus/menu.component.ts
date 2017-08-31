@@ -9,8 +9,25 @@
  * Contributors:
  *     ZTE - initial API and implementation and/or initial documentation
  */
+import { Component, OnInit, ViewChild } from '@angular/core';
 
- body, html {
-     height: 100%;
-     margin: 0px;
- }
+import { WorkflowService } from '../../services/workflow.service';
+
+@Component({
+  selector: 'b4t-menu',
+  templateUrl: './menu.component.html',
+  styleUrls: ['./menu.component.css']
+})
+export class MenuComponent {
+
+  public canSave = true;
+
+  constructor(private workflowService: WorkflowService) { }
+
+  public save(): void {
+    this.workflowService.save();
+  }
+
+  public test() {
+  }
+}

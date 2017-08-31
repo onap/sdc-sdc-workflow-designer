@@ -114,8 +114,9 @@ export class JsPlumbService {
             drop: event => {
                 const el = this.jsplumbInstance.getSelector(event.drag.el);
                 const type = el.attributes.nodeType.value;
-                const left = event.e.clientX - event.drop.position[0];
-                const top = event.e.clientY - event.drop.position[1];
+                // Mouse position minus drop canvas start position and minus icon half size
+                const left = event.e.clientX - 220 - (event.e.offsetX / 2);
+                const top = event.e.clientY - 70 - (event.e.offsetY / 2);
 
                 this.workflowService.addNode(type, type, top, left);
             },

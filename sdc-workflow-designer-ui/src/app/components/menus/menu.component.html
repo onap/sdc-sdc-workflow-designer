@@ -1,3 +1,4 @@
+<!--
 /**
  * Copyright (c) 2017 ZTE Corporation.
  * All rights reserved. This program and the accompanying materials
@@ -9,8 +10,11 @@
  * Contributors:
  *     ZTE - initial API and implementation and/or initial documentation
  */
+-->
 
- body, html {
-     height: 100%;
-     margin: 0px;
- }
+<div class="btn-right">
+  <button type="button" class="btn white" (click)="save()" [disabled]="!canSave">
+    <i class="fa fa-save"></i>Save
+  </button>
+  <!-- <button type="button" class="btn white" (click)="test()">test</button> -->
+</div>

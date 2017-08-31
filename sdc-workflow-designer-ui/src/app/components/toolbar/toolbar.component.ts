@@ -10,10 +10,10 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 
 import { JsPlumbService } from '../../services/jsplumb.service';
-import { WorkflowService } from "../../services/workflow.service";
+import { NodeType } from "../../model/workflow/node-type.enum";
 
 /**
  * toolbar component contains some basic operations(save) and all of the supported workflow nodes.
@@ -24,23 +24,29 @@ import { WorkflowService } from "../../services/workflow.service";
     templateUrl: 'toolbar.component.html',
     styleUrls: ['./toolbar.component.css']
 })
-export class ToolbarComponent implements AfterViewInit {
+export class ToolbarComponent implements AfterViewInit, OnInit {
+    public nodeTypes = [];
 
-    constructor(private jsPlumbService: JsPlumbService, private workflowService: WorkflowService) {
+    constructor(private jsPlumbService: JsPlumbService) {
     }
 
     public ngAfterViewInit() {
         this.jsPlumbService.buttonDraggable();
     }
 
-    public save() {
-        this.workflowService.save().subscribe(success => {
-            if(success) {
-                console.log(`save workflow success`);
-            } else {
-                console.log(`save workflow failed`);
-            }
-        });
+    ngOnInit(): void {
+        this.getNodeTypes();
     }
 
+    private getNodeTypes() {
+        for(let key in NodeType) {
+            if (typeof NodeType[key] === 'number') {
+                this.nodeTypes.push(key);
+            }
+        }
+    }
+
+    public getNameByType(type:string):string{
+        return type.replace(type.charAt(0), type.charAt(0).toUpperCase());
+    }
 }

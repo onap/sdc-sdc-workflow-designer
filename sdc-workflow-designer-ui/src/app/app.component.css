@@ -9,10 +9,36 @@
  * Contributors:
  *     ZTE - initial API and implementation and/or initial documentation
  */
+ .main-content-wrapper{
+    height: 100%;
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMTEgMTEiPjxkZWZzPjxzdHlsZT4uY2xzLTF7aXNvbGF0aW9uOmlzb2xhdGU7fS5jbHMtMntmaWxsOiNmYWZiZmQ7fS5jbHMtM3tmaWxsOiNlY2VkZWY7ZmlsbC1ydWxlOmV2ZW5vZGQ7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5iYWNrZ3JvdW5kLWltYWdlc192MjwvdGl0bGU+PGc+PGltYWdlIHdpZHRoPSIxMSIgaGVpZ2h0PSIxMSIgeGxpbms6aHJlZj0iZGF0YTppbWFnZS9wbmc7YmFzZTY0LGlWQk9SdzBLR2dvQUFBQU5TVWhFVWdBQUFBc0FBQUFMQ0FJQUFBQW16dUJ4QUFBQUNYQklXWE1BQUFzU0FBQUxFZ0hTM1g3OEFBQUFFMGxFUVZRWVYyUDRUd2d3RUZJd3FvSmtGUUF3eFdtbDRtUGRyd0FBQUFCSlJVNUVya0pnZ2c9PSIvPjwvZz48ZyBpZD0i55+p5b2iXzEiIGRhdGEtbmFtZT0i55+p5b2iIDEiIGNsYXNzPSJjbHMtMSI+PGcgaWQ9IuefqeW9ol8xLTIiIGRhdGEtbmFtZT0i55+p5b2iIDEiPjxyZWN0IGNsYXNzPSJjbHMtMiIgd2lkdGg9IjExIiBoZWlnaHQ9IjExIi8+PC9nPjwvZz48ZyBjbGFzcz0iY2xzLTEiPjxnPjxwb2x5Z29uIGNsYXNzPSJjbHMtMyIgcG9pbnRzPSIxMCAwIDEwIDEwIDAgMTAgMCAxMSAxMCAxMSAxMC45MiAxMSAxMC45MiAwIDEwIDAiLz48L2c+PC9nPjwvc3ZnPg==);
+    background-size: 11px;
+}
 
+.toolbar{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 200px;
+    height: 100%;
+    background-color: white;
+}
 
- .container {
-     width: 100%;
-     height: 100%;
- }
+.design-area{
+    position: relative;
+    left: 200px;
+    width: calc(100% - 200px);
+    height: 100%;
+    padding: 20px;
+}
 
+.design-menu{
+    display: block;
+    height: 30px;
+    margin-bottom: 10px;
+}
+
+.design-container{
+    display: block;
+    height: calc(100% - 40px);
+}
