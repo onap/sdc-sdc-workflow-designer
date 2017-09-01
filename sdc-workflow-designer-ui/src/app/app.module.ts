@@ -30,13 +30,21 @@ import { PropertiesComponent } from "./components/property/properties.component"
 import { CanvasComponent } from "./components/canvas/canvas.component";
 import { StartEventParametersComponent } from "./components/property/start-event-parameters/start-event-parameters.component";
 import { ParameterComponent } from "./components/parameter/parameter.component";
-import { MenuComponent } from "./components/menus/menu.component";
+import { MenuComponent } from "./components/menu/menu.component";
+import { MicroserviceDetailComponent } from "./components/menu/microservice/microservice-detail/microservice-detail.component";
+import { MicroserviceComponent } from "./components/menu/microservice/microservice.component";
+import { MicroserviceListComponent } from "./components/menu/microservice/microservice-list/microservice-list.component";
+import { ModalModule } from "ngx-bootstrap/modal";
+import { WorkflowConfigService } from "./services/workflow-config.service";
 
 @NgModule({
     declarations: [
         AppComponent,
         CanvasComponent,
         MenuComponent,
+        MicroserviceComponent,
+        MicroserviceDetailComponent,
+        MicroserviceListComponent,
         NodeComponent,
         ParameterComponent,
         PropertiesComponent,
@@ -47,6 +55,7 @@ import { MenuComponent } from "./components/menus/menu.component";
         BrowserModule,
         HttpModule,
         InMemoryWebApiModule.forRoot(InMemoryDataService),
+        ModalModule.forRoot(),
         RouterModule.forRoot([]),
         SharedModule,
     ],
@@ -55,6 +64,7 @@ import { MenuComponent } from "./components/menus/menu.component";
         DataAccessService,
         HttpService,
         JsPlumbService,
+        WorkflowConfigService,
         WorkflowService
     ],
     bootstrap: [AppComponent]

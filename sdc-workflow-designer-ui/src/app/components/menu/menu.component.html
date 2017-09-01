@@ -1,3 +1,4 @@
+<!--
 /**
  * Copyright (c) 2017 ZTE Corporation.
  * All rights reserved. This program and the accompanying materials
@@ -9,25 +10,15 @@
  * Contributors:
  *     ZTE - initial API and implementation and/or initial documentation
  */
-import { Component, OnInit, ViewChild } from '@angular/core';
+-->
 
-import { WorkflowService } from '../../services/workflow.service';
-
-@Component({
-  selector: 'b4t-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.css']
-})
-export class MenuComponent {
-
-  public canSave = true;
-
-  constructor(private workflowService: WorkflowService) { }
-
-  public save(): void {
-    this.workflowService.save();
-  }
-
-  public test() {
-  }
-}
+<div class="btn-right">
+    <button type="button" class="btn white" (click)="save()">
+        <i class="fa fa-save"></i>Save
+    </button>
+    <button type="button" class="btn white" (click)="showMicroserviceModal()">
+        <i class="fa fa-cog"></i>Setting
+    </button>
+    <!-- <button type="button" class="btn white" (click)="test()">test</button> -->
+</div>
+<b4t-microservice></b4t-microservice>

@@ -21,11 +21,17 @@ export class InMemoryDataService implements InMemoryDbService {
         const workflows = [{
             id: 'workflow1',
             name:'workflow1',
-            nodes: []
+            nodes: [],
+            configs:{
+                microservices:[]
+            }
         },{
             id:'workflow2',
             name: 'workflow2',
-            nodes: []
+            nodes: [],
+            configs:{
+                microservices:[]
+            }
         }
     ];
         return {workflows};

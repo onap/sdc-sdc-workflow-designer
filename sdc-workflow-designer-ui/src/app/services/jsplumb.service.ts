@@ -107,7 +107,6 @@ export class JsPlumbService {
     }
 
     public buttonDroppable() {
-        console.log('buttonDroppable');
         const selector = this.jsplumbInstance.getSelector('.canvas');
         this.jsplumbInstance.droppable(selector, {
             scope: 'btn',

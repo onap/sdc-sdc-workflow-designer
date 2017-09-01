@@ -37,7 +37,7 @@ export class SdcService extends CatalogService {
     public loadWorkflow(workflowId: string): Observable<Workflow> {
         // TODO load data from sdc
         const url = `api/workflows/${workflowId}`;
-        return this.httpService.get(url).map(response => response.data);
+        return this.httpService.get(url).map(response => response.data as Workflow);
     }
 
     public saveWorkflow(workflow: Workflow): Observable<boolean> {

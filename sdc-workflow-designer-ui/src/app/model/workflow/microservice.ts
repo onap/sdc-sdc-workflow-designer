@@ -11,12 +11,10 @@
  */
 
 import { Injectable } from '@angular/core';
-import { WorkflowNode } from "./workflow-node";
-import { Configs } from "./configs";
 
 /**
- * Workflow
+ * Microservice
  */
-export class Workflow {
-    constructor(public id: string, public name: string, public nodes: WorkflowNode[], public configs: Configs) {}
+export class Microservice {
+    constructor(public name: string, public version: string, public swagger: any) {}
 }

@@ -1,0 +1,39 @@
+<!--
+/**
+ * Copyright (c) 2017 ZTE Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * and the Apache License 2.0 which both accompany this distribution,
+ * and are available at http://www.eclipse.org/legal/epl-v10.html
+ * and http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Contributors:
+ *     ZTE - initial API and implementation and/or initial documentation
+ */
+-->
+<div class="modal fade" bsModal #microserviceModal="bs-modal" [config]="{backdrop: 'static'}"
+     tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">microservice Setting</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="microserviceModal.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <b4t-microservice-list [microservices]="microservices" (microserviceSelected)="microserviceSelected($event)"></b4t-microservice-list>
+                    </div>
+                    <div class="col-sm-8">
+                        <b4t-microservice-detail [microservice]="currentMicroservice"></b4t-microservice-detail>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn over-grey" (click)="microserviceModal.hide()">close</button>
+            </div>
+        </div>
+    </div>
+</div>

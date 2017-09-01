@@ -11,12 +11,18 @@
  */
 
 import { Injectable } from '@angular/core';
-import { WorkflowNode } from "./workflow-node";
-import { Configs } from "./configs";
+import { WorkflowService } from "./workflow.service";
+import { Microservice } from "../model/workflow/microservice";
 
 /**
- * Workflow
+ * WorkflowConfigService
+ * provides all of the operations about workflow configs.
  */
-export class Workflow {
-    constructor(public id: string, public name: string, public nodes: WorkflowNode[], public configs: Configs) {}
+@Injectable()
+export class WorkflowConfigService {
+    constructor(private workflowService: WorkflowService) {}
+
+    public getMicroservices(): Microservice[] {
+        return this.workflowService.workflow.configs.microservices;
+    }
 }
