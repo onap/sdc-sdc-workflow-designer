@@ -16,5 +16,5 @@ import { Injectable } from '@angular/core';
  * Microservice
  */
 export class Microservice {
-    constructor(public name: string, public version: string, public swagger: any) {}
+    constructor(public name: string, public version: string, public swagger: any, public definition: string) {}
 }

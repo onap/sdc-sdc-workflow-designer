@@ -13,6 +13,8 @@
 import { Injectable } from '@angular/core';
 import { WorkflowService } from "./workflow.service";
 import { Microservice } from "../model/workflow/microservice";
+import { Observable } from "rxjs/Rx";
+import { HttpService } from "../util/http.service";
 
 /**
  * WorkflowConfigService
@@ -20,9 +22,18 @@ import { Microservice } from "../model/workflow/microservice";
  */
 @Injectable()
 export class WorkflowConfigService {
-    constructor(private workflowService: WorkflowService) {}
+    constructor(private httpService: HttpService, private workflowService: WorkflowService) {}
 
     public getMicroservices(): Microservice[] {
         return this.workflowService.workflow.configs.microservices;
+    }
+
+    public loadDynamicInfo(url: string): Observable<any> {
+        const options: any = {
+            headers: {
+                Accept: 'application/json',
+            },
+        };
+        return this.httpService.get(url);
     }
 }

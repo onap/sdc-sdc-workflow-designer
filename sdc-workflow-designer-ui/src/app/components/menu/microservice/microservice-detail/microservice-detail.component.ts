@@ -28,14 +28,16 @@ export class MicroserviceDetailComponent implements OnChanges {
     @Input() microservice: Microservice;
 
     public detail: string;
+    public dynamic = false;
 
-    constructor() {
+    constructor(private configService: WorkflowConfigService) {
     }
 
     public ngOnChanges() {
         if(this.microservice == null) {
-            this.microservice = new Microservice('', '', {});
+            this.microservice = new Microservice('', '', {}, '');
         }
+        this.dynamic = this.microservice.definition !== '';
         this.parseSwagger2String();
     }
 
@@ -56,5 +58,27 @@ export class MicroserviceDetailComponent implements OnChanges {
         } catch (e) {
             // if detail is not a json object, then not change the swagger
         }
+    }
+
+    public toggleDynamic(dynamic: boolean) {
+        this.dynamic = dynamic;
+        this.onDetailChanged('{}');
+
+        if(!dynamic) {
+            this.microservice.definition = null;
+        }
+    }
+
+    private loadDynamicInfo() {
+        this.configService.loadDynamicInfo(this.microservice.definition)
+        .subscribe(response => {
+            try {
+                this.microservice.swagger = response;
+                this.parseSwagger2String();
+            } catch (e) {
+                console.log('detail transfer error');
+                console.error(e);
+            }
+        });
     }
 }
