@@ -1,0 +1,44 @@
+<!--
+/*******************************************************************************
+ * Copyright (c) 2017 ZTE Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * and the Apache License 2.0 which both accompany this distribution,
+ * and are available at http://www.eclipse.org/legal/epl-v10.html
+ * and http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Contributors:
+ *     ZTE - initial API and implementation and/or initial documentation
+ *******************************************************************************/
+-->
+
+<div class="form-group row">
+	<label class="col-md-3 form-control-label text-md-right">Service</label>
+	<div class="col-md-9">
+		<select class="form-control" [ngModel]="selectedMicroservice"
+				(ngModelChange)="serviceChanged($event)">
+			<option *ngFor="let microservice of microservices" [ngValue]=microservice>{{getText4Microservice(microservice)}}</option>
+		</select>
+	</div>
+</div>
+
+<div class="form-group row">
+	<label class="col-md-3 form-control-label text-md-right">Path</label>
+	<div class="col-md-9">
+		<select class="form-control" [ngModel]="node.url"
+				(ngModelChange)="urlChanged($event)">
+			<option *ngFor="let interface of restInterfaces" value="{{interface}}">{{interface}}</option>
+		</select>
+	</div>
+</div>
+
+<div class="form-group row">
+	<label class="col-md-3 form-control-label text-md-right">Method</label>
+	<div class="col-md-9">
+		<select class="form-control" [ngModel]="node.method"
+				(ngModelChange)="methodChanged($event)">
+			<option *ngFor="let operation of restOperations" value="{{operation}}">{{operation}}</option>
+		</select>
+	</div>
+</div>
+<hr>

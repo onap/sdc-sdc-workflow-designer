@@ -15,6 +15,7 @@ import { WorkflowService } from "./workflow.service";
 import { Microservice } from "../model/workflow/microservice";
 import { Observable } from "rxjs/Rx";
 import { HttpService } from "../util/http.service";
+import { Swagger } from "../model/swagger";
 
 /**
  * WorkflowConfigService
@@ -35,5 +36,14 @@ export class WorkflowConfigService {
             },
         };
         return this.httpService.get(url).map(response => response.data);
+    }
+
+    public getSwaggerInfo(serviceName: string, version: string): Swagger {
+        const microservice = this.getMicroservices().find(service => (service.name === serviceName && service.version === version));
+        if(microservice) {
+            return microservice.swagger;
+        } else {
+            return undefined;
+        }
     }
 }

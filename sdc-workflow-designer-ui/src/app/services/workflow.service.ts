@@ -19,6 +19,7 @@ import { Position } from "../model/workflow/position";
 import { NodeType } from "../model/workflow/node-type.enum";
 import { StartEvent } from "../model/workflow/start-event";
 import { SequenceFlow } from "../model/workflow/sequence-flow";
+import { RestTask } from "../model/workflow/rest-task";
 
 /**
  * WorkflowService
@@ -43,6 +44,9 @@ export class WorkflowService {
         switch (type) {
             case NodeType[NodeType.startEvent]:
                 node = new StartEvent(this.createId(), name, type, new Position(top, left), []);
+                break;
+            case NodeType[NodeType.restTask]:
+                node = new RestTask(this.createId(), name, type, new Position(top, left), []);
                 break;
             default:
                 node = new WorkflowNode(this.createId(), name, type, new Position(top, left), []);

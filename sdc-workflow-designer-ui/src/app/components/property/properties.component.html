@@ -40,4 +40,5 @@
     <!-- TODO  add property for different node types -->
 
     <b4t-start-event-parameters *ngIf="'startEvent' == node.type" [node]="node"></b4t-start-event-parameters>
+    <b4t-rest-task *ngIf="node.type == 'restTask'" [node]="node"></b4t-rest-task>
 </div>
