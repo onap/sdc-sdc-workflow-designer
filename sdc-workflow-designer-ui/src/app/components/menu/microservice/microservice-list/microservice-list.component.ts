@@ -32,7 +32,7 @@ export class MicroserviceListComponent {
     }
 
     public addMicroservice() {
-        const microservice = new Microservice('new microservice', '', {}, '');
+        const microservice = new Microservice('new microservice', '', null, '');
         this.microservices.push(microservice);
 
         this.onMicroserviceSelected(microservice);
