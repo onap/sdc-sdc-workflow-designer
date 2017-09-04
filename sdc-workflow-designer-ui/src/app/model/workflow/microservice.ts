@@ -11,10 +11,11 @@
  */
 
 import { Injectable } from '@angular/core';
+import { Swagger } from "../swagger";
 
 /**
  * Microservice
  */
 export class Microservice {
-    constructor(public name: string, public version: string, public swagger: any, public definition: string) {}
+    constructor(public name: string, public version: string, public swagger: Swagger, public definition: string) {}
 }

@@ -34,6 +34,6 @@ export class WorkflowConfigService {
                 Accept: 'application/json',
             },
         };
-        return this.httpService.get(url);
+        return this.httpService.get(url).map(response => response.data);
     }
 }

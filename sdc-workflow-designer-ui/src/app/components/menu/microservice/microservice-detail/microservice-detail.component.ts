@@ -15,6 +15,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 
 import { Microservice } from '../../../../model/workflow/microservice';
 import { WorkflowConfigService } from '../../../../services/workflow-config.service';
+import { Swagger } from "../../../../model/swagger";
 
 /**
  * toolbar component contains some basic operations(save) and all of the supported workflow nodes.
@@ -35,7 +36,7 @@ export class MicroserviceDetailComponent implements OnChanges {
 
     public ngOnChanges() {
         if(this.microservice == null) {
-            this.microservice = new Microservice('', '', {}, '');
+            this.microservice = new Microservice('', '', null, '');
         }
         this.dynamic = this.microservice.definition !== '';
         this.parseSwagger2String();
@@ -51,10 +52,15 @@ export class MicroserviceDetailComponent implements OnChanges {
 
     public onDetailChanged(detail: string) {
         try {
-            const swagger = JSON.parse(detail);
-            this.detail = detail;
-            console.log(swagger);
-            this.microservice.swagger = swagger;
+            if(detail) {
+                const swagger = new Swagger(JSON.parse(detail));
+                this.detail = detail;
+                console.log(swagger);
+                this.microservice.swagger = swagger;
+            } else {
+                this.detail = '';
+                this.microservice.swagger = null;
+            }
         } catch (e) {
             // if detail is not a json object, then not change the swagger
         }
@@ -62,7 +68,7 @@ export class MicroserviceDetailComponent implements OnChanges {
 
     public toggleDynamic(dynamic: boolean) {
         this.dynamic = dynamic;
-        this.onDetailChanged('{}');
+        this.onDetailChanged(null);
 
         if(!dynamic) {
             this.microservice.definition = null;
@@ -73,7 +79,7 @@ export class MicroserviceDetailComponent implements OnChanges {
         this.configService.loadDynamicInfo(this.microservice.definition)
         .subscribe(response => {
             try {
-                this.microservice.swagger = response;
+                this.microservice.swagger = new Swagger(response);
                 this.parseSwagger2String();
             } catch (e) {
                 console.log('detail transfer error');
