@@ -19,6 +19,8 @@ import { RestTask } from '../../../model/workflow/rest-task';
 import { BroadcastService } from '../../../services/broadcast.service';
 import { WorkflowConfigService } from '../../../services/workflow-config.service';
 import { Microservice } from "../../../model/workflow/microservice";
+import { WorkflowUtil } from "../../../util/workflow-util";
+import { RestParameter } from "../../../model/workflow/rest-parameter";
 
 @Component({
     selector: 'b4t-rest-task',
@@ -107,7 +109,35 @@ export class RestTaskComponent implements AfterViewInit, OnInit {
     }
 
     private updateMethodInfo() {
-        // TODO update parameters
-        console.log('rest task updated');
+        if (this.node.method) {
+            const path: any = this.swagger.paths[this.node.url];
+            const method: SwaggerMethod = path[this.node.method];
+
+            this.node.consumes = WorkflowUtil.deepClone(method.consumes);
+            this.node.produces = WorkflowUtil.deepClone(method.produces);
+
+            // request parameters
+            method.parameters.forEach(param => {
+                const nodeParam = new RestParameter(param.name, '', ValueSource[ValueSource.String],
+                    param.type, param.position, param.schema);
+                this.node.parameters.push(nodeParam);
+            });
+
+            // response parameters
+            const responseParams = this.getResponseParameters(method.responses);
+            this.node.responses = responseParams.map(param => WorkflowUtil.deepClone(param));
+        }
+    }
+
+    private getResponseParameters(responses: any) {
+        let response: SwaggerResponse = null;
+
+        for (const key of Object.keys(responses)) {
+            if (key.startsWith('20')) {
+                response = responses[key];
+            }
+        }
+
+        return [response];
     }
 }
