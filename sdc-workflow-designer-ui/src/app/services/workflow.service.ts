@@ -20,6 +20,7 @@ import { NodeType } from "../model/workflow/node-type.enum";
 import { StartEvent } from "../model/workflow/start-event";
 import { SequenceFlow } from "../model/workflow/sequence-flow";
 import { RestTask } from "../model/workflow/rest-task";
+import { PlanTreeviewItem } from "../model/plan-treeview-item";
 
 /**
  * WorkflowService
@@ -90,6 +91,60 @@ export class WorkflowService {
                 node.sequenceFlows.splice(index, 1);
             }
         }
+    }
+
+    public getPlanParameters(nodeId: string): PlanTreeviewItem[] {
+        const preNodeList = new Array<WorkflowNode>();
+        this.getPreNodes(nodeId, preNodeList);
+
+        return this.loadNodeOutputs(preNodeList);
+    }
+
+    private loadNodeOutputs(nodes: WorkflowNode[]): PlanTreeviewItem[] {
+        const params = new Array<PlanTreeviewItem>();
+        nodes.forEach(node => {
+            switch (node.type) {
+                case NodeType[NodeType.startEvent]:
+                    params.push(this.loadOutput4StartEvent(<StartEvent>node));
+                    break;
+                case NodeType[NodeType.restTask]:
+                    // TODO for rest task
+                    break;
+                default:
+                    break;
+            }
+        });
+
+        return params;
+    }
+
+    private loadOutput4StartEvent(node: StartEvent): PlanTreeviewItem {
+        const startItem = new PlanTreeviewItem(node.name, `[${node.id}]`, []);
+        node.parameters.map(param =>
+            startItem.children.push(new PlanTreeviewItem(param.name, `[${param.name}]`, [])));
+        return startItem;
+    }
+
+    public getPreNodes(nodeId: string, preNodes: WorkflowNode[]) {
+        const preNode4CurrentNode = [];
+        this.workflow.nodes.forEach(node => {
+            if (this.isPreNode(node, nodeId)) {
+                const existNode = preNodes.find(tmpNode => tmpNode.id === node.id);
+                if (existNode) {
+                    // current node already exists in preNodes. this could avoid loop circle.
+                } else {
+                    preNode4CurrentNode.push(node);
+                    preNodes.push(node);
+                }
+            }
+        });
+
+        preNode4CurrentNode.forEach(node => this.getPreNodes(node.id, preNodes));
+    }
+
+    public isPreNode(preNode: WorkflowNode, id: string): boolean {
+        const targetNode = preNode.sequenceFlows.find(connection => connection.targetRef === id);
+        return targetNode !== undefined;
     }
 
     public getNodeById(sourceId: string): WorkflowNode {

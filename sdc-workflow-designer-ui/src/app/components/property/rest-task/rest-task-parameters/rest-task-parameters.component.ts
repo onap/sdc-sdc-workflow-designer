@@ -19,6 +19,7 @@ import { BroadcastService } from '../../../../services/broadcast.service';
 import { RestParameter } from "../../../../model/workflow/rest-parameter";
 import { ValueSource } from "../../../../model/value-source.enum";
 import { SwaggerTreeConverterService } from "../../../../services/swagger-tree-converter.service";
+import { PlanTreeviewItem } from "../../../../model/plan-treeview-item";
 
 /**
  * property component presents information of a workflow node.
@@ -31,8 +32,9 @@ import { SwaggerTreeConverterService } from "../../../../services/swagger-tree-c
 })
 export class RestTaskParametersComponent implements OnInit {
     @Input() public task: RestTask;
+    @Input() public planItems: PlanTreeviewItem[];
 
-    public inputSources: ValueSource[] = [ValueSource.String];
+    public inputSources: ValueSource[] = [ValueSource.String, ValueSource.Plan];
     public requestParameters: RestParameter[] = []; // not include body parameter
     public bodyParameter: TreeNode[] = [];
     public responseParameter: TreeNode[] = [];

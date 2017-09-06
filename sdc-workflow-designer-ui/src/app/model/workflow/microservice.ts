@@ -17,5 +17,5 @@ import { Swagger } from "../swagger";
  * Microservice
  */
 export class Microservice {
-    constructor(public name: string, public version: string, public swagger: Swagger, public definition: string) {}
+    constructor(public name: string, public version: string, public swaggerJson: string, public definition: string) {}
 }

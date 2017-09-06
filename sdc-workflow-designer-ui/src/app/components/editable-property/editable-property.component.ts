@@ -15,6 +15,7 @@ import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/
 import { ValueSource } from '../../model/value-source.enum';
 import { ValueType } from '../../model/value-type.enum';
 import { Parameter} from '../../model/workflow/parameter';
+import { PlanTreeviewItem } from "../../model/plan-treeview-item";
 
 /**
  * property component presents information of a workflow node.
@@ -27,6 +28,7 @@ import { Parameter} from '../../model/workflow/parameter';
 })
 export class EditablePropertyComponent {
     @Input() public parameter: Parameter;
+    @Input() public planItems: PlanTreeviewItem[];
     @Input() public showLabel: boolean;
     @Input() public valueSource: ValueSource[];
     @Output() public parameterChange = new EventEmitter<Parameter>();

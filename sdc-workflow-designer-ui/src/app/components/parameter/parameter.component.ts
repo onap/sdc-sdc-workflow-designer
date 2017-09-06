@@ -15,6 +15,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ValueSource } from '../../model/value-source.enum';
 import { Parameter } from '../../model/workflow/parameter';
 import { DataAccessService } from "../../services/data-access/data-access.service";
+import { PlanTreeviewItem } from "../../model/plan-treeview-item";
 
 /**
  * this component contains in property component if the corresponding node has parameter properties
@@ -30,6 +31,7 @@ export class ParameterComponent implements OnInit {
     @Input() public canEditName: boolean;
     @Input() public showLabel = true;
     @Input() public canDelete: boolean;
+    @Input() public planItems: PlanTreeviewItem[];
     @Output() public paramChange = new EventEmitter<Parameter>();
     @Output() delete: EventEmitter<Parameter> = new EventEmitter<Parameter>();
 
@@ -37,10 +39,13 @@ export class ParameterComponent implements OnInit {
     public valueGroupClass;
     public valueClass;
     public showValueSource: boolean = true;
+    public planValue: any = {};
+    public planOptions = [];
 
     constructor(private dataAccessService: DataAccessService) { }
 
     public ngOnInit(): void {
+        console.log(this.planItems);
         if (1 === this.valueSource.length) {
             this.showValueSource = false;
         }
@@ -53,15 +58,58 @@ export class ParameterComponent implements OnInit {
             'col-md-7': this.canDelete,
             'col-md-9': !this.canDelete
         };
+
+        // trans plan options to tree view items.
+        this.initPlanTreeviewItems(this.planItems);
+        if (ValueSource[ValueSource.Plan] === this.param.valueSource) {
+            this.planValue = { id: this.param.value };
+        }
     }
 
     public deleteParam(): void {
         this.delete.emit();
     }
 
-    public modelChange(value: any) {
-        this.param.value = value;
-        this.paramChange.emit(this.param)
+    public valueSourceChange(valueSource: string) {
+        this.param.valueSource = valueSource;
+        this.valueChange(null);
+    }
+
+    public valueChange(value: any) {
+        if (ValueSource[ValueSource.Plan] === this.param.valueSource) {
+            if (value !== null && 'object' === typeof (value)) {
+                this.planValue = value;
+            } else {
+                this.planValue = {};
+            }
+            this.param.value = this.planValue.id;
+        } else {
+            this.param.value = value;
+        }
+        this.paramChange.emit(this.param);
+    }
+
+    private initPlanTreeviewItems(planTreeviewItems: PlanTreeviewItem[]): void {
+        this.planOptions = this.getTreeviewChild(planTreeviewItems);
+    }
+
+    private getTreeviewChild(planTreeviewItems: PlanTreeviewItem[]): any[] {
+        let treeviewItems = [];
+        if (undefined == planTreeviewItems || 0 === planTreeviewItems.length) {
+            // todo: debug check if it need [] or undefined.
+            return treeviewItems;
+        }
+        planTreeviewItems.forEach(item => {
+            const treeviewItem = {
+                id: item.value,
+                name: item.name,
+                disabled: false,
+                // !item.canSelect,
+                children: this.getTreeviewChild(item.children)
+            };
+            treeviewItems.push(treeviewItem);
+        });
+        return treeviewItems;
     }
 
 }

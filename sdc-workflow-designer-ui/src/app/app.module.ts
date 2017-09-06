@@ -12,6 +12,7 @@
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { NgxTreeSelectModule } from 'ngx-tree-select';
 
 import { AppComponent } from './app.component';
 import { JsPlumbService } from "./services/jsplumb.service";
@@ -67,6 +68,15 @@ import { SwaggerTreeConverterService } from "./services/swagger-tree-converter.s
         ModalModule.forRoot(),
         RouterModule.forRoot([]),
         SharedModule,
+        NgxTreeSelectModule.forRoot({
+            allowFilter: true,
+            filterPlaceholder: 'Type your filter here...',
+            maxVisibleItemCount: 5,
+            idField: 'id',
+            textField: 'name',
+            childrenField: 'children',
+            allowParentSelection: false
+        })
     ],
     providers: [
         BroadcastService,

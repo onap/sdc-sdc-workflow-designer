@@ -21,6 +21,7 @@ import { WorkflowConfigService } from '../../../services/workflow-config.service
 import { Microservice } from "../../../model/workflow/microservice";
 import { WorkflowUtil } from "../../../util/workflow-util";
 import { RestParameter } from "../../../model/workflow/rest-parameter";
+import { PlanTreeviewItem } from "../../../model/plan-treeview-item";
 
 @Component({
     selector: 'b4t-rest-task',
@@ -28,6 +29,8 @@ import { RestParameter } from "../../../model/workflow/rest-parameter";
 })
 export class RestTaskComponent implements AfterViewInit, OnInit {
     @Input() public node: RestTask;
+    @Input() public planItems: PlanTreeviewItem[];
+
     public swaggerJson: any = {};
     public restInterfaces: any[];
     public restOperations: any = [];

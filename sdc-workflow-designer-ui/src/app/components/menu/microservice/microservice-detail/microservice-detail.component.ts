@@ -43,8 +43,8 @@ export class MicroserviceDetailComponent implements OnChanges {
     }
 
     private parseSwagger2String() {
-        if (this.microservice.swagger) {
-            this.detail = JSON.stringify(this.microservice.swagger);
+        if (this.microservice.swaggerJson) {
+            this.detail = JSON.stringify(this.microservice.swaggerJson);
         } else {
             this.detail = '';
         }
@@ -56,10 +56,10 @@ export class MicroserviceDetailComponent implements OnChanges {
                 const swagger = new Swagger(JSON.parse(detail));
                 this.detail = detail;
                 console.log(swagger);
-                this.microservice.swagger = swagger;
+                this.microservice.swaggerJson = detail;
             } else {
                 this.detail = '';
-                this.microservice.swagger = null;
+                this.microservice.swaggerJson = null;
             }
         } catch (e) {
             // if detail is not a json object, then not change the swagger
@@ -79,7 +79,8 @@ export class MicroserviceDetailComponent implements OnChanges {
         this.configService.loadDynamicInfo(this.microservice.definition)
         .subscribe(response => {
             try {
-                this.microservice.swagger = new Swagger(response);
+
+                this.microservice.swaggerJson = response;
                 this.parseSwagger2String();
             } catch (e) {
                 console.log('detail transfer error');

@@ -16,6 +16,7 @@ import { WorkflowNode } from '../../model/workflow/workflow-node';
 import { BroadcastService } from '../../services/broadcast.service';
 import { JsPlumbService } from '../../services/jsplumb.service';
 import { WorkflowService } from '../../services/workflow.service';
+import { PlanTreeviewItem } from "../../model/plan-treeview-item";
 
 /**
  * property component presents information of a workflow node.
@@ -31,6 +32,7 @@ export class PropertiesComponent implements AfterViewInit {
     public node: WorkflowNode;
     public show = false;
     public titleEditing = false;
+    public planItems: PlanTreeviewItem[];
 
     constructor(private broadcastService: BroadcastService,
                 private jsPlumnService: JsPlumbService,
@@ -40,7 +42,10 @@ export class PropertiesComponent implements AfterViewInit {
 
     public ngAfterViewInit() {
         this.broadcastService.showProperty$.subscribe(show => this.show = show);
-        this.broadcastService.nodeProperty$.subscribe(node => this.node = node);
+        this.broadcastService.nodeProperty$.subscribe(node => {
+            this.node = node;
+            this.planItems = this.workflowService.getPlanParameters(this.node.id);
+        });
     }
 
     public nodeNameChanged() {

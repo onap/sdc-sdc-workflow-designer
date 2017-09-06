@@ -20,6 +20,7 @@ import { RestParameter } from '../../model/workflow/rest-parameter';
 import { RestTask } from '../../model/workflow/rest-task';
 import { SwaggerTreeConverterService } from '../../services/swagger-tree-converter.service';
 import { WorkflowUtil } from '../../util/workflow-util';
+import { PlanTreeviewItem } from "../../model/plan-treeview-item";
 
 /**
  * parameter tree presents parameter of task node's input and output parameters.
@@ -35,6 +36,7 @@ export class ParameterTreeComponent implements OnChanges {
     @Input() public task: RestTask;
     @Input() public defaultValueSource: string;
     @Input() public valueSource: ValueSource[];
+    @Input() public planItems: PlanTreeviewItem[];
 
     constructor(private swaggerTreeConverterService: SwaggerTreeConverterService) { }
 

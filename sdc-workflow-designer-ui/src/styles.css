@@ -14,3 +14,42 @@
      height: 100%;
      margin: 0px;
  }
+
+ .form-group .btn{
+    min-width: 20px;
+}
+
+.form-control-label{
+    line-height: 30px;
+}
+
+.tree-select-class{
+    padding: 0;
+}
+
+.dropdown-menu{
+    display: block;
+    font-size: 12px;
+}
+
+.caret {
+  border-top: 6px dashed;
+  border-right: 3px solid transparent;
+  border-left: 3px solid transparent;
+}
+
+.selected-container-text{
+    padding-left: 14px !important;
+    line-height: 20px;
+}
+
+.selected-container-text:hover{
+    background-color: #fff;
+    cursor: default;
+    border-color: #ddd;
+}
+
+.selected-item-text{
+    margin: 0 !important;
+    font-size: 12px !important;
+}

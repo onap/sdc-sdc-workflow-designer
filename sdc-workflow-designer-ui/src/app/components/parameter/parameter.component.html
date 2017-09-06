@@ -20,9 +20,16 @@
     <div [ngClass]="valueGroupClass">
         <div [ngSwitch]="param.valueSource">
             <input *ngSwitchCase="sourceEnum[sourceEnum.String]" [ngClass]="valueClass" class="form-control"
-                type="text" [ngModel]="param.value" (ngModelChange)="modelChange($event)">
+                type="text" [ngModel]="param.value" (ngModelChange)="valueChange($event)">
             <!-- TODO add plan and Top parameters -->
+            <tree-select *ngSwitchCase="sourceEnum[sourceEnum.Plan]" name="simpleSelect" [items]="planOptions"
+                childrenField="children" #simpleSelect="ngModel" [ngClass]="valueClass" class="tree-select-class"
+                [ngModel]="planValue" (ngModelChange)="valueChange($event)"></tree-select>
         </div>
+        <select *ngIf="showValueSource" class="form-control col-md-3" type="text" [ngModel]="param.valueSource"
+            (ngModelChange)="valueSourceChange($event)">
+            <option *ngFor="let sourceType of valueSource" value="{{sourceEnum[sourceType]}}">{{sourceEnum[sourceType]}}</option>
+        </select>
     </div>
     <div *ngIf="canDelete" class="col-md-2">
         <button type="button" class="btn oes-red-bg pull-right" (click)="deleteParam()">

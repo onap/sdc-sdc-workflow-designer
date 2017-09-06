@@ -41,7 +41,7 @@ export class WorkflowConfigService {
     public getSwaggerInfo(serviceName: string, version: string): Swagger {
         const microservice = this.getMicroservices().find(service => (service.name === serviceName && service.version === version));
         if(microservice) {
-            return microservice.swagger;
+            return new Swagger(JSON.parse(microservice.swaggerJson));
         } else {
             return undefined;
         }
