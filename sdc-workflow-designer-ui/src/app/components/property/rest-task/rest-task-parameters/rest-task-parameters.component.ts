@@ -18,6 +18,7 @@ import { RestTask } from '../../../../model/workflow/rest-task';
 import { BroadcastService } from '../../../../services/broadcast.service';
 import { RestParameter } from "../../../../model/workflow/rest-parameter";
 import { ValueSource } from "../../../../model/value-source.enum";
+import { SwaggerTreeConverterService } from "../../../../services/swagger-tree-converter.service";
 
 /**
  * property component presents information of a workflow node.
@@ -39,7 +40,7 @@ export class RestTaskParametersComponent implements OnInit {
 
     private index = 1;
 
-    constructor(private broadcastService: BroadcastService) {
+    constructor(private broadcastService: BroadcastService, private swaggerTreeConverterService: SwaggerTreeConverterService) {
     }
 
     public ngOnInit() {
@@ -55,8 +56,10 @@ export class RestTaskParametersComponent implements OnInit {
 
         this.task.parameters.forEach(param => {
             if (param.position === 'body') {
-                // TODO add body parameter handler
-                // this.bodyParameter.push(param);
+                const requestTreeNode = this.swaggerTreeConverterService
+                .schema2TreeNode('Request Param', this.task.serviceName, this.task.serviceVersion, param.schema);
+                param.value = param.schema.value;
+                this.bodyParameter.push(requestTreeNode);
             } else {
                 this.requestParameters.push(param);
             }

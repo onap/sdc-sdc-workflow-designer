@@ -1,0 +1,54 @@
+
+<!--
+/**
+ * Copyright (c) 2017 ZTE Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * and the Apache License 2.0 which both accompany this distribution,
+ * and are available at http://www.eclipse.org/legal/epl-v10.html
+ * and http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Contributors:
+ *     ZTE - initial API and implementation and/or initial documentation
+ */
+ -->
+<p-tree *ngIf="parameters.length > 0" [value]="parameters">
+    <ng-template let-node  pTemplate="default">
+        <b4t-parameter [param]="node.parameter" [canEditName]="node.keyEditable" [valueSource]= "valueSource"
+            (paramChange)="paramChange($event, node)"></b4t-parameter>
+    </ng-template>
+
+    <ng-template let-node  pTemplate="array">
+        <span *ngIf="!node.keyEditable">[Array]({{node.children.length}}) {{node.label}}:</span>
+        <span *ngIf="node.keyEditable">[Array]({{node.children.length}})
+            <b4t-editable-property [parameter]="getKeyParameter(node)"  [showLabel]="false"
+                (parameterChange)="keyParameterChange(node, $event)"></b4t-editable-property>
+        </span>
+        <i class="fa fa-plus-square-o" (click)="addChildNode4ObjectArray(node)"></i>
+    </ng-template>
+    <ng-template let-node pTemplate="object">
+        <span *ngIf="!node.keyEditable">[Object] {{node.label}}:</span>
+        <span *ngIf="node.keyEditable">[Object]
+            <b4t-editable-property [parameter]="getKeyParameter(node)"  [showLabel]="false"
+                (parameterChange)="keyParameterChange(node, $event)"></b4t-editable-property>:
+        </span>
+
+        <span *ngIf="canEditValue(node)" class="dynamic-object-value">
+            <textarea [ngModel]="getObjectValue(node)" (ngModelChange)="updateObjectValue(node, $event)"></textarea>
+        </span>
+
+        <i *ngIf="canDelete(node)" class="fa fa-minus-square-o" (click)="deleteTreeNode(node)"></i>
+        <i *ngIf="canAdd(node)" class="fa fa-plus-square-o" (click)="addChildNode4DynamicObject(node)"></i>
+    </ng-template>
+
+    <ng-template let-node pTemplate="map">
+        <span *ngIf="!node.keyEditable">[Map] {{node.label}}:</span>
+        <span *ngIf="node.keyEditable">[Map]
+            <b4t-editable-property [parameter]="getKeyParameter(node)" [showLabel]="false"
+                (parameterChange)="keyParameterChange(node, $event)"></b4t-editable-property>:
+        </span>
+
+        <i *ngIf="canDelete(node)" class="fa fa-minus-square-o" (click)="deleteTreeNode(node)"></i>
+        <i *ngIf="canAdd(node)" class="fa fa-plus-square-o" (click)="addChildNode4DynamicObject(node)"></i>
+    </ng-template>
+</p-tree>

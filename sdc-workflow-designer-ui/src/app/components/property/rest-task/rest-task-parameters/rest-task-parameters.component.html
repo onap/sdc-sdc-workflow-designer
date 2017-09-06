@@ -12,3 +12,7 @@
  *******************************************************************************/
 -->
 <b4t-parameter *ngFor="let param of requestParameters" [param]="param" [valueSource]= "inputSources"></b4t-parameter>
+
+<!-- body parameter -->
+<b4t-parameter-tree [task]="task" [parameters]="bodyParameter" [valueSource]="inputSources"
+    [defaultValueSource]="valueSource[valueSource.String]"></b4t-parameter-tree>

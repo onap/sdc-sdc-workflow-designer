@@ -15,7 +15,7 @@ import { WorkflowService } from "./workflow.service";
 import { Microservice } from "../model/workflow/microservice";
 import { Observable } from "rxjs/Rx";
 import { HttpService } from "../util/http.service";
-import { Swagger } from "../model/swagger";
+import { Swagger, SwaggerSchemaObject } from "../model/swagger";
 
 /**
  * WorkflowConfigService
@@ -46,4 +46,11 @@ export class WorkflowConfigService {
             return undefined;
         }
     }
+
+    public getDefinition(swagger: Swagger, position: string): SwaggerSchemaObject {
+        const definitionName = position.substring('#/definitions/'.length);
+
+        return swagger.definitions[definitionName];
+    }
+
 }

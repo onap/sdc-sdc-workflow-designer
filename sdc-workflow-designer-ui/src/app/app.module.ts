@@ -38,17 +38,22 @@ import { ModalModule } from "ngx-bootstrap/modal";
 import { WorkflowConfigService } from "./services/workflow-config.service";
 import { RestTaskComponent } from "./components/property/rest-task/rest-task.component";
 import { RestTaskParametersComponent } from "./components/property/rest-task/rest-task-parameters/rest-task-parameters.component";
+import { ParameterTreeComponent } from "./components/parameter-tree/parameter-tree.component";
+import { EditablePropertyComponent } from "./components/editable-property/editable-property.component";
+import { SwaggerTreeConverterService } from "./services/swagger-tree-converter.service";
 
 @NgModule({
     declarations: [
         AppComponent,
         CanvasComponent,
+        EditablePropertyComponent,
         MenuComponent,
         MicroserviceComponent,
         MicroserviceDetailComponent,
         MicroserviceListComponent,
         NodeComponent,
         ParameterComponent,
+        ParameterTreeComponent,
         PropertiesComponent,
         RestTaskComponent,
         RestTaskParametersComponent,
@@ -68,6 +73,7 @@ import { RestTaskParametersComponent } from "./components/property/rest-task/res
         DataAccessService,
         HttpService,
         JsPlumbService,
+        SwaggerTreeConverterService,
         WorkflowConfigService,
         WorkflowService
     ],
