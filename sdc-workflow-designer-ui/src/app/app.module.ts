@@ -37,6 +37,7 @@ import { MicroserviceListComponent } from "./components/menu/microservice/micros
 import { ModalModule } from "ngx-bootstrap/modal";
 import { WorkflowConfigService } from "./services/workflow-config.service";
 import { RestTaskComponent } from "./components/property/rest-task/rest-task.component";
+import { RestTaskParametersComponent } from "./components/property/rest-task/rest-task-parameters/rest-task-parameters.component";
 
 @NgModule({
     declarations: [
@@ -50,6 +51,7 @@ import { RestTaskComponent } from "./components/property/rest-task/rest-task.com
         ParameterComponent,
         PropertiesComponent,
         RestTaskComponent,
+        RestTaskParametersComponent,
         StartEventParametersComponent,
         ToolbarComponent,
     ],

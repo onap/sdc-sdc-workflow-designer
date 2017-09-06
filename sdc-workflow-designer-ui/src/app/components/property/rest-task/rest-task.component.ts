@@ -46,7 +46,12 @@ export class RestTaskComponent implements AfterViewInit, OnInit {
     public ngAfterViewInit() {
         setTimeout(() => {
             this.loadInterfaces();
+            this.notifyTaskChanged();
         }, 0);
+    }
+
+    private notifyTaskChanged() {
+        this.broadcastService.broadcast(this.broadcastService.nodeTaskChange, this.node);
     }
 
     public getText4Microservice(microservice: Microservice): string {
@@ -78,6 +83,8 @@ export class RestTaskComponent implements AfterViewInit, OnInit {
         this.node.responses = [];
 
         this.updateMethodInfo();
+
+        this.notifyTaskChanged();
     }
 
 

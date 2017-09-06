@@ -34,6 +34,9 @@ export class BroadcastService {
     public nodeProperty = new Subject<WorkflowNode>();
     public nodeProperty$ = this.nodeProperty.asObservable();
 
+    public nodeTaskChange = new Subject<WorkflowNode>();
+    public nodeTaskChange$ = this.nodeTaskChange.asObservable();
+
     /**
      * broadcast datas
      * this method will catch the exceptions for the broadcast
