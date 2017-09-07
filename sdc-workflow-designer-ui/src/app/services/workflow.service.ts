@@ -11,16 +11,9 @@
  */
 
 import { Injectable } from '@angular/core';
-import { WorkflowNode } from "../model/workflow/workflow-node";
 import { DataAccessService } from "./data-access/data-access.service";
 import { Observable } from "rxjs/Observable";
 import { Workflow } from "../model/workflow/workflow";
-import { Position } from "../model/workflow/position";
-import { NodeType } from "../model/workflow/node-type.enum";
-import { StartEvent } from "../model/workflow/start-event";
-import { SequenceFlow } from "../model/workflow/sequence-flow";
-import { RestTask } from "../model/workflow/rest-task";
-import { PlanTreeviewItem } from "../model/plan-treeview-item";
 
 /**
  * WorkflowService
@@ -38,129 +31,5 @@ export class WorkflowService {
     public save(): Observable<boolean> {
         console.log(this.workflow);
         return this.dataAccessService.catalogService.saveWorkflow(this.workflow);
-    }
-
-    public addNode(name: string, type: string, top: number, left: number): WorkflowNode {
-        let node: WorkflowNode;
-        switch (type) {
-            case NodeType[NodeType.startEvent]:
-                node = new StartEvent(this.createId(), name, type, new Position(top, left), []);
-                break;
-            case NodeType[NodeType.restTask]:
-                node = new RestTask(this.createId(), name, type, new Position(top, left), []);
-                break;
-            default:
-                node = new WorkflowNode(this.createId(), name, type, new Position(top, left), []);
-                break;
-        }
-
-        this.workflow.nodes.push(node);
-        return node;
-    }
-
-    public deleteNode(nodeId: string): WorkflowNode {
-        // delete related connections
-        this.workflow.nodes.forEach(node => this.deleteSequenceFlow(node.id, nodeId));
-
-        // delete current node
-        const index = this.workflow.nodes.findIndex(node => node.id === nodeId);
-        if (index !== -1) {
-            const node = this.workflow.nodes.splice(index, 1)[0];
-            node.sequenceFlows = [];
-            return node;
-        }
-
-        return undefined;
-    }
-
-    public addSequenceFlow(sourceId: string, targetId: string) {
-        const node = this.getNodeById(sourceId);
-        if (node) {
-            const index = node.sequenceFlows.findIndex(sequenceFlow => sequenceFlow.targetRef === targetId);
-            if (index === -1) {
-                node.sequenceFlows.push(new SequenceFlow(sourceId, targetId));
-            }
-        }
-    }
-
-    public deleteSequenceFlow(sourceId: string, targetId: string) {
-        const node = this.getNodeById(sourceId);
-        if (node) {
-            const index = node.sequenceFlows.findIndex(sequenceFlow => sequenceFlow.targetRef === targetId);
-            if (index !== -1) {
-                node.sequenceFlows.splice(index, 1);
-            }
-        }
-    }
-
-    public getPlanParameters(nodeId: string): PlanTreeviewItem[] {
-        const preNodeList = new Array<WorkflowNode>();
-        this.getPreNodes(nodeId, preNodeList);
-
-        return this.loadNodeOutputs(preNodeList);
-    }
-
-    private loadNodeOutputs(nodes: WorkflowNode[]): PlanTreeviewItem[] {
-        const params = new Array<PlanTreeviewItem>();
-        nodes.forEach(node => {
-            switch (node.type) {
-                case NodeType[NodeType.startEvent]:
-                    params.push(this.loadOutput4StartEvent(<StartEvent>node));
-                    break;
-                case NodeType[NodeType.restTask]:
-                    // TODO for rest task
-                    break;
-                default:
-                    break;
-            }
-        });
-
-        return params;
-    }
-
-    private loadOutput4StartEvent(node: StartEvent): PlanTreeviewItem {
-        const startItem = new PlanTreeviewItem(node.name, `[${node.id}]`, []);
-        node.parameters.map(param =>
-            startItem.children.push(new PlanTreeviewItem(param.name, `[${param.name}]`, [])));
-        return startItem;
-    }
-
-    public getPreNodes(nodeId: string, preNodes: WorkflowNode[]) {
-        const preNode4CurrentNode = [];
-        this.workflow.nodes.forEach(node => {
-            if (this.isPreNode(node, nodeId)) {
-                const existNode = preNodes.find(tmpNode => tmpNode.id === node.id);
-                if (existNode) {
-                    // current node already exists in preNodes. this could avoid loop circle.
-                } else {
-                    preNode4CurrentNode.push(node);
-                    preNodes.push(node);
-                }
-            }
-        });
-
-        preNode4CurrentNode.forEach(node => this.getPreNodes(node.id, preNodes));
-    }
-
-    public isPreNode(preNode: WorkflowNode, id: string): boolean {
-        const targetNode = preNode.sequenceFlows.find(connection => connection.targetRef === id);
-        return targetNode !== undefined;
-    }
-
-    public getNodeById(sourceId: string): WorkflowNode {
-        return this.workflow.nodes.find(node => node.id === sourceId);
-    }
-
-    private createId() {
-        const idSet = new Set();
-        this.workflow.nodes.forEach(node => idSet.add(node.id));
-
-        for (let i = 0; i < idSet.size; i++) {
-            if (!idSet.has('node' + i)) {
-                return 'node' + i;
-            }
-        }
-
-        return 'node' + idSet.size;
     }
 }

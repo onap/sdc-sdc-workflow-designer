@@ -186,7 +186,6 @@ export class ParameterTreeComponent implements OnChanges {
     }
 
     private formatParam(params: any[]): void {
-        console.log(params);
         params.forEach(param => this.initParam(param));
     }
 

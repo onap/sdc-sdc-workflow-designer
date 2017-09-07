@@ -42,6 +42,7 @@ import { RestTaskParametersComponent } from "./components/property/rest-task/res
 import { ParameterTreeComponent } from "./components/parameter-tree/parameter-tree.component";
 import { EditablePropertyComponent } from "./components/editable-property/editable-property.component";
 import { SwaggerTreeConverterService } from "./services/swagger-tree-converter.service";
+import { WorkflowProcessService } from "./services/workflow-process.service";
 
 @NgModule({
     declarations: [
@@ -85,6 +86,7 @@ import { SwaggerTreeConverterService } from "./services/swagger-tree-converter.s
         JsPlumbService,
         SwaggerTreeConverterService,
         WorkflowConfigService,
+        WorkflowProcessService,
         WorkflowService
     ],
     bootstrap: [AppComponent]

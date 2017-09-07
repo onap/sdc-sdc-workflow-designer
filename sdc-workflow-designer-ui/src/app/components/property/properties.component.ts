@@ -15,8 +15,8 @@ import { AfterViewInit, Component } from '@angular/core';
 import { WorkflowNode } from '../../model/workflow/workflow-node';
 import { BroadcastService } from '../../services/broadcast.service';
 import { JsPlumbService } from '../../services/jsplumb.service';
-import { WorkflowService } from '../../services/workflow.service';
 import { PlanTreeviewItem } from "../../model/plan-treeview-item";
+import { WorkflowProcessService } from "../../services/workflow-process.service";
 
 /**
  * property component presents information of a workflow node.
@@ -36,7 +36,7 @@ export class PropertiesComponent implements AfterViewInit {
 
     constructor(private broadcastService: BroadcastService,
                 private jsPlumnService: JsPlumbService,
-                private workflowService: WorkflowService) {
+                private processService: WorkflowProcessService) {
 
     }
 
@@ -44,7 +44,7 @@ export class PropertiesComponent implements AfterViewInit {
         this.broadcastService.showProperty$.subscribe(show => this.show = show);
         this.broadcastService.nodeProperty$.subscribe(node => {
             this.node = node;
-            this.planItems = this.workflowService.getPlanParameters(this.node.id);
+            this.planItems = this.processService.getPlanParameters(this.node.id);
         });
     }
 
@@ -57,6 +57,6 @@ export class PropertiesComponent implements AfterViewInit {
         this.show = false;
 
         this.jsPlumnService.remove(this.node.id);
-        this.workflowService.deleteNode(this.node.id);
+        this.processService.deleteNode(this.node.id);
     }
 }

@@ -12,7 +12,7 @@
 
 import { Injectable } from '@angular/core';
 import * as jsp from 'jsplumb';
-import { WorkflowService } from "./workflow.service";
+import { WorkflowProcessService } from "./workflow-process.service";
 
 /**
  * JsPlumbService
@@ -22,7 +22,7 @@ import { WorkflowService } from "./workflow.service";
 export class JsPlumbService {
     public jsplumbInstance;
 
-    constructor(private workflowService: WorkflowService) {
+    constructor(private processService: WorkflowProcessService) {
         this.initJsPlumbInstance();
     }
 
@@ -58,11 +58,11 @@ export class JsPlumbService {
 
         // add connection to model data while a new connection is build
         this.jsplumbInstance.bind('connection', info => {
-            this.workflowService.addSequenceFlow(info.connection.sourceId, info.connection.targetId);
+            this.processService.addSequenceFlow(info.connection.sourceId, info.connection.targetId);
 
             info.connection.bind('click', connection => {
                 this.jsplumbInstance.select({ connections: [connection] }).delete();
-                this.workflowService.deleteSequenceFlow(connection.sourceId, connection.targetId);
+                this.processService.deleteSequenceFlow(connection.sourceId, connection.targetId);
             });
         });
 
@@ -117,7 +117,7 @@ export class JsPlumbService {
                 const left = event.e.clientX - 220 - (event.e.offsetX / 2);
                 const top = event.e.clientY - 70 - (event.e.offsetY / 2);
 
-                this.workflowService.addNode(type, type, top, left);
+                this.processService.addNode(type, type, top, left);
             },
         });
     }

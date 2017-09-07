@@ -45,7 +45,6 @@ export class ParameterComponent implements OnInit {
     constructor(private dataAccessService: DataAccessService) { }
 
     public ngOnInit(): void {
-        console.log(this.planItems);
         if (1 === this.valueSource.length) {
             this.showValueSource = false;
         }
