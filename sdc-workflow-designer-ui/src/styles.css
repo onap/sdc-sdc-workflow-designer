@@ -23,6 +23,10 @@
     line-height: 30px;
 }
 
+textarea.form-control {
+    height: auto;
+}
+
 .tree-select-class{
     padding: 0;
 }
