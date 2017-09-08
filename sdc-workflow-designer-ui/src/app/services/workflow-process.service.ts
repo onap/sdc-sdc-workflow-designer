@@ -22,6 +22,7 @@ import { PlanTreeviewItem } from "../model/plan-treeview-item";
 import { WorkflowConfigService } from "./workflow-config.service";
 import { Swagger, SwaggerModelSimple, SwaggerReferenceObject } from "../model/swagger";
 import { WorkflowService } from "./workflow.service";
+import { IntermediateCatchEvent } from "../model/workflow/intermediate-catch-event";
 
 /**
  * WorkflowService
@@ -46,6 +47,9 @@ export class WorkflowProcessService {
                 break;
             case NodeType[NodeType.restTask]:
                 node = new RestTask(this.createId(), name, type, new Position(top, left), []);
+                break;
+            case NodeType[NodeType.intermediateCatchEvent]:
+                node = new IntermediateCatchEvent(this.createId(), name, type, new Position(top, left), []);
                 break;
             default:
                 node = new WorkflowNode(this.createId(), name, type, new Position(top, left), []);

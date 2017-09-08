@@ -1,0 +1,45 @@
+<!--
+/*******************************************************************************
+ * Copyright (c) 2017 ZTE Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * and the Apache License 2.0 which both accompany this distribution,
+ * and are available at http://www.eclipse.org/legal/epl-v10.html
+ * and http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Contributors:
+ *     ZTE - initial API and implementation and/or initial documentation
+ *******************************************************************************/
+-->
+
+<div class="form-group row">
+    <label class="col-md-3 form-control-label text-md-right">Timer Type</label>
+    <div class="col-md-9">
+        <p-radioButton name="timeType" label="Duration" value="timeDuration" [ngModel]="node.timerEventDefinition.type" (ngModelChange)="timerTypeChange($event)">Duration</p-radioButton>
+        <p-radioButton name="timeType" label="Date" value="timeDate" [(ngModel)]="node.timerEventDefinition.type">Date</p-radioButton>
+        <p-radioButton name="timeType" label="Cycle" value="timeCycle" [(ngModel)]="node.timerEventDefinition.type">Cycle</p-radioButton>
+    </div>
+</div>
+
+<div *ngIf="node.timerEventDefinition.type === 'timeDuration'" class="form-group row">
+    <label class="col-md-3 form-control-label text-md-right">Duration</label>
+    <div class="col-md-9">
+        <input type="text" class="form-control" [(ngModel)]="node.timerEventDefinition.timeDuration">
+        <label>eg: P1Y3M5DT6H7M30S</label>
+    </div>
+</div>
+
+<div *ngIf="node.timerEventDefinition.type === 'timeDate'" class="form-group row">
+    <label class="col-md-3 form-control-label text-md-right">Date</label>
+    <div class="col-md-9">
+        <input type="text" class="form-control" [(ngModel)]="node.timerEventDefinition.timeDate">
+        <label>eg: 10/10/2099 00:00:03</label>
+    </div>
+</div>
+
+<div *ngIf="node.timerEventDefinition.type === 'timeCycle'" class="form-group row">
+    <label class="col-md-3 form-control-label text-md-right">Cycle</label>
+    <div class="col-md-9">
+        <input type="text"  class="form-control" [(ngModel)]="node.timerEventDefinition.timeCycle">
+    </div>
+</div>

@@ -43,12 +43,14 @@ import { ParameterTreeComponent } from "./components/parameter-tree/parameter-tr
 import { EditablePropertyComponent } from "./components/editable-property/editable-property.component";
 import { SwaggerTreeConverterService } from "./services/swagger-tree-converter.service";
 import { WorkflowProcessService } from "./services/workflow-process.service";
+import { IntermediateCatchEventComponent } from "./components/property/intermediate-catch-event/intermediate-catch-event.component";
 
 @NgModule({
     declarations: [
         AppComponent,
         CanvasComponent,
         EditablePropertyComponent,
+        IntermediateCatchEventComponent,
         MenuComponent,
         MicroserviceComponent,
         MicroserviceDetailComponent,
