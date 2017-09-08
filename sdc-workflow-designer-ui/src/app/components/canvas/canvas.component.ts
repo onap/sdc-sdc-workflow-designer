@@ -53,6 +53,7 @@ export class CanvasComponent implements AfterViewInit {
 
     public canvasClick() {
         this.broadcastService.broadcast(this.broadcastService.showProperty, false);
+        this.broadcastService.broadcast(this.broadcastService.showSequenceFlow, false);
     }
 
 

@@ -13,6 +13,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
 import { WorkflowNode } from '../model/workflow/workflow-node';
+import { SequenceFlow } from "../model/workflow/sequence-flow";
 
 /**
  * BroadcastService
@@ -36,6 +37,12 @@ export class BroadcastService {
 
     public nodeTaskChange = new Subject<WorkflowNode>();
     public nodeTaskChange$ = this.nodeTaskChange.asObservable();
+
+    public showSequenceFlow = new Subject<boolean>();
+    public showSequenceFlow$ = this.showSequenceFlow.asObservable();
+
+    public sequenceFlow = new Subject<SequenceFlow>();
+    public sequenceFlow$ = this.sequenceFlow.asObservable();
 
     /**
      * broadcast datas

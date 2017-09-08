@@ -44,6 +44,7 @@ import { EditablePropertyComponent } from "./components/editable-property/editab
 import { SwaggerTreeConverterService } from "./services/swagger-tree-converter.service";
 import { WorkflowProcessService } from "./services/workflow-process.service";
 import { IntermediateCatchEventComponent } from "./components/property/intermediate-catch-event/intermediate-catch-event.component";
+import { SequenceFlowComponent } from "./components/sequence-flow/sequence-flow.component";
 
 @NgModule({
     declarations: [
@@ -61,6 +62,7 @@ import { IntermediateCatchEventComponent } from "./components/property/intermedi
         PropertiesComponent,
         RestTaskComponent,
         RestTaskParametersComponent,
+        SequenceFlowComponent,
         StartEventParametersComponent,
         ToolbarComponent,
     ],

@@ -95,6 +95,16 @@ export class WorkflowProcessService {
         }
     }
 
+    public getSequenceFlow(sourceRef: string, targetRef: string): SequenceFlow {
+        const node = this.getNodeById(sourceRef);
+        if (node) {
+            const sequenceFlow = node.sequenceFlows.find(tmp => tmp.targetRef === targetRef);
+            return sequenceFlow;
+        } else {
+            return undefined;
+        }
+    }
+
     public getPlanParameters(nodeId: string): PlanTreeviewItem[] {
         const preNodeList = new Array<WorkflowNode>();
         this.getPreNodes(nodeId, preNodeList);

@@ -13,6 +13,7 @@
 import { Injectable } from '@angular/core';
 import * as jsp from 'jsplumb';
 import { WorkflowProcessService } from "./workflow-process.service";
+import { BroadcastService } from "./broadcast.service";
 
 /**
  * JsPlumbService
@@ -22,7 +23,7 @@ import { WorkflowProcessService } from "./workflow-process.service";
 export class JsPlumbService {
     public jsplumbInstance;
 
-    constructor(private processService: WorkflowProcessService) {
+    constructor(private processService: WorkflowProcessService, private broadcastService: BroadcastService) {
         this.initJsPlumbInstance();
     }
 
@@ -60,9 +61,15 @@ export class JsPlumbService {
         this.jsplumbInstance.bind('connection', info => {
             this.processService.addSequenceFlow(info.connection.sourceId, info.connection.targetId);
 
-            info.connection.bind('click', connection => {
-                this.jsplumbInstance.select({ connections: [connection] }).delete();
-                this.processService.deleteSequenceFlow(connection.sourceId, connection.targetId);
+            // info.connection.bind('click', connection => {
+            //     this.jsplumbInstance.select({ connections: [connection] }).delete();
+            //     this.processService.deleteSequenceFlow(connection.sourceId, connection.targetId);
+            // });
+
+            info.connection.bind('dblclick', connection => {
+                const sequenceFlow = this.processService.getSequenceFlow(connection.sourceId, connection.targetId);
+                this.broadcastService.broadcast(this.broadcastService.sequenceFlow, sequenceFlow);
+                this.broadcastService.broadcast(this.broadcastService.showSequenceFlow, true);
             });
         });
 
@@ -91,6 +98,18 @@ export class JsPlumbService {
             maxConnections: -1,
         });
 
+    }
+
+    public setLabel(sourceId: string, targetId: string, label: string) {
+        const sourceNode = this.processService.getNodeById(sourceId);
+        const connections = this.jsplumbInstance.select({ source: sourceId, target: targetId });
+        connections.setLabel(label);
+    }
+
+    public deleteConnect(sourceId: string, targetId: string) {
+        const sourceNode = this.processService.getNodeById(sourceId);
+        const connectionSelection = this.jsplumbInstance.select({ source: sourceId, target: targetId });
+        connectionSelection.delete();
     }
 
     public remove(nodeId: string) {
