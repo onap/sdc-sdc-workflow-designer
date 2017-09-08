@@ -11,7 +11,10 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 -->
-<div (dblclick)="showProperties($event)" class="node {{node.type}}" id="{{node.id}}" [style.top]="node.position.top + 'px'"
+<div (dblclick)="showProperties($event)" class="node {{node.type}}" id="{{node.id}}"
+    (click)="onSelected()"
+    [class.active]="active"
+    [style.top]="node.position.top + 'px'"
     [style.left]="node.position.left + 'px'">
     <div class="name">
         {{getDisplayName()}}

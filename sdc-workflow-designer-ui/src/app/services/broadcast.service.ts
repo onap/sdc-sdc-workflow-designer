@@ -44,6 +44,13 @@ export class BroadcastService {
     public sequenceFlow = new Subject<SequenceFlow>();
     public sequenceFlow$ = this.sequenceFlow.asObservable();
 
+    public currentSequenceFlow = new Subject<SequenceFlow>();
+    public currentSequenceFlow$ = this.currentSequenceFlow.asObservable();
+    public currentWorkflowNode = new Subject<WorkflowNode>();
+    public currentWorkflowNode$ = this.currentWorkflowNode.asObservable();
+    public currentType = new Subject<string>();
+    public currentType$ = this.currentType.asObservable();
+
     /**
      * broadcast datas
      * this method will catch the exceptions for the broadcast

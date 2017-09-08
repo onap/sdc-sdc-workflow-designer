@@ -14,6 +14,7 @@ import { Injectable } from '@angular/core';
 import * as jsp from 'jsplumb';
 import { WorkflowProcessService } from "./workflow-process.service";
 import { BroadcastService } from "./broadcast.service";
+import { Subscription } from 'rxjs/Subscription';
 
 /**
  * JsPlumbService
@@ -22,6 +23,7 @@ import { BroadcastService } from "./broadcast.service";
 @Injectable()
 export class JsPlumbService {
     public jsplumbInstance;
+    public subscriptionMap = new Map<string, Subscription>();
 
     constructor(private processService: WorkflowProcessService, private broadcastService: BroadcastService) {
         this.initJsPlumbInstance();
@@ -61,10 +63,13 @@ export class JsPlumbService {
         this.jsplumbInstance.bind('connection', info => {
             this.processService.addSequenceFlow(info.connection.sourceId, info.connection.targetId);
 
-            // info.connection.bind('click', connection => {
-            //     this.jsplumbInstance.select({ connections: [connection] }).delete();
-            //     this.processService.deleteSequenceFlow(connection.sourceId, connection.targetId);
-            // });
+            this.subscribe4Connection(info.connection);
+
+            info.connection.bind('click', connection => {
+                const sequenceFlow = this.processService.getSequenceFlow(connection.sourceId, connection.targetId);
+                this.broadcastService.broadcast(this.broadcastService.currentSequenceFlow, sequenceFlow);
+                this.broadcastService.broadcast(this.broadcastService.currentType, 'SequenceFlow');
+            });
 
             info.connection.bind('dblclick', connection => {
                 const sequenceFlow = this.processService.getSequenceFlow(connection.sourceId, connection.targetId);
@@ -75,14 +80,48 @@ export class JsPlumbService {
 
     }
 
+    private subscribe4Connection(connection: any) {
+        const pre = connection.sourceId + connection.targetId;
+        let sequenceFlowSubscription = this.subscriptionMap.get(pre + 'sequenceFlowSubscription');
+        if (sequenceFlowSubscription && !sequenceFlowSubscription.closed) {
+            sequenceFlowSubscription.unsubscribe();
+        }
+
+        sequenceFlowSubscription = this.broadcastService.currentSequenceFlow$.subscribe(currentSequenceFlow => {
+            if (currentSequenceFlow.sourceRef === connection.sourceId
+                && currentSequenceFlow.targetRef === connection.targetId) {
+                connection.setPaintStyle({ stroke: 'red' });
+            } else {
+                connection.setPaintStyle({ stroke: 'black' });
+            }
+        });
+
+        this.subscriptionMap.set(pre + 'sequenceFlowSubscription', sequenceFlowSubscription);
+
+        let typeSubscription = this.subscriptionMap.get(pre + 'typeSubscription');
+        if (typeSubscription && !typeSubscription.closed) {
+            typeSubscription.unsubscribe();
+        }
+        typeSubscription = this.broadcastService.currentType$.subscribe(type => {
+            if (type === 'WorkflowNode') {
+                connection.setPaintStyle({ stroke: 'black' });
+            }
+        });
+        this.subscriptionMap.set(pre + 'typeSubscription', typeSubscription);
+    }
+
+    private unsubscription4Connection(connectionSelection: any) {
+        connectionSelection.each(connection => {
+            const pre = connection.sourceId + connection.targetId;
+            this.subscriptionMap.get(pre + 'sequenceFlowSubscription').unsubscribe();
+            this.subscriptionMap.get(pre + 'typeSubscription').unsubscribe();
+        });
+    }
+
     public initNode(selectorString: string) {
         const selector = this.jsplumbInstance.getSelector(selectorString);
 
         this.jsplumbInstance.draggable(selector, {
-            // stop(event) {
-            //     node.position.left = event.pos[0];
-            //     node.position.top = event.pos[1];
-            // },
         });
 
         this.jsplumbInstance.makeTarget(selector, {
@@ -109,10 +148,17 @@ export class JsPlumbService {
     public deleteConnect(sourceId: string, targetId: string) {
         const sourceNode = this.processService.getNodeById(sourceId);
         const connectionSelection = this.jsplumbInstance.select({ source: sourceId, target: targetId });
+        this.unsubscription4Connection(connectionSelection);
         connectionSelection.delete();
     }
 
     public remove(nodeId: string) {
+        // unsubscription4Connection
+        const connectionsAsSource = this.jsplumbInstance.select({ source: nodeId });
+        this.unsubscription4Connection(connectionsAsSource);
+        const connectionsAsTarget = this.jsplumbInstance.select({ target: nodeId });
+        this.unsubscription4Connection(connectionsAsTarget);
+
         this.jsplumbInstance.remove(nodeId);
     }
 

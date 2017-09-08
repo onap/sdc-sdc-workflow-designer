@@ -18,6 +18,16 @@
     z-index: 2;
 }
 
+
+.node.active {
+    border: 2px solid red !important;
+    box-shadow: 2px 2px 19px #444;
+    -o-box-shadow: 2px 2px 19px #444;
+    -webkit-box-shadow: 2px 2px 19px #444;
+    -moz-box-shadow: 2px 2px 19px #fff;
+    opacity: 0.9;
+}
+
 .node:hover {
     border: 1px solid #123456;
     box-shadow: 2px 2px 19px #444;
