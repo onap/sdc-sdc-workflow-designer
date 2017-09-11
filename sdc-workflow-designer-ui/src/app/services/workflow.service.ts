@@ -30,6 +30,7 @@ export class WorkflowService {
 
     public save(): Observable<boolean> {
         console.log(this.workflow);
+        console.log(JSON.stringify(this.workflow));
         return this.dataAccessService.catalogService.saveWorkflow(this.workflow);
     }
 }

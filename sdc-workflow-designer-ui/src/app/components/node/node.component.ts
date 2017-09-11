@@ -42,6 +42,7 @@ export class NodeComponent implements AfterViewInit, OnDestroy {
     ngAfterViewInit(): void {
         if(this.last) {
             this.jsPlumbService.initNode('.node');
+            this.jsPlumbService.connectNodes();
         }
 
         this.currentTypeSubscription = this.broadcastService.currentType$.subscribe(type => {

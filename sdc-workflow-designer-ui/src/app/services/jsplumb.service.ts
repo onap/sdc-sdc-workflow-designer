@@ -15,6 +15,7 @@ import * as jsp from 'jsplumb';
 import { WorkflowProcessService } from "./workflow-process.service";
 import { BroadcastService } from "./broadcast.service";
 import { Subscription } from 'rxjs/Subscription';
+import { WorkflowNode } from "../model/workflow/workflow-node";
 
 /**
  * JsPlumbService
@@ -137,6 +138,23 @@ export class JsPlumbService {
             maxConnections: -1,
         });
 
+    }
+
+    public connectNodes() {
+        const nodes: WorkflowNode[] = this.processService.getProcess();
+        nodes.forEach(node => this.connect4OneNode(node));
+    }
+
+    public connect4OneNode(node: WorkflowNode) {
+        node.sequenceFlows.forEach(sequenceFlow => {
+            const connection = this.jsplumbInstance.connect({
+                source: sequenceFlow.sourceRef,
+                target: sequenceFlow.targetRef,
+            });
+            if (sequenceFlow.condition) {
+                connection.setLabel(sequenceFlow.condition);
+            }
+        });
     }
 
     public setLabel(sourceId: string, targetId: string, label: string) {
