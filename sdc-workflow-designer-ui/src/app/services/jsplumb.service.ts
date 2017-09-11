@@ -119,25 +119,28 @@ export class JsPlumbService {
         });
     }
 
-    public initNode(selectorString: string) {
-        const selector = this.jsplumbInstance.getSelector(selectorString);
+    public initNode() {
+        this.processService.getProcess().forEach(node => {
+            this.jsplumbInstance.draggable(node.id, {
+                stop: event => {
+                    node.position.left = event.pos[0];
+                    node.position.top = event.pos[1];
+                },
+            });
 
-        this.jsplumbInstance.draggable(selector, {
+            this.jsplumbInstance.makeTarget(node.id, {
+                detachable: false,
+                isTarget: true,
+                maxConnections: -1,
+            });
+
+            this.jsplumbInstance.makeSource(node.id, {
+                filter: '.anchor, .anchor *',
+                detachable: false,
+                isSource: true,
+                maxConnections: -1,
+            });
         });
-
-        this.jsplumbInstance.makeTarget(selector, {
-            detachable: false,
-            isTarget: true,
-            maxConnections: -1,
-        });
-
-        this.jsplumbInstance.makeSource(selector, {
-            filter: '.anchor, .anchor *',
-            detachable: false,
-            isSource: true,
-            maxConnections: -1,
-        });
-
     }
 
     public connectNodes() {
