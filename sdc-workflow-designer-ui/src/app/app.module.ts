@@ -45,6 +45,7 @@ import { SwaggerTreeConverterService } from "./services/swagger-tree-converter.s
 import { WorkflowProcessService } from "./services/workflow-process.service";
 import { IntermediateCatchEventComponent } from "./components/property/intermediate-catch-event/intermediate-catch-event.component";
 import { SequenceFlowComponent } from "./components/sequence-flow/sequence-flow.component";
+import { ScriptTaskComponent } from "./components/property/script-task/script-task.component";
 
 @NgModule({
     declarations: [
@@ -62,6 +63,7 @@ import { SequenceFlowComponent } from "./components/sequence-flow/sequence-flow.
         PropertiesComponent,
         RestTaskComponent,
         RestTaskParametersComponent,
+        ScriptTaskComponent,
         SequenceFlowComponent,
         StartEventParametersComponent,
         ToolbarComponent,

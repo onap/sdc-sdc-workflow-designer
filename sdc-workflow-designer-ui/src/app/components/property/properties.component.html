@@ -42,4 +42,5 @@
     <b4t-start-event-parameters *ngIf="'startEvent' == node.type" [node]="node"></b4t-start-event-parameters>
     <b4t-rest-task *ngIf="node.type == 'restTask'" [node]="node" [planItems]="planItems"></b4t-rest-task>
     <b4t-intermediate-catch-event *ngIf="'intermediateCatchEvent' == node.type" [node]="node"></b4t-intermediate-catch-event>
+    <b4t-script-task *ngIf="node.type == 'scriptTask'" [node]="node"></b4t-script-task>
 </div>

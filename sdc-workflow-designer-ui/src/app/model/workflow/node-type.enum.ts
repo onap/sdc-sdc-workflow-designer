@@ -17,4 +17,5 @@ export enum NodeType {
     intermediateCatchEvent,
     exclusiveGateway,
     parallelGateway,
+    scriptTask,
 }
