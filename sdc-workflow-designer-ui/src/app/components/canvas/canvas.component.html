@@ -11,6 +11,6 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 -->
-<div id="canvas" class="canvas" (click)="canvasClick()">
+<div id="canvas" class="canvas" (click)="canvasClick()" b4tDragSelect>
     <b4t-node *ngFor="let node of getWorkflow()?.nodes; let last = last;" [node]="node" [last]="last"></b4t-node>
 </div>
