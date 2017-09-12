@@ -46,11 +46,13 @@ import { WorkflowProcessService } from "./services/workflow-process.service";
 import { IntermediateCatchEventComponent } from "./components/property/intermediate-catch-event/intermediate-catch-event.component";
 import { SequenceFlowComponent } from "./components/sequence-flow/sequence-flow.component";
 import { ScriptTaskComponent } from "./components/property/script-task/script-task.component";
+import { DragSelectDirective } from "./directive/drag-select/drag-select.directive";
 
 @NgModule({
     declarations: [
         AppComponent,
         CanvasComponent,
+        DragSelectDirective,
         EditablePropertyComponent,
         IntermediateCatchEventComponent,
         MenuComponent,

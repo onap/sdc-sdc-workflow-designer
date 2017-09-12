@@ -57,3 +57,9 @@ textarea.form-control {
     margin: 0 !important;
     font-size: 12px !important;
 }
+
+.selecting {
+    border: 1px solid royalblue;
+    background-color: yellowgreen;
+    position: absolute;
+}
