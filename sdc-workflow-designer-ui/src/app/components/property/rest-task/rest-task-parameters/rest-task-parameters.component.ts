@@ -34,7 +34,7 @@ export class RestTaskParametersComponent implements OnInit {
     @Input() public task: RestTask;
     @Input() public planItems: PlanTreeviewItem[];
 
-    public inputSources: ValueSource[] = [ValueSource.String, ValueSource.Plan];
+    public inputSources: ValueSource[] = [ValueSource.String, ValueSource.Variable, ValueSource.Plan];
     public requestParameters: RestParameter[] = []; // not include body parameter
     public bodyParameter: TreeNode[] = [];
     public responseParameter: TreeNode[] = [];
