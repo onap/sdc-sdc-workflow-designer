@@ -124,7 +124,9 @@ export class Swagger {
         this.info = new SwaggerInfo(info);
         this.paths = this.initPaths(paths);
         this.swagger = swagger;
-        this.tags = tags.map(tag => new SwaggerTag(tag));
+        if(tags) {
+          this.tags = tags.map(tag => new SwaggerTag(tag));
+        }
     }
 
     private initPaths(paths: any): any {
