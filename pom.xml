@@ -29,5 +29,37 @@
 
     <modules>
         <module>sdc-workflow-designer-ui</module>
+		<module>distribution</module>
     </modules>
+	
+	<properties>
+		<tomcat.version>8.5.6</tomcat.version>
+    </properties>
+	
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.apache.tomcat</groupId>
+				<artifactId>tomcat</artifactId>
+				<version>${tomcat.version}</version>
+				<type>zip</type>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<version>2.10</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<version>1.8</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 </project>
