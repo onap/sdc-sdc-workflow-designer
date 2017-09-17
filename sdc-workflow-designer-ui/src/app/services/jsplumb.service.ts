@@ -27,15 +27,21 @@ export class JsPlumbService {
     public subscriptionMap = new Map<string, Subscription>();
 
     constructor(private processService: WorkflowProcessService, private broadcastService: BroadcastService) {
+        this.jsplumbInstance = jsp.jsPlumb.getInstance({
+            Container: 'canvas'
+        });
         this.initJsPlumbInstance();
+        this.broadcastService.workflow.subscribe(Workflow => {
+            this.jsplumbInstance.reset();
+            this.unsubscriptionAll();
+            this.initJsPlumbInstance();
+            this.buttonDraggable();
+            this.buttonDroppable();
+        });
     }
 
 
     public initJsPlumbInstance() {
-        this.jsplumbInstance = jsp.jsPlumb.getInstance({
-            Container: 'canvas'
-        });
-
         this.jsplumbInstance.importDefaults({
             Anchor: ['Top', 'RightMiddle', 'LeftMiddle', 'Bottom'],
             Connector: [
@@ -119,6 +125,10 @@ export class JsPlumbService {
         });
     }
 
+    private unsubscriptionAll() {
+        this.subscriptionMap.forEach(subscription => subscription.unsubscribe());
+    }
+
     public initNode() {
         this.processService.getProcess().forEach(node => {
             this.jsplumbInstance.draggable(node.id, {
@@ -154,8 +164,8 @@ export class JsPlumbService {
                 source: sequenceFlow.sourceRef,
                 target: sequenceFlow.targetRef,
             });
-            if (sequenceFlow.condition) {
-                connection.setLabel(sequenceFlow.condition);
+            if (sequenceFlow.name) {
+                connection.setLabel(sequenceFlow.name);
             }
         });
     }

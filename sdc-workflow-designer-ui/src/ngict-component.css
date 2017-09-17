@@ -900,7 +900,7 @@ input::-webkit-input-placeholder {
   left: 6px;
 }
 /*.input-group .form-control {
-    height: 26px !important;	
+    height: 26px !important;
 }*/
 .input-group {
   /* width:400px;*/
@@ -1411,29 +1411,29 @@ button {
   -moz-box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
 }
-/*	
+/*
 .alert-success {
     color: #fff;
-    background-color: #73cf22;   
+    background-color: #73cf22;
     border-color:#73cf22;
 }
 
 .alert-info {
     color: #fff;
-    background-color: #00abff;   
-	border-color:#00abff;	
+    background-color: #00abff;
+	border-color:#00abff;
 }
 
 .alert-warning {
     color: #fff;
-    background-color: #f7c515; 
-	border-color:#f7c515;		
+    background-color: #f7c515;
+	border-color:#f7c515;
 }
 
 .alert-danger {
     color: #fff;
     background-color: #ff5b55;
-	border-color:#ff5b55;	
+	border-color:#ff5b55;
 }*/
 .close {
   color: #f2f2f2;
@@ -1514,7 +1514,7 @@ button {
   z-index: 10000;
 }
 .modal .modal-dialog {
-  max-width: 1000px;
+  /* max-width: 1000px; */
 }
 .modal .close {
   color: #bbb;

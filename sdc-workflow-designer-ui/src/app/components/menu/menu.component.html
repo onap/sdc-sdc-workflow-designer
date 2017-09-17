@@ -13,12 +13,17 @@
 -->
 
 <div class="btn-right">
+    <p-splitButton label="Workflows" icon="fa-check" (onClick)="showWorkflows()" [model]="getWorkflows()"></p-splitButton>
     <button type="button" class="btn white" (click)="save()">
         <i class="fa fa-save"></i>Save
     </button>
     <button type="button" class="btn white" (click)="showMicroserviceModal()">
         <i class="fa fa-cog"></i>Setting
     </button>
+    <button type="button" class="btn white" (click)="download()">
+            <i class="fa fa-download"></i>Download
+        </button>
     <!-- <button type="button" class="btn white" (click)="test()">test</button> -->
 </div>
 <b4t-microservice></b4t-microservice>
+<b4t-workflows></b4t-workflows>

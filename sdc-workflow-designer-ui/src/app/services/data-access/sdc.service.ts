@@ -28,10 +28,10 @@ export class SdcService extends CatalogService {
         super(httpService);
     }
 
-    public loadWorkflows(): Observable<WorkflowNode[]> {
+    public loadWorkflows(): Observable<Workflow[]> {
         // TODO load data from sdc
         const url = 'api/workflows';
-        return this.httpService.get(url);
+        return this.httpService.get(url).map(response => response.data);
     }
 
     public loadWorkflow(workflowId: string): Observable<Workflow> {

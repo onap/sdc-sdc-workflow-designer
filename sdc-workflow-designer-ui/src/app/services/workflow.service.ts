@@ -14,6 +14,8 @@ import { Injectable } from '@angular/core';
 import { DataAccessService } from "./data-access/data-access.service";
 import { Observable } from "rxjs/Observable";
 import { Workflow } from "../model/workflow/workflow";
+import { Configs } from "../model/workflow/configs";
+import { BroadcastService } from "./broadcast.service";
 
 /**
  * WorkflowService
@@ -22,15 +24,45 @@ import { Workflow } from "../model/workflow/workflow";
 @Injectable()
 export class WorkflowService {
 
+    public workflows: Workflow[];
     public workflow: Workflow;
+    public workflowIndex = 0;
 
-    constructor(private dataAccessService: DataAccessService) {
-
+    constructor(private broadcastService: BroadcastService, private dataAccessService: DataAccessService) {
+        this.dataAccessService.catalogService.loadWorkflows().subscribe(workflows => {
+            this.workflows = workflows;
+            this.broadcastWorkflows();
+        });
+        this.broadcastService.workflow.subscribe(workflow => this.workflow = workflow);
     }
 
     public save(): Observable<boolean> {
         console.log(this.workflow);
         console.log(JSON.stringify(this.workflow));
         return this.dataAccessService.catalogService.saveWorkflow(this.workflow);
+    }
+
+    public getWorkflows(): Workflow[] {
+        return this.workflows;
+    }
+
+    public addWorkflow() {
+        this.workflows.push(new Workflow('wf' + this.workflowIndex, '', [], new Configs([])));
+        this.workflowIndex++;
+        this.broadcastWorkflows();
+    }
+
+    public deleteWorkflow(workflowName: string): Workflow {
+        const index = this.workflows.findIndex(workflow => (workflow.name === workflowName));
+        if(index !== -1) {
+            return this.workflows.splice(index, 1)[0];
+        }
+        this.broadcastWorkflows();
+
+        return undefined;
+    }
+
+    public broadcastWorkflows() {
+        this.broadcastService.broadcast(this.broadcastService.workflows, this.workflows);
     }
 }

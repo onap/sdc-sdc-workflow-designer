@@ -10,6 +10,7 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { NgxTreeSelectModule } from 'ngx-tree-select';
@@ -47,6 +48,7 @@ import { IntermediateCatchEventComponent } from "./components/property/intermedi
 import { SequenceFlowComponent } from "./components/sequence-flow/sequence-flow.component";
 import { ScriptTaskComponent } from "./components/property/script-task/script-task.component";
 import { DragSelectDirective } from "./directive/drag-select/drag-select.directive";
+import { WorkflowsComponent } from "./components/menu/workflows/workflows.component";
 
 @NgModule({
     declarations: [
@@ -69,8 +71,10 @@ import { DragSelectDirective } from "./directive/drag-select/drag-select.directi
         SequenceFlowComponent,
         StartEventParametersComponent,
         ToolbarComponent,
+        WorkflowsComponent,
     ],
     imports: [
+        BrowserAnimationsModule,
         BrowserModule,
         HttpModule,
         InMemoryWebApiModule.forRoot(InMemoryDataService),

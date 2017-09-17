@@ -26,6 +26,7 @@ export abstract class CatalogService {
     constructor(protected httpService: HttpService) {}
 
     public abstract loadWorkflow(workflowId: string): Observable<Workflow>;
+    public abstract loadWorkflows(): Observable<Workflow[]>;
 
     public abstract saveWorkflow(workflow: Workflow): Observable<boolean>;
 }

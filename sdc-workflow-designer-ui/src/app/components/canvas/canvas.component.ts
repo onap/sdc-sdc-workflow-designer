@@ -46,13 +46,13 @@ export class CanvasComponent implements AfterViewInit {
     }
 
     ngOnInit(): void {
-        this.route.queryParams.subscribe(params => {
-            if (params.id) {
-                this.dataAccessService.catalogService.loadWorkflow(params.id).subscribe(workflow => {
-                    this.workflowService.workflow = workflow;
-                });
-            }
-        });
+        // this.route.queryParams.subscribe(params => {
+        //     if (params.id) {
+        //         this.dataAccessService.catalogService.loadWorkflow(params.id).subscribe(workflow => {
+        //             this.workflowService.workflow = workflow;
+        //         });
+        //     }
+        // });
     }
 
     public ngAfterViewInit() {
