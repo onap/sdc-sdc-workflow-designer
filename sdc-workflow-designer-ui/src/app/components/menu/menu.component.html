@@ -12,8 +12,10 @@
  */
 -->
 
+<div class="btn-left">
+    <p-splitButton [label]="currentWorkflow" icon="fa-arrows" (onClick)="showWorkflows()" [model]="getWorkflows()"></p-splitButton>
+</div>
 <div class="btn-right">
-    <p-splitButton label="Workflows" icon="fa-check" (onClick)="showWorkflows()" [model]="getWorkflows()"></p-splitButton>
     <button type="button" class="btn white" (click)="save()">
         <i class="fa fa-save"></i>Save
     </button>

@@ -25,6 +25,7 @@ import { Workflow } from "../../model/workflow/workflow";
 export class MenuComponent {
     @ViewChild(MicroserviceComponent) public microserviceComponent: MicroserviceComponent;
     @ViewChild(WorkflowsComponent) public workflowsComponent: WorkflowsComponent;
+    public currentWorkflow = 'Workflows';
 
     constructor(private broadcastService: BroadcastService, private workflowService: WorkflowService) {
     }
@@ -58,23 +59,20 @@ export class MenuComponent {
     }
 
     public workflowSelected(workflow: Workflow) {
+        this.currentWorkflow = workflow.name;
         this.broadcastService.broadcast(this.broadcastService.workflow, workflow);
     }
 
     public download() {
         const filename = this.workflowService.workflow.name + '.json';
         const content = JSON.stringify(this.workflowService.workflow);
-        // 创建隐藏的可下载链接
         var eleLink = document.createElement('a');
         eleLink.download = filename;
         eleLink.style.display = 'none';
-        // 字符内容转变成blob地址
         var blob = new Blob([content]);
         eleLink.href = URL.createObjectURL(blob);
-        // 触发点击
         document.body.appendChild(eleLink);
         eleLink.click();
-        // 然后移除
         document.body.removeChild(eleLink);
     }
 }
