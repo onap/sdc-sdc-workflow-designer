@@ -73,7 +73,7 @@ export class SwaggerTreeConverterService {
         if(value.valueSource !== ValueSource[ValueSource.Definition]) {
           return value;
         } else {
-          if(typeof value.value !== 'object') {
+          if(!value.value || typeof value.value !== 'object') {
             value.value = {};
           }
           return value;
