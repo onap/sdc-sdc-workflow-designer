@@ -14,5 +14,6 @@ export enum ValueSource {
     String,
     Plan,
     Variable,
+    Definition,
     // Topology, // TODO implement Topology properties in R2
 }

@@ -63,3 +63,7 @@ textarea.form-control {
     background-color: yellowgreen;
     position: absolute;
 }
+
+.ui-treenode-label{
+    width: calc(100% - 32px);
+}

@@ -49,7 +49,7 @@ export class ParameterComponent implements OnInit {
             this.showValueSource = false;
         }
         this.valueClass = {
-            'col-md-9': this.showValueSource,
+            'col-md-8': this.showValueSource,
             'col-md-12': !this.showValueSource
         };
 

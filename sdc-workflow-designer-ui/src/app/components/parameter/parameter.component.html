@@ -28,7 +28,7 @@
                 childrenField="children" #simpleSelect="ngModel" [ngClass]="valueClass" class="tree-select-class"
                 [ngModel]="planValue" (ngModelChange)="valueChange($event)"></tree-select>
         </div>
-        <select *ngIf="showValueSource" class="form-control col-md-3" type="text" [ngModel]="param.valueSource"
+        <select *ngIf="showValueSource" class="form-control col-md-4" type="text" [ngModel]="param.valueSource"
             (ngModelChange)="valueSourceChange($event)">
             <option *ngFor="let sourceType of valueSource" value="{{sourceEnum[sourceType]}}">{{sourceEnum[sourceType]}}</option>
         </select>

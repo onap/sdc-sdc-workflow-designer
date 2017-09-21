@@ -10,17 +10,18 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 
-import { Component, Input, OnChanges, Output, SimpleChange, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnChanges, Output, SimpleChange, SimpleChanges } from '@angular/core';
 import { TreeNode } from 'primeng/primeng';
 
+import { PlanTreeviewItem } from '../../model/plan-treeview-item';
 import { ValueSource } from '../../model/value-source.enum';
 import { ValueType } from '../../model/value-type.enum';
 import { Parameter } from '../../model/workflow/parameter';
-import { RestParameter } from '../../model/workflow/rest-parameter';
 import { RestTask } from '../../model/workflow/rest-task';
 import { SwaggerTreeConverterService } from '../../services/swagger-tree-converter.service';
 import { WorkflowUtil } from '../../util/workflow-util';
-import { PlanTreeviewItem } from "../../model/plan-treeview-item";
+import { Swagger } from "../../model/swagger";
+import { WorkflowConfigService } from "../../services/workflow-config.service";
 
 /**
  * parameter tree presents parameter of task node's input and output parameters.
@@ -29,7 +30,6 @@ import { PlanTreeviewItem } from "../../model/plan-treeview-item";
     selector: 'b4t-parameter-tree',
     styleUrls: ['./parameter-tree.component.css'],
     templateUrl: 'parameter-tree.component.html',
-    encapsulation: ViewEncapsulation.None
 })
 export class ParameterTreeComponent implements OnChanges {
     @Input() public parameters: TreeNode[];
@@ -38,51 +38,50 @@ export class ParameterTreeComponent implements OnChanges {
     @Input() public valueSource: ValueSource[];
     @Input() public planItems: PlanTreeviewItem[];
 
-    constructor(private swaggerTreeConverterService: SwaggerTreeConverterService) { }
+    constructor(private restService: WorkflowConfigService, private swaggerTreeConverterService: SwaggerTreeConverterService) { }
 
     public ngOnChanges(changes: SimpleChanges) {
-        const changeParameters = changes["parameters"];
-        if (changeParameters && 0 < changeParameters.currentValue.length) {
-            this.formatParam(changeParameters.currentValue);
-        }
+        // const changeParameters = changes['parameters'];
+        // if (changeParameters && 0 < changeParameters.currentValue.length) {
+        //     this.formatParam(changeParameters.currentValue);
+        // }
     }
 
-    public getParam(node: any) {
-        if (undefined === node.parameter.name) {
-            node.parameter.name = node.label;
-            node.parameter.valueSource = this.defaultValueSource;
-        } else {
-            if (node.parent.parameter.value[node.label]) {
-                node.parameter.value = node.parent.parameter.value[node.label].value;
-                node.parameter.valueSource = node.parent.parameter.value[node.label].valueSource;
-            } else {
-                const tempParamValue: any = {};
-                tempParamValue.value = '';
-                tempParamValue.valueSource = this.defaultValueSource;
-                node.parent.parameter.value[node.label] = tempParamValue;
-                node.parameter.value = tempParamValue.value;
-                node.parameter.valueSource = tempParamValue.valueSource;
-            }
-        }
-        return node.parameter;
+    public getParameter(node: any): Parameter {
+        return new Parameter(node.label,node.value.value, node.value.valueSource, node.definition.type);
     }
+
 
     public paramChange(param: Parameter, node: any) {
+        node.value.valueSource = param.valueSource;
+        node.value.value = param.value;
+
+        this.objectParameterChange(node);
+
         if (node.label !== param.name) {
+            delete node.parent.value.value[node.label];
             node.label = param.name;
-            this.propertyKeyChanged(node, param.value);
         }
         if (node.parent) {
-            if (node.parent.parameter.value[param.name]) {
-                node.parent.parameter.value[param.name].value = param.value;
-                node.parent.parameter.value[param.name].valueSource = param.valueSource;
-            } else {
-                node.parent.parameter.value[param.name] = {
-                    value: param.value,
-                    valueSource: param.valueSource
-                };
-            }
+            node.parent.value.value[node.label] = node.value;
+        } else {
+            console.warn('Node.parent does not exists!' + JSON.stringify(node));
         }
+
+    }
+
+    private objectParameterChange(node: any) {
+      if(node.value.valueSource === ValueSource[ValueSource.Definition]) { // value will be set by node defintion
+        const treeNode = this.swaggerTreeConverterService.schema2TreeNode(this.getSwagger(), node.label, node.definition, node.value);
+        node.value = treeNode.value;
+        node.children = treeNode.children;
+      } else {  // parameter value will be set by param
+        node.children = [];
+      }
+    }
+
+    private getSwagger(): Swagger {
+      return this.restService.getSwaggerInfo(this.task.serviceName, this.task.serviceVersion);
     }
 
     public getKeyParameter(node: any) {
@@ -109,52 +108,86 @@ export class ParameterTreeComponent implements OnChanges {
     }
 
     public addChildNode4DynamicObject(node: any) {
-        const copyItem = WorkflowUtil.deepClone(node.parameter.additionalProperties);
-        const key = Object.keys(node.parameter.value).length;
+        const copyItem = WorkflowUtil.deepClone(node.definition.additionalProperties);
+        const key = Object.keys(node.value.value).length;
+
         const childrenNode = this.swaggerTreeConverterService
-            .schema2TreeNode(key, this.task.serviceName, this.task.serviceVersion, copyItem);
+            .schema2TreeNode(this.getSwagger(), key, copyItem);
 
         childrenNode.keyEditable = true;
-        node.parameter.value[key] = childrenNode.parameter.value;
+        node.value.value[key] = childrenNode.value;
 
         node.children.push(childrenNode);
     }
 
     public propertyKeyChanged(node: any, newKey: string) {
-        const value = node.parent.parameter.value[node.label];
-        node.parent.parameter.value[newKey] = value;
-        delete node.parent.parameter.value[node.label];
+        const value = node.parent.value.value[node.label];
+        node.parent.value.value[newKey] = value;
+        delete node.parent.value.value[node.label];
 
         node.label = newKey;
     }
 
     public addChildNode4ObjectArray(node: any) {
-        const copyItem = WorkflowUtil.deepClone(node.parameter.items);
+        const copyItem = WorkflowUtil.deepClone(node.definition.items);
 
         const childrenNode = this.swaggerTreeConverterService
             .schema2TreeNode(
+            this.getSwagger(),
             node.children.length,
-            this.task.serviceName,
-            this.task.serviceVersion,
             copyItem);
 
-        node.parameter.value.push(childrenNode.parameter.value);
+        node.value.value.push(childrenNode.value);
         node.children.push(childrenNode);
-        this.initParam(node);
     }
 
     public deleteTreeNode(node: any) {
-        // delete data
-        node.parent.parameter.value.splice(node.label, 1);
-        node.parent.children.splice(node.label, 1);
+        if ('array' === node.parent.type) {
+            // delete data
+            node.parent.value.value.splice(node.label, 1);
+            node.parent.children.splice(node.label, 1);
 
-        // update node index
-        node.parent.children.forEach((childNode, index) => childNode.label = index);
+            // update node index
+            node.parent.children.forEach((childNode, index) => childNode.label = index);
+        } else if ('map' === node.parent.type) {
+            delete node.parent.value.value[node.label];
+            for (let index = 0; index < node.parent.children.length; index++) {
+                const element = node.parent.children[index];
+                if (element.label === node.label) {
+                    node.parent.children.splice(index, 1);
+                    break;
+                }
+            }
+        }
     }
 
     public canEditValue(node: any): boolean {
         return node.children.length === 0;
     }
+
+    public editNode(node: any) {
+      node.editing = true;
+    }
+
+    public editComplete(node: any) {
+      node.editing = false;
+
+      const newValueObj = JSON.parse(node.tempValue);
+      for (const key in node.value.value) {
+          delete node.value.value[key];
+      }
+
+      for (const key in newValueObj) {
+          node.value.value[key] = newValueObj[key];
+      }
+
+      // delete all children nodes
+
+      // add new nodes by new value
+
+    }
+
+
 
     public canDelete(node: any) {
         const parent = node.parent;
@@ -167,59 +200,70 @@ export class ParameterTreeComponent implements OnChanges {
     }
 
     public updateObjectValue(node: any, value: string) {
-        const newValueObj = JSON.parse(value);
-        for (const key in node.parameter.value) {
-            delete node.parameter.value[key];
-        }
+        node.tempValue = value;
+        // const newValueObj = JSON.parse(value);
+        // for (const key in node.parameter.value) {
+        //     delete node.parameter.value[key];
+        // }
 
-        for (const key in newValueObj) {
-            node.parameter.value[key] = newValueObj[key];
-        }
+        // for (const key in newValueObj) {
+        //     node.parameter.value[key] = newValueObj[key];
+        // }
     }
 
     public getObjectValue(node) {
-        return JSON.stringify(node.parameter.value);
+        return JSON.stringify(node.value.value);
+    }
+
+    public getObjectValueSource(): ValueSource[] {
+      const result = [];
+      result.push(ValueSource.Definition);
+      this.valueSource.forEach(source => result.push(source));
+      return result;
     }
 
     public canAdd(node: any) {
         return this.isArrayObject(node) || this.isDynamicObject(node);
     }
 
-    private formatParam(params: any[]): void {
-        params.forEach(param => this.initParam(param));
-    }
+    // private formatParam(params: any[]): void {
+    //     console.log(params);
+    //     params.forEach(param => this.initParam(param));
+    // }
 
-    private initParam(parameter: any, value?: any): void {
-        if (!parameter || 0 === parameter.length) {
-            return;
-        }
-        switch (parameter.type) {
-            case 'default':
-                parameter.parameter.name = parameter.label;
-                if (value && value[parameter.label]) {
-                    parameter.parameter.value = value[parameter.label].value;
-                    parameter.parameter.valueSource = value[parameter.label].valueSource;
-                } else {
-                    parameter.parameter.valueSource = this.defaultValueSource;
-                }
-                break;
-            case 'object':
-                for (let index = 0; index < parameter.children.length; index++) {
-                    let param = parameter.children[index];
-                    this.initParam(param, parameter.parameter.value);
-                }
-                break;
-            case 'array':
-                for (let index = 0; index < parameter.children.length; index++) {
-                    let param = parameter.children[index];
-                    this.initParam(param, parameter.parameter.value);
-                }
-                break;
-            default:
-                console.log('init a unsupport parameter, type is:' + parameter.type);
-                break;
-        }
-    }
+    // private initParam(treeNode: any, value?: any): void {
+    //   switch (treeNode.type) {
+    //     case 'default':
+    //             if (value) {
+    //                 treeNode.value.value = value[treeNode.label].value;
+    //                 treeNode.value.valueSource = value[treeNode.label].valueSource;
+    //             } else {
+    //                 treeNode.parameter.valueSource = this.defaultValueSource;
+    //             }
+    //             break;
+    //         case 'object':
+    //             for (let index = 0; index < treeNode.children.length; index++) {
+    //                 const param = treeNode.children[index];
+    //                 this.initParam(param, treeNode.parameter.value);
+    //             }
+    //             break;
+    //         case 'array':
+    //             for (let index = 0; index < treeNode.children.length; index++) {
+    //                 const param = treeNode.children[index];
+    //                 this.initParam(param, treeNode.parameter.value);
+    //             }
+    //             break;
+    //         case 'map':
+    //             for (let index = 0; index < treeNode.children.length; index++) {
+    //                 const param = treeNode.children[index];
+    //                 this.initParam(param, treeNode.parameter.value);
+    //             }
+    //             break;
+    //         default:
+    //             console.log('init a unsupport parameter, type is:' + treeNode.type);
+    //             break;
+    //     }
+    // }
 
     private isArrayObject(node: any): boolean {
         return node.type === 'array';
@@ -227,5 +271,17 @@ export class ParameterTreeComponent implements OnChanges {
 
     private isDynamicObject(node: any): boolean {
         return node.type === 'map';
+    }
+
+    public getWidth(node: any) {
+        if(this.canAdd(node)) {
+            return {
+                'col-md-11': true
+            };
+        } else {
+            return {
+                'col-md-12': true
+            };
+        }
     }
 }
