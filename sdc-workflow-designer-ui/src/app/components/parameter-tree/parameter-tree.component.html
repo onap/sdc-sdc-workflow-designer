@@ -1,9 +1,13 @@
 
 <p-tree *ngIf="parameters.length > 0" [value]="parameters">
-        <ng-template let-node  pTemplate="default">
-            <b4t-parameter [param]="getParameter(node)" [canEditName]="node.keyEditable" [valueSource]= "valueSource"
-                [planItems]="planItems" [canDelete]="canDelete(node)" (paramChange)="paramChange($event, node)"
-                (delete)="deleteTreeNode(node)"></b4t-parameter>
+        <ng-template let-node pTemplate="default">
+            <div class="row">
+                <div class="col-md-11">
+
+                    <b4t-parameter [param]="getParameter(node)" [canEditName]="node.keyEditable" [valueSource]="valueSource" [planItems]="planItems"
+                        [canDelete]="canDelete(node)" (paramChange)="paramChange($event, node)" (delete)="deleteTreeNode(node)"></b4t-parameter>
+                </div>
+            </div>
         </ng-template>
 
         <ng-template let-node  pTemplate="array">
@@ -21,7 +25,7 @@
 
         <ng-template let-node pTemplate="object">
             <div class="row">
-                <div [ngClass]="getWidth(node)">
+                <div class="col-md-11">
                     <b4t-parameter [param]="getParameter(node)" [canEditName]="node.keyEditable" [valueSource]= "getObjectValueSource()"
                     [planItems]="planItems" [canDelete]="canDelete(node)" (paramChange)="paramChange($event, node)"
                     (delete)="deleteTreeNode(node)"></b4t-parameter>
@@ -34,9 +38,15 @@
         </ng-template>
 
         <ng-template let-node pTemplate="map">
-            <b4t-parameter [param]="getParameter(node)" [canEditName]="node.keyEditable" [valueSource]= "getObjectValueSource()"
-            [planItems]="planItems" [canDelete]="canDelete(node)" (paramChange)="paramChange($event, node)"
-            (delete)="deleteTreeNode(node)"></b4t-parameter>
-            <i *ngIf="canAdd(node)" class="fa fa-plus-square-o" (click)="addChildNode4DynamicObject(node)"></i>
+            <div class="row">
+                <div class="col-md-11">
+                    <b4t-parameter [param]="getParameter(node)" [canEditName]="node.keyEditable" [valueSource]= "getObjectValueSource()"
+                    [planItems]="planItems" [canDelete]="canDelete(node)" (paramChange)="paramChange($event, node)"
+                    (delete)="deleteTreeNode(node)"></b4t-parameter>
+                </div>
+                <div *ngIf="canAdd(node)" class="col-md-1">
+                    <i *ngIf="canAdd(node)" class="fa fa-plus-square-o" (click)="addChildNode4DynamicObject(node)"></i>
+                </div>
+            </div>
         </ng-template>
     </p-tree>
