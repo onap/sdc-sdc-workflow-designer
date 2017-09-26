@@ -14,10 +14,13 @@ package org.onap.sdc.workflowdesigner.parser;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.onap.sdc.workflowdesigner.model.Element;
 import org.onap.sdc.workflowdesigner.model.Process;
+import org.onap.sdc.workflowdesigner.model.SequenceFlow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,11 +60,40 @@ public class Bpmn4ToscaJsonParser {
 			// get element
 			Element element = createElementFromJson(jsonNode);
 			process.getElementList().add(element);
+			
+			// get sequence flows 
+            List<SequenceFlow> flowList = getSequenceFlows(jsonNode);
+            process.getSequenceFlowList().addAll(flowList);
 		}
 
 		return process;
 
 	}
+	
+	private List<SequenceFlow> getSequenceFlows(JsonNode jsonNode) {
+        List<SequenceFlow> flowList = new ArrayList<SequenceFlow>();
+        JsonNode sequenceFlowNodes = jsonNode.get("sequenceFlows");
+        
+        Iterator<JsonNode> iter = sequenceFlowNodes.iterator();
+        while (iter.hasNext()) {
+            JsonNode connectionEntry = (JsonNode) iter.next();
+            String sourceRef = getValueFromJsonNode(connectionEntry, "sourceRef");
+            String targetRef = getValueFromJsonNode(connectionEntry, "targetRef");
+            String condition = getValueFromJsonNode(connectionEntry, "condition");
+            SequenceFlow flow = new SequenceFlow();
+            flow.setId(sourceRef + targetRef);
+            flow.setSourceRef(sourceRef);
+            flow.setTargetRef(targetRef);
+            flow.setCondition(condition);
+            flowList.add(flow);
+        }
+        
+        return flowList;
+    }
+	
+	private String getValueFromJsonNode(JsonNode jsonNode, String key) {
+        return jsonNode.get(key) == null ? null : jsonNode.get(key).asText();
+    }
 	
 	protected Element createElementFromJson(JsonNode jsonNode) throws JsonParseException, JsonMappingException, IOException {
 		String jsonObject = jsonNode.toString();
