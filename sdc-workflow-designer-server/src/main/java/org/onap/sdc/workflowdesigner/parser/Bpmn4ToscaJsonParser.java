@@ -19,8 +19,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.onap.sdc.workflowdesigner.model.Element;
+import org.onap.sdc.workflowdesigner.model.EndEvent;
 import org.onap.sdc.workflowdesigner.model.Process;
 import org.onap.sdc.workflowdesigner.model.SequenceFlow;
+import org.onap.sdc.workflowdesigner.model.StartEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -96,8 +98,23 @@ public class Bpmn4ToscaJsonParser {
     }
 	
 	protected Element createElementFromJson(JsonNode jsonNode) throws JsonParseException, JsonMappingException, IOException {
-		String jsonObject = jsonNode.toString();
-		return MAPPER.readValue(jsonObject, Element.class);
+	    String jsonObject = jsonNode.toString();
+        Element element;
+        
+        String nodeType = getValueFromJsonNode(jsonNode, "type");
+        switch (nodeType) {
+        case "startEvent":
+            element = MAPPER.readValue(jsonObject, StartEvent.class);
+            break;
+        case "endEvent":
+            element = MAPPER.readValue(jsonObject, EndEvent.class);
+            break;
+        default:
+            log.warn("Ignoring node: type '" + nodeType + "' is unkown");
+            return null;
+        }
+
+        return element;
 	}
 	
 }
