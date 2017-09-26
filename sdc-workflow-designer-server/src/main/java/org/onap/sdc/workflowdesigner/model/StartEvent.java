@@ -11,5 +11,16 @@
  */
 package org.onap.sdc.workflowdesigner.model;
 
+import java.util.List;
+
 public class StartEvent extends Element {
+    private List<Parameter> parameters;
+
+    public List<Parameter> getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(List<Parameter> parameters) {
+        this.parameters = parameters;
+    }
 }
