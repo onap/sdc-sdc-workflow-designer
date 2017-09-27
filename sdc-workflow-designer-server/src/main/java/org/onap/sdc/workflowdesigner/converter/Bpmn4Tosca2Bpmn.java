@@ -15,8 +15,12 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
+import org.onap.sdc.workflowdesigner.model.Process;
+import org.onap.sdc.workflowdesigner.parser.Bpmn4ToscaJsonParser;
+import org.onap.sdc.workflowdesigner.writer.BpmnPlanArtefactWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,15 +35,21 @@ public class Bpmn4Tosca2Bpmn {
      *
      * @param srcBpmn4ToscaJsonFile
      * @param targetBpmnArchive
+     * @throws Exception 
      */
-    public void transform(URI srcBpmn4ToscaJsonFile, URI targetBpmnArchive) {
+    public void transform(String processId, URI srcBpmn4ToscaJsonFile, URI targetBpmnArchive) throws Exception {
         log.info("transform start");
 
         // parse json object
+        Bpmn4ToscaJsonParser parser = new Bpmn4ToscaJsonParser();
+        Process process = parser.parse(processId, srcBpmn4ToscaJsonFile);
 
         // transform bpmn template
+        BpmnPlanArtefactWriter writer = new BpmnPlanArtefactWriter(process);
+        String workflowString = writer.completePlanTemplate();
 
         // write bpmn to file
+        writeStringToFile(workflowString, Paths.get(targetBpmnArchive));
         log.info("transform end");
     }
 
