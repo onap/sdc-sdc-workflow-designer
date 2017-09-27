@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2017 ZTE Corporation.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * and the Apache License 2.0 which both accompany this distribution,
+ * are made available under the Apache License, Version 2.0
+ * and the Eclipse Public License v1.0 which both accompany this distribution,
  * and are available at http://www.eclipse.org/legal/epl-v10.html
  * and http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -35,47 +35,48 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class Bpmn4ToscaJsonParser {
 
-	private static Logger log = LoggerFactory.getLogger(Bpmn4ToscaJsonParser.class);
-	
-	private static ObjectMapper MAPPER = new ObjectMapper();
-	
-	static {
-		MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
-		MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-	}
-	
-	public Process parse(String processName, URI jsonFileUrl) throws JsonParseException, JsonMappingException, MalformedURLException, IOException {
-		Process process = new Process(processName);
+    private static Logger log = LoggerFactory.getLogger(Bpmn4ToscaJsonParser.class);
 
-		JsonNode rootNode = MAPPER.readValue(jsonFileUrl.toURL(), JsonNode.class);
+    private static ObjectMapper MAPPER = new ObjectMapper();
 
-		log.debug("Creating Process models...");
-		JsonNode nodes = rootNode.get("nodes");
-		if(nodes == null) {
-			return process;
-		}
-		
-		Iterator<JsonNode> iter = nodes.iterator();
-		while (iter.hasNext()) {
-			JsonNode jsonNode = (JsonNode) iter.next();
+    static {
+        MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
+        MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    }
 
-			// get element
-			Element element = createElementFromJson(jsonNode);
-			process.getElementList().add(element);
-			
-			// get sequence flows 
+    public Process parse(String processName, URI jsonFileUrl)
+            throws JsonParseException, JsonMappingException, MalformedURLException, IOException {
+        Process process = new Process(processName);
+
+        JsonNode rootNode = MAPPER.readValue(jsonFileUrl.toURL(), JsonNode.class);
+
+        log.debug("Creating Process models...");
+        JsonNode nodes = rootNode.get("nodes");
+        if (nodes == null) {
+            return process;
+        }
+
+        Iterator<JsonNode> iter = nodes.iterator();
+        while (iter.hasNext()) {
+            JsonNode jsonNode = (JsonNode) iter.next();
+
+            // get element
+            Element element = createElementFromJson(jsonNode);
+            process.getElementList().add(element);
+
+            // get sequence flows
             List<SequenceFlow> flowList = getSequenceFlows(jsonNode);
             process.getSequenceFlowList().addAll(flowList);
-		}
+        }
 
-		return process;
+        return process;
 
-	}
-	
-	private List<SequenceFlow> getSequenceFlows(JsonNode jsonNode) {
+    }
+
+    private List<SequenceFlow> getSequenceFlows(JsonNode jsonNode) {
         List<SequenceFlow> flowList = new ArrayList<SequenceFlow>();
         JsonNode sequenceFlowNodes = jsonNode.get("sequenceFlows");
-        
+
         Iterator<JsonNode> iter = sequenceFlowNodes.iterator();
         while (iter.hasNext()) {
             JsonNode connectionEntry = (JsonNode) iter.next();
@@ -89,18 +90,19 @@ public class Bpmn4ToscaJsonParser {
             flow.setCondition(condition);
             flowList.add(flow);
         }
-        
+
         return flowList;
     }
-	
-	private String getValueFromJsonNode(JsonNode jsonNode, String key) {
+
+    private String getValueFromJsonNode(JsonNode jsonNode, String key) {
         return jsonNode.get(key) == null ? null : jsonNode.get(key).asText();
     }
-	
-	protected Element createElementFromJson(JsonNode jsonNode) throws JsonParseException, JsonMappingException, IOException {
-	    String jsonObject = jsonNode.toString();
+
+    protected Element createElementFromJson(JsonNode jsonNode)
+            throws JsonParseException, JsonMappingException, IOException {
+        String jsonObject = jsonNode.toString();
         Element element;
-        
+
         String nodeType = getValueFromJsonNode(jsonNode, "type");
         switch (nodeType) {
         case "startEvent":
@@ -115,6 +117,6 @@ public class Bpmn4ToscaJsonParser {
         }
 
         return element;
-	}
-	
+    }
+
 }
