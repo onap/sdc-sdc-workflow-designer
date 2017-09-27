@@ -1,0 +1,17 @@
+{"nodes":[
+        {
+            "sequenceFlows":[
+                {"condition":"","sourceRef":"node0","targetRef":"node1"},
+                {"condition":"","sourceRef":"node0","targetRef":"node3"}
+            ],
+            "parameters":[],"id":"node0","name":"startEvent","type":"startEvent","parentId":"root",
+            "position":{"width":30,"height":30,"left":468,"top":55}
+        },
+        {
+            "sequenceFlows":[{"condition":"","sourceRef":"node1","targetRef":"node2"}],
+            "input":[],"output":[],"template":{},"id":"node1","name":"endEvent",
+            "type":"endEvent","parentId":"root",
+            "position":{"width":252.08334350585938,"height":46.66666793823242,"left":432,"top":167}
+        }],
+"configs":{"restConfigs":[]}
+}
