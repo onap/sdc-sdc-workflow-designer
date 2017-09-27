@@ -29,7 +29,7 @@
 
     <modules>
         <module>sdc-workflow-designer-ui</module>
-		<module>sdc-workflow-designer-server</module>
+		<!--<module>sdc-workflow-designer-server</module>-->
         <module>distribution</module>
     </modules>
     
