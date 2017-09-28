@@ -54,7 +54,7 @@ public class Bpmn4Tosca2Bpmn {
     }
 
     public static Path writeStringToFile(String content, Path targetPath) throws IOException {
-        return Files.write(targetPath, content.getBytes(), StandardOpenOption.CREATE_NEW);
+        return Files.write(targetPath, content.getBytes(), StandardOpenOption.CREATE);
     }
 
 }
