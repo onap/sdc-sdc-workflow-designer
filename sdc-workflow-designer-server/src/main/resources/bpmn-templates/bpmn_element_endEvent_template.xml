@@ -1,0 +1,2 @@
+<endEvent id="${element.id}" name="${element.name}">
+</endEvent>

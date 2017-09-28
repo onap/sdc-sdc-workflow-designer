@@ -7,6 +7,8 @@
     targetNamespace="http://www.activiti.org/test">
     <process id="templateTest" isExecutable="true">
 
+        <!-- Perform bpmn elements -->
+        
     </process>
 </definitions>
 
