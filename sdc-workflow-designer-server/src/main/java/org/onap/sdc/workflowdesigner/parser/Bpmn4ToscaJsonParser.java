@@ -51,7 +51,7 @@ public class Bpmn4ToscaJsonParser {
         JsonNode rootNode = MAPPER.readValue(jsonFileUrl.toURL(), JsonNode.class);
 
         log.debug("Creating Process models...");
-        JsonNode nodes = rootNode.get("nodes");
+        JsonNode nodes = rootNode.get(JsonKeys.NODES);
         if (nodes == null) {
             return process;
         }
@@ -75,14 +75,14 @@ public class Bpmn4ToscaJsonParser {
 
     private List<SequenceFlow> getSequenceFlows(JsonNode jsonNode) {
         List<SequenceFlow> flowList = new ArrayList<SequenceFlow>();
-        JsonNode sequenceFlowNodes = jsonNode.get("sequenceFlows");
+        JsonNode sequenceFlowNodes = jsonNode.get(JsonKeys.SEQUENCE_FLOWS);
 
         Iterator<JsonNode> iter = sequenceFlowNodes.iterator();
         while (iter.hasNext()) {
             JsonNode connectionEntry = (JsonNode) iter.next();
-            String sourceRef = getValueFromJsonNode(connectionEntry, "sourceRef");
-            String targetRef = getValueFromJsonNode(connectionEntry, "targetRef");
-            String condition = getValueFromJsonNode(connectionEntry, "condition");
+            String sourceRef = getValueFromJsonNode(connectionEntry, JsonKeys.SOURCE_REF);
+            String targetRef = getValueFromJsonNode(connectionEntry, JsonKeys.TARGET_REF);
+            String condition = getValueFromJsonNode(connectionEntry, JsonKeys.CONDITION);
             SequenceFlow flow = new SequenceFlow();
             flow.setId(sourceRef + targetRef);
             flow.setSourceRef(sourceRef);
@@ -103,7 +103,7 @@ public class Bpmn4ToscaJsonParser {
         String jsonObject = jsonNode.toString();
         Element element;
 
-        String nodeType = getValueFromJsonNode(jsonNode, "type");
+        String nodeType = getValueFromJsonNode(jsonNode, JsonKeys.TYPE);
         switch (nodeType) {
         case "startEvent":
             element = MAPPER.readValue(jsonObject, StartEvent.class);
