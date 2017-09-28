@@ -6,6 +6,12 @@
     typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath"
     targetNamespace="http://www.activiti.org/test">
     <process id="${process.id}" isExecutable="true">
+        <!-- dataObjects -->
+        #foreach( $dataObject in $process.dataObjectList)
+        #parse(
+        "${templatePath}bpmn_dataObject_template.xml"
+        )
+        #end
 
         <!-- Perform bpmn elements -->
         #foreach( $element in $process.elementList)

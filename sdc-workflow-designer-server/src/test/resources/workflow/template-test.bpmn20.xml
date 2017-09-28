@@ -6,7 +6,8 @@
     typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath"
     targetNamespace="http://www.activiti.org/test">
     <process id="templateTest" isExecutable="true">
-
+        <!-- dataObjects -->
+        
         <!-- Perform bpmn elements -->
         
     </process>
