@@ -18,8 +18,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.onap.sdc.workflowdesigner.model.DataObject;
 import org.onap.sdc.workflowdesigner.model.Element;
 import org.onap.sdc.workflowdesigner.model.EndEvent;
+import org.onap.sdc.workflowdesigner.model.Parameter;
 import org.onap.sdc.workflowdesigner.model.Process;
 import org.onap.sdc.workflowdesigner.model.SequenceFlow;
 import org.onap.sdc.workflowdesigner.model.StartEvent;
@@ -67,10 +69,31 @@ public class Bpmn4ToscaJsonParser {
             // get sequence flows
             List<SequenceFlow> flowList = getSequenceFlows(jsonNode);
             process.getSequenceFlowList().addAll(flowList);
+
+            // add dataObject
+            if (element instanceof StartEvent) {
+                List<DataObject> dataObjects = this.getDataObject((StartEvent) element);
+                process.getDataObjectList().addAll(dataObjects);
+            }
         }
 
         return process;
 
+    }
+
+    private List<DataObject> getDataObject(StartEvent startEvent) {
+        List<DataObject> dataObjects = new ArrayList<DataObject>();
+
+        for (Parameter parameter : startEvent.getParameters()) {
+            DataObject dataObject = new DataObject();
+            dataObject.setId(parameter.getName());
+            dataObject.setName(parameter.getName());
+            dataObject.setValue((String) parameter.getValue());
+
+            dataObjects.add(dataObject);
+        }
+
+        return dataObjects;
     }
 
     private List<SequenceFlow> getSequenceFlows(JsonNode jsonNode) {
@@ -94,10 +117,6 @@ public class Bpmn4ToscaJsonParser {
         return flowList;
     }
 
-    private String getValueFromJsonNode(JsonNode jsonNode, String key) {
-        return jsonNode.get(key) == null ? null : jsonNode.get(key).asText();
-    }
-
     protected Element createElementFromJson(JsonNode jsonNode)
             throws JsonParseException, JsonMappingException, IOException {
         String jsonObject = jsonNode.toString();
@@ -117,6 +136,10 @@ public class Bpmn4ToscaJsonParser {
         }
 
         return element;
+    }
+
+    private String getValueFromJsonNode(JsonNode jsonNode, String key) {
+        return jsonNode.get(key) == null ? null : jsonNode.get(key).asText();
     }
 
 }

@@ -19,6 +19,7 @@ public class Process {
     private boolean isExecutable;
     private List<Element> elementList = new ArrayList<Element>();
     private List<SequenceFlow> sequenceFlowList = new ArrayList<SequenceFlow>();
+    private List<DataObject> dataObjectList = new ArrayList<DataObject>();
 
     public Process(String id) {
         this.id = id;
@@ -56,4 +57,11 @@ public class Process {
         this.sequenceFlowList = sequenceFlowList;
     }
 
+    public List<DataObject> getDataObjectList() {
+        return dataObjectList;
+    }
+
+    public void setDataObjectList(List<DataObject> dataObjectList) {
+        this.dataObjectList = dataObjectList;
+    }
 }
