@@ -18,12 +18,11 @@
 DIRNAME=`dirname $0`
 RUNHOME=`cd $DIRNAME/; pwd`
 echo @RUNHOME@ $RUNHOME
-echo "### Starting blueprint";
+echo "### Starting workflow designer";
 cd ./tomcat
 if [ ! -d "$RUNHOME/tomcat/logs" ]; then
   mkdir $RUNHOME/tomcat/logs
 fi
 export CATALINA_HOME=$RUNHOME/tomcat
 export CATALINA_BASE=$RUNHOME/tomcat
-$RUNHOME/tomcat/bin/startup.sh &
-echo "### Starting blueprint end";
+$RUNHOME/tomcat/bin/catalina.sh run
