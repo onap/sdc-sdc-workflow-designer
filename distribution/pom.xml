@@ -85,6 +85,7 @@
                             <overwrite>true</overwrite>
                         </configuration>
                     </execution>
+                                       
 					<execution>
                         <id>copy-tomcat-resources-${linux64id}</id>
                         <phase>process-resources</phase>
@@ -106,6 +107,26 @@
                             </resources>
                         </configuration>
                     </execution>
+                    
+                    <execution>
+                        <id>copy-workflow-designer-resources-${linux64id}</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${linux64outputdir}/tomcat/webapps/ROOT</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/../sdc-workflow-designer-ui/dist</directory>
+                                    <includes>
+                                        <include>**/*</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    
                     <execution>
                         <id>copy-resources-${win64id}</id>
                         <phase>process-resources</phase>
@@ -129,6 +150,7 @@
                             <overwrite>true</overwrite>
                         </configuration>
                     </execution>
+
 					<execution>
                         <id>copy-tomcat-resources-${win64id}</id>
                         <phase>process-resources</phase>
@@ -150,6 +172,26 @@
                             </resources>
                         </configuration>
                     </execution>
+                    
+                    <execution>
+                        <id>copy-workflow-designer-resources-${win64id}</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${win64outputdir}/tomcat/webapps/ROOT</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/../sdc-workflow-designer-ui/dist</directory>
+                                    <includes>
+                                        <include>**/*</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    
 					<execution>
                         <id>copy-dockerfile</id>
                         <phase>process-resources</phase>
