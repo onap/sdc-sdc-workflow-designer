@@ -3,7 +3,7 @@
 Platform
 --------
 
-Microservices Bus provide key infrastructure functionalities to support ONAP microservice architecture including service registration/discovery, service gateway, service load balancer and service governance. It's a pluggable architecture so it can be extended with plugins to provide value added services such as centralized authentication for APIs. Microservices Platform also provides a GUI portal for service management.
+Workflow Designer provides the ablitilty to design a bpmn workflow. It extends restful task and tosca task. so it can be combined with tosca template easily.
 
 .. toctree::
    :maxdepth: 1
@@ -12,7 +12,5 @@ Microservices Bus provide key infrastructure functionalities to support ONAP mic
    offeredapis.rst
    consumedapis.rst
    delivery.rst
-   log-and-diagnostic-info.rst
    installation.rst
-   administration.rst
    human-interfaces.rst
