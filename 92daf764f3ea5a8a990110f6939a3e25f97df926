@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da87b5cf_4a09622b",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 189
+      },
+      "writtenOn": "2017-11-21T01:15:23Z",
+      "side": 1,
+      "message": "The version should be 1.1.0",
+      "revId": "92daf764f3ea5a8a990110f6939a3e25f97df926",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
