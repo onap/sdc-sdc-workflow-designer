@@ -1,0 +1,2 @@
+
+<parallelGateway id="${element.id}" name="${element.name}"></parallelGateway>

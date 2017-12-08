@@ -21,7 +21,9 @@ import java.util.List;
 import org.onap.sdc.workflowdesigner.model.DataObject;
 import org.onap.sdc.workflowdesigner.model.Element;
 import org.onap.sdc.workflowdesigner.model.EndEvent;
+import org.onap.sdc.workflowdesigner.model.ExclusiveGateway;
 import org.onap.sdc.workflowdesigner.model.IntermediateCatchEvent;
+import org.onap.sdc.workflowdesigner.model.ParallelGateway;
 import org.onap.sdc.workflowdesigner.model.Parameter;
 import org.onap.sdc.workflowdesigner.model.Process;
 import org.onap.sdc.workflowdesigner.model.ScriptTask;
@@ -137,6 +139,12 @@ public class Bpmn4ToscaJsonParser {
             break;
         case "scriptTask":
             element = MAPPER.readValue(jsonObject, ScriptTask.class);
+            break;
+        case "exclusiveGateway":
+            element = MAPPER.readValue(jsonObject, ExclusiveGateway.class);
+            break;
+        case "parallelGateway":
+            element = MAPPER.readValue(jsonObject, ParallelGateway.class);
             break;
         default:
             log.warn("Ignoring node: type '" + nodeType + "' is unkown");
