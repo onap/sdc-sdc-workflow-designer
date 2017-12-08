@@ -21,6 +21,7 @@ import java.util.List;
 import org.onap.sdc.workflowdesigner.model.DataObject;
 import org.onap.sdc.workflowdesigner.model.Element;
 import org.onap.sdc.workflowdesigner.model.EndEvent;
+import org.onap.sdc.workflowdesigner.model.IntermediateCatchEvent;
 import org.onap.sdc.workflowdesigner.model.Parameter;
 import org.onap.sdc.workflowdesigner.model.Process;
 import org.onap.sdc.workflowdesigner.model.SequenceFlow;
@@ -129,6 +130,9 @@ public class Bpmn4ToscaJsonParser {
             break;
         case "endEvent":
             element = MAPPER.readValue(jsonObject, EndEvent.class);
+            break;
+        case "intermediateCatchEvent":
+            element = MAPPER.readValue(jsonObject, IntermediateCatchEvent.class);
             break;
         default:
             log.warn("Ignoring node: type '" + nodeType + "' is unkown");

@@ -1,0 +1,6 @@
+
+<intermediateCatchEvent id="${element.id}" name="${element.name}">
+	<timerEventDefinition>
+        <timeDuration><![CDATA[${element.timerEventDefinition.timeDuration}]]></timeDuration>
+      </timerEventDefinition>
+</intermediateCatchEvent>
