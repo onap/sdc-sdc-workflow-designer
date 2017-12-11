@@ -28,6 +28,7 @@ import org.onap.sdc.workflowdesigner.model.Parameter;
 import org.onap.sdc.workflowdesigner.model.Process;
 import org.onap.sdc.workflowdesigner.model.ScriptTask;
 import org.onap.sdc.workflowdesigner.model.SequenceFlow;
+import org.onap.sdc.workflowdesigner.model.ServiceTask;
 import org.onap.sdc.workflowdesigner.model.StartEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -136,6 +137,9 @@ public class Bpmn4ToscaJsonParser {
             break;
         case "intermediateCatchEvent":
             element = MAPPER.readValue(jsonObject, IntermediateCatchEvent.class);
+            break;
+        case "serviceTask":
+            element = MAPPER.readValue(jsonObject, ServiceTask.class);
             break;
         case "scriptTask":
             element = MAPPER.readValue(jsonObject, ScriptTask.class);
