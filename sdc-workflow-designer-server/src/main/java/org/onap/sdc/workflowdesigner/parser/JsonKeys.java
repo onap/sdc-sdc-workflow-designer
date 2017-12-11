@@ -29,4 +29,10 @@ public class JsonKeys {
     public static final String CONDITION = "condition";
     
     
+ // microservice info
+    public static final String MICROSERVICE_URL = "url";
+    public static final String MICROSERVICE_NAME = "name";
+    public static final String MICROSERVICE_VERSION = "version";
+    
+    public static final String ID = "id";
 }

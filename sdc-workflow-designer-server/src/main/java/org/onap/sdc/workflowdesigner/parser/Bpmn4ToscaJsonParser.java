@@ -15,8 +15,10 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.onap.sdc.workflowdesigner.model.DataObject;
 import org.onap.sdc.workflowdesigner.model.Element;
@@ -26,6 +28,7 @@ import org.onap.sdc.workflowdesigner.model.IntermediateCatchEvent;
 import org.onap.sdc.workflowdesigner.model.ParallelGateway;
 import org.onap.sdc.workflowdesigner.model.Parameter;
 import org.onap.sdc.workflowdesigner.model.Process;
+import org.onap.sdc.workflowdesigner.model.RestServiceTask;
 import org.onap.sdc.workflowdesigner.model.ScriptTask;
 import org.onap.sdc.workflowdesigner.model.SequenceFlow;
 import org.onap.sdc.workflowdesigner.model.ServiceTask;
@@ -45,6 +48,8 @@ public class Bpmn4ToscaJsonParser {
     private static Logger log = LoggerFactory.getLogger(Bpmn4ToscaJsonParser.class);
 
     private static ObjectMapper MAPPER = new ObjectMapper();
+    
+    private Map<String, JsonNode> restConfigMap = new HashMap<String, JsonNode>();
 
     static {
         MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
@@ -62,6 +67,8 @@ public class Bpmn4ToscaJsonParser {
         if (nodes == null) {
             return process;
         }
+        
+        this.loadConfigs(rootNode.get(JsonKeys.CONFIGS));
 
         Iterator<JsonNode> iter = nodes.iterator();
         while (iter.hasNext()) {
@@ -99,6 +106,27 @@ public class Bpmn4ToscaJsonParser {
         }
 
         return dataObjects;
+    }
+    
+    private void loadConfigs(JsonNode config) {
+        if(config == null) {
+            return;
+        }
+        loadRestConfigs(config.get(JsonKeys.REST_CONFIGS));
+    }
+    
+    private void loadRestConfigs(JsonNode restConfigs) {
+        if(restConfigs == null) {
+            return;
+        }
+        
+        Iterator<JsonNode> iter = restConfigs.iterator();
+        while (iter.hasNext()) {
+            JsonNode restConfig = (JsonNode) iter.next();
+
+            String configId = getValueFromJsonNode(restConfig, JsonKeys.ID); 
+            restConfigMap.put(configId, restConfig);
+        }
     }
 
     private List<SequenceFlow> getSequenceFlows(JsonNode jsonNode) {
@@ -141,6 +169,9 @@ public class Bpmn4ToscaJsonParser {
         case "serviceTask":
             element = MAPPER.readValue(jsonObject, ServiceTask.class);
             break;
+        case "restTask":
+            element = this.createRestServiceTask(jsonObject);
+            break;
         case "scriptTask":
             element = MAPPER.readValue(jsonObject, ScriptTask.class);
             break;
@@ -156,6 +187,28 @@ public class Bpmn4ToscaJsonParser {
         }
 
         return element;
+    }
+    
+    private RestServiceTask createRestServiceTask(String jsonObject) throws JsonParseException, JsonMappingException, IOException {
+        RestServiceTask restServiceTask = MAPPER.readValue(jsonObject, RestServiceTask.class);
+        
+        // add baseUrl to relative url
+        String restConfigId = restServiceTask.getRestConfigId();
+        JsonNode restConfig = this.restConfigMap.get(restConfigId);
+        
+        if(restConfig != null) { // while create a new rest task and didnot set method, the restconfig info may be null
+            restServiceTask.setUrl(getValueFromJsonNode(restConfig, JsonKeys.MICROSERVICE_URL));
+            restServiceTask.setServiceName(getValueFromJsonNode(restConfig, JsonKeys.MICROSERVICE_NAME));
+            restServiceTask.setServiceVersion(getValueFromJsonNode(restConfig, JsonKeys.MICROSERVICE_VERSION));
+        }
+        
+        for(Parameter parameter : restServiceTask.getParameters()) {
+            if("body".equals(parameter.getPosition())) {
+                parameter.setValueSource(null);
+            }
+        }
+        
+        return restServiceTask;
     }
 
     private String getValueFromJsonNode(JsonNode jsonNode, String key) {
