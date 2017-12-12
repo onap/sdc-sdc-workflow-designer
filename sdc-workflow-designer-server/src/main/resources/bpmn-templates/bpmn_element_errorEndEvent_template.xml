@@ -1,0 +1,4 @@
+
+<endEvent id="${element.id}" name="${element.name}">
+	<errorEventDefinition errorRef="${element.parameter.value}" />
+</endEvent>

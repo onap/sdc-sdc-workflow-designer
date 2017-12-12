@@ -23,6 +23,8 @@ import java.util.Map;
 import org.onap.sdc.workflowdesigner.model.DataObject;
 import org.onap.sdc.workflowdesigner.model.Element;
 import org.onap.sdc.workflowdesigner.model.EndEvent;
+import org.onap.sdc.workflowdesigner.model.ErrorEndEvent;
+import org.onap.sdc.workflowdesigner.model.ErrorStartEvent;
 import org.onap.sdc.workflowdesigner.model.ExclusiveGateway;
 import org.onap.sdc.workflowdesigner.model.IntermediateCatchEvent;
 import org.onap.sdc.workflowdesigner.model.ParallelGateway;
@@ -162,6 +164,12 @@ public class Bpmn4ToscaJsonParser {
             break;
         case "endEvent":
             element = MAPPER.readValue(jsonObject, EndEvent.class);
+            break;
+        case "errorStartEvent":
+            element = MAPPER.readValue(jsonObject, ErrorStartEvent.class);
+            break;
+        case "errorEndEvent":
+            element = MAPPER.readValue(jsonObject, ErrorEndEvent.class);
             break;
         case "intermediateCatchEvent":
             element = MAPPER.readValue(jsonObject, IntermediateCatchEvent.class);
