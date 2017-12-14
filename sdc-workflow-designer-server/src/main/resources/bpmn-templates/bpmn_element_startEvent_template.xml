@@ -1,3 +1,4 @@
+
 <startEvent id="${element.id}" name="${element.name}">
     <extensionElements>
         #foreach( $param in ${element.parameters} )

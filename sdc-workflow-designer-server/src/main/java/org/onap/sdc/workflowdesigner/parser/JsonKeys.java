@@ -11,7 +11,7 @@
  */
 package org.onap.sdc.workflowdesigner.parser;
 
-public class JsonKeys {
+public interface JsonKeys {
     // workflow keys
     public static final String NODES = "nodes";
     public static final String CONFIGS = "configs";

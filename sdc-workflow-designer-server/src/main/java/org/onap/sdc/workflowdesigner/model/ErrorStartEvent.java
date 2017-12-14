@@ -14,15 +14,15 @@ package org.onap.sdc.workflowdesigner.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ErrorStartEvent extends Element {
-	@JsonProperty("parameter")
-	private Parameter parameter;
+    @JsonProperty("parameter")
+    private Parameter parameter;
 
-	public Parameter getParameter() {
-		return parameter;
-	}
+    public Parameter getParameter() {
+        return parameter;
+    }
 
-	public void setParameter(Parameter parameter) {
-		this.parameter = parameter;
-	}
+    public void setParameter(Parameter parameter) {
+        this.parameter = parameter;
+    }
 
 }

@@ -12,4 +12,5 @@
 package org.onap.sdc.workflowdesigner.model;
 
 public class EndEvent extends Element {
+    public static String type = "endEvent";
 }

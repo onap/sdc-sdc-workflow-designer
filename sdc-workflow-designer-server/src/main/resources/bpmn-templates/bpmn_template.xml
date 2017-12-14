@@ -20,6 +20,12 @@
         )
         #end
 
+		<!-- Perform bpmn sequence flow -->
+		#foreach( $sequenceFlow in $process.sequenceFlowList)
+		#parse(
+		"${templatePath}bpmn_sequenceFlow_template.xml"
+		)
+		#end
     </process>
 </definitions>
 

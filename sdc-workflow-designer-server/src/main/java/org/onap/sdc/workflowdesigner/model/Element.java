@@ -14,9 +14,13 @@ package org.onap.sdc.workflowdesigner.model;
 import java.util.List;
 
 public class Element {
+    public enum TYPE {
+        startEvent, endEvent, errorStartEvent, errorEndEvent, serviceTask, scriptTask, exclusiveGateway, parallelGateway, restTask, intermediateCatchEvent
+    };
+
     private String id;
     private String name;
-    private String type;
+    private TYPE type;
     private String documentation;
     private Position position;
     private List<String> connections;
@@ -61,11 +65,11 @@ public class Element {
         this.documentation = documentation;
     }
 
-    public String getType() {
+    public TYPE getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(TYPE type) {
         this.type = type;
     }
 

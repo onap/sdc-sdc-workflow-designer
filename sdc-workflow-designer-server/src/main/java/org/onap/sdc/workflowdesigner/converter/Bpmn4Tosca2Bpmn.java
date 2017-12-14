@@ -11,7 +11,6 @@
  */
 package org.onap.sdc.workflowdesigner.converter;
 
-import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -49,12 +48,9 @@ public class Bpmn4Tosca2Bpmn {
         String workflowString = writer.completePlanTemplate();
 
         // write bpmn to file
-        writeStringToFile(workflowString, Paths.get(targetBpmnArchive));
+        Path targetPath = Paths.get(targetBpmnArchive);
+        Files.write(targetPath, workflowString.getBytes(), StandardOpenOption.CREATE);
         log.info("transform end");
-    }
-
-    public static Path writeStringToFile(String content, Path targetPath) throws IOException {
-        return Files.write(targetPath, content.getBytes(), StandardOpenOption.CREATE);
     }
 
 }
