@@ -17,7 +17,7 @@ import { JsPlumbService } from '../../services/jsplumb.service';
 import { ActivatedRoute } from "@angular/router";
 import { DataAccessService } from "../../services/data-access/data-access.service";
 import { WorkflowService } from "../../services/workflow.service";
-import { Workflow } from "../../model/workflow/workflow";
+import { PlanModel } from "../../model/workflow/plan-model";
 import { WorkflowProcessService } from "../../services/workflow-process.service";
 import { SequenceFlow } from "../../model/workflow/sequence-flow";
 import { WorkflowNode } from "../../model/workflow/workflow-node";
@@ -78,7 +78,7 @@ export class CanvasComponent implements AfterViewInit {
     }
 
 
-    public getWorkflow(): Workflow {
-        return this.workflowService.workflow;
+    public getWorkflow(): PlanModel {
+        return this.workflowService.planModel;
     }
 }

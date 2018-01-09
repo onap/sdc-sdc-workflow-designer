@@ -13,50 +13,56 @@
 import { Injectable } from '@angular/core';
 import { DataAccessService } from "./data-access/data-access.service";
 import { Observable } from "rxjs/Observable";
-import { Workflow } from "../model/workflow/workflow";
+import { PlanModel } from "../model/workflow/plan-model";
 import { Configs } from "../model/workflow/configs";
 import { BroadcastService } from "./broadcast.service";
 
 /**
- * WorkflowService
- * provides all of the operations about workflow operations.
+ * ModelService
+ * provides all operations about plan model.
  */
 @Injectable()
 export class WorkflowService {
 
-    public workflows: Workflow[];
-    public workflow: Workflow;
+    public workflows = new Map<number, any>();
+    public planModel: PlanModel;
+    private planName : string;
     public workflowIndex = 0;
 
     constructor(private broadcastService: BroadcastService, private dataAccessService: DataAccessService) {
         this.dataAccessService.catalogService.loadWorkflows().subscribe(workflows => {
-            this.workflows = workflows;
+            this.workflowIndex = 0;
+            for(let key in workflows) {
+                this.workflows.set(this.workflowIndex, {
+                    "planName": key,
+                    "plan": workflows[key]
+                });
+                this.workflowIndex++ ;
+            }
             this.broadcastWorkflows();
         });
-        this.broadcastService.workflow.subscribe(workflow => this.workflow = workflow);
+        this.broadcastService.workflow.subscribe(workflow => this.planModel = workflow);
     }
 
     public save(): Observable<boolean> {
-        console.log(this.workflow);
-        console.log(JSON.stringify(this.workflow));
-        return this.dataAccessService.catalogService.saveWorkflow(this.workflow);
+        console.log(this.planModel);
+        console.log(JSON.stringify(this.planModel));
+        return this.dataAccessService.catalogService.saveWorkflow(this.planName, this.planModel);
     }
 
-    public getWorkflows(): Workflow[] {
+    public getWorkflows(): Map<number, any> {
+
         return this.workflows;
     }
 
     public addWorkflow() {
-        this.workflows.push(new Workflow('wf' + this.workflowIndex, '', [], new Configs([])));
+        this.workflows.set(this.workflowIndex, {"planName": "newPlan", "plan": new PlanModel()});
         this.workflowIndex++;
         this.broadcastWorkflows();
     }
 
-    public deleteWorkflow(workflowName: string): Workflow {
-        const index = this.workflows.findIndex(workflow => (workflow.name === workflowName));
-        if(index !== -1) {
-            return this.workflows.splice(index, 1)[0];
-        }
+    public deleteWorkflow(planId: number): PlanModel {
+        this.workflows.delete(planId);
         this.broadcastWorkflows();
 
         return undefined;
