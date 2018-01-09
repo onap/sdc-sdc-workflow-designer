@@ -12,7 +12,7 @@
 
 import { Injectable } from '@angular/core';
 import * as jsp from 'jsplumb';
-import { WorkflowProcessService } from "./workflow-process.service";
+import { ModelService } from "./model.service";
 import { BroadcastService } from "./broadcast.service";
 import { Subscription } from 'rxjs/Subscription';
 import { WorkflowNode } from "../model/workflow/workflow-node";
@@ -26,7 +26,7 @@ export class JsPlumbService {
     public jsplumbInstance;
     public subscriptionMap = new Map<string, Subscription>();
 
-    constructor(private processService: WorkflowProcessService, private broadcastService: BroadcastService) {
+    constructor(private processService: ModelService, private broadcastService: BroadcastService) {
         this.jsplumbInstance = jsp.jsPlumb.getInstance({
             Container: 'canvas'
         });

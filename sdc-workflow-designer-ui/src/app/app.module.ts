@@ -49,6 +49,7 @@ import { SequenceFlowComponent } from "./components/sequence-flow/sequence-flow.
 import { ScriptTaskComponent } from "./components/property/script-task/script-task.component";
 import { DragSelectDirective } from "./directive/drag-select/drag-select.directive";
 import { WorkflowsComponent } from "./components/menu/workflows/workflows.component";
+import { ModelService } from './services/model.service';
 
 @NgModule({
     declarations: [
@@ -98,7 +99,7 @@ import { WorkflowsComponent } from "./components/menu/workflows/workflows.compon
         JsPlumbService,
         SwaggerTreeConverterService,
         WorkflowConfigService,
-        WorkflowProcessService,
+        ModelService,
         WorkflowService
     ],
     bootstrap: [AppComponent]

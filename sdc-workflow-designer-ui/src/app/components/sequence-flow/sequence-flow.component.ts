@@ -16,7 +16,7 @@ import { TreeNode } from 'primeng/primeng';
 import { SequenceFlow } from '../../model/workflow/sequence-flow';
 import { BroadcastService } from '../../services/broadcast.service';
 import { JsPlumbService } from '../../services/jsplumb.service';
-import { WorkflowProcessService } from '../../services/workflow-process.service';
+import { ModelService } from '../../services/model.service';
 
 /**
  * property component presents information of a workflow node.
@@ -33,7 +33,7 @@ export class SequenceFlowComponent implements AfterViewInit {
     public show = false;
 
     constructor(private broadcastService: BroadcastService,
-                private processService: WorkflowProcessService,
+                private processService: ModelService,
                 private jsPlumbService: JsPlumbService) {
 
     }
