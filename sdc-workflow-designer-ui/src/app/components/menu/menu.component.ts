@@ -15,7 +15,7 @@ import { WorkflowService } from '../../services/workflow.service';
 import { MicroserviceComponent } from "./microservice/microservice.component";
 import { WorkflowsComponent } from "./workflows/workflows.component";
 import { BroadcastService } from "../../services/broadcast.service";
-import { Workflow } from "../../model/workflow/workflow";
+import { PlanModel } from "../../model/workflow/plan-model";
 
 @Component({
     selector: 'b4t-menu',
@@ -45,27 +45,29 @@ export class MenuComponent {
         this.workflowsComponent.show();
     }
 
-    public getWorkflows(workflow: Workflow) {
+    public getWorkflows(planId: number) {
         const workflows = this.workflowService.getWorkflows();
         if(workflows) {
-            return workflows.map(workflow => {
-                return {label: workflow.name, command: () => {
-                    this.workflowSelected(workflow);
-                }};
+            const options = [];
+            workflows.forEach((value, key, map) => {
+                options.push({label: value.planName, command: () => {
+                    this.workflowSelected(value.planName, value.plan);
+                }});
             });
+            return options;
         } else {
             return [];
         }
     }
 
-    public workflowSelected(workflow: Workflow) {
-        this.currentWorkflow = workflow.name;
+    public workflowSelected(planName: string, workflow: PlanModel) {
+        this.currentWorkflow = planName;
         this.broadcastService.broadcast(this.broadcastService.workflow, workflow);
     }
 
     public download() {
-        const filename = this.workflowService.workflow.name + '.json';
-        const content = JSON.stringify(this.workflowService.workflow);
+        const filename = this.currentWorkflow + '.json';
+        const content = JSON.stringify(this.workflowService.planModel);
         var eleLink = document.createElement('a');
         eleLink.download = filename;
         eleLink.style.display = 'none';

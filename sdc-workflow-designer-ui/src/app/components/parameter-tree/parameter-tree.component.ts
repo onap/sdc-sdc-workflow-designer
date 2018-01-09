@@ -226,45 +226,6 @@ export class ParameterTreeComponent implements OnChanges {
         return this.isArrayObject(node) || this.isDynamicObject(node);
     }
 
-    // private formatParam(params: any[]): void {
-    //     console.log(params);
-    //     params.forEach(param => this.initParam(param));
-    // }
-
-    // private initParam(treeNode: any, value?: any): void {
-    //   switch (treeNode.type) {
-    //     case 'default':
-    //             if (value) {
-    //                 treeNode.value.value = value[treeNode.label].value;
-    //                 treeNode.value.valueSource = value[treeNode.label].valueSource;
-    //             } else {
-    //                 treeNode.parameter.valueSource = this.defaultValueSource;
-    //             }
-    //             break;
-    //         case 'object':
-    //             for (let index = 0; index < treeNode.children.length; index++) {
-    //                 const param = treeNode.children[index];
-    //                 this.initParam(param, treeNode.parameter.value);
-    //             }
-    //             break;
-    //         case 'array':
-    //             for (let index = 0; index < treeNode.children.length; index++) {
-    //                 const param = treeNode.children[index];
-    //                 this.initParam(param, treeNode.parameter.value);
-    //             }
-    //             break;
-    //         case 'map':
-    //             for (let index = 0; index < treeNode.children.length; index++) {
-    //                 const param = treeNode.children[index];
-    //                 this.initParam(param, treeNode.parameter.value);
-    //             }
-    //             break;
-    //         default:
-    //             console.log('init a unsupport parameter, type is:' + treeNode.type);
-    //             break;
-    //     }
-    // }
-
     private isArrayObject(node: any): boolean {
         return node.type === 'array';
     }

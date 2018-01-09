@@ -37,7 +37,7 @@ export class WorkflowProcessService {
     }
 
     public getProcess(): WorkflowNode[] {
-        return this.workflowService.workflow.nodes;
+        return this.workflowService.planModel.nodes;
     }
 
     public addNode(name: string, type: string, top: number, left: number): WorkflowNode {

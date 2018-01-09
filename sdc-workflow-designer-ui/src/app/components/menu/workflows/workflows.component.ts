@@ -14,7 +14,7 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
 import { WorkflowService } from "../../../services/workflow.service";
-import { Workflow } from "../../../model/workflow/workflow";
+import { PlanModel } from "../../../model/workflow/plan-model";
 
 /**
  * workflows component
@@ -27,18 +27,25 @@ import { Workflow } from "../../../model/workflow/workflow";
 export class WorkflowsComponent {
     @ViewChild('workflowsModal') public workflowsModal: ModalDirective;
 
-    public workflows: Workflow[];
+    public workflows :Map<number, any>;
 
     constructor(private workflowService: WorkflowService) {
     }
 
     public show() {
         this.workflows = this.workflowService.getWorkflows();
+        // this.workflowService.getWorkflows().forEach((value, key, map) => {
+        //     this.workflows.push({
+        //         "planName": value.planName,
+        //         "planId": key
+        //     });
+        // });;
+
         this.workflowsModal.show();
     }
 
-    public deleteWorkflow(workflow: Workflow) {
-        this.workflowService.deleteWorkflow(workflow.name);
+    public deleteWorkflow(planId: number) {
+        this.workflowService.deleteWorkflow(planId);
     }
 
     public addWorkflow() {
