@@ -27,7 +27,7 @@ export class BroadcastService {
     public jsPlumbInstance = new Subject<any>();
     public jsPlumbInstance$ = this.jsPlumbInstance.asObservable();
 
-    public workflows = new Subject<PlanModel[]>();
+    public workflows = new Subject<Map<number, any>>();
     public workflows$ = this.workflows.asObservable();
 
     public workflow = new Subject<PlanModel>();

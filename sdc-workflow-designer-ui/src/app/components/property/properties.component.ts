@@ -16,7 +16,7 @@ import { WorkflowNode } from '../../model/workflow/workflow-node';
 import { BroadcastService } from '../../services/broadcast.service';
 import { JsPlumbService } from '../../services/jsplumb.service';
 import { PlanTreeviewItem } from "../../model/plan-treeview-item";
-import { WorkflowProcessService } from "../../services/workflow-process.service";
+import { ModelService } from "../../services/model.service";
 
 /**
  * property component presents information of a workflow node.
@@ -36,7 +36,7 @@ export class PropertiesComponent implements AfterViewInit {
 
     constructor(private broadcastService: BroadcastService,
                 private jsPlumnService: JsPlumbService,
-                private processService: WorkflowProcessService) {
+                private processService: ModelService) {
 
     }
 

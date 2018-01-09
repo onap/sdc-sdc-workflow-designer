@@ -24,7 +24,7 @@ tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="tru
         <div class="modal-body">
             <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-center"
-                        *ngFor="let key of workflows.keys()">
+                        *ngFor="let key of workflows?.keys()">
                         <div style="width:380px"><input class="form-control" [(ngModel)]="workflows.get(key).planName"></div>
                         <div class="badge badge-danger badge-pill" (click)="deleteWorkflow(key)">
                             <i class="fa fa-minus"></i>

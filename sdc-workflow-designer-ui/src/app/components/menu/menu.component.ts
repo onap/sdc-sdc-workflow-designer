@@ -26,8 +26,19 @@ export class MenuComponent {
     @ViewChild(MicroserviceComponent) public microserviceComponent: MicroserviceComponent;
     @ViewChild(WorkflowsComponent) public workflowsComponent: WorkflowsComponent;
     public currentWorkflow = 'Workflows';
+    public workflows = [];
 
     constructor(private broadcastService: BroadcastService, private workflowService: WorkflowService) {
+        this.broadcastService.workflows.subscribe(wfs => {
+            this.workflows.splice(0, this.workflows.length);
+            if(wfs) {
+                wfs.forEach((value, key, map) => {
+                    this.workflows.push({label: value.planName, command: () => {
+                        this.workflowSelected(value.planName, value.plan);
+                    }});
+                });
+            }
+        });
     }
 
     public save(): void {
@@ -45,7 +56,7 @@ export class MenuComponent {
         this.workflowsComponent.show();
     }
 
-    public getWorkflows(planId: number) {
+    public getWorkflows() {
         const workflows = this.workflowService.getWorkflows();
         if(workflows) {
             const options = [];

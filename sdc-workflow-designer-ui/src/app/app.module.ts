@@ -43,12 +43,12 @@ import { RestTaskParametersComponent } from "./components/property/rest-task/res
 import { ParameterTreeComponent } from "./components/parameter-tree/parameter-tree.component";
 import { EditablePropertyComponent } from "./components/editable-property/editable-property.component";
 import { SwaggerTreeConverterService } from "./services/swagger-tree-converter.service";
-import { WorkflowProcessService } from "./services/workflow-process.service";
 import { IntermediateCatchEventComponent } from "./components/property/intermediate-catch-event/intermediate-catch-event.component";
 import { SequenceFlowComponent } from "./components/sequence-flow/sequence-flow.component";
 import { ScriptTaskComponent } from "./components/property/script-task/script-task.component";
 import { DragSelectDirective } from "./directive/drag-select/drag-select.directive";
 import { WorkflowsComponent } from "./components/menu/workflows/workflows.component";
+import { ModelService } from './services/model.service';
 
 @NgModule({
     declarations: [
@@ -98,7 +98,7 @@ import { WorkflowsComponent } from "./components/menu/workflows/workflows.compon
         JsPlumbService,
         SwaggerTreeConverterService,
         WorkflowConfigService,
-        WorkflowProcessService,
+        ModelService,
         WorkflowService
     ],
     bootstrap: [AppComponent]

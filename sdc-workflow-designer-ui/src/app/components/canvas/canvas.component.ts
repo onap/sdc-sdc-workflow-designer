@@ -18,7 +18,7 @@ import { ActivatedRoute } from "@angular/router";
 import { DataAccessService } from "../../services/data-access/data-access.service";
 import { WorkflowService } from "../../services/workflow.service";
 import { PlanModel } from "../../model/workflow/plan-model";
-import { WorkflowProcessService } from "../../services/workflow-process.service";
+import { ModelService } from "../../services/model.service";
 import { SequenceFlow } from "../../model/workflow/sequence-flow";
 import { WorkflowNode } from "../../model/workflow/workflow-node";
 
@@ -42,7 +42,7 @@ export class CanvasComponent implements AfterViewInit {
         private jsPlumbService: JsPlumbService,
         private route: ActivatedRoute,
         private workflowService: WorkflowService,
-        private processService: WorkflowProcessService) {
+        private processService: ModelService) {
     }
 
     ngOnInit(): void {
