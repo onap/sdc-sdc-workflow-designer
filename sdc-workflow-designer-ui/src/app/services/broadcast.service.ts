@@ -14,7 +14,7 @@ import { Subject } from 'rxjs/Subject';
 
 import { WorkflowNode } from '../model/workflow/workflow-node';
 import { SequenceFlow } from "../model/workflow/sequence-flow";
-import { Workflow } from "../model/workflow/workflow";
+import { PlanModel } from "../model/workflow/plan-model";
 
 /**
  * BroadcastService
@@ -27,10 +27,10 @@ export class BroadcastService {
     public jsPlumbInstance = new Subject<any>();
     public jsPlumbInstance$ = this.jsPlumbInstance.asObservable();
 
-    public workflows = new Subject<Workflow[]>();
+    public workflows = new Subject<PlanModel[]>();
     public workflows$ = this.workflows.asObservable();
 
-    public workflow = new Subject<Workflow>();
+    public workflow = new Subject<PlanModel>();
     public workflow$ = this.workflow.asObservable();
 
     public showProperty = new Subject<boolean>();

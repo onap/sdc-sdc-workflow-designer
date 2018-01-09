@@ -26,7 +26,7 @@ export class WorkflowConfigService {
     constructor(private httpService: HttpService, private workflowService: WorkflowService) {}
 
     public getMicroservices(): Microservice[] {
-        return this.workflowService.workflow.configs.microservices;
+        return this.workflowService.planModel.configs.microservices;
     }
 
     public loadDynamicInfo(url: string): Observable<any> {

@@ -15,8 +15,9 @@ import { WorkflowNode } from "./workflow-node";
 import { Configs } from "./configs";
 
 /**
- * Workflow
+ * PlanModel
  */
-export class Workflow {
-    constructor(public id: string, public name: string, public nodes: WorkflowNode[], public configs: Configs) {}
+export class PlanModel {
+    public nodes: WorkflowNode[] = [];
+    public configs: any = {};
 }

@@ -15,7 +15,7 @@ import { CatalogService } from "./catalog.service";
 import { Observable } from "rxjs/Observable";
 import { WorkflowNode } from "../../model/workflow/workflow-node";
 import { HttpService } from "../../util/http.service";
-import { Workflow } from "../../model/workflow/workflow";
+import { PlanModel } from "../../model/workflow/plan-model";
 
 /**
  * SdcService
@@ -28,21 +28,21 @@ export class SdcService extends CatalogService {
         super(httpService);
     }
 
-    public loadWorkflows(): Observable<Workflow[]> {
+    public loadWorkflows(): Observable<Map<string, PlanModel>> {
         // TODO load data from sdc
         const url = 'api/workflows';
         return this.httpService.get(url).map(response => response.data);
     }
 
-    public loadWorkflow(workflowId: string): Observable<Workflow> {
+    public loadWorkflow(workflowId: string): Observable<PlanModel> {
         // TODO load data from sdc
         const url = `api/workflows/${workflowId}`;
-        return this.httpService.get(url).map(response => response.data as Workflow);
+        return this.httpService.get(url).map(response => response.data as PlanModel);
     }
 
-    public saveWorkflow(workflow: Workflow): Observable<boolean> {
+    public saveWorkflow(name: string, workflow: PlanModel): Observable<boolean> {
         // TODO save workflow design to sdc
-        const url = `api/workflows/${workflow.id}`;
+        const url = `api/workflows/${name}`;
         return this.httpService.put(url, JSON.stringify(workflow)).map(() => true);
     }
 

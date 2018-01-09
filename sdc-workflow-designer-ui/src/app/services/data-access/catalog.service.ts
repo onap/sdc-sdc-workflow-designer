@@ -14,7 +14,7 @@ import { Injectable } from '@angular/core';
 import { WorkflowNode } from "../../model/workflow/workflow-node";
 import { Observable } from "rxjs/Observable";
 import { HttpService } from "../../util/http.service";
-import { Workflow } from "../../model/workflow/workflow";
+import { PlanModel } from "../../model/workflow/plan-model";
 
 /**
  * CatalogService
@@ -25,8 +25,8 @@ export abstract class CatalogService {
 
     constructor(protected httpService: HttpService) {}
 
-    public abstract loadWorkflow(workflowId: string): Observable<Workflow>;
-    public abstract loadWorkflows(): Observable<Workflow[]>;
+    public abstract loadWorkflow(workflowId: string): Observable<PlanModel>;
+    public abstract loadWorkflows(): Observable<Map<string, PlanModel>>;
 
-    public abstract saveWorkflow(workflow: Workflow): Observable<boolean>;
+    public abstract saveWorkflow(name: string, workflow: PlanModel): Observable<boolean>;
 }

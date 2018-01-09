@@ -30,7 +30,7 @@ import { ScriptTask } from "../model/workflow/script-task";
  * provides all of the operations about workflow operations.
  */
 @Injectable()
-export class WorkflowProcessService {
+export class ModelService {
 
     constructor(private workflowService: WorkflowService, private configService: WorkflowConfigService) {
 
