@@ -13,7 +13,7 @@
 -->
 
 <div class="btn-left">
-    <p-splitButton [label]="currentWorkflow" icon="fa-arrows" (onClick)="showWorkflows()" [model]="getWorkflows()"></p-splitButton>
+    <p-splitButton [label]="getCurrentPlanName()" icon="fa-arrows" (onClick)="showWorkflows()" [model]="workflows"></p-splitButton>
 </div>
 <div class="btn-right">
     <button type="button" class="btn white" (click)="save()">

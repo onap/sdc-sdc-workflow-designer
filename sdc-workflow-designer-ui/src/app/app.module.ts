@@ -40,8 +40,6 @@ import { MicroserviceListComponent } from "./components/menu/microservice/micros
 import { ModalModule } from "ngx-bootstrap/modal";
 import { WorkflowConfigService } from "./services/workflow-config.service";
 import { RestTaskComponent } from "./components/property/rest-task/rest-task.component";
-import { RestTaskParametersComponent } from "./components/property/rest-task/rest-task-parameters/rest-task-parameters.component";
-import { ParameterTreeComponent } from "./components/parameter-tree/parameter-tree.component";
 import { EditablePropertyComponent } from "./components/editable-property/editable-property.component";
 import { SwaggerTreeConverterService } from "./services/swagger-tree-converter.service";
 import { IntermediateCatchEventComponent } from "./components/property/intermediate-catch-event/intermediate-catch-event.component";
@@ -52,6 +50,9 @@ import { ModelService } from './services/model.service';
 import { ContainerComponent } from './components/container/container.component';
 import { RestService } from './services/rest.service';
 import { ResizableDirective } from './directive/resizeable/resizable.directive';
+import { StartEventComponent } from './components/property/start-event/start-event.component';
+import { NodeParametersComponent } from './components/node-parameters/node-parameters.component';
+import { ParameterTreeComponent } from './components/node-parameters/parameter-tree/parameter-tree.component';
 
 @NgModule({
     declarations: [
@@ -65,12 +66,13 @@ import { ResizableDirective } from './directive/resizeable/resizable.directive';
         MicroserviceDetailComponent,
         MicroserviceListComponent,
         NodeComponent,
+        NodeParametersComponent,
         ParameterComponent,
         ParameterTreeComponent,
         PropertiesComponent,
         RestTaskComponent,
-        RestTaskParametersComponent,
         ScriptTaskComponent,
+        StartEventComponent,
         SequenceFlowComponent,
         StartEventParametersComponent,
         ToolbarComponent,

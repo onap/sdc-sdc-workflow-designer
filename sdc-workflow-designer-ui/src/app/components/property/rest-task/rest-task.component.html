@@ -15,9 +15,8 @@
 <div class="form-group row">
 	<label class="col-md-3 form-control-label text-md-right">Service</label>
 	<div class="col-md-9">
-		<select class="form-control" [ngModel]="selectedMicroservice"
-				(ngModelChange)="serviceChanged($event)">
-			<option *ngFor="let microservice of microservices" [ngValue]=microservice>{{getText4Microservice(microservice)}}</option>
+		<select class="form-control" [ngModel]="node.restConfigId" (ngModelChange)="serviceChanged($event)">
+			<option *ngFor="let restConfig of restService.getRestConfigs()" value="{{restConfig.id}}">{{restConfig.id}}</option>
 		</select>
 	</div>
 </div>
@@ -25,8 +24,7 @@
 <div class="form-group row">
 	<label class="col-md-3 form-control-label text-md-right">Path</label>
 	<div class="col-md-9">
-		<select class="form-control" [ngModel]="node.url"
-				(ngModelChange)="urlChanged($event)">
+		<select class="form-control" [ngModel]="node.path" (ngModelChange)="pathChanged($event)">
 			<option *ngFor="let interface of restInterfaces" value="{{interface}}">{{interface}}</option>
 		</select>
 	</div>
@@ -35,8 +33,7 @@
 <div class="form-group row">
 	<label class="col-md-3 form-control-label text-md-right">Method</label>
 	<div class="col-md-9">
-		<select class="form-control" [ngModel]="node.method"
-				(ngModelChange)="methodChanged($event)">
+		<select class="form-control" [ngModel]="node.method" (ngModelChange)="methodChanged($event)">
 			<option *ngFor="let operation of restOperations" value="{{operation}}">{{operation}}</option>
 		</select>
 	</div>
@@ -44,5 +41,5 @@
 <hr>
 
 <div class="ui-fluid">
-    <b4t-rest-task-parameters [task]="node" [planItems]="planItems"></b4t-rest-task-parameters>
+	<b4t-node-parameters [restConfigId]="this.node.restConfigId" [swaggerInput]="this.node.parameters" [swaggerOutput]="this.node.responses" [planItems]="planItems"></b4t-node-parameters>
 </div>

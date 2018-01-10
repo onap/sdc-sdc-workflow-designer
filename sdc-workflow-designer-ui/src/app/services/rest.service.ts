@@ -30,6 +30,11 @@ export class RestService {
     private msbPublishServiceURL = '/api/msdiscover/v1/publishservicelist';
 
     constructor(private broadcastService: BroadcastService, private http: Http) {
+        this.broadcastService.planModel$.subscribe(planModel => {
+            planModel.configs.restConfigs.forEach(element => {
+                this.restConfigs.push(element);
+            });
+        });
         // this.initSwaggerInfoByMSB();
     }
 

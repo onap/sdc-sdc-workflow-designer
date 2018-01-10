@@ -71,6 +71,8 @@ export class RestTaskComponent implements OnInit {
                     this.restInterfaces.push(key);
                 }
                 this.loadOperations();
+            } else {
+                console.log('swagger not exist');
             }
         }
     }

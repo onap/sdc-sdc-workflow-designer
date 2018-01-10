@@ -9,6 +9,30 @@
  * Contributors:
  *     ZTE - initial API and implementation and/or initial documentation
  */
-.ui-treenode-label {
-    width: calc(100% - 32px) !important;
+ .form-control-label{
+    margin-bottom: 0;
+    width: 100px;
+    vertical-align: middle;
+}
+
+.parameter-item{
+    display: inline;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+.form-control-required{
+    color: red;
+    height: 30px;
+    line-height: 30px;
+}
+
+.form-control-input{
+    width: 120px;
+    vertical-align: middle;
+}
+
+.form-control-value{
+    width: 160px;
+    display: inline-block;
 }

@@ -25,7 +25,7 @@ import { PlanModel } from "../../model/workflow/plan-model";
 export class MenusComponent {
     @ViewChild(MicroserviceComponent) public microserviceComponent: MicroserviceComponent;
     @ViewChild(WorkflowsComponent) public workflowsComponent: WorkflowsComponent;
-    public currentWorkflow = 'Workflows';
+    public currentWorkflowId : number;
     public workflows = [];
 
     constructor(private broadcastService: BroadcastService, private workflowService: WorkflowService) {
@@ -34,7 +34,7 @@ export class MenusComponent {
             if(wfs) {
                 wfs.forEach((value, key, map) => {
                     this.workflows.push({label: value.planName, command: () => {
-                        this.workflowSelected(value.planName, value.plan);
+                        this.workflowSelected(key, value.plan);
                     }});
                 });
             }
@@ -56,29 +56,19 @@ export class MenusComponent {
         this.workflowsComponent.show();
     }
 
-    public getWorkflows() {
-        const workflows = this.workflowService.getWorkflows();
-        if(workflows) {
-            const options = [];
-            workflows.forEach((value, key, map) => {
-                options.push({label: value.planName, command: () => {
-                    console.log(`${value.planName} selected`);
-                    this.workflowSelected(value.planName, value.plan);
-                }});
-            });
-            return options;
-        } else {
-            return [];
-        }
+    public workflowSelected(planId: number, planModel: PlanModel) {
+
+        this.broadcastService.broadcast(this.broadcastService.planModel, planModel);
+        this.broadcastService.broadcast(this.broadcastService.planId, planId);
     }
 
-    public workflowSelected(planName: string, workflow: PlanModel) {
-        this.currentWorkflow = planName;
-        this.broadcastService.broadcast(this.broadcastService.planModel, workflow);
+    public getCurrentPlanName() {
+        let planName = this.workflowService.getPlanName(this.currentWorkflowId);
+        return planName ? planName : 'Workflows'
     }
 
     public download() {
-        const filename = this.currentWorkflow + '.json';
+        const filename = this.getCurrentPlanName() + '.json';
         const content = JSON.stringify(this.workflowService.planModel);
         var eleLink = document.createElement('a');
         eleLink.download = filename;

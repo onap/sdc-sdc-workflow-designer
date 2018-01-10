@@ -32,10 +32,13 @@ export class BroadcastService {
     public workflows = new Subject<Map<number, any>>();
     public workflows$ = this.workflows.asObservable();
 
+    public planId = new Subject<number>();
+    public planId$ = this.planId.asObservable();
+
     public planModel = new Subject<PlanModel>();
     public planModel$ = this.planModel.asObservable();
 
-    public showProperty = new Subject<boolean>();
+    public showProperty = new Subject<WorkflowElement>();
     public showProperty$ = this.showProperty.asObservable();
 
     public updateModelRestConfig = new Subject<RestConfig[]>();

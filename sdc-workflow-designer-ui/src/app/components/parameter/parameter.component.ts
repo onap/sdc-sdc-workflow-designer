@@ -10,12 +10,11 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
+import { PlanTreeviewItem } from '../../model/plan-treeview-item';
 import { ValueSource } from '../../model/value-source.enum';
 import { Parameter } from '../../model/workflow/parameter';
-import { DataAccessService } from "../../services/data-access/data-access.service";
-import { PlanTreeviewItem } from "../../model/plan-treeview-item";
 
 /**
  * this component contains in property component if the corresponding node has parameter properties
@@ -23,41 +22,53 @@ import { PlanTreeviewItem } from "../../model/plan-treeview-item";
  */
 @Component({
     selector: 'b4t-parameter',
+    styleUrls: ['./parameter.component.css'],
     templateUrl: 'parameter.component.html',
 })
-export class ParameterComponent implements OnInit {
+export class ParameterComponent implements OnChanges, OnInit {
     @Input() public param: Parameter;
     @Input() public valueSource: ValueSource[];
     @Input() public canEditName: boolean;
     @Input() public showLabel = true;
+    @Input() public canInsert: boolean;
     @Input() public canDelete: boolean;
     @Input() public planItems: PlanTreeviewItem[];
     @Output() public paramChange = new EventEmitter<Parameter>();
+    @Output() insert: EventEmitter<Parameter> = new EventEmitter<Parameter>();
     @Output() delete: EventEmitter<Parameter> = new EventEmitter<Parameter>();
 
     public sourceEnum = ValueSource;
     public valueGroupClass;
     public valueClass;
-    public showValueSource: boolean = true;
-    public planValue: any = {};
+    public valueSourceClass;
     public planOptions = [];
+    public topologyOptions: { name: string, value: string }[] = [];
+    public showValue = true;
+    public showValueSource = true;
+    public planValue: any = {};
 
-    constructor(private dataAccessService: DataAccessService) { }
+    constructor() { }
+
+    public ngOnChanges(changes: SimpleChanges): void {
+        // if (changes.canInsert && !changes.canInsert.isFirstChange()) {
+        //     this.resetValueGroupClass(changes.canInsert.currentValue, this.canDelete);
+        // }
+        // if (changes.canDelete && !changes.canDelete.isFirstChange()) {
+        //     this.resetValueGroupClass(this.canInsert, changes.canDelete.currentValue);
+        // }
+    }
 
     public ngOnInit(): void {
+        // console.warn('Parameter OnInit, parameter name is:' + this.param.name);
         if (1 === this.valueSource.length) {
             this.showValueSource = false;
         }
-        this.valueClass = {
-            'col-md-8': this.showValueSource,
-            'col-md-12': !this.showValueSource
-        };
-
-        this.valueGroupClass = {
-            'col-md-7': this.canDelete,
-            'col-md-9': !this.canDelete
-        };
-
+        // this.valueClass = {
+        //     'col-md-7': this.showValueSource,
+        //     'col-md-12': !this.showValueSource
+        // };
+        // this.resetValueGroupClass(this.canInsert, this.canDelete);
+        this.updateValueSource(this.param.valueSource);
         // trans plan options to tree view items.
         this.initPlanTreeviewItems(this.planItems);
         if (ValueSource[ValueSource.Plan] === this.param.valueSource) {
@@ -65,27 +76,55 @@ export class ParameterComponent implements OnInit {
         }
     }
 
-    public deleteParam(): void {
-        this.delete.emit();
-    }
-
-    public valueSourceChange(valueSource: string) {
-        this.param.valueSource = valueSource;
-        this.valueChange(null);
+    public keyChange(key: string) {
+        this.param.name = key;
+        this.paramChange.emit(this.param);
     }
 
     public valueChange(value: any) {
         if (ValueSource[ValueSource.Plan] === this.param.valueSource) {
-            if (value !== null && 'object' === typeof (value)) {
+            if ('object' === typeof (value)) {
                 this.planValue = value;
+                this.param.value = value.id;
             } else {
-                this.planValue = {};
+                this.planValue = { id: '' };
+                this.param.value = '';
             }
-            this.param.value = this.planValue.id;
         } else {
             this.param.value = value;
         }
         this.paramChange.emit(this.param);
+    }
+
+    public valueSourceChange(valueSource: string) {
+        this.updateValueSource(valueSource);
+        this.param.valueSource = valueSource;
+        this.valueChange('');
+    }
+
+    public insertParam(): void {
+        this.insert.emit();
+    }
+
+    public deleteParam(): void {
+        this.delete.emit();
+    }
+
+    private updateValueSource(valueSource: string):void{
+        if(ValueSource[ValueSource.Definition] === valueSource){
+            this.showValue = false;
+        }else{
+            this.showValue = true;
+        }
+        // this.resetValueSourceClass(this.showValue);
+    }
+
+    private resetValueGroupClass(canInsert: boolean, canDelete: boolean): void {
+        // this.valueGroupClass = {
+        //     'col-md-5': canInsert && canDelete,
+        //     'col-md-7': (canInsert && !canDelete) || (!canInsert && canDelete),
+        //     'col-md-9': !canInsert && !canDelete
+        // };
     }
 
     private initPlanTreeviewItems(planTreeviewItems: PlanTreeviewItem[]): void {
@@ -110,5 +149,4 @@ export class ParameterComponent implements OnInit {
         });
         return treeviewItems;
     }
-
 }

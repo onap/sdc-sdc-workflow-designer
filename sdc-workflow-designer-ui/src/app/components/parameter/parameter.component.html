@@ -12,29 +12,37 @@
  */
 -->
 
-<div class="form-group row">
-    <div *ngIf="showLabel" class="col-md-3 text-md-right">
-        <input *ngIf="canEditName" class="form-control" type="text" [(ngModel)]="param.name">
+<div class="form-group">
+    <div *ngIf="showLabel" class="parameter-item" style="margin:0;">
+        <label *ngIf="true === param.required" class="form-control-required">*</label>
+        <input *ngIf="canEditName" class="form-control form-control-input" type="text" [ngModel]="param.name" (ngModelChange)="keyChange($event)">
         <label *ngIf="!canEditName" class="form-control-label">{{param.name}}</label>
     </div>
-    <div [ngClass]="valueGroupClass">
-        <div [ngSwitch]="param.valueSource">
-            <input *ngSwitchCase="sourceEnum[sourceEnum.String]" [ngClass]="valueClass" class="form-control"
-                type="text" [ngModel]="param.value" (ngModelChange)="valueChange($event)">
-            <input *ngSwitchCase="sourceEnum[sourceEnum.Variable]" [ngClass]="valueClass" class="form-control"
-                type="text" [ngModel]="param.value" (ngModelChange)="valueChange($event)">
-            <!-- TODO add plan and Top parameters -->
-            <tree-select *ngSwitchCase="sourceEnum[sourceEnum.Plan]" name="simpleSelect" [items]="planOptions"
-                childrenField="children" #simpleSelect="ngModel" [ngClass]="valueClass" class="tree-select-class"
-                [ngModel]="planValue" (ngModelChange)="valueChange($event)"></tree-select>
+    <div class="parameter-item">
+        <div *ngIf="showValue" [ngSwitch]="param.valueSource" class="parameter-item">
+            <input *ngSwitchCase="sourceEnum[sourceEnum.String]" class="form-control form-control-value" type="text" [ngModel]="param.value"
+                (ngModelChange)="valueChange($event)">
+            <input *ngSwitchCase="sourceEnum[sourceEnum.Variable]" class="form-control form-control-value" type="text" [ngModel]="param.value"
+                (ngModelChange)="valueChange($event)">
+            <tree-select *ngSwitchCase="sourceEnum[sourceEnum.Plan]" name="simpleSelect" style="vertical-align:top;" [items]="planOptions" childrenField="children"
+                #simpleSelect="ngModel" class="form-control-value" [ngModel]="planValue" (ngModelChange)="valueChange($event)"></tree-select>
+            <select *ngSwitchCase="sourceEnum[sourceEnum.Topology]" class="form-control form-control-value" type="text" [ngModel]="param.value"
+                (ngModelChange)="valueChange($event)">
+                <option *ngFor="let topology of topologyOptions" value="{{topology.value}}">{{topology.name}}</option>
+            </select>
         </div>
-        <select *ngIf="showValueSource" class="form-control col-md-4" type="text" [ngModel]="param.valueSource"
+        <select *ngIf="showValueSource" class="form-control parameter-item" style="width:auto;" type="text" [ngModel]="param.valueSource"
             (ngModelChange)="valueSourceChange($event)">
             <option *ngFor="let sourceType of valueSource" value="{{sourceEnum[sourceType]}}">{{sourceEnum[sourceType]}}</option>
         </select>
     </div>
-    <div *ngIf="canDelete" class="col-md-2">
-        <button type="button" class="btn oes-red-bg pull-right" (click)="deleteParam()">
+    <div *ngIf="canInsert" class="parameter-item">
+        <button type="button" class="btn blue1" (click)="insertParam()">
+            <i class="fa fa-plus"></i>
+        </button>
+    </div>
+    <div *ngIf="canDelete" class="parameter-item">
+        <button type="button" class="btn oes-red-bg" (click)="deleteParam()">
             <i class="fa fa-minus"></i>
         </button>
     </div>

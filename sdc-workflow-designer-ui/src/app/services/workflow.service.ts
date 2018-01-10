@@ -50,6 +50,16 @@ export class WorkflowService {
         return this.dataAccessService.catalogService.saveWorkflow(this.planName, this.planModel);
     }
 
+    public getPlanName(planId: number): string {
+        const planInfo = this.workflows.get(planId);
+        return planInfo ? planInfo.planName: null;
+    }
+
+    public getPlanModel(planId: number): PlanModel {
+        const planInfo = this.workflows.get(planId);
+        return planInfo ? planInfo.plan: null;
+    }
+
     public getWorkflows(): Map<number, any> {
 
         return this.workflows;

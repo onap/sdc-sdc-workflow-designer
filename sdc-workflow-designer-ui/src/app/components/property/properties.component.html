@@ -12,7 +12,7 @@
  */
  -->
 
-<div class="wm-properties-wrapper" *ngIf="show">
+ <div class="wm-properties-wrapper" *ngIf="show">
     <div class="form-group row">
         <b4t-editable-property class="col-md-10" [(name)]="node.name"></b4t-editable-property>
         <div class="col-md-2">
@@ -21,19 +21,21 @@
             </button>
         </div>
     </div>
-    <hr>
-
+    <!-- <hr>
     <div class="form-group row">
-        <label class="col-md-2 form-control-label text-md-right" for="nodeType">Type</label>
-        <div class="col-md-10">
-            <input class="form-control" name="nodeType" disabled type="text" value="{{node.type}}"/>
+        <label class="col-md-3 form-control-label text-md-right" for="nodeType">{{'WORKFLOW.NODE_TYPE' | translate}}</label>
+        <div class="col-md-9">
+            <select class="form-control" id="nodeType" [(ngModel)]="node.type">
+                <option *ngFor="let t of nodeTypes" value="{{t}}">{{t}}</option>
+            </select>
         </div>
+    </div> -->
+
+    <hr>
+    <div [ngSwitch]="node.type">
+        <b4t-start-event *ngSwitchCase="nodeType[nodeType.startEvent]" [node]="node"></b4t-start-event>
+        <b4t-rest-task *ngSwitchCase="nodeType[nodeType.restTask]" [node]="node" [planItems]="planTreeviewItems"></b4t-rest-task>
+        <b4t-intermediate-catch-event *ngSwitchCase="nodeType[nodeType.intermediateCatchEvent]" [node]="node"></b4t-intermediate-catch-event>
+        <b4t-script-task *ngSwitchCase="nodeType[nodeType.scriptTask]" [node]="node"></b4t-script-task>
     </div>
-
-    <!-- TODO  add property for different node types -->
-
-    <b4t-start-event-parameters *ngIf="'startEvent' == node.type" [node]="node"></b4t-start-event-parameters>
-    <b4t-rest-task *ngIf="node.type == 'restTask'" [node]="node" [planItems]="planItems"></b4t-rest-task>
-    <b4t-intermediate-catch-event *ngIf="'intermediateCatchEvent' == node.type" [node]="node"></b4t-intermediate-catch-event>
-    <b4t-script-task *ngIf="node.type == 'scriptTask'" [node]="node"></b4t-script-task>
 </div>
