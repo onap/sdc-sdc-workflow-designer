@@ -12,6 +12,6 @@
 import { Parameter } from './parameter';
 import { WorkflowNode } from './workflow-node';
 
-export class StartEvent extends WorkflowNode {
-    public parameters: Parameter[] = [];
+export interface StartEvent extends WorkflowNode {
+    parameters?: Parameter[];
 }

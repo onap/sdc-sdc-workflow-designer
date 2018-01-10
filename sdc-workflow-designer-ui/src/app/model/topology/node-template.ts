@@ -9,9 +9,10 @@
  * Contributors:
  *     ZTE - initial API and implementation and/or initial documentation
  */
-import { WorkflowNode } from './workflow-node';
 
-export interface ScriptTask extends WorkflowNode {
-    scriptFormat: string;
-    script?: string;
+export class NodeTemplate {
+    public id: string;
+    public name: string;
+    public type: string;
+    public namespace: string;
 }

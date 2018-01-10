@@ -14,19 +14,12 @@
 
 <div class="wm-properties-wrapper" *ngIf="show">
     <div class="form-group row">
-        <div *ngIf="!titleEditing" class="view col-md-10" (dblclick)="titleEditing = !titleEditing">
-            <h4>{{node.name}}</h4>
-        </div>
-        <div class="col-md-10" *ngIf="titleEditing">
-            <input class="form-control" (blur)="nodeNameChanged()" type="text" [(ngModel)]="node.name"/>
-        </div>
-
+        <b4t-editable-property class="col-md-10" [(name)]="node.name"></b4t-editable-property>
         <div class="col-md-2">
-            <button (click)="deleteNode()" type="button" class="btn btn-danger">
+            <button (click)="deleteNode()" type="button" class="btn white">
                 <i class="fa fa-trash" style="margin-right: 5px;"></i>
             </button>
         </div>
-
     </div>
     <hr>
 

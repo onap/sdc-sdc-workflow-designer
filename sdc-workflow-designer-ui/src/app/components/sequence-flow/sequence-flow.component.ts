@@ -51,7 +51,7 @@ export class SequenceFlowComponent implements AfterViewInit {
     public delete() {
         this.show = false;
 
-        this.processService.deleteSequenceFlow(this.sequenceFlow.sourceRef, this.sequenceFlow.targetRef);
+        this.processService.deleteConnection(this.sequenceFlow.sourceRef, this.sequenceFlow.targetRef);
         this.jsPlumbService.deleteConnect(this.sequenceFlow.sourceRef, this.sequenceFlow.targetRef);
     }
 }

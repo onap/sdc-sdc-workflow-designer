@@ -10,8 +10,6 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 import { WorkflowNode } from './workflow-node';
-
-export interface ScriptTask extends WorkflowNode {
-    scriptFormat: string;
-    script?: string;
+export interface SubProcess extends WorkflowNode {
+    children?: WorkflowNode[];
 }

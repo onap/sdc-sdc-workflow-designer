@@ -9,9 +9,18 @@
  * Contributors:
  *     ZTE - initial API and implementation and/or initial documentation
  */
-import { WorkflowNode } from './workflow-node';
 
-export interface ScriptTask extends WorkflowNode {
-    scriptFormat: string;
-    script?: string;
+ .edit{
+    font-size: 24px;
+    width: 300px;
+    height: 30px;
+    border: 1px solid #fff;
+}
+
+.edit:hover{
+    border-color: #80bdff;
+}
+
+.edit:focus{
+    border-color: #80bdff;
 }

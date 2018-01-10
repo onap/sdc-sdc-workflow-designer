@@ -12,7 +12,6 @@
 import { TimerEventDefinition, TimerEventDefinitionType } from './timer-event-definition';
 import { WorkflowNode } from './workflow-node';
 
-export class IntermediateCatchEvent extends WorkflowNode {
-    public timerEventDefinition: TimerEventDefinition =
-        new TimerEventDefinition(TimerEventDefinitionType[TimerEventDefinitionType.timeDuration]);
+export interface IntermediateCatchEvent extends WorkflowNode {
+    timerEventDefinition?: TimerEventDefinition;
 }

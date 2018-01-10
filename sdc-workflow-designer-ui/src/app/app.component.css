@@ -9,19 +9,86 @@
  * Contributors:
  *     ZTE - initial API and implementation and/or initial documentation
  */
- .main-content-wrapper{
+ .loading-div{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+}
+
+.loading-div div{
+    position: relative;
+    top: calc(50% - 36px);
+    left: calc(50% - 36px);
+}
+
+.loading-div div:not(:required) {
+    -moz-animation: three-quarters-loader 1.5s infinite linear;
+    -webkit-animation: three-quarters-loader 1.5s infinite linear;
+    animation: three-quarters-loader 1.5s infinite linear;
+    box-sizing: border-box;
+    display: inline-block;
+    overflow: hidden;
+    text-indent: -9999px;
+    border: 5px solid #1dadfc;
+    border-right-color: transparent;
+    border-radius: 36px;
+    width: 72px;
+    height: 72px;
+}
+
+@-moz-keyframes three-quarters-loader {
+    0% {
+        -moz-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+    to {
+        -moz-transform: rotate(1turn);
+        transform: rotate(1turn)
+    }
+}
+
+@-webkit-keyframes three-quarters-loader {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+    to {
+        -webkit-transform: rotate(1turn);
+        transform: rotate(1turn)
+    }
+}
+
+@keyframes three-quarters-loader {
+    0% {
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg)
+    }
+    to {
+        -moz-transform: rotate(1turn);
+        -ms-transform: rotate(1turn);
+        -webkit-transform: rotate(1turn);
+        transform: rotate(1turn)
+    }
+}
+
+.main-content-wrapper{
     height: 100%;
     background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMTEgMTEiPjxkZWZzPjxzdHlsZT4uY2xzLTF7aXNvbGF0aW9uOmlzb2xhdGU7fS5jbHMtMntmaWxsOiNmYWZiZmQ7fS5jbHMtM3tmaWxsOiNlY2VkZWY7ZmlsbC1ydWxlOmV2ZW5vZGQ7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5iYWNrZ3JvdW5kLWltYWdlc192MjwvdGl0bGU+PGc+PGltYWdlIHdpZHRoPSIxMSIgaGVpZ2h0PSIxMSIgeGxpbms6aHJlZj0iZGF0YTppbWFnZS9wbmc7YmFzZTY0LGlWQk9SdzBLR2dvQUFBQU5TVWhFVWdBQUFBc0FBQUFMQ0FJQUFBQW16dUJ4QUFBQUNYQklXWE1BQUFzU0FBQUxFZ0hTM1g3OEFBQUFFMGxFUVZRWVYyUDRUd2d3RUZJd3FvSmtGUUF3eFdtbDRtUGRyd0FBQUFCSlJVNUVya0pnZ2c9PSIvPjwvZz48ZyBpZD0i55+p5b2iXzEiIGRhdGEtbmFtZT0i55+p5b2iIDEiIGNsYXNzPSJjbHMtMSI+PGcgaWQ9IuefqeW9ol8xLTIiIGRhdGEtbmFtZT0i55+p5b2iIDEiPjxyZWN0IGNsYXNzPSJjbHMtMiIgd2lkdGg9IjExIiBoZWlnaHQ9IjExIi8+PC9nPjwvZz48ZyBjbGFzcz0iY2xzLTEiPjxnPjxwb2x5Z29uIGNsYXNzPSJjbHMtMyIgcG9pbnRzPSIxMCAwIDEwIDEwIDAgMTAgMCAxMSAxMCAxMSAxMC45MiAxMSAxMC45MiAwIDEwIDAiLz48L2c+PC9nPjwvc3ZnPg==);
     background-size: 11px;
 }
 
-.toolbar{
+.tool-bar{
     position: fixed;
     top: 0px;
     left: 0px;
     width: 200px;
     height: 100%;
     background-color: white;
+    overflow-y: auto;
 }
 
 .design-area{
@@ -32,7 +99,7 @@
     padding: 20px;
 }
 
-.design-menu{
+.design-menus{
     display: block;
     height: 30px;
     margin-bottom: 10px;

@@ -22,6 +22,7 @@ import { SwaggerTreeConverterService } from '../../services/swagger-tree-convert
 import { WorkflowUtil } from '../../util/workflow-util';
 import { Swagger } from "../../model/swagger";
 import { WorkflowConfigService } from "../../services/workflow-config.service";
+import { RestService } from '../../services/rest.service';
 
 /**
  * parameter tree presents parameter of task node's input and output parameters.
@@ -37,8 +38,9 @@ export class ParameterTreeComponent implements OnChanges {
     @Input() public defaultValueSource: string;
     @Input() public valueSource: ValueSource[];
     @Input() public planItems: PlanTreeviewItem[];
+    @Input() public restConfigId: string;
 
-    constructor(private restService: WorkflowConfigService, private swaggerTreeConverterService: SwaggerTreeConverterService) { }
+    constructor(private restService: RestService, private swaggerTreeConverterService: SwaggerTreeConverterService) { }
 
     public ngOnChanges(changes: SimpleChanges) {
         // const changeParameters = changes['parameters'];
@@ -81,7 +83,7 @@ export class ParameterTreeComponent implements OnChanges {
     }
 
     private getSwagger(): Swagger {
-      return this.restService.getSwaggerInfo(this.task.serviceName, this.task.serviceVersion);
+        return this.restService.getSwaggerInfo(this.restConfigId);
     }
 
     public getKeyParameter(node: any) {

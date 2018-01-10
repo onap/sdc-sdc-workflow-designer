@@ -9,9 +9,14 @@
  * Contributors:
  *     ZTE - initial API and implementation and/or initial documentation
  */
+import { NodeTemplate } from '../topology/node-template';
+import { Parameter } from './parameter';
 import { WorkflowNode } from './workflow-node';
 
-export interface ScriptTask extends WorkflowNode {
-    scriptFormat: string;
-    script?: string;
+export interface ToscaNodeTask extends WorkflowNode {
+    input?: Parameter[];
+    output?: Parameter[];
+    nodeInterface?: string;
+    operation?: string;
+    template?: NodeTemplate;
 }

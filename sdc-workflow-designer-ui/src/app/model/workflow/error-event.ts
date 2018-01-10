@@ -9,9 +9,10 @@
  * Contributors:
  *     ZTE - initial API and implementation and/or initial documentation
  */
+import { ValueSource } from '../value-source.enum';
+import { Parameter } from './parameter';
 import { WorkflowNode } from './workflow-node';
 
-export interface ScriptTask extends WorkflowNode {
-    scriptFormat: string;
-    script?: string;
+export interface ErrorEvent extends WorkflowNode {
+    parameter?: Parameter;
 }

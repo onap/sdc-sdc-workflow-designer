@@ -11,6 +11,12 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 -->
-<div id="canvas" class="canvas" (click)="canvasClick()" b4tDragSelect>
-    <b4t-node *ngFor="let node of getWorkflow()?.nodes; let last = last;" [node]="node" [last]="last"></b4t-node>
+
+<div #mainContainer id="canvas" class="canvas" (mousedown)="canvasMouseDown($event)">
+    <div id="node-selector" #nodeSelector></div>
+    <b4t-node *ngFor="let node of modelService.getNodes()" [node]="node" [rank]="10"></b4t-node>
 </div>
+
+<b4t-properties></b4t-properties>
+
+<b4t-sequence-flow></b4t-sequence-flow>

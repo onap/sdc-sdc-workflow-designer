@@ -9,9 +9,9 @@
  * Contributors:
  *     ZTE - initial API and implementation and/or initial documentation
  */
-import { WorkflowNode } from './workflow-node';
+import { Swagger } from './swagger';
 
-export interface ScriptTask extends WorkflowNode {
-    scriptFormat: string;
-    script?: string;
+export class RestConfig {
+    constructor(public id: string, public name: string, public version: string, public url: string,
+        public swagger?: Swagger) { }
 }

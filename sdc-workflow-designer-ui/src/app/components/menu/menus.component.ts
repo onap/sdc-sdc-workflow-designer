@@ -18,11 +18,11 @@ import { BroadcastService } from "../../services/broadcast.service";
 import { PlanModel } from "../../model/workflow/plan-model";
 
 @Component({
-    selector: 'b4t-menu',
-    templateUrl: './menu.component.html',
-    styleUrls: ['./menu.component.css']
+    selector: 'menus',
+    templateUrl: './menus.component.html',
+    styleUrls: ['./menus.component.css']
 })
-export class MenuComponent {
+export class MenusComponent {
     @ViewChild(MicroserviceComponent) public microserviceComponent: MicroserviceComponent;
     @ViewChild(WorkflowsComponent) public workflowsComponent: WorkflowsComponent;
     public currentWorkflow = 'Workflows';
@@ -62,6 +62,7 @@ export class MenuComponent {
             const options = [];
             workflows.forEach((value, key, map) => {
                 options.push({label: value.planName, command: () => {
+                    console.log(`${value.planName} selected`);
                     this.workflowSelected(value.planName, value.plan);
                 }});
             });
@@ -73,7 +74,7 @@ export class MenuComponent {
 
     public workflowSelected(planName: string, workflow: PlanModel) {
         this.currentWorkflow = planName;
-        this.broadcastService.broadcast(this.broadcastService.workflow, workflow);
+        this.broadcastService.broadcast(this.broadcastService.planModel, workflow);
     }
 
     public download() {

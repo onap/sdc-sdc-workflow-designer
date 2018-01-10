@@ -1,25 +1,5 @@
-<!--
-/**
- * Copyright (c) 2017 ZTE Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * and the Apache License 2.0 which both accompany this distribution,
- * and are available at http://www.eclipse.org/legal/epl-v10.html
- * and http://www.apache.org/licenses/LICENSE-2.0
- *
- * Contributors:
- *     ZTE - initial API and implementation and/or initial documentation
- */
- -->
-<span *ngIf="!isEditing()">
-    <span (dblclick)="startEdit()">{{parameter.value}}</span>
-    <i class="fa fa-edit" (click)="startEdit()"></i>
-</span>
-<span class="row" *ngIf="isEditing()">
-    <span class="col-sm-10">
-        <b4t-parameter [param]="parameter" [showLabel]="showLabel" [valueSource]= "valueSource" [planItems]="planItems"></b4t-parameter>
-    </span>
-    <span class="col-sm-2">
-        <i class="fa fa-check" (click)="completeEdit()"></i>
-    </span>
-</span>
+<input class="edit pull-left" [ngModel]="name" (ngModelChange)="change($event)" (click)="startEdit()" (blur)="stopEdit()"
+(mouseover)="showEditComponent(true)" (mouseout)="showEditComponent(false)">
+<button *ngIf="showEdit" type="button" class="btn blue1 pull-left" (click)="stopEdit();">
+<i class="fa fa-check"></i>
+</button>

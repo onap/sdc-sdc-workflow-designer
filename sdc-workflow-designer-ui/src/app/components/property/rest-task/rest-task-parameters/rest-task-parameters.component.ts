@@ -21,6 +21,7 @@ import { ValueSource } from "../../../../model/value-source.enum";
 import { SwaggerTreeConverterService } from "../../../../services/swagger-tree-converter.service";
 import { PlanTreeviewItem } from "../../../../model/plan-treeview-item";
 import { WorkflowConfigService } from "../../../../services/workflow-config.service";
+import { RestService } from '../../../../services/rest.service';
 
 /**
  * property component presents information of a workflow node.
@@ -44,7 +45,7 @@ export class RestTaskParametersComponent implements OnInit {
     private index = 1;
 
     constructor(private broadcastService: BroadcastService,
-        private workflowConfigService: WorkflowConfigService,
+        private restService: RestService,
         private swaggerTreeConverterService: SwaggerTreeConverterService) {
     }
 
@@ -62,7 +63,7 @@ export class RestTaskParametersComponent implements OnInit {
         this.task.parameters.forEach(param => {
             if (param.position === 'body') {
                 const requestTreeNode = this.swaggerTreeConverterService
-                    .schema2TreeNode(this.workflowConfigService.getSwaggerInfo(this.task.serviceName, this.task.serviceVersion), 'Request Param', param.schema, param.value);
+                    .schema2TreeNode(this.restService.getSwaggerInfo(this.task.restConfigId), 'Request Param', param.schema, param.value);
                 param.value = requestTreeNode.value;
                 param.value = param.schema.value;
                 this.bodyParameter.push(requestTreeNode);

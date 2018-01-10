@@ -10,10 +10,10 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, OnInit } from '@angular/core';
 
+import { BroadcastService } from '../../services/broadcast.service';
 import { JsPlumbService } from '../../services/jsplumb.service';
-import { NodeType } from "../../model/workflow/node-type.enum";
 
 /**
  * toolbar component contains some basic operations(save) and all of the supported workflow nodes.
@@ -24,29 +24,20 @@ import { NodeType } from "../../model/workflow/node-type.enum";
     templateUrl: 'toolbar.component.html',
     styleUrls: ['./toolbar.component.css']
 })
-export class ToolbarComponent implements AfterViewInit, OnInit {
-    public nodeTypes = [];
+export class ToolbarComponent implements AfterViewChecked, OnInit {
+    public isCatalog = true;
+    private needInitButton = true;
 
-    constructor(private jsPlumbService: JsPlumbService) {
+    constructor(private jsPlumbService: JsPlumbService, private broadcastService: BroadcastService) { }
+
+    public ngOnInit() {
     }
 
-    public ngAfterViewInit() {
-        this.jsPlumbService.buttonDraggable();
-    }
-
-    ngOnInit(): void {
-        this.getNodeTypes();
-    }
-
-    private getNodeTypes() {
-        for(let key in NodeType) {
-            if (typeof NodeType[key] === 'number') {
-                this.nodeTypes.push(key);
-            }
+    public ngAfterViewChecked() {
+        if (this.needInitButton) {
+            this.jsPlumbService.buttonDraggable();
+            this.jsPlumbService.buttonDroppable();
+            this.needInitButton = false;
         }
-    }
-
-    public getNameByType(type:string):string{
-        return type.replace(type.charAt(0), type.charAt(0).toUpperCase());
     }
 }

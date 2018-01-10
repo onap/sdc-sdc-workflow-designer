@@ -25,6 +25,8 @@
     "bootstrap": "4.0.0-alpha.6",
     "core-js": "^2.4.1",
     "font-awesome": "^4.7.0",
+    "jquery": "^3.2.1",
+    "jquery-ui": "^1.12.1",
     "jsplumb": "2.5.0",
     "ngx-bootstrap": "^1.9.1",
     "ngx-tree-select": "^0.11.1",

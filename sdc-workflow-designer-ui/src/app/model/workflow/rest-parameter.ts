@@ -14,7 +14,7 @@ import { WorkflowNode } from './workflow-node';
 
 export class RestParameter extends Parameter {
     constructor(name: string, value: string, valueSource: string, type: string,
-                public position: string, public schema: any) {
-        super(name, value, valueSource, type);
+        public position: string, public schema: any, public required: boolean) {
+        super(name, value, valueSource, type, required);
     }
 }

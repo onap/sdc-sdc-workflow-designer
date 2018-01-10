@@ -15,6 +15,8 @@ import { Subject } from 'rxjs/Subject';
 import { WorkflowNode } from '../model/workflow/workflow-node';
 import { SequenceFlow } from "../model/workflow/sequence-flow";
 import { PlanModel } from "../model/workflow/plan-model";
+import { WorkflowElement } from '../model/workflow/workflow-element';
+import { RestConfig } from '../model/rest-config';
 
 /**
  * BroadcastService
@@ -30,14 +32,20 @@ export class BroadcastService {
     public workflows = new Subject<Map<number, any>>();
     public workflows$ = this.workflows.asObservable();
 
-    public workflow = new Subject<PlanModel>();
-    public workflow$ = this.workflow.asObservable();
+    public planModel = new Subject<PlanModel>();
+    public planModel$ = this.planModel.asObservable();
 
     public showProperty = new Subject<boolean>();
     public showProperty$ = this.showProperty.asObservable();
 
+    public updateModelRestConfig = new Subject<RestConfig[]>();
+    public updateModelRestConfig$ = this.updateModelRestConfig.asObservable();
+
     public saveEvent = new Subject<string>();
     public saveEvent$ = this.saveEvent.asObservable();
+
+    public selectedElement = new Subject<WorkflowElement[]>();
+    public selectedElement$ = this.selectedElement.asObservable();
 
     public nodeProperty = new Subject<WorkflowNode>();
     public nodeProperty$ = this.nodeProperty.asObservable();

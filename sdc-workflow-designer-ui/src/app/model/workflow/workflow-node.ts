@@ -9,9 +9,15 @@
  * Contributors:
  *     ZTE - initial API and implementation and/or initial documentation
  */
+import { WorkflowElement } from './workflow-element';
 import { Position } from './position';
 import { SequenceFlow } from './sequence-flow';
 
-export class WorkflowNode {
-    public constructor(public id: string, public name: string, public type: string, public position: Position, public sequenceFlows: SequenceFlow[]) {}
+export interface WorkflowNode extends WorkflowElement {
+    connection: SequenceFlow[];
+    id: string;
+    name: string;
+    parentId: string;
+    position: Position;
+    type: string;
 }

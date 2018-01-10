@@ -41,7 +41,7 @@ export class WorkflowService {
             }
             this.broadcastWorkflows();
         });
-        this.broadcastService.workflow.subscribe(workflow => this.planModel = workflow);
+        this.broadcastService.planModel.subscribe(workflow => this.planModel = workflow);
     }
 
     public save(): Observable<boolean> {

@@ -35,8 +35,8 @@ export class PropertiesComponent implements AfterViewInit {
     public planItems: PlanTreeviewItem[];
 
     constructor(private broadcastService: BroadcastService,
-                private jsPlumnService: JsPlumbService,
-                private processService: ModelService) {
+                private jsPlumbService: JsPlumbService,
+                private modelService: ModelService) {
 
     }
 
@@ -44,19 +44,14 @@ export class PropertiesComponent implements AfterViewInit {
         this.broadcastService.showProperty$.subscribe(show => this.show = show);
         this.broadcastService.nodeProperty$.subscribe(node => {
             this.node = node;
-            this.planItems = this.processService.getPlanParameters(this.node.id);
+            this.planItems = this.modelService.getPlanParameters(this.node.id);
         });
-    }
-
-    public nodeNameChanged() {
-        this.titleEditing = !this.titleEditing;
-        this.jsPlumnService.jsplumbInstance.repaintEverything();
     }
 
     public deleteNode() {
         this.show = false;
-
-        this.jsPlumnService.remove(this.node.id);
-        this.processService.deleteNode(this.node.id);
+        const parentId = this.jsPlumbService.getParentNodeId(this.node.id);
+        this.jsPlumbService.remove(this.node);
+        this.modelService.deleteNode(parentId, this.node.id);
     }
 }

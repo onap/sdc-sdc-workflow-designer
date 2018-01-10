@@ -15,6 +15,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { NgxTreeSelectModule } from 'ngx-tree-select';
 
+import { AccordionModule } from 'ngx-bootstrap/accordion';
+
 import { AppComponent } from './app.component';
 import { JsPlumbService } from "./services/jsplumb.service";
 import { NodeComponent } from "./components/node/node.component";
@@ -29,10 +31,9 @@ import { HttpModule } from "@angular/http";
 import { RouterModule } from "@angular/router";
 import { BroadcastService } from "./services/broadcast.service";
 import { PropertiesComponent } from "./components/property/properties.component";
-import { CanvasComponent } from "./components/canvas/canvas.component";
 import { StartEventParametersComponent } from "./components/property/start-event-parameters/start-event-parameters.component";
 import { ParameterComponent } from "./components/parameter/parameter.component";
-import { MenuComponent } from "./components/menu/menu.component";
+import { MenusComponent } from "./components/menu/menus.component";
 import { MicroserviceDetailComponent } from "./components/menu/microservice/microservice-detail/microservice-detail.component";
 import { MicroserviceComponent } from "./components/menu/microservice/microservice.component";
 import { MicroserviceListComponent } from "./components/menu/microservice/microservice-list/microservice-list.component";
@@ -46,18 +47,20 @@ import { SwaggerTreeConverterService } from "./services/swagger-tree-converter.s
 import { IntermediateCatchEventComponent } from "./components/property/intermediate-catch-event/intermediate-catch-event.component";
 import { SequenceFlowComponent } from "./components/sequence-flow/sequence-flow.component";
 import { ScriptTaskComponent } from "./components/property/script-task/script-task.component";
-import { DragSelectDirective } from "./directive/drag-select/drag-select.directive";
 import { WorkflowsComponent } from "./components/menu/workflows/workflows.component";
 import { ModelService } from './services/model.service';
+import { ContainerComponent } from './components/container/container.component';
+import { RestService } from './services/rest.service';
+import { ResizableDirective } from './directive/resizeable/resizable.directive';
 
 @NgModule({
     declarations: [
         AppComponent,
-        CanvasComponent,
-        DragSelectDirective,
+        ContainerComponent,
+        ResizableDirective,
         EditablePropertyComponent,
         IntermediateCatchEventComponent,
-        MenuComponent,
+        MenusComponent,
         MicroserviceComponent,
         MicroserviceDetailComponent,
         MicroserviceListComponent,
@@ -74,6 +77,7 @@ import { ModelService } from './services/model.service';
         WorkflowsComponent,
     ],
     imports: [
+        AccordionModule.forRoot(),
         BrowserAnimationsModule,
         BrowserModule,
         HttpModule,
@@ -96,6 +100,7 @@ import { ModelService } from './services/model.service';
         DataAccessService,
         HttpService,
         JsPlumbService,
+        RestService,
         SwaggerTreeConverterService,
         WorkflowConfigService,
         ModelService,

@@ -17,11 +17,9 @@ export enum TimerEventDefinitionType {
     timeCycle,
 }
 
-export class TimerEventDefinition {
-    constructor(public type: string, // 'timeDate',  'timeCycle', 'timeDuration'
-        public timeDate?: string, // <timeDate>10/10/2099 00:00:00</timeDate>
-        public timeDuration?: string, // ISO 8601  P1Y3M5DT6H7M30S
-        public timeCycle?: string) { // ISO 8601  P1Y3M5DT6H7M30S
-
-    }
+export interface TimerEventDefinition extends WorkflowNode {
+    type: string; // 'timeDate',  'timeCycle', 'timeDuration'
+    timeDate?: string; // 2007-04-05T12:30-02:00
+    timeDuration?: string; // ISO 8601  P1Y3M5DT6H7M30S
+    timeCycle?: string; // ISO 8601  R5/P1Y2M10DT2H30M
 }

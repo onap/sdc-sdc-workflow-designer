@@ -10,41 +10,44 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 
-import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
-
-import { ValueSource } from '../../model/value-source.enum';
-import { ValueType } from '../../model/value-type.enum';
-import { Parameter} from '../../model/workflow/parameter';
-import { PlanTreeviewItem } from "../../model/plan-treeview-item";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 /**
- * property component presents information of a workflow node.
- * the presented information can be edit in this component.
- * it may load information dynamically. the content may be different for different node type.
+ * node or workflow-line name
  */
 @Component({
     selector: 'b4t-editable-property',
     templateUrl: 'editable-property.component.html',
+    styleUrls: ['./editable-property.component.css']
 })
 export class EditablePropertyComponent {
-    @Input() public parameter: Parameter;
-    @Input() public planItems: PlanTreeviewItem[];
-    @Input() public showLabel: boolean;
-    @Input() public valueSource: ValueSource[];
-    @Output() public parameterChange = new EventEmitter<Parameter>();
+    @Input() public name: string;
+    @Output() public nameChange = new EventEmitter<string>();
 
-    private editing = false;
+    public showEdit = false;
+    public isEditing = false;
 
-    public isEditing(): boolean {
-        return this.editing;
+    public showEditComponent(isShow: boolean): void {
+        if(isShow){
+            this.showEdit = isShow;
+        }else{
+            if(!this.isEditing){
+                this.showEdit = false;
+            }
+        }
     }
 
-    public startEdit() {
-        this.editing = true;
+    public startEdit(): void {
+        this.isEditing = true;
     }
 
-    public completeEdit() {
-        this.editing = false;
-        this.parameterChange.emit(this.parameter);
+    public stopEdit(): void {
+        this.isEditing = false;
+        this.showEdit = false;
+    }
+
+    public change(newName: string) {
+        this.name = newName;
+        this.nameChange.emit(this.name);
     }
 }
