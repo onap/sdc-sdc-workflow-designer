@@ -10,7 +10,7 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 
- .node {
+.node {
     cursor: pointer;
     display: inline-block;
     position: absolute;

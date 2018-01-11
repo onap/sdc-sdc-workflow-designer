@@ -16,7 +16,7 @@
         <div accordion-heading class="toolbar-head">
             <i class="fa fold-icon" [ngClass]="{'fa-chevron-down': event?.isOpen, 'fa-chevron-right': !event?.isOpen}"></i>
             <i class="fa fa-th-list"></i>
-            <span>EVENT</span>
+            <span>{{ 'WORKFLOW.BPMN_EVENT' | translate }}</span>
         </div>
         <div nodeType="startEvent" class="item ui-draggable">
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
@@ -25,7 +25,7 @@
                     s15-6.7,15-15S23.3,0,15,0L15,0z" />
                 </g>
             </svg>
-            <span>Start</span>
+            <span>{{ 'WORKFLOW.START_EVENT' | translate }}</span>
         </div>
         <div nodeType="endEvent" class="item ui-draggable">
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
@@ -34,7 +34,7 @@
                 s15-6.7,15-15S23.3,0,15,0L15,0z" />
                 </g>
             </svg>
-            <span>End</span>
+            <span>{{ 'WORKFLOW.END_EVENT' | translate }}</span>
         </div>
         <div nodeType="intermediateCatchEvent" class="item ui-draggable">
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
@@ -47,7 +47,7 @@
                         c0.2,0.3,0.5,0.4,0.8,0.4h5c0.6,0,1-0.4,1-1S20.6,14,20,14z" />
                 </g>
             </svg>
-            <span>Timer</span>
+            <span>{{ 'WORKFLOW.TIMER_EVENT' | translate }}</span>
         </div>
         <!--
         <div nodeType="errorStartEvent" class="item ui-draggable">
@@ -82,7 +82,7 @@
         <div accordion-heading class="toolbar-head">
             <i class="fa fold-icon" [ngClass]="{'fa-chevron-down': task?.isOpen, 'fa-chevron-right': !task?.isOpen}"></i>
             <i class="fa fa-th-list"></i>
-            <span>Task</span>
+            <span>{{ 'WORKFLOW.BPMN_TASK' | translate }}</span>
         </div>
         <div *ngIf="!isCatalog" nodeType="toscaNodeManagementTask" class="item ui-draggable">
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
@@ -96,7 +96,7 @@
                         C25.7,15.5,25.2,15.1,24.7,15.1z" />
                 </g>
             </svg>
-            <span>TOSCA</span>
+            <span>{{ 'WORKFLOW.TOSCA_TASK' | translate }}</span>
         </div>
         <div *ngIf="isCatalog" nodeType="restTask" class="item ui-draggable">
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
@@ -112,7 +112,7 @@
                     />
                 </g>
             </svg>
-            <span>Rest</span>
+            <span>{{ 'WORKFLOW.REST_TASK' | translate }}</span>
         </div>
         <div nodeType="scriptTask" class="item ui-draggable">
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
@@ -135,14 +135,14 @@
                         c0.1,0.1,0.3,0.2,0.5,0.2S17,20.7,17.1,20.6z" />
                 </g>
             </svg>
-            <span>Script</span>
+            <span>{{ 'WORKFLOW.SCRIPT_TASK' | translate }}</span>
         </div>
     </accordion-group>
     <accordion-group [isOpen]="true" #getway>
         <div accordion-heading class="toolbar-head">
             <i class="fa fold-icon" [ngClass]="{'fa-chevron-down': getway?.isOpen, 'fa-chevron-right': !getway?.isOpen}"></i>
             <i class="fa fa-th-list"></i>
-            <span>Gateway</span>
+            <span>{{ 'WORKFLOW.BPMN_GETWAY' | translate }}</span>
         </div>
         <div nodeType="exclusiveGateway" class="item ui-draggable">
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
@@ -156,7 +156,7 @@
                         c0.2,0.2,0.3,0.4,0.3,0.7S27.9,15.5,27.7,15.7z" />
                 </g>
             </svg>
-            <span>EXCLUSIVE</span>
+            <span>{{ 'WORKFLOW.EXCLUSIVE_GATEWAY' | translate }}</span>
         </div>
         <div nodeType="parallelGateway" class="item ui-draggable">
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
@@ -169,7 +169,7 @@
                         c0.2,0.2,0.3,0.4,0.3,0.7S27.9,15.5,27.7,15.7z" />
                 </g>
             </svg>
-            <span>PARALLEL</span>
+            <span>{{ 'WORKFLOW.PARALLEL_GATEWAY' | translate }}</span>
         </div>
     </accordion-group>
     <!-- <accordion-group [isOpen]="true" #structural>

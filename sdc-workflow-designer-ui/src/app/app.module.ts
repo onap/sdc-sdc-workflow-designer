@@ -14,6 +14,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { NgxTreeSelectModule } from 'ngx-tree-select';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 
@@ -53,6 +56,12 @@ import { ResizableDirective } from './directive/resizable/resizable.directive';
 import { StartEventComponent } from './components/property/start-event/start-event.component';
 import { NodeParametersComponent } from './components/node-parameters/node-parameters.component';
 import { ParameterTreeComponent } from './components/node-parameters/parameter-tree/parameter-tree.component';
+import { NoticeService } from './services/notice.service';
+
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(http: HttpClient) {
+    return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
     declarations: [
@@ -84,6 +93,7 @@ import { ParameterTreeComponent } from './components/node-parameters/parameter-t
         HttpService,
         JsPlumbService,
 	ModelService,
+        NoticeService,
         RestService,
         SwaggerTreeConverterService,
         WorkflowConfigService,
@@ -107,6 +117,14 @@ import { ParameterTreeComponent } from './components/node-parameters/parameter-t
             textField: 'name',
             childrenField: 'children',
             allowParentSelection: false
+        }),
+        HttpClientModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
         })
     ],
     bootstrap: [

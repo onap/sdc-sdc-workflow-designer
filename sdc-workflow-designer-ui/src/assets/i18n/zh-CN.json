@@ -1,0 +1,46 @@
+{
+    "WORKFLOW": {
+        "BPMN_EVENT": "事件",
+        "BPMN_TASK": "任务",
+        "BPMN_GETWAY": "网关",
+        "BPMN_STRUCTURAL": "结构",
+        "SETTING": "设置",
+        "SAVE": "保存",
+        "TEST": "测试",
+        "BACK": "返回",
+        "START_EVENT": "开始",
+        "END_EVENT": "结束",
+        "ERROR_START_EVENT": "异常开始",
+        "ERROR_END_EVENT": "异常结束",
+        "TOSCA_TASK": "TOSCA",
+        "REST_TASK": "REST",
+        "SCRIPT_TASK": "脚本",
+        "TIMER_EVENT": "定时器",
+        "EXCLUSIVE_GATEWAY": "唯一条件",
+        "PARALLEL_GATEWAY": "并行条件",
+        "SUB_PROCESS": "子流程",
+        "NODE_NAME": "名称",
+        "NODE_TYPE": "类型",
+        "TOSCA_NODE": "节点",
+        "TOSCA_INTERFACE": "接口",
+        "TOSCA_OPERATION": "方法",
+        "REST_SERVICE": "服务",
+        "REST_PATH": "路径",
+        "REST_METHOD": "方法",
+        "TIMER_TYPE": "类型",
+        "TIMER_DURATION": "间隔",
+        "TIMER_DATE": "固定日期",
+        "TIMER_CYCLE": "循环日期",
+        "CONNECTION_NAME": "名称",
+        "CONNECTION_SOURCE": "源",
+        "CONNECTION_TARGET": "目标",
+        "CONNECTION_CONDITION": "条件",
+        "SCRIPT_FORMAT":"脚本类型",
+        "SCRIPT":"脚本",
+
+        "MSG": {
+            "SWAGGER_NOT_EXISTS": "Swagger信息不存在请检查'swagger.json'或服务状态。",
+            "SAVE_SUCCESS": "保存成功"
+        }
+    }
+}

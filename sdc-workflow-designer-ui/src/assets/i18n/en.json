@@ -1,0 +1,46 @@
+{
+    "WORKFLOW": {
+        "BPMN_EVENT": "Event",
+        "BPMN_TASK": "Task",
+        "BPMN_GETWAY": "Getway",
+        "BPMN_STRUCTURAL": "Structural",
+        "SETTING": "Setting",
+        "SAVE": "Save",
+        "TEST": "Test",
+        "BACK": "Back",
+        "START_EVENT": "Start",
+        "END_EVENT": "End",
+        "ERROR_START_EVENT": "Error Start",
+        "ERROR_END_EVENT": "Error End",
+        "TOSCA_TASK": "TOSCA",
+        "REST_TASK": "REST",
+        "SCRIPT_TASK": "SCRIPT",
+        "TIMER_EVENT": "Timer",
+        "EXCLUSIVE_GATEWAY": "Exclusive",
+        "PARALLEL_GATEWAY": "Parallel",
+        "SUB_PROCESS": "SubProcess",
+        "NODE_NAME": "Name",
+        "NODE_TYPE": "Type",
+        "TOSCA_NODE": "Node",
+        "TOSCA_INTERFACE": "Interface",
+        "TOSCA_OPERATION": "Operation",
+        "REST_SERVICE": "Service",
+        "REST_PATH": "Path",
+        "REST_METHOD": "Method",
+        "TIMER_TYPE": "Type",
+        "TIMER_DURATION": "Duration",
+        "TIMER_DATE": "Date",
+        "TIMER_CYCLE": "Cycle",
+        "CONNECTION_NAME": "Name",
+        "CONNECTION_SOURCE": "Source",
+        "CONNECTION_TARGET": "Target",
+        "CONNECTION_CONDITION": "Condition",
+        "SCRIPT_FORMAT":"Script Format",
+        "SCRIPT":"Script",
+
+        "MSG": {
+            "SWAGGER_NOT_EXISTS": "Swagger did not exist, please check the 'swagger.json' or service status.",
+            "SAVE_SUCCESS": "Save successful."
+        }
+    }
+}

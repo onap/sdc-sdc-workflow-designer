@@ -1,5 +1,5 @@
 <input class="edit pull-left" [ngModel]="name" (ngModelChange)="change($event)" (click)="startEdit()" (blur)="stopEdit()"
-(mouseover)="showEditComponent(true)" (mouseout)="showEditComponent(false)">
+    (mouseover)="showEditComponent(true)" (mouseout)="showEditComponent(false)">
 <button *ngIf="showEdit" type="button" class="btn blue1 pull-left" (click)="stopEdit();">
-<i class="fa fa-check"></i>
+    <i class="fa fa-check"></i>
 </button>
