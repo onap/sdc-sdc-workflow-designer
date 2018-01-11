@@ -33,10 +33,10 @@ import { BroadcastService } from "./services/broadcast.service";
 import { PropertiesComponent } from "./components/property/properties.component";
 import { StartEventParametersComponent } from "./components/property/start-event-parameters/start-event-parameters.component";
 import { ParameterComponent } from "./components/parameter/parameter.component";
-import { MenusComponent } from "./components/menu/menus.component";
-import { MicroserviceDetailComponent } from "./components/menu/microservice/microservice-detail/microservice-detail.component";
-import { MicroserviceComponent } from "./components/menu/microservice/microservice.component";
-import { MicroserviceListComponent } from "./components/menu/microservice/microservice-list/microservice-list.component";
+import { MenusComponent } from "./components/menus/menus.component";
+import { MicroserviceDetailComponent } from "./components/menus/microservice/microservice-detail/microservice-detail.component";
+import { MicroserviceComponent } from "./components/menus/microservice/microservice.component";
+import { MicroserviceListComponent } from "./components/menus/microservice/microservice-list/microservice-list.component";
 import { ModalModule } from "ngx-bootstrap/modal";
 import { WorkflowConfigService } from "./services/workflow-config.service";
 import { RestTaskComponent } from "./components/property/rest-task/rest-task.component";
@@ -45,11 +45,11 @@ import { SwaggerTreeConverterService } from "./services/swagger-tree-converter.s
 import { IntermediateCatchEventComponent } from "./components/property/intermediate-catch-event/intermediate-catch-event.component";
 import { SequenceFlowComponent } from "./components/sequence-flow/sequence-flow.component";
 import { ScriptTaskComponent } from "./components/property/script-task/script-task.component";
-import { WorkflowsComponent } from "./components/menu/workflows/workflows.component";
+import { WorkflowsComponent } from "./components/menus/workflows/workflows.component";
 import { ModelService } from './services/model.service';
 import { ContainerComponent } from './components/container/container.component';
 import { RestService } from './services/rest.service';
-import { ResizableDirective } from './directive/resizeable/resizable.directive';
+import { ResizableDirective } from './directive/resizable/resizable.directive';
 import { StartEventComponent } from './components/property/start-event/start-event.component';
 import { NodeParametersComponent } from './components/node-parameters/node-parameters.component';
 import { ParameterTreeComponent } from './components/node-parameters/parameter-tree/parameter-tree.component';
@@ -78,6 +78,18 @@ import { ParameterTreeComponent } from './components/node-parameters/parameter-t
         ToolbarComponent,
         WorkflowsComponent,
     ],
+    providers: [
+        BroadcastService,
+        DataAccessService,
+        HttpService,
+        JsPlumbService,
+	ModelService,
+        RestService,
+        SwaggerTreeConverterService,
+        WorkflowConfigService,
+
+        WorkflowService
+    ],
     imports: [
         AccordionModule.forRoot(),
         BrowserAnimationsModule,
@@ -97,17 +109,9 @@ import { ParameterTreeComponent } from './components/node-parameters/parameter-t
             allowParentSelection: false
         })
     ],
-    providers: [
-        BroadcastService,
-        DataAccessService,
-        HttpService,
-        JsPlumbService,
-        RestService,
-        SwaggerTreeConverterService,
-        WorkflowConfigService,
-        ModelService,
-        WorkflowService
+    bootstrap: [
+    	AppComponent,
     ],
-    bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

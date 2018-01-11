@@ -26,7 +26,7 @@ export class ResizableDirective implements AfterViewInit {
 
     public ngAfterViewInit() {
         console.log('init resizble.');
-
+        
         $(this.el.nativeElement).resizable({
             handles: 'all',
             resize: (event, ui) => {

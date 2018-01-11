@@ -16,13 +16,13 @@ import './rxjs-operators';
 
 @Injectable()
 export class HttpService {
-    constructor(private http: Http) {}
+    constructor(private http: Http) { }
 
-    public get(uri: string): Observable<any> {
-        return this.getHttp('get', uri);
+    public get(uri: string, options?: RequestOptionsArgs): Observable<any> {
+        return this.getHttp('get', uri, options);
     }
 
-    public post(uri: string, data: any): Observable<any> {
+    public post(uri: string, data: any, options?: RequestOptionsArgs): Observable<any> {
         return this.getHttp('post', uri, data);
     }
 
@@ -37,22 +37,31 @@ export class HttpService {
     public getHttp(type: string, uri: string, data?: any, options?: RequestOptionsArgs): Observable<any> {
         if (data) {
             return this.http[type](uri, data, options)
-                .map(response =>
-                    response.json()
-                )
+                .map(response => {
+                    if (response.text() === '') {
+                        return {};
+                    }
+
+                    return response.json();
+                })
                 .catch(this.handleError);
         } else {
             return this.http[type](uri, options)
-                .map(response =>
-                    response.json()
-                )
+                .map(response => response.json())
                 .catch(this.handleError);
         }
     }
 
     private handleError(error: any) {
-        const errMsg = (error.message) ? error.message :
-            error.status ? `${error.status}-${error.statusText}` : 'Server error';
+        let errMsg = '';
+        try {
+            errMsg = error.json().message;
+            if (!errMsg) {
+                errMsg = error.json().msg;
+            }
+        } catch (e) {
+            errMsg = error.status ? `${error.status}-${error.statusText}` : 'Server error';
+        }
         return Observable.throw(errMsg);
     }
 }
