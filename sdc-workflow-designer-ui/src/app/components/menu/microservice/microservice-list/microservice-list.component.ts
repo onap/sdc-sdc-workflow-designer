@@ -14,6 +14,7 @@ import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
 import { Microservice } from '../../../../model/workflow/microservice';
+import { RestConfig } from '../../../../model/rest-config';
 
 /**
  * toolbar component contains some basic operations(save) and all of the supported workflow nodes.
@@ -24,15 +25,15 @@ import { Microservice } from '../../../../model/workflow/microservice';
     templateUrl: 'microservice-list.component.html',
 })
 export class MicroserviceListComponent {
-    @Input() microservices: Microservice[];
-    @Output() microserviceSelected = new EventEmitter<Microservice>();
+    @Input() microservices: RestConfig[];
+    @Output() microserviceSelected = new EventEmitter<RestConfig>();
 
-    public onMicroserviceSelected(microservice: Microservice) {
+    public onMicroserviceSelected(microservice: RestConfig) {
         this.microserviceSelected.emit(microservice);
     }
 
     public addMicroservice() {
-        const microservice = new Microservice('new microservice', '', null, '');
+        const microservice = new RestConfig(this.getConfigId(), 'new microservice', '', null);
         this.microservices.push(microservice);
 
         this.onMicroserviceSelected(microservice);
@@ -60,5 +61,21 @@ export class MicroserviceListComponent {
         }
 
         return undefined;
+    }
+
+    private getConfigId(): string {
+        const idSet = new Set<string>();
+        this.microservices.forEach(config => {
+            idSet.add(config.id);
+        });
+
+        for(let index = 0; index < idSet.size; index++) {
+            const id = `config${index}`;
+            if(!idSet.has(id)) {
+                return id;
+            }
+        }
+
+        return `config0`;
     }
 }

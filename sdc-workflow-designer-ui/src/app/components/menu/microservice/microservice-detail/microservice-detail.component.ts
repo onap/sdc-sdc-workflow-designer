@@ -16,6 +16,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Microservice } from '../../../../model/workflow/microservice';
 import { WorkflowConfigService } from '../../../../services/workflow-config.service';
 import { Swagger } from "../../../../model/swagger";
+import { RestConfig } from '../../../../model/rest-config';
 
 /**
  * toolbar component contains some basic operations(save) and all of the supported workflow nodes.
@@ -26,7 +27,7 @@ import { Swagger } from "../../../../model/swagger";
     templateUrl: 'microservice-detail.component.html',
 })
 export class MicroserviceDetailComponent implements OnChanges {
-    @Input() microservice: Microservice;
+    @Input() microservice: RestConfig;
 
     public detail: string;
     public dynamic = false;
@@ -36,15 +37,23 @@ export class MicroserviceDetailComponent implements OnChanges {
 
     public ngOnChanges() {
         if(this.microservice == null) {
-            this.microservice = new Microservice('', '', null, '');
+            this.microservice = new RestConfig('', '', null, '');
         }
-        this.dynamic = this.microservice.definition !== '';
+        this.checkDynamic();
         this.parseSwagger2String();
     }
 
+    private checkDynamic() {
+        if(this.microservice.url) {
+            this.dynamic = true;
+        } else {
+            this.dynamic = false;
+        }
+    }
+
     private parseSwagger2String() {
-        if (this.microservice.swaggerJson) {
-            this.detail = JSON.stringify(this.microservice.swaggerJson);
+        if (this.microservice.swagger) {
+            this.detail = JSON.stringify(this.microservice.swagger);
         } else {
             this.detail = '';
         }
@@ -56,10 +65,10 @@ export class MicroserviceDetailComponent implements OnChanges {
                 const swagger = new Swagger(JSON.parse(detail));
                 this.detail = detail;
                 console.log(swagger);
-                this.microservice.swaggerJson = detail;
+                this.microservice.swagger = swagger;
             } else {
                 this.detail = '';
-                this.microservice.swaggerJson = null;
+                this.microservice.swagger = null;
             }
         } catch (e) {
             // if detail is not a json object, then not change the swagger
@@ -71,16 +80,16 @@ export class MicroserviceDetailComponent implements OnChanges {
         this.onDetailChanged(null);
 
         if(!dynamic) {
-            this.microservice.definition = null;
+            this.microservice.url = null;
         }
     }
 
     private loadDynamicInfo() {
-        this.configService.loadDynamicInfo(this.microservice.definition)
+        this.configService.loadDynamicInfo(this.microservice.url)
         .subscribe(response => {
             try {
 
-                this.microservice.swaggerJson = response;
+                this.microservice.swagger = response;
                 this.parseSwagger2String();
             } catch (e) {
                 console.log('detail transfer error');

@@ -16,6 +16,8 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { MicroserviceListComponent } from './microservice-list/microservice-list.component';
 import { Microservice } from "../../../model/workflow/microservice";
 import { WorkflowConfigService } from "../../../services/workflow-config.service";
+import { RestService } from '../../../services/rest.service';
+import { RestConfig } from '../../../model/rest-config';
 
 /**
  * microservice component
@@ -28,10 +30,10 @@ import { WorkflowConfigService } from "../../../services/workflow-config.service
 export class MicroserviceComponent {
     @ViewChild('microserviceModal') public microserviceModal: ModalDirective;
 
-    public microservices: Microservice[];
+    public microservices: RestConfig[];
     public currentMicroservice: Microservice;
 
-    constructor(private workflowConfigService: WorkflowConfigService) {
+    constructor(private restService: RestService) {
     }
 
     public microserviceSelected(microservice: any) {
@@ -39,7 +41,7 @@ export class MicroserviceComponent {
     }
 
     public show() {
-        this.microservices = this.workflowConfigService.getMicroservices();
+        this.microservices = this.restService.getRestConfigs();
         this.microserviceModal.show();
     }
 
