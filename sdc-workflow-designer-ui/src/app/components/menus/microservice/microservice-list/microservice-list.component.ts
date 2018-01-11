@@ -13,7 +13,6 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
-import { Microservice } from '../../../../model/workflow/microservice';
 import { RestConfig } from '../../../../model/rest-config';
 
 /**
@@ -39,7 +38,7 @@ export class MicroserviceListComponent {
         this.onMicroserviceSelected(microservice);
     }
 
-    public deleteMicroservice(index: number, microservice: Microservice) {
+    public deleteMicroservice(index: number, microservice: RestConfig) {
         this.deleteMicroService(microservice.name, microservice.version);
 
         // set the next microservice selected

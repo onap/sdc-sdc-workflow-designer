@@ -14,7 +14,7 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
 import { WorkflowService } from "../../../services/workflow.service";
-import { PlanModel } from "../../../model/workflow/plan-model";
+import { PlanModel } from "../../../model/plan-model";
 
 /**
  * workflows component

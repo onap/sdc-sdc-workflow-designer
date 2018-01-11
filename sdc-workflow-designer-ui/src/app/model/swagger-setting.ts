@@ -9,14 +9,10 @@
  * Contributors:
  *     ZTE - initial API and implementation and/or initial documentation
  */
-import { WorkflowElement } from './workflow-element';
-import { Position } from './position';
+import { Swagger } from './swagger';
 
-export interface SequenceFlow extends WorkflowElement {
-    sourceRef: string;
-    // sourcePosition: Position;
-    targetRef: string;
-    // targetPosition: Position;
-    name?: string;
-    condition?: string;
+export class SwaggerSetting {
+    constructor(public name: string, public version: string, public url: string, public path: string,
+        public swagger?: Swagger) {
+    }
 }

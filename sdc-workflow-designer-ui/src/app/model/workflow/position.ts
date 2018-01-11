@@ -10,12 +10,6 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 
-import { Injectable } from '@angular/core';
-
-/**
- * Position
- * Workflow node position
- */
 export class Position {
-    constructor(public top: number, public left: number, public width: number = 200, public height: number = 100) { }
+    constructor(public left: number, public top: number, public width = 56, public height = 56) { }
 }

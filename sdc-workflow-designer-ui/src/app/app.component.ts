@@ -10,22 +10,20 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 
-import { Component, AfterViewInit, OnInit } from '@angular/core';
-import { JsPlumbService } from "./services/jsplumb.service";
-import { WorkflowService } from "./services/workflow.service";
-import { WorkflowNode } from "./model/workflow/workflow-node";
-import { DataAccessService } from "./services/data-access/data-access.service";
-import { ActivatedRoute } from "@angular/router";
+import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BroadcastService } from './services/broadcast.service';
 
+/**
+ * main component
+ */
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'workflow',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-    public isLoading = true;
+    public isLoading = false;
 
     constructor(translate: TranslateService, private broadcastService: BroadcastService) {
         // Init the I18n function.

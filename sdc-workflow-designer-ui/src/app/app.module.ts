@@ -17,7 +17,7 @@ import { NgxTreeSelectModule } from 'ngx-tree-select';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-
+import { AlertModule, ModalModule } from 'ngx-bootstrap/index';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 
 import { AppComponent } from './app.component';
@@ -40,8 +40,6 @@ import { MenusComponent } from "./components/menus/menus.component";
 import { MicroserviceDetailComponent } from "./components/menus/microservice/microservice-detail/microservice-detail.component";
 import { MicroserviceComponent } from "./components/menus/microservice/microservice.component";
 import { MicroserviceListComponent } from "./components/menus/microservice/microservice-list/microservice-list.component";
-import { ModalModule } from "ngx-bootstrap/modal";
-import { WorkflowConfigService } from "./services/workflow-config.service";
 import { RestTaskComponent } from "./components/property/rest-task/rest-task.component";
 import { EditablePropertyComponent } from "./components/editable-property/editable-property.component";
 import { SwaggerTreeConverterService } from "./services/swagger-tree-converter.service";
@@ -57,6 +55,7 @@ import { StartEventComponent } from './components/property/start-event/start-eve
 import { NodeParametersComponent } from './components/node-parameters/node-parameters.component';
 import { ParameterTreeComponent } from './components/node-parameters/parameter-tree/parameter-tree.component';
 import { NoticeService } from './services/notice.service';
+import { GlobalNoticeComponent } from './components/global-notice/global-notice.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -69,6 +68,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         ContainerComponent,
         ResizableDirective,
         EditablePropertyComponent,
+        GlobalNoticeComponent,
         IntermediateCatchEventComponent,
         MenusComponent,
         MicroserviceComponent,
@@ -96,12 +96,11 @@ export function HttpLoaderFactory(http: HttpClient) {
         NoticeService,
         RestService,
         SwaggerTreeConverterService,
-        WorkflowConfigService,
-
         WorkflowService
     ],
     imports: [
         AccordionModule.forRoot(),
+        AlertModule.forRoot(),
         BrowserAnimationsModule,
         BrowserModule,
         HttpModule,

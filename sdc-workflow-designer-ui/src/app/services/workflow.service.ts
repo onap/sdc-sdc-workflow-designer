@@ -13,8 +13,7 @@
 import { Injectable } from '@angular/core';
 import { DataAccessService } from "./data-access/data-access.service";
 import { Observable } from "rxjs/Observable";
-import { PlanModel } from "../model/workflow/plan-model";
-import { Configs } from "../model/workflow/configs";
+import { PlanModel } from "../model/plan-model";
 import { BroadcastService } from "./broadcast.service";
 
 /**

@@ -15,7 +15,7 @@ import { CatalogService } from "./catalog.service";
 import { Observable } from "rxjs/Observable";
 import { WorkflowNode } from "../../model/workflow/workflow-node";
 import { HttpService } from "../../util/http.service";
-import { PlanModel } from "../../model/workflow/plan-model";
+import { PlanModel } from "../../model/plan-model";
 
 /**
  * SdcService

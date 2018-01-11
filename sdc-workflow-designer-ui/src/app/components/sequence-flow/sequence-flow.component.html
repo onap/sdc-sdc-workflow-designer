@@ -23,31 +23,30 @@
     </div>
 
     <div class="form-group row">
-        <label class="col-md-3 form-control-label text-md-right">Name</label>
+        <label class="col-md-3 form-control-label text-md-right">{{'WORKFLOW.CONNECTION_NAME' | translate}}</label>
         <div class="col-md-9">
-            <input class="form-control" type="text" [(ngModel)]="sequenceFlow.name">
+            <input class="form-control" type="text" [(ngModel)]="sequenceFlow.name" (ngModelChange)="nameChanged($event)">
         </div>
     </div>
 
     <div class="form-group row">
-        <label class="col-md-3 form-control-label text-md-right">Source</label>
+        <label class="col-md-3 form-control-label text-md-right">{{'WORKFLOW.CONNECTION_SOURCE' | translate}}</label>
         <div class="col-md-9">
             <input class="form-control" disabled type="text" [(ngModel)]="sequenceFlow.sourceRef">
         </div>
     </div>
 
     <div class="form-group row">
-        <label class="col-md-3 form-control-label text-md-right">Target</label>
+        <label class="col-md-3 form-control-label text-md-right">{{'WORKFLOW.CONNECTION_TARGET' | translate}}</label>
         <div class="col-md-9">
             <input class="form-control" disabled type="text" [(ngModel)]="sequenceFlow.targetRef">
         </div>
     </div>
 
     <div class="form-group row">
-        <label class="col-md-3 form-control-label text-md-right">Condition</label>
+        <label class="col-md-3 form-control-label text-md-right">{{'WORKFLOW.CONNECTION_CONDITION' | translate}}</label>
         <div class="col-md-9">
-            <input class="form-control" type="text" [ngModel]="sequenceFlow.condition"
-                   (ngModelChange)="conditionChanged($event)">
+            <input class="form-control" type="text" [(ngModel)]="sequenceFlow.condition">
         </div>
     </div>
 </div>

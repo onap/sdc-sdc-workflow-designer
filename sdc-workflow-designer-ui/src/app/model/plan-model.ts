@@ -9,14 +9,8 @@
  * Contributors:
  *     ZTE - initial API and implementation and/or initial documentation
  */
+import { WorkflowNode } from './workflow/workflow-node';
 
-import { Injectable } from '@angular/core';
-import { WorkflowNode } from "./workflow-node";
-import { Configs } from "./configs";
-
-/**
- * PlanModel
- */
 export class PlanModel {
     public nodes: WorkflowNode[] = [];
     public configs: any = {};

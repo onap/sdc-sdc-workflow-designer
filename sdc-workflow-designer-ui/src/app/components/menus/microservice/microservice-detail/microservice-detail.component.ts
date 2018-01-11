@@ -13,10 +13,9 @@
 import { Component, Input, OnChanges, ViewChild } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
-import { Microservice } from '../../../../model/workflow/microservice';
-import { WorkflowConfigService } from '../../../../services/workflow-config.service';
 import { Swagger } from "../../../../model/swagger";
 import { RestConfig } from '../../../../model/rest-config';
+import { RestService } from '../../../../services/rest.service';
 
 /**
  * toolbar component contains some basic operations(save) and all of the supported workflow nodes.
@@ -32,7 +31,7 @@ export class MicroserviceDetailComponent implements OnChanges {
     public detail: string;
     public dynamic = false;
 
-    constructor(private configService: WorkflowConfigService) {
+    constructor(private configService: RestService) {
     }
 
     public ngOnChanges() {
@@ -85,10 +84,9 @@ export class MicroserviceDetailComponent implements OnChanges {
     }
 
     private loadDynamicInfo() {
-        this.configService.loadDynamicInfo(this.microservice.url)
+        this.configService.getDynamicSwaggerInfo(this.microservice.url)
         .subscribe(response => {
             try {
-
                 this.microservice.swagger = response;
                 this.parseSwagger2String();
             } catch (e) {

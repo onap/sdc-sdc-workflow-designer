@@ -9,14 +9,7 @@
  * Contributors:
  *     ZTE - initial API and implementation and/or initial documentation
  */
-import { WorkflowElement } from './workflow-element';
-import { Position } from './position';
+import {WorkflowNode} from './workflow-node';
 
-export interface SequenceFlow extends WorkflowElement {
-    sourceRef: string;
-    // sourcePosition: Position;
-    targetRef: string;
-    // targetPosition: Position;
-    name?: string;
-    condition?: string;
+export interface ExclusiveGateway extends WorkflowNode {
 }

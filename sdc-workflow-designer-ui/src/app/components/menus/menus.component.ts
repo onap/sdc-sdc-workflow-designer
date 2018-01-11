@@ -15,7 +15,7 @@ import { WorkflowService } from '../../services/workflow.service';
 import { MicroserviceComponent } from "./microservice/microservice.component";
 import { WorkflowsComponent } from "./workflows/workflows.component";
 import { BroadcastService } from "../../services/broadcast.service";
-import { PlanModel } from "../../model/workflow/plan-model";
+import { PlanModel } from "../../model/plan-model";
 
 @Component({
     selector: 'menus',

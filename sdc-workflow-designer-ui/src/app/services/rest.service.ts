@@ -21,6 +21,7 @@ import { Swagger, SwaggerSchemaObject } from '../model/swagger';
 import { RestConfig } from '../model/rest-config';
 import { HttpService } from '../util/http.service';
 import { BroadcastService } from './broadcast.service';
+import { NoticeService } from './notice.service';
 
 @Injectable()
 export class RestService {
@@ -29,7 +30,7 @@ export class RestService {
     private runtimeURL = '/openoapi/catalog/v1/sys/config';
     private msbPublishServiceURL = '/api/msdiscover/v1/publishservicelist';
 
-    constructor(private broadcastService: BroadcastService, private http: Http) {
+    constructor(private broadcastService: BroadcastService, private http: Http, private noticeService: NoticeService) {
         this.broadcastService.planModel$.subscribe(planModel => {
             planModel.configs.restConfigs.forEach(element => {
                 this.restConfigs.push(element);
@@ -67,14 +68,14 @@ export class RestService {
         return this.restConfigs;
     }
 
-    // public getDynamicSwaggerInfo(url: string): Observable<any> {
-    //     const options: any = {
-    //         headers: {
-    //             Accept: 'application/json',
-    //         },
-    //     };
-    //     return this.httpService.get(url, options);
-    // }
+    public getDynamicSwaggerInfo(url: string): Observable<any> {
+        const options: any = {
+            headers: {
+                Accept: 'application/json',
+            },
+        };
+        return this.http.get(url, options);
+    }
 
     public getSwaggerInfo(id: string): Swagger {
         const restConfig = this.restConfigs.find(tmp => tmp.id === id);

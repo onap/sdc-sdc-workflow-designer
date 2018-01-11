@@ -33,25 +33,30 @@ export class SequenceFlowComponent implements AfterViewInit {
     public show = false;
 
     constructor(private broadcastService: BroadcastService,
-                private processService: ModelService,
+                private modelService: ModelService,
                 private jsPlumbService: JsPlumbService) {
 
     }
 
     public ngAfterViewInit() {
-        this.broadcastService.showSequenceFlow$.subscribe(show => this.show = show);
-        this.broadcastService.sequenceFlow$.subscribe(tmp => this.sequenceFlow = tmp);
+        this.broadcastService.showProperty$.subscribe(element => {
+            if (element && !this.modelService.isNode(element)) {
+                this.sequenceFlow = element as SequenceFlow;
+                this.show = true;
+            } else {
+                this.show = false;
+            }
+        });
     }
 
-    public conditionChanged(condition: string) {
-        this.sequenceFlow.condition = condition;
-        this.jsPlumbService.setLabel(this.sequenceFlow.sourceRef, this.sequenceFlow.targetRef, condition);
+    public nameChanged(name: string) {
+        this.sequenceFlow.name = name;
+        this.jsPlumbService.setLabel(this.sequenceFlow.sourceRef, this.sequenceFlow.targetRef, name);
     }
 
     public delete() {
         this.show = false;
-
-        this.processService.deleteConnection(this.sequenceFlow.sourceRef, this.sequenceFlow.targetRef);
+        this.modelService.deleteConnection(this.sequenceFlow.sourceRef, this.sequenceFlow.targetRef);
         this.jsPlumbService.deleteConnect(this.sequenceFlow.sourceRef, this.sequenceFlow.targetRef);
     }
 }

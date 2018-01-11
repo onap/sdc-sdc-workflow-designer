@@ -34,7 +34,6 @@ export class JsPlumbService {
     private selectNodes: WorkflowNode[] = [];
 
     constructor(private modelService: ModelService, private broadcastService: BroadcastService) {
-
         this.broadcastService.selectedElement$.subscribe(elements => {
             this.selectNodes = [];
             if (elements && 0 < elements.length) {

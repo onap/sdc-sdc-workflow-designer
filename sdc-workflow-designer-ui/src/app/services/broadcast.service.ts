@@ -14,7 +14,7 @@ import { Subject } from 'rxjs/Subject';
 
 import { WorkflowNode } from '../model/workflow/workflow-node';
 import { SequenceFlow } from "../model/workflow/sequence-flow";
-import { PlanModel } from "../model/workflow/plan-model";
+import { PlanModel } from "../model/plan-model";
 import { WorkflowElement } from '../model/workflow/workflow-element';
 import { RestConfig } from '../model/rest-config';
 

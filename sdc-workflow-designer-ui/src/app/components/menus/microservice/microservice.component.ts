@@ -14,8 +14,6 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
 import { MicroserviceListComponent } from './microservice-list/microservice-list.component';
-import { Microservice } from "../../../model/workflow/microservice";
-import { WorkflowConfigService } from "../../../services/workflow-config.service";
 import { RestService } from '../../../services/rest.service';
 import { RestConfig } from '../../../model/rest-config';
 
@@ -31,7 +29,7 @@ export class MicroserviceComponent {
     @ViewChild('microserviceModal') public microserviceModal: ModalDirective;
 
     public microservices: RestConfig[];
-    public currentMicroservice: Microservice;
+    public currentMicroservice: RestConfig;
 
     constructor(private restService: RestService) {
     }
