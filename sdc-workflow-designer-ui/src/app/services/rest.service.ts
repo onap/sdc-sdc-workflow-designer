@@ -39,22 +39,22 @@ export class RestService {
         // this.initSwaggerInfoByMSB();
     }
 
-    // public addRestConfig(): RestConfig {
-    //     let index = 0;
-    //     this.restConfigs.forEach(config => {
-    //         const currentId = parseInt(config.id);
-    //         if (currentId > index) {
-    //             index = currentId;
-    //         }
-    //     });
+    public addRestConfig(): RestConfig {
+        let index = 0;
+        this.restConfigs.forEach(config => {
+            const currentId = parseInt(config.id);
+            if (currentId > index) {
+                index = currentId;
+            }
+        });
 
-    //     index += 1;
+        index += 1;
 
-    //     const restConfig = new RestConfig(index.toString(), 'new Config', '', '', false);
-    //     this.restConfigs.push(restConfig);
+        const restConfig = new RestConfig(index.toString(), 'new Config', '', '', '');
+        this.restConfigs.push(restConfig);
 
-    //     return restConfig;
-    // }
+        return restConfig;
+    }
 
     // public initSwaggerInfo(restConfig: RestConfig) {
     //     if (restConfig.dynamic && restConfig.definition) {
@@ -125,7 +125,7 @@ export class RestService {
                         // this service don't have sawgger file.
                         if ('/activiti-rest' !== serviceInfo.publish_url) {
                             const id = serviceInfo.serviceName + '.' + serviceInfo.version;
-                            restConfigs.push(new RestConfig(id, serviceInfo.serviceName, serviceInfo.version, serviceInfo.publish_url));
+                            restConfigs.push(new RestConfig(id, serviceInfo.serviceName, serviceInfo.version, serviceInfo.publish_url, ''));
                             let swaggerUrl = '';
                             if (undefined !== serviceInfo.swagger_url && '' !== serviceInfo.swagger_url) {
                                 swaggerUrl = serviceInfo.publish_url + '/' + serviceInfo.swagger_url;

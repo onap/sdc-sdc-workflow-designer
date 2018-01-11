@@ -12,6 +12,7 @@
 
 import { AfterViewChecked, Component, OnInit } from '@angular/core';
 
+import { DataService } from '../../services/data/data.service';
 import { BroadcastService } from '../../services/broadcast.service';
 import { JsPlumbService } from '../../services/jsplumb.service';
 
@@ -26,11 +27,16 @@ import { JsPlumbService } from '../../services/jsplumb.service';
 })
 export class ToolbarComponent implements AfterViewChecked, OnInit {
     public isCatalog = true;
-    private needInitButton = true;
+    private needInitButton = false;
 
-    constructor(private jsPlumbService: JsPlumbService, private broadcastService: BroadcastService) { }
+    constructor(private jsPlumbService: JsPlumbService, private broadcastService: BroadcastService,
+        private dataService: DataService) { }
 
     public ngOnInit() {
+        this.broadcastService.backendServiceReady$.subscribe(() => {
+            this.isCatalog = 'Catalog' === this.dataService.getBackendType();
+            this.needInitButton = true;
+        });
     }
 
     public ngAfterViewChecked() {

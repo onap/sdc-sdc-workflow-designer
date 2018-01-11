@@ -13,7 +13,7 @@
 -->
 
 <div class="form-group row">
-    <label class="col-md-3 form-control-label text-md-right">Timer Type</label>
+    <label class="col-md-3 form-control-label text-md-right">{{'WORKFLOW.TIMER_TYPE' | translate}}</label>
     <div class="col-md-9">
         <p-radioButton name="timeType" label="Duration" value="timeDuration" [ngModel]="node.timerEventDefinition.type" (ngModelChange)="timerTypeChange($event)">Duration</p-radioButton>
         <p-radioButton name="timeType" label="Date" value="timeDate" [(ngModel)]="node.timerEventDefinition.type">Date</p-radioButton>
@@ -22,7 +22,7 @@
 </div>
 
 <div *ngIf="node.timerEventDefinition.type === 'timeDuration'" class="form-group row">
-    <label class="col-md-3 form-control-label text-md-right">Duration</label>
+    <label class="col-md-3 form-control-label text-md-right">{{'WORKFLOW.TIMER_DURATION' | translate}}</label>
     <div class="col-md-9">
         <input type="text" class="form-control" [(ngModel)]="node.timerEventDefinition.timeDuration">
         <label>eg: P1Y3M5DT6H7M30S</label>
@@ -30,16 +30,20 @@
 </div>
 
 <div *ngIf="node.timerEventDefinition.type === 'timeDate'" class="form-group row">
-    <label class="col-md-3 form-control-label text-md-right">Date</label>
+    <label class="col-md-3 form-control-label text-md-right">{{'WORKFLOW.TIMER_DATE' | translate}}</label>
     <div class="col-md-9">
         <input type="text" class="form-control" [(ngModel)]="node.timerEventDefinition.timeDate">
-        <label>eg: 10/10/2099 00:00:03</label>
+        <label>eg: 2007-04-05T12:30-02:00</label>
+        <!--
+        <p-calendar [(ngModel)]="node.timerEventDefinition.timeDate" [showIcon]="true" [showTime]="true" [showSeconds]="true"></p-calendar>
+        -->
     </div>
 </div>
 
 <div *ngIf="node.timerEventDefinition.type === 'timeCycle'" class="form-group row">
-    <label class="col-md-3 form-control-label text-md-right">Cycle</label>
+    <label class="col-md-3 form-control-label text-md-right">{{'WORKFLOW.TIMER_CYCLE' | translate}}</label>
     <div class="col-md-9">
         <input type="text"  class="form-control" [(ngModel)]="node.timerEventDefinition.timeCycle">
+        <label>eg: R5/P1Y2M10DT2H30M</label>
     </div>
 </div>

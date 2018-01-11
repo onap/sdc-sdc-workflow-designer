@@ -27,7 +27,7 @@ import { PlanModel } from "../../../model/plan-model";
 export class WorkflowsComponent {
     @ViewChild('workflowsModal') public workflowsModal: ModalDirective;
 
-    public workflows :Map<number, any>;
+    public workflows :Map<string, any>;
 
     constructor(private workflowService: WorkflowService) {
     }
@@ -44,7 +44,7 @@ export class WorkflowsComponent {
         this.workflowsModal.show();
     }
 
-    public deleteWorkflow(planId: number) {
+    public deleteWorkflow(planId: string) {
         this.workflowService.deleteWorkflow(planId);
     }
 

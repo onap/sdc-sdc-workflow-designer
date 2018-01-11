@@ -1,0 +1,26 @@
+<div class="modal fade" bsModal #restConfigModal="bs-modal" [config]="{backdrop: 'static'}"
+     tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">Rest Config Setting</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="restConfigModal.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <b4t-rest-config-list (configSelected)="configSelected($event)"></b4t-rest-config-list>
+                    </div>
+                    <div class="col-sm-8">
+                        <b4t-rest-config-detail [restConfig]="currentRestConfig"></b4t-rest-config-detail>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn over-grey" (click)="restConfigModal.hide()">close</button>
+            </div>
+        </div>
+    </div>
+</div>

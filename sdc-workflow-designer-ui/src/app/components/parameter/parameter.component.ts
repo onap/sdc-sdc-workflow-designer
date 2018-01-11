@@ -15,6 +15,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { PlanTreeviewItem } from '../../model/plan-treeview-item';
 import { ValueSource } from '../../model/value-source.enum';
 import { Parameter } from '../../model/workflow/parameter';
+import { DataService } from '../../services/data/data.service';
 
 /**
  * this component contains in property component if the corresponding node has parameter properties
@@ -47,7 +48,7 @@ export class ParameterComponent implements OnChanges, OnInit {
     public showValueSource = true;
     public planValue: any = {};
 
-    constructor() { }
+    constructor(private dataService: DataService) { }
 
     public ngOnChanges(changes: SimpleChanges): void {
         // if (changes.canInsert && !changes.canInsert.isFirstChange()) {
@@ -63,6 +64,7 @@ export class ParameterComponent implements OnChanges, OnInit {
         if (1 === this.valueSource.length) {
             this.showValueSource = false;
         }
+        this.topologyOptions = this.dataService.getTopologyProperties();
         // this.valueClass = {
         //     'col-md-7': this.showValueSource,
         //     'col-md-12': !this.showValueSource

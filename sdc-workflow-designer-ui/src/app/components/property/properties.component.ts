@@ -12,6 +12,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { TreeNode } from 'primeng/primeng';
+import { TranslateService } from '@ngx-translate/core';
 
 import { PlanTreeviewItem } from '../../model/plan-treeview-item';
 import { ValueSource } from '../../model/value-source.enum';
@@ -21,6 +22,7 @@ import { WorkflowNode } from '../../model/workflow/workflow-node';
 import { BroadcastService } from '../../services/broadcast.service';
 import { JsPlumbService } from '../../services/jsplumb.service';
 import { ModelService } from '../../services/model.service';
+import { NoticeService } from '../../services/notice.service';
 
 /**
  * property component presents information of a workflow node.
@@ -43,6 +45,8 @@ export class PropertiesComponent implements OnInit {
 
     constructor(private broadcastService: BroadcastService,
         private modelService: ModelService,
+        private translate: TranslateService,
+        private noticeService: NoticeService,
         private jsPlumbService: JsPlumbService) {
 
     }
@@ -59,7 +63,9 @@ export class PropertiesComponent implements OnInit {
                   this.show = true;
                 } catch (error) {
                   this.show = false;
-                    console.log(error);
+                  this.translate.get('WORKFLOW.MSG.SWAGGER_NOT_EXISTS').subscribe((res: string) => {
+                    this.noticeService.error(res);
+                  });
                 }
             } else {
                 this.show = false;

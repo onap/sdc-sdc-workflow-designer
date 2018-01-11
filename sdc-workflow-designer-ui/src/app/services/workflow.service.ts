@@ -11,7 +11,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { DataAccessService } from "./data-access/data-access.service";
+import { DataService } from "./data/data.service";
 import { Observable } from "rxjs/Observable";
 import { PlanModel } from "../model/plan-model";
 import { BroadcastService } from "./broadcast.service";
@@ -23,54 +23,42 @@ import { BroadcastService } from "./broadcast.service";
 @Injectable()
 export class WorkflowService {
 
-    public workflows = new Map<number, any>();
+    public workflows = new Map<string, any>();
     public planModel: PlanModel;
     private planName : string;
-    public workflowIndex = 0;
 
-    constructor(private broadcastService: BroadcastService, private dataAccessService: DataAccessService) {
-        this.dataAccessService.catalogService.loadWorkflows().subscribe(workflows => {
-            this.workflowIndex = 0;
-            for(let key in workflows) {
-                this.workflows.set(this.workflowIndex, {
-                    "planName": key,
-                    "plan": workflows[key]
-                });
-                this.workflowIndex++ ;
-            }
-            this.broadcastWorkflows();
-        });
-        this.broadcastService.planModel.subscribe(workflow => this.planModel = workflow);
+    constructor(private broadcastService: BroadcastService, private dataAccessService: DataService) {
+        this.broadcastService.workflows$.subscribe(workflows => this.workflows = workflows);
+        this.broadcastService.planModel$.subscribe(workflow => this.planModel = workflow);
     }
 
-    public save(): Observable<boolean> {
+    public save() {
         console.log(this.planModel);
         console.log(JSON.stringify(this.planModel));
-        return this.dataAccessService.catalogService.saveWorkflow(this.planName, this.planModel);
+        this.broadcastService.broadcast(this.broadcastService.saveEvent, {"name": this.planName, "planModel": this.planModel});
     }
 
-    public getPlanName(planId: number): string {
+    public getPlanName(planId: string): string {
         const planInfo = this.workflows.get(planId);
         return planInfo ? planInfo.planName: null;
     }
 
-    public getPlanModel(planId: number): PlanModel {
+    public getPlanModel(planId: string): PlanModel {
         const planInfo = this.workflows.get(planId);
         return planInfo ? planInfo.plan: null;
     }
 
-    public getWorkflows(): Map<number, any> {
+    public getWorkflows(): Map<string, any> {
 
         return this.workflows;
     }
 
     public addWorkflow() {
-        this.workflows.set(this.workflowIndex, {"planName": "newPlan", "plan": new PlanModel()});
-        this.workflowIndex++;
+        this.workflows.set(this.getPlanId(), {"planName": "newPlan", "plan": new PlanModel()});
         this.broadcastWorkflows();
     }
 
-    public deleteWorkflow(planId: number): PlanModel {
+    public deleteWorkflow(planId: string): PlanModel {
         this.workflows.delete(planId);
         this.broadcastWorkflows();
 
@@ -79,5 +67,13 @@ export class WorkflowService {
 
     public broadcastWorkflows() {
         this.broadcastService.broadcast(this.broadcastService.workflows, this.workflows);
+    }
+
+    private getPlanId(): string {
+        for(let index=0; index <= this.workflows.size; index++) {
+            if(!this.workflows.has(index + "")) {
+                return index + "";
+            }
+        }
     }
 }

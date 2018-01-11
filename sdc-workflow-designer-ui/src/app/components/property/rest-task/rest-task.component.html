@@ -13,7 +13,7 @@
 -->
 
 <div class="form-group row">
-	<label class="col-md-3 form-control-label text-md-right">Service</label>
+	<label class="col-md-3 form-control-label text-md-right">{{'WORKFLOW.REST_SERVICE' | translate}}</label>
 	<div class="col-md-9">
 		<select class="form-control" [ngModel]="node.restConfigId" (ngModelChange)="serviceChanged($event)">
 			<option *ngFor="let restConfig of restService.getRestConfigs()" value="{{restConfig.id}}">{{restConfig.id}}</option>
@@ -22,7 +22,7 @@
 </div>
 
 <div class="form-group row">
-	<label class="col-md-3 form-control-label text-md-right">Path</label>
+	<label class="col-md-3 form-control-label text-md-right">{{'WORKFLOW.REST_PATH' | translate}}</label>
 	<div class="col-md-9">
 		<select class="form-control" [ngModel]="node.path" (ngModelChange)="pathChanged($event)">
 			<option *ngFor="let interface of restInterfaces" value="{{interface}}">{{interface}}</option>
@@ -31,7 +31,7 @@
 </div>
 
 <div class="form-group row">
-	<label class="col-md-3 form-control-label text-md-right">Method</label>
+	<label class="col-md-3 form-control-label text-md-right">{{'WORKFLOW.REST_METHOD' | translate}}</label>
 	<div class="col-md-9">
 		<select class="form-control" [ngModel]="node.method" (ngModelChange)="methodChanged($event)">
 			<option *ngFor="let operation of restOperations" value="{{operation}}">{{operation}}</option>

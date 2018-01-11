@@ -23,7 +23,6 @@ import { BroadcastService } from './services/broadcast.service';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-    public isLoading = false;
 
     constructor(translate: TranslateService, private broadcastService: BroadcastService) {
         // Init the I18n function.
@@ -43,8 +42,6 @@ export class AppComponent {
             browserLang = window.navigator.language;
         }
         translate.use(browserLang);
-        this.broadcastService.updateModelRestConfig$.subscribe(model=>{
-            this.isLoading = false;
-        });
+
     }
 }

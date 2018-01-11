@@ -1,0 +1,35 @@
+<div class="form-group row">
+    <label class="col-md-2 form-control-label text-md-right">Name</label>
+    <div class="col-md-10">
+        <input class="form-control" [(ngModel)]="restConfig.name">
+    </div>
+</div>
+<div class="form-group row">
+    <label class="col-md-2 form-control-label text-md-right">BaseUrl</label>
+    <div class="col-md-10">
+        <input class="form-control" [(ngModel)]="restConfig.url">
+    </div>
+</div>
+<div class="form-group row">
+    <label class="col-md-2 form-control-label text-md-right">Definition</label>
+    <div class="col-md-10">
+        <input class="form-control" [(ngModel)]="restConfig.definition">
+    </div>
+</div>
+<div class="form-group row">
+    <label class="col-md-2 form-control-label text-md-right">Dynamic</label>
+    <div class="col-md-10">
+        <p-radioButton name="dynamic" [value]=true label="true" (ngModelChange)="toggleDynamic($event)"
+                       [ngModel]="restConfig.dynamic"></p-radioButton>
+        <p-radioButton name="dynamic" [value]=false label="false" (ngModelChange)="toggleDynamic($event)"
+                       [ngModel]="restConfig.dynamic"></p-radioButton>
+    </div>
+</div>
+<div class="form-group row">
+    <label class="col-md-2 form-control-label text-md-right">Detail</label>
+    <div class="col-md-10">
+        <textarea class="form-control" [disabled]="restConfig.dynamic" rows="8" [ngModel]="detail"
+                  (ngModelChange)="onDetailChanged($event)"></textarea>
+    </div>
+</div>
+

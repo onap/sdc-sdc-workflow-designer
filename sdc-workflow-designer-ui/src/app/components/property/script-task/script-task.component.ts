@@ -19,4 +19,6 @@ import { ScriptTask } from "../../../model/workflow/script-task";
 })
 export class ScriptTaskComponent {
     @Input() public node: ScriptTask;
+
+    public scriptOperations = ['JavaScript'];
 }

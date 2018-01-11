@@ -20,7 +20,16 @@
     user-select: none;
     height: 100%;
     position: relative;
-    overflow: scroll;
+    overflow: auto;
     z-index: 0;
     background-color: white;
+}
+
+#node-selector{
+    /* display: none; */
+    position: absolute;
+    border: 1px dashed black;
+    background-color: #00ABFF;
+    position: absolute;
+    opacity: 0.1;
 }

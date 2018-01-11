@@ -12,10 +12,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { WorkflowService } from '../../services/workflow.service';
-import { MicroserviceComponent } from "./microservice/microservice.component";
 import { WorkflowsComponent } from "./workflows/workflows.component";
 import { BroadcastService } from "../../services/broadcast.service";
 import { PlanModel } from "../../model/plan-model";
+import { RestConfigComponent } from './rest-config/rest-config.component';
 
 @Component({
     selector: 'menus',
@@ -23,9 +23,9 @@ import { PlanModel } from "../../model/plan-model";
     styleUrls: ['./menus.component.css']
 })
 export class MenusComponent {
-    @ViewChild(MicroserviceComponent) public microserviceComponent: MicroserviceComponent;
+    @ViewChild(RestConfigComponent) public microserviceComponent: RestConfigComponent;
     @ViewChild(WorkflowsComponent) public workflowsComponent: WorkflowsComponent;
-    public currentWorkflowId : number;
+    public currentWorkflowId : string;
     public workflows = [];
 
     constructor(private broadcastService: BroadcastService, private workflowService: WorkflowService) {
@@ -56,7 +56,7 @@ export class MenusComponent {
         this.workflowsComponent.show();
     }
 
-    public workflowSelected(planId: number, planModel: PlanModel) {
+    public workflowSelected(planId: string, planModel: PlanModel) {
 
         this.broadcastService.broadcast(this.broadcastService.planModel, planModel);
         this.broadcastService.broadcast(this.broadcastService.planId, planId);

@@ -13,14 +13,16 @@
 -->
 
 <div class="form-group row">
-    <label class="col-md-3 form-control-label text-md-right">Script Format</label>
+    <label class="col-md-3 form-control-label text-md-right">{{'WORKFLOW.SCRIPT_FORMAT' | translate}}</label>
     <div class="col-md-9">
-        <input class="form-control" type="text" [(ngModel)]="node.scriptFormate">
+        <select class="form-control" [(ngModel)]="node.scriptFormat">
+			<option *ngFor="let script of scriptOperations" value="{{script}}">{{script}}</option>
+		</select>
     </div>
 </div>
 
 <div class="form-group row">
-    <label class="col-md-3 form-control-label text-md-right">Script</label>
+    <label class="col-md-3 form-control-label text-md-right">{{'WORKFLOW.SCRIPT' | translate}}</label>
     <div class="col-md-9">
         <textarea class="form-control" type="text" rows="20" [(ngModel)]="node.script"></textarea>
     </div>

@@ -12,11 +12,12 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
-import { WorkflowNode } from '../model/workflow/workflow-node';
-import { SequenceFlow } from "../model/workflow/sequence-flow";
-import { PlanModel } from "../model/plan-model";
-import { WorkflowElement } from '../model/workflow/workflow-element';
+import { PlanModel } from '../model/plan-model';
 import { RestConfig } from '../model/rest-config';
+import { Swagger } from '../model/swagger';
+import { SequenceFlow } from '../model/workflow/sequence-flow';
+import { WorkflowNode } from '../model/workflow/workflow-node';
+import { WorkflowElement } from '../model/workflow/workflow-element';
 
 /**
  * BroadcastService
@@ -26,29 +27,36 @@ import { RestConfig } from '../model/rest-config';
 @Injectable()
 export class BroadcastService {
 
-    public jsPlumbInstance = new Subject<any>();
-    public jsPlumbInstance$ = this.jsPlumbInstance.asObservable();
+    public showProperty = new Subject<WorkflowElement>();
+    public showProperty$ = this.showProperty.asObservable();
 
-    public workflows = new Subject<Map<number, any>>();
+    public workflows = new Subject<Map<string, any>>();
     public workflows$ = this.workflows.asObservable();
 
-    public planId = new Subject<number>();
+    public planId = new Subject<string>();
     public planId$ = this.planId.asObservable();
 
     public planModel = new Subject<PlanModel>();
     public planModel$ = this.planModel.asObservable();
 
-    public showProperty = new Subject<WorkflowElement>();
-    public showProperty$ = this.showProperty.asObservable();
-
     public updateModelRestConfig = new Subject<RestConfig[]>();
     public updateModelRestConfig$ = this.updateModelRestConfig.asObservable();
 
-    public saveEvent = new Subject<string>();
+    public saveEvent = new Subject<any>();
     public saveEvent$ = this.saveEvent.asObservable();
 
     public selectedElement = new Subject<WorkflowElement[]>();
     public selectedElement$ = this.selectedElement.asObservable();
+
+    // public elementClick = new Subject<WorkflowElement>();
+    // public elementClick$ = this.elementClick.asObservable();
+    /**
+     * this should be used while the source of rest interfaces changed.
+     * @type {Subject<>}
+     */
+    public backendServiceReady = new Subject<any>();
+    public backendServiceReady$ = this.backendServiceReady.asObservable();
+
 
     public nodeProperty = new Subject<WorkflowNode>();
     public nodeProperty$ = this.nodeProperty.asObservable();

@@ -25,21 +25,17 @@ import { JsPlumbService } from "./services/jsplumb.service";
 import { NodeComponent } from "./components/node/node.component";
 import { ToolbarComponent } from "./components/toolbar/toolbar.component";
 import { WorkflowService } from "./services/workflow.service";
-import { DataAccessService } from "./services/data-access/data-access.service";
+import { DataService } from "./services/data/data.service";
 import { HttpService } from "./util/http.service";
 import { SharedModule } from "./shared/shared.module";
 import { InMemoryWebApiModule } from "angular-in-memory-web-api";
-import { InMemoryDataService } from "./services/data-access/in-memory-data.service";
+import { InMemoryDataService } from "./services/data/in-memory-data.service";
 import { HttpModule } from "@angular/http";
 import { RouterModule } from "@angular/router";
 import { BroadcastService } from "./services/broadcast.service";
 import { PropertiesComponent } from "./components/property/properties.component";
-import { StartEventParametersComponent } from "./components/property/start-event-parameters/start-event-parameters.component";
 import { ParameterComponent } from "./components/parameter/parameter.component";
 import { MenusComponent } from "./components/menus/menus.component";
-import { MicroserviceDetailComponent } from "./components/menus/microservice/microservice-detail/microservice-detail.component";
-import { MicroserviceComponent } from "./components/menus/microservice/microservice.component";
-import { MicroserviceListComponent } from "./components/menus/microservice/microservice-list/microservice-list.component";
 import { RestTaskComponent } from "./components/property/rest-task/rest-task.component";
 import { EditablePropertyComponent } from "./components/editable-property/editable-property.component";
 import { SwaggerTreeConverterService } from "./services/swagger-tree-converter.service";
@@ -56,6 +52,12 @@ import { NodeParametersComponent } from './components/node-parameters/node-param
 import { ParameterTreeComponent } from './components/node-parameters/parameter-tree/parameter-tree.component';
 import { NoticeService } from './services/notice.service';
 import { GlobalNoticeComponent } from './components/global-notice/global-notice.component';
+import { SettingService } from './services/setting.service';
+import { ErrorEventComponent } from './components/property/error-event/error-event.component';
+import { NodeTemplateComponent } from './components/property/node-template/node-template.component';
+import { RestConfigComponent } from './components/menus/rest-config/rest-config.component';
+import { RestConfigDetailComponent } from './components/menus/rest-config/rest-config-detail/rest-config-detail.component';
+import { RestConfigListComponent } from './components/menus/rest-config/rest-config-list/rest-config-list.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -66,35 +68,37 @@ export function HttpLoaderFactory(http: HttpClient) {
     declarations: [
         AppComponent,
         ContainerComponent,
+        ErrorEventComponent,
         ResizableDirective,
         EditablePropertyComponent,
         GlobalNoticeComponent,
         IntermediateCatchEventComponent,
         MenusComponent,
-        MicroserviceComponent,
-        MicroserviceDetailComponent,
-        MicroserviceListComponent,
         NodeComponent,
         NodeParametersComponent,
+        NodeTemplateComponent,
         ParameterComponent,
         ParameterTreeComponent,
         PropertiesComponent,
         RestTaskComponent,
+        RestConfigComponent,
+        RestConfigDetailComponent,
+        RestConfigListComponent,
         ScriptTaskComponent,
         StartEventComponent,
         SequenceFlowComponent,
-        StartEventParametersComponent,
         ToolbarComponent,
         WorkflowsComponent,
     ],
     providers: [
         BroadcastService,
-        DataAccessService,
+        DataService,
         HttpService,
         JsPlumbService,
 	ModelService,
         NoticeService,
         RestService,
+        SettingService,
         SwaggerTreeConverterService,
         WorkflowService
     ],

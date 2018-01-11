@@ -9,27 +9,17 @@
  * Contributors:
  *     ZTE - initial API and implementation and/or initial documentation
  *******************************************************************************/
-import { Component, Input, ViewChild } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Component, Input } from '@angular/core';
 
 import { ValueSource } from '../../../model/value-source.enum';
 import { Parameter } from '../../../model/workflow/parameter';
-import { StartEvent } from '../../../model/workflow/start-event';
-import { BroadcastService } from '../../../services/broadcast.service';
+import { ErrorEvent } from '../../../model/workflow/error-event';
 
 @Component({
-    selector: 'b4t-start-event-parameters',
-    templateUrl: 'start-event-parameters.component.html',
+    selector: 'b4t-error-event',
+    templateUrl: 'error-event.component.html',
 })
-export class StartEventParametersComponent {
-    @Input() public node: StartEvent;
+export class ErrorEventComponent {
+    @Input() public node: ErrorEvent;
     public sources: ValueSource[] = [ValueSource.String];
-
-    public create(): void {
-        this.node.parameters.push(new Parameter('', '', ValueSource[ValueSource.String]));
-    }
-
-    public delete(index: number): void {
-        this.node.parameters.splice(index, 1);
-    }
 }

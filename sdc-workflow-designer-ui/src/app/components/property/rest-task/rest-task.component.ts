@@ -11,6 +11,7 @@
  *******************************************************************************/
 import { Component, Input, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
+import { TranslateService } from '@ngx-translate/core';
 
 import { PlanTreeviewItem } from '../../../model/plan-treeview-item';
 import { Swagger, SwaggerMethod, SwaggerParameter, SwaggerResponse } from '../../../model/swagger';
@@ -19,6 +20,7 @@ import { ValueType } from '../../../model/value-type.enum';
 import { RestParameter } from '../../../model/workflow/rest-parameter';
 import { RestTask } from '../../../model/workflow/rest-task';
 import { BroadcastService } from '../../../services/broadcast.service';
+import { NoticeService } from '../../../services/notice.service';
 import { RestService } from '../../../services/rest.service';
 import { WorkflowUtil } from '../../../util/workflow-util';
 
@@ -34,7 +36,8 @@ export class RestTaskComponent implements OnInit {
     public restOperations: any = [];
     private swagger: Swagger;
 
-    constructor(private broadcastService: BroadcastService, public restService: RestService) { }
+    constructor(private broadcastService: BroadcastService, public restService: RestService,
+        private noticeService: NoticeService, private translate: TranslateService) { }
 
     public ngOnInit() {
         this.loadInterfaces();
@@ -72,7 +75,9 @@ export class RestTaskComponent implements OnInit {
                 }
                 this.loadOperations();
             } else {
-                console.log('swagger not exist');
+                this.translate.get('WORKFLOW.MSG.SWAGGER_NOT_EXISTS').subscribe((res: string) => {
+                    this.noticeService.error(res);
+                });
             }
         }
     }
