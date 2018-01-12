@@ -31,7 +31,7 @@ export class InMemoryDataService implements InMemoryDbService {
                     name: 'workflow1',
                     nodes: [],
                     configs: {
-                        microservices: [{
+                        restConfigs: [{
                             definition: "/s/swagger",
                             name: "test",
                             swaggerJson: JSON.stringify(swagger),
@@ -47,7 +47,7 @@ export class InMemoryDataService implements InMemoryDbService {
                     name: 'workflow2',
                     nodes: [],
                     configs: {
-                        microservices: []
+                        restConfigs: []
                     }
                 },
             },
@@ -61,9 +61,11 @@ export class InMemoryDataService implements InMemoryDbService {
         const mockobject = {};
 
         const setting = {
-            "BackendType":"Catalog"
-        }
+            "BackendType":"SDC",
+        };
 
-        return { workflows, swagger, mockarray,mockobject, setting};
+        const tenant = {tenant: "tenant1"};
+
+        return { workflows, swagger, mockarray,mockobject, setting, tenant};
     }
 }

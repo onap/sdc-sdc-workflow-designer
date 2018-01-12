@@ -36,7 +36,9 @@ export class RestConfigListComponent {
     }
 
     public addRestConfig() {
-        const restConfig = this.restService.addRestConfig();
+
+        const restConfig = this.restService.newRestConfig();
+        this.restService.addRestConfig(restConfig);
 
         this.onConfigSelected(restConfig);
     }

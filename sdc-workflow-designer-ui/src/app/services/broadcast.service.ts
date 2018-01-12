@@ -81,7 +81,7 @@ export class BroadcastService {
      * broadcast datas
      * this method will catch the exceptions for the broadcast
      * @param subject will broadcast data
-     * @param data will be broadcated
+     * @param data will be broadcasted
      */
     public broadcast(subject: Subject<any>, data: any) {
         try {

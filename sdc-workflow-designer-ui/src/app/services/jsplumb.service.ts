@@ -46,6 +46,17 @@ export class JsPlumbService {
                 }
             }
         });
+
+        this.broadcastService.planModel$.subscribe(Workflow => {
+            this.jsplumbInstanceMap.get(this.modelService.rootNodeId).reset();
+            this.unsubscriptionAll();
+            this.buttonDraggable();
+            this.buttonDroppable();
+        });
+    }
+
+    private unsubscriptionAll() {
+        this.subscriptionMap.forEach(subscription => subscription.unsubscribe());
     }
 
     public connectChildrenNodes(parentNodeId: string) {

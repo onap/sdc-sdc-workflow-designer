@@ -95,22 +95,22 @@ body .ui-radiobutton .ui-radiobutton-box .ui-radiobutton-icon{
     width: 160px;
 }
 
-/*IE¹ö¶¯ÌõÉèÖÃ*/
+/*IEæ»šåŠ¨æ¡è®¾ç½®*/
 body{
-    /*Èı½Ç¼ıÍ·µÄÑÕÉ«*/
+    /*ä¸‰è§’ç®­å¤´çš„é¢œè‰²*/
     scrollbar-arrow-color: #00abff;
-    /*¹ö¶¯Ìõ»¬¿é°´Å¥µÄÑÕÉ«*/
+    /*æ»šåŠ¨æ¡æ»‘å—æŒ‰é’®çš„é¢œè‰²*/
     scrollbar-face-color: #00abff;
-    /*¹ö¶¯ÌõÕûÌåÑÕÉ«*/
+    /*æ»šåŠ¨æ¡æ•´ä½“é¢œè‰²*/
     scrollbar-highlight-color: transparent;
-    /*¹ö¶¯ÌõÒõÓ°*/
+    /*æ»šåŠ¨æ¡é˜´å½±*/
     scrollbar-shadow-color: #000;
-    /*¹ö¶¯Ìõ¹ìµÀÑÕÉ«*/
+    /*æ»šåŠ¨æ¡è½¨é“é¢œè‰²*/
     scrollbar-track-color: transparent;
 }
 
-/*Chrome¹ö¶¯ÌõÉèÖÃ*/
-/*¹ö¶¯ÌõÕûÌå²¿·Ö,±ØĞëÒªÉèÖÃ*/
+/*Chromeæ»šåŠ¨æ¡è®¾ç½®*/
+/*æ»šåŠ¨æ¡æ•´ä½“éƒ¨åˆ†,å¿…é¡»è¦è®¾ç½®*/
 ::-webkit-scrollbar
 {
 	width: 4px;
@@ -119,20 +119,20 @@ body{
 	margin-right: 2px;
 }
 
-/*¹ö¶¯ÌõµÄ¹ìµÀ*/
+/*æ»šåŠ¨æ¡çš„è½¨é“*/
 ::-webkit-scrollbar-track
 {
 	border-radius: 2px;
 	background-color: transparent;
 }
 
-/*¹ö¶¯ÌõµÄ»¬¿é°´Å¥*/
+/*æ»šåŠ¨æ¡çš„æ»‘å—æŒ‰é’®*/
 ::-webkit-scrollbar-thumb{
     border-radius: 2px;
     background-color: #00abff;
 }
 
-/*¹ö¶¯ÌõµÄÉÏÏÂÁ½¶ËµÄ°´Å¥*/
+/*æ»šåŠ¨æ¡çš„ä¸Šä¸‹ä¸¤ç«¯çš„æŒ‰é’®*/
 ::-webkit-scrollbar-button{
     width: 0;
     height: 0;

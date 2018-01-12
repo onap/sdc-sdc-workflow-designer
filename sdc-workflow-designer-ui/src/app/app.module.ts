@@ -9,55 +9,57 @@
  * Contributors:
  *     ZTE - initial API and implementation and/or initial documentation
  */
-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
+import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { AlertModule, ModalModule } from 'ngx-bootstrap/index';
 import { NgxTreeSelectModule } from 'ngx-tree-select';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { AlertModule, ModalModule } from 'ngx-bootstrap/index';
-import { AccordionModule } from 'ngx-bootstrap/accordion';
 
 import { AppComponent } from './app.component';
-import { JsPlumbService } from "./services/jsplumb.service";
-import { NodeComponent } from "./components/node/node.component";
-import { ToolbarComponent } from "./components/toolbar/toolbar.component";
-import { WorkflowService } from "./services/workflow.service";
-import { DataService } from "./services/data/data.service";
-import { HttpService } from "./util/http.service";
-import { SharedModule } from "./shared/shared.module";
-import { InMemoryWebApiModule } from "angular-in-memory-web-api";
-import { InMemoryDataService } from "./services/data/in-memory-data.service";
-import { HttpModule } from "@angular/http";
-import { RouterModule } from "@angular/router";
-import { BroadcastService } from "./services/broadcast.service";
-import { PropertiesComponent } from "./components/property/properties.component";
-import { ParameterComponent } from "./components/parameter/parameter.component";
-import { MenusComponent } from "./components/menus/menus.component";
-import { RestTaskComponent } from "./components/property/rest-task/rest-task.component";
-import { EditablePropertyComponent } from "./components/editable-property/editable-property.component";
-import { SwaggerTreeConverterService } from "./services/swagger-tree-converter.service";
-import { IntermediateCatchEventComponent } from "./components/property/intermediate-catch-event/intermediate-catch-event.component";
-import { SequenceFlowComponent } from "./components/sequence-flow/sequence-flow.component";
-import { ScriptTaskComponent } from "./components/property/script-task/script-task.component";
-import { WorkflowsComponent } from "./components/menus/workflows/workflows.component";
-import { ModelService } from './services/model.service';
 import { ContainerComponent } from './components/container/container.component';
-import { RestService } from './services/rest.service';
-import { ResizableDirective } from './directive/resizable/resizable.directive';
-import { StartEventComponent } from './components/property/start-event/start-event.component';
+import { EditablePropertyComponent } from './components/editable-property/editable-property.component';
 import { NodeParametersComponent } from './components/node-parameters/node-parameters.component';
 import { ParameterTreeComponent } from './components/node-parameters/parameter-tree/parameter-tree.component';
-import { NoticeService } from './services/notice.service';
-import { GlobalNoticeComponent } from './components/global-notice/global-notice.component';
-import { SettingService } from './services/setting.service';
-import { ErrorEventComponent } from './components/property/error-event/error-event.component';
+import { NodeComponent } from './components/node/node.component';
+import { ParameterComponent } from './components/parameter/parameter.component';
+import { IntermediateCatchEventComponent } from './components/property/intermediate-catch-event/intermediate-catch-event.component';
 import { NodeTemplateComponent } from './components/property/node-template/node-template.component';
-import { RestConfigComponent } from './components/menus/rest-config/rest-config.component';
+import { PropertiesComponent } from './components/property/properties.component';
+import { RestTaskComponent } from './components/property/rest-task/rest-task.component';
+import { ErrorEventComponent } from './components/property/error-event/error-event.component';
+import { StartEventComponent } from './components/property/start-event/start-event.component';
+import { SequenceFlowComponent } from './components/sequence-flow/sequence-flow.component';
 import { RestConfigDetailComponent } from './components/menus/rest-config/rest-config-detail/rest-config-detail.component';
 import { RestConfigListComponent } from './components/menus/rest-config/rest-config-list/rest-config-list.component';
+import { RestConfigComponent } from './components/menus/rest-config/rest-config.component';
+import { ToolbarComponent } from './components/toolbar/toolbar.component';
+
+import { ResizableDirective } from './directive/resizable/resizable.directive';
+
+import { BroadcastService } from './services/broadcast.service';
+import { DataService } from './services/data/data.service';
+import { JsPlumbService } from './services/jsplumb.service';
+import { ModelService } from './services/model.service';
+import { NoticeService } from './services/notice.service';
+import { RestService } from './services/rest.service';
+import { SwaggerTreeConverterService } from './services/swagger-tree-converter.service';
+import { SettingService } from './services/setting.service';
+
+import { SharedModule } from './shared/shared.module';
+import { HttpService } from './util/http.service';
+import { GlobalNoticeComponent } from './components/global-notice/global-notice.component';
+import { MenusComponent } from './components/menus/menus.component';
+import { ScriptTaskComponent } from "./components/property/script-task/script-task.component";
+import { WorkflowsComponent } from './components/menus/workflows/workflows.component';
+import { WorkflowService } from './services/workflow.service';
+import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { InMemoryDataService } from './services/data/in-memory-data.service';
+import { HttpModule } from '@angular/http';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -68,38 +70,38 @@ export function HttpLoaderFactory(http: HttpClient) {
     declarations: [
         AppComponent,
         ContainerComponent,
-        ErrorEventComponent,
-        ResizableDirective,
         EditablePropertyComponent,
-        GlobalNoticeComponent,
+        ErrorEventComponent,
         IntermediateCatchEventComponent,
-        MenusComponent,
         NodeComponent,
         NodeParametersComponent,
         NodeTemplateComponent,
         ParameterComponent,
         ParameterTreeComponent,
         PropertiesComponent,
-        RestTaskComponent,
         RestConfigComponent,
-        RestConfigDetailComponent,
-        RestConfigListComponent,
+        RestTaskComponent,
+        SequenceFlowComponent,
         ScriptTaskComponent,
         StartEventComponent,
-        SequenceFlowComponent,
         ToolbarComponent,
+        RestConfigDetailComponent,
+        RestConfigListComponent,
+        ResizableDirective,
+        GlobalNoticeComponent,
+        MenusComponent,
         WorkflowsComponent,
     ],
     providers: [
         BroadcastService,
-        DataService,
         HttpService,
         JsPlumbService,
-	ModelService,
+        ModelService,
         NoticeService,
         RestService,
-        SettingService,
         SwaggerTreeConverterService,
+	DataService,
+        SettingService,
         WorkflowService
     ],
     imports: [
@@ -131,8 +133,9 @@ export function HttpLoaderFactory(http: HttpClient) {
         })
     ],
     bootstrap: [
-    	AppComponent,
+        AppComponent,
     ],
 })
 export class AppModule {
+
 }

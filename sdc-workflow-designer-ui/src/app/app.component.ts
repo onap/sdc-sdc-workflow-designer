@@ -42,6 +42,5 @@ export class AppComponent {
             browserLang = window.navigator.language;
         }
         translate.use(browserLang);
-
     }
 }

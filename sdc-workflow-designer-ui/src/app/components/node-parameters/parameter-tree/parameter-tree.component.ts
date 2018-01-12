@@ -44,14 +44,14 @@ export class ParameterTreeComponent implements OnChanges {
 
     public getParameter(node: any): Parameter {
         // console.log('Parameter init:' + node.label +'.'+ node.type+'.'+JSON.stringify(node.value.value)+'.'+node.value.valueSource);
-
+        
         return new Parameter(node.label, node.value.value, node.value.valueSource, node.definition.type, node.definition.reqquired);
     }
 
 
     public paramChange(param: Parameter, node: any) {
         // console.log('Parameter change:' + param.name + ', Node label is:' + node.label);
-
+        
         node.value.valueSource = param.valueSource;
         node.value.value = param.value;
 
