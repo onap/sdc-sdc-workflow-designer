@@ -10,6 +10,7 @@
         
         <!-- Perform bpmn elements -->
         
-    </process>
+		<!-- Perform bpmn sequence flow -->
+		    </process>
 </definitions>
 
