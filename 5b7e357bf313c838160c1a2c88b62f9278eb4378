@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_6cbada24",
+        "filename": "sdc-workflow-designer-server/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 189
+      },
+      "writtenOn": "2018-02-01T08:13:50Z",
+      "side": 0,
+      "message": "It is supposed to be a snapshot version",
+      "revId": "5b7e357bf313c838160c1a2c88b62f9278eb4378",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
