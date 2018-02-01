@@ -23,8 +23,8 @@
     <groupId>org.onap.sdc.sdc-workflow-designer</groupId>
     <artifactId>sdc-workflow-designer-server</artifactId>
     <name>sdc-workflow-designer-server</name>
-    <version>1.0.0</version>
     <packaging>jar</packaging>
+    
     <properties>
         <slf4j.version>1.7.25</slf4j.version>
         <jackson.version>2.9.1</jackson.version>
@@ -35,7 +35,7 @@
         <dropwizard.version>1.2.3</dropwizard.version>
         <swagger.version>1.5.3</swagger.version>
     </properties>
-    
+
     <dependencies>
         <!-- dropwizard -->
         <dependency>
