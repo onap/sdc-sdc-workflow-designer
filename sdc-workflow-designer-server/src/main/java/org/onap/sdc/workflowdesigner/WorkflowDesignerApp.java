@@ -83,7 +83,7 @@ public class WorkflowDesignerApp extends Application<WorkflowDesignerConfigurati
     SimpleServerFactory simpleServerFactory =
         (SimpleServerFactory) configuration.getServerFactory();
     String basePath = simpleServerFactory.getApplicationContextPath();
-    String rootPath = simpleServerFactory.getJerseyRootPath();
+    String rootPath = simpleServerFactory.getJerseyRootPath().get();
     rootPath = rootPath.substring(0, rootPath.indexOf("/*"));
     basePath =
         basePath.equals("/") ? rootPath : (new StringBuilder()).append(basePath).append(rootPath)
