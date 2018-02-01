@@ -23,13 +23,13 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.onap.sdc.sdc-workflow-designer</groupId>
     <artifactId>sdc-workflow-designer</artifactId>
-    <packaging>pom</packaging>
-    <version>1.0.1</version>
     <name>sdc-sdc-workflow-designer</name>
+    <version>1.1.0</version>
+    <packaging>pom</packaging>
 
     <modules>
         <module>sdc-workflow-designer-ui</module>
-		<!--<module>sdc-workflow-designer-server</module>-->
+        <!--<module>sdc-workflow-designer-server</module>-->
         <module>distribution</module>
     </modules>
     
@@ -37,6 +37,7 @@
         <tomcat.version>8.5.6</tomcat.version>
         <onap.nexus.javadocs-url>dav:https://nexus.onap.org/content/sites/site/org/onap/sdc/sdc-workflow-designer/${project.version}</onap.nexus.javadocs-url>
     </properties>
+    
     <distributionManagement>
       <site>
         <id>ecomp-site</id>
