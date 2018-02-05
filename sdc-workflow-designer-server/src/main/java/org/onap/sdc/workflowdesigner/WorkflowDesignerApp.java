@@ -13,8 +13,8 @@
 package org.onap.sdc.workflowdesigner;
 
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
-// import org.onap.sdc.workflowdesigner.resources.ExtendActivityResource;
-// import org.onap.sdc.workflowdesigner.resources.WorkflowModelerResource;
+import org.onap.sdc.workflowdesigner.resources.ExtendActivityResource;
+import org.onap.sdc.workflowdesigner.resources.WorkflowModelerResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,8 +50,8 @@ public class WorkflowDesignerApp extends Application<WorkflowDesignerConfigurati
   public void run(WorkflowDesignerConfiguration configuration, Environment environment) {
     LOGGER.info("Start to initialize Workflow Designer.");
 
-    // environment.jersey().register(new WorkflowModelerResource());
-    // environment.jersey().register(new ExtendActivityResource());
+    environment.jersey().register(new WorkflowModelerResource());
+    environment.jersey().register(new ExtendActivityResource());
 
     // register rest interface
     environment.jersey().packages("org.onap.sdc.workflowdesigner.resources");
