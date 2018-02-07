@@ -13,7 +13,6 @@
 package org.onap.sdc.workflowdesigner.resources;
 
 import java.io.IOException;
-import java.io.StringBufferInputStream;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -93,8 +92,8 @@ public class WorkflowModelerResource {
       @ApiParam(value = "Model Content", required = true) String json) {
     String filePath = "model.json";
     try {
-      FileCommonUtils.saveFile(new StringBufferInputStream(json), "", filePath);
-      return Response.status(Response.Status.OK).entity(id).build();
+      FileCommonUtils.write(filePath, json);
+      return Response.status(Response.Status.OK).entity(json).build();
     } catch (IOException e) {
       logger.error("getServiceTemplateById failed.", e);
       throw RestUtils.newInternalServerErrorException(e);

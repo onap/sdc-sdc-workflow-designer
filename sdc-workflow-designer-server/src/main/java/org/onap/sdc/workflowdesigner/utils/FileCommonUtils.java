@@ -20,7 +20,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -407,7 +406,7 @@ public class FileCommonUtils {
     try {
       int read = 0;
       byte[] bytes = new byte[1024];
-      os = new FileOutputStream(file, true);
+      os = new FileOutputStream(file, false);
       while ((read = ins.read(bytes)) != -1) {
         os.write(bytes, 0, read);
       }
@@ -419,37 +418,102 @@ public class FileCommonUtils {
   }
 
   /**
+   * 
+   * @param path
+   * @param fileName
+   * @param content
+   * @throws IOException
+   */
+  public static void writetoAbsoluteFile(String path, String fileName, String content)
+      throws IOException {
+    writetoAbsoluteFile(path, fileName, content, FileCommonConstants.DEFAULT_CHARSET_NAME);
+  }
+
+  /**
+   * 
+   * @param path
+   * @param fileName
+   * @param content
+   * @param charsetName
+   * @throws IOException
+   */
+  public static void writetoAbsoluteFile(String path, String fileName, String content,
+      String charsetName) throws IOException {
+    write(path, fileName, content, charsetName);
+  }
+
+  /**
+   * 
+   * @param fileName
    * @param s
    * @throws IOException
-   * @throws UnsupportedEncodingException
    */
-  public static void write(String s, String fileName)
-      throws UnsupportedEncodingException, IOException {
-    FileOutputStream out = null;
-    try {
-      out = new FileOutputStream(fileName);
-      out.write(s.getBytes("UTF-8"));
-      out.close();
-    } finally {
-      closeOutputStream(out);
-    }
+  public static void write(String fileName, String s) throws IOException {
+    write(".", fileName, s, FileCommonConstants.DEFAULT_CHARSET_NAME);
 
   }
 
   /**
-   * @param ss
+   * 
+   * @param path
    * @param fileName
+   * @param s
+   * @param charsetName
    * @throws IOException
-   * @throws UnsupportedEncodingException
    */
-  public static void write(String[] ss, String fileName)
-      throws UnsupportedEncodingException, IOException {
+  public static void write(String path, String fileName, String s, String charsetName)
+      throws IOException {
+    File tmpPath = new File(path);
+    if (!tmpPath.exists()) {
+      tmpPath.mkdirs();
+    }
+
+    String absolutePath = path + File.separator + fileName;
+    FileOutputStream out = null;
+    try {
+      out = new FileOutputStream(absolutePath);
+      out.write(s.getBytes(charsetName));
+      out.close();
+    } finally {
+      closeOutputStream(out);
+    }
+  }
+
+  /**
+   * 
+   * @param fileName
+   * @param s
+   * @param charsetName
+   * @throws IOException
+   */
+  public static void write(String fileName, String s, String charsetName) throws IOException {
+    write(".", fileName, s, charsetName);
+  }
+
+  /**
+   * 
+   * @param fileName
+   * @param ss
+   * @throws IOException
+   */
+  public static void write(String fileName, String[] ss) throws IOException {
+    write(fileName, ss, FileCommonConstants.DEFAULT_CHARSET_NAME);
+  }
+
+  /**
+   * 
+   * @param fileName
+   * @param ss
+   * @param charsetName
+   * @throws IOException
+   */
+  public static void write(String fileName, String[] ss, String charsetName) throws IOException {
     StringBuilder sb = new StringBuilder();
     for (int i = 0; i < ss.length; i++) {
       sb.append(ss[i]).append(System.lineSeparator());
     }
 
-    write(sb.toString(), fileName);
+    write(sb.toString(), fileName, charsetName);
   }
 
   /**
