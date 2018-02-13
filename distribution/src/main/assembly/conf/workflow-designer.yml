@@ -1,0 +1,50 @@
+#
+# Copyright (c) 2017 ZTE Corporation.
+# All rights reserved. This program and the accompanying materials
+# are made available under the Apache License, Version 2.0
+# and the Eclipse Public License v1.0 which both accompany this distribution,
+# and are available at http://www.eclipse.org/legal/epl-v10.html
+# and http://www.apache.org/licenses/LICENSE-2.0
+#
+# Contributors:
+#     ZTE - initial API and implementation and/or initial documentation
+#
+
+template: Hello, %s!
+
+defaultName: ${DW_DEFAULT_NAME:-Stranger}
+
+# use the simple server factory if you only want to run on a single port
+server:
+  type: simple
+  rootPath: '/api/workflow-modeler/v1/*'
+  applicationContextPath: /
+  adminContextPath: /admin
+  connector:
+    type: http
+    port: 8080
+
+# Logging settings.
+logging:
+
+  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: ALL
+
+  # Logger-specific levels.
+  loggers:
+
+    # Sets the level for 'com.example.app' to DEBUG.
+    org.onap.sdc.workflowdesigner.WorkflowDesignerApp: INFO
+
+  appenders:
+    - type: console
+      threshold: INFO
+      timeZone: UTC
+      logFormat: "%d{yyyy-MM-dd HH:mm:ss SSS} %-5p [%c][%t] - %m%n"
+    - type: file
+      threshold: INFO
+      logFormat: "%d{yyyy-MM-dd HH:mm:ss SSS} %-5p [%c][%t] - %m%n"
+      currentLogFilename: ./works/logs/wfd.log
+      archivedLogFilenamePattern: ./works/logs/zip/wfd-%d{yyyy-MM-dd}.log.gz
+      archivedFileCount: 7
+      timeZone: UTC

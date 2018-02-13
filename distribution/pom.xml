@@ -16,7 +16,7 @@
     <parent>
         <groupId>org.onap.sdc.sdc-workflow-designer</groupId>
         <artifactId>sdc-workflow-designer</artifactId>
-        <version>1.0.0</version>
+        <version>1.1.0-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -26,53 +26,60 @@
     <packaging>pom</packaging>
       
     <properties>
-        <packagename>sdc-workflow-designer</packagename>
+        <project.package>sdc-workflow-designer</project.package>
+        <project.jar>sdc-workflow-designer.jar</project.jar>
+        <src.assembly>src/main/assembly</src.assembly>
+        <src.docker>src/main/docker</src.docker>
         <linux64id>linux64</linux64id>
         <win64id>win64</win64id>
-        <linux64outputdir>target/assembly/${linux64id}</linux64outputdir>
-        <win64outputdir>target/assembly/${win64id}</win64outputdir>
+        <linux64outputdir>target/assembly/linux64</linux64outputdir>
+        <win64outputdir>target/assembly/win64</win64outputdir>
         <version.output>target/version</version.output>
+        <target.dir>target</target.dir>
     </properties>
     
- <build>
-       <plugins>
-			<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
+    <build>
+        <plugins>
+            <!-- assembly ui and backend to one jar -->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>org.onap.sdc.workflowdesigner.WorkflowDesignerApp</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
                 <executions>
                     <execution>
-                        <id>unpack-tomcat-to-temporary-dir</id>
-                        <phase>generate-resources</phase>
+                        <id>assembly-ui-and-backend</id>
+                        <phase>process-sources</phase>
                         <goals>
-                            <goal>unpack</goal>
+                            <goal>single</goal>
                         </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.apache.tomcat</groupId>
-                                    <artifactId>tomcat</artifactId>
-                                    <type>zip</type>
-                                    <outputDirectory>target/tomcat</outputDirectory>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
+            
+            <!-- copy assembly and jar to assembly -->
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>copy-resources-${linux64id}</id>
+                        <id>copy-assembly-and-jar-${linux64id}</id>
                         <phase>process-resources</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
                             <outputDirectory>${linux64outputdir}</outputDirectory>
+                            <overwrite>true</overwrite>
                             <resources>
                                 <resource>
-                                    <directory>src/main/assembly/</directory>
+                                    <directory>${src.assembly}</directory>
                                     <filtering>false</filtering>
                                     <includes>
                                         <include>**/*</include>
@@ -81,64 +88,35 @@
                                         <exclude>**/*.bat</exclude>
                                     </excludes>
                                 </resource>
-                            </resources>
-                            <overwrite>true</overwrite>
-                        </configuration>
-                    </execution>
-                                       
-					<execution>
-                        <id>copy-tomcat-resources-${linux64id}</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${linux64outputdir}/tomcat</outputDirectory>
-                            <resources>
                                 <resource>
-                                    <directory>${basedir}/target/tomcat/apache-tomcat-${tomcat.version}</directory>
+                                    <directory>${target.dir}</directory>
+                                    <filtering>false</filtering>
                                     <includes>
-                                        <include>**/*</include>
-                                    </includes>
-									<excludes>
-                                        <exclude>**/*.bat</exclude>
-                                    </excludes>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                    
-                    <execution>
-                        <id>copy-workflow-designer-resources-${linux64id}</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${linux64outputdir}/tomcat/webapps/ROOT</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${basedir}/../sdc-workflow-designer-ui/dist</directory>
-                                    <includes>
-                                        <include>**/*</include>
+                                        <include>*.jar</include>
                                     </includes>
                                 </resource>
                             </resources>
-                            <overwrite>true</overwrite>
                         </configuration>
                     </execution>
-                    
+                </executions>
+            </plugin>
+            
+            <!-- copy assembly and jar to assembly -->
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
                     <execution>
-                        <id>copy-resources-${win64id}</id>
+                        <id>copy-assembly-and-jar-${win64id}</id>
                         <phase>process-resources</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
                             <outputDirectory>${win64outputdir}</outputDirectory>
+                            <overwrite>true</overwrite>
                             <resources>
                                 <resource>
-                                    <directory>src/main/assembly/</directory>
+                                    <directory>${src.assembly}</directory>
                                     <filtering>false</filtering>
                                     <includes>
                                         <include>**/*</include>
@@ -147,76 +125,50 @@
                                         <exclude>**/*.sh</exclude>
                                     </excludes>
                                 </resource>
-                            </resources>
-                            <overwrite>true</overwrite>
-                        </configuration>
-                    </execution>
-
-					<execution>
-                        <id>copy-tomcat-resources-${win64id}</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${win64outputdir}/tomcat</outputDirectory>
-                            <resources>
                                 <resource>
-                                    <directory>${basedir}/target/tomcat/apache-tomcat-${tomcat.version}</directory>
-                                    <includes>
-                                        <include>**/*</include>
-                                    </includes>
-									<excludes>
-                                        <exclude>**/*.sh</exclude>
-                                    </excludes>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                    
-                    <execution>
-                        <id>copy-workflow-designer-resources-${win64id}</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${win64outputdir}/tomcat/webapps/ROOT</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${basedir}/../sdc-workflow-designer-ui/dist</directory>
-                                    <includes>
-                                        <include>**/*</include>
-                                    </includes>
-                                </resource>
-                            </resources>
-                            <overwrite>true</overwrite>
-                        </configuration>
-                    </execution>
-                    
-					<execution>
-                        <id>copy-dockerfile</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${version.output}</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>src/main/assembly/</directory>
+                                    <directory>${target.dir}</directory>
                                     <filtering>false</filtering>
                                     <includes>
-                                        <include>Dockerfile</include>
+                                        <include>*.jar</include>
                                     </includes>
                                 </resource>
                             </resources>
-                            <overwrite>true</overwrite>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-			
+            
+            <!-- rename jar name -->
+            <plugin>
+                <groupId>com.coderplus.maven.plugins</groupId>
+                <artifactId>copy-rename-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>rename-jar-name-${linux64id}</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>rename</goal>
+                        </goals>
+                        <configuration>
+                            <sourceFile>${linux64outputdir}/${project.name}-${project.version}-jar-with-dependencies.jar</sourceFile>
+                            <destinationFile>${linux64outputdir}/${project.jar}</destinationFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>rename-jar-name-${win64id}</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>rename</goal>
+                        </goals>
+                        <configuration>
+                            <sourceFile>${win64outputdir}/${project.name}-${project.version}-jar-with-dependencies.jar</sourceFile>
+                            <destinationFile>${win64outputdir}/${project.jar}</destinationFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+      
+            <!-- version package -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
@@ -229,28 +181,55 @@
                         </goals>
                         <configuration>
                             <target name="distribution">
-                                <tar destfile="${version.output}/${packagename}-${project.version}-linux64.tar.gz" longfile="posix" compression="gzip">
-                                    <tarfileset dir="target/assembly/linux64" filemode="0644" dirmode="0755">
+                                <tar destfile="${version.output}/${project.package}-${project.version}-linux64.tar.gz" longfile="posix" compression="gzip">
+                                    <tarfileset dir="${linux64outputdir}" filemode="0644" dirmode="0755">
                                         <exclude name="**/*.sh"/>
                                     </tarfileset>
-                                    <tarfileset dir="target/assembly/linux64" filemode="0755" dirmode="0755">
+                                    <tarfileset dir="${linux64outputdir}" filemode="0755" dirmode="0755">
                                         <include name="**/*.sh"/>
                                     </tarfileset>
                                 </tar>
-                                <attachartifact file="${version.output}/${packagename}-${project.version}-linux64.tar.gz" classifier="linux64" type="tar.gz"/>
-                                <zip destfile="${version.output}/${packagename}-${project.version}-win64.zip" update="true">
-                                    <zipfileset dir="target/assembly/win64" includes="**"/>
+                                <attachartifact file="${version.output}/${project.package}-${project.version}-linux64.tar.gz" classifier="linux64" type="tar.gz"/>
+                                <zip destfile="${version.output}/${project.package}-${project.version}-win64.zip" update="true">
+                                    <zipfileset dir="${win64outputdir}" includes="**"/>
                                 </zip>
-                                <attachartifact file="${version.output}/${packagename}-${project.version}-win64.zip" classifier="win64" type="zip"/>
+                                <attachartifact file="${version.output}/${project.package}-${project.version}-win64.zip" classifier="win64" type="zip"/>
                             </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <!-- Copy dockerfile to version -->
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dockerfile</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${version.output}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${src.docker}</directory>
+                                    <filtering>false</filtering>
+                                    <includes>
+                                        <include>Dockerfile</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                            <overwrite>true</overwrite>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
-	
-	<profiles>
+    
+    <profiles>
         <profile>
             <id>docker</id>
             <build>
@@ -298,5 +277,19 @@
             </build>
         </profile>
     </profiles>
-	
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.onap.sdc.sdc-workflow-designer</groupId>
+            <artifactId>sdc-workflow-designer-server</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.onap.sdc.sdc-workflow-designer</groupId>
+            <artifactId>sdc-workflow-designer-ui</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+    
 </project>

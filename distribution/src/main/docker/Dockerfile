@@ -22,5 +22,5 @@ WORKDIR /home/sdc-workflow-designer
 ADD sdc-workflow-designer-*-linux64.tar.gz /home/sdc-workflow-designer/
 RUN chmod 755 /home/sdc-workflow-designer/*.sh
 
-ENTRYPOINT /home/sdc-workflow-designer/startup.sh
+ENTRYPOINT /home/sdc-workflow-designer/bin/run.sh
 
