@@ -44,6 +44,9 @@ public class WorkflowDesignerApp extends Application<WorkflowDesignerConfigurati
   @Override
   public void initialize(Bootstrap<WorkflowDesignerConfiguration> bootstrap) {
     bootstrap.addBundle(new AssetsBundle("/api-doc", "/api-doc", "index.html", "api-doc"));
+    bootstrap.addBundle(new AssetsBundle("/workflow-modeler", "/workflow-modeler", "index.html",
+        "workflow-modeler"));
+    bootstrap.addBundle(new AssetsBundle("/workflow-modeler", "/", "index.html", "ng"));
   }
 
   @Override
