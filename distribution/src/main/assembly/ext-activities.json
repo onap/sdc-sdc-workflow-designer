@@ -1,0 +1,318 @@
+﻿[
+  {
+    "id": "apds_service",
+    "displayName": {
+      "zh_CN": "Service",
+      "en_US": "Service"
+    },
+    "description": {
+      "zh_CN": "JAVA 节点",
+      "en_US": "JAVA Node"
+    },
+    "type": "serviceTask",
+    "icon": {
+      "name": "apds_service",
+      "width": 56,
+      "height": 56
+    },
+    "content": {
+      "class": "",
+      "inputs": {}
+    }
+  },
+  {
+    "id": "apds_rest",
+    "displayName": {
+      "zh_CN": "REST",
+      "en_US": "REST"
+    },
+    "description": {
+      "zh_CN": "REST 节点",
+      "en_US": "REST Node"
+    },
+    "type": "restTask",
+    "icon": {
+      "name": "apds_rest",
+      "width": 56,
+      "height": 56
+    },
+    "content": {
+      "url": "",
+      "name": "",
+      "version": "",
+      "path": "",
+      "method": "",
+      "accept": "",
+      "inputs": {}
+    }
+  },
+  {
+    "id": "apds_script",
+    "displayName": {
+      "zh_CN": "默认脚本",
+      "en_US": "Script"
+    },
+    "description": {
+      "zh_CN": "脚本节点",
+      "en_US": "Script Node"
+    },
+    "type": "scriptTask",
+    "icon": {
+      "name": "apds_script",
+      "width": 56,
+      "height": 56
+    },
+    "content": {
+      "scriptFormat": "",
+      "script": ""
+    }
+  },
+  {
+    "id": "apds_scriptA",
+    "displayName": {
+      "zh_CN": "JavaScript",
+      "en_US": "JavaScript"
+    },
+    "description": {
+      "zh_CN": "脚本节点",
+      "en_US": "Script Node"
+    },
+    "type": "scriptTask",
+    "icon": {
+      "name": "apds_script",
+      "width": 56,
+      "height": 56
+    },
+    "content": {
+      "scriptFormat": "JavaScript",
+      "script": "abc"
+    }
+  },
+  {
+    "id": "apds_scriptB",
+    "displayName": {
+      "zh_CN": "Groovy",
+      "en_US": "Groovy"
+    },
+    "description": {
+      "zh_CN": "脚本节点",
+      "en_US": "Script Node"
+    },
+    "type": "scriptTask",
+    "icon": {
+      "name": "apds_script",
+      "width": 56,
+      "height": 56
+    },
+    "content": {
+      "scriptFormat": "Groovy",
+      "script": "xyz"
+    }
+  },
+  {
+    "id": "apds_serviceA",
+    "displayName": {
+      "zh_CN": "JAVA A",
+      "en_US": "JAVA A"
+    },
+    "description": {
+      "zh_CN": "JAVA 节点",
+      "en_US": "JAVA Node"
+    },
+    "type": "serviceTask",
+    "icon": {
+      "name": "apds_service",
+      "width": 56,
+      "height": 56
+    },
+    "content": {
+      "class": "com.zte.ums.workflow.activitiext.restservicetask.HttpUtil",
+      "inputs": {
+        "param1": {
+          "type": "string",
+          "default": "default",
+          "required": false,
+          "constraints": [],
+          "displayName": {
+            "zh_CN": "参数1",
+            "en_US": "Param1"
+          },
+          "show": false,
+          "editable": true
+        },
+        "param2": {
+          "type": "string",
+          "default": "",
+          "required": true,
+          "displayName": {
+            "zh_CN": "参数2",
+            "en_US": "Param2"
+          },
+          "show": true,
+          "editable": true
+        },
+        "param3": {
+          "type": "string",
+          "default": "value3",
+          "required": true,
+          "displayName": {
+            "zh_CN": "参数3",
+            "en_US": "Param3"
+          },
+          "show": true,
+          "editable": false
+        }
+      },
+      "outputs": {
+        "out1": {
+          "type": "string",
+          "default": "default",
+          "required": false,
+          "constraints": [],
+          "displayName": {
+            "zh_CN": "输出1",
+            "en_US": "Output Param 1"
+          },
+          "show": true,
+          "editable": true
+        }
+      }
+    }
+  },
+  {
+    "id": "apds_restA",
+    "displayName": {
+      "zh_CN": "REST无参数",
+      "en_US": "REST No Parameters"
+    },
+    "description": {
+      "zh_CN": "REST无参数",
+      "en_US": "REST No Parameters"
+    },
+    "type": "restTask",
+    "icon": {
+      "name": "apds_rest",
+      "width": 56,
+      "height": 56
+    },
+    "content": {
+      "serviceName": "name",
+      "serviceVersion": "v1",
+      "baseUrl": "url",
+      "path": "/test/",
+      "method": "put",
+      "consumes": "application/json, text/plain",
+      "produces": "application/json, text/plain",
+      "inputs": {}
+    }
+  },
+  {
+    "id": "apds_restB",
+    "displayName": {
+      "zh_CN": "REST复杂参数",
+      "en_US": "REST Complex Parameters"
+    },
+    "description": {
+      "zh_CN": "REST复杂参数",
+      "en_US": "REST Complex Parameters"
+    },
+    "type": "restTask",
+    "icon": {
+      "name": "apds_rest",
+      "width": 56,
+      "height": 56
+    },
+    "content": {
+      "serviceName": "ServiceName",
+      "serviceVersion": "v1",
+      "baseUrl": "url",
+      "path": "/test/",
+      "method": "put",
+      "consumes": "application/json, text/plain",
+      "produces": "application/json, text/plain",
+      "inputs": {
+        "param1": {
+          "type": "string",
+          "default": "default",
+          "required": false,
+          "constraints": [],
+          "show": false,
+          "editable": true
+        },
+        "param2": {
+          "type": "object",
+          "default": "",
+          "properties": {
+            "a": {
+              "type": "number"
+            },
+            "b": {
+              "type": "string"
+            },
+            "c": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "a",
+                  "b",
+                  "c"
+                ]
+              }
+            },
+            "d": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "p1": {
+                    "type": "number"
+                  },
+                  "p2": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            },
+            "y": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "z": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer"
+              }
+            }
+          },
+          "required": true,
+          "show": true,
+          "editable": true
+        },
+        "param3": {
+          "type": "string",
+          "default": "value3",
+          "required": true,
+          "show": true,
+          "editable": false
+        }
+      },
+      "outputs": {
+        "out1": {
+          "type": "string",
+          "default": "default",
+          "required": false,
+          "constraints": [],
+          "displayName": {
+            "zh_CN": "输出1",
+            "en_US": "Output Param 1"
+          },
+          "show": true,
+          "editable": true
+        }
+      }
+    }
+  }
+]
