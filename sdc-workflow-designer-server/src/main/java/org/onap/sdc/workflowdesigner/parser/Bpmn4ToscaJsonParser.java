@@ -158,6 +158,11 @@ public class Bpmn4ToscaJsonParser {
         Element element;
 
         String nodeType = getValueFromJsonNode(jsonNode, JsonKeys.TYPE);
+        if (nodeType == null) {
+          log.warn("Ignoring node: type is null");
+          return null;
+        }
+        
         switch (nodeType) {
         case "startEvent":
             element = MAPPER.readValue(jsonObject, StartEvent.class);
