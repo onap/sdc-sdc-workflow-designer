@@ -301,10 +301,18 @@ public class FileCommonUtils {
     }
 
     List<Path> list = new ArrayList<>();
-    DirectoryStream<Path> ds = Files.newDirectoryStream(path);
-    for (Path p : ds) {
-      list.add(p);
+    DirectoryStream<Path> ds = null;
+    try {
+      ds = Files.newDirectoryStream(path);
+      for (Path p : ds) {
+        list.add(p);
+      }
+    } finally {
+      if (ds != null) {
+        ds.close();
+      }
     }
+
     return list;
   }
 
@@ -315,9 +323,16 @@ public class FileCommonUtils {
    */
   public static List<String> listFileName(Path path) throws IOException {
     List<String> list = new ArrayList<>();
-    DirectoryStream<Path> ds = Files.newDirectoryStream(path);
-    for (Path p : ds) {
-      list.add(p.getFileName().toString());
+    DirectoryStream<Path> ds = null;
+    try {
+      ds = Files.newDirectoryStream(path);
+      for (Path p : ds) {
+        list.add(p.getFileName().toString());
+      }
+    } finally {
+      if (ds != null) {
+        ds.close();
+      }
     }
 
     return list;
