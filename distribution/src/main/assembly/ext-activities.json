@@ -132,7 +132,6 @@
           "type": "string",
           "default": "default",
           "required": false,
-          "constraints": [],
           "displayName": {
             "zh_CN": "参数1",
             "en_US": "Param1"
@@ -142,7 +141,6 @@
         },
         "param2": {
           "type": "string",
-          "default": "",
           "required": true,
           "displayName": {
             "zh_CN": "参数2",
@@ -166,9 +164,7 @@
       "outputs": {
         "out1": {
           "type": "string",
-          "default": "default",
           "required": false,
-          "constraints": [],
           "displayName": {
             "zh_CN": "输出1",
             "en_US": "Output Param 1"
@@ -232,58 +228,62 @@
       "produces": "application/json, text/plain",
       "inputs": {
         "param1": {
+          "in": "query",
           "type": "string",
           "default": "default",
           "required": false,
-          "constraints": [],
           "show": false,
           "editable": true
         },
         "param2": {
-          "type": "object",
-          "default": "",
-          "properties": {
-            "a": {
-              "type": "number"
-            },
-            "b": {
-              "type": "string"
-            },
-            "c": {
-              "type": "array",
-              "items": {
+          "in": "body",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "a": {
+                "type": "number",
+                "default": 123
+              },
+              "b": {
                 "type": "string",
-                "enum": [
-                  "a",
-                  "b",
-                  "c"
-                ]
-              }
-            },
-            "d": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "p1": {
-                    "type": "number"
-                  },
-                  "p2": {
-                    "type": "boolean"
+                "default": "xyz"
+              },
+              "c": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "a",
+                    "b",
+                    "c"
+                  ]
+                }
+              },
+              "d": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "p1": {
+                      "type": "number"
+                    },
+                    "p2": {
+                      "type": "boolean"
+                    }
                   }
                 }
-              }
-            },
-            "y": {
-              "type": "object",
-              "additionalProperties": {
-                "type": "string"
-              }
-            },
-            "z": {
-              "type": "object",
-              "additionalProperties": {
-                "type": "integer"
+              },
+              "y": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "z": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer"
+                }
               }
             }
           },
@@ -292,6 +292,7 @@
           "editable": true
         },
         "param3": {
+          "in": "path",
           "type": "string",
           "default": "value3",
           "required": true,
@@ -300,17 +301,60 @@
         }
       },
       "outputs": {
-        "out1": {
-          "type": "string",
-          "default": "default",
-          "required": false,
-          "constraints": [],
+        "body": {
           "displayName": {
-            "zh_CN": "输出1",
-            "en_US": "Output Param 1"
+            "zh_CN": "消息体",
+            "en_US": "Message Body"
           },
-          "show": true,
-          "editable": true
+          "schema": {
+            "type": "object",
+            "properties": {
+              "a": {
+                "type": "number"
+              },
+              "b": {
+                "type": "string"
+              },
+              "c": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "a",
+                    "b",
+                    "c"
+                  ]
+                }
+              },
+              "d": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "p1": {
+                      "type": "number"
+                    },
+                    "p2": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              },
+              "y": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "z": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "editable": false
         }
       }
     }

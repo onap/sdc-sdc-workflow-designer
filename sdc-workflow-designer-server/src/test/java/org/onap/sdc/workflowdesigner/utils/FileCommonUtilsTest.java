@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017 ZTE Corporation.
+ * Copyright (c) 2018 ZTE Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the Apache License, Version 2.0
  * and the Eclipse Public License v1.0 which both accompany this distribution,
@@ -14,6 +14,7 @@ package org.onap.sdc.workflowdesigner.utils;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.junit.After;
@@ -38,8 +39,28 @@ public class FileCommonUtilsTest {
   public void tearDown() throws Exception {}
 
   /**
+   * Test method for {@link org.onap.sdc.workflowdesigner.utils.FileCommonUtils#readString(String)}
+   * 
+   */
+  @Test
+  public final void readStringString() {
+    String fileName = "src\\test\\resources\\workflow\\template-test.bpmn20.xml";
+    File file = new File(fileName);
+    if (file.exists()) {
+      try {
+        String s = FileCommonUtils.readString(fileName);
+        FileCommonUtils.write("test.xml", s);
+        assertEquals(s.isEmpty(), false);
+      } catch (IOException e) {
+      }
+    }
+  }
+
+
+  /**
    * Test method for
-   * {@link org.onap.sdc.workflowdesigner.utils.FileCommonUtils#write(String, String)} .
+   * {@link org.onap.sdc.workflowdesigner.utils.FileCommonUtils#write(String, String)}
+   * 
    */
   @Test
   public final void writeStringString() {
@@ -57,7 +78,7 @@ public class FileCommonUtilsTest {
   /**
    * Test method for
    * {@link org.onap.sdc.workflowdesigner.utils.FileCommonUtils#writetoAbsoluteFile(String, String, String)}
-   * .
+   * 
    */
   @Test
   public final void saveFileStringStringString() {
