@@ -12,5 +12,5 @@
 package org.onap.sdc.workflowdesigner.model;
 
 public class ExclusiveGateway extends Element {
-    public static String type = "exclusiveGateway";
+    public final static String TYPE = "exclusiveGateway";
 }

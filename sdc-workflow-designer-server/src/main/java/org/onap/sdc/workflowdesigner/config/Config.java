@@ -22,10 +22,10 @@ import org.slf4j.LoggerFactory;
 public class Config {
     private static Logger log = LoggerFactory.getLogger(Config.class);
     private static String configFilePath = "bpmn.config.properties";
-    public static String HANDLER_ClASS = "handlerClass";
-    public static String TEMPLATE_PATH = "templatePath";
+    public final static String HANDLER_ClASS = "handlerClass";
+    public final static String TEMPLATE_PATH = "templatePath";
 
-    public static Properties PROPERTIES = load();
+    public final static Properties PROPERTIES = load();
 
     public static Properties load() {
         Properties properties = new Properties();

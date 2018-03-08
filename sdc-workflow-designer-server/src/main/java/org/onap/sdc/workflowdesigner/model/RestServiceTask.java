@@ -16,7 +16,7 @@ import java.util.List;
 import org.onap.sdc.workflowdesigner.config.Config;
 
 public class RestServiceTask extends ServiceTask {
-	public static String handler = Config.PROPERTIES.getProperty(Config.HANDLER_ClASS);
+    private static final String handler = Config.PROPERTIES.getProperty(Config.HANDLER_ClASS);
 	
 	private String restConfigId;
 	public String getRestConfigId() {
