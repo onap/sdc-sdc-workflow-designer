@@ -12,5 +12,5 @@
 package org.onap.sdc.workflowdesigner.model;
 
 public class ParallelGateway extends Element {
-    public static String type = "parallelGateway";
+    public final static String TYPE = "parallelGateway";
 }
