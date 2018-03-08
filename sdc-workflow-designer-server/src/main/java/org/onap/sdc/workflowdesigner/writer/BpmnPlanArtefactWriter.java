@@ -28,7 +28,7 @@ public class BpmnPlanArtefactWriter {
 
     private Process process;
 
-    public static String TEMPLATE_PATH = Config.PROPERTIES.getProperty(Config.TEMPLATE_PATH);
+    private final static String TEMPLATE_PATH = Config.PROPERTIES.getProperty(Config.TEMPLATE_PATH);
 
     private static Logger log = LoggerFactory.getLogger(BpmnPlanArtefactWriter.class);
 
