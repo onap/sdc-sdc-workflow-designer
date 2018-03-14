@@ -12,23 +12,44 @@
 
 package org.onap.sdc.workflowdesigner.utils.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class CommonErrorResponse {
   private String code;
   private String message;
-
+  
   public static Object failure(String message) {
     return message;
   }
 
   public CommonErrorResponse(String message) {
     super();
+    this.message = message;
+  }
+
+  /**
+   * @return the code
+   */
+  public String getCode() {
+    return code;
+  }
+
+  /**
+   * @param code the code to set
+   */
+  public void setCode(String code) {
+    this.code = code;
+  }
+
+  /**
+   * @return the message
+   */
+  public String getMessage() {
+    return message;
+  }
+
+  /**
+   * @param message the message to set
+   */
+  public void setMessage(String message) {
     this.message = message;
   }
 
