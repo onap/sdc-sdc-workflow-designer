@@ -19,8 +19,6 @@ import org.onap.sdc.workflowdesigner.utils.entity.CommonErrorResponse;
 
 /**
  * 
- * @author 10090474
- *
  */
 public class RestUtils {
   public static InternalServerErrorException newInternalServerErrorException(Exception e) {
