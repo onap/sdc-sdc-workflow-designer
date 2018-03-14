@@ -33,7 +33,6 @@
         <swagger.version>1.5.3</swagger.version>
         <jersey.version>2.16</jersey.version>
         <commons-io.version>2.4</commons-io.version>
-        <lombok.version>1.16.4</lombok.version>
     </properties>
     
     <build>
@@ -145,13 +144,6 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>${commons-io.version}</version>
-        </dependency>
-        
-        <!-- lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
         </dependency>
         
         <dependency>
