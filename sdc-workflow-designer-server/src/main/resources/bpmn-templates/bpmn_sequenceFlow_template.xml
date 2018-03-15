@@ -1,5 +1,5 @@
-<sequenceFlow id="${sequenceFlow.id}" sourceRef="${sequenceFlow.sourceRef}" targetRef="${sequenceFlow.targetRef}">
+		<sequenceFlow id="${sequenceFlow.id}" sourceRef="${sequenceFlow.sourceRef}" targetRef="${sequenceFlow.targetRef}">
 #if(${sequenceFlow.condition} && ${sequenceFlow.condition} != '')
-  <conditionExpression xsi:type="tFormalExpression"><![CDATA[${sequenceFlow.condition}]]></conditionExpression>
+			<conditionExpression xsi:type="tFormalExpression"><![CDATA[${sequenceFlow.condition}]]></conditionExpression>
 #end
-</sequenceFlow>
+		</sequenceFlow>

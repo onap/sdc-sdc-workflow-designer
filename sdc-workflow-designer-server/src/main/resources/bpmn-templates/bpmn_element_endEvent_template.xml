@@ -1,3 +1,2 @@
-
-<endEvent id="${element.id}" name="${element.name}">
-</endEvent>
+		<endEvent id="${element.id}" name="${element.name}">
+		</endEvent>

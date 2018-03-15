@@ -1,16 +1,28 @@
-{"nodes":[
-        {
-            "sequenceFlows":[
-                {"condition":"","sourceRef":"node0","targetRef":"node1"}
-            ],
-            "parameters":[],"id":"node0","name":"startEvent","type":"startEvent","parentId":"root",
-            "position":{"width":30,"height":30,"left":468,"top":55}
-        },
-        {
-            "sequenceFlows":[],
-            "input":[],"output":[],"template":{},"id":"node1","name":"endEvent",
-            "type":"endEvent","parentId":"root",
-            "position":{"width":252.08334350585938,"height":46.66666793823242,"left":432,"top":167}
-        }],
-"configs":{"restConfigs":[]}
+{
+    "id":"id12345",
+    "name":"test",
+    "scene":"abcd",
+    "data":{
+        "nodes":[
+            {
+                "id":"scriptTask",
+                "type":"scriptTask",
+                "typeId":"apds_script",
+                "icon":"apds_script",
+                "name":"Script Task",
+                "parentId":"root",
+                "position":{
+                    "left":328,
+                    "top":134,
+                    "width":56,
+                    "height":56
+                },
+                "connection":[
+
+                ],
+                "scriptFormat":"JavaScript",
+                "script":""
+            }
+        ]
+    }
 }
