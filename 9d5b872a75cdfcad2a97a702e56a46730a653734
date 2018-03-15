@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_2ba43306",
+        "filename": "sdc-workflow-designer-server/src/main/java/org/onap/sdc/workflowdesigner/model/Element.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 189
+      },
+      "writtenOn": "2018-03-15T12:16:41Z",
+      "side": 0,
+      "message": "should change the copyright year to 2017-2018",
+      "revId": "9d5b872a75cdfcad2a97a702e56a46730a653734",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
