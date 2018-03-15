@@ -13,8 +13,11 @@ package org.onap.sdc.workflowdesigner.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class StartEvent extends Element {
-    private List<Parameter> parameters;
+    @JsonProperty("parameters")
+	private List<Parameter> parameters;
 
     public List<Parameter> getParameters() {
         return parameters;

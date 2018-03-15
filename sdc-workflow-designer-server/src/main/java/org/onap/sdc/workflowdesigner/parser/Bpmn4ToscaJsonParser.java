@@ -65,7 +65,12 @@ public class Bpmn4ToscaJsonParser {
         JsonNode rootNode = MAPPER.readValue(jsonFileUrl.toURL(), JsonNode.class);
 
         log.debug("Creating Process models...");
-        JsonNode nodes = rootNode.get(JsonKeys.NODES);
+//      JsonNode nodes = rootNode.get(JsonKeys.NODES);
+        JsonNode data = rootNode.get(JsonKeys.DATA);
+        if(null == data) {
+            return process;
+        }
+        JsonNode nodes = data.get(JsonKeys.NODES);
         if (nodes == null) {
             return process;
         }
@@ -133,17 +138,17 @@ public class Bpmn4ToscaJsonParser {
 
     private List<SequenceFlow> getSequenceFlows(JsonNode jsonNode) {
         List<SequenceFlow> flowList = new ArrayList<SequenceFlow>();
-        JsonNode sequenceFlowNodes = jsonNode.get(JsonKeys.SEQUENCE_FLOWS);
+		String elementId = getValueFromJsonNode(jsonNode, JsonKeys.ID);
+		JsonNode connectionsNode = jsonNode.get(JsonKeys.CONNECTIONS);
 
-        Iterator<JsonNode> iter = sequenceFlowNodes.iterator();
+		Iterator<JsonNode> iter = connectionsNode.iterator();
         while (iter.hasNext()) {
             JsonNode connectionEntry = (JsonNode) iter.next();
-            String sourceRef = getValueFromJsonNode(connectionEntry, JsonKeys.SOURCE_REF);
             String targetRef = getValueFromJsonNode(connectionEntry, JsonKeys.TARGET_REF);
             String condition = getValueFromJsonNode(connectionEntry, JsonKeys.CONDITION);
             SequenceFlow flow = new SequenceFlow();
-            flow.setId(sourceRef + targetRef);
-            flow.setSourceRef(sourceRef);
+			flow.setId(elementId + targetRef);
+			flow.setSourceRef(elementId);
             flow.setTargetRef(targetRef);
             flow.setCondition(condition);
             flowList.add(flow);
@@ -183,7 +188,8 @@ public class Bpmn4ToscaJsonParser {
             element = MAPPER.readValue(jsonObject, ServiceTask.class);
             break;
         case "restTask":
-            element = this.createRestServiceTask(jsonObject);
+			// element = this.createRestServiceTask(jsonObject);
+			element = MAPPER.readValue(jsonObject, RestServiceTask.class);
             break;
         case "scriptTask":
             element = MAPPER.readValue(jsonObject, ScriptTask.class);
@@ -202,27 +208,6 @@ public class Bpmn4ToscaJsonParser {
         return element;
     }
     
-    private RestServiceTask createRestServiceTask(String jsonObject) throws JsonParseException, JsonMappingException, IOException {
-        RestServiceTask restServiceTask = MAPPER.readValue(jsonObject, RestServiceTask.class);
-        
-        // add baseUrl to relative url
-        String restConfigId = restServiceTask.getRestConfigId();
-        JsonNode restConfig = this.restConfigMap.get(restConfigId);
-        
-        if(restConfig != null) { // while create a new rest task and didnot set method, the restconfig info may be null
-            restServiceTask.setUrl(getValueFromJsonNode(restConfig, JsonKeys.MICROSERVICE_URL));
-            restServiceTask.setServiceName(getValueFromJsonNode(restConfig, JsonKeys.MICROSERVICE_NAME));
-            restServiceTask.setServiceVersion(getValueFromJsonNode(restConfig, JsonKeys.MICROSERVICE_VERSION));
-        }
-        
-        for(Parameter parameter : restServiceTask.getParameters()) {
-            if("body".equals(parameter.getPosition())) {
-                parameter.setValueSource(null);
-            }
-        }
-        
-        return restServiceTask;
-    }
 
     private String getValueFromJsonNode(JsonNode jsonNode, String key) {
         return jsonNode.get(key) == null ? null : jsonNode.get(key).asText();

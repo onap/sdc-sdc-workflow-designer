@@ -15,7 +15,16 @@ import java.util.List;
 
 public class Element {
     public enum TYPE {
-        startEvent, endEvent, errorStartEvent, errorEndEvent, serviceTask, scriptTask, exclusiveGateway, parallelGateway, restTask, intermediateCatchEvent
+		startEvent, 
+		endEvent, 
+		errorStartEvent,
+		errorEndEvent,
+		serviceTask, 
+		scriptTask,
+		exclusiveGateway, 
+		parallelGateway, 
+		restTask, 
+		intermediateCatchEvent
     };
 
     private String id;

@@ -1,24 +1,14 @@
-
-<serviceTask id="${element.id}" name="${element.name}" activiti:class="${element.handler}">
-	<extensionElements>
-		<activiti:field name="uri">
-			<activiti:string><![CDATA[${element.url}]]></activiti:string>
-		</activiti:field>
-		<activiti:field name="method">
-			<activiti:string><![CDATA[${element.method}]]></activiti:string>
-		</activiti:field>
-		#if (${element.produces})
-		<activiti:field name="accept">
-			<activiti:string><![CDATA[${element.produces}]]></activiti:string>
-		</activiti:field>
-		#end
-		#if (${element.consumes})
-		<activiti:field name="contentType">
-			<activiti:string><![CDATA[${element.consumes}]]></activiti:string>
-		</activiti:field>
-		#end
-		<activiti:field name="parameters">
-			<activiti:string><![CDATA[${element.parameters}]]></activiti:string>
-		</activiti:field>
-	</extensionElements>
-</serviceTask>
+		<serviceTask id="${element.id}" name="${element.name}" activiti:class="${element.className}">
+			<extensionElements>
+#foreach( $input in ${element.inputs} )
+				<activiti:field name="${input.name}">
+					<activiti:string><![CDATA[${input.value}]]></activiti:string>
+				</activiti:field>
+#end
+#foreach( $output in ${element.outputs} )
+				<activiti:field name="${output.name}">
+					<activiti:string><![CDATA[${output.value}]]></activiti:string>
+				</activiti:field>
+#end
+			</extensionElements>
+		</serviceTask>

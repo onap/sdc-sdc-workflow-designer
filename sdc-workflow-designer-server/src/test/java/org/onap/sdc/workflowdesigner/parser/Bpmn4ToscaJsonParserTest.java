@@ -23,10 +23,10 @@ import java.util.List;
 
 import org.junit.Test;
 import org.onap.sdc.workflowdesigner.model.Element;
-import org.onap.sdc.workflowdesigner.model.EndEvent;
+import org.onap.sdc.workflowdesigner.model.Position;
 import org.onap.sdc.workflowdesigner.model.Process;
+import org.onap.sdc.workflowdesigner.model.ScriptTask;
 import org.onap.sdc.workflowdesigner.model.SequenceFlow;
-import org.onap.sdc.workflowdesigner.model.StartEvent;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -112,24 +112,17 @@ public class Bpmn4ToscaJsonParserTest {
 
     private static Process createReferenceProcess() {
         Process process = new Process(PROCESS_NAME);
-
-        StartEvent startEvent = new StartEvent();
-        startEvent.setDocumentation("");
-        startEvent.setId("node0");
-        startEvent.setName("startEvent");
-        process.getElementList().add(startEvent);
-
-        EndEvent endEvent = new EndEvent();
-        endEvent.setDocumentation("");
-        endEvent.setId("node1");
-        endEvent.setName("endEvent");
-        process.getElementList().add(endEvent);
-
-        SequenceFlow flow2 = new SequenceFlow();
-        flow2.setId("node0node1");
-        flow2.setSourceRef("node0");
-        flow2.setTargetRef("node1");
-        process.getSequenceFlowList().add(flow2);
+        
+        ScriptTask scriptTask = new ScriptTask();
+        scriptTask.setId("scriptTask");
+        scriptTask.setName("Script Task");
+        Position position = new Position();
+        position.setLeft(328);
+        position.setTop(134);
+        scriptTask.setPosition(position);
+        scriptTask.setScript("");
+        scriptTask.setScriptFormat("JavaScript");
+        process.getElementList().add(scriptTask);
 
         return process;
     }

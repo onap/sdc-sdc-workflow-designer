@@ -18,29 +18,29 @@ import org.onap.sdc.workflowdesigner.config.Config;
 public class RestServiceTask extends ServiceTask {
     private static String handler = Config.PROPERTIES.getProperty(Config.HANDLER_ClASS);
 	
-	private String restConfigId;
-	public String getRestConfigId() {
-		return restConfigId;
-	}
-	public void setRestConfigId(String restConfigId) {
-		this.restConfigId = restConfigId;
-	}
+//	private String restConfigId;
+//	public String getRestConfigId() {
+//		return restConfigId;
+//	}
+//	public void setRestConfigId(String restConfigId) {
+//		this.restConfigId = restConfigId;
+//	}
 	private List<String> produces;
 	private List<String> consumes;
 	
 	
 	private List<Parameter> parameters;
-	private String url;
+	private String baseUrl;
 	private String serviceName;
 	private String serviceVersion;
 	private String path;
 	private String method;
 	
-	public String getUrl() {
-		return url;
+	public String getBaseUrl() {
+		return baseUrl;
 	}
-	public void setUrl(String url) {
-		this.url = url;
+	public void setBaseUrl(String url) {
+		this.baseUrl = url;
 	}
 	
 	public String getMethod() {
