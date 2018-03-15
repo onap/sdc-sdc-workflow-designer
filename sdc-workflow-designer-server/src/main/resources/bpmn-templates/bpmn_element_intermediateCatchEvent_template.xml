@@ -1,14 +1,13 @@
-
-<intermediateCatchEvent id="${element.id}" name="${element.name}">
-	<timerEventDefinition>
-		#if (${element.timerEventDefinition.timeDuration})
-		<timeDuration><![CDATA[${element.timerEventDefinition.timeDuration}]]></timeDuration>
-		#end
-		#if (${element.timerEventDefinition.timeDate})
-		<timeDate><![CDATA[${element.timerEventDefinition.timeDate}]]></timeDate>
-		#end
-		#if (${element.timerEventDefinition.timeCycle})
-		<timeCycle><![CDATA[${element.timerEventDefinition.timeCycle}]]></timeCycle>
-		#end
-	</timerEventDefinition>
-</intermediateCatchEvent>
+		<intermediateCatchEvent id="${element.id}" name="${element.name}">
+			<timerEventDefinition>
+#if (${element.timerEventDefinition.timeDuration})
+				<timeDuration><![CDATA[${element.timerEventDefinition.timeDuration}]]></timeDuration>
+#end
+#if (${element.timerEventDefinition.timeDate})
+				<timeDate><![CDATA[${element.timerEventDefinition.timeDate}]]></timeDate>
+#end
+#if (${element.timerEventDefinition.timeCycle})
+				<timeCycle><![CDATA[${element.timerEventDefinition.timeCycle}]]></timeCycle>
+#end
+			</timerEventDefinition>
+		</intermediateCatchEvent>
