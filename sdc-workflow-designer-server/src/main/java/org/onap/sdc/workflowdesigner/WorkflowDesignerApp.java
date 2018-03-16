@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017 ZTE Corporation.
+ * Copyright (c) 2017-2018 ZTE Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the Apache License, Version 2.0
  * and the Eclipse Public License v1.0 which both accompany this distribution,
@@ -13,6 +13,7 @@
 package org.onap.sdc.workflowdesigner;
 
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
+import org.onap.sdc.workflowdesigner.config.AppConfig;
 import org.onap.sdc.workflowdesigner.resources.ExtendActivityResource;
 import org.onap.sdc.workflowdesigner.resources.WorkflowModelerResource;
 import org.slf4j.Logger;
@@ -52,6 +53,8 @@ public class WorkflowDesignerApp extends Application<WorkflowDesignerConfigurati
   @Override
   public void run(WorkflowDesignerConfiguration configuration, Environment environment) {
     LOGGER.info("Start to initialize Workflow Designer.");
+    
+    AppConfig.setMsbServerAddr(configuration.getMsbServerAddr());
 
     environment.jersey().register(new WorkflowModelerResource());
     environment.jersey().register(new ExtendActivityResource());

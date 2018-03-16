@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017 ZTE Corporation.
+ * Copyright (c) 2017-2018 ZTE Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the Apache License, Version 2.0
  * and the Eclipse Public License v1.0 which both accompany this distribution,
@@ -24,6 +24,9 @@ public class WorkflowDesignerConfiguration extends Configuration {
 
   @NotEmpty
   private String defaultName = "Workflow Designer";
+  
+  @NotEmpty
+  private String msbServerAddr;
 
   @JsonProperty
   public String getTemplate() {
@@ -43,6 +46,16 @@ public class WorkflowDesignerConfiguration extends Configuration {
   @JsonProperty
   public void setDefaultName(String name) {
     this.defaultName = name;
+  }
+  
+  @JsonProperty
+  public String getMsbServerAddr() {
+      return msbServerAddr;
+  }
+
+  @JsonProperty
+  public void setMsbServerAddr(String msbServerAddr) {
+      this.msbServerAddr = msbServerAddr;
   }
 
 }
