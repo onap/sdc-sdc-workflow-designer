@@ -74,9 +74,8 @@ public class WorkflowModelerResource {
           response = String.class)})
   @Timed
   public Response getModel(@ApiParam(value = "id") @PathParam("id") String id) {
-    String filePath = "model.json";
     try {
-      String json = FileCommonUtils.readString(filePath);
+      String json = FileCommonUtils.readString(WORKFLOW_JSON_TEMP_FILE_NAME);
       return Response.status(Response.Status.OK).entity(json).build();
     } catch (IOException e) {
       logger.error("get workflow failed.", e);
