@@ -16,6 +16,10 @@ defaultName: ${DW_DEFAULT_NAME:-Stranger}
 
 msbServerAddr: http://127.0.0.1:80
 
+sdcServiceProxy:
+  xEcompInstanceId: workflow
+  authorization: Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU=
+
 # use the simple server factory if you only want to run on a single port
 server:
   type: simple

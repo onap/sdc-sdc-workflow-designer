@@ -30,7 +30,6 @@ import io.swagger.jaxrs.config.BeanConfig;
 import io.swagger.jaxrs.listing.ApiListingResource;
 
 public class WorkflowDesignerApp extends Application<WorkflowDesignerConfiguration> {
-
   private static final Logger LOGGER = LoggerFactory.getLogger(WorkflowDesignerApp.class);
 
   public static void main(String[] args) throws Exception {
@@ -55,6 +54,7 @@ public class WorkflowDesignerApp extends Application<WorkflowDesignerConfigurati
     LOGGER.info("Start to initialize Workflow Designer.");
     
     AppConfig.setMsbServerAddr(configuration.getMsbServerAddr());
+    AppConfig.setSdcServiceProxy(configuration.getSdcServiceProxy());
 
     environment.jersey().register(new WorkflowModelerResource());
     environment.jersey().register(new ExtendActivityResource());

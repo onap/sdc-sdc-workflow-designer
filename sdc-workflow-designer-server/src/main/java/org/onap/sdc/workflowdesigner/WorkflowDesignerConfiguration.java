@@ -27,6 +27,9 @@ public class WorkflowDesignerConfiguration extends Configuration {
   
   @NotEmpty
   private String msbServerAddr;
+  
+  @NotEmpty
+  private SDCServiceProxyInfo sdcServiceProxy;
 
   @JsonProperty
   public String getTemplate() {
@@ -56,6 +59,22 @@ public class WorkflowDesignerConfiguration extends Configuration {
   @JsonProperty
   public void setMsbServerAddr(String msbServerAddr) {
       this.msbServerAddr = msbServerAddr;
+  }
+
+  /**
+   * @return the sdcServiceProxy
+   */
+  @JsonProperty
+  public SDCServiceProxyInfo getSdcServiceProxy() {
+    return sdcServiceProxy;
+  }
+
+  /**
+   * @param sdcServiceProxy the sdcServiceProxy to set
+   */
+  @JsonProperty
+  public void setSdcServiceProxy(SDCServiceProxyInfo sdcServiceProxy) {
+    this.sdcServiceProxy = sdcServiceProxy;
   }
 
 }
