@@ -15,14 +15,16 @@
  */
 package org.onap.sdc.workflowdesigner.config;
 
+import org.onap.sdc.workflowdesigner.SDCServiceProxyInfo;
+
 /**
  * 
  */
 public class AppConfig {
   private static String msbServerAddr;
+  private static SDCServiceProxyInfo sdcServiceProxy;
 
   private AppConfig() {}
-
 
   public static String getMsbServerAddr() {
     return msbServerAddr;
@@ -31,4 +33,23 @@ public class AppConfig {
   public static void setMsbServerAddr(String msbServerAddr) {
     AppConfig.msbServerAddr = msbServerAddr;
   }
+
+  public static String getSDCAddr() {
+    return msbServerAddr + "/api/sdc/v1";
+  }
+
+  /**
+   * @param sdcServiceProxy
+   */
+  public static void setSdcServiceProxy(SDCServiceProxyInfo sdcServiceProxy) {
+    AppConfig.sdcServiceProxy = sdcServiceProxy;
+  }
+
+  /**
+   * @return the sdcServiceProxy
+   */
+  public static SDCServiceProxyInfo getSdcServiceProxy() {
+    return sdcServiceProxy;
+  }
+
 }
