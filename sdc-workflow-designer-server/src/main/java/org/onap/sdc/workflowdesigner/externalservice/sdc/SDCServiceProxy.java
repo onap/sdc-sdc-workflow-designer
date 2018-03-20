@@ -30,13 +30,24 @@ import com.eclipsesource.jaxrs.consumer.ConsumerFactory;
 public class SDCServiceProxy {
   private static final Logger LOGGER = LoggerFactory.getLogger(SDCService.class);
 
+  private static final String AUTHORIZATION = AppConfig.getSdcServiceProxy().getAuthorization();
+
+  private static final String X_ECOMP_INSTANCE_ID = AppConfig.getSdcServiceProxy().getxEcompInstanceId();
+  /** */
+  private static final String SDC_ROOT_PATH = "/sdc/v1";
+  
+
+  private static String getSDCRootPath() {
+    return AppConfig.getSdcServiceProxy().getServiceAddr() + SDC_ROOT_PATH;
+  }
+  
   /**
    * @return
    */
   private SDCService getSDCServiceProxy() {
     ClientConfig config = new ClientConfig();
     SDCService sdcServiceProxy =
-        ConsumerFactory.createConsumer(AppConfig.getSDCAddr(), config, SDCService.class);
+        ConsumerFactory.createConsumer(getSDCRootPath(), config, SDCService.class);
     return sdcServiceProxy;
   }
 
@@ -53,8 +64,8 @@ public class SDCServiceProxy {
     SDCService sdcServiceProxy = getSDCServiceProxy();
     try {
       sdcServiceProxy.saveWorkflowArtifact(uuid, operationId, workflowId,
-          AppConfig.getSdcServiceProxy().getxEcompInstanceId(),
-          AppConfig.getSdcServiceProxy().getAuthorization(), workflowArtifactInfo);
+          X_ECOMP_INSTANCE_ID,
+          AUTHORIZATION, workflowArtifactInfo);
     } catch (Exception e) {
       LOGGER.error("Save WorkflowArtifact Failed.", e);
       throw new WorkflowDesignerException("Save WorkflowArtifact Failed.", e);
@@ -74,8 +85,8 @@ public class SDCServiceProxy {
     SDCService sdcServiceProxy = getSDCServiceProxy();
     try {
       return sdcServiceProxy.getWorkflowArtifact(uuid, operationId, workflowId,
-          AppConfig.getSdcServiceProxy().getxEcompInstanceId(),
-          AppConfig.getSdcServiceProxy().getAuthorization());
+          X_ECOMP_INSTANCE_ID,
+          AUTHORIZATION);
     } catch (Exception e) {
       LOGGER.error("Get WorkflowArtifact Failed.", e);
       throw new WorkflowDesignerException("Save WorkflowArtifact Failed.", e);

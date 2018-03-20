@@ -26,9 +26,6 @@ public class WorkflowDesignerConfiguration extends Configuration {
   private String defaultName = "Workflow Designer";
   
   @NotEmpty
-  private String msbServerAddr;
-  
-  @NotEmpty
   private SDCServiceProxyInfo sdcServiceProxy;
 
   @JsonProperty
@@ -49,16 +46,6 @@ public class WorkflowDesignerConfiguration extends Configuration {
   @JsonProperty
   public void setDefaultName(String name) {
     this.defaultName = name;
-  }
-  
-  @JsonProperty
-  public String getMsbServerAddr() {
-      return msbServerAddr;
-  }
-
-  @JsonProperty
-  public void setMsbServerAddr(String msbServerAddr) {
-      this.msbServerAddr = msbServerAddr;
   }
 
   /**

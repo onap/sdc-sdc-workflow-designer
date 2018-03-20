@@ -15,9 +15,25 @@ package org.onap.sdc.workflowdesigner;
  *
  */
 public class SDCServiceProxyInfo {
+  private String serviceAddr;
+  
   private String xEcompInstanceId;
   
   private String authorization;
+
+  /**
+   * @return the serviceAddr
+   */
+  public String getServiceAddr() {
+    return serviceAddr;
+  }
+
+  /**
+   * @param serviceAddr the serviceAddr to set
+   */
+  public void setServiceAddr(String serviceAddr) {
+    this.serviceAddr = serviceAddr;
+  }
 
   /**
    * @return the xEcompInstanceId

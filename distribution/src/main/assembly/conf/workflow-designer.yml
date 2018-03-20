@@ -14,9 +14,8 @@ template: Hello, %s!
 
 defaultName: ${DW_DEFAULT_NAME:-Stranger}
 
-msbServerAddr: http://127.0.0.1:80
-
 sdcServiceProxy:
+  serviceAddr: http://127.0.0.1:8080
   xEcompInstanceId: workflow
   authorization: Basic YWFpOktwOGJKNFNYc3pNMFdYbGhhazNlSGxjc2UyZ0F3ODR2YW9HR21KdlV5MlU=
 
