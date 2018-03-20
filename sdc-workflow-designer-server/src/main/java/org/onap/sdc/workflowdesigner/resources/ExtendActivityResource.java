@@ -61,7 +61,7 @@ public class ExtendActivityResource {
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @ApiOperation(value = "Get Model", response = ExtendActivity.class, responseContainer = "List")
+  @ApiOperation(value = "Get Extend Activities.", response = ExtendActivity.class, responseContainer = "List")
   @ApiResponses(value = {
       @ApiResponse(code = HttpStatus.NOT_FOUND_404, message = "microservice not found",
           response = String.class),
@@ -77,7 +77,7 @@ public class ExtendActivityResource {
       
       return Response.status(Response.Status.OK).entity(extActivities).build();
     } catch (IOException e) {
-      LOGGER.error("getServiceTemplateById failed.", e);
+      LOGGER.error("Get ExtActivities failed.", e);
       throw RestUtils.newInternalServerErrorException(e);
     }
 
@@ -99,7 +99,7 @@ public class ExtendActivityResource {
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @ApiOperation(value = "Get Model", response = String.class)
+  @ApiOperation(value = "Get Extend Activities DisplayInfo", response = String.class)
   @ApiResponses(value = {
       @ApiResponse(code = HttpStatus.NOT_FOUND_404, message = "microservice not found",
           response = String.class),
@@ -113,7 +113,7 @@ public class ExtendActivityResource {
       String json = FileCommonUtils.readString(EXT_ACTIVITIES_DISPLAY_INFO_FILE_NAME);
       return Response.status(Response.Status.OK).entity(json).build();
     } catch (IOException e) {
-      LOGGER.error("getServiceTemplateById failed.", e);
+      LOGGER.error("Get Extend Activities DisplayInfo failed.", e);
       throw RestUtils.newInternalServerErrorException(e);
     }
   }
