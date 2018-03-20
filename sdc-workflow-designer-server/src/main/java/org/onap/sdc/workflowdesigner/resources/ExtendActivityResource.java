@@ -45,6 +45,9 @@ import io.swagger.annotations.ApiResponses;
 @Path("/ext-activities")
 @Api(tags = {"Workflow Modeler"})
 public class ExtendActivityResource {
+  /** */
+  private static final String EXT_ACTIVITIES_DISPLAY_INFO_FILE_NAME = "ext-activities-display-info.json";
+
   private static final Logger LOGGER = LoggerFactory.getLogger(ExtendActivityResource.class);
 
   private static final String EXT_ACTIVITIES_FILE_NAME = "..\\distribution\\src\\main\\assembly\\ext-activities.json";
@@ -70,10 +73,8 @@ public class ExtendActivityResource {
   public Response getExtActivities(@ApiParam(value = "sence") @QueryParam("sence") String sence) {
 
     try {
-      String json = FileCommonUtils.readString(EXT_ACTIVITIES_FILE_NAME);
+      ExtendActivity[] extActivities = retriveExtActivites(sence);
       
-      Gson gson = new Gson();
-      ExtendActivity[] extActivities = gson.fromJson(json, ExtendActivity[].class);
       return Response.status(Response.Status.OK).entity(extActivities).build();
     } catch (IOException e) {
       LOGGER.error("getServiceTemplateById failed.", e);
@@ -81,6 +82,18 @@ public class ExtendActivityResource {
     }
 
   }
+
+  /**
+   * @param sence 
+   * @return
+   * @throws IOException
+   */
+  private ExtendActivity[] retriveExtActivites(String sence) throws IOException {
+    String json = FileCommonUtils.readString(EXT_ACTIVITIES_FILE_NAME);
+    Gson gson = new Gson();
+    return gson.fromJson(json, ExtendActivity[].class);
+  }
+  
 
   @Path("/displayInfo")
   @GET
@@ -96,9 +109,8 @@ public class ExtendActivityResource {
           response = String.class)})
   @Timed
   public Response getDisplayInfo(@ApiParam(value = "sence") @QueryParam("sence") String sence) {
-    String filePath = "ext-activities-display-info.json";
     try {
-      String json = FileCommonUtils.readString(filePath);
+      String json = FileCommonUtils.readString(EXT_ACTIVITIES_DISPLAY_INFO_FILE_NAME);
       return Response.status(Response.Status.OK).entity(json).build();
     } catch (IOException e) {
       LOGGER.error("getServiceTemplateById failed.", e);
