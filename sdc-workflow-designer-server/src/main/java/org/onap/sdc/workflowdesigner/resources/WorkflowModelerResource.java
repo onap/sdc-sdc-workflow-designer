@@ -105,13 +105,8 @@ public class WorkflowModelerResource {
 
       URI srcUri = Paths.get(".", WORKFLOW_JSON_TEMP_FILE_NAME).toUri();
       String processName = "plan_" + UUID.randomUUID().toString();
-      Bpmn4ToscaJsonParser parser = new Bpmn4ToscaJsonParser();
-      Process process = parser.parse(processName, srcUri);
-      
-      // transform bpmn template
-      BpmnPlanArtefactWriter writer = new BpmnPlanArtefactWriter(process);
-      String bpmn = writer.completePlanTemplate();
-      
+      String bpmn = buildBPMN(srcUri, processName);
+
       FileCommonUtils.write(WORKFLOW_XML_TEMP_FILE_NAME, bpmn);
       
       return Response.status(Response.Status.OK).entity(json).build();
@@ -122,6 +117,23 @@ public class WorkflowModelerResource {
       logger.error("convert workflow from json to bpmn failed.", e);
       throw RestUtils.newInternalServerErrorException(e);
     }
+  }
+
+  /**
+   * 
+   * @param srcUri
+   * @param processName
+   * @return
+   * @throws IOException
+   * @throws Exception
+   */
+  private String buildBPMN(URI srcUri, String processName) throws IOException, Exception {
+    Bpmn4ToscaJsonParser parser = new Bpmn4ToscaJsonParser();
+    Process process = parser.parse(processName, srcUri);
+    
+    // transform bpmn template
+    BpmnPlanArtefactWriter writer = new BpmnPlanArtefactWriter(process);
+    return writer.completePlanTemplate();
   }
 
 }
