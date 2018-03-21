@@ -24,7 +24,7 @@ import org.onap.sdc.workflowdesigner.utils.JsonUtils;
  *
  */
 public class ExtendActivityResourceTest {
-  private static final String EXT_ACTIVITIES_FILE_NAME = "..\\distribution\\src\\main\\assembly\\ext-activities.json";
+  private static final String EXT_ACTIVITIES_FILE_NAME = "src\\main\\assembly\\ext-activities.json";
 
   /**
    * @throws java.lang.Exception
