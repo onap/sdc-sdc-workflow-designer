@@ -46,12 +46,12 @@ import io.swagger.annotations.ApiResponses;
 @Path("/ext-activities")
 @Api(tags = {"Workflow Modeler"})
 public class ExtendActivityResource {
+  private static final Logger LOGGER = LoggerFactory.getLogger(ExtendActivityResource.class);
+  
   /** */
   private static final String EXT_ACTIVITIES_DISPLAY_INFO_FILE_NAME = "ext-activities-display-info.json";
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(ExtendActivityResource.class);
-
-  private static final String EXT_ACTIVITIES_FILE_NAME = "..\\distribution\\src\\main\\assembly\\ext-activities.json";
+  private static final String EXT_ACTIVITIES_FILE_NAME = "ext-activities.json";
 
   /**
    * test function.
@@ -88,7 +88,7 @@ public class ExtendActivityResource {
    * @return
    * @throws IOException
    */
-  private ExtendActivity[] retriveExtActivites(String sence) throws IOException {
+  protected ExtendActivity[] retriveExtActivites(String sence) throws IOException {
     String json = FileCommonUtils.readString(EXT_ACTIVITIES_FILE_NAME);
     return JsonUtils.fromJson(json, ExtendActivity[].class);
   }

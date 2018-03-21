@@ -13,8 +13,6 @@ package org.onap.sdc.workflowdesigner.resources;
 
 import static org.junit.Assert.assertEquals;
 
-import javax.ws.rs.core.Response;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,6 +24,7 @@ import org.onap.sdc.workflowdesigner.utils.JsonUtils;
  *
  */
 public class ExtendActivityResourceTest {
+  private static final String EXT_ACTIVITIES_FILE_NAME = "..\\distribution\\src\\main\\assembly\\ext-activities.json";
 
   /**
    * @throws java.lang.Exception
@@ -40,14 +39,14 @@ public class ExtendActivityResourceTest {
   public void tearDown() throws Exception {}
 
   /**
-   * Test method for {@link org.onap.sdc.workflowdesigner.resources.ExtendActivityResource#getExtActivities(java.lang.String)}.
+   * Test method for {@link org.onap.sdc.workflowdesigner.resources.ExtendActivityResource#retriveExtActivites(java.lang.String)}.
    */
   @Test
-  public void testGetExtActivities() {
-    ExtendActivityResource resource = new ExtendActivityResource();
+  public void testRetriveExtActivites() {
     try {
-      Response response = resource.getExtActivities("test");
-      ExtendActivity[] extActivities = (ExtendActivity[]) response.getEntity();
+      String json = FileCommonUtils.readString(EXT_ACTIVITIES_FILE_NAME);
+      ExtendActivity[] extActivities = JsonUtils.fromJson(json, ExtendActivity[].class);
+      
       FileCommonUtils.write("test.json", JsonUtils.toJson(extActivities));
       assertEquals(extActivities.length == 0, false);
     } catch (Exception e) {
