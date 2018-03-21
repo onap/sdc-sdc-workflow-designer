@@ -15,6 +15,7 @@ package org.onap.sdc.workflowdesigner.resources;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
 import javax.ws.rs.Consumes;
@@ -26,6 +27,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.dom4j.Comment;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
 import org.eclipse.jetty.http.HttpStatus;
 import org.onap.sdc.workflowdesigner.common.WorkflowDesignerException;
 import org.onap.sdc.workflowdesigner.externalservice.sdc.SDCServiceProxy;
@@ -111,9 +116,10 @@ public class WorkflowModelerResource {
       URI srcUri = Paths.get(".", WORKFLOW_JSON_TEMP_FILE_NAME).toUri();
       String processName = "plan_" + UUID.randomUUID().toString();
       String bpmn = buildBPMN(srcUri, processName);
+      String jsonBpmn = insertJson2Bpmn(json, bpmn);
 
-      save2SDC(json, bpmn);
-      FileCommonUtils.write(WORKFLOW_XML_TEMP_FILE_NAME, bpmn);
+      save2SDC(json, jsonBpmn);
+      FileCommonUtils.write(WORKFLOW_XML_TEMP_FILE_NAME, jsonBpmn);
 
       return Response.status(Response.Status.OK).entity(json).build();
     } catch (IOException e) {
@@ -124,7 +130,36 @@ public class WorkflowModelerResource {
       throw RestUtils.newInternalServerErrorException(e);
     }
   }
+  
+  /**
+   * @param json
+   * @param bpmn
+   * @return
+   */
+  protected String insertJson2Bpmn(String json, String bpmn) {
+    StringBuffer sb = new StringBuffer(bpmn);
+    sb.append("<!-- \n").append(json).append("-->\n");
 
+    return sb.toString();
+  }
+  
+  /**
+   * 
+   * @return
+   * @throws DocumentException 
+   */
+  protected String readJsonfromBPMNFile(String bpmn) throws DocumentException {
+    Document doc = DocumentHelper.parseText(bpmn);
+    List<?> elementList = doc.content();
+    for (Object object : elementList) {
+      if (object instanceof Comment) {
+        Comment comment = (Comment) object;
+        return comment.getText().trim();
+      }
+    }
+    
+    return null;
+  }
 
 
   /**
@@ -150,7 +185,7 @@ public class WorkflowModelerResource {
    * @throws IOException
    * @throws Exception
    */
-  private String buildBPMN(URI srcUri, String processName) throws IOException, Exception {
+  protected String buildBPMN(URI srcUri, String processName) throws IOException, Exception {
     Bpmn4ToscaJsonParser parser = new Bpmn4ToscaJsonParser();
     Process process = parser.parse(processName, srcUri);
 
