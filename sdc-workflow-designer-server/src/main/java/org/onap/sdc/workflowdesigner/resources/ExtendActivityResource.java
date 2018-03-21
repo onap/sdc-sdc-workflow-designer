@@ -23,6 +23,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.eclipse.jetty.http.HttpStatus;
+import org.onap.sdc.workflowdesigner.resources.entity.ExtActivityDisplayInfo;
 import org.onap.sdc.workflowdesigner.resources.entity.ExtendActivity;
 import org.onap.sdc.workflowdesigner.utils.FileCommonUtils;
 import org.onap.sdc.workflowdesigner.utils.RestUtils;
@@ -74,7 +75,6 @@ public class ExtendActivityResource {
 
     try {
       ExtendActivity[] extActivities = retriveExtActivites(sence);
-      
       return Response.status(Response.Status.OK).entity(extActivities).build();
     } catch (IOException e) {
       LOGGER.error("Get ExtActivities failed.", e);
@@ -99,7 +99,7 @@ public class ExtendActivityResource {
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @ApiOperation(value = "Get Extend Activities DisplayInfo", response = String.class)
+  @ApiOperation(value = "Get Extend Activities DisplayInfo", response = ExtActivityDisplayInfo.class)
   @ApiResponses(value = {
       @ApiResponse(code = HttpStatus.NOT_FOUND_404, message = "microservice not found",
           response = String.class),
@@ -110,12 +110,23 @@ public class ExtendActivityResource {
   @Timed
   public Response getDisplayInfo(@ApiParam(value = "sence") @QueryParam("sence") String sence) {
     try {
-      String json = FileCommonUtils.readString(EXT_ACTIVITIES_DISPLAY_INFO_FILE_NAME);
-      return Response.status(Response.Status.OK).entity(json).build();
+      ExtActivityDisplayInfo displayInfo = retriveDisplayInfo(sence);
+      return Response.status(Response.Status.OK).entity(displayInfo).build();
     } catch (IOException e) {
       LOGGER.error("Get Extend Activities DisplayInfo failed.", e);
       throw RestUtils.newInternalServerErrorException(e);
     }
+  }
+
+  /**
+   * @param sence 
+   * @return
+   * @throws IOException
+   */
+  private ExtActivityDisplayInfo retriveDisplayInfo(String sence) throws IOException {
+    String json = FileCommonUtils.readString(EXT_ACTIVITIES_DISPLAY_INFO_FILE_NAME);
+    Gson gson = new Gson();
+    return gson.fromJson(json, ExtActivityDisplayInfo.class);
   }
 
 }
