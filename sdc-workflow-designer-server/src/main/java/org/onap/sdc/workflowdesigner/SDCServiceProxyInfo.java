@@ -11,19 +11,29 @@
  */
 package org.onap.sdc.workflowdesigner;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  *
  */
 public class SDCServiceProxyInfo {
+  @NotEmpty
   private String serviceAddr;
   
+  @NotEmpty
   private String xEcompInstanceId;
   
+  @NotEmpty
   private String authorization;
 
   /**
    * @return the serviceAddr
    */
+  @JsonProperty
   public String getServiceAddr() {
     return serviceAddr;
   }
@@ -31,6 +41,7 @@ public class SDCServiceProxyInfo {
   /**
    * @param serviceAddr the serviceAddr to set
    */
+  @JsonProperty
   public void setServiceAddr(String serviceAddr) {
     this.serviceAddr = serviceAddr;
   }
@@ -38,6 +49,7 @@ public class SDCServiceProxyInfo {
   /**
    * @return the xEcompInstanceId
    */
+  @JsonProperty
   public String getxEcompInstanceId() {
     return xEcompInstanceId;
   }
@@ -45,6 +57,7 @@ public class SDCServiceProxyInfo {
   /**
    * @param xEcompInstanceId the xEcompInstanceId to set
    */
+  @JsonProperty
   public void setxEcompInstanceId(String xEcompInstanceId) {
     this.xEcompInstanceId = xEcompInstanceId;
   }
@@ -52,6 +65,7 @@ public class SDCServiceProxyInfo {
   /**
    * @return the authorization
    */
+  @JsonProperty
   public String getAuthorization() {
     return authorization;
   }
@@ -59,6 +73,7 @@ public class SDCServiceProxyInfo {
   /**
    * @param authorization the authorization to set
    */
+  @JsonProperty
   public void setAuthorization(String authorization) {
     this.authorization = authorization;
   }
