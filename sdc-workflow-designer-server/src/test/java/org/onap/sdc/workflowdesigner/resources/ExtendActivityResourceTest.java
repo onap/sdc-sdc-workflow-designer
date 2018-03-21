@@ -20,8 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.onap.sdc.workflowdesigner.resources.entity.ExtendActivity;
 import org.onap.sdc.workflowdesigner.utils.FileCommonUtils;
-
-import com.google.gson.Gson;
+import org.onap.sdc.workflowdesigner.utils.JsonUtils;
 
 /**
  *
@@ -49,8 +48,7 @@ public class ExtendActivityResourceTest {
     try {
       Response response = resource.getExtActivities("test");
       ExtendActivity[] extActivities = (ExtendActivity[]) response.getEntity();
-      Gson gson = new Gson();
-      FileCommonUtils.write("test.json", gson.toJson(extActivities));
+      FileCommonUtils.write("test.json", JsonUtils.toJson(extActivities));
       assertEquals(extActivities.length == 0, false);
     } catch (Exception e) {
       e.printStackTrace();

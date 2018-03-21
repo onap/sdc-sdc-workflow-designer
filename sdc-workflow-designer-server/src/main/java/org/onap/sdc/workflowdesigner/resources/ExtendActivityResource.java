@@ -26,12 +26,12 @@ import org.eclipse.jetty.http.HttpStatus;
 import org.onap.sdc.workflowdesigner.resources.entity.ExtActivityDisplayInfo;
 import org.onap.sdc.workflowdesigner.resources.entity.ExtendActivity;
 import org.onap.sdc.workflowdesigner.utils.FileCommonUtils;
+import org.onap.sdc.workflowdesigner.utils.JsonUtils;
 import org.onap.sdc.workflowdesigner.utils.RestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.codahale.metrics.annotation.Timed;
-import com.google.gson.Gson;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -90,8 +90,7 @@ public class ExtendActivityResource {
    */
   private ExtendActivity[] retriveExtActivites(String sence) throws IOException {
     String json = FileCommonUtils.readString(EXT_ACTIVITIES_FILE_NAME);
-    Gson gson = new Gson();
-    return gson.fromJson(json, ExtendActivity[].class);
+    return JsonUtils.fromJson(json, ExtendActivity[].class);
   }
   
 
@@ -125,8 +124,7 @@ public class ExtendActivityResource {
    */
   private ExtActivityDisplayInfo retriveDisplayInfo(String sence) throws IOException {
     String json = FileCommonUtils.readString(EXT_ACTIVITIES_DISPLAY_INFO_FILE_NAME);
-    Gson gson = new Gson();
-    return gson.fromJson(json, ExtActivityDisplayInfo.class);
+    return JsonUtils.fromJson(json, ExtActivityDisplayInfo.class);
   }
 
 }

@@ -20,6 +20,23 @@ public class I18nString {
   private String zh_CN;
 
   /**
+   * 
+   */
+  public I18nString() {
+    super();
+  }
+
+  /**
+   * @param en_US
+   * @param zh_CN
+   */
+  public I18nString(String en_US, String zh_CN) {
+    super();
+    this.en_US = en_US;
+    this.zh_CN = zh_CN;
+  }
+
+  /**
    * @return the en_US
    */
   public String getEn_US() {
