@@ -32,23 +32,22 @@ public class SDCServiceProxy {
 
   private static final String AUTHORIZATION = AppConfig.getSdcServiceProxy().getAuthorization();
 
-  private static final String X_ECOMP_INSTANCE_ID = AppConfig.getSdcServiceProxy().getxEcompInstanceId();
+  private static final String X_ECOMP_INSTANCE_ID =
+      AppConfig.getSdcServiceProxy().getxEcompInstanceId();
   /** */
   private static final String SDC_ROOT_PATH = "/sdc/v1";
-  
+
 
   private static String getSDCRootPath() {
     return AppConfig.getSdcServiceProxy().getServiceAddr() + SDC_ROOT_PATH;
   }
-  
+
   /**
    * @return
    */
   private SDCService getSDCServiceProxy() {
     ClientConfig config = new ClientConfig();
-    SDCService sdcServiceProxy =
-        ConsumerFactory.createConsumer(getSDCRootPath(), config, SDCService.class);
-    return sdcServiceProxy;
+    return ConsumerFactory.createConsumer(getSDCRootPath(), config, SDCService.class);
   }
 
   /**
@@ -61,10 +60,9 @@ public class SDCServiceProxy {
    */
   public void saveWorkflowArtifact(String uuid, String operationId, String workflowId,
       WorkflowArtifactInfo workflowArtifactInfo) throws WorkflowDesignerException {
-    SDCService sdcServiceProxy = getSDCServiceProxy();
+    SDCService serviceProxy = getSDCServiceProxy();
     try {
-      sdcServiceProxy.saveWorkflowArtifact(uuid, operationId, workflowId,
-          X_ECOMP_INSTANCE_ID,
+      serviceProxy.saveWorkflowArtifact(uuid, operationId, workflowId, X_ECOMP_INSTANCE_ID,
           AUTHORIZATION, workflowArtifactInfo);
     } catch (Exception e) {
       LOGGER.error("Save WorkflowArtifact Failed.", e);
@@ -82,14 +80,13 @@ public class SDCServiceProxy {
    */
   public WorkflowArtifactInfo getWorkflowArtifact(String uuid, String operationId,
       String workflowId) throws WorkflowDesignerException {
-    SDCService sdcServiceProxy = getSDCServiceProxy();
+    SDCService serviceProxy = getSDCServiceProxy();
     try {
-      return sdcServiceProxy.getWorkflowArtifact(uuid, operationId, workflowId,
-          X_ECOMP_INSTANCE_ID,
+      return serviceProxy.getWorkflowArtifact(uuid, operationId, workflowId, X_ECOMP_INSTANCE_ID,
           AUTHORIZATION);
     } catch (Exception e) {
       LOGGER.error("Get WorkflowArtifact Failed.", e);
-      throw new WorkflowDesignerException("Save WorkflowArtifact Failed.", e);
+      throw new WorkflowDesignerException("Get WorkflowArtifact Failed.", e);
     }
   }
 
