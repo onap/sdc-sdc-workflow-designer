@@ -56,7 +56,7 @@ public class FileCommonUtilsTest {
    */
   @Test
   public void testReadStringString() {
-    String fileName = "src\\test\\resources\\workflow\\template-test.bpmn20.xml";
+    String fileName = "src/test/resources/workflow/template-test.bpmn20.xml";
     File file = new File(fileName);
     if (file.exists()) {
       try {

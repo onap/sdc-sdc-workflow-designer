@@ -1,0 +1,45 @@
+﻿{
+	"nodes": {
+		"apds_script": {},
+		"apds_service": {},
+		"apds_rest": {},
+		"apds_scriptA": {
+			"category": "aaa"
+		},
+		"apds_scriptB": {
+			"category": "aaa"
+		},
+		"apds_serviceA": {
+			"category": "bbb"
+		},
+		"apds_restA": {
+			"category": "ccc"
+		},
+		"apds_restB": {
+			"category": "ccc"
+		}
+	},
+	"categoryData": {
+		"aaa": {
+			"displayName": {
+				"zh_CN": "扩展脚本任务",
+				"en_US": "Extension Script Task"
+			},
+			"collapse": true
+		},
+		"bbb": {
+			"displayName": {
+				"zh_CN": "扩展Service任务",
+				"en_US": "Extension Service Task"
+			},
+			"collapse": true
+		},
+		"ccc": {
+			"displayName": {
+				"zh_CN": "扩展REST任务",
+				"en_US": "Extension REST Service Task"
+			},
+			"collapse": true
+		}
+	}
+}
