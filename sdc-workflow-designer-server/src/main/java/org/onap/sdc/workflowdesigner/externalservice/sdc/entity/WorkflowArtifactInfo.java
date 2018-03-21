@@ -28,19 +28,11 @@ public class WorkflowArtifactInfo implements Serializable {
   
   private String payloadData;
   
-
-  /**
-   * @param artifactName
-   * @param description
-   * @param artifactType
-   * @param payloadData
-   */
-  public WorkflowArtifactInfo(String artifactName, String description, String artifactType,
+  public WorkflowArtifactInfo(String artifactName, String description,
       String payloadData) {
     super();
     this.artifactName = artifactName;
     this.description = description;
-    this.artifactType = artifactType;
     this.payloadData = payloadData;
   }
 

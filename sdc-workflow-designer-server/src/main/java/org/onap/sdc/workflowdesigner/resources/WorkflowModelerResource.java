@@ -27,9 +27,14 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.eclipse.jetty.http.HttpStatus;
+import org.onap.sdc.workflowdesigner.common.WorkflowDesignerException;
+import org.onap.sdc.workflowdesigner.externalservice.sdc.SDCServiceProxy;
+import org.onap.sdc.workflowdesigner.externalservice.sdc.entity.WorkflowArtifactInfo;
 import org.onap.sdc.workflowdesigner.model.Process;
 import org.onap.sdc.workflowdesigner.parser.Bpmn4ToscaJsonParser;
+import org.onap.sdc.workflowdesigner.resources.entity.WorkflowInfo;
 import org.onap.sdc.workflowdesigner.utils.FileCommonUtils;
+import org.onap.sdc.workflowdesigner.utils.JsonUtils;
 import org.onap.sdc.workflowdesigner.utils.RestUtils;
 import org.onap.sdc.workflowdesigner.writer.BpmnPlanArtefactWriter;
 import org.slf4j.Logger;
@@ -51,7 +56,7 @@ import io.swagger.annotations.ApiResponses;
 @Api(tags = {"Workflow Modeler"})
 public class WorkflowModelerResource {
   private static final Logger logger = LoggerFactory.getLogger(WorkflowModelerResource.class);
-  
+
   private static final String WORKFLOW_JSON_TEMP_FILE_NAME = "temp_workflow.json";
   private static final String WORKFLOW_XML_TEMP_FILE_NAME = "temp_workflow.xml";
 
@@ -83,8 +88,8 @@ public class WorkflowModelerResource {
     }
   }
 
-  
-  
+
+
   @Path("/{id}")
   @PUT
   @Consumes(MediaType.APPLICATION_JSON)
@@ -107,8 +112,9 @@ public class WorkflowModelerResource {
       String processName = "plan_" + UUID.randomUUID().toString();
       String bpmn = buildBPMN(srcUri, processName);
 
+      save2SDC(json, bpmn);
       FileCommonUtils.write(WORKFLOW_XML_TEMP_FILE_NAME, bpmn);
-      
+
       return Response.status(Response.Status.OK).entity(json).build();
     } catch (IOException e) {
       logger.error("save workflow failed.", e);
@@ -117,6 +123,23 @@ public class WorkflowModelerResource {
       logger.error("convert workflow from json to bpmn failed.", e);
       throw RestUtils.newInternalServerErrorException(e);
     }
+  }
+
+
+
+  /**
+   * @param json
+   * @param bpmn
+   * @throws WorkflowDesignerException
+   */
+  private void save2SDC(String json, String bpmn) throws WorkflowDesignerException {
+    WorkflowInfo workflowInfo = JsonUtils.fromJson(json, WorkflowInfo.class);
+    WorkflowArtifactInfo workflowArtifactInfo =
+        new WorkflowArtifactInfo(workflowInfo.getName(), workflowInfo.getDescription(), bpmn);
+
+    SDCServiceProxy sdcProxy = new SDCServiceProxy();
+    sdcProxy.saveWorkflowArtifact(workflowInfo.getUuid(), workflowInfo.getOperationId(),
+        workflowInfo.getId(), workflowArtifactInfo);
   }
 
   /**
@@ -130,7 +153,7 @@ public class WorkflowModelerResource {
   private String buildBPMN(URI srcUri, String processName) throws IOException, Exception {
     Bpmn4ToscaJsonParser parser = new Bpmn4ToscaJsonParser();
     Process process = parser.parse(processName, srcUri);
-    
+
     // transform bpmn template
     BpmnPlanArtefactWriter writer = new BpmnPlanArtefactWriter(process);
     return writer.completePlanTemplate();
