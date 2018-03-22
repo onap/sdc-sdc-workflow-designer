@@ -130,7 +130,7 @@ public class WorkflowModelerResource {
       throw RestUtils.newInternalServerErrorException(e);
     }
   }
-  
+
   /**
    * @param json
    * @param bpmn
@@ -142,11 +142,11 @@ public class WorkflowModelerResource {
 
     return sb.toString();
   }
-  
+
   /**
    * 
    * @return
-   * @throws DocumentException 
+   * @throws DocumentException
    */
   protected String readJsonfromBPMNFile(String bpmn) throws DocumentException {
     Document doc = DocumentHelper.parseText(bpmn);
@@ -157,7 +157,7 @@ public class WorkflowModelerResource {
         return comment.getText().trim();
       }
     }
-    
+
     return null;
   }
 

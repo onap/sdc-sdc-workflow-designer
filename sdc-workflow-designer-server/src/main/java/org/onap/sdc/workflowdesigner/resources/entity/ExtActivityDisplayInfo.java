@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class ExtActivityDisplayInfo {
   private Map<String, NodeCategory> nodes;
-  
+
   private Map<String, CategoryData> categoryData;
 
   /**

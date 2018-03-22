@@ -16,7 +16,7 @@ package org.onap.sdc.workflowdesigner.resources.entity;
  */
 public class CategoryData {
   private I18nString displayName;
-  
+
   private boolean collapse;
 
   /**
@@ -46,5 +46,5 @@ public class CategoryData {
   public void setCollapse(boolean collapse) {
     this.collapse = collapse;
   }
-  
+
 }

@@ -52,7 +52,7 @@ public class WorkflowDesignerApp extends Application<WorkflowDesignerConfigurati
   @Override
   public void run(WorkflowDesignerConfiguration configuration, Environment environment) {
     LOGGER.info("Start to initialize Workflow Designer.");
-    
+
     AppConfig.setSdcServiceProxy(configuration.getSdcServiceProxy());
 
     environment.jersey().register(new WorkflowModelerResource());

@@ -47,9 +47,10 @@ import io.swagger.annotations.ApiResponses;
 @Api(tags = {"Workflow Modeler"})
 public class ExtendActivityResource {
   private static final Logger LOGGER = LoggerFactory.getLogger(ExtendActivityResource.class);
-  
+
   /** */
-  private static final String EXT_ACTIVITIES_DISPLAY_INFO_FILE_NAME = "ext-activities-display-info.json";
+  private static final String EXT_ACTIVITIES_DISPLAY_INFO_FILE_NAME =
+      "ext-activities-display-info.json";
 
   private static final String EXT_ACTIVITIES_FILE_NAME = "ext-activities.json";
 
@@ -62,7 +63,8 @@ public class ExtendActivityResource {
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @ApiOperation(value = "Get Extend Activities.", response = ExtendActivity.class, responseContainer = "List")
+  @ApiOperation(value = "Get Extend Activities.", response = ExtendActivity.class,
+      responseContainer = "List")
   @ApiResponses(value = {
       @ApiResponse(code = HttpStatus.NOT_FOUND_404, message = "microservice not found",
           response = String.class),
@@ -84,7 +86,7 @@ public class ExtendActivityResource {
   }
 
   /**
-   * @param sence 
+   * @param sence
    * @return
    * @throws IOException
    */
@@ -92,13 +94,14 @@ public class ExtendActivityResource {
     String json = FileCommonUtils.readString(EXT_ACTIVITIES_FILE_NAME);
     return JsonUtils.fromJson(json, ExtendActivity[].class);
   }
-  
+
 
   @Path("/displayInfo")
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @ApiOperation(value = "Get Extend Activities DisplayInfo", response = ExtActivityDisplayInfo.class)
+  @ApiOperation(value = "Get Extend Activities DisplayInfo",
+      response = ExtActivityDisplayInfo.class)
   @ApiResponses(value = {
       @ApiResponse(code = HttpStatus.NOT_FOUND_404, message = "microservice not found",
           response = String.class),
@@ -118,7 +121,7 @@ public class ExtendActivityResource {
   }
 
   /**
-   * @param sence 
+   * @param sence
    * @return
    * @throws IOException
    */
