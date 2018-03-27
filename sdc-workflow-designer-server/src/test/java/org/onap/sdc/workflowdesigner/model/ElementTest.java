@@ -14,9 +14,13 @@ package org.onap.sdc.workflowdesigner.model;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.onap.sdc.workflowdesigner.model.Element.TYPE;
 
 /**
  *
@@ -44,6 +48,32 @@ public class ElementTest {
     Element endEvent = new EndEvent();
     System.out.println(endEvent.getType());
     assertEquals(endEvent.getType(), null);
+  }
+  
+  
+  @Test
+  public void test() {
+    String id = "id";
+    String name = "name";
+    TYPE type = TYPE.endEvent;
+    String documentation = "documentation";
+    Position position = new Position();
+    List<String> connections= new ArrayList<>();
+    
+    Element e = new Element();
+    e.setConnections(connections);
+    e.setDocumentation(documentation);
+    e.setId(id);
+    e.setName(name);
+    e.setPosition(position);
+    e.setType(type);
+    
+    assertEquals(connections, e.getConnections());
+    assertEquals(documentation, e.getDocumentation());
+    assertEquals(id, e.getId());
+    assertEquals(name, e.getName());
+    assertEquals(position, e.getPosition());
+    assertEquals(type, e.getType());
   }
 
 }

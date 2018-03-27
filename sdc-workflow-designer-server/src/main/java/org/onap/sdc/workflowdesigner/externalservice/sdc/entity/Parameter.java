@@ -57,14 +57,14 @@ public class Parameter {
   /**
    * @return the defaultValue
    */
-  public String getDefaultValue() {
+  public String getDefault() {
     return defaultValue;
   }
 
   /**
    * @param defaultValue the defaultValue to set
    */
-  public void setDefaultValue(String defaultValue) {
+  public void setDefault(String defaultValue) {
     this.defaultValue = defaultValue;
   }
 
