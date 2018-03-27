@@ -4,3 +4,8 @@
 target/
 logs/
 debug-logs/
+dependency-reduced-pom.xml
+test.json
+test.xml
+test1.json
+bpmnworkflow.bpmn20.xml
