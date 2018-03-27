@@ -157,10 +157,15 @@
             <version>${jaxrs.consumer.version}</version>
         </dependency>
 
-        <dependency>
+        <!--dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
             <version>${velocity.version}</version>
+        </dependency-->
+        <dependency>
+            <groupId>velocity</groupId>
+            <artifactId>velocity</artifactId>
+            <version>1.4</version>
         </dependency>
         
         <dependency>

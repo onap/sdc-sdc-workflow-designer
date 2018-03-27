@@ -115,11 +115,12 @@ public class WorkflowModelerResource {
 
       URI srcUri = Paths.get(".", WORKFLOW_JSON_TEMP_FILE_NAME).toUri();
       String processName = "plan_" + UUID.randomUUID().toString();
-      String bpmn = buildBPMN(srcUri, processName);
-      String jsonBpmn = insertJson2Bpmn(json, bpmn);
+   // TODO for Nexus-IQ
+//      String bpmn = buildBPMN(srcUri, processName);
+//      String jsonBpmn = insertJson2Bpmn(json, bpmn);
 
 //      save2SDC(json, jsonBpmn);
-      FileCommonUtils.write(WORKFLOW_XML_TEMP_FILE_NAME, jsonBpmn);
+//      FileCommonUtils.write(WORKFLOW_XML_TEMP_FILE_NAME, jsonBpmn);
 
       return Response.status(Response.Status.OK).entity(json).build();
     } catch (IOException e) {
