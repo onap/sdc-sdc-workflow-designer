@@ -15,7 +15,13 @@ import { isNullOrUndefined } from 'util';
 import { PlanModel } from '../model/plan-model';
 import { PlanTreeviewItem } from '../model/plan-treeview-item';
 import { RestConfig } from '../model/rest-config';
-import { Swagger, SwaggerModel, SwaggerModelSimple, SwaggerPrimitiveObject, SwaggerReferenceObject } from '../model/swagger';
+import {
+    Swagger,
+    SwaggerModel,
+    SwaggerModelSimple,
+    SwaggerPrimitiveObject,
+    SwaggerReferenceObject
+} from '../model/swagger';
 import { ErrorEvent } from '../model/workflow/error-event';
 import { IntermediateCatchEvent } from '../model/workflow/intermediate-catch-event';
 import { NodeType } from '../model/workflow/node-type.enum';
@@ -32,8 +38,13 @@ import { ValueSource } from '../model/value-source.enum';
 import { BroadcastService } from './broadcast.service';
 import { RestService } from './rest.service';
 import { SwaggerTreeConverterService } from './swagger-tree-converter.service';
-import { ScriptTask } from "../model/workflow/script-task";
 import { TimerEventDefinition, TimerEventDefinitionType } from "../model/workflow/timer-event-definition";
+import { InterfaceService } from './interface.service';
+import { ServiceTask } from '../model/workflow/service-task';
+import { NodeTypeService } from './node-type.service';
+import { WorkflowUtil } from '../util/workflow-util';
+import { TranslateService } from '@ngx-translate/core';
+import { NoticeService } from './notice.service';
 
 /**
  * ModelService
@@ -44,10 +55,13 @@ export class ModelService {
     public rootNodeId = 'root';
 
     private planModel: PlanModel = new PlanModel();
+    private tempPlanModel: PlanModel = new PlanModel();
 
-    constructor(private broadcastService: BroadcastService, private restService: RestService) {
-        this.broadcastService.planModel$.subscribe(plan => {
-            plan.nodes.forEach(node => {
+    constructor(private interfaceService: InterfaceService, private broadcastService: BroadcastService,
+        private restService: RestService, private nodeTypeService: NodeTypeService,
+        private translate: TranslateService, private notice: NoticeService) {
+        this.broadcastService.initModel$.subscribe(planModel => {
+            planModel.data.nodes.forEach(node => {
                 switch (node.type) {
                     case NodeType[NodeType.startEvent]:
                         node.position.width = 56;
@@ -93,16 +107,22 @@ export class ModelService {
                         break;
                 }
             });
-            this.planModel = plan;
+            this.planModel = planModel;
+            this.tempPlanModel = WorkflowUtil.deepClone(this.planModel);
         });
-        this.broadcastService.updateModelRestConfig$.subscribe(restConfigs => {
-            this.updateRestConfig(restConfigs);
-        });
+        // Do not use restConfig property.
+        // this.broadcastService.updateModelRestConfig$.subscribe(restConfigs => {
+        //     this.updateRestConfig(restConfigs);
+        // });
+    }
+
+    public getPlanModel(): PlanModel {
+        return this.planModel;
     }
 
     public getChildrenNodes(parentId: string): WorkflowNode[] {
         if (!parentId || parentId === this.rootNodeId) {
-            return this.planModel.nodes;
+            return this.planModel.data.nodes;
         } else {
             const node = this.getNodeMap().get(parentId);
             if (node.type === 'subProcess') {
@@ -114,7 +134,7 @@ export class ModelService {
     }
 
     public getNodes(): WorkflowNode[] {
-        return this.planModel.nodes;
+        return this.planModel.data.nodes;
     }
 
     public getSequenceFlow(sourceRef: string, targetRef: string): SequenceFlow {
@@ -127,11 +147,76 @@ export class ModelService {
         }
     }
 
-    public addNode(name: string, type: string, left: number, top: number) {
-        const id = this.createId();
+    public addNode(type: string, typeId: string, name: string, left: number, top: number) {
+        const id = this.generateNodeProperty('id', type);
+        const nodeName = this.generateNodeProperty('name', name);
         const workflowPos = new Position(left, top);
-        const node = this.createNodeByType(id, name, type, workflowPos);
-        this.planModel.nodes.push(node);
+        let node;
+        if ('serviceTask' === type || 'scriptTask' === type || 'restTask' === type) {
+            node = this.createNodeByTypeId(id, nodeName, type, typeId, workflowPos);
+        } else {
+            node = this.createNodeByType(id, nodeName, type, workflowPos);
+        }
+        this.planModel.data.nodes.push(node);
+    }
+
+    private generateNodeProperty(key: string, type: string): string {
+        let nodeProperty = type;
+        const nodes = this.getNodes();
+        console.log(nodes);
+        const existNode = nodes.find(node => node[key] === nodeProperty);
+        if (existNode) {
+            let count = 2;
+            do {
+                nodeProperty = type + '_' + count;
+                count++;
+            } while (nodes.find(node => node[key] === nodeProperty))
+        }
+        return nodeProperty;
+    }
+
+    private generateNodeName(typeId: string): string {
+        const language = this.translate.currentLang.indexOf('en') > -1 ? 'en_US' : 'zh_CN';
+        const nodeType = this.nodeTypeService.getNodeDataTypeById(typeId);
+        let displayName;
+        if (nodeType.displayName && nodeType.displayName[language]) {
+            displayName = nodeType.displayName[language];
+        } else {
+            displayName = nodeType.type;
+        }
+        return this.generateNodeProperty('name', displayName);
+    }
+
+    public createNodeByTypeId(id: string, name: string, type: string, typeId: string, position: Position): WorkflowNode {
+        const nodeDataType = this.nodeTypeService.getNodeDataTypeById(typeId);
+        const initPosition = new Position(position.left, position.top, nodeDataType.icon.width, nodeDataType.icon.height);
+        // switch (type) {
+        //     case NodeType[NodeType.serviceTask]:
+        //         let serviceTask: ServiceTask = {
+        //             id: id, type: type, name: name, parentId: this.rootNodeId,
+        //             position: initPosition, connection: [], class: nodeDataType.activity.class,
+        //             input: nodeDataType.activity.input, output: nodeDataType.activity.output
+        //         };
+        //         return serviceTask;
+        //     case NodeType[NodeType.scriptTask]:
+        //         let scriptTask: ScriptTask = {
+        //             id: id, type: type, name: name, parentId: this.rootNodeId,
+        //             position: initPosition, connection: [], scriptFormat: nodeDataType.activity.scriptFormat,
+        //             script: nodeDataType.activity.script
+        //         };
+        //         return scriptTask;
+        //     case NodeType[NodeType.restTask]:
+        //         let restTaskNode: RestTask = {
+        //             id: id, type: type, name: name, parentId: this.rootNodeId,
+        //             position: initPosition, connection: [], produces: [], consumes: [], parameters: [], responses: []
+        //         };
+        //         return restTaskNode;
+        //     default:
+        let node: WorkflowNode = {
+            id: id, type: type, typeId: nodeDataType.id, icon: nodeDataType.icon.name, name: name,
+            parentId: this.rootNodeId, position: initPosition, connection: []
+        };
+        return node;
     }
 
     private createNodeByType(id: string, name: string, type: string, position: Position): WorkflowNode {
@@ -150,17 +235,16 @@ export class ModelService {
                     position: bigPosition, connection: []
                 };
                 return endEventNode;
-            case NodeType[NodeType.restTask]:
-                let restTaskNode: RestTask = {
-                    id: id, type: type, name: name, parentId: this.rootNodeId,
-                    position: bigPosition, connection: [], produces: [], consumes: [], parameters: [], responses: []
-                };
-                return restTaskNode;
             case NodeType[NodeType.errorStartEvent]:
             case NodeType[NodeType.errorEndEvent]:
                 let errorEventNode: ErrorEvent = {
-                    id: id, type: type, name: '', parentId: this.rootNodeId,
-                    position: smallPosition, connection: [], parameter: new Parameter('errorRef', '', ValueSource[ValueSource.String])
+                    id: id,
+                    type: type,
+                    name: '',
+                    parentId: this.rootNodeId,
+                    position: smallPosition,
+                    connection: [],
+                    parameter: new Parameter('errorRef', '', ValueSource[ValueSource.string])
                 };
                 return errorEventNode;
             case NodeType[NodeType.toscaNodeManagementTask]:
@@ -177,16 +261,15 @@ export class ModelService {
                 return subProcess;
             case NodeType[NodeType.intermediateCatchEvent]:
                 let intermediateCatchEvent: IntermediateCatchEvent = {
-                    id: id, type: type, name: name, parentId: this.rootNodeId,
-                    position: bigPosition, connection: [], timerEventDefinition: <TimerEventDefinition>{ type: TimerEventDefinitionType[TimerEventDefinitionType.timeDuration] }
+                    id: id,
+                    type: type,
+                    name: name,
+                    parentId: this.rootNodeId,
+                    position: bigPosition,
+                    connection: [],
+                    timerEventDefinition: <TimerEventDefinition>{ type: TimerEventDefinitionType[TimerEventDefinitionType.timeDuration] }
                 };
                 return intermediateCatchEvent;
-            case NodeType[NodeType.scriptTask]:
-                let scriptTask: ScriptTask = {
-                    id: id, type: type, name: name, parentId: this.rootNodeId,
-                    position: bigPosition, connection: [], scriptFormat: 'JavaScript'
-                };
-                return scriptTask;
             case NodeType[NodeType.exclusiveGateway]:
             case NodeType[NodeType.parallelGateway]:
                 let getway: WorkflowNode = {
@@ -207,34 +290,6 @@ export class ModelService {
         return undefined !== object.type;
     }
 
-    // public createNodeByJson(obj: any): WorkflowNode {
-    // let node;
-    // switch (obj.type) {
-    //     case NodeType[NodeType.startEvent]:
-    //         node = new StartEvent(obj.name, obj.id, obj.type, this.rootNodeId, obj.position);
-    //         node.parameters = obj.parameters;
-    //         return node;
-    //     case NodeType[NodeType.restTask]:
-    //         node = new RestTask(obj.name, obj.id, obj.type, this.rootNodeId, obj.position);
-    //         node.
-    //     case NodeType[NodeType.errorStartEvent]:
-    //         return new ErrorEvent(type, id, type, this.rootNodeId, position);
-    //     case NodeType[NodeType.errorEndEvent]:
-    //         return new ErrorEvent(type, id, type, this.rootNodeId, position);
-    //     case NodeType[NodeType.toscaNodeManagementTask]:
-    //         return new ToscaNodeTask(type, id, type, this.rootNodeId, position);
-    //     case NodeType[NodeType.subProcess]:
-    //         return new SubProcess(type, id, type, this.rootNodeId, position);
-    //     case NodeType[NodeType.intermediateCatchEvent]:
-    //         return new IntermediateCatchEvent(type, id, type, this.rootNodeId, position);
-    //     case NodeType[NodeType.scriptTask]:
-    //         return new ScriptTask(type, id, type, this.rootNodeId, position);
-    //     default:
-    //         return new WorkflowNode(type, id, type, this.rootNodeId, position);
-    // }
-    // return node;
-    // }
-
     public changeParent(id: string, originalParentId: string, targetParentId: string) {
         if (originalParentId === targetParentId) {
             return;
@@ -246,7 +301,7 @@ export class ModelService {
         if (targetParentId) {
             this.addChild(targetParentId, node);
         } else {
-            this.planModel.nodes.push(node);
+            this.planModel.data.nodes.push(node);
         }
     }
 
@@ -259,13 +314,13 @@ export class ModelService {
     }
 
     public updateRestConfig(restConfigs: RestConfig[]): void {
-        this.planModel.configs = { restConfigs: restConfigs };
+        this.planModel.data.configs = { restConfigs: restConfigs };
         // console.log(this.planModel.configs);
     }
 
     public getNodeMap(): Map<string, WorkflowNode> {
         const map = new Map<string, WorkflowNode>();
-        this.toNodeMap(this.planModel.nodes, map);
+        this.toNodeMap(this.planModel.data.nodes, map);
         return map;
     }
 
@@ -423,7 +478,7 @@ export class ModelService {
         const item = new PlanTreeviewItem(node.name, `[${node.id}]`, [], false);
         item.children.push(this.createStatusCodeTreeViewItem(node.id));
 
-        if (node.responses.length !== 0) { // load rest responses
+        if (node.responses && node.responses.length !== 0) { // load rest responses
             const responseItem = this.createResponseTreeViewItem(node.id);
             item.children.push(responseItem);
             // todo: should list all available response or only the first one?
@@ -491,11 +546,28 @@ export class ModelService {
         return targetNode !== undefined;
     }
 
-    public save() {
+    public save(callback?: Function) {
         console.log('****************** save data *********************');
-        console.log(this.planModel);
-
-        this.broadcastService.broadcast(this.broadcastService.saveEvent, this.planModel);
+        console.log(JSON.stringify(this.planModel));
+        // Check data
+        if(!this.checkData()){
+            return;
+        }
+        this.interfaceService.saveModelData(this.planModel).subscribe(response => {
+            this.translate.get('WORKFLOW.MSG.SAVE_SUCCESS').subscribe((res: string) => {
+                this.notice.success(res);
+                // Update the cache.
+                this.tempPlanModel = WorkflowUtil.deepClone(this.planModel);
+                if (callback) {
+                    callback();
+                }
+            });
+        }, error => {
+            this.translate.get('WORKFLOW.MSG.SAVE_FAIL').subscribe((res: string) => {
+                this.notice.error(res);
+            });
+        });
+        ;
     }
 
     private createId() {
@@ -509,5 +581,45 @@ export class ModelService {
         }
 
         return 'node' + nodeMap.size;
+    }
+
+    public isModify(): boolean {
+        // Compare the cache.
+        return JSON.stringify(this.planModel) != JSON.stringify(this.tempPlanModel);
+    }
+
+    private checkData(): boolean {
+        if (this.planModel && this.planModel.data && this.planModel.data.nodes) {
+            let nodes = this.planModel.data.nodes;
+            for (let index = 0; index < nodes.length; index++) {
+                const node = nodes[index];
+                if (NodeType[NodeType.startEvent] === node.type) {
+                    let startEvent = node as StartEvent;
+                    if (startEvent.parameters) {
+                        for (let i = 0; i < startEvent.parameters.length; i++) {
+                            const parameter = startEvent.parameters[i];
+                            if (!parameter.name) {
+                                this.translate.get('WORKFLOW.MSG.PROCESS_VARIABLE_EMPTY').subscribe((res: string) => {
+                                    this.notice.error(res);
+                                });
+                                return false;
+                            }
+                            if(i + 1 < startEvent.parameters.length){
+                            for (let j = i + 1; j < startEvent.parameters.length; j++) {
+                                const param = startEvent.parameters[j];
+                                if(parameter.name === param.name){
+                                    this.translate.get('WORKFLOW.MSG.PROCESS_VARIABLE_SAME').subscribe((res: string) => {
+                                        this.notice.error(res);
+                                    });
+                                    return false;
+                                }
+                            }
+                        }
+                        }
+                    }
+                }
+            }
+        }
+        return true;
     }
 }

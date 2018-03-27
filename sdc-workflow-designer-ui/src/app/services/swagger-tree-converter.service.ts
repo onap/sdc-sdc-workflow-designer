@@ -17,15 +17,15 @@ import { ValueSource } from '../model/value-source.enum';
 import { WorkflowUtil } from '../util/workflow-util';
 import { RestService } from './rest.service';
 import { Swagger } from "../model/swagger";
+import { ValueObject } from '../model/value-object';
+import { ValueType } from '../model/value-type.enum';
 
 @Injectable()
 export class SwaggerTreeConverterService {
 
   private swagger: Swagger;
 
-  constructor(private restService: RestService) {
-
-  }
+  constructor(private restService: RestService) { }
 
   public schema2TreeNode(swagger: Swagger, key: string | number, schema: any, value?: any): any {
     this.swagger = swagger;
@@ -52,12 +52,37 @@ export class SwaggerTreeConverterService {
     if (definition.$ref) {
       definition = this.restService.getDefinition(this.swagger, definition.$ref);
     }
+    let valueObject: ValueObject = { valueSource: ValueSource[ValueSource.string] };
+    if (undefined == value) {
+      valueObject.value = definition.default;
+      if (ValueType[ValueType.array] === definition.type || ValueType[ValueType.object] === definition.type) {
+        valueObject.valueSource = ValueSource[ValueSource.Definition];
+      } else {
+        valueObject.valueSource = definition.type;
+      }
+    } else {
+      valueObject.valueSource = value.valueSource;
+      valueObject.value = undefined === value.value ? definition.default : value.value;
+    }
     if (definition.type === 'object') {
-      return this.getInitValue4Object(value);
+      // if (undefined == value) {
+      //   valueObject.value = definition.default;
+      //   if (ValueType[ValueType.array] === definition.type || ValueType[ValueType.object] === definition.type) {
+      //     valueObject.valueSource = ValueSource[ValueSource.Definition];
+      //   } else {
+      //     valueObject.valueSource = definition.type;
+      //   }
+      // } else {
+      //   valueObject.valueSource = value.valueSource;
+      //   valueObject.value = undefined === value.value ? definition.default : value.value;
+      // }
+      return this.getInitValue4Object(valueObject);
     } else if (definition.type === 'array') {
-      return this.getInitValue4Array(value);
+      return this.getInitValue4Array(valueObject);
     } else { // primary type
-      return this.getInitValue4Primary(value);
+      // valueObject.value = undefined === value ? definition.default : value;
+      // valueObject.valueSource = definition.type;
+      return this.getInitValue4Primary(valueObject);
     }
   }
 
@@ -104,7 +129,7 @@ export class SwaggerTreeConverterService {
   private getInitValue4Primary(value: any) {
     const newValue = {
       value: '',
-      valueSource: ValueSource[ValueSource.String]
+      valueSource: ValueSource[ValueSource.string]
     };
 
     if (!value) {
