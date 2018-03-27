@@ -1,0 +1,134 @@
+<div 
+    class="owl-dateTime owl-widget"
+    [ngClass]="{'owl-dateTime-inline': inline}"   
+    [ngStyle]="style"
+    #container>
+   <div *ngIf="!inline && customTemp.children.length == 0" class="owl-dateTime-inputWrapper" (mouseout)="Mouseout($event)" (mouseover)="Mouseover($event)">
+       <input *ngIf="!supportKeyboardInput" type="text" [class]="inputStyleClass"
+              [ngClass]="{
+           'owl-dateTime-input owl-inputtext owl-state-default': true
+           }"
+              [ngStyle]="inputStyle"
+              [attr.placeholder]="placeHolder"
+              [attr.tabindex]="tabIndex" [attr.id]="inputId"
+              [attr.required]="required"
+              [disabled]="disabled"
+              [value]="formattedValue"
+              (focus)="onInputFocus($event)" (blur)="onInputBlur($event)" (click)="onInputClick($event)" readonly>
+        <input *ngIf="supportKeyboardInput" type="text" [class]="inputStyleClass"
+              [ngClass]="{
+           'owl-dateTime-input owl-inputtext owl-state-default': true
+           }"
+              [ngStyle]="inputStyle"
+              [attr.placeholder]="placeHolder"
+              [attr.tabindex]="tabIndex" [attr.id]="inputId"
+              (change)="onInputChange($event)"
+              [attr.required]="required"
+              [value]="formattedValue"
+              (focus)="onInputFocus($event)" (blur)="onInputBlur($event)" (click)="onInputClick($event)">
+       <i class="ict ict-close  owl-icon" style="margin-right: 5px;" [hidden]="(!value)||(disabled)||(!mouseIn)||(!canClear)" (click)="clearValue($event)"></i>
+       <i class="fa fa-calendar  owl-icon" style="margin-right: 5px;" [hidden]="value&&(!disabled)"  (click)="onInputClick($event)" ></i>
+   </div>
+   <!-- Workaround of ng-content default content (angular issue #12530) -->
+   <div [ngClass]="{'owl-dateTime-customTemp': customTemp.children.length !== 0}" #customTemp (click)="onInputClick($event)">
+       <ng-content></ng-content>
+   </div>
+   <div class="owl-dateTime-dialog owl-state-default owl-corner-all"
+        [ngStyle]="{'display': inline ? 'inline-block' : null}"
+        [@fadeInOut]="dialogVisible? 'visible' : (!inline? 'hidden': null)"
+        (click)="onDialogClick($event)" #dialog>
+       <div *ngIf="showHeader" class="owl-dateTime-dialogHeader owl-corner-top">
+           <span *ngIf="value; else elseBlock">{{formattedValue}}</span>
+           <ng-template #elseBlock><span>{{placeHolder}}</span></ng-template>
+       </div>
+       <div *ngIf="type ==='both' || type === 'calendar'" class="owl-calendar-wrapper owl-corner-all owl-padding">
+           <div class="owl-calendar-control owl-cal-header">
+               <div class="owl-calendar-controlNav">
+                   <span class="fa fa-angle-left" style="padding: 8px;margin-left:12px; font-size: 20px;"
+                    (click)="prevNav($event)"></span>
+               </div>
+               <div class="owl-calendar-controlContent">
+                   <span class="month-control" (click)="changeDialogType(2)">{{pickerMonth}}</span>
+                   <span class="year-control" (click)="changeDialogType(3)">{{pickerYear}}</span>
+               </div>
+               <div class="owl-calendar-controlNav">
+                   <span class="fa fa-angle-right" style="padding: 8px;  font-size: 20px;" (click)="nextNav($event)"></span>
+               </div>
+           </div>
+           <div class="owl-calendar" [hidden]="dialogType !== 1">
+               <table class="owl-calendar-day">
+                   <thead class="owl-cal-header">
+                   <tr class="owl-weekdays" style="height:40px">
+                       <th *ngFor="let weekDay of calendarWeekdays" class="owl-weekday" scope="col">
+                           <span>{{weekDay}}</span>
+                       </th>
+                   </tr>
+                   </thead>
+                   <tbody>
+                   <tr class="owl-days" *ngFor="let week of calendarDays">
+                       <td *ngFor="let d of week" class="owl-day" style="padding: 5px;"
+                           [ngClass]="{
+                       'owl-calendar-invalid': !isValidDay(d.date),
+                       'owl-calendar-outFocus': d.otherMonth,
+                       'owl-calendar-hidden': d.hide,
+                       'owl-day-today': d.today
+                   }" (click)="selectDate($event, d.date)">
+                   <div style="height:32px;"  class="owl-day day" [ngClass]=" {'owl-calendar-selected': isSelectedDay(d.date), 'owl-calendar-invalid': !isValidDay(d.date)}">
+                           <a style="line-height:32px;">{{d.num}}</a>
+                        </div>
+                       </td>
+                   </tr>
+                   </tbody>
+               </table>
+           </div>
+           <div class="owl-calendar" [hidden]="dialogType !== 2">
+               <table class="owl-calendar-month">
+                   <tbody>
+                   <tr class="owl-months" *ngFor="let months of calendarMonths; let i = index">
+                       <td *ngFor="let month of months; let j = index" class="owl-month"
+                           (click)="selectMonth(i*3 + j)">
+                           <div class="owl-month" [ngClass]="{'owl-calendar-div-selected': isCurrentMonth(i*3 + j),'owl-calendar-month-part':true,'owl-calendar-month-selected': isCurrentMonth(i*3 + j)}">
+                           <a>{{month}}</a>
+                           </div>
+                       </td>
+                   </tr>
+                   </tbody>
+               </table>
+           </div>
+           <div class="owl-calendar" [hidden]="dialogType !== 3">
+               <table class="owl-calendar-year">
+                   <tbody>
+                   <tr class="owl-years" *ngFor="let years of calendarYears">
+                       <td class="owl-year" *ngFor="let year of years"
+                           (click)="selectYear(+year)">
+                           <div [ngClass]="{'owl-calendar-year-part':true,'owl-calendar-year-selected': isCurrentYear(year)}">
+                            <a>{{year}}</a>
+                        </div>
+                       </td>
+                   </tr>
+                   </tbody>
+               </table>
+               <!--
+               <div class="owl-calendar-yearArrow left" style="left: 12px;
+               font-size: 20px;
+               margin-top: -116px;" (click)="generateYearList('prev')">
+                   <i style="padding:8px" class="fa fa-angle-left"></i>
+               </div>
+               <div class="owl-calendar-yearArrow right" style="left: 261px;
+               font-size: 20px;
+               margin-top: -116px;" (click)="generateYearList('next')">
+                   <i style="padding:8px" class="fa fa-angle-right"></i>
+               </div>
+            -->
+           </div>
+       </div>
+       <div *ngIf="type ==='both' || type === 'timer'" [hidden]="dialogType !== 1" >
+           <div style="height: 35px; padding: 8px;margin-bottom: 20px;">
+       <oes-timepickerr #timepicker [max]="_max" [min]="_min" class="time-picker" (TimerChange)="TimerChange($event)"  [showSecondsTimer]="showSeconds" [(ngModel)]="mtime" [size]="'small'" [seconds]="seconds"></oes-timepickerr>
+       <div class="confirm-btn-div" style="    float: right; margin-top: -35px;">
+             <button class="plx-btn plx-btn-primary plx-btn-xs" (click)="confirm()" type="button"> {{locale.confirm}} </button>
+        </div>
+    </div>
+       </div>
+   </div>
+</div>

@@ -1,0 +1,434 @@
+@import "../../assets/components/themes/default/theme.less";
+@import "../../assets/components/themes/common/plx-input.less";
+@import "../../assets/components/themes/common/plx-button.less";
+
+.owl-dateTime {
+  display: inline-block;
+  position: relative;
+  width: 100%; 
+  font-family: @font-family;
+  font-size: @font-size;
+  background: @component-bg;
+  color: @text-color;
+}
+
+.owl-dateTime input {
+  .plx-input;
+}
+
+.owl-dateTime input:-ms-input-placeholder {
+  color: @unselected-text-color !important;
+}
+.owl-dateTime input::-webkit-input-placeholder {
+  color: @unselected-text-color !important;
+}
+
+.owl-dateTime-input {
+  width: 100%;
+  padding-right: 1.5em; }
+
+.owl-dateTime-cancel {
+  position: absolute;
+  top: 50%;
+  right: .1em;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: inherit; }
+
+.owl-dateTime-inputWrapper {
+  position: relative; }
+
+.owl-dateTime-customTemp {
+  display: inline-block;
+  position: relative; }
+
+.owl-dateTime-dialog {
+  padding:  0px;
+  position: absolute; }
+
+.owl-dateTime-dialogHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%; }
+
+.owl-calendar-wrapper,
+.owl-timer-wrapper {
+  position: relative;
+  width: 100%;
+  padding: .2em .5em; }
+
+.owl-calendar-control {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  height: 2em; }
+  .owl-calendar-control .owl-calendar-controlNav {
+    position: relative;
+    cursor: pointer;
+    width: 12.5%; }
+  .owl-calendar-control .owl-calendar-controlContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 75%;
+    height: 100%; }
+
+.owl-calendar {
+  position: relative;
+  min-height: 13.7em; }
+  .owl-calendar table {
+    width: 100%;
+    border-collapse: collapse; }
+  .owl-calendar tbody td {
+    position: relative;
+    text-align: center; }
+    .owl-calendar tbody td a {
+      display: block;
+      width: 100%;
+      height: 100%;
+      text-decoration: none;
+      color: inherit;
+      font-size:12px;
+       }
+  .owl-calendar .owl-calendar-yearArrow {
+    position: absolute;
+    top: 50%;
+    width: 1.5em;
+    height: 1.5em;
+    transform: translateY(-50%);
+    cursor: pointer; }
+    .owl-calendar .owl-calendar-yearArrow.left {
+      left: -.5em; }
+    .owl-calendar .owl-calendar-yearArrow.right {
+      right: -.5em; }
+
+.owl-timer-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center; }
+  .owl-timer-wrapper .owl-timer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    height: 100%; }
+  .owl-timer-wrapper .owl-timer-control {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30%;
+    width: 100%;
+    cursor: pointer; }
+    .owl-timer-wrapper .owl-timer-control .icon:before {
+      margin: 0; }
+  .owl-timer-wrapper .owl-timer-input {
+    width: 60%;
+    height: 100%; }
+
+/*# sourceMappingURL=picker.component.css.map */
+.font-face {
+  font-weight: normal;
+  font-style: normal; }
+
+[class^="paletx-datepicker-icon-"]:before, [class*="paletx-datepicker-icon-"]:before {
+  font-family: "fontello";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .2em;
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */ }
+
+.paletx-datepicker-icon-cancel:before {
+  content: '\e802'; }
+
+/* '' */
+.paletx-datepicker-icon-up-open:before {
+  content: '\e805'; }
+
+/* '' */
+.paletx-datepicker-icon-down-open:before {
+  content: '\e80b'; }
+
+/* '' */
+.paletx-datepicker-icon-left-open:before {
+  content: '\e817'; }
+
+/* '' */
+.paletx-datepicker-icon-right-open:before {
+  content: '\e818'; }
+
+/* '' */
+.owl-widget,
+.owl-widget * {
+  box-sizing: border-box; }
+
+.owl-widget {
+  font-size: 1em; }
+.owl-padding{
+  padding: 0px;
+}
+.owl-corner-all {
+  border-radius: 3px; }
+
+.owl-corner-top {
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px; }
+
+.owl-state-default {
+  border: 1px solid @border-color-base;
+  background: @component-bg;
+  color: @text-color; }
+
+.owl-inputtext {
+  margin: 0;
+  outline: medium none;
+  transition: .2s; }
+
+
+  .owl-dateTime.owl-dateTime-inline {
+    width: auto; }
+    .owl-dateTime.owl-dateTime-inline .owl-dateTime-dialog {
+      position: relative;
+      z-index: auto; }
+
+.owl-dateTime-dialog {
+  width: 300px;
+  user-select: none;
+  z-index: 99999; }
+
+.owl-dateTime-dialogHeader {
+  height: 2.5em;
+  padding: .25em;
+  background-color: @component-bg;
+  overflow-y: auto; }
+
+.owl-calendar-control .owl-calendar-controlNav .nav-prev,
+.owl-calendar-control .owl-calendar-controlNav .nav-next {
+  position: absolute;
+  top: 50%;
+  right: auto;
+  bottom: auto;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+}
+
+.owl-cal-header{
+  background: @selected-bg-color;
+  //color: @form-label;
+  height: 35px;
+  //width: 105%;
+  //margin-left: -7px;
+}
+  .owl-calendar-control .owl-calendar-controlNav .nav-prev:before,
+  .owl-calendar-control .owl-calendar-controlNav .nav-next:before {
+    //content: "";
+    border-top: .5em solid transparent;
+    border-bottom: .5em solid transparent;
+    border-right: 0.75em solid #000000;
+    width: 0;
+    height: 0;
+    display: block;
+    margin: 0 auto; }
+.owl-calendar-control .owl-calendar-controlNav .nav-next:before {
+  border-right: 0;
+  border-left: 0.75em solid #000000; }
+.owl-calendar-control .owl-calendar-controlContent .month-control,
+.owl-calendar-control .owl-calendar-controlContent .year-control {
+  color: @unselected-text-color;
+  display: inline-block;
+  cursor: pointer;
+  transition: transform 200ms ease; }
+  .owl-calendar-control .owl-calendar-controlContent .month-control:hover,
+  .owl-calendar-control .owl-calendar-controlContent .year-control:hover {
+   // transform: scale(1.2); }
+    color: @guide-color; }
+.owl-calendar-control .owl-calendar-controlContent .month-control {
+  font-size: @font-size-title-group;
+  margin-right: .8rem;
+}
+.owl-calendar-control .owl-calendar-controlContent .year-control {
+  font-size: @font-size-title-group;
+}
+
+.owl-calendar tbody td.owl-calendar-selected {
+  background-color: @guide-color;
+  color: @component-bg }
+.owl-calendar tbody td.owl-calendar-invalid {
+  color: @disabled-text-color }
+.owl-calendar tbody td.owl-calendar-outFocus {
+  color: @unselected-text-color; }
+.owl-calendar tbody td.owl-calendar-hidden {
+  visibility: hidden; }
+  /**
+.owl-calendar tbody td:not(.owl-calendar-selected):not(.owl-calendar-invalid):hover {
+  background-color: @hover-bg-color;
+  color: @shadow-color }
+**/
+.owl-years td.owl-year,
+.owl-years td.owl-month,
+.owl-months td.owl-year,
+.owl-months td.owl-month {
+  font-size: 1.2em;
+  height: 2.5em;
+  width: 33.33%;
+  line-height: 2.5em; 
+  border-radius: 60px;
+  }
+
+.owl-weekdays th.owl-weekday {
+  height: 1em;
+  line-height: 2em;
+  text-align: center;
+  font-weight: normal;
+  font-size: @font-size;
+  /**color: @unselected-text-color; **/
+  }
+
+.owl-days td.owl-day {
+  border-radius: 30px;
+  height: 2em;
+  width: calc(100% / 7);
+  line-height: 2em; }
+  .owl-days td.owl-day.owl-day-today:before {
+    content: '';
+    display: block;
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    color: @primary-color;
+    border-top: 0.5em solid @primary-color-hover;
+    border-left: .5em solid transparent;
+  }
+
+.owl-timer-wrapper {
+  height: 5.4em;
+  background-color: @shadow-color; }
+  .owl-timer-wrapper .owl-timer-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 40%;
+    font-size: 1.5em; }
+  .owl-timer-wrapper .owl-meridian-btn {
+    font-size: .8em;
+    color: @guide-color;
+    background-image: none;
+    background-color: transparent;
+    border-color: @guide-color; }
+    .owl-timer-wrapper .owl-meridian-btn:hover {
+      color: @scene-textcolor;
+      background-color: @guide-color;
+      border-color: @guide-color; }
+
+.owl-timer-divider {
+  display: inline-block;
+  align-self: flex-end;
+  position: absolute;
+  width: .6em;
+  height: 100%;
+  left: -.3em; }
+  .owl-timer-divider .owl-timer-dot {
+    display: block;
+    width: .3em;
+    height: .3em;
+    position: absolute;
+    left: 50%;
+    border-radius: 50%;
+    transform: translateX(-50%); }
+    .owl-timer-divider .owl-timer-dot.dot-top {
+      top: 38%; }
+    .owl-timer-divider .owl-timer-dot.dot-bottom {
+      bottom: 38%; }
+.owl-icon{
+  position: absolute;
+  top: 50%;
+  right: .1em;
+  border-radius: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: @fonticon-color;
+}
+
+.oes-time-control{
+  color: @text-color !important;
+}
+.owl-calendar-selected {
+  background-color: @guide-color;
+  color: #fff;
+  border-radius: 50%;
+}
+.owl-calendar tbody td div.day:not(.owl-calendar-selected):not(.owl-calendar-invalid):hover {
+  background-color: @hover-bg-color;
+  color:#000;
+  border-radius: 50%; }
+.oes-time-control{
+  font-size: @font-size;
+}
+.owl-calendar-year-part{
+  width: 42px;
+  margin-left: 30px;
+  text-align: center;
+}
+.owl-calendar-year-part:hover{
+  background-color: @hover-bg-color;
+  color:#000;
+  border-radius: 50%;
+}
+.owl-calendar-year-selected{
+  background-color: @guide-color;
+  color: #fff;
+  border-radius: 50%;
+}
+.owl-calendar-year-selected:hover{
+  background-color: @guide-color;
+  color: #fff;
+  border-radius: 50%;
+}
+.owl-calendar-month-part{
+  width: 42px;
+  margin-left: 30px;
+  text-align: center;
+}
+.owl-calendar-month-part:hover{
+  background-color: @hover-bg-color;
+  color:#000;
+  border-radius: 50%;
+}
+.owl-calendar-month-selected{
+  background-color: @guide-color;
+  color: #fff;
+  border-radius: 50%;
+}
+.owl-calendar-month-selected:hover{
+  background-color: @guide-color;
+  color: #fff;
+  border-radius: 50%;
+}
+
+/*# sourceMappingURL=picker.css.map */
+

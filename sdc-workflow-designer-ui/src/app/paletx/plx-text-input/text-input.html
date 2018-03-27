@@ -1,0 +1,69 @@
+<div #inputOutter class="text-input"
+     [class.text-input-with-hint]="isShowHintLabel"
+     [class.short-text-input]="shortInput"
+     [class.text-input-with-unit]="hasUnit"
+     [class.text-input-with-unitOption]="hasUnitOption"
+     [class.text-input-with-prefix]="hasPrefix"
+     [class.text-input-with-prefixOption]="hasPrefixOption"
+     [class.text-input-with-passwordSwith]="passwordSwitch"
+     [class.input-right-border]="isShowUnitOption"
+     [class.input-left-border]="isShowPrefixOption"
+     [class.input-right-border-pwdswith-hover]="isPwdSwithHover"
+     [class.input-right-border-pwdswith-click]="isPwdSwithClick"
+     (window:click)="_onWindowClick($event)">
+	<div #prefixOpt *ngIf="hasPrefixOption" [class.prefix-focus]="isShowPrefixOption" class="text-input-prefix-option" (click)="_showPrefixOption($event)">{{showPrefix}}<span class="toggle"></span></div>
+	<div *ngIf="isShowPrefixOption" class="plx-text-input-prefix-group">
+		<li *ngFor="let option of prefixOptions" (click)="_setPrefix(option)" [ngClass]="{'group-selected':showPrefix===option}">{{option}}</li>
+	</div>
+    <div *ngIf="hasPrefix" class="text-input-prefix" [style.width]="prefixWidth">{{prefix}}</div>
+	<span [class.input-span-focus]="isFocus ||isOpenDataList" class="input-span">
+        <input #input
+           class="plx-input"
+           [disabled]="disabled"
+           [id]="inputId"
+           [name]="name"
+           [attr.max]="max"
+           [attr.maxlength]="maxLength"
+           [attr.min]="min"
+           [attr.minlength]="minLength"
+           [attr.tabindex]="tabIndex"
+           [attr.pattern]="pattern"
+           [placeholder]="placeholder"
+           [readonly]="readOnly"
+           [required]="required"
+           [type]="inputType"
+           [(ngModel)]="displayValue"
+           (click)="_handleClick($event)"
+           (focus)="_handleFocus($event)"
+           (blur)="_handleBlur($event);_checkValue()"
+           (input)="_handleInput($event)"
+           (change)="_handleChange($event)"
+           (select)="_handleSelect($event)"
+           (keydown)="onInputKeydown($event)" (keyup)="onInput($event,input.value)"
+           (keypress)="onInputKeyPress($event)" [style.width]="inputWidth" validateOnBlur/>
+        <a class="input-spinner-up" [style.cursor]="isDisabledUp ? 'not-allowed' : 'pointer'" *ngIf="type === 'number' && numberShowSpinner" (mouseenter)="_handleMouseEnterUp()"
+           (mouseleave)="onUpButtonMouseleave($event)" (mousedown)="onUpButtonMousedown($event,input)"
+            (mouseup)="onUpButtonMouseup($event)">
+            <span class="caret-up" [class.caret-up-hover]="!isDisabledUp"></span>
+        </a>
+        <a class="input-spinner-down" [style.cursor]="isDisabledDown ? 'not-allowed':'pointer'" *ngIf="type === 'number' && numberShowSpinner" (mouseenter)="_handleMouseEnterDown()"
+            (mouseleave)="onDownButtonMouseleave($event)" (mousedown)="onDownButtonMousedown($event,input)"
+            (mouseup)="onDownButtonMouseup($event)">
+            <span class="caret-down"  [class.caret-down-hover]="!isDisabledDown"></span>
+        </a>
+    </span><div *ngIf="hasUnit" class="text-input-unit" [style.width]="unitWidth">{{unit}}</div>
+
+    <div *ngIf="hasUnitOption" [class.unit-focus]="isShowUnitOption" class="text-input-unit-option" (click)="_showUnitOption($event)" [style.width]="unitOptionWidth" >{{showUnit}}<span class="toggle"></span></div>
+    <div *ngIf="isShowUnitOption" class="plx-text-input-unit-group" [style.margin-left]="inputWidth">
+      <li *ngFor="let option of unitOptions" (click)="_setUnit(option)" [ngClass]="{'group-selected':showUnit===option}">{{option}}</li>
+    </div>
+    <div *ngIf="!required && !notShowOption" class="text-input-optional">{{optionalLabel}}</div>
+    <div *ngIf="isShowHintLabel" class="text-input-hint">{{hintLabel}}</div>
+    <div *ngIf = "isOpenDataList || isOpenSuffixList" class = "text-input-dataList">
+      <li *ngFor="let data of displayDataList" (click)="chooseInputData(data)">{{data}}</li>
+    </div>
+	<span *ngIf="passwordSwitch" placement="bottom" plxTooltip="{{tooltipText}}" [ngClass]="showPassword?'ict-eye-closed':'ict-eye'"
+	      class="plx-input-passwordSwitch" (click)='switch()'
+        (mouseover)="isPwdSwithHover=true" (mouseleave)="isPwdSwithHover=false"
+        (mousedown)="isPwdSwithClick=true" (mouseup)="isPwdSwithClick=false"></span>
+</div>

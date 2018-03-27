@@ -1,0 +1,423 @@
+@import "../../assets/components/themes/default/theme.less";
+@import "../../assets/components/themes/common/plx-input.less";
+
+@input-short-width: 120px;
+@padding-left: 10px;
+@padding: 10px;
+@border-width: 1px;
+@unit-span-width: 45px;
+@unit-option-width: 84px;
+@short-unit-span-width: 40px;
+@prefix-span-width: 70px;
+@prefix-option-width: 84px;
+@short-prefix-span-width: 40px;
+@password-switch: 40px;
+
+.font {
+	font-family: @font-family;
+	font-size: @font-size;
+}
+
+.text-input {
+	//height: @input-height;
+	//position: relative;
+	//margin-bottom: 0;
+	display: inline-block;
+
+	.caret-down {
+		display: block;
+		width: 0;
+		height: 0;
+		border-left: 4px solid transparent;
+		border-right: 4px solid transparent;
+		border-top: 4px solid lighten(@fonticon-color, 5%);
+		margin-top: 4px;
+		margin-bottom: 10px;
+
+		&.caret-down-hover:hover, &.caret-down-hover:active {
+			border-top: 4px solid @primary-color;
+		}
+	}
+	.caret-up {
+		display: block;
+		width: 0;
+		height: 0;
+		border-left: 4px solid transparent;
+		border-right: 4px solid transparent;
+		border-bottom: 4px solid lighten(@fonticon-color, 5%);
+		margin-top: 10px;
+
+		&.caret-up-hover:hover, &.caret-up-hover:active {
+			border-bottom: 4px solid @primary-color;
+		}
+	}
+	.toggle {
+		float: right;
+		margin-right: 10px;
+		margin-top: 14px;
+		border-left: 4px solid transparent;
+		border-right: 4px solid transparent;
+		border-top: 4px solid lighten(@fonticon-color, 5%);
+	}
+	.text-input-dataList {
+		 margin-top: 2px;
+		 position: absolute;
+		 z-index: @z-index-dropdown;
+		 border: 1px solid @gray-grade-7;
+		 background: #fff;
+		 cursor: pointer;
+		 border-radius: @radius;
+		 li {
+			 list-style: none;
+			 height: @input-height;
+			 width: @input-width;
+			 padding-left: @padding-left;
+			 &:hover {
+				 background-color: @hover-bg-color;
+			 }
+		 }
+	 }
+}
+
+.input-span {
+	display: inline-block;
+	overflow: visible;
+	padding: 0;
+	position: relative;
+}
+
+.text-input-with-hint {
+  margin-bottom: -8px;
+  :host(.ng-touched.ng-invalid.input-blur) & {
+    height: auto;
+    margin-bottom: 0;
+  }
+}
+
+.plx-text-input-unit-group, .plx-text-input-prefix-group {
+	position: absolute;
+	margin-top: @overlay-margin-top;
+	width: @unit-option-width;
+	z-index: @z-index-dropdown;
+	border-radius: @radius;
+	background: @component-bg;
+	border: 1px solid @border-color-base;
+	.shadow;
+	cursor: pointer;
+	li {
+		padding-left: 10px;
+		height: @input-height;
+		list-style: none;
+		line-height: @input-height;
+		font-size: @font-size;
+		&:hover {
+			background-color: @hover-bg-color;
+		}
+		&.group-selected, &.group-selected:hover {
+			background-color: @selected-bg-color;
+			color: @text-color;
+		}
+	}
+}
+
+.text-input-optional {
+  display: inline-block;
+  margin-right: 6px;
+  padding-left:5px;
+}
+
+.input-right-border .plx-input {
+	border-right: 1px solid @primary-color;
+}
+
+.input-left-border .plx-input {
+	border-left: 1px solid @primary-color;
+}
+
+.text-input-hint {
+	top: 42px;
+	left: 10px;
+	font-family: @font-family;
+	font-size: @font-size;
+	color: @disabled-text-color;
+	:host(.ng-touched.ng-invalid.input-blur) & {
+		display: none;
+	}
+}
+
+.text-input-prefix {
+	.font;
+	display: inline-block;
+	width: @prefix-span-width;
+	height: @input-height;
+	text-align: center;
+	line-height: @input-height;
+	border-top-left-radius: @radius;
+	border-bottom-left-radius: @radius;
+	color: @disabled-text-color;
+	border: 1px solid @border-color-base;
+	border-right: 0;
+	vertical-align: middle;
+	.short-text-input & {
+		width: @short-prefix-span-width;
+	}
+	.input-span-focus & {
+		border-color: @primary-color;
+	}
+	.input-invalid.ng-dirty.ng-invalid.ng-touched.input-blur &,
+	.input-invalid.ng-dirty.ng-invalid.ng-touched.input-blur .input-span-focus:focus & {
+		border-color: @error-color;
+	}
+}
+
+.input-unit {
+  .font;
+  display: inline-block;
+  height: @input-height;
+  text-align: center;
+  line-height: @input-height;
+  border-top-right-radius: @radius;
+  border-bottom-right-radius: @radius;
+}
+
+.text-input-unit {
+	border: 1px solid @border-color-base;
+	border-left: 0;
+	.input-unit;
+	color: @disabled-text-color;
+	width: @unit-span-width;
+	text-align: center;
+	vertical-align: middle;
+	.short-text-input & {
+		width: @short-unit-span-width;
+	}
+	.input-span-focus & {
+		border-color: @primary-color;
+	}
+}
+
+.text-input-prefix-option {
+	.font;
+	display: inline-block;
+	height: @input-height;
+	text-align: center;
+	line-height: @input-height;
+	border-top-left-radius: @radius;
+	border-bottom-left-radius: @radius;
+	width: @prefix-option-width;
+	text-align: left;
+	padding-left: 10px;
+	cursor: pointer;
+	border: 1px solid @border-color-base;;
+	border-right: 0;
+	vertical-align: middle;
+	&.prefix-focus {
+		border-color: @primary-color;
+	}
+}
+
+.text-input-unit-option {
+	&:extend(.input-unit);
+	width: @unit-option-width;
+	text-align: left;
+	padding-left: 10px;
+	cursor: pointer;
+	border: 1px solid @border-color-base;;
+	border-left: 0;
+	vertical-align: middle;
+	.input-span-focus & {
+		border-color: @primary-color;
+	}
+}
+
+.text-input-with-unitOption {
+	div.unit-focus {
+		border-color: @primary-color;
+	}
+}
+
+.plx-input {
+  .short-text-input & {
+    width: @input-short-width;
+  }
+
+  .text-input-with-unit & {
+    width: @input-width - @unit-span-width;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .text-input-with-unitOption & {
+    width: @input-width - @unit-option-width;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .text-input-with-prefix & {
+    width: @input-width - @prefix-span-width;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+	.text-input-with-prefixOption & {
+		width: @input-width - @prefix-option-width;
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0;
+	}
+
+	.text-input-with-passwordSwith & {
+		width: @input-width - @password-switch;
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+
+  .text-input-with-prefix.text-input-with-unit & {
+    width: @input-width - @prefix-span-width - @unit-span-width;
+  }
+
+  .text-input-with-prefix.text-input-with-unitOption & {
+    width: @input-width - @prefix-span-width - @unit-option-width;
+  }
+
+  .short-text-input.text-input-with-prefix & {
+    width: @input-short-width - @short-prefix-span-width;
+  }
+
+  .short-text-input.text-input-with-unit & {
+    width: @input-short-width - @short-unit-span-width;
+  }
+
+  .short-text-input.text-input-with-prefix.text-input-with-unit & {
+    width: @input-short-width - @short-prefix-span-width - @short-unit-span-width;
+  }
+}
+
+.input-spinner() {
+  cursor: pointer;
+  display: block;
+  font-size: 12px;
+  position: absolute;
+  margin: 0;
+  right: 0;
+  overflow: hidden;
+  border: none;
+  padding: 0;
+  text-align: center;
+  vertical-align: middle;
+  width: 18px;
+}
+
+.input-spinner-up {
+  .input-spinner();
+  top: 0;
+}
+
+.input-spinner-down {
+  .input-spinner();
+  bottom: 0;
+}
+
+:host(.plx-input-sm) {
+    .plx-input-sm-common;
+}
+
+.plx-input-sm {
+     .plx-input-sm-common;
+}
+
+.plx-input-sm-common {
+    .plx-input {
+        height: @input-height-sm;
+        line-height: @input-height-sm;
+    }
+    .text-input-prefix,
+    .text-input-unit,
+    .text-input-unit-option,
+    .text-input-prefix-option {
+        height: @input-height-sm;
+        line-height: @input-height-sm;
+    }
+    div.text-input-dataList {
+        height: @input-height-sm;
+    }
+    .toggle {
+        margin-top: 11px;
+    }
+    .caret-down {
+        margin-bottom: 8px;
+    }
+    .caret-up {
+        margin-top: 8px;
+    }
+    .plx-input-passwordSwitch {
+        line-height: @input-height-sm - 2px;
+    }
+}
+
+.plx-input-passwordSwitch {
+	display: inline-block;
+	line-height: @input-height - 2px;
+	width: @password-switch;
+	text-align: center;
+	vertical-align: middle;
+	background-color: @common-color;
+	border: 1px solid @border-color-base;
+	border-left: 0;
+	border-bottom-right-radius: @radius;
+	border-top-right-radius: @radius;
+	cursor: pointer;
+	&:focus,
+	&:hover {
+    border-color: @btn-common-color-border-hover;
+		background-color: @common-color-hover;
+    &.ict-eye-closed, &.ict-eye {
+      color: @btn-common-color-text-hover;
+    }
+	}
+	&:active {
+		background-color: @common-color-click;
+    border-color: @btn-common-color-border-click;
+    &.ict-eye-closed, &.ict-eye {
+      color: @btn-common-color-text-click;
+    }
+	}
+	&.ict-eye-closed, &.ict-eye {
+		color: @fonticon-color;
+		font-size: 16px;
+	}
+ }
+.input-right-border-pwdswith-hover .plx-input {
+  border-right-color: @btn-common-color-border-hover;
+}
+.input-right-border-pwdswith-click .plx-input {
+  border-right-color: @btn-common-color-border-click;
+}
+
+.plx-text-input-ip-dot {
+	display: inline-block;
+	vertical-align: bottom;
+	color: #999;
+}
+
+.plx-text-input-error {
+	font-size: 12px;
+	color: @error-color;
+	margin-top: 5px;
+}
+
+:host(.plx-text-input-ip-invalid) {
+    .plx-text-input-ip-invalid-common;
+}
+
+.plx-text-input-ip-invalid {
+     .plx-text-input-ip-invalid-common;
+}
+
+.plx-text-input-ip-invalid-common {
+    .plx-input {
+        border-color: @error-color;
+    }
+    .input-span-focus .plx-input {
+        border-color: @primary-color;
+    }
+}

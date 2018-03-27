@@ -1,0 +1,14 @@
+<div style="width:100%;">
+<div class="datepickboxleft" >
+    <plx-datepicker [canClear]="canClear" [supportKeyboardInput]="supportKeyboardInput" [disabled]="disabled" [(ngModel)]="startDate" [showTime]="showTime" [showSeconds]="showSeconds" [timeOnly]="timeOnly" [dateFormat]="dateFormat"  [locale]="locale"  [minDate]="startMinDate" [maxDate]="_startMaxDate"  (onConfirm)="EvonStartDateClosed($event)"
+            placeHolder="{{placeHolderStartDate}}"></plx-datepicker>
+</div>
+<div class="datepickboxto" >
+{{locale.to}}
+</div>
+<div  class="datepickboxright" >
+    <plx-datepicker [canClear]="canClear" [supportKeyboardInput]="supportKeyboardInput" [disabled]="disabled" [(ngModel)]="endDate" [showTime]="showTime" [showSeconds]="showSeconds" [timeOnly]="timeOnly" [dateFormat]="dateFormat"  [locale]="locale"  [minDate]="_endMinDate"  [maxDate]="endMaxDate"   (onConfirm)="EvonEndDateClosed($event)"
+            placeHolder="{{placeHolderEndDate}}"></plx-datepicker>
+</div>
+<br/>
+</div>
