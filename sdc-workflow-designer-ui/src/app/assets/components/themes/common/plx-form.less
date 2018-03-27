@@ -1,0 +1,233 @@
+@import "../default/theme.less";
+@import "./plx-button.less";
+@import "./plx-radio.less";
+@import "./plx-checkbox.less";
+@import "./plx-input.less";
+
+.plx-form {
+    font-family: @font-family;
+    font-size: @font-size;
+    background: @component-bg;
+    color: @text-color;
+    .ng-invalid:not(form).ng-invalid:not(fieldset).ng-invalid:not(plx-select) {
+        border: 1px solid @error-color; /* red */
+    }
+    .ng-untouched:not(form).ng-untouched:not(fieldset).ng-untouched:not(plx-select) {
+        border: 1px solid @border-color-base ;
+    }
+    // 标签和通用组件样式
+    label {
+        font-size: @font-size;
+        text-align: right;
+        color: @form-label;
+        background: @component-bg;
+        .label-span {
+            color: @text-color;
+        }
+    }
+
+    //分组的样式
+    .forms-group(@cursor, @bgcolor) {
+        margin-bottom: 10px;  
+        padding-left: 15px;
+        color: @title-text-color;
+        font-size: @font-size-title-group;
+        height: @input-height;
+        line-height: @input-height;
+        cursor: @cursor;
+        &:hover {
+            background: @bgcolor;
+        }
+        span {
+            margin-left: 24px;
+            border-left: 3px solid @primary-color;
+            padding-left: 5px;
+        }
+        // 分组的展开和隐藏
+        .group-icon {
+            float:left;
+            font-size: @font-size-title-group;
+            color: @primary-color !important;
+            line-height:@input-height; 
+            margin-right:8px;    
+            transform: scale(0.7,0.7);
+            font-weight: bold;
+        }
+    }
+	
+	.text-autocut {
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		display: block;
+	}
+
+    .forms-group-pointer {
+        .forms-group(pointer, @hover-bg-color);
+    }
+
+    .forms-group-default {
+        .forms-group(default, @component-bg);
+        line-height: @input-height / 2;
+    }
+    // 紧凑型表单input高度
+    .input-sm {
+        height: @input-height-sm !important;
+    }
+    // 必选的*号颜色
+    .px-red {
+        color: @error-color;
+    }
+
+    input:focus {
+        border: 1px solid @primary-color !important;
+    }
+    // 错误信息
+    .error-div {
+        height: @font-size;
+        margin-top: -4px;
+        margin-bottom: 5px;
+        .error-msg {
+            color: @error-color;
+        }
+    }
+    // 输入提示信息的样式
+    .help-div {
+        color: @disabled-text-color;
+        height: @font-size;
+        margin-top: -5px;
+        margin-bottom: 6px;
+    }
+    // 标题样式
+    .forms-header {
+        margin-left: 15px;
+        margin-bottom: 25px;
+        padding-bottom: 5px;
+        border-bottom:1px solid @border-color-split;
+        span {
+        font-size: @font-size-title-level2;
+        color: @title-text-color;
+        }
+    }
+
+    .plx-input{
+		width: 100%;
+		color: @text-color;
+		background: @component-bg;
+		text-align: left;
+    }
+    //radio、checkbox、tail的样式
+    .field-radio {
+        padding-right:10px;
+        line-height:@input-height - 5px;
+        &.field-radio-tight {
+        line-height:@input-height-sm - 5px;
+        }
+    }
+    .field-tail {
+        padding-right:10px;
+        line-height:@input-height;
+        &.field-tail-tight {
+        line-height:@input-height-sm;
+        }
+        .tip {
+            color: @fonticon-color;
+            font-size: 16px;
+        }
+    }
+    .field-info {
+        font-size: @font-size;
+        color: @primary-color;
+        margin-left: -15px;
+        &.field-info-group {
+        margin-left: 15px;
+        }
+    }
+    //field的样式
+    .form-field:not(select-dropdown) {
+        color: @text-color;
+        font-size: @font-size;
+        line-height: @input-height;
+        &.form-field-tight {
+        line-height:@input-height-sm;
+        }
+        &.form-filed-hint {
+            margin-bottom: 15px; 
+        }
+    }
+    .field-div {
+        margin-bottom: 15px;
+        padding-left: 0;
+        &.field-div-tight {
+            margin-bottom: 10px;
+        }
+        // 输入值改变后的样式变化
+        &.inputchanged > input{
+            font-weight:bold;
+        }
+        &.inputchanged > select{
+            font-weight:bold;
+        }
+    }
+
+    .button-div {
+        padding: 15px 0 0 0;
+        color: @text-color;
+        font-size: @font-size-title-group;
+        text-align: left;
+        button {
+            margin-right: 10px;
+        }
+    }
+
+    .button-r-submit {
+        float: right;
+        margin-right: -20px !important;
+    }
+
+    .button-r-cancel {
+        float: right;
+    }
+
+    .content {
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    //滚动条
+    .plx-scrollbar::-webkit-scrollbar {
+        width: 4px;
+        height: 6px;
+    }
+    .plx-scrollbar::-webkit-scrollbar-thumb {
+        background-color: rgba(0,0,0,.2);
+        border-radius: 2em;
+        min-height: 50px;
+        max-height: 100px;
+    }
+    .plx-scrollbar::-webkit-scrollbar-corner{
+        background-color: transparent;
+    }
+    // placeholder
+    input:-ms-input-placeholder {
+        color: @unselected-text-color !important;
+    }
+    input::-webkit-input-placeholder {
+        color: @unselected-text-color !important;
+    }
+	plx-info .icon {
+		margin-left: -10px;
+		line-height: 28px !important;
+	} 
+
+}
+.para-content {
+	.icon-active {
+		fill:@primary-color;
+	}
+	.icon-disactive {
+		fill: @disabled-text-color;
+		cursor: default;
+	}
+}
+

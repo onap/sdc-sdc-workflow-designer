@@ -1,0 +1,27 @@
+html{
+  //font-size:@font-size-spacing;
+}// 定义间距使用
+body{
+  font-size:@font-size;
+}
+.shadow {
+-webkit-box-shadow: 0 1px 6px @shadow-color;
+-moz-box-shadow: 0 1px 6px @shadow-color;
+box-shadow: 0 1px 6px @shadow-color;
+} //阴影样式（包含跨浏览器），可以直接引用.shadow
+
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color: @disabled-text-color;
+}
+
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color: @disabled-text-color;
+}
+
+input:-ms-input-placeholder{
+  color: @disabled-text-color;
+}
+
+input::-webkit-input-placeholder{
+  color: @disabled-text-color;
+}

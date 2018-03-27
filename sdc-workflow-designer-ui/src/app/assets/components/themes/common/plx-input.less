@@ -1,0 +1,29 @@
+@import "../default/theme.less";
+
+.plx-input {
+	font-size: @font-size;
+	height: @input-height;
+	padding-left: 10px;
+	padding-right: 10px;
+	outline: 0;
+	border: 1px solid @border-color-base;
+	border-radius: @radius;
+	vertical-align: middle;
+	&:focus {
+		border: 1px solid @primary-color;
+	}
+	&:disabled,
+	&[disabled] {
+		cursor: not-allowed;
+		background-color: @input-bg-color-disabled;
+	}
+}
+
+.plx-input-sm {
+	height: @input-height-sm;
+}
+
+.plx-input-right-no-radius {
+	border-bottom-right-radius: 0;
+	border-top-right-radius: 0;
+}

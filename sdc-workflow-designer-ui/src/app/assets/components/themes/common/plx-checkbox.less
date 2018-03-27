@@ -1,0 +1,105 @@
+@import "../default/theme.less";
+
+@checkbox-border-size: 1px;
+
+.plx-checkbox-container {
+	font-size: 0;
+	position: relative;
+}
+
+.plx-checkbox {
+	position: absolute;
+	z-index: -1;
+	opacity: 0;
+	& + .checkbox-substitute {
+		position: relative;
+		display: inline-block;
+		cursor: pointer;
+		height: @checkbox-size;
+		width: @checkbox-size;
+		border: @checkbox-border-size solid @border-color-base;
+		border-radius: @radius-sm;
+		vertical-align: middle;
+	}
+	& + .checkbox-substitute + span {
+		font-weight: normal;
+		font-size: @font-size;
+		cursor: pointer;
+		vertical-align: middle;
+		.font-padding(@font-size);
+	}
+	&:hover + .checkbox-substitute {
+		border-color: @primary-color;
+		outline: none;
+		background-image: none;
+		-webkit-box-shadow: none;
+		-moz-box-shadow: none;
+		box-shadow: none;
+		text-shadow: none;
+	}
+	&:checked + .checkbox-substitute {
+		border-color: @primary-color;
+		background-color: @primary-color;
+		&::after {
+			.checkbox-check(@component-bg);
+		}
+	}
+	&.portion + .checkbox-substitute {
+		background-color: @primary-color;
+		border-color: @primary-color;
+		opacity: 0.5;
+		&::after {
+			.checkbox-check(@component-bg);
+		}
+	}
+	&:disabled + .checkbox-substitute,
+	&[disabled] + .checkbox-substitute {
+		border-color: @border-color-base;
+		background-color: @input-bg-color-disabled;
+		cursor: not-allowed;
+	}
+	&:disabled + .checkbox-substitute + span,
+	&[disabled] + .checkbox-substitute + span {
+		cursor: not-allowed;
+	}
+	&.portion[disabled] + .checkbox-substitute {
+		background-color: @border-color-base;
+		border-color: @border-color-base;
+		&::after {
+			.checkbox-check(@fonticon-color);
+		}
+	}
+	&:checked[disabled] + .checkbox-substitute {
+		border-color: @border-color-base;
+		background-color: @border-color-base;
+	}
+}
+
+.checkbox-check(@color) {
+	content: '';
+	position: absolute;
+	display: block;
+	width: 6px;
+	height: 10px;
+	border: solid @color;
+	border-width: 0 2px 2px 0;
+	transform: rotate(45deg);
+	.checkbox-check-left(@font-size);
+	top: 0;
+}
+
+.checkbox-check-left(12px) {
+	left: 3px;
+}
+
+.checkbox-check-left(14px) {
+	left: 4px;
+}
+
+.font-padding(12px) {
+	padding-left: 6px;
+}
+
+.font-padding(14px) {
+	padding-left: 10px;
+}
