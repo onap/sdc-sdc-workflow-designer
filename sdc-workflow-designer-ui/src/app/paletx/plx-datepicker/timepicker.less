@@ -1,0 +1,163 @@
+@import "../../assets/components/themes/default/theme.less";
+@import "../../assets/components/themes/common/plx-input.less";
+@import "../../assets/components/themes/common/plx-button.less";
+.oes-time-table .chevron::before {
+  border-style: solid;
+  border-width: 0.29em 0.29em 0 0;
+  content: '';
+  display: inline-block;
+  height: 0.69em;
+  left: 0.05em;
+  position: relative;
+  top: 0.15em;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  vertical-align: middle;
+  width: 0.71em;
+}
+
+.oes-time-table .chevron.bottom:before {
+  top: -.3em;
+  -webkit-transform: rotate(135deg);
+  -ms-transform: rotate(135deg);
+  transform: rotate(135deg);
+}
+
+.oes-time-table .btn-link {
+  border: none!important;
+  cursor: pointer;
+  outline: 0;
+  display: block;
+}
+
+.oes-time-table .btn-link.disabled {
+  cursor: not-allowed;
+  opacity: .65;
+}
+
+.oes-time-control {
+  text-align: center;
+}
+
+.datapicker-form-control {
+   width: auto !important;
+   display: inline-block;
+}
+
+.oes-time-table .ict-stretch{
+
+    font-size: 8px;
+}
+
+.oes-time-table .ict-shrink{
+   font-size: 8px;
+}
+.time-pick-bk{
+    background-color: #fff;
+}
+
+.btn-link:focus, .btn-link:hover{
+   text-decoration: none;
+}
+.oes-time-control{
+  border: 0;
+  width: 30px !important;
+  padding: 3px 0;
+  margin: 0;
+  font-size: @font-size;
+}
+
+.oes-time-control:hover{
+  background-color: #e6e6e6;
+  color:#000;
+  cursor: pointer;
+}
+
+
+.oes-time-control-foucs-bk{
+ background-color: #00abff !important;
+ color:#fff!important;
+
+}
+
+.oes-time-separator{
+    margin: 0 -5px;
+}
+.oes-time-group,.oes-time-group:hover{
+
+     border-bottom:  1px solid #ccc;
+     border-left:  1px solid #ccc;
+     border-top:  1px solid #ccc;
+     border-radius: 0.2em;
+ }
+ .oes-time-btns,.oes-time-btns:hover{
+
+     border-bottom:  1px solid #ccc;
+     border-right:  1px solid #ccc;
+     border-top:  1px solid #ccc;
+     border-radius: 0.2em;
+     padding: 0 0 7px 0 !important;
+
+ }
+
+ .oes-time-btns-wrapper {
+    margin-top:-3px;
+     transform:scale(0.6,0.6);
+ }
+
+ .i18nTimeDes,.i18nTimeDes:hover{
+
+     padding:  0 5px 0px 0;
+
+ }
+
+ .oes-time-btn{
+
+   height: 5px;
+ }
+
+
+ .oes-time-table{
+    margin-bottom: 10px;
+ }
+
+.hour-table{
+
+    font-size:12px;
+}
+
+.hour-table td{
+
+    padding: 5px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    cursor: pointer;
+}
+.oes-time-btn-shrink{
+  position: relative;
+  top:-5px;
+  left:0px;
+  color:#CCC;
+}
+
+.oes-time-btn-stretch{
+  position: relative;
+  left:0px;
+  color:#CCC;
+}
+.owl-calendar-timer-invalid{
+  color: #acacac;
+}
+.owl-calendar-timer-selected{
+  background-color: #00abff;
+  color: #FFFFFF;
+  border-radius: 1.2em; 
+}
+.hour-table td:not(.owl-calendar-timer-selected):not(.owl-calendar-timer-invalid):hover {
+  background-color: #ebf6fd;
+  color: #000000;
+  border-radius: 1.2em; 
+}
+
+
