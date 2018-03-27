@@ -1,143 +1,137 @@
 {
-    "id":"id12345",
-    "name":"test",
-    "scene":"abcd",
-    "data":{
-        "nodes":[
-            {
-                "id":"node0",
-                "type":"startEvent",
-                "name":"开始",
-                "parentId":"root",
-                "position":{
-                    "left":100,
-                    "top":136,
-                    "width":56,
-                    "height":56
-                },
-                "connection":[
-                    {
-                        "sourceRef":"node0",
-                        "targetRef":"node1"
-                    }
-                ],
-                "parameters":[
-
-                ]
-            },
-            {
-                "id":"node1",
-                "type":"restTask",
-                "name":"REST",
-                "parentId":"root",
-                "position":{
-                    "left":254,
-                    "top":136,
-                    "width":56,
-                    "height":56
-                },
-                "connection":[
-                    {
-                        "sourceRef":"node1",
-                        "targetRef":"node2"
-                    }
-                ],
-                "produces":[
-                    "application/json; charset=utf-8"
-                ],
-                "parameters":[
-                    {
-                        "name":"body",
-                        "value":{
-                            "value":{
-                                "type":{
-                                    "value":"jhgjhv",
-                                    "valueSource":"String"
-                                },
-                                "provider":{
-                                    "value":"",
-                                    "valueSource":"Variable"
-                                },
-                                "serviceType":{
-                                    "value":"",
-                                    "valueSource":"String"
-                                },
-                                "start":{
-                                    "value":{
-                                        "year":{
-                                            "value":"",
-                                            "valueSource":"String"
-                                        },
-                                        "month":{
-                                            "value":"",
-                                            "valueSource":"String"
-                                        },
-                                        "day":{
-                                            "value":"",
-                                            "valueSource":"String"
-                                        }
-                                    },
-                                    "valueSource":"Definition"
-                                },
-                                "end":{
-                                    "value":{
-                                        "year":{
-                                            "value":"",
-                                            "valueSource":"String"
-                                        },
-                                        "month":{
-                                            "value":"",
-                                            "valueSource":"String"
-                                        },
-                                        "day":{
-                                            "value":"",
-                                            "valueSource":"String"
-                                        }
-                                    },
-                                    "valueSource":"Definition"
-                                }
-                            },
-                            "valueSource":"Definition"
-                        },
-                        "valueSource":"String",
-                        "type":"String",
-                        "required":false,
-                        "position":"body",
-                        "schema":{
-                            "$ref":"#/definitions/PackageQueryParams"
-                        }
-                    },
-                    {
-                        "name":"language-option",
-                        "value":"",
-                        "valueSource":"String",
-                        "type":"String",
-                        "required":false,
-                        "position":"header"
-                    }
-                ],
-                "responses":[
-
-                ],
-                "restConfigId":"catalog.v1",
-                "path":"/csars",
-                "method":"post"
-            },
-            {
-                "id":"node2",
-                "type":"endEvent",
-                "name":"结束",
-                "parentId":"root",
-                "position":{
-                    "left":396,
-                    "top":136,
-                    "width":56,
-                    "height":56
-                },
-                "connection":[
-
-                ]
-            }
+  "id": "id12345",
+  "name": "test",
+  "scene": "abcd",
+  "data": {
+    "nodes": [
+      {
+        "id": "node0",
+        "type": "startEvent",
+        "name": "Start",
+        "parentId": "root",
+        "position": {
+          "left": 99,
+          "top": 131,
+          "width": 56,
+          "height": 56
+        },
+        "connection": [
+          {
+            "sourceRef": "node0",
+            "targetRef": "serviceTask"
+          }
+        ],
+        "parameters": [
+          {
+            "name": "aaa",
+            "value": "a111",
+            "valueSource": "string",
+            "type": "string",
+            "required": false,
+            "show": true,
+            "errorMsg": ""
+          },
+          {
+            "name": "bbb",
+            "value": "b111",
+            "valueSource": "string",
+            "type": "string",
+            "required": false,
+            "show": true,
+            "errorMsg": ""
+          }
         ]
-    }
+      },
+      {
+        "id": "node2",
+        "type": "endEvent",
+        "name": "End",
+        "parentId": "root",
+        "position": {
+          "left": 459,
+          "top": 131,
+          "width": 56,
+          "height": 56
+        },
+        "connection": []
+      },
+      {
+        "id": "serviceTask",
+        "type": "serviceTask",
+        "typeId": "apds_serviceA",
+        "icon": "apds_service",
+        "name": "JAVA A",
+        "parentId": "root",
+        "position": {
+          "left": 232,
+          "top": 131,
+          "width": 56,
+          "height": 56
+        },
+        "connection": [
+          {
+            "sourceRef": "serviceTask",
+            "targetRef": "scriptTask"
+          }
+        ],
+        "className": "ddd",
+        "inputs": [
+          {
+            "name": "param1",
+            "valueSource": "string",
+            "type": "string",
+            "required": false,
+            "show": false,
+            "errorMsg": ""
+          },
+          {
+            "name": "param2",
+            "valueSource": "string",
+            "type": "string",
+            "required": true,
+            "show": true,
+            "errorMsg": ""
+          },
+          {
+            "name": "param3",
+            "valueSource": "string",
+            "type": "string",
+            "required": true,
+            "show": true,
+            "errorMsg": ""
+          }
+        ],
+        "outputs": [
+          {
+            "name": "out1",
+            "valueSource": "string",
+            "type": "string",
+            "required": false,
+            "show": true,
+            "errorMsg": ""
+          }
+        ]
+      },
+      {
+        "id": "scriptTask",
+        "type": "scriptTask",
+        "typeId": "apds_scriptB",
+        "icon": "apds_script",
+        "name": "Groovy",
+        "parentId": "root",
+        "position": {
+          "left": 335,
+          "top": 131,
+          "width": 56,
+          "height": 56
+        },
+        "connection": [
+          {
+            "sourceRef": "scriptTask",
+            "targetRef": "node2"
+          }
+        ]
+      }
+    ]
+  }
 }

@@ -21,7 +21,7 @@ cd /d %main_path%
 set JAVA="%JAVA_HOME%\bin\java.exe"
 set port=12345
 set jvm_opts=-Xms50m -Xmx128m
-rem set jvm_opts=%jvm_opts% -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=%port%,server=y,suspend=y
+set jvm_opts=%jvm_opts% -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=%port%,server=y,suspend=n
 set class_path=%main_path%;%main_path%sdc-workflow-designer.jar
 echo ### jvm_opts: %jvm_opts%
 echo ### class_path: %class_path%
