@@ -23,6 +23,8 @@ public class ExtendActivity {
   
   private String type;
   
+  private IconData icon;
+  
   private Content content;
 
   /**
@@ -51,6 +53,20 @@ public class ExtendActivity {
    */
   public void setType(String type) {
     this.type = type;
+  }
+
+  /**
+   * @return the icon
+   */
+  public IconData getIcon() {
+    return icon;
+  }
+
+  /**
+   * @param icon the icon to set
+   */
+  public void setIcon(IconData icon) {
+    this.icon = icon;
   }
 
   /**

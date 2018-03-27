@@ -40,7 +40,7 @@ public class Content {
   /**
    * @param clazz the clazz to set
    */
-  public void setClazz(String clazz) {
+  public void setClass(String clazz) {
     this.clazz = clazz;
   }
 

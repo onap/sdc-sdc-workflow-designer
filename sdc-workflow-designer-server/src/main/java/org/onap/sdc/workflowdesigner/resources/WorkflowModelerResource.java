@@ -118,7 +118,7 @@ public class WorkflowModelerResource {
       String bpmn = buildBPMN(srcUri, processName);
       String jsonBpmn = insertJson2Bpmn(json, bpmn);
 
-      save2SDC(json, jsonBpmn);
+//      save2SDC(json, jsonBpmn);
       FileCommonUtils.write(WORKFLOW_XML_TEMP_FILE_NAME, jsonBpmn);
 
       return Response.status(Response.Status.OK).entity(json).build();
