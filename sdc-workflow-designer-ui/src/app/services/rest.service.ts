@@ -16,81 +16,36 @@ import { Observable } from 'rxjs/Rx';
 import { isNullOrUndefined } from 'util';
 
 import { SwaggerMethod } from '../model/swagger';
-import { SwaggerResponse } from '../model/swagger';
+import { SwaggerResponseClass } from '../model/swagger';
 import { Swagger, SwaggerSchemaObject } from '../model/swagger';
 import { RestConfig } from '../model/rest-config';
-import { HttpService } from '../util/http.service';
 import { BroadcastService } from './broadcast.service';
 import { NoticeService } from './notice.service';
+import { SettingService } from './setting.service';
 
 @Injectable()
 export class RestService {
-
     private restConfigs: RestConfig[] = [];
-    // private runtimeURL = '/openoapi/catalog/v1/sys/config';
-    private runtimeURL = '/api/tenant';
-    // private msbPublishServiceURL = '/api/msdiscover/v1/publishservicelist';
-    private msbPublishServiceURL = '/api/mockarray';
+    private runtimeURL = '/openoapi/catalog/v1/sys/config';
+    private msbPublishServiceURL = '/api/msdiscover/v1/publishservicelist';
 
-    constructor(private broadcastService: BroadcastService, private http: Http, private noticeService: NoticeService) {
-        this.broadcastService.planModel$.subscribe(planModel => {
-            planModel.configs.restConfigs.forEach(element => {
-                this.addRestConfig(element);
-            });
-        });
-        this.initSwaggerInfoByMSB();
-    }
-
-    public addRestConfig(config: RestConfig) {
-        const idSet = new Set<string>();
-        this.restConfigs.forEach(rc => {
-            idSet.add(rc.id);
-        });
-
-        if(idSet.has(config.id)) {
-            return false;
-        } else {
-            this.restConfigs.push(config);
-            return true;
-        }
-    }
-
-    public newRestConfig(): RestConfig {
-        const idSet = new Set<string>();
-        this.restConfigs.forEach(rc => {
-            idSet.add(rc.id);
-        });
-
-        let index = 0;
-        for(; index <= idSet.size; index++) {
-            if(!idSet.has(index + '')) {
-                break;
+    constructor(private broadcastService: BroadcastService, private http: Http,
+        private noticeService: NoticeService, private settgingService: SettingService) {
+        this.settgingService.getSetting().subscribe(setting => {
+            if (true === setting.supportRestNode) {
+                this.initSwaggerInfo();
+            } else {
+                this.broadcastService.broadcast(this.broadcastService.updateModelRestConfig, null);
             }
-        }
-
-        const restConfig = new RestConfig(index.toString(), 'new Config', '', '', '');
-        return restConfig;
+        });
     }
 
-    // public initSwaggerInfo(restConfig: RestConfig) {
-    //     if (restConfig.dynamic && restConfig.definition) {
-    //         this.getDynamicSwaggerInfo(restConfig.definition).subscribe(response => restConfig.swagger = new Swagger(response));
-    //     } else {
-    //         restConfig.swagger = new Swagger(restConfig.swagger);
-    //     }
-    // }
-
-    public getRestConfigs() {
+    public getRestConfigs(): RestConfig[] {
         return this.restConfigs;
     }
 
-    public getDynamicSwaggerInfo(url: string): Observable<any> {
-        const options: any = {
-            headers: {
-                Accept: 'application/json',
-            },
-        };
-        return this.http.get(url, options);
+    public getRestConfig(id: string): RestConfig {
+        return this.restConfigs.find(tmp => tmp.id === id);
     }
 
     public getSwaggerInfo(id: string): Swagger {
@@ -98,14 +53,14 @@ export class RestService {
         return restConfig === undefined ? undefined : restConfig.swagger;
     }
 
-    public getResponseParameters(swagger: Swagger, interfaceUrl: string, operation: string): SwaggerResponse[] {
+    public getResponseParameters(swagger: Swagger, interfaceUrl: string, operation: string): SwaggerResponseClass[] {
         const path = swagger.paths[interfaceUrl];
         const method: SwaggerMethod = path[operation];
-        let responses: SwaggerResponse[] = [];
+        let responses: SwaggerResponseClass[] = [];
 
         for (const key of Object.keys(method.responses)) {
             if (key.startsWith('20') && method.responses[key].schema && method.responses[key].schema.$ref) {
-                let response: SwaggerResponse = method.responses[key];
+                let response: SwaggerResponseClass = method.responses[key];
                 responses.push(response);
             }
         }
@@ -115,76 +70,82 @@ export class RestService {
 
     public getDefinition(swagger: Swagger, position: string): SwaggerSchemaObject {
         const definitionName = position.substring('#/definitions/'.length);
-
         return swagger.definitions[definitionName];
     }
 
-    private initSwaggerInfoByMSB(): void {
-        const options: any = {
-            headers: {
-                Accept: 'application/json',
-            }
-        };
-        let restConfigs = this.restConfigs;
+    private initSwaggerInfo(): void {
         this.http.get(this.runtimeURL).subscribe(runtimeResponse => {
             const tenant = runtimeResponse.json().tenant;
             console.log('Current namespace is:' + tenant);
-            this.http.get(this.msbPublishServiceURL, { params: { namespace: tenant } }).subscribe(serviceResponse => {
-                if (!Array.isArray(serviceResponse.json())) {
-                    return;
-                }
-                const services = serviceResponse.json();
-                const protocel = location.protocol.slice(0, location.protocol.length - 1);
-                const swaggerObservableArray: Observable<any>[] = [];
-                services.forEach(serviceInfo => {
-                    if ('REST' === serviceInfo.protocol && protocel === serviceInfo.publish_protocol) {
-                        // this service don't have sawgger file.
-                        if ('/activiti-rest' !== serviceInfo.publish_url) {
-                            const id = serviceInfo.serviceName + '.' + serviceInfo.version;
-                            this.addRestConfig(new RestConfig(id, serviceInfo.serviceName, serviceInfo.version, serviceInfo.publish_url, ''));
-                            let swaggerUrl = '';
-                            if (undefined !== serviceInfo.swagger_url && '' !== serviceInfo.swagger_url) {
-                                swaggerUrl = serviceInfo.publish_url + '/' + serviceInfo.swagger_url;
-                            } else {
-                                // default swagger url is: '/swagger.json'
-                                swaggerUrl = serviceInfo.publish_url + '/swagger.json';
-                            }
-                            swaggerObservableArray.push(this.http.get(swaggerUrl, options).timeout(5000).catch((error): Observable<any> => {
-                                console.log('Request swagger from:"' + swaggerUrl + '" faild!');
-                                return Observable.of(null);
-                            }));
-                        }
-                    }
-                });
-                Observable.forkJoin(swaggerObservableArray).subscribe(
-                    responses => {
-                        let deleteArray: number[] = [];
-                        responses.forEach((response, index) => {
-                            // mark http get failed request index or set the swagger into restConfigs
-                            if (null === response) {
-                                deleteArray.push(index);
-                            } else {
-                                try {
-                                    const swagger = response.json();
-                                    restConfigs[index].swagger = new Swagger(swagger);
-                                } catch (e) {
-                                    deleteArray.push(index);
-                                    console.warn('Do not support this sawgger file format:' + response.text());
-                                }
-                            }
-                        });
-                        console.log('Get all swagger file finish.');
-                        // delete failed request from all restConfigs array
-                        deleteArray.reverse();
-                        deleteArray.forEach(deleteIndex => {
-                            restConfigs.splice(deleteIndex, 1);
-                        });
-                        this.broadcastService.broadcast(this.broadcastService.updateModelRestConfig, restConfigs);
-                        console.log('Load all swagger finished.');
-                    }
-                );
-            });
+            this.initSwaggerInfoByTenant(tenant);
+        }, error => {
+            console.warn('No tenant interface!');
+            this.initSwaggerInfoByTenant('');
         });
+    }
+
+    private initSwaggerInfoByTenant(tenant: string): void {
+        this.http.get(this.msbPublishServiceURL, { params: { namespace: tenant } }).subscribe(serviceResponse => {
+            if (!Array.isArray(serviceResponse.json())) {
+                return;
+            }
+            const services = serviceResponse.json();
+            const protocel = location.protocol.slice(0, location.protocol.length - 1);
+            const swaggerObservableArray: Observable<any>[] = [];
+            services.forEach(serviceInfo => {
+                if ('REST' === serviceInfo.protocol && protocel === serviceInfo.publish_protocol) {
+                    // this service don't have sawgger file.
+                    if ('/activiti-rest' !== serviceInfo.publish_url) {
+                        const id = serviceInfo.serviceName + '.' + serviceInfo.version;
+                        this.restConfigs.push(new RestConfig(id, serviceInfo.serviceName, serviceInfo.version, serviceInfo.publish_url));
+                        let swaggerUrl = '';
+                        if (undefined !== serviceInfo.swagger_url && '' !== serviceInfo.swagger_url) {
+                            swaggerUrl = serviceInfo.publish_url + '/' + serviceInfo.swagger_url;
+                        } else {
+                            // default swagger url is: '/swagger.json'
+                            swaggerUrl = serviceInfo.publish_url + '/swagger.json';
+                        }
+                        const options: any = {
+                            headers: {
+                                Accept: 'application/json',
+                            }
+                        };
+                        swaggerObservableArray.push(this.http.get(swaggerUrl, options).timeout(5000).catch((error): Observable<any> => {
+                            console.log('Request swagger from:"' + swaggerUrl + '" faild!');
+                            return Observable.of(null);
+                        }));
+                    }
+                }
+            });
+            Observable.forkJoin(swaggerObservableArray).subscribe(
+                responses => {
+                    let deleteArray: number[] = [];
+                    responses.forEach((response, index) => {
+                        // mark http get failed request index or set the swagger into restConfigs
+                        if (null === response) {
+                            deleteArray.push(index);
+                        } else {
+                            try {
+                                const swagger = response.json();
+                                this.restConfigs[index].swagger = new Swagger(swagger);
+                            } catch (e) {
+                                deleteArray.push(index);
+                                console.warn('Do not support this sawgger file format:' + response.text());
+                            }
+                        }
+                    });
+                    console.log('Get all swagger file finish.');
+                    // delete failed request from all restConfigs array
+                    deleteArray.reverse();
+                    deleteArray.forEach(deleteIndex => {
+                        this.restConfigs.splice(deleteIndex, 1);
+                    });
+                    this.broadcastService.broadcast(this.broadcastService.updateModelRestConfig, this.restConfigs);
+                    console.log('Load all swagger finished.');
+                }
+            );
+        });
+
     }
 }
 

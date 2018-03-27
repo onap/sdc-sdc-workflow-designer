@@ -10,15 +10,15 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import * as jsp from 'jsplumb';
 
-import { Subscription } from 'rxjs/Subscription';
-import { WorkflowNode } from '../model/workflow/workflow-node';
-import { BroadcastService } from './broadcast.service';
-import { ModelService } from './model.service';
-import { SequenceFlow } from '../model/workflow/sequence-flow';
-import { Position } from '../model/workflow/position';
+import {Subscription} from 'rxjs/Subscription';
+import {WorkflowNode} from '../model/workflow/workflow-node';
+import {BroadcastService} from './broadcast.service';
+import {ModelService} from './model.service';
+import {SequenceFlow} from '../model/workflow/sequence-flow';
+import {Position} from '../model/workflow/position';
 
 /**
  * JsPlumbService
@@ -46,17 +46,6 @@ export class JsPlumbService {
                 }
             }
         });
-
-        this.broadcastService.planModel$.subscribe(Workflow => {
-            this.jsplumbInstanceMap.get(this.modelService.rootNodeId).reset();
-            this.unsubscriptionAll();
-            this.buttonDraggable();
-            this.buttonDroppable();
-        });
-    }
-
-    private unsubscriptionAll() {
-        this.subscriptionMap.forEach(subscription => subscription.unsubscribe());
     }
 
     public connectChildrenNodes(parentNodeId: string) {
@@ -121,7 +110,7 @@ export class JsPlumbService {
                     width: 11,
                     length: 12
                 }],
-                ['Label', { label: '', id: 'label' }]
+                ['Label', {label: '', id: 'label'}]
             ]
         });
 
@@ -206,7 +195,7 @@ export class JsPlumbService {
     public deleteConnect(sourceId: string, targetId: string) {
         const sourceNode = this.modelService.getNodeMap().get(sourceId);
         const jsplumbInstance = this.jsplumbInstanceMap.get(sourceNode.parentId);
-        const connectionSelection = jsplumbInstance.select({ source: sourceId, target: targetId });
+        const connectionSelection = jsplumbInstance.select({source: sourceId, target: targetId});
         this.unsubscription4Connection(connectionSelection);
         connectionSelection.delete();
     }
@@ -214,7 +203,7 @@ export class JsPlumbService {
     public setLabel(sourceId: string, targetId: string, label: string) {
         const sourceNode = this.modelService.getNodeMap().get(sourceId);
         const jsplumbInstance = this.jsplumbInstanceMap.get(sourceNode.parentId);
-        const connections = jsplumbInstance.select({ source: sourceId, target: targetId });
+        const connections = jsplumbInstance.select({source: sourceId, target: targetId});
         connections.setLabel(label);
     }
 
@@ -279,7 +268,7 @@ export class JsPlumbService {
                 if (sourceId === targetId) {
                     return false;
                 }
-                const sameConnections = this.instance.getConnections({ source: sourceId, target: targetId });
+                const sameConnections = this.instance.getConnections({source: sourceId, target: targetId});
                 if (sameConnections && 0 < sameConnections.length) {
                     return false;
                 }
@@ -332,6 +321,8 @@ export class JsPlumbService {
     private drop(event) {
         const dragEl = event.drag.el;
         const dropEl = event.drop.el;
+        console.log(this.modelService.getNodes());
+
 
         this.resizeParent(dragEl, dropEl);
 
@@ -345,13 +336,25 @@ export class JsPlumbService {
         dragEl.style.left = left + 'px';
 
         // 12 is title height
-        this.modelService.updatePosition(dragEl.id, left, top, dragEl.getBoundingClientRect().width, dragEl.getBoundingClientRect().height - 12);
+        const nameHeight = this.getNodeNameHeight(dragEl);
+        this.modelService.updatePosition(dragEl.id, left, top, dragEl.getBoundingClientRect().width, dragEl.getBoundingClientRect().height - nameHeight);
 
         const originalParentNode = this.getParentNodeEl(dragEl);
         const originalParentNodeId = originalParentNode ? originalParentNode.id : this.modelService.rootNodeId;
 
         const targetParentNodeId = dropEl.classList.contains('node') ? dropEl.id : this.modelService.rootNodeId;
         this.changeParent(dragEl.id, originalParentNodeId, targetParentNodeId);
+    }
+
+    private getNodeNameHeight(element: any): number {
+        const children = element.children;
+        if (children && children.length) {
+            const nameElement = children[0];
+            if (nameElement && nameElement.className === 'name') {
+                return nameElement.getBoundingClientRect().height;
+            }
+        }
+        return 0;
     }
 
     private changeParent(id: string, originalParentNodeId: string, targetParentNodeId: string) {
@@ -402,6 +405,10 @@ export class JsPlumbService {
             drop: event => {
                 const el = jsplumbInstance.getSelector(event.drag.el);
                 const type = el.attributes.nodeType.value;
+                let typeId = null;
+                if (el.attributes.nodeTypeId && el.attributes.nodeTypeId.value) {
+                    typeId = el.attributes.nodeTypeId.value;
+                }
                 // Mouse position minus drop canvas start position plus scroll position.
                 let left = event.e.x - event.drop.pagePosition[0] + event.drop.el.scrollLeft;
                 let top = event.e.y - event.drop.pagePosition[1] + event.drop.el.scrollTop;
@@ -411,8 +418,8 @@ export class JsPlumbService {
                 if (0 > top) {
                     top = 0;
                 }
-                const name = event.drag.el.children[1].innerText;
-                this.modelService.addNode(name, type, left, top);
+                const name = el.attributes.name.value;
+                this.modelService.addNode(type, typeId, name, left, top);
             },
         });
     }
@@ -421,9 +428,9 @@ export class JsPlumbService {
         const jsplumbInstance = this.jsplumbInstanceMap.get(node.parentId);
 
         // unsubscription4Connection
-        const connectionsAsSource = jsplumbInstance.select({ source: node.id });
+        const connectionsAsSource = jsplumbInstance.select({source: node.id});
         this.unsubscription4Connection(connectionsAsSource);
-        const connectionsAsTarget = jsplumbInstance.select({ target: node.id });
+        const connectionsAsTarget = jsplumbInstance.select({target: node.id});
         this.unsubscription4Connection(connectionsAsTarget);
 
         jsplumbInstance.remove(node.id);
@@ -447,11 +454,12 @@ export class JsPlumbService {
         if (leftResized || rightResized || topResized || bottomResized) {
             if (parentElement.classList.contains('node')) {
                 const rect = parentElement.getBoundingClientRect();
+                const nameHeight = this.getNodeNameHeight(parentElement);
                 this.modelService.updatePosition(parentElement.id,
                     parentElement.offsetLeft,
                     parentElement.offsetTop,
                     // title height
-                    rect.width, rect.height - 12);
+                    rect.width, rect.height - nameHeight);
             }
             this.resizeParent(parentElement, parentElement.parentNode);
         }
@@ -547,7 +555,7 @@ export class JsPlumbService {
         const len = parentElment.children.length;
         for (let i = 0; i < len; i++) {
             const childElment = parentElment.children[i];
-            if (childElment.localName === 'b4t-node') {
+            if (childElment.localName === 'wfm-node') {
                 this.translateElement(childElment.children[0], left, top, 0, 0);
             }
         }
