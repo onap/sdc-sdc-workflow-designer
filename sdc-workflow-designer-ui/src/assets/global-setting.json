@@ -1,3 +1,5 @@
 {
-    "BackendType":"Catalog"
+    "supportRestNode": false,
+    "supportToscaNode": false,
+    "supoortToscaProperties": true
 }
