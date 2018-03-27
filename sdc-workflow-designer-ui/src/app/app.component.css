@@ -9,6 +9,15 @@
  * Contributors:
  *     ZTE - initial API and implementation and/or initial documentation
  */
+.authorized-div{
+    height: 100%;
+}
+
+.unauthorized-div{
+    text-align: center;
+    color: red;
+}
+
 .loading-div{
     position: absolute;
     top: 0;
