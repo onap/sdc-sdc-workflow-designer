@@ -9,18 +9,3 @@
  * Contributors:
  *     ZTE - initial API and implementation and/or initial documentation
  */
-
-.wf-name{
-    float: left;
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.btn-right{
-    float: right;
-    margin-right: 5px;
-}
-
-button i{
-    padding-right: 3px;
-}

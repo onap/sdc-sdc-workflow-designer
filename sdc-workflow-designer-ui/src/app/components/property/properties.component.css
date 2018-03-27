@@ -30,14 +30,7 @@
     overflow: auto;
 }
 
-.edit {
-    display: none;
-}
-
-.editing .view {
-    display: none;
-}
-
-.editing .edit {
-    display: block;
+.plx-btn{
+    float: right;
+    margin-right: 0;
 }

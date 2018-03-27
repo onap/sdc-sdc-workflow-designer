@@ -10,17 +10,52 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 
-.edit{
-    font-size: 24px;
+.editable-content {
+    display: inline-block;
     width: 300px;
-    height: 30px;
-    border: 1px solid #fff;
+    visibility: visible;
 }
 
-.edit:hover{
-    border-color: #80bdff;
+.editable-main {
+    border: 1px solid transparent;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 24px;
+    min-height: 34px;
+    padding: 2px 20px 2px 2px;
+    position: relative;
+    word-wrap: break-word;
 }
 
-.edit:focus{
-    border-color: #80bdff;
+.editable-main:hover {
+    border: 1px solid #ddd;
+}
+
+.editable-main span {
+    background-color: #f0f0f0;
+    border-left: 1px solid #ddd;
+    display: none;
+    padding: 0 4px 0 4px;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    -moz-border-radius-topright: 3px;
+    -moz-border-radius-bottomright: 3px;
+    -webkit-border-top-right-radius: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+}
+
+.editable-main span i {
+    font-size: 16px;
+    color: #707070;
+}
+
+.editable-main:hover span {
+    display: inline;
+}
+
+.editable-field {
+    display: inline-block;
+    width: 100%;
 }

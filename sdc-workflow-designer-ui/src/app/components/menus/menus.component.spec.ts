@@ -11,26 +11,26 @@
  */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MenuComponent } from './menu.component';
+import { MenusComponent } from './menus.component';
 
-describe('MenuComponent', () => {
-    let component: MenuComponent;
-    let fixture: ComponentFixture<MenuComponent>;
+describe('MenusComponent', () => {
+  let component: MenusComponent;
+  let fixture: ComponentFixture<MenusComponent>;
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            declarations: [MenuComponent]
-        })
-            .compileComponents();
-    }));
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ MenusComponent ]
+    })
+    .compileComponents();
+  }));
 
-    beforeEach(() => {
-        fixture = TestBed.createComponent(MenuComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-    });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(MenusComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
-    it('should be created', () => {
-        expect(component).toBeTruthy();
-    });
+  it('should be created', () => {
+    expect(component).toBeTruthy();
+  });
 });

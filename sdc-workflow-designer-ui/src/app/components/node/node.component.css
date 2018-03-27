@@ -18,6 +18,7 @@
 }
 
 .node-icon{
+    position: relative;
     border-radius: 4px;
 }
 
@@ -54,12 +55,12 @@
 
 .anchor-left {
     left: -6px;
-    top: calc(50%);
+    top: calc(50% - 6px);
 }
 
 .anchor-right {
     right: -6px;
-    top: calc(50%);
+    top: calc(50% - 6px);
 }
 
 .anchor-top {

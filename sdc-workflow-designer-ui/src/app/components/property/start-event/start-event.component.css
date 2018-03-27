@@ -9,42 +9,36 @@
  * Contributors:
  *     ZTE - initial API and implementation and/or initial documentation
  */
-
-.parameter{
-    margin-bottom: 1rem;
+table{
+    border: 1px solid #eceeef;
+    width: 100%;
 }
 
-.parameter-section{
-    display: inline;
-    margin-right: 5px;
+.table-body{
+    background-color: #fff;
 }
 
-.parameter-item{
-    display: inline;
+th{
+    background-color: #f5f5f5;
 }
 
-.parameter-required{
-    color: red;
+td input{
+    width: 100%;
 }
 
-.parameter-label{
-    width: 100px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    vertical-align: bottom;
-    /* display: inline-table; */
+td span{
+    color: #ff5b55;
 }
 
-.parameter-value{
-    width: 160px;
-    vertical-align: baseline;
+.delete-icon{
+    color: #ff5b55;
+    font-size: 16px;
 }
 
-.plx-input{
-    vertical-align: baseline;
+.delete-icon:hover{
+    cursor: pointer;
 }
 
 .plx-btn{
-    vertical-align: baseline;
+    margin-top: 10px;
 }

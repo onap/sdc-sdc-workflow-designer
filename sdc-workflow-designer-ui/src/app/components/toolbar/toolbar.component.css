@@ -9,22 +9,22 @@
  * Contributors:
  *     ZTE - initial API and implementation and/or initial documentation
  */
-.toolbar-head{
-    color:#404040;
+.toolbar-head {
+    color: #404040;
     font-size: 14px;
 }
 
-.toolbar-head:hover{
+.toolbar-head:hover {
     cursor: pointer;
 }
 
-.fold-icon{
+.fold-icon {
     width: 15px;
     font-size: 8px;
     color: #00abff;
 }
 
-.item{
+.item {
     width: 50px;
     height: 50px;
     text-align: center;
@@ -33,30 +33,37 @@
     margin-bottom: 10px;
 }
 
-.item:hover{
+.item:hover {
     cursor: pointer;
 }
 
-.item svg{
-    width:24px;
-    height:24px;
+.item svg {
+    width: 24px;
+    height: 24px;
     margin: 4px 13px;
     display: block;
     /* fill: #A9B2BA; */
     fill: #00ABFF;
 }
 
-.item span{
+.item img {
+    width: 24px;
+    height: 24px;
+    margin: 4px 13px;
+    display: block;
+}
+
+.item span {
     font-size: 12px;
     color: #595959;
     display: block;
 }
 
-.getway{
+.getway {
     padding-top: 5px;
 }
 
-.getway div{
+.getway div {
     width: 30px !important;
     height: 30px !important;
 }
