@@ -14,7 +14,10 @@ package org.onap.sdc.workflowdesigner.utils;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.StringBufferInputStream;
 
 import org.junit.After;
 import org.junit.Before;
@@ -42,6 +45,23 @@ public class FileCommonUtilsTest {
    */
   @Test
   public void testReadLines() {
+    String fileName = "src/test/resources/workflow/template-test.bpmn20.xml";
+    File file = new File(fileName);
+    FileInputStream ins = null;
+    try {
+      ins = new FileInputStream(file);
+      String[] ss = FileCommonUtils.readLines(ins);
+      assertEquals(false, ss.length == 0);
+      
+      FileCommonUtils.write("template-test.bpmn20.xml", ss);
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } finally {
+      FileCommonUtils.closeInputStream(ins);
+    }
+
   }
 
   /**
@@ -73,6 +93,16 @@ public class FileCommonUtilsTest {
    */
   @Test
   public void testSaveFile() {
+    String fileName = "test3.json";
+    String content = "{\"aaa\": \"节点\"}";
+    StringBufferInputStream ins = null;
+    try {
+      ins = new StringBufferInputStream(content);
+      FileCommonUtils.saveFile(ins, ".", fileName);
+    } catch (IOException e) {
+      e.printStackTrace();
+      FileCommonUtils.closeInputStream(ins);
+    }
   }
 
   /**

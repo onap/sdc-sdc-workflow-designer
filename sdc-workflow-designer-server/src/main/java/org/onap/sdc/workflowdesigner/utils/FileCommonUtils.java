@@ -281,7 +281,7 @@ public class FileCommonUtils {
       sb.append(ss[i]).append(System.lineSeparator());
     }
 
-    write(sb.toString(), fileName, charsetName);
+    write(fileName, sb.toString(), charsetName);
   }
 
 }
