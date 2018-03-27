@@ -1,0 +1,107 @@
+//-------------------common start------------------------
+// -------- Colors start----------- 
+//配置说明：通常primary-color和primary-color-guide相同，某些产品需要有特别引导用户操作的按钮时，可以单独定义primary-color-guide 
+@primary-color: #00abff; //主色，用于重点按钮底色，普通按钮文字色、tab页的选中横条色、进度条色、分组标题竖线等， 应用开发需要关注搭配class plx-btn-primary t
+@guide-color: @primary-color; //引导色，搭配class plx-btn-guide
+@success-color: #73cf22; //搭配class plx-btn-success
+@warning-color: #f7c515; //搭配class plx-btn-warning
+@error-color: #ff5b55; //搭配class plx-btn-error
+@common-color: #fff; //搭配class plx-btn
+//Colors-hover
+@primary-color-hover: #009dea;
+@primary-color-guide-hover: @primary-color-hover;
+@success-color-hover: #65bf16;
+@warning-color-hover: #e5b717;
+@error-color-hover: #ee403a;
+@common-color-hover: #fff;
+@btn-common-color-text-hover: @primary-color;
+@btn-common-color-border-hover: @primary-color;
+
+//colors-click
+@primary-color-click: #008fd5;
+@primary-color-guide-click: @primary-color-click;
+@success-color-click: #59af0c;
+@warning-color-click: #d4a606;
+@error-color-click: #e02a23;
+@common-color-click: #fff;
+@btn-common-color-text-click: @primary-color-click;
+@btn-common-color-border-click: @primary-color-click;
+
+//opacity-disable
+@opacity-disable: 0.5;
+//text-color-scenes，在按钮或tab上的文字色
+@scene-textcolor: #fff; //用于有底色时的文字颜色，搭配class plx-btn-primary，plx-btn-*
+@common-textcolor: @primary-color; //用于普通按钮和链接上的文字颜色，应用关注搭配 class plx-btn
+//text color
+@text-color: #595959; //普通文字颜色，不需要专用class
+@title-text-color: #404040; //用于标题文字颜色
+@disabled-text-color: #bfbfbf; //用于禁用状态文字
+@light-text-color: #737373; //较浅色
+@unselected-text-color: #999; //用于未选中文字颜色、placeholder文字颜色
+@form-label:#737373;//用于表单标签颜色
+// Background color for `<body>`
+@body-bg: #fff;
+// Base background color for most components
+@component-bg: #fff;
+@hover-bg-color: #ebf6fd; //用于菜单 、列表项、树项、表格行的hover背景色
+@selected-bg-color: #f5f5f5; //用于菜单 、列表项、树项、表格行的选中背景色
+@input-bg-color-disabled: #f5f5f5; //用于输入框禁用状态背景色
+//边框
+@border-color-base: #d9d9d9; // base border outline a component 搭配class: plx-border
+@border-color-split: #e9e9e9; // split border inside a component 搭配class: plx-split
+//字体图标
+@fonticon-color: #999; //字体图标颜色，搭配class: plx-icon-*
+@fonticon-bg-color-hover: @hover-bg-color; //一般字体图标hover时背景色变化
+@fonticon-color-hover: @primary-color; //当字体图标本身有背景色的时候，使用图标颜色本身加深的hover颜色。
+// Shadow
+@shadow-color: rgba(0, 0, 0, .2); //阴影颜色，个别组件需要，无需搭配固定class
+
+// -------- Colors end-------------
+// -------- font start------------- 
+@font-family: "Helvetica Neue","PingFang SC",Tahoma,"Microsoft Yahei";
+@font-size-spacing:20px; //用于间距定义
+@font-size: 12px; //正文文字
+@font-size-title-level1: @font-size + 8px; //一级标题
+@font-size-title-level2: @font-size + 4px; //二级标题
+@font-size-title-group: @font-size + 2px; //分组标题
+// -------- font end---------------
+// -------- radius start------------- 
+@radius: 3px; //圆角
+@radius-sm: 2px; //小按钮圆角，用于下拉多选框的已选项的圆角
+@radius-lg: 20px; //用于标签，搭配class:plx-tag
+// -------- radius start-------------
+//size
+//checkbos
+@checkbox-size: @font-size+2px; //复选框高度
+//btn
+@btn-height: 32px; //按钮高度
+@btn-height-sm: 28px; //小尺寸按钮，搭配class:plx-btn-sm
+@btn-height-xs: 24px; //加小尺寸按钮，搭配class:plx-btn-xs
+// Input
+@input-height: 32px; //输入框高度
+@input-height-sm: 28px; //小尺寸输入框，搭配class:plx-input-sm
+//iuiframecolor
+@iuiframe-head-bg-color: #2c3e50; //head背景色
+@iuiframe-sidebar-bg-color: #fff; //sidebar背景色
+@iuiframe-hor-menu-bg-color: #fff; //横向菜单背景色
+@iuiframe-head-bg-color-hover: #3d546b; //head菜单项hover背景色
+@iuiframe-sidebar-bg-color-hover: @hover-bg-color; //sidebar菜单项hover背景色
+@iuiframe-head-bg-color-active: #33495f; //head菜单项选中背景色
+@iuiframe-sidebar-bg-color-active: #f0f9fc; //sidebar一级菜单项选中背景色
+@iuiframe-head-font-color: #fff; //head菜单文字颜色
+@iuiframe-sidebar-font-color: @text-color; //sidebar文字颜色
+@iuiframe-sidebar-font-color-active: @primary-color; //sidebar选中文字颜色
+@iuiframe-hor-menu-font-color: @text-color; //横菜单文字颜色
+@iuiframe-hor-menu-font-color-hover: @primary-color; //横向菜单项hover文字颜色
+@iuiframe-hor-menu-font-color-active: @primary-color; //横菜单选中文字颜色
+@iuiframe-hor-menu-split-color: #e9e9e9; //横菜单分割线颜色
+@iuiframe-sidebar-split-color: #fff; //sidebar菜单分割线颜色
+@iuiframe-bg-color:#e9ecf3; //框架右侧的背景色
+@iuiframe-bg-img:none; //框架右侧的背景图
+//iframeColor
+@iframe-bg-color: #e9ecf3; //iframe背景色
+@iframe-bg-img: none; //iframe背景图片
+
+
+@import "../common.less";
+@import "./NIV-theme.less";
