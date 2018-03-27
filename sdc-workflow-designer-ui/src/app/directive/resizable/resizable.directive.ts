@@ -16,7 +16,7 @@ import * as $ from 'jquery';
 import { JsPlumbService } from '../../services/jsplumb.service';
 import { ModelService } from '../../services/model.service';
 
-@Directive({ selector: '[b4tResizable]' })
+@Directive({ selector: '[wfmResizable]' })
 export class ResizableDirective implements AfterViewInit {
 
     constructor(private el: ElementRef,

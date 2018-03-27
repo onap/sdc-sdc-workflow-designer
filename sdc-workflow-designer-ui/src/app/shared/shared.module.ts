@@ -16,16 +16,14 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { RadioButtonModule } from 'primeng/primeng';
 import { TreeModule } from 'primeng/primeng';
-import { SplitButtonModule } from 'primeng/primeng';
 
 const module = [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    // HttpModule,
+    HttpModule,
     RouterModule,
     RadioButtonModule,
-    SplitButtonModule,
     TreeModule
 ];
 
