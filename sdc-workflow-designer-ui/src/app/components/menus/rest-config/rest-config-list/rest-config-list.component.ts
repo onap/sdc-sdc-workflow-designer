@@ -22,7 +22,7 @@ import { RestService } from '../../../../services/rest.service';
  * The supported nodes can be dragged to container component. which will add a new node to the workflow.
  */
 @Component({
-    selector: 'b4t-rest-config-list',
+    selector: 'wfm-rest-config-list',
     templateUrl: 'rest-config-list.component.html',
 })
 export class RestConfigListComponent {
@@ -36,11 +36,9 @@ export class RestConfigListComponent {
     }
 
     public addRestConfig() {
+        // const restConfig = this.restService.addRestConfig();
 
-        const restConfig = this.restService.newRestConfig();
-        this.restService.addRestConfig(restConfig);
-
-        this.onConfigSelected(restConfig);
+        // this.onConfigSelected(restConfig);
     }
 
     public deleteRestConfig(index: number) {

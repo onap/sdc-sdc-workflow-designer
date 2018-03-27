@@ -11,7 +11,10 @@
  *******************************************************************************/
 
 export enum ValueType {
-    String,
-    Number,
-    Date,
+    integer,
+    number,
+    boolean,
+    string,
+    array,
+    object
 }

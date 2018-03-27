@@ -12,37 +12,49 @@
  */
 -->
 
-<div class="form-group">
-    <div *ngIf="showLabel" class="parameter-item" style="margin:0;">
-        <label *ngIf="true === param.required" class="form-control-required">*</label>
-        <input *ngIf="canEditName" class="form-control form-control-input" type="text" [ngModel]="param.name" (ngModelChange)="keyChange($event)">
-        <label *ngIf="!canEditName" class="form-control-label">{{param.name}}</label>
+<div *ngIf="param.show" class="parameter">
+    <div *ngIf="currentShowLabel" class="parameter-section">
+        <label *ngIf="true === param.required" class="parameter-required">*</label>
+        <input *ngIf="currentCanEditName" class="parameter-label plx-input" type="text" [ngModel]="param.name" (ngModelChange)="keyChange($event)">
+        <label *ngIf="!currentCanEditName" class="parameter-label">{{param.name}}</label>
     </div>
-    <div class="parameter-item">
-        <div *ngIf="showValue" [ngSwitch]="param.valueSource" class="parameter-item">
-            <input *ngSwitchCase="sourceEnum[sourceEnum.String]" class="form-control form-control-value" type="text" [ngModel]="param.value"
-                (ngModelChange)="valueChange($event)">
-            <input *ngSwitchCase="sourceEnum[sourceEnum.Variable]" class="form-control form-control-value" type="text" [ngModel]="param.value"
-                (ngModelChange)="valueChange($event)">
-            <tree-select *ngSwitchCase="sourceEnum[sourceEnum.Plan]" name="simpleSelect" style="vertical-align:top;" [items]="planOptions" childrenField="children"
-                #simpleSelect="ngModel" class="form-control-value" [ngModel]="planValue" (ngModelChange)="valueChange($event)"></tree-select>
-            <select *ngSwitchCase="sourceEnum[sourceEnum.Topology]" class="form-control form-control-value" type="text" [ngModel]="param.value"
-                (ngModelChange)="valueChange($event)">
-                <option *ngFor="let topology of topologyOptions" value="{{topology.value}}">{{topology.name}}</option>
-            </select>
+    <div *ngIf="currentShowValue" class="parameter-section">
+        <div *ngIf="showValueValue" class="parameter-item">
+            <div [ngSwitch]="param.valueSource" class="parameter-item">
+                <input *ngSwitchCase="valueTypeEnum[valueTypeEnum.number]" class="parameter-value plx-input" type="text" [ngModel]="param.value"
+                    (ngModelChange)="valueChange($event)" [disabled]="!currentCanEditValue">
+                <select *ngSwitchCase="valueTypeEnum[valueTypeEnum.boolean]" class="parameter-value" type="text" [ngModel]="param.value"
+                    (ngModelChange)="valueChange($event)" [disabled]="!currentCanEditValue">
+                    <option>true</option>
+                    <option>false</option>
+                </select>
+                <tree-select *ngSwitchCase="valueSourceEnum[valueSourceEnum.Plan]" name="simpleSelect" [items]="planOptions" childrenField="children"
+                    #simpleSelect="ngModel" class="parameter-value" [ngModel]="planValue" (ngModelChange)="valueChange($event)"
+                    [disabled]="!currentCanEditValue"></tree-select>
+                <select *ngSwitchCase="valueSourceEnum[valueSourceEnum.Topology]" class="parameter-value" type="text" [ngModel]="param.value"
+                    (ngModelChange)="valueChange($event)" [disabled]="!currentCanEditValue">
+                    <option *ngFor="let topology of topologyOptions" value="{{topology.value}}">{{topology.name}}
+                    </option>
+                </select>
+                <!--string, Variable-->
+                <input *ngSwitchDefault class="parameter-value plx-input" type="text" [ngModel]="param.value" (ngModelChange)="valueChange($event)"
+                    [disabled]="!currentCanEditValue">
+            </div>
         </div>
-        <select *ngIf="showValueSource" class="form-control parameter-item" style="width:auto;" type="text" [ngModel]="param.valueSource"
-            (ngModelChange)="valueSourceChange($event)">
-            <option *ngFor="let sourceType of valueSource" value="{{sourceEnum[sourceType]}}">{{sourceEnum[sourceType]}}</option>
+        <select *ngIf="showValueSource" class="parameter-item" style="width:auto;" type="text" [ngModel]="param.valueSource" (ngModelChange)="valueSourceChange($event)"
+            [disabled]="!currentCanEditValue">
+            <option *ngFor="let sourceItem of sourceItems" value="{{sourceItem.value}}">
+                {{sourceItem.name}}
+            </option>
         </select>
     </div>
-    <div *ngIf="canInsert" class="parameter-item">
-        <button type="button" class="btn blue1" (click)="insertParam()">
+    <div *ngIf="currentCanInsert" class="parameter-section">
+        <button type="button" class="plx-btn plx-btn-primary" (click)="insertParam()">
             <i class="fa fa-plus"></i>
         </button>
     </div>
-    <div *ngIf="canDelete" class="parameter-item">
-        <button type="button" class="btn oes-red-bg" (click)="deleteParam()">
+    <div *ngIf="currentCanDelete" class="parameter-section">
+        <button type="button" class="plx-btn plx-btn-error" (click)="deleteParam()">
             <i class="fa fa-minus"></i>
         </button>
     </div>

@@ -11,15 +11,30 @@
  *     ZTE - initial API and implementation and/or initial documentation
  *******************************************************************************/
 -->
+<table cellpadding="10px">
+    <tr>
+        <th style="width:35%;" class="plx-table-th">{{ 'WORKFLOW.PROCESS_VARIABLE' | translate }}</th>
+        <th style="width:45%;" class="plx-table-th">{{ 'WORKFLOW.PROCESS_VARIABLE_DEFAULT' | translate }}</th>
+        <th style="width:20%;" class="plx-table-th">{{ 'WORKFLOW.PROCESS_VARIABLE_OPERATION' | translate }}</th>
+    </tr>
+    <tr *ngFor="let param of node.parameters; let i = index;" class="table-body">
+        <td>
+            <input [ngModel]="param.name" (ngModelChange)="checkKey($event, i)" class="plx-input"/>
+            <span *ngIf="param.errorMsg">{{param.errorMsg}}</span>
+        </td>
+        <td>
+            <input [(ngModel)]="param.value" class="plx-input" />
+            <span *ngIf="param.errorMsg">&nbsp;</span>
+        </td>
+        <td>
+            <i class="plx-ico-delete-16 delete-icon" (click)="delete(i)"></i>
+            <span *ngIf="param.errorMsg">&nbsp;</span>
+        </td>
+    </tr>
+</table>
 
-<div class="form-group row">
-    <div class="col-md-10"></div>
-    <div class="col-md-2">
-        <button (click)="create();" type="button" class="btn blue1 pull-right">
-            <i class="fa fa-plus"></i>
-        </button>
-    </div>
-</div>
-
-<b4t-parameter *ngFor="let param of node.parameters; let i = index;" [param]="param" [canEditName]="true"
-    [valueSource]="sources" [canDelete]="true" (delete)="delete(i)"></b4t-parameter>
+<button (click)="create();" type="button" class="plx-btn">
+    <i class="plx-ico-new-16"></i>{{ 'WORKFLOW.PROCESS_VARIABLE_CREATE' | translate }}
+</button>
+<!-- <wfm-parameter *ngFor="let param of node.parameters; let i = index;" [param]="param" [canEditName]="true"
+    [valueSource]="sources" [canDelete]="true" (delete)="delete(i)"></wfm-parameter> -->

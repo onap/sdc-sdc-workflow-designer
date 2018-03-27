@@ -11,15 +11,20 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 -->
-<div class="main-content-wrapper">
-    <b4t-toolbar class="tool-bar"></b4t-toolbar>
-    <div class="design-area">
-        <menus class="design-menus"></menus>
-        <b4t-container class="design-container"></b4t-container>
-    </div>
-    <global-notice></global-notice>
+<div *ngIf="!isAuthorized" class="unauthorized-div">
+    <span>{{ 'WORKFLOW.UNAUTHORIZED' | translate }}</span>
 </div>
+<div *ngIf="isAuthorized" class="authorized-div">
+    <div *ngIf="toscaLoaded && restLoaded && typeLoaded" class="main-content-wrapper">
+        <wfm-toolbar class="tool-bar"></wfm-toolbar>
+        <div class="design-area">
+            <menus class="design-menus"></menus>
+            <wfm-container class="design-container"></wfm-container>
+        </div>
+        <wfm-notice></wfm-notice>
+    </div>
 
-<div *ngIf="isLoading" class="loading-div">
-    <div></div>
+    <div *ngIf="!(toscaLoaded && restLoaded && typeLoaded)" class="loading-div">
+        <div></div>
+    </div>
 </div>

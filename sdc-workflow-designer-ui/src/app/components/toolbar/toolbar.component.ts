@@ -12,7 +12,7 @@
 
 import { AfterViewChecked, Component, OnInit } from '@angular/core';
 
-import { DataService } from '../../services/data/data.service';
+import { SettingService } from '../../services/setting.service';
 import { BroadcastService } from '../../services/broadcast.service';
 import { JsPlumbService } from '../../services/jsplumb.service';
 
@@ -21,29 +21,10 @@ import { JsPlumbService } from '../../services/jsplumb.service';
  * The supported nodes can be dragged to container component. which will add a new node to the workflow.
  */
 @Component({
-    selector: 'b4t-toolbar',
+    selector: 'wfm-toolbar',
     templateUrl: 'toolbar.component.html',
     styleUrls: ['./toolbar.component.css']
 })
-export class ToolbarComponent implements AfterViewChecked, OnInit {
-    public isCatalog = true;
-    private needInitButton = false;
+export class ToolbarComponent {
 
-    constructor(private jsPlumbService: JsPlumbService, private broadcastService: BroadcastService,
-        private dataService: DataService) { }
-
-    public ngOnInit() {
-        this.broadcastService.backendServiceReady$.subscribe(() => {
-            this.isCatalog = 'Catalog' === this.dataService.getBackendType();
-            this.needInitButton = true;
-        });
-    }
-
-    public ngAfterViewChecked() {
-        if (this.needInitButton) {
-            this.jsPlumbService.buttonDraggable();
-            this.jsPlumbService.buttonDroppable();
-            this.needInitButton = false;
-        }
-    }
 }

@@ -18,32 +18,31 @@ import { ValueSource } from '../../../model/value-source.enum';
 import { Parameter } from '../../../model/workflow/parameter';
 import { ToscaNodeTask } from '../../../model/workflow/tosca-node-task';
 import { BroadcastService } from '../../../services/broadcast.service';
-import { DataService } from '../../../services/data/data.service';
+import { ToscaService } from '../../../services/tosca.service';
 
 /**
  * node template component provides operations about tosca modules which saved in winery.
  * This component will be used in the property component while the corresponding workflow node is calling the node template's operation
  */
 @Component({
-    selector: 'b4t-node-template',
+    selector: 'wfm-node-template',
     templateUrl: 'node-template.component.html',
 })
 export class NodeTemplateComponent implements AfterViewInit {
     @Input() public node: ToscaNodeTask;
     @Input() public planItems: PlanTreeviewItem[];
 
-    public inputSources: ValueSource[] = [ValueSource.String, ValueSource.Variable, ValueSource.Topology, ValueSource.Plan];
+    public inputSources: ValueSource[] = [ValueSource.string, ValueSource.Variable, ValueSource.Topology, ValueSource.Plan];
     public outputSources: ValueSource[] = [ValueSource.Topology, ValueSource.Plan];
     public nodeInterfaces: string[] = [];
     public nodeOperations: any[] = [];
     public nodeTemplates: NodeTemplate[] = [];
 
-    constructor(private dataService: DataService) {
+    constructor(private toscaService: ToscaService) {
     }
 
     public ngAfterViewInit() {
-        this.dataService.loadNodeTemplates()
-            .subscribe(nodeTemplates => this.nodeTemplates = nodeTemplates);
+        this.nodeTemplates = this.toscaService.getNodeTemplate();
 
         this.loadInterfaces();
         this.loadOperations();
@@ -86,7 +85,7 @@ export class NodeTemplateComponent implements AfterViewInit {
 
     private loadInterfaces() {
         if (this.node.template.id) {
-            this.dataService.loadNodeTemplateInterfaces(this.node.template)
+            this.toscaService.loadNodeTemplateInterfaces(this.node.template)
                 .subscribe(interfaces => {
                     this.nodeInterfaces = interfaces;
                 });
@@ -98,7 +97,7 @@ export class NodeTemplateComponent implements AfterViewInit {
     private loadOperations() {
         if (this.node.nodeInterface) {
             this.nodeOperations = [];
-            this.dataService.loadNodeTemplateOperations(
+            this.toscaService.loadNodeTemplateOperations(
                 this.node.template,
                 this.node.nodeInterface)
                 .subscribe(operations => this.nodeOperations = operations);
@@ -109,7 +108,7 @@ export class NodeTemplateComponent implements AfterViewInit {
 
     private loadParameters() {
         if (this.node.operation) {
-            this.dataService.loadNodeTemplateOperationParameter(
+            this.toscaService.loadNodeTemplateOperationParameter(
                 this.node.template,
                 this.node.nodeInterface,
                 this.node.operation)
@@ -118,7 +117,7 @@ export class NodeTemplateComponent implements AfterViewInit {
                     this.node.output = [];
 
                     params.input.forEach(param => {
-                        const p = new Parameter(param, '', ValueSource[ValueSource.String]);
+                        const p = new Parameter(param, '', ValueSource[ValueSource.string]);
                         this.node.input.push(p);
                     });
 

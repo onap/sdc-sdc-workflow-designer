@@ -12,20 +12,43 @@
  */
 -->
 
-<div class="btn-left">
-    <p-splitButton [label]="getCurrentPlanName()" icon="fa-arrows" (onClick)="showWorkflows()" [model]="workflows"></p-splitButton>
+<div>
+  <label class="wf-name">{{name}}</label>
+  <!-- <button type="button" class="btn white btn-right" (click)="showRestConfigModal()">
+    <i class="fa fa-cog"></i>{{ 'WORKFLOW.SETTING' | translate:param }}
+  </button> -->
+  <button type="button" class="plx-btn btn-right" (click)="checkBack(confirmSave)">
+    <i class="fa fa-arrow-left"></i>{{ 'WORKFLOW.BACK' | translate }}
+  </button>
+  <button type="button" class="plx-btn plx-btn-primary btn-right" (click)="save()" [disabled]="!(canSave && hasRight)">
+    <i class="fa fa-save"></i>{{ 'WORKFLOW.SAVE' | translate }}
+  </button>
 </div>
-<div class="btn-right">
-    <button type="button" class="btn white" (click)="save()">
-        <i class="fa fa-save"></i>Save
-    </button>
-    <button type="button" class="btn white" (click)="showMicroserviceModal()">
-        <i class="fa fa-cog"></i>Setting
-    </button>
-    <button type="button" class="btn white" (click)="download()">
-            <i class="fa fa-download"></i>Download
-        </button>
-    <!-- <button type="button" class="btn white" (click)="test()">test</button> -->
-</div>
-<b4t-rest-config></b4t-rest-config>
-<b4t-workflows></b4t-workflows>
+
+<wfm-rest-config></wfm-rest-config>
+
+<template #confirmSave let-c="close" let-d="dismiss">
+  <div class="modal-header">
+      <h4 class="modal-title">{{ 'WORKFLOW.CONFIRM' | translate }}</h4>
+      <button type="button" class="close" (click)="d('Cross click')">
+          <span class="plx-ico-close-16"></span>
+      </button>
+  </div>
+  <div class="modal-body">
+      <div class="row alert-modal">
+          <span class="tip-img warning"></span>
+          <div class="tip-info">
+              <div class="alert-title">{{ 'WORKFLOW.CONFIRM_SAVE1' | translate }}</div>
+              <div class="alert-result">{{ 'WORKFLOW.CONFIRM_SAVE2' | translate }}</div>
+          </div>
+      </div>
+  </div>
+  <div class="modal-footer">
+      <div class="form-group">
+          <div class="btnGroup modal-btn">
+              <button type="button" class="plx-btn plx-btn-guide" (click)="saveBack();">{{ 'WORKFLOW.CONFIRM_SAVE_BACK' | translate }}</button>
+              <button type="button" class="plx-btn" (click)="back();">{{ 'WORKFLOW.CONFIRM_BACK' | translate }}</button>
+          </div>
+      </div>
+  </div>
+</template>

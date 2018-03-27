@@ -17,7 +17,7 @@ import { NoticeType } from '../../model/notice-type.enum';
 import { NoticeService } from '../../services/notice.service';
 
 @Component({
-  selector: 'global-notice',
+  selector: 'wfm-notice',
   templateUrl: './global-notice.component.html',
   styleUrls: ['./global-notice.component.css']
 })

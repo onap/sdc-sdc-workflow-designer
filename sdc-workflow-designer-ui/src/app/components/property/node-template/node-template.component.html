@@ -43,7 +43,7 @@
 </div>
 <hr>
 
-<b4t-parameter *ngFor="let input of node.input" [param]="input" [valueSource]= "inputSources" [planItems]="planItems"></b4t-parameter>
+<wfm-parameter *ngFor="let input of node.input" [param]="input" [valueSource]= "inputSources" [planItems]="planItems"></wfm-parameter>
 <hr *ngIf="0 < node.input.length">
-<b4t-parameter *ngFor="let output of node.output" [param]="output" [valueSource]= "outputSources" [planItems]="planItems"></b4t-parameter>  
+<wfm-parameter *ngFor="let output of node.output" [param]="output" [valueSource]= "outputSources" [planItems]="planItems"></wfm-parameter>  
 

@@ -1,3 +1,16 @@
+<!--
+/**
+ * Copyright (c) 2017 ZTE Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * and the Apache License 2.0 which both accompany this distribution,
+ * and are available at http://www.eclipse.org/legal/epl-v10.html
+ * and http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Contributors:
+ *     ZTE - initial API and implementation and/or initial documentation
+ */
+-->
 <div class="scroll" style="overflow:hidden; max-height: 300px; height: 300px;">
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
@@ -6,13 +19,13 @@
         </div>
 
         <ul class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center"
+            <!-- <li class="list-group-item d-flex justify-content-between align-items-center"
                 *ngFor="let restConfig of restService.getRestConfigs(); index as i">
                 <div (click)="onConfigSelected(restConfig)">{{restConfig.name}}</div>
                 <div class="badge badge-danger badge-pill" (click)="deleteRestConfig(i)">
                     <i class="fa fa-minus"></i>
                 </div>
-            </li>
+            </li> -->
         </ul>
     </div>
 </div>

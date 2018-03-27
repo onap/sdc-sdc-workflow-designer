@@ -10,12 +10,13 @@
  *     ZTE - initial API and implementation and/or initial documentation
  *******************************************************************************/
 
-export class SwaggerParameter {
+export class SwaggerParameterClass {
     public description: string;
     public position: string;  // in path, query, header, body, form
     public name: string;
     public required: boolean;
     public type: string;
+    public enum: any[];
 
     // if position is body
     public schema: SwaggerSchemaObject;
@@ -26,6 +27,7 @@ export class SwaggerParameter {
         this.name = options.name;
         this.required = options.required;
         this.type = options.type;
+        this.enum = options.enum;
         if (this.position === 'body') {
             this.schema = getSchemaObject(options.schema);
         }
@@ -40,7 +42,7 @@ export class SwaggerHeader {
     }
 }
 
-export class SwaggerResponse {
+export class SwaggerResponseClass {
     public description: string;
     public schema: SwaggerSchemaObject;
     public headers: any;
@@ -65,7 +67,7 @@ export class SwaggerMethod {
     public consumes: string[];
     public description: string;
     public operationId: string;
-    public parameters: SwaggerParameter[];
+    public parameters: SwaggerParameterClass[];
     public produces: string[];
     public responses: any;
     public summary: string;
@@ -75,7 +77,7 @@ export class SwaggerMethod {
         this.consumes = consumes;
         this.description = description;
         this.operationId = operationId;
-        this.parameters = parameters.map(param => new SwaggerParameter(param));
+        this.parameters = parameters.map(param => new SwaggerParameterClass(param));
         this.produces = produces;
         this.responses = this.initResponses(responses);
         this.summary = summary;
@@ -85,7 +87,7 @@ export class SwaggerMethod {
     private initResponses(responses: any): any {
         const responseObjs = {};
         for (const key in responses) {
-            responseObjs[key] = new SwaggerResponse(responses[key]);
+            responseObjs[key] = new SwaggerResponseClass(responses[key]);
         }
 
         return responseObjs;
@@ -189,7 +191,7 @@ export class SwaggerReferenceObject extends SwaggerSchemaObject {
 
 export class SwaggerPrimitiveObject extends SwaggerSchemaObject {
     public collectionFormat: string;
-    public defaultValue: any;
+    public default: any;
     public enumValues: any[];
     public exclusiveMaximum: boolean;
     public exclusiveMinimum: boolean;
@@ -205,7 +207,7 @@ export class SwaggerPrimitiveObject extends SwaggerSchemaObject {
     constructor(options: any) {
         super();
         this.collectionFormat = options.collectionFormat;
-        this.defaultValue = options.default;
+        this.default = options.default;
         this.enumValues = options.enum;
         this.exclusiveMaximum = options.exclusiveMaximum;
         this.exclusiveMinimum = options.exclusiveMinimum;

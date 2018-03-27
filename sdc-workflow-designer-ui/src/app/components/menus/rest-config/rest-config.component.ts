@@ -21,7 +21,7 @@ import { RestConfigListComponent } from './rest-config-list/rest-config-list.com
  * The supported nodes can be dragged to container component. which will add a new node to the workflow.
  */
 @Component({
-    selector: 'b4t-rest-config',
+    selector: 'wfm-rest-config',
     templateUrl: 'rest-config.component.html',
 })
 export class RestConfigComponent {

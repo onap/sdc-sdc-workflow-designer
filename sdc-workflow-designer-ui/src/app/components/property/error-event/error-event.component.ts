@@ -16,10 +16,10 @@ import { Parameter } from '../../../model/workflow/parameter';
 import { ErrorEvent } from '../../../model/workflow/error-event';
 
 @Component({
-    selector: 'b4t-error-event',
+    selector: 'wfm-error-event',
     templateUrl: 'error-event.component.html',
 })
 export class ErrorEventComponent {
     @Input() public node: ErrorEvent;
-    public sources: ValueSource[] = [ValueSource.String];
+    public sources: ValueSource[] = [ValueSource.string];
 }

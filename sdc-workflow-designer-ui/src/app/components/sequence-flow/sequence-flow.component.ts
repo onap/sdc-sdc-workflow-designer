@@ -17,6 +17,7 @@ import { SequenceFlow } from '../../model/workflow/sequence-flow';
 import { BroadcastService } from '../../services/broadcast.service';
 import { JsPlumbService } from '../../services/jsplumb.service';
 import { ModelService } from '../../services/model.service';
+import { NodeType } from '../../model/workflow/node-type.enum';
 
 /**
  * property component presents information of a workflow node.
@@ -24,7 +25,7 @@ import { ModelService } from '../../services/model.service';
  * it may load information dynamically. the content may be different for different node type.
  */
 @Component({
-    selector: 'b4t-sequence-flow',
+    selector: 'wfm-sequence-flow',
     styleUrls: ['./sequence-flow.component.css'],
     templateUrl: 'sequence-flow.component.html',
 })
@@ -33,8 +34,8 @@ export class SequenceFlowComponent implements AfterViewInit {
     public show = false;
 
     constructor(private broadcastService: BroadcastService,
-                private modelService: ModelService,
-                private jsPlumbService: JsPlumbService) {
+        private modelService: ModelService,
+        private jsPlumbService: JsPlumbService) {
 
     }
 
@@ -47,6 +48,19 @@ export class SequenceFlowComponent implements AfterViewInit {
                 this.show = false;
             }
         });
+    }
+
+    public showCondition(sourceRef: string): boolean {
+        if (sourceRef) {
+            let node = this.modelService.getNodeMap().get(sourceRef);
+            if (node && (NodeType[NodeType.parallelGateway] === node.type || NodeType[NodeType.exclusiveGateway] === node.type)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     public nameChanged(name: string) {

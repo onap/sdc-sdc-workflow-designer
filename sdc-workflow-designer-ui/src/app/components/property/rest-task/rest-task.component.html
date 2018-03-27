@@ -15,31 +15,40 @@
 <div class="form-group row">
 	<label class="col-md-3 form-control-label text-md-right">{{'WORKFLOW.REST_SERVICE' | translate}}</label>
 	<div class="col-md-9">
-		<select class="form-control" [ngModel]="node.restConfigId" (ngModelChange)="serviceChanged($event)">
+		<select *ngIf="loadSwaggerByMSB" class="form-control" [ngModel]="node.restConfigId" (ngModelChange)="serviceChanged($event)">
 			<option *ngFor="let restConfig of restService.getRestConfigs()" value="{{restConfig.id}}">{{restConfig.id}}</option>
 		</select>
+		<input *ngIf="!loadSwaggerByMSB" class="form-control" [ngModel]="node.restConfigId" disabled />
 	</div>
 </div>
 
 <div class="form-group row">
 	<label class="col-md-3 form-control-label text-md-right">{{'WORKFLOW.REST_PATH' | translate}}</label>
 	<div class="col-md-9">
-		<select class="form-control" [ngModel]="node.path" (ngModelChange)="pathChanged($event)">
+		<select *ngIf="loadSwaggerByMSB" class="form-control" [ngModel]="node.path" (ngModelChange)="pathChanged($event)">
 			<option *ngFor="let interface of restInterfaces" value="{{interface}}">{{interface}}</option>
 		</select>
+		<input *ngIf="!loadSwaggerByMSB" class="form-control" [ngModel]="node.path" disabled />
 	</div>
 </div>
 
 <div class="form-group row">
 	<label class="col-md-3 form-control-label text-md-right">{{'WORKFLOW.REST_METHOD' | translate}}</label>
 	<div class="col-md-9">
-		<select class="form-control" [ngModel]="node.method" (ngModelChange)="methodChanged($event)">
+		<select *ngIf="loadSwaggerByMSB" class="form-control" [ngModel]="node.method" (ngModelChange)="methodChanged($event)">
 			<option *ngFor="let operation of restOperations" value="{{operation}}">{{operation}}</option>
 		</select>
+		<input *ngIf="!loadSwaggerByMSB" class="form-control" [ngModel]="node.method" disabled />
 	</div>
 </div>
 <hr>
 
-<div class="ui-fluid">
-	<b4t-node-parameters [restConfigId]="this.node.restConfigId" [swaggerInput]="this.node.parameters" [swaggerOutput]="this.node.responses" [planItems]="planItems"></b4t-node-parameters>
+<div *ngIf="loadSwaggerByMSB">
+	<wfm-node-parameters [restConfigId]="node.restConfigId" [swaggerInput]="node.parameters" [swaggerOutput]="node.responses"
+		[planItems]="planItems"></wfm-node-parameters>
+</div>
+
+<div *ngIf="!loadSwaggerByMSB">
+	<wfm-rest-parameters [dataTypeInput]="node.parameters" [dataTypeOutput]="dataTypeOutput" [definitions]="definitions"
+		[planItems]="planItems"></wfm-rest-parameters>
 </div>

@@ -1,0 +1,67 @@
+<!--
+/*******************************************************************************
+ * Copyright (c) 2017 ZTE Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * and the Apache License 2.0 which both accompany this distribution,
+ * and are available at http://www.eclipse.org/legal/epl-v10.html
+ * and http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Contributors:
+ *     ZTE - initial API and implementation and/or initial documentation
+ *******************************************************************************/
+-->
+<div *ngIf="0 < queryParams.length">
+  <div class="form-group row">
+    <label class="col-md-3 form-control-label">{{'WORKFLOW.REST_INPUT_QUERY' | translate}}</label>
+    <div class="col-md-9"></div>
+  </div>
+  <wfm-parameter *ngFor="let query of queryParams; let i = index;" [param]="query" (paramChange)="onParamChange(query)" [valueSource]="inputValueSource" [planItems]="planItems"></wfm-parameter>
+  <hr>
+</div>
+
+<div *ngIf="0 < headerParams.length">
+  <div class="form-group row">
+    <label class="col-md-3 form-control-label">{{'WORKFLOW.REST_INPUT_HEADER' | translate}}</label>
+    <div class="col-md-9"></div>
+  </div>
+  <wfm-parameter *ngFor="let header of headerParams; let i = index;" [param]="header" (paramChange)="onParamChange(header)" [valueSource]="inputValueSource" [planItems]="planItems"></wfm-parameter>
+  <hr>
+</div>
+
+<div *ngIf="0 < pathParams.length">
+  <div class="form-group row">
+    <label class="col-md-3 form-control-label">{{'WORKFLOW.REST_INPUT_PATH' | translate}}</label>
+    <div class="col-md-9"></div>
+  </div>
+  <wfm-parameter *ngFor="let path of pathParams; let i = index;" [param]="path" (paramChange)="onParamChange(path)" [valueSource]="inputValueSource" [planItems]="planItems"></wfm-parameter>
+  <hr>
+</div>
+
+<div *ngIf="0 < formDataParams.length">
+  <div class="form-group row">
+    <label class="col-md-3 form-control-label">{{'WORKFLOW.REST_INPUT_FORMDATA' | translate}}</label>
+    <div class="col-md-9"></div>
+  </div>
+  <wfm-parameter *ngFor="let formData of formDataParams; let i = index;" [param]="formData" (paramChange)="onParamChange(formData)" [valueSource]="inputValueSource"
+    [planItems]="planItems"></wfm-parameter>
+  <hr>
+</div>
+
+<div *ngIf="0 < bodyParams.length">
+  <div class="form-group row">
+    <label class="col-md-3 form-control-label">{{'WORKFLOW.REST_INPUT_BODY' | translate}}</label>
+    <div class="col-md-9"></div>
+  </div>
+  <wfm-parameter-tree [parameters]="bodyParams" [valueSource]="inputValueSource" [planItems]="planItems"></wfm-parameter-tree>
+  <hr>
+</div>
+
+<div *ngIf="0 < responseParams.length">
+  <div class="form-group row">
+    <label class="col-md-3 form-control-label">{{'WORKFLOW.REST_OUTPUT' | translate}}</label>
+    <div class="col-md-9"></div>
+  </div>
+  <wfm-parameter-tree [parameters]="responseParams" [valueSource]="outputValueSource" [showValue]="false" [canInsert]="false"></wfm-parameter-tree>
+  <hr>
+</div>

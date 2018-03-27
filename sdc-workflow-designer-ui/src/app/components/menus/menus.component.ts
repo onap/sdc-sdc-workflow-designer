@@ -11,72 +11,68 @@
  */
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { WorkflowService } from '../../services/workflow.service';
-import { WorkflowsComponent } from "./workflows/workflows.component";
-import { BroadcastService } from "../../services/broadcast.service";
-import { PlanModel } from "../../model/plan-model";
+import { BroadcastService } from '../../services/broadcast.service';
+import { ModelService } from '../../services/model.service';
 import { RestConfigComponent } from './rest-config/rest-config.component';
+import { AuthService } from '../../services/auth.service';
+import { InterfaceService } from '../../services/interface.service';
+import { ActivatedRoute } from '@angular/router/';
+import { PlxModal } from "../../paletx/plx-modal/modal";
 
 @Component({
-    selector: 'menus',
-    templateUrl: './menus.component.html',
-    styleUrls: ['./menus.component.css']
+  selector: 'menus',
+  templateUrl: './menus.component.html',
+  styleUrls: ['./menus.component.css']
 })
-export class MenusComponent {
-    @ViewChild(RestConfigComponent) public microserviceComponent: RestConfigComponent;
-    @ViewChild(WorkflowsComponent) public workflowsComponent: WorkflowsComponent;
-    public currentWorkflowId : string;
-    public workflows = [];
+export class MenusComponent implements OnInit {
+  @ViewChild(RestConfigComponent) public restConfigComponent: RestConfigComponent;
 
-    constructor(private broadcastService: BroadcastService, private workflowService: WorkflowService) {
-        this.broadcastService.workflows.subscribe(wfs => {
-            this.workflows.splice(0, this.workflows.length);
-            if(wfs) {
-                wfs.forEach((value, key, map) => {
-                    this.workflows.push({label: value.planName, command: () => {
-                        this.workflowSelected(key, value.plan);
-                    }});
-                });
-            }
-        });
+  public name = '';
+  public canSave = true;
+  public hasRight = false;
+
+  constructor(private activatedRoute: ActivatedRoute, private modelService: ModelService,
+    private broadcastService: BroadcastService, private authService: AuthService,
+    private plxModal: PlxModal) { }
+
+  ngOnInit() {
+    this.activatedRoute.queryParams.subscribe(queryParams => {
+      let operation: string = queryParams.operation;
+      // default value is 'modify', which means save button is enabled.
+      this.canSave = null == operation || 'view' != operation.toLowerCase();
+    });
+    this.broadcastService.initModel.subscribe(planModel => {
+      this.name = planModel.name;
+    });
+    this.broadcastService.saveRight$.subscribe(saveRight => {
+      this.hasRight = saveRight;
+    });
+    // checkRights
+    this.authService.checkRights();
+  }
+
+  public save(): void {
+    this.modelService.save();
+  }
+
+  public back(): void {
+    history.back();
+  }
+
+  public checkBack(component: any): void {
+    if (this.modelService.isModify()) {
+      this.plxModal.open(component, { size: 'sm' });
+    } else {
+      this.back();
     }
+  }
 
-    public save(): void {
-        this.workflowService.save();
-    }
+  public saveBack(): void {
+    this.modelService.save(this.back);
+  }
 
-    public showMicroserviceModal(): void {
-        this.microserviceComponent.show();
-    }
+  public showRestConfigModal(): void {
+    this.restConfigComponent.show();
+  }
 
-    public test() {
-    }
-
-    public showWorkflows() {
-        this.workflowsComponent.show();
-    }
-
-    public workflowSelected(planId: string, planModel: PlanModel) {
-
-        this.broadcastService.broadcast(this.broadcastService.planModel, planModel);
-        this.broadcastService.broadcast(this.broadcastService.planId, planId);
-    }
-
-    public getCurrentPlanName() {
-        let planName = this.workflowService.getPlanName(this.currentWorkflowId);
-        return planName ? planName : 'Workflows'
-    }
-
-    public download() {
-        const filename = this.getCurrentPlanName() + '.json';
-        const content = JSON.stringify(this.workflowService.planModel);
-        var eleLink = document.createElement('a');
-        eleLink.download = filename;
-        eleLink.style.display = 'none';
-        var blob = new Blob([content]);
-        eleLink.href = URL.createObjectURL(blob);
-        document.body.appendChild(eleLink);
-        eleLink.click();
-        document.body.removeChild(eleLink);
-    }
 }

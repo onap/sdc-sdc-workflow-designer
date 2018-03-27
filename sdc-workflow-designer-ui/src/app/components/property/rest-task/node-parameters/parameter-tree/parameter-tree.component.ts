@@ -10,48 +10,52 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 
-import { ChangeDetectionStrategy, Component, Input, OnChanges, Output, SimpleChange, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, Output } from '@angular/core';
 import { TreeNode } from 'primeng/primeng';
 
-import { PlanTreeviewItem } from '../../../model/plan-treeview-item';
-import { ValueSource } from '../../../model/value-source.enum';
-import { ValueType } from '../../../model/value-type.enum';
-import { Parameter } from '../../../model/workflow/parameter';
-import { SwaggerTreeConverterService } from '../../../services/swagger-tree-converter.service';
-import { WorkflowUtil } from '../../../util/workflow-util';
-import { Swagger } from "../../../model/swagger";
-import { RestService } from "../../../services/rest.service";
+import { PlanTreeviewItem } from '../../../../../model/plan-treeview-item';
+import { ValueSource } from '../../../../../model/value-source.enum';
+import { Parameter } from '../../../../../model/workflow/parameter';
+import { SwaggerTreeConverterService } from '../../../../../services/swagger-tree-converter.service';
+import { WorkflowUtil } from '../../../../../util/workflow-util';
+import { Swagger } from "../../../../../model/swagger";
+import { RestService } from "../../../../../services/rest.service";
 
 /**
  * parameter tree presents parameter of task node's input or output parameters.
  */
 @Component({
-    selector: 'b4t-parameter-tree',
+    selector: 'wfm-parameter-tree',
     styleUrls: ['./parameter-tree.component.css'],
     templateUrl: 'parameter-tree.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ParameterTreeComponent implements OnChanges {
+export class ParameterTreeComponent implements OnInit {
     @Input() public parameters: TreeNode[];
+    @Input() public showValue: boolean;
+    @Input() public canInsert: boolean;
     @Input() public restConfigId: string;
     @Input() public valueSource: ValueSource[];
     @Input() public planItems: PlanTreeviewItem[];
 
     constructor(private restService: RestService, private swaggerTreeConverterService: SwaggerTreeConverterService) { }
 
-    public ngOnChanges(changes: SimpleChanges) {
+    public ngOnInit() {
+        if (undefined === this.showValue) {
+            this.showValue = true;
+        }
     }
 
     public getParameter(node: any): Parameter {
         // console.log('Parameter init:' + node.label +'.'+ node.type+'.'+JSON.stringify(node.value.value)+'.'+node.value.valueSource);
-        
+
         return new Parameter(node.label, node.value.value, node.value.valueSource, node.definition.type, node.definition.reqquired);
     }
 
 
     public paramChange(param: Parameter, node: any) {
         // console.log('Parameter change:' + param.name + ', Node label is:' + node.label);
-        
+
         node.value.valueSource = param.valueSource;
         node.value.value = param.value;
 
@@ -63,7 +67,7 @@ export class ParameterTreeComponent implements OnChanges {
         }
         if (node.parent) {
             node.parent.value.value[node.label] = node.value;
-        }else{
+        } else {
             // this parameter is 'request param' or 'response param'
         }
 
@@ -129,15 +133,19 @@ export class ParameterTreeComponent implements OnChanges {
         }
     }
 
-    public canInsert(node: any) {
-        if (node.value.valueSource !== ValueSource[ValueSource.Definition]) {
-            return false;
+    public getCanInsert(node: any) {
+        if (undefined === this.canInsert) {
+            if (node.value.valueSource !== ValueSource[ValueSource.Definition]) {
+                return false;
+            } else {
+                return this.isArrayObject(node) || this.isDynamicObject(node);
+            }
         } else {
-            return this.isArrayObject(node) || this.isDynamicObject(node);
+            return this.canInsert
         }
     }
 
-    public canDelete(node: any) {
+    public getCanDelete(node: any) {
         const parent = node.parent;
         if (parent &&
             (this.isArrayObject(parent) || this.isDynamicObject(parent))) {
@@ -150,7 +158,7 @@ export class ParameterTreeComponent implements OnChanges {
     public getObjectValueSource(): ValueSource[] {
         const result = [];
         this.valueSource.forEach(source => {
-            if (ValueSource.String != source) {
+            if (ValueSource.string != source) {
                 result.push(source);
             }
         });

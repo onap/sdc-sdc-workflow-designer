@@ -10,9 +10,13 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BroadcastService } from './services/broadcast.service';
+import { LOCATION_INITIALIZED } from '@angular/common';
+import { AuthService } from './services/auth.service';
+import { RestService } from './services/rest.service';
+import { ToscaService } from './services/tosca.service';
 
 /**
  * main component
@@ -22,9 +26,15 @@ import { BroadcastService } from './services/broadcast.service';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+    public isAuthorized = false;
+    public toscaLoaded = false;
+    public restLoaded = false;
+    public typeLoaded = true;
 
-    constructor(translate: TranslateService, private broadcastService: BroadcastService) {
+    constructor(translate: TranslateService, private authService: AuthService,
+        private broadcastService: BroadcastService, toscaService: ToscaService,
+        restService: RestService) {
         // Init the I18n function.
         // this language will be used as a fallback when a translation isn't found in the current language
         translate.setDefaultLang('en');
@@ -42,5 +52,21 @@ export class AppComponent {
             browserLang = window.navigator.language;
         }
         translate.use(browserLang);
+    }
+
+    public ngOnInit() {
+        // this.broadcastService.openRight$.subscribe(hasRight => {
+        //     this.isAuthorized = hasRight;
+        // });
+        this.isAuthorized = true;
+        this.broadcastService.updateModelToscaConfig$.subscribe(tosca => {
+            this.toscaLoaded = true;
+        });
+        this.broadcastService.updateModelRestConfig$.subscribe(swagger => {
+            this.restLoaded = true;
+        });
+        this.broadcastService.updateNodeTypeConfig$.subscribe(type => {
+            this.typeLoaded = true;
+        });
     }
 }

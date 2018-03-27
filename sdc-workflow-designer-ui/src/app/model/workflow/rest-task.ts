@@ -9,17 +9,21 @@
  * Contributors:
  *     ZTE - initial API and implementation and/or initial documentation
  */
-import { SwaggerResponse } from "../swagger";
+import { SwaggerResponseClass } from "../swagger";
 import { RestParameter } from './rest-parameter';
 import { WorkflowNode } from './workflow-node';
+import { SwaggerBaseParameter } from "./swagger/swagger-base-parameter";
 
 export interface RestTask extends WorkflowNode {
     restConfigId?: string;
+    baseUrl?: string;
+    serviceName?: string;
+    serviceVersion?: string;
     path?: string;
     method?: string;
     operationId?: string;
-    produces?: string[];
+    produces?: string[];        // do not support non json MIME types, maybe use this later.
     consumes?: string[];
-    parameters?: RestParameter[];
-    responses?: SwaggerResponse[];
+    parameters?: any[];
+    responses?: SwaggerResponseClass[];
 }

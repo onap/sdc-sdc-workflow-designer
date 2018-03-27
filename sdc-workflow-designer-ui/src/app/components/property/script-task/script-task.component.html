@@ -15,9 +15,10 @@
 <div class="form-group row">
     <label class="col-md-3 form-control-label text-md-right">{{'WORKFLOW.SCRIPT_FORMAT' | translate}}</label>
     <div class="col-md-9">
-        <select class="form-control" [(ngModel)]="node.scriptFormat">
-			<option *ngFor="let script of scriptOperations" value="{{script}}">{{script}}</option>
-		</select>
+        <input *ngIf='!canChangeFormat' disabled class="form-control" [(ngModel)]="node.scriptFormat" />
+        <select *ngIf='canChangeFormat' class="form-control" [(ngModel)]="node.scriptFormat">
+            <option *ngFor="let script of scriptOperations" value="{{script}}">{{script}}</option>
+        </select>
     </div>
 </div>
 
@@ -27,4 +28,3 @@
         <textarea class="form-control" type="text" rows="20" [(ngModel)]="node.script"></textarea>
     </div>
 </div>
-

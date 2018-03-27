@@ -9,22 +9,20 @@
  * Contributors:
  *     ZTE - initial API and implementation and/or initial documentation
  */
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, ViewChild } from '@angular/core';
-
-import { Subscription } from 'rxjs/Subscription';
-import { SubProcess } from '../../model/workflow/sub-process';
-import { WorkflowNode } from '../../model/workflow/workflow-node';
-import { BroadcastService } from '../../services/broadcast.service';
-import { JsPlumbService } from '../../services/jsplumb.service';
-import { ModelService } from '../../services/model.service';
-import { NodeType } from '../../model/workflow/node-type.enum';
+import {AfterViewInit, Component, ElementRef, Input, OnDestroy, ViewChild} from "@angular/core";
+import {Subscription} from "rxjs/Subscription";
+import {WorkflowNode} from "../../model/workflow/workflow-node";
+import {BroadcastService} from "../../services/broadcast.service";
+import {JsPlumbService} from "../../services/jsplumb.service";
+import {NodeType} from "../../model/workflow/node-type.enum";
+import {WorkflowUtil} from "../../util/workflow-util";
 
 /**
  * node component represent a single workflow node.
  * every node would be rendered on the container component
  */
 @Component({
-    selector: 'b4t-node',
+    selector: 'wfm-node',
     styleUrls: ['./node.component.css'],
     templateUrl: 'node.component.html',
 })
@@ -39,8 +37,7 @@ export class NodeComponent implements AfterViewInit, OnDestroy {
     private isMoving = false;
 
     constructor(private jsPlumbService: JsPlumbService,
-        private modelService: ModelService,
-        private broadcastService: BroadcastService) {
+                private broadcastService: BroadcastService) {
     }
 
     public ngAfterViewInit() {
@@ -106,8 +103,22 @@ export class NodeComponent implements AfterViewInit, OnDestroy {
         target.classList.add('hover');
     }
 
+    public isGatewayNodeType(type: string): boolean {
+        if (type === this.nodeType[this.nodeType.exclusiveGateway] || type === this.nodeType[this.nodeType.parallelGateway]) {
+            return true;
+        }
+        return false;
+    }
+
     public showProperties(event) {
+        if (this.isGatewayNodeType(this.node.type)) {
+            return;
+        }
         event.stopPropagation();
         this.broadcastService.broadcast(this.broadcastService.showProperty, this.node);
+    }
+
+    public getImageUrl(name: string): string {
+        return WorkflowUtil.GetIconFullPath(name);
     }
 }

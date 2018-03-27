@@ -26,56 +26,38 @@ import { WorkflowElement } from '../model/workflow/workflow-element';
  */
 @Injectable()
 export class BroadcastService {
+    public openRight = new Subject<boolean>();
+    public openRight$ = this.openRight.asObservable();
+
+    public saveRight = new Subject<boolean>();
+    public saveRight$ = this.saveRight.asObservable();
+
+    public initModel = new Subject<PlanModel>();
+    public initModel$ = this.initModel.asObservable();
 
     public showProperty = new Subject<WorkflowElement>();
     public showProperty$ = this.showProperty.asObservable();
 
-    public workflows = new Subject<Map<string, any>>();
-    public workflows$ = this.workflows.asObservable();
-
-    public planId = new Subject<string>();
-    public planId$ = this.planId.asObservable();
-
     public planModel = new Subject<PlanModel>();
     public planModel$ = this.planModel.asObservable();
+
+    public updateModelToscaConfig = new Subject<any[]>();
+    public updateModelToscaConfig$ = this.updateModelToscaConfig.asObservable();
 
     public updateModelRestConfig = new Subject<RestConfig[]>();
     public updateModelRestConfig$ = this.updateModelRestConfig.asObservable();
 
-    public saveEvent = new Subject<any>();
+    public updateNodeTypeConfig = new Subject<any[]>();
+    public updateNodeTypeConfig$ = this.updateNodeTypeConfig.asObservable();
+
+    public saveEvent = new Subject<PlanModel>();
     public saveEvent$ = this.saveEvent.asObservable();
 
     public selectedElement = new Subject<WorkflowElement[]>();
     public selectedElement$ = this.selectedElement.asObservable();
 
-    // public elementClick = new Subject<WorkflowElement>();
-    // public elementClick$ = this.elementClick.asObservable();
-    /**
-     * this should be used while the source of rest interfaces changed.
-     * @type {Subject<>}
-     */
-    public backendServiceReady = new Subject<any>();
-    public backendServiceReady$ = this.backendServiceReady.asObservable();
-
-
-    public nodeProperty = new Subject<WorkflowNode>();
-    public nodeProperty$ = this.nodeProperty.asObservable();
-
-    public nodeTaskChange = new Subject<WorkflowNode>();
-    public nodeTaskChange$ = this.nodeTaskChange.asObservable();
-
-    public showSequenceFlow = new Subject<boolean>();
-    public showSequenceFlow$ = this.showSequenceFlow.asObservable();
-
-    public sequenceFlow = new Subject<SequenceFlow>();
-    public sequenceFlow$ = this.sequenceFlow.asObservable();
-
-    public currentSequenceFlow = new Subject<SequenceFlow>();
-    public currentSequenceFlow$ = this.currentSequenceFlow.asObservable();
-    public currentWorkflowNode = new Subject<WorkflowNode>();
-    public currentWorkflowNode$ = this.currentWorkflowNode.asObservable();
-    public currentType = new Subject<string>();
-    public currentType$ = this.currentType.asObservable();
+    public swagger = new Subject<any>();
+    public swagger$ = this.swagger.asObservable();
 
     /**
      * broadcast datas

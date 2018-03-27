@@ -11,7 +11,10 @@
  *******************************************************************************/
 
 export enum ValueSource {
-    String,
+    integer,
+    number,
+    boolean,
+    string,
     Plan,
     Topology,
     Variable,

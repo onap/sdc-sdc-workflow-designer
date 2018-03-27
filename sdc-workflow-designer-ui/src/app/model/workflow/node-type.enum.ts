@@ -15,11 +15,13 @@ export enum NodeType {
     endEvent,
     errorStartEvent,
     errorEndEvent,
+    intermediateCatchEvent,
     toscaNodeManagementTask,
+    serviceTask,
+    scriptTask,
     restTask,
     exclusiveGateway,
     parallelGateway,
     subProcess,
-    intermediateCatchEvent,
-    scriptTask
+    callActivity
 }

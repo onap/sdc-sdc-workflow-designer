@@ -10,8 +10,13 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 import { WorkflowNode } from './workflow/workflow-node';
+import { Model } from './model';
 
 export class PlanModel {
-    public nodes: WorkflowNode[] = [];
-    public configs: any = {};
+    public id: string;
+    public name: string;
+    public version: string;
+    public description: string;
+    public scene: string;
+    public data = new Model();
 }

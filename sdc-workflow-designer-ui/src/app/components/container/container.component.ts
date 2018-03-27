@@ -16,7 +16,7 @@ import { SequenceFlow } from '../../model/workflow/sequence-flow';
 import { WorkflowElement } from '../../model/workflow/workflow-element';
 import { WorkflowNode } from '../../model/workflow/workflow-node';
 import { BroadcastService } from '../../services/broadcast.service';
-import { DataService } from '../../services/data/data.service';
+import { InterfaceService } from '../../services/interface.service';
 import { JsPlumbService } from '../../services/jsplumb.service';
 import { ModelService } from '../../services/model.service';
 
@@ -25,7 +25,7 @@ import { ModelService } from '../../services/model.service';
  * bpmn task nodes can be dropped into this canvas, and then the workflow can be edit
  */
 @Component({
-    selector: 'b4t-container',
+    selector: 'wfm-container',
     templateUrl: 'container.component.html',
     styleUrls: ['./container.component.css']
 })
@@ -40,7 +40,7 @@ export class ContainerComponent implements AfterViewChecked, AfterViewInit, OnIn
     private needInitSequence = false;
 
     constructor(private broadcastService: BroadcastService, private jsPlumbService: JsPlumbService,
-        private dataService: DataService, public modelService: ModelService) {
+        private interfaceService: InterfaceService, public modelService: ModelService) {
     }
 
     @HostListener('window:keyup.delete', ['$event']) ondelete(event: KeyboardEvent) {
@@ -74,10 +74,7 @@ export class ContainerComponent implements AfterViewChecked, AfterViewInit, OnIn
 
     public ngOnInit() {
         this.jsPlumbService.initJsPlumbInstance(this.modelService.rootNodeId);
-        this.broadcastService.backendServiceReady$.subscribe(() => {
-            this.dataService.initData();
-        });
-        this.broadcastService.planModel$.subscribe(() => {
+        this.broadcastService.initModel$.subscribe(() => {
             this.needInitSequence = true;
         });
         this.broadcastService.showProperty$.subscribe(element=>{

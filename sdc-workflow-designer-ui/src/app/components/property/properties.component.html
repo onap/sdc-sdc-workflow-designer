@@ -14,10 +14,10 @@
 
 <div class="wm-properties-wrapper" *ngIf="show">
     <div class="form-group row">
-        <b4t-editable-property class="col-md-10" [(name)]="node.name"></b4t-editable-property>
-        <div class="col-md-2">
-            <button (click)="deleteNode()" type="button" class="btn white">
-                <i class="fa fa-trash" style="margin-right: 5px;"></i>
+        <wfm-editable-property class="col-md-9" [(value)]="node.name"></wfm-editable-property>
+        <div class="col-md-3">
+            <button (click)="deleteNode()" type="button" class="plx-btn plx-btn-error">
+                <i class="plx-ico-delete-16" style="margin-right: 5px;"></i>{{ 'WORKFLOW.DELETE' | translate }}
             </button>
         </div>
     </div>
@@ -33,12 +33,13 @@
 
     <hr>
     <div [ngSwitch]="node.type">
-        <b4t-start-event *ngSwitchCase="nodeType[nodeType.startEvent]" [node]="node"></b4t-start-event>
-        <b4t-error-event *ngSwitchCase="nodeType[nodeType.errorStartEvent]" [node]="node"></b4t-error-event>
-        <b4t-error-event *ngSwitchCase="nodeType[nodeType.errorEndEvent]" [node]="node"></b4t-error-event>
-        <b4t-node-template *ngSwitchCase="nodeType[nodeType.toscaNodeManagementTask]" [node]="node" [planItems]="planTreeviewItems"></b4t-node-template>
-        <b4t-rest-task *ngSwitchCase="nodeType[nodeType.restTask]" [node]="node" [planItems]="planTreeviewItems"></b4t-rest-task>
-        <b4t-intermediate-catch-event *ngSwitchCase="nodeType[nodeType.intermediateCatchEvent]" [node]="node"></b4t-intermediate-catch-event>
-        <b4t-script-task *ngSwitchCase="nodeType[nodeType.scriptTask]" [node]="node"></b4t-script-task>
+        <wfm-start-event *ngSwitchCase="nodeType[nodeType.startEvent]" [node]="node"></wfm-start-event>
+        <wfm-error-event *ngSwitchCase="nodeType[nodeType.errorStartEvent]" [node]="node"></wfm-error-event>
+        <wfm-error-event *ngSwitchCase="nodeType[nodeType.errorEndEvent]" [node]="node"></wfm-error-event>
+        <wfm-node-template *ngSwitchCase="nodeType[nodeType.toscaNodeManagementTask]" [node]="node" [planItems]="planTreeviewItems"></wfm-node-template>
+        <wfm-rest-task *ngSwitchCase="nodeType[nodeType.restTask]" [node]="node" [planItems]="planTreeviewItems"></wfm-rest-task>
+        <wfm-intermediate-catch-event *ngSwitchCase="nodeType[nodeType.intermediateCatchEvent]" [node]="node"></wfm-intermediate-catch-event>
+        <wfm-service-task *ngSwitchCase="nodeType[nodeType.serviceTask]" [node]="node"></wfm-service-task>
+        <wfm-script-task *ngSwitchCase="nodeType[nodeType.scriptTask]" [node]="node"></wfm-script-task>
     </div>
 </div>

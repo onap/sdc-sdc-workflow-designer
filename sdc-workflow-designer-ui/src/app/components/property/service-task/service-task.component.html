@@ -1,0 +1,39 @@
+<!--
+/**
+ * Copyright (c) 2017 ZTE Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * and the Apache License 2.0 which both accompany this distribution,
+ * and are available at http://www.eclipse.org/legal/epl-v10.html
+ * and http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Contributors:
+ *     ZTE - initial API and implementation and/or initial documentation
+ */
+ -->
+<div class="form-group row">
+  <label class="col-md-3 form-control-label" style="text-align:right;">{{'WORKFLOW.SERVICE_CLASS' | translate}}</label>
+  <div class="col-md-9">
+    <input class="form-control" [(ngModel)]="node.className" [disabled]="!canEdit" />
+  </div>
+</div>
+<hr>
+
+<div class="form-group row">
+  <label class="col-md-3 form-control-label">{{'WORKFLOW.SERVICE_INPUT' | translate}}</label>
+</div>
+<wfm-parameter *ngFor="let in of node.inputs; let i = index;" [param]="in" [valueSource]="inputValueSource" [canEditName]="canEdit"
+  [canEditValue]="node.editable" [canDelete]="canEdit" (delete)="deleteInput(i)"></wfm-parameter>
+<button *ngIf="canEdit" type="button" class="plx-btn" (click)="createInput();">
+    <i class="plx-ico-new-16"></i>{{ 'WORKFLOW.CREATE' | translate }}
+</button>
+<hr>
+
+<div class="form-group row">
+  <label class="col-md-3 form-control-label">{{'WORKFLOW.SERVICE_OUTPUT' | translate}}</label>
+</div>
+<wfm-parameter *ngFor="let out of node.outputs; let i = index;" [param]="out" [valueSource]="outputValueSource" [canEditName]="canEdit"
+  [canDelete]="canEdit" [showValue]="false" (delete)="deleteOutput(i)"></wfm-parameter>
+<button *ngIf="canEdit" type="button" class="plx-btn" (click)="createOutput();" style="margin-bottom:10px;">
+    <i class="plx-ico-new-16"></i>{{ 'WORKFLOW.CREATE' | translate }}
+</button>

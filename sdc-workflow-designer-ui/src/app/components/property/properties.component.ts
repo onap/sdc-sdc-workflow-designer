@@ -10,19 +10,16 @@
  *     ZTE - initial API and implementation and/or initial documentation
  */
 
-import { Component, OnInit } from '@angular/core';
-import { TreeNode } from 'primeng/primeng';
-import { TranslateService } from '@ngx-translate/core';
-
-import { PlanTreeviewItem } from '../../model/plan-treeview-item';
-import { ValueSource } from '../../model/value-source.enum';
-import { NodeType } from '../../model/workflow/node-type.enum';
-import { Parameter } from '../../model/workflow/parameter';
-import { WorkflowNode } from '../../model/workflow/workflow-node';
-import { BroadcastService } from '../../services/broadcast.service';
-import { JsPlumbService } from '../../services/jsplumb.service';
-import { ModelService } from '../../services/model.service';
-import { NoticeService } from '../../services/notice.service';
+import {Component, OnInit} from "@angular/core";
+import {TranslateService} from "@ngx-translate/core";
+import {PlanTreeviewItem} from "../../model/plan-treeview-item";
+import {ValueSource} from "../../model/value-source.enum";
+import {NodeType} from "../../model/workflow/node-type.enum";
+import {WorkflowNode} from "../../model/workflow/workflow-node";
+import {BroadcastService} from "../../services/broadcast.service";
+import {JsPlumbService} from "../../services/jsplumb.service";
+import {ModelService} from "../../services/model.service";
+import {NoticeService} from "../../services/notice.service";
 
 /**
  * property component presents information of a workflow node.
@@ -30,7 +27,7 @@ import { NoticeService } from '../../services/notice.service';
  * it may load information dynamically. the content may be different for different node type.
  */
 @Component({
-    selector: 'b4t-properties',
+    selector: 'wfm-properties',
     styleUrls: ['./properties.component.css'],
     templateUrl: 'properties.component.html',
 })
@@ -41,13 +38,13 @@ export class PropertiesComponent implements OnInit {
     // public nodeTypes: string[] = WorkflowNodeType;
     public show = false;
     public titleEditing = false;
-    public valueSource = [ValueSource.String];
+    public valueSource = [ValueSource.string];
 
     constructor(private broadcastService: BroadcastService,
-        private modelService: ModelService,
-        private translate: TranslateService,
-        private noticeService: NoticeService,
-        private jsPlumbService: JsPlumbService) {
+                private modelService: ModelService,
+                private translate: TranslateService,
+                private noticeService: NoticeService,
+                private jsPlumbService: JsPlumbService) {
 
     }
 
@@ -59,13 +56,13 @@ export class PropertiesComponent implements OnInit {
                 // TODOS: 1) save config info in case config info no exists on a different environment.
                 //        2) display property panel even if config info not exists for it may be adjust.
                 try {
-                  this.planTreeviewItems = this.modelService.getPlanParameters(this.node.id);
-                  this.show = true;
+                    this.planTreeviewItems = this.modelService.getPlanParameters(this.node.id);
+                    this.show = true;
                 } catch (error) {
-                  this.show = false;
-                  this.translate.get('WORKFLOW.MSG.SWAGGER_NOT_EXISTS').subscribe((res: string) => {
-                    this.noticeService.error(res);
-                  });
+                    this.show = false;
+                    this.translate.get('WORKFLOW.MSG.SWAGGER_NOT_EXISTS').subscribe((res: string) => {
+                        this.noticeService.error(res);
+                    });
                 }
             } else {
                 this.show = false;

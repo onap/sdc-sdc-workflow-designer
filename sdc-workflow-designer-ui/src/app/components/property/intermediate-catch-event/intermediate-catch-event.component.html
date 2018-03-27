@@ -11,39 +11,82 @@
  *     ZTE - initial API and implementation and/or initial documentation
  *******************************************************************************/
 -->
-
-<div class="form-group row">
-    <label class="col-md-3 form-control-label text-md-right">{{'WORKFLOW.TIMER_TYPE' | translate}}</label>
-    <div class="col-md-9">
-        <p-radioButton name="timeType" label="Duration" value="timeDuration" [ngModel]="node.timerEventDefinition.type" (ngModelChange)="timerTypeChange($event)">Duration</p-radioButton>
-        <p-radioButton name="timeType" label="Date" value="timeDate" [(ngModel)]="node.timerEventDefinition.type">Date</p-radioButton>
-        <p-radioButton name="timeType" label="Cycle" value="timeCycle" [(ngModel)]="node.timerEventDefinition.type">Cycle</p-radioButton>
+<form class="form-horizontal">
+    <div class="form-group row">
+        <label class="col-md-3 form-control-label text-md-right">{{'WORKFLOW.TIMER_TYPE' | translate}}</label>
+        <div class="col-md-9">
+            <label class="plx-radio-container">
+                <input type="radio" class="plx-radio" [checked]="checkedType === timeType[timeType.timeDuration]"
+                       (click)="timeTypeChange(timeType[timeType.timeDuration])">
+                <div class="radio-substitute"></div>
+                <span>{{'WORKFLOW.TIMER_CYCLE' | translate}}</span>
+            </label>&nbsp;&nbsp;
+            <label class="plx-radio-container">
+                <input type="radio" class="plx-radio" [checked]="checkedType === timeType[timeType.timeDate]"
+                       (click)="timeTypeChange(timeType[timeType.timeDate])">
+                <div class="radio-substitute"></div>
+                <span>{{'WORKFLOW.TIMER_DATE' | translate}}</span>
+            </label>
+        </div>
     </div>
-</div>
 
-<div *ngIf="node.timerEventDefinition.type === 'timeDuration'" class="form-group row">
-    <label class="col-md-3 form-control-label text-md-right">{{'WORKFLOW.TIMER_DURATION' | translate}}</label>
-    <div class="col-md-9">
-        <input type="text" class="form-control" [(ngModel)]="node.timerEventDefinition.timeDuration">
-        <label>eg: P1Y3M5DT6H7M30S</label>
+    <div *ngIf="checkedType === timeType[timeType.timeDuration]">
+        <!--<div class="form-group row">
+            <label class="col-md-3 form-control-label text-md-right">{{'WORKFLOW.TIMER_YEAR' | translate}}</label>
+            <div class="col-md-9">
+                <plx-text-input type="number" name="year" min="0" width="336px"
+                                [(ngModel)]="timeCycle.year" (change)="transformTimeDurationToString()"></plx-text-input>
+            </div>
+        </div>-->
+        <div class="form-group row">
+            <label class="col-md-3 form-control-label text-md-right">{{'WORKFLOW.TIMER_MONTH' | translate}}</label>
+            <div class="col-md-9">
+                <plx-text-input type="number" name="month" min="0" max="12" width="336px"
+                                [(ngModel)]="timeDuration.month" (change)="transformTimeDurationToString()"></plx-text-input>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-3 form-control-label text-md-right">{{'WORKFLOW.TIMER_DAY' | translate}}</label>
+            <div class="col-md-9">
+                <plx-text-input type="number" name="day" min="0" max="31" width="336px"
+                                [(ngModel)]="timeDuration.day" (change)="transformTimeDurationToString()"></plx-text-input>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-3 form-control-label text-md-right">{{'WORKFLOW.TIMER_HOUR' | translate}}</label>
+            <div class="col-md-9">
+                <plx-text-input type="number" name="hour" min="0" max="23" width="336px"
+                                [(ngModel)]="timeDuration.hour" (change)="transformTimeDurationToString()"></plx-text-input>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-3 form-control-label text-md-right">{{'WORKFLOW.TIMER_MINUTE' | translate}}</label>
+            <div class="col-md-9">
+                <plx-text-input type="number" name="minute" min="0" max="59" width="336px"
+                                [(ngModel)]="timeDuration.minute" (change)="transformTimeDurationToString()"></plx-text-input>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-md-3 form-control-label text-md-right">{{'WORKFLOW.TIMER_SECOND' | translate}}</label>
+            <div class="col-md-9">
+                <plx-text-input type="number" name="second" min="0" max="59" width="336px"
+                                [(ngModel)]="timeDuration.second" (change)="transformTimeDurationToString()"></plx-text-input>
+            </div>
+        </div>
+        <!--<div class="form-group row">
+            <label class="col-md-3 form-control-label text-md-right">{{'WORKFLOW.TIMER_CYCLE_INDEX' | translate}}</label>
+            <div class="col-md-9">
+                <plx-text-input type="number" name="time" min="1" width="336px"
+                                [(ngModel)]="timeCycle.time" (change)="transformTimeDurationToString()"></plx-text-input>
+            </div>
+        </div>-->
     </div>
-</div>
 
-<div *ngIf="node.timerEventDefinition.type === 'timeDate'" class="form-group row">
-    <label class="col-md-3 form-control-label text-md-right">{{'WORKFLOW.TIMER_DATE' | translate}}</label>
-    <div class="col-md-9">
-        <input type="text" class="form-control" [(ngModel)]="node.timerEventDefinition.timeDate">
-        <label>eg: 2007-04-05T12:30-02:00</label>
-        <!--
-        <p-calendar [(ngModel)]="node.timerEventDefinition.timeDate" [showIcon]="true" [showTime]="true" [showSeconds]="true"></p-calendar>
-        -->
+    <div *ngIf="checkedType === timeType[timeType.timeDate]" class="form-group row">
+        <label class="col-md-3 form-control-label text-md-right">{{'WORKFLOW.TIMER_DATE' | translate}}</label>
+        <div class="col-md-9">
+            <plx-datepicker name="date" [(ngModel)]="timeDate" [locale]="locale" (onConfirm)="timeDateChange()" showTime="true"
+                            showSeconds='true' dateFormat="YYYY/MM/DD HH:mm:ss"></plx-datepicker>
+        </div>
     </div>
-</div>
-
-<div *ngIf="node.timerEventDefinition.type === 'timeCycle'" class="form-group row">
-    <label class="col-md-3 form-control-label text-md-right">{{'WORKFLOW.TIMER_CYCLE' | translate}}</label>
-    <div class="col-md-9">
-        <input type="text"  class="form-control" [(ngModel)]="node.timerEventDefinition.timeCycle">
-        <label>eg: R5/P1Y2M10DT2H30M</label>
-    </div>
-</div>
+</form>

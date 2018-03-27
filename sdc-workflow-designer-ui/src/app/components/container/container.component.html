@@ -14,9 +14,9 @@
 
 <div #mainContainer id="canvas" class="canvas" (mousedown)="canvasMouseDown($event)">
     <div id="node-selector" #nodeSelector></div>
-    <b4t-node *ngFor="let node of modelService.getNodes()" [node]="node" [rank]="10"></b4t-node>
+    <wfm-node *ngFor="let node of modelService.getNodes()" [node]="node" [rank]="10"></wfm-node>
 </div>
 
-<b4t-properties></b4t-properties>
+<wfm-properties></wfm-properties>
 
-<b4t-sequence-flow></b4t-sequence-flow>
+<wfm-sequence-flow></wfm-sequence-flow>

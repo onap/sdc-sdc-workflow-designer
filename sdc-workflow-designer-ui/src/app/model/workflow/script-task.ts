@@ -13,5 +13,5 @@ import { WorkflowNode } from './workflow-node';
 
 export interface ScriptTask extends WorkflowNode {
     scriptFormat: string;
-    script?: string;
+    script: string;
 }

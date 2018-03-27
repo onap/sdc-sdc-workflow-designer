@@ -17,7 +17,9 @@ export interface WorkflowNode extends WorkflowElement {
     connection: SequenceFlow[];
     id: string;
     name: string;
+    icon?: string;
     parentId: string;
     position: Position;
     type: string;
+    typeId?: string;
 }
