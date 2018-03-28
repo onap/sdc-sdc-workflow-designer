@@ -14,9 +14,9 @@ package org.onap.sdc.workflowdesigner.resources;
 
 import java.io.IOException;
 import java.net.URI;
-import java.nio.file.Paths;
+//import java.nio.file.Paths;
 import java.util.List;
-import java.util.UUID;
+//import java.util.UUID;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -32,14 +32,14 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.eclipse.jetty.http.HttpStatus;
-import org.onap.sdc.workflowdesigner.common.WorkflowDesignerException;
-import org.onap.sdc.workflowdesigner.externalservice.sdc.SDCServiceProxy;
-import org.onap.sdc.workflowdesigner.externalservice.sdc.entity.WorkflowArtifactInfo;
+//import org.onap.sdc.workflowdesigner.common.WorkflowDesignerException;
+//import org.onap.sdc.workflowdesigner.externalservice.sdc.SDCServiceProxy;
+//import org.onap.sdc.workflowdesigner.externalservice.sdc.entity.WorkflowArtifactInfo;
 import org.onap.sdc.workflowdesigner.model.Process;
 import org.onap.sdc.workflowdesigner.parser.Bpmn4ToscaJsonParser;
-import org.onap.sdc.workflowdesigner.resources.entity.WorkflowInfo;
+//import org.onap.sdc.workflowdesigner.resources.entity.WorkflowInfo;
 import org.onap.sdc.workflowdesigner.utils.FileCommonUtils;
-import org.onap.sdc.workflowdesigner.utils.JsonUtils;
+//import org.onap.sdc.workflowdesigner.utils.JsonUtils;
 import org.onap.sdc.workflowdesigner.utils.RestUtils;
 import org.onap.sdc.workflowdesigner.writer.BpmnPlanArtefactWriter;
 import org.slf4j.Logger;
@@ -63,7 +63,7 @@ public class WorkflowModelerResource {
   private static final Logger logger = LoggerFactory.getLogger(WorkflowModelerResource.class);
 
   private static final String WORKFLOW_JSON_TEMP_FILE_NAME = "temp_workflow.json";
-  private static final String WORKFLOW_XML_TEMP_FILE_NAME = "temp_workflow.xml";
+//  private static final String WORKFLOW_XML_TEMP_FILE_NAME = "temp_workflow.xml";
 
 
   /**
@@ -112,10 +112,10 @@ public class WorkflowModelerResource {
       @ApiParam(value = "Model Content", required = true) String json) {
     try {
       FileCommonUtils.write(WORKFLOW_JSON_TEMP_FILE_NAME, json);
-
-      URI srcUri = Paths.get(".", WORKFLOW_JSON_TEMP_FILE_NAME).toUri();
-      String processName = "plan_" + UUID.randomUUID().toString();
-   // TODO for Nexus-IQ
+      
+      // TODO for Nexus-IQ
+//      URI srcUri = Paths.get(".", WORKFLOW_JSON_TEMP_FILE_NAME).toUri();
+//      String processName = "plan_" + UUID.randomUUID().toString();
 //      String bpmn = buildBPMN(srcUri, processName);
 //      String jsonBpmn = insertJson2Bpmn(json, bpmn);
 
@@ -163,20 +163,20 @@ public class WorkflowModelerResource {
   }
 
 
-  /**
-   * @param json
-   * @param bpmn
-   * @throws WorkflowDesignerException
-   */
-  private void save2SDC(String json, String bpmn) throws WorkflowDesignerException {
-    WorkflowInfo workflowInfo = JsonUtils.fromJson(json, WorkflowInfo.class);
-    WorkflowArtifactInfo workflowArtifactInfo =
-        new WorkflowArtifactInfo(workflowInfo.getName(), workflowInfo.getDescription(), bpmn);
-
-    SDCServiceProxy sdcProxy = new SDCServiceProxy();
-    sdcProxy.saveWorkflowArtifact(workflowInfo.getUuid(), workflowInfo.getOperationId(),
-        workflowInfo.getId(), workflowArtifactInfo);
-  }
+//  /**
+//   * @param json
+//   * @param bpmn
+//   * @throws WorkflowDesignerException
+//   */
+//  private void save2SDC(String json, String bpmn) throws WorkflowDesignerException {
+//    WorkflowInfo workflowInfo = JsonUtils.fromJson(json, WorkflowInfo.class);
+//    WorkflowArtifactInfo workflowArtifactInfo =
+//        new WorkflowArtifactInfo(workflowInfo.getName(), workflowInfo.getDescription(), bpmn);
+//
+//    SDCServiceProxy sdcProxy = new SDCServiceProxy();
+//    sdcProxy.saveWorkflowArtifact(workflowInfo.getUuid(), workflowInfo.getOperationId(),
+//        workflowInfo.getId(), workflowArtifactInfo);
+//  }
 
   /**
    * 
