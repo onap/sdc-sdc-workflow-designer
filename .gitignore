@@ -1,6 +1,7 @@
 .classpath
 .project
 .settings/
+.checkstyle
 target/
 logs/
 debug-logs/
@@ -10,3 +11,4 @@ test.xml
 test1.json
 bpmnworkflow.bpmn20.xml
 dist
+*.log
