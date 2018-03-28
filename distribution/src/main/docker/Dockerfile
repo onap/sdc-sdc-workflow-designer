@@ -20,7 +20,7 @@ ENV JRE_HOME ${JAVA_HOME}/jre
 RUN mkdir /home/sdc-workflow-designer
 WORKDIR /home/sdc-workflow-designer
 ADD sdc-workflow-designer-*-linux64.tar.gz /home/sdc-workflow-designer/
-RUN chmod 755 /home/sdc-workflow-designer/*.sh
+RUN chmod 755 /home/sdc-workflow-designer/bin/*.sh
 
 ENTRYPOINT /home/sdc-workflow-designer/bin/run.sh
 
