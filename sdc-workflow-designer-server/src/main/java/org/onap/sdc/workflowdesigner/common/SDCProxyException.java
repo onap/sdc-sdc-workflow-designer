@@ -15,19 +15,19 @@
  */
 package org.onap.sdc.workflowdesigner.common;
 
-public class WorkflowDesignerException extends Exception {
+public class SDCProxyException extends Exception {
 
   private static final long serialVersionUID = 1L;
 
-  public WorkflowDesignerException() {
+  public SDCProxyException() {
     super();
   }
 
-  public WorkflowDesignerException(String msg, Exception e) {
+  public SDCProxyException(String msg, Exception e) {
     super(msg, e);
   }
 
-  public WorkflowDesignerException(String msg) {
+  public SDCProxyException(String msg) {
     super(msg);
   }
 }

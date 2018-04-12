@@ -14,7 +14,7 @@ package org.onap.sdc.workflowdesigner.resources.entity;
 /**
  *
  */
-public class ExtendActivity {
+public class ExtActivity {
   private String id;
   
   private I18nString displayName;

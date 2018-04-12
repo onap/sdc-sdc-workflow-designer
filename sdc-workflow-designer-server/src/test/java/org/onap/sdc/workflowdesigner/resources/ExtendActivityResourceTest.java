@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.onap.sdc.workflowdesigner.resources.entity.ExtendActivity;
+import org.onap.sdc.workflowdesigner.resources.entity.ExtActivity;
 import org.onap.sdc.workflowdesigner.utils.FileCommonUtils;
 import org.onap.sdc.workflowdesigner.utils.JsonUtils;
 
@@ -39,13 +39,13 @@ public class ExtendActivityResourceTest {
   public void tearDown() throws Exception {}
 
   /**
-   * Test method for {@link org.onap.sdc.workflowdesigner.resources.ExtendActivityResource#retriveExtActivites(java.lang.String)}.
+   * 
    */
   @Test
   public void testRetriveExtActivites() {
     try {
       String json = FileCommonUtils.readString(EXT_ACTIVITIES_FILE_NAME);
-      ExtendActivity[] extActivities = JsonUtils.fromJson(json, ExtendActivity[].class);
+      ExtActivity[] extActivities = JsonUtils.fromJson(json, ExtActivity[].class);
       
       FileCommonUtils.write("test.json", JsonUtils.toJson(extActivities));
       assertEquals(extActivities.length == 0, false);

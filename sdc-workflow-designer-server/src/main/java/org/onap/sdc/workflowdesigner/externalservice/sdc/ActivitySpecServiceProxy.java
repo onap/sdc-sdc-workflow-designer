@@ -16,7 +16,7 @@
 package org.onap.sdc.workflowdesigner.externalservice.sdc;
 
 import org.glassfish.jersey.client.ClientConfig;
-import org.onap.sdc.workflowdesigner.common.WorkflowDesignerException;
+import org.onap.sdc.workflowdesigner.common.SDCProxyException;
 import org.onap.sdc.workflowdesigner.config.AppConfig;
 import org.onap.sdc.workflowdesigner.externalservice.sdc.entity.ActivitySpec;
 import org.slf4j.Logger;
@@ -35,11 +35,11 @@ public class ActivitySpecServiceProxy {
   private static final String X_ECOMP_INSTANCE_ID =
       AppConfig.getSdcServiceProxy().getxEcompInstanceId();
   /** */
-  private static final String Activity_ROOT_PATH = "/activityspec-api/v1.0";
+  private static final String ACTIVITY_ROOT_PATH = "/activityspec-api/v1.0";
 
 
   private static String getActivityRootPath() {
-    return AppConfig.getSdcServiceProxy().getServiceAddr() + Activity_ROOT_PATH;
+    return AppConfig.getSdcServiceProxy().getServiceAddr() + ACTIVITY_ROOT_PATH;
   }
 
   /**
@@ -54,15 +54,15 @@ public class ActivitySpecServiceProxy {
   /**
    * 
    * @return
-   * @throws WorkflowDesignerException
+   * @throws SDCProxyException
    */
-  public ActivitySpec[] getActivitySpecs() throws WorkflowDesignerException {
+  public ActivitySpec[] getActivitySpecs() throws SDCProxyException {
     ActivitySpecService serviceProxy = getActivityServiceProxy();
     try {
       return serviceProxy.getActivitySpecs(X_ECOMP_INSTANCE_ID, AUTHORIZATION);
     } catch (Exception e) {
       LOGGER.error("Get Activity Specifications Failed.", e);
-      throw new WorkflowDesignerException("Get Activity Specifications Failed.", e);
+      throw new SDCProxyException("Get Activity Specifications Failed.", e);
     }
   }
 
