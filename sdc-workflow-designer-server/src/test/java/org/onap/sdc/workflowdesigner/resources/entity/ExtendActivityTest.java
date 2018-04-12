@@ -43,7 +43,7 @@ public class ExtendActivityTest {
     IconData icon = new IconData();
     Content content = new Content();
 
-    ExtendActivity ea = new ExtendActivity();
+    ExtActivity ea = new ExtActivity();
     ea.setContent(content);
     ea.setDescription(description);
     ea.setDisplayName(displayName);
