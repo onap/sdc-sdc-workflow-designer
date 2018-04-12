@@ -60,7 +60,7 @@
         "type": "serviceTask",
         "typeId": "apds_serviceA",
         "icon": "apds_service",
-        "name": "JAVA A",
+        "name": "Java Task",
         "parentId": "root",
         "position": {
           "left": 232,
@@ -74,15 +74,16 @@
             "targetRef": "scriptTask"
           }
         ],
-        "className": "ddd",
+        "className": "org.onap.sdc.workflowdesigner.JavaTask",
         "inputs": [
           {
             "name": "param1",
             "valueSource": "string",
             "type": "string",
             "required": false,
-            "show": false,
-            "errorMsg": ""
+            "show": true,
+            "errorMsg": "",
+            "value": "a111"
           },
           {
             "name": "param2",
@@ -90,7 +91,8 @@
             "type": "string",
             "required": true,
             "show": true,
-            "errorMsg": ""
+            "errorMsg": "",
+            "value": "b111"
           },
           {
             "name": "param3",
@@ -98,12 +100,14 @@
             "type": "string",
             "required": true,
             "show": true,
-            "errorMsg": ""
+            "errorMsg": "",
+            "value": "c111"
           }
         ],
         "outputs": [
           {
             "name": "out1",
+            "value": "",
             "valueSource": "string",
             "type": "string",
             "required": false,
@@ -117,7 +121,7 @@
         "type": "scriptTask",
         "typeId": "apds_scriptB",
         "icon": "apds_script",
-        "name": "Groovy",
+        "name": "Groovy Task",
         "parentId": "root",
         "position": {
           "left": 335,
@@ -130,7 +134,9 @@
             "sourceRef": "scriptTask",
             "targetRef": "node2"
           }
-        ]
+        ],
+        "scriptFormat": "Groovy",
+        "script": "xyz"
       }
     ]
   }

@@ -14,6 +14,8 @@ template: Hello, %s!
 
 defaultName: ${DW_DEFAULT_NAME:-Stranger}
 
+adapterType: DEFAULT
+
 sdcServiceProxy:
   serviceAddr: http://127.0.0.1:8080
   xEcompInstanceId: workflow
