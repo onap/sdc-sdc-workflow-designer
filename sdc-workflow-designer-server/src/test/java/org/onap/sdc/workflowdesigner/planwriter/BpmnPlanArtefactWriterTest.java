@@ -27,10 +27,8 @@ public class BpmnPlanArtefactWriterTest {
     @Test
     public void testWritePlan() throws Exception {
         BpmnPlanArtefactWriter writer = new BpmnPlanArtefactWriter(mockProcss());
-//        String result = writer.completePlanTemplate();
-//        assertEquals(result, getResult());
-     // TODO for Nexus-IQ
-        assertEquals(true, writer != null);
+        String result = writer.completePlanTemplate();
+        assertEquals(result, getResult());
     }
 
     private Process mockProcss() {
