@@ -91,12 +91,12 @@
   {
     "id": "apds_scriptB",
     "displayName": {
-      "zh_CN": "Groovy",
-      "en_US": "Groovy"
+      "zh_CN": "Groovy Task",
+      "en_US": "Groovy Task"
     },
     "description": {
-      "zh_CN": "脚本节点",
-      "en_US": "Script Node"
+      "zh_CN": "Groovy Task",
+      "en_US": "Groovy Task"
     },
     "type": "scriptTask",
     "icon": {
@@ -112,12 +112,12 @@
   {
     "id": "apds_serviceA",
     "displayName": {
-      "zh_CN": "JAVA A",
-      "en_US": "JAVA A"
+      "zh_CN": "Java Task",
+      "en_US": "Java Task"
     },
     "description": {
-      "zh_CN": "JAVA 节点",
-      "en_US": "JAVA Node"
+      "zh_CN": "Java Task",
+      "en_US": "Java Task"
     },
     "type": "serviceTask",
     "icon": {
@@ -136,7 +136,7 @@
             "zh_CN": "参数1",
             "en_US": "Param1"
           },
-          "show": false,
+          "show": true,
           "editable": true
         },
         "param2": {
