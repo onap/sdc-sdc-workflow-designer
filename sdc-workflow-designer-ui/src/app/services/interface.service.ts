@@ -30,8 +30,14 @@ export class InterfaceService {
 
   public getModelData() {
     this.activatedRoute.queryParams.subscribe(queryParams => {
-      let modelId = queryParams.id;
-      this.http.get(InterfaceService.ModelUrl + modelId).subscribe(data => {
+      let modelId = queryParams.hasOwnProperty("id") ? queryParams.id : "";
+      let name = queryParams.hasOwnProperty("name") ? queryParams.name : "";
+      let uuid = queryParams.hasOwnProperty("uuid") ? queryParams.uuid :"";
+      let operationId = queryParams.hasOwnProperty("operationId") ? queryParams.operationId : "";
+
+      this.http.get(InterfaceService.ModelUrl + modelId
+         + "?name=" + name + "&uuid=" + uuid
+          + "&operationId=" + operationId).subscribe(data => {
         this.broadcast.broadcast(this.broadcast.initModel, data);
       }, error => {
         this.translate.get('WORKFLOW.MSG.LOAD_FAIL').subscribe((res: string) => {
