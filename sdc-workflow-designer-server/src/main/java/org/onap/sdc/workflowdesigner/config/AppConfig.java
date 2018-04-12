@@ -21,9 +21,25 @@ import org.onap.sdc.workflowdesigner.SDCServiceProxyInfo;
  * 
  */
 public class AppConfig {
+  private static AdapterType adapterType;
+  
   private static SDCServiceProxyInfo sdcServiceProxy;
-
+  
   private AppConfig() {}
+
+  /**
+   * @return the adapterType
+   */
+  public static AdapterType getAdapterType() {
+    return adapterType;
+  }
+
+  /**
+   * @param adapterType the adapterType to set
+   */
+  public static void setAdapterType(AdapterType adapterType) {
+    AppConfig.adapterType = adapterType;
+  }
 
   /**
    * @param sdcServiceProxy
@@ -37,6 +53,13 @@ public class AppConfig {
    */
   public static SDCServiceProxyInfo getSdcServiceProxy() {
     return sdcServiceProxy;
+  }
+
+  /**
+   * @return
+   */
+  public static boolean isSDCAdapter() {
+    return adapterType.equals(AdapterType.SDC);
   }
 
 }
