@@ -18,6 +18,21 @@ public class CategoryData {
   private I18nString displayName;
 
   private boolean collapse;
+  
+  /**
+   * 
+   */
+  public CategoryData() {
+    super();
+  }
+
+  /**
+   * @param displayName
+   */
+  public CategoryData(I18nString displayName) {
+    super();
+    this.displayName = displayName;
+  }
 
   /**
    * @return the displayName

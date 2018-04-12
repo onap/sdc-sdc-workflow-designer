@@ -11,15 +11,16 @@
  */
 package org.onap.sdc.workflowdesigner.resources.entity;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
  *
  */
 public class ExtActivityDisplayInfo {
-  private Map<String, NodeCategory> nodes;
+  private Map<String, NodeCategory> nodes = new HashMap<>();
 
-  private Map<String, CategoryData> categoryData;
+  private Map<String, CategoryData> categoryData = new HashMap<>();
 
   /**
    * @return the nodes
