@@ -27,9 +27,13 @@ public class WorkflowDesignerConfiguration extends Configuration {
   @NotEmpty
   private String defaultName = "Workflow Designer";
   
+  @NotEmpty
+  private String adapterType;
+  
   @NotNull
   private SDCServiceProxyInfo sdcServiceProxy;
-
+  
+  
   @JsonProperty
   public String getTemplate() {
     return template;
@@ -48,6 +52,22 @@ public class WorkflowDesignerConfiguration extends Configuration {
   @JsonProperty
   public void setDefaultName(String name) {
     this.defaultName = name;
+  }
+  
+  /**
+   * @return the adapterType
+   */
+  @JsonProperty
+  public String getAdapterType() {
+    return adapterType;
+  }
+
+  /**
+   * @param adapterType the adapterType to set
+   */
+  @JsonProperty
+  public void setAdapterType(String adapterType) {
+    this.adapterType = adapterType;
   }
 
   /**
