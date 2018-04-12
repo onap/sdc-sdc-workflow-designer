@@ -45,7 +45,8 @@ public class WorkflowModelerResourceTest {
   public void tearDown() throws Exception {}
 
   /**
-   * Test method for {@link org.onap.sdc.workflowdesigner.resources.WorkflowModelerResource#buildBPMN(java.net.URI, java.lang.String)}.
+   * Test method for
+   * {@link org.onap.sdc.workflowdesigner.resources.WorkflowModelerResource#buildBPMN(java.net.URI, java.lang.String)}.
    */
   @Test
   public void testBuildBPMN() {
@@ -65,25 +66,25 @@ public class WorkflowModelerResourceTest {
     } catch (IOException e) {
     } catch (Exception e) {
     }
-//    return null;
-    // TODO for Nexus-IQ
-    return " ";
+
+    return null;
   }
-  
+
   /**
-   * Test method for {@link org.onap.sdc.workflowdesigner.resources.WorkflowModelerResource#insertJson2Bpmn(java.lang.String, java.lang.String)}.
+   * Test method for
+   * {@link org.onap.sdc.workflowdesigner.resources.WorkflowModelerResource#insertJson2Bpmn(java.lang.String, java.lang.String)}.
    */
   @Test
   public void testInsertJson2Bpmn() {
     String bpmn = parseBpmnfromJsonFile();
-    
+
     try {
       String json = FileCommonUtils.readString("src/main/assembly/" + WORKFLOW_JSON_TEMP_FILE_NAME);
       WorkflowModelerResource resource = new WorkflowModelerResource();
       String combineBpmn = resource.insertJson2Bpmn(json, bpmn);
 
-      String json1 = resource.readJsonfromBPMNFile(combineBpmn);
-      
+      String json1 = resource.readJsonfromBPMN(combineBpmn);
+
       assertEqualsJson(json, json1);
     } catch (IOException e) {
     } catch (DocumentException e) {
@@ -97,12 +98,12 @@ public class WorkflowModelerResourceTest {
   private void assertEqualsJson(String json, String json1) {
     WorkflowInfo wi = JsonUtils.fromJson(json, WorkflowInfo.class);
     WorkflowInfo wi1 = JsonUtils.fromJson(json1, WorkflowInfo.class);
-    
+
     String newJson = JsonUtils.toJson(wi);
     String newJson1 = JsonUtils.toJson(wi1);
 
     assertEquals(newJson1, newJson);
-    
+
   }
 
 }

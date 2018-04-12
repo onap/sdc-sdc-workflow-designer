@@ -16,7 +16,7 @@
 package org.onap.sdc.workflowdesigner.externalservice.sdc;
 
 import org.glassfish.jersey.client.ClientConfig;
-import org.onap.sdc.workflowdesigner.common.WorkflowDesignerException;
+import org.onap.sdc.workflowdesigner.common.SDCProxyException;
 import org.onap.sdc.workflowdesigner.config.AppConfig;
 import org.onap.sdc.workflowdesigner.externalservice.sdc.entity.WorkflowArtifactInfo;
 import org.slf4j.Logger;
@@ -56,17 +56,17 @@ public class SDCServiceProxy {
    * @param operationId
    * @param workflowId
    * @param workflowArtifactInfo
-   * @throws WorkflowDesignerException
+   * @throws SDCProxyException
    */
   public void saveWorkflowArtifact(String uuid, String operationId, String workflowId,
-      WorkflowArtifactInfo workflowArtifactInfo) throws WorkflowDesignerException {
+      WorkflowArtifactInfo workflowArtifactInfo) throws SDCProxyException {
     SDCService serviceProxy = getSDCServiceProxy();
     try {
       serviceProxy.saveWorkflowArtifact(uuid, operationId, workflowId, X_ECOMP_INSTANCE_ID,
           AUTHORIZATION, workflowArtifactInfo);
     } catch (Exception e) {
       LOGGER.error("Save WorkflowArtifact Failed.", e);
-      throw new WorkflowDesignerException("Save WorkflowArtifact Failed.", e);
+      throw new SDCProxyException("Save WorkflowArtifact Failed.", e);
     }
   }
 
@@ -76,17 +76,17 @@ public class SDCServiceProxy {
    * @param operationId
    * @param workflowId
    * @return
-   * @throws WorkflowDesignerException
+   * @throws SDCProxyException
    */
   public WorkflowArtifactInfo getWorkflowArtifact(String uuid, String operationId,
-      String workflowId) throws WorkflowDesignerException {
+      String workflowId) throws SDCProxyException {
     SDCService serviceProxy = getSDCServiceProxy();
     try {
       return serviceProxy.getWorkflowArtifact(uuid, operationId, workflowId, X_ECOMP_INSTANCE_ID,
           AUTHORIZATION);
     } catch (Exception e) {
       LOGGER.error("Get WorkflowArtifact Failed.", e);
-      throw new WorkflowDesignerException("Get WorkflowArtifact Failed.", e);
+      throw new SDCProxyException("Get WorkflowArtifact Failed.", e);
     }
   }
 
