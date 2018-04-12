@@ -1,17 +1,7 @@
 {
   "name": "workflow-modeler",
   "version": "1.0.0",
-  "license": "MIT",
-  "licenses": [
-    {
-      "type": "Apache-2.0",
-      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-    },
-    {
-      "type": "Eclipse Public License-1.0",
-      "url": "http://www.eclipse.org/legal/epl-v10.html"
-    }
-  ],
+  "license": "SEE LICENSE IN LICENSE.TXT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host localhost --disable-host-check true",
