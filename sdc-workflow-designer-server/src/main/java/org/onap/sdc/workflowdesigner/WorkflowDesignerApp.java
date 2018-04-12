@@ -13,6 +13,7 @@
 package org.onap.sdc.workflowdesigner;
 
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
+import org.onap.sdc.workflowdesigner.config.AdapterType;
 import org.onap.sdc.workflowdesigner.config.AppConfig;
 import org.onap.sdc.workflowdesigner.resources.ExtendActivityResource;
 import org.onap.sdc.workflowdesigner.resources.WorkflowModelerResource;
@@ -53,19 +54,27 @@ public class WorkflowDesignerApp extends Application<WorkflowDesignerConfigurati
   public void run(WorkflowDesignerConfiguration configuration, Environment environment) {
     LOGGER.info("Start to initialize Workflow Designer.");
 
-    AppConfig.setSdcServiceProxy(configuration.getSdcServiceProxy());
+    saveAppConfig(configuration);
 
     environment.jersey().register(new WorkflowModelerResource());
     environment.jersey().register(new ExtendActivityResource());
 
     // register rest interface
     environment.jersey().packages("org.onap.sdc.workflowdesigner.resources");
-    // upload file by inputstream need to register MultiPartFeature
-    environment.jersey().register(MultiPartFeature.class);
+//    // upload file by inputstream need to register MultiPartFeature
+//    environment.jersey().register(MultiPartFeature.class);
 
     initSwaggerConfig(environment, configuration);
 
     LOGGER.info("Initialize catalogue finished.");
+  }
+
+  /**
+   * @param configuration
+   */
+  private void saveAppConfig(WorkflowDesignerConfiguration configuration) {
+    AppConfig.setAdapterType(AdapterType.valueOf(configuration.getAdapterType()));
+    AppConfig.setSdcServiceProxy(configuration.getSdcServiceProxy());
   }
 
   /**
