@@ -12,7 +12,6 @@
 
 package org.onap.sdc.workflowdesigner;
 
-//import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.onap.sdc.workflowdesigner.config.AdapterType;
 import org.onap.sdc.workflowdesigner.config.AppConfig;
 import org.onap.sdc.workflowdesigner.resources.ExtendActivityResource;
@@ -61,8 +60,6 @@ public class WorkflowDesignerApp extends Application<WorkflowDesignerConfigurati
 
     // register rest interface
     environment.jersey().packages("org.onap.sdc.workflowdesigner.resources");
-//    // upload file by inputstream need to register MultiPartFeature
-//    environment.jersey().register(MultiPartFeature.class);
 
     initSwaggerConfig(environment, configuration);
 
