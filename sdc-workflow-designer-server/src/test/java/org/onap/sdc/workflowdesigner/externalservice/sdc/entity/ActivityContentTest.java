@@ -39,16 +39,16 @@ public class ActivityContentTest {
    */
   @Test
   public void testToString() {
-    String clazz = "clazz";
+//    String clazz = "clazz";
     String script = "script";
     String scriptFormat = "scriptFormat";
     
     ActivityContent ac = new ActivityContent();
-    ac.setClazz(clazz);
+//    ac.setClass(clazz);
     ac.setScript(script);
     ac.setScriptFormat(scriptFormat );
     
-    assertEquals(clazz, ac.getClazz());
+//    assertEquals(clazz, ac.getClazz());
     assertEquals(script, ac.getScript());
     assertEquals(scriptFormat, ac.getScriptFormat());
   }

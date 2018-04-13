@@ -11,32 +11,21 @@
  */
 package org.onap.sdc.workflowdesigner.externalservice.sdc.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 
 /**
  *
  */
 public class ActivityContent {
-  @SerializedName("class")
-  private String clazz;
+  @JsonProperty(value="class") // for dropwizard's Jackson
+  @SerializedName("class")  // for Gson
+  public String clazz;
   
   private String scriptFormat;
   
   private String script;
 
-  /**
-   * @return the clazz
-   */
-  public String getClazz() {
-    return clazz;
-  }
-
-  /**
-   * @param clazz the clazz to set
-   */
-  public void setClazz(String clazz) {
-    this.clazz = clazz;
-  }
 
   /**
    * @return the scriptFormat

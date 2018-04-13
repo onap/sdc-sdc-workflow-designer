@@ -25,7 +25,7 @@ public class ActivitySpec {
   
   private String type;
   
-  private ActivityContent content;
+  private ActivityContent content = new ActivityContent();
   
   private String[] categoryList;
 

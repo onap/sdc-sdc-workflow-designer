@@ -160,7 +160,8 @@ public class ExtendActivityResource {
    */
   private Content buildContent(ActivitySpec activitySpec) {
     Content content = new Content();
-    content.setClass(activitySpec.getContent().getClazz());
+//    content.setClass(activitySpec.getContent().getClazz());
+    content.clazz = activitySpec.getContent().clazz;
     content.setScript(activitySpec.getContent().getScript());
     content.setScriptFormat(activitySpec.getContent().getScriptFormat());
     content.setInputs(convert2InputOutputs(activitySpec.getInputs()));

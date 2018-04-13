@@ -13,14 +13,16 @@ package org.onap.sdc.workflowdesigner.resources.entity;
 
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 
 /**
  *
  */
 public class Content {
-  @SerializedName("class")
-  private String clazz;
+  @JsonProperty(value="class") // for dropwizard's Jackson
+  @SerializedName("class")  // for Gson
+  public String clazz;
   
   private String script;
   
@@ -29,20 +31,7 @@ public class Content {
   private Map<String, InputOutput> inputs;
   
   private Map<String, InputOutput> outputs;
-
-  /**
-   * @return the clazz
-   */
-  public String getClazz() {
-    return clazz;
-  }
-
-  /**
-   * @param clazz the clazz to set
-   */
-  public void setClass(String clazz) {
-    this.clazz = clazz;
-  }
+  
 
   /**
    * @return the script
