@@ -155,6 +155,12 @@
             <groupId>com.eclipsesource.jaxrs</groupId>
             <artifactId>consumer</artifactId>
             <version>${jaxrs.consumer.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.eclipsesource.jaxrs</groupId>
+                    <artifactId>jersey-all</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
