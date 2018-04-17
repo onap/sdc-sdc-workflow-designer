@@ -27,6 +27,7 @@
     
     <properties>
         <velocity.version>1.7</velocity.version>
+        <commons-collections.version>3.2.2</commons-collections.version>
         <commons-io.version>2.4</commons-io.version>
         <dom4j.version>1.6.1</dom4j.version>
         <dropwizard.version>1.2.2</dropwizard.version>
@@ -173,6 +174,18 @@
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
             <version>${velocity.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-collections</groupId>
+                    <artifactId>commons-collections</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>${commons-collections.version}</version>
         </dependency>
         
         <dependency>
