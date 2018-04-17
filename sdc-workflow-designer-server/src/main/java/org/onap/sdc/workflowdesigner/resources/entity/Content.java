@@ -13,12 +13,15 @@ package org.onap.sdc.workflowdesigner.resources.entity;
 
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 
 /**
  *
  */
+@JsonInclude(Include.NON_NULL)
 public class Content {
   @JsonProperty(value="class") // for dropwizard's Jackson
   @SerializedName("class")  // for Gson
