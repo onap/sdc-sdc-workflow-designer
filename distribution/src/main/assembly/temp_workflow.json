@@ -5,138 +5,184 @@
   "data": {
     "nodes": [
       {
-        "id": "node0",
+        "id": "startEvent",
         "type": "startEvent",
         "name": "Start",
         "parentId": "root",
         "position": {
-          "left": 99,
-          "top": 131,
+          "left": 73,
+          "top": 160,
           "width": 56,
           "height": 56
         },
         "connection": [
           {
-            "sourceRef": "node0",
-            "targetRef": "serviceTask"
-          }
-        ],
-        "parameters": [
-          {
-            "name": "aaa",
-            "value": "a111",
-            "valueSource": "string",
-            "type": "string",
-            "required": false,
-            "show": true,
-            "errorMsg": ""
-          },
-          {
-            "name": "bbb",
-            "value": "b111",
-            "valueSource": "string",
-            "type": "string",
-            "required": false,
-            "show": true,
-            "errorMsg": ""
-          }
-        ]
-      },
-      {
-        "id": "node2",
-        "type": "endEvent",
-        "name": "End",
-        "parentId": "root",
-        "position": {
-          "left": 459,
-          "top": 131,
-          "width": 56,
-          "height": 56
-        },
-        "connection": []
-      },
-      {
-        "id": "serviceTask",
-        "type": "serviceTask",
-        "typeId": "apds_serviceA",
-        "icon": "apds_service",
-        "name": "Java Task",
-        "parentId": "root",
-        "position": {
-          "left": 232,
-          "top": 131,
-          "width": 56,
-          "height": 56
-        },
-        "connection": [
-          {
-            "sourceRef": "serviceTask",
+            "sourceRef": "startEvent",
             "targetRef": "scriptTask"
           }
         ],
-        "className": "org.onap.sdc.workflowdesigner.JavaTask",
-        "inputs": [
-          {
-            "name": "param1",
-            "valueSource": "string",
-            "type": "string",
-            "required": false,
-            "show": true,
-            "errorMsg": "",
-            "value": "a111"
-          },
-          {
-            "name": "param2",
-            "valueSource": "string",
-            "type": "string",
-            "required": true,
-            "show": true,
-            "errorMsg": "",
-            "value": "b111"
-          },
-          {
-            "name": "param3",
-            "valueSource": "string",
-            "type": "string",
-            "required": true,
-            "show": true,
-            "errorMsg": "",
-            "value": "c111"
-          }
-        ],
-        "outputs": [
-          {
-            "name": "out1",
-            "value": "",
-            "valueSource": "string",
-            "type": "string",
-            "required": false,
-            "show": true,
-            "errorMsg": ""
-          }
-        ]
+        "parameters": []
       },
       {
         "id": "scriptTask",
         "type": "scriptTask",
-        "typeId": "apds_scriptB",
+        "typeId": "apds_scriptA",
         "icon": "apds_script",
-        "name": "Groovy Task",
+        "name": "Stop traffic",
         "parentId": "root",
         "position": {
-          "left": 335,
-          "top": 131,
+          "left": 175,
+          "top": 160,
           "width": 56,
           "height": 56
         },
         "connection": [
           {
             "sourceRef": "scriptTask",
-            "targetRef": "node2"
+            "targetRef": "scriptTask_2"
+          }
+        ],
+        "scriptFormat": "JavaScript",
+        "script": "abc"
+      },
+      {
+        "id": "scriptTask_2",
+        "type": "scriptTask",
+        "typeId": "apds_scriptB",
+        "icon": "apds_script",
+        "name": "Drain traffic",
+        "parentId": "root",
+        "position": {
+          "left": 289,
+          "top": 160,
+          "width": 56,
+          "height": 56
+        },
+        "connection": [
+          {
+            "sourceRef": "scriptTask_2",
+            "targetRef": "serviceTask"
           }
         ],
         "scriptFormat": "Groovy",
         "script": "xyz"
+      },
+      {
+        "id": "serviceTask",
+        "type": "serviceTask",
+        "typeId": "apds_serviceA",
+        "icon": "apds_service",
+        "name": "Stop VNF",
+        "parentId": "root",
+        "position": {
+          "left": 392,
+          "top": 160,
+          "width": 56,
+          "height": 56
+        },
+        "connection": [
+          {
+            "sourceRef": "serviceTask",
+            "targetRef": "serviceTask_2"
+          }
+        ],
+        "className": "",
+        "inputs": [
+          {
+            "name": "param1",
+            "value": "default",
+            "valueSource": "string",
+            "type": "string",
+            "required": false,
+            "show": true,
+            "errorMsg": ""
+          },
+          {
+            "name": "param2",
+            "value": null,
+            "valueSource": "string",
+            "type": "string",
+            "required": true,
+            "show": true,
+            "errorMsg": ""
+          },
+          {
+            "name": "param3",
+            "value": "value3",
+            "valueSource": "string",
+            "type": "string",
+            "required": true,
+            "show": true,
+            "errorMsg": ""
+          }
+        ],
+        "outputs": [
+          {
+            "name": "out1",
+            "value": null,
+            "valueSource": "string",
+            "type": "string",
+            "required": false,
+            "show": true,
+            "errorMsg": ""
+          }
+        ]
+      },
+      {
+        "id": "serviceTask_2",
+        "type": "serviceTask",
+        "typeId": "apds_serviceB",
+        "icon": "apds_service",
+        "name": "Create VNF",
+        "parentId": "root",
+        "position": {
+          "left": 500,
+          "top": 160,
+          "width": 56,
+          "height": 56
+        },
+        "connection": [
+          {
+            "sourceRef": "serviceTask_2",
+            "targetRef": "serviceTask_3"
+          }
+        ]
+      },
+      {
+        "id": "serviceTask_3",
+        "type": "serviceTask",
+        "typeId": "apds_service",
+        "icon": "apds_service",
+        "name": "Start VNF",
+        "parentId": "root",
+        "position": {
+          "left": 620,
+          "top": 160,
+          "width": 56,
+          "height": 56
+        },
+        "connection": [
+          {
+            "sourceRef": "serviceTask_3",
+            "targetRef": "endEvent"
+          }
+        ],
+        "className": "",
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "id": "endEvent",
+        "type": "endEvent",
+        "name": "End",
+        "parentId": "root",
+        "position": {
+          "left": 744,
+          "top": 160,
+          "width": 56,
+          "height": 56
+        },
+        "connection": []
       }
     ]
   }

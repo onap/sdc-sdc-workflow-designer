@@ -21,32 +21,6 @@
     }
   },
   {
-    "id": "apds_rest",
-    "displayName": {
-      "zh_CN": "REST",
-      "en_US": "REST"
-    },
-    "description": {
-      "zh_CN": "REST 节点",
-      "en_US": "REST Node"
-    },
-    "type": "restTask",
-    "icon": {
-      "name": "apds_rest",
-      "width": 56,
-      "height": 56
-    },
-    "content": {
-      "url": "",
-      "name": "",
-      "version": "",
-      "path": "",
-      "method": "",
-      "accept": "",
-      "inputs": {}
-    }
-  },
-  {
     "id": "apds_script",
     "displayName": {
       "zh_CN": "默认脚本",
@@ -70,12 +44,12 @@
   {
     "id": "apds_scriptA",
     "displayName": {
-      "zh_CN": "JavaScript",
-      "en_US": "JavaScript"
+      "zh_CN": "Stop traffic",
+      "en_US": "Stop traffic"
     },
     "description": {
-      "zh_CN": "脚本节点",
-      "en_US": "Script Node"
+      "zh_CN": "Stop traffic",
+      "en_US": "Stop traffic"
     },
     "type": "scriptTask",
     "icon": {
@@ -91,12 +65,12 @@
   {
     "id": "apds_scriptB",
     "displayName": {
-      "zh_CN": "Groovy Task",
-      "en_US": "Groovy Task"
+      "zh_CN": "Drain traffic",
+      "en_US": "Drain traffic"
     },
     "description": {
-      "zh_CN": "Groovy Task",
-      "en_US": "Groovy Task"
+      "zh_CN": "Drain traffic",
+      "en_US": "Drain traffic"
     },
     "type": "scriptTask",
     "icon": {
@@ -112,12 +86,12 @@
   {
     "id": "apds_serviceA",
     "displayName": {
-      "zh_CN": "Java Task",
-      "en_US": "Java Task"
+      "zh_CN": "Stop VNF",
+      "en_US": "Stop VNF"
     },
     "description": {
-      "zh_CN": "Java Task",
-      "en_US": "Java Task"
+      "zh_CN": "Stop VNF",
+      "en_US": "Stop VNF"
     },
     "type": "serviceTask",
     "icon": {
@@ -126,7 +100,7 @@
       "height": 56
     },
     "content": {
-      "class": "com.zte.ums.workflow.activitiext.restservicetask.HttpUtil",
+      "class": "org.onap.sdc.workflow.task.StopVNFDelegate",
       "inputs": {
         "param1": {
           "type": "string",
@@ -176,185 +150,67 @@
     }
   },
   {
-    "id": "apds_restA",
+    "id": "apds_serviceB",
     "displayName": {
-      "zh_CN": "REST无参数",
-      "en_US": "REST No Parameters"
+      "zh_CN": "Create VNF",
+      "en_US": "Create VNF"
     },
     "description": {
-      "zh_CN": "REST无参数",
-      "en_US": "REST No Parameters"
+      "zh_CN": "Create VNF",
+      "en_US": "Create VNF"
     },
-    "type": "restTask",
+    "type": "serviceTask",
     "icon": {
-      "name": "apds_rest",
+      "name": "apds_service",
       "width": 56,
       "height": 56
     },
     "content": {
-      "serviceName": "name",
-      "serviceVersion": "v1",
-      "baseUrl": "url",
-      "path": "/test/",
-      "method": "put",
-      "consumes": "application/json, text/plain",
-      "produces": "application/json, text/plain",
-      "inputs": {}
-    }
-  },
-  {
-    "id": "apds_restB",
-    "displayName": {
-      "zh_CN": "REST复杂参数",
-      "en_US": "REST Complex Parameters"
-    },
-    "description": {
-      "zh_CN": "REST复杂参数",
-      "en_US": "REST Complex Parameters"
-    },
-    "type": "restTask",
-    "icon": {
-      "name": "apds_rest",
-      "width": 56,
-      "height": 56
-    },
-    "content": {
-      "serviceName": "ServiceName",
-      "serviceVersion": "v1",
-      "baseUrl": "url",
-      "path": "/test/",
-      "method": "put",
-      "consumes": "application/json, text/plain",
-      "produces": "application/json, text/plain",
+      "class": "org.onap.sdc.workflow.task.CreateVNFDelegate",
       "inputs": {
-        "param1": {
-          "in": "query",
+        "id": {
           "type": "string",
           "default": "default",
           "required": false,
-          "show": false,
-          "editable": true
-        },
-        "param2": {
-          "in": "body",
-          "schema": {
-            "type": "object",
-            "properties": {
-              "a": {
-                "type": "number",
-                "default": 123
-              },
-              "b": {
-                "type": "string",
-                "default": "xyz"
-              },
-              "c": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "enum": [
-                    "a",
-                    "b",
-                    "c"
-                  ]
-                }
-              },
-              "d": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "p1": {
-                      "type": "number"
-                    },
-                    "p2": {
-                      "type": "boolean"
-                    }
-                  }
-                }
-              },
-              "y": {
-                "type": "object",
-                "additionalProperties": {
-                  "type": "string"
-                }
-              },
-              "z": {
-                "type": "object",
-                "additionalProperties": {
-                  "type": "integer"
-                }
-              }
-            }
+          "displayName": {
+            "zh_CN": "id",
+            "en_US": "id"
           },
-          "required": true,
           "show": true,
           "editable": true
         },
-        "param3": {
-          "in": "path",
+        "name": {
+          "type": "string",
+          "required": true,
+          "displayName": {
+            "zh_CN": "name",
+            "en_US": "name"
+          },
+          "show": true,
+          "editable": true
+        },
+        "type": {
           "type": "string",
           "default": "value3",
           "required": true,
+          "displayName": {
+            "zh_CN": "type",
+            "en_US": "type"
+          },
           "show": true,
           "editable": false
         }
       },
       "outputs": {
-        "body": {
+        "status": {
+          "type": "string",
+          "required": false,
           "displayName": {
-            "zh_CN": "消息体",
-            "en_US": "Message Body"
+            "zh_CN": "status",
+            "en_US": "status of vnf"
           },
-          "schema": {
-            "type": "object",
-            "properties": {
-              "a": {
-                "type": "number"
-              },
-              "b": {
-                "type": "string"
-              },
-              "c": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "enum": [
-                    "a",
-                    "b",
-                    "c"
-                  ]
-                }
-              },
-              "d": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "p1": {
-                      "type": "number"
-                    },
-                    "p2": {
-                      "type": "boolean"
-                    }
-                  }
-                }
-              },
-              "y": {
-                "type": "object",
-                "additionalProperties": {
-                  "type": "string"
-                }
-              },
-              "z": {
-                "type": "object",
-                "additionalProperties": {
-                  "type": "integer"
-                }
-              }
-            }
-          },
-          "editable": false
+          "show": true,
+          "editable": true
         }
       }
     }

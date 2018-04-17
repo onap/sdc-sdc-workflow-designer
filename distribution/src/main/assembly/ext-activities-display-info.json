@@ -4,8 +4,6 @@
         },
         "apds_service": {
         },
-        "apds_rest": {
-        },
         "apds_scriptA": {
             "category": "aaa"
         },
@@ -15,10 +13,7 @@
         "apds_serviceA": {
             "category": "aaa"
         },
-        "apds_restA": {
-            "category": "aaa"
-        },
-        "apds_restB": {
+        "apds_serviceB": {
             "category": "aaa"
         }
     },
