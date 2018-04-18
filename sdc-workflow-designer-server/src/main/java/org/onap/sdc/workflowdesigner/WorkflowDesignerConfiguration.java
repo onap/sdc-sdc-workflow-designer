@@ -14,20 +14,15 @@ package org.onap.sdc.workflowdesigner;
 
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.dropwizard.Configuration;
 
 public class WorkflowDesignerConfiguration extends Configuration {
-  @NotEmpty
   private String template;
 
-  @NotEmpty
   private String defaultName = "Workflow Designer";
   
-  @NotEmpty
   private String adapterType;
   
   @NotNull
