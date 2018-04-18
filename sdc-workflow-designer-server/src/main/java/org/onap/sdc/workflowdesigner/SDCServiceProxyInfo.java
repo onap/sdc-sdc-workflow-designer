@@ -11,21 +11,16 @@
  */
 package org.onap.sdc.workflowdesigner;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  *
  */
 public class SDCServiceProxyInfo {
-  @NotEmpty
   private String serviceAddr;
   
-  @NotEmpty
   private String xEcompInstanceId;
   
-  @NotEmpty
   private String authorization;
 
   /**

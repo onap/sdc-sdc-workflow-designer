@@ -11,11 +11,8 @@
  */
 package org.onap.sdc.workflowdesigner;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.NotEmpty;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
