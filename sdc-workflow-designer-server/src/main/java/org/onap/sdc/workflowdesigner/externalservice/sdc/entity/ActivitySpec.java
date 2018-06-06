@@ -25,7 +25,7 @@ public class ActivitySpec {
   
   private String type;
   
-  private ActivityContent content = new ActivityContent();
+  private String content;
   
   private String[] categoryList;
 
@@ -108,14 +108,14 @@ public class ActivitySpec {
   /**
    * @return the content
    */
-  public ActivityContent getContent() {
+  public String getContent() {
     return content;
   }
 
   /**
    * @param content the content to set
    */
-  public void setContent(ActivityContent content) {
+  public void setContent(String content) {
     this.content = content;
   }
 

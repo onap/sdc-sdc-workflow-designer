@@ -15,10 +15,15 @@
  */
 package org.onap.sdc.workflowdesigner.externalservice.sdc;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import org.glassfish.jersey.client.ClientConfig;
-import org.onap.sdc.workflowdesigner.common.SDCProxyException;
+import org.onap.sdc.workflowdesigner.common.ActivitySpecProxyException;
 import org.onap.sdc.workflowdesigner.config.AppConfig;
 import org.onap.sdc.workflowdesigner.externalservice.sdc.entity.ActivitySpec;
+import org.onap.sdc.workflowdesigner.externalservice.sdc.entity.GenericCollectionWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,24 +33,27 @@ import com.eclipsesource.jaxrs.consumer.ConsumerFactory;
  * 
  */
 public class ActivitySpecServiceProxy {
-  private static final Logger LOGGER = LoggerFactory.getLogger(SDCService.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(ActivitySpecServiceProxy.class);
 
-  private static final String AUTHORIZATION = AppConfig.getSdcServiceProxy().getAuthorization();
+  private static final String AUTHORIZATION = AppConfig.getActivitySpecServiceProxy().getAuthorization();
 
-  private static final String X_ECOMP_INSTANCE_ID =
-      AppConfig.getSdcServiceProxy().getxEcompInstanceId();
+  private static final String X_ECOMP_INSTANCE_ID = AppConfig.getActivitySpecServiceProxy().getxEcompInstanceId();
+
+  private static final String USER_ID = AppConfig.getActivitySpecServiceProxy().getUserId();
+
   /** */
-  private static final String ACTIVITY_ROOT_PATH = "/activityspec-api/v1.0";
+  private static final String ACTIVITY_ROOT_PATH = "/activity-spec-api/v1.0";
 
+  private static final String ACTIVITY_SPEC_VERSION_ID_DEFAULT_VALUE = "latest";
 
   private static String getActivityRootPath() {
-    return AppConfig.getSdcServiceProxy().getServiceAddr() + ACTIVITY_ROOT_PATH;
+    return AppConfig.getActivitySpecServiceProxy().getServiceAddr() + ACTIVITY_ROOT_PATH;
   }
 
   /**
    * @return
    */
-  private ActivitySpecService getActivityServiceProxy() {
+  private ActivitySpecService getActivitySpecServiceProxy() {
     ClientConfig config = new ClientConfig();
     return ConsumerFactory.createConsumer(getActivityRootPath(), config, ActivitySpecService.class);
   }
@@ -54,16 +62,27 @@ public class ActivitySpecServiceProxy {
   /**
    * 
    * @return
-   * @throws SDCProxyException
+   * @throws ActivitySpecProxyException
    */
-  public ActivitySpec[] getActivitySpecs() throws SDCProxyException {
-    ActivitySpecService serviceProxy = getActivityServiceProxy();
+  public ActivitySpec[] getActivitySpecs() throws ActivitySpecProxyException {
+    ActivitySpecService serviceProxy = getActivitySpecServiceProxy();
+    List<ActivitySpec> activitySpecList = new ArrayList<>();
     try {
-      return serviceProxy.getActivitySpecs(X_ECOMP_INSTANCE_ID, AUTHORIZATION);
+      GenericCollectionWrapper activityCollection = serviceProxy.getActivitySpecs(USER_ID, X_ECOMP_INSTANCE_ID, AUTHORIZATION);
+      for (Object obj : activityCollection.getResults()) {
+        if (obj instanceof Map){
+          Map activitySpecMap = (Map) obj;
+          String activitySpecId = activitySpecMap.get("id").toString();
+          ActivitySpec activitySpec = serviceProxy.getActivitySpec(USER_ID, X_ECOMP_INSTANCE_ID, AUTHORIZATION, ACTIVITY_SPEC_VERSION_ID_DEFAULT_VALUE, activitySpecId);
+          activitySpec.setId(activitySpecId);
+          activitySpecList.add(activitySpec);
+        }
+      }
     } catch (Exception e) {
       LOGGER.error("Get Activity Specifications Failed.", e);
-      throw new SDCProxyException("Get Activity Specifications Failed.", e);
+      throw new ActivitySpecProxyException("Get Activity Specifications Failed.", e);
     }
+    return activitySpecList.toArray(new ActivitySpec[activitySpecList.size()]);
   }
 
 

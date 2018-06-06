@@ -16,6 +16,7 @@
 package org.onap.sdc.workflowdesigner.config;
 
 import org.onap.sdc.workflowdesigner.SDCServiceProxyInfo;
+import org.onap.sdc.workflowdesigner.ActivitySpecServiceProxyInfo;
 
 /**
  * 
@@ -24,6 +25,8 @@ public class AppConfig {
   private static AdapterType adapterType;
   
   private static SDCServiceProxyInfo sdcServiceProxy;
+
+  private static ActivitySpecServiceProxyInfo activitySpecServiceProxy;
   
   private AppConfig() {}
 
@@ -62,4 +65,17 @@ public class AppConfig {
     return adapterType.equals(AdapterType.SDC);
   }
 
+  /**
+   * @param activitySpecServiceProxy
+   */
+  public static void setActivitySpecServiceProxy(ActivitySpecServiceProxyInfo activitySpecServiceProxy) {
+    AppConfig.activitySpecServiceProxy = activitySpecServiceProxy;
+  }
+
+  /**
+   * @return the activitySpecServiceProxy
+   */
+  public static ActivitySpecServiceProxyInfo getActivitySpecServiceProxy() {
+    return activitySpecServiceProxy;
+  }
 }

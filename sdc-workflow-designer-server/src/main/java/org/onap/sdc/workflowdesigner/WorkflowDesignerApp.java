@@ -72,6 +72,7 @@ public class WorkflowDesignerApp extends Application<WorkflowDesignerConfigurati
   private void saveAppConfig(WorkflowDesignerConfiguration configuration) {
     AppConfig.setAdapterType(AdapterType.valueOf(configuration.getAdapterType()));
     AppConfig.setSdcServiceProxy(configuration.getSdcServiceProxy());
+    AppConfig.setActivitySpecServiceProxy(configuration.getActivitySpecServiceProxy());
   }
 
   /**

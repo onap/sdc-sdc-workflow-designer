@@ -25,7 +25,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.eclipse.jetty.http.HttpStatus;
-import org.onap.sdc.workflowdesigner.common.SDCProxyException;
+import org.onap.sdc.workflowdesigner.common.ActivitySpecProxyException;
 import org.onap.sdc.workflowdesigner.config.AppConfig;
 import org.onap.sdc.workflowdesigner.externalservice.sdc.ActivitySpecServiceProxy;
 import org.onap.sdc.workflowdesigner.externalservice.sdc.entity.ActivitySpec;
@@ -121,7 +121,7 @@ public class ExtendActivityResource {
       ActivitySpec[] activitySpecs = proxy.getActivitySpecs();
       ExtActivity[] extActivities = convert2ExtActivities(activitySpecs);
       return Response.status(Response.Status.OK).entity(extActivities).build();
-    } catch (SDCProxyException e) {
+    } catch (ActivitySpecProxyException e) {
       LOGGER.error("Get ExtActivities from sdc failed.", e);
       throw RestUtils.newInternalServerErrorException(e);
     }
@@ -160,10 +160,7 @@ public class ExtendActivityResource {
    */
   private Content buildContent(ActivitySpec activitySpec) {
     Content content = new Content();
-//    content.setClass(activitySpec.getContent().getClazz());
-    content.clazz = activitySpec.getContent().clazz;
-    content.setScript(activitySpec.getContent().getScript());
-    content.setScriptFormat(activitySpec.getContent().getScriptFormat());
+    content.setScript(activitySpec.getContent());
     content.setInputs(convert2InputOutputs(activitySpec.getInputs()));
     content.setOutputs(convert2InputOutputs(activitySpec.getOutputs()));
     return content;
@@ -240,7 +237,7 @@ public class ExtendActivityResource {
       ActivitySpec[] activitySpecs = proxy.getActivitySpecs();
       ExtActivityDisplayInfo displayInfo = convert2ExtActivityDisplayInfo(activitySpecs);
       return Response.status(Response.Status.OK).entity(displayInfo).build();
-    } catch (SDCProxyException e) {
+    } catch (ActivitySpecProxyException e) {
       LOGGER.error("Get Extend Activities DisplayInfo from sdc failed.", e);
       throw RestUtils.newInternalServerErrorException(e);
     }

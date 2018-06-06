@@ -27,6 +27,9 @@ public class WorkflowDesignerConfiguration extends Configuration {
   
   @NotNull
   private SDCServiceProxyInfo sdcServiceProxy;
+
+  @NotNull
+  private ActivitySpecServiceProxyInfo activitySpecServiceProxy;
   
   
   @JsonProperty
@@ -79,6 +82,22 @@ public class WorkflowDesignerConfiguration extends Configuration {
   @JsonProperty
   public void setSdcServiceProxy(SDCServiceProxyInfo sdcServiceProxy) {
     this.sdcServiceProxy = sdcServiceProxy;
+  }
+
+  /**
+   * @return the activitySpecServiceProxy
+   */
+  @JsonProperty
+  public ActivitySpecServiceProxyInfo getActivitySpecServiceProxy() {
+    return activitySpecServiceProxy;
+  }
+
+  /**
+   * @param activitySpecServiceProxy the activitySpecServiceProxy to set
+   */
+  @JsonProperty
+  public void setActivitySpecServiceProxy(ActivitySpecServiceProxyInfo activitySpecServiceProxy) {
+    this.activitySpecServiceProxy = activitySpecServiceProxy;
   }
 
 }

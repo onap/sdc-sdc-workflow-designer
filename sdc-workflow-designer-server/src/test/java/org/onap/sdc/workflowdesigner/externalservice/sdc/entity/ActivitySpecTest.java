@@ -41,7 +41,7 @@ public class ActivitySpecTest {
     String name = "";
     String description = "";
     String type = "";
-    ActivityContent content = new ActivityContent();
+    String content = "";
     String[] categoryList = new String[]{"aaa"};
     Parameter[] inputs = new Parameter[0];
     Parameter[] outputs = new Parameter[0];

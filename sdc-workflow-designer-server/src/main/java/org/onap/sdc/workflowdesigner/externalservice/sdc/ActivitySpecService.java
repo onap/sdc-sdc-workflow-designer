@@ -19,10 +19,12 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.onap.sdc.workflowdesigner.externalservice.sdc.entity.ActivitySpec;
+import org.onap.sdc.workflowdesigner.externalservice.sdc.entity.GenericCollectionWrapper;
 
 @Path("")
 public interface ActivitySpecService {
@@ -30,8 +32,20 @@ public interface ActivitySpecService {
   @Path("/activity-spec?Filter=Certified")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public ActivitySpec[] getActivitySpecs(
+  public GenericCollectionWrapper getActivitySpecs(
+      @HeaderParam("USER_ID") String userId,
       @HeaderParam("X-ECOMP-InstanceID") String xEcompInstanceId,
       @HeaderParam("Authorization") String authorization) throws Exception;
+
+  @GET
+  @Path("/activity-spec/{id}/versions/{versionId}")
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  public ActivitySpec getActivitySpec(
+      @HeaderParam("USER_ID") String userId,
+      @HeaderParam("X-ECOMP-InstanceID") String xEcompInstanceId,
+      @HeaderParam("Authorization") String authorization,
+      @PathParam("versionId") String versionId,
+      @PathParam("id") String id) throws Exception;
 
 }
