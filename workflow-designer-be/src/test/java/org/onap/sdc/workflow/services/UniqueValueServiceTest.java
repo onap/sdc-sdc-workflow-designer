@@ -4,7 +4,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -23,8 +22,8 @@ import org.onap.sdc.workflow.services.errors.UniqueValueViolationException;
 
 public class UniqueValueServiceTest {
 
-    public static final String TYPE = "ss";
-    public static final String DUMMY_COMBINATION = "dummy";
+    private static final String TYPE = "ss";
+    private static final String DUMMY_COMBINATION = "dummy";
 
     @Mock
     private UniqueValueRepository uniqueValueRepositoryMock;
@@ -34,11 +33,10 @@ public class UniqueValueServiceTest {
     private UniqueValueService uniqueValueService;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
-    // testing create unique value- START
     @Test
     public void shouldCallRepositoryInsertIfValueUnique(){
         doReturn(Optional.empty()).when(uniqueValueRepositoryMock).findById(any());
@@ -57,9 +55,7 @@ public class UniqueValueServiceTest {
         doReturn(Optional.of("xxx")).when(uniqueValueRepositoryMock).findById(any());
         uniqueValueService.createUniqueValue(TYPE, new String[]{DUMMY_COMBINATION});
     }
-    // testing create unique value- END
 
-    // testing delete unique value- START
     @Test
     public void shouldCallRepositoryDeleteIfValueValid(){
         uniqueValueService.deleteUniqueValue(TYPE, new String[]{DUMMY_COMBINATION});
@@ -72,9 +68,6 @@ public class UniqueValueServiceTest {
         verify(uniqueValueRepositoryMock, never()).delete(any(UniqueValueEntity.class));
     }
 
-    // testing delete unique value- END
-
-    // testing update unique value- START
     @Test
     public void shouldNotUpdateIfNewAndOldValueAreEqualsCaseIgnore(){
         String value = "value";
@@ -90,9 +83,7 @@ public class UniqueValueServiceTest {
         verify(uniqueValueService, times(1)).createUniqueValue(anyString(), any());
         verify(uniqueValueService, times(1)).deleteUniqueValue(anyString(), any());
     }
-    // testing update unique value- END
 
-    // testing validateUniqueValue- START
     @Test
     public void shouldReturnTrueIfValueExist() {
         doReturn(Optional.of("xxx")).when(uniqueValueRepositoryMock).findById(any());
@@ -104,8 +95,4 @@ public class UniqueValueServiceTest {
         doReturn(Optional.empty()).when(uniqueValueRepositoryMock).findById(any());
         assertFalse(uniqueValueService.isUniqueValueOccupied(TYPE, new String[]{DUMMY_COMBINATION}));
     }
-
-    // testing validate unique value- END
-
-
 }

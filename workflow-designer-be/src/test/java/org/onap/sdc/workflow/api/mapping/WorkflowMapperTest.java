@@ -22,7 +22,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class WorkflowMapperTest {
 
     @Configuration
-    @ComponentScan(basePackageClasses = WorkflowMapperTest.class)
+    @ComponentScan(basePackageClasses = {WorkflowMapper.class})
     public static class WorkflowMapperSpringTestConfig { }
 
     @Autowired
