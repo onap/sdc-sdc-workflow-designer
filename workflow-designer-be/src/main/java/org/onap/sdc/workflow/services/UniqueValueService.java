@@ -1,6 +1,8 @@
 package org.onap.sdc.workflow.services;
 
+import com.google.common.annotations.VisibleForTesting;
 import java.util.Optional;
+import org.apache.commons.lang.ArrayUtils;
 import org.onap.sdc.workflow.persistence.UniqueValueRepository;
 import org.onap.sdc.workflow.persistence.types.UniqueValueEntity;
 import org.onap.sdc.workflow.services.errors.UniqueValueViolationException;
@@ -26,7 +28,7 @@ public class UniqueValueService {
      * @param type              the type
      * @param uniqueCombination the unique combination
      */
-    public void createUniqueValue(String type, String... uniqueCombination) {
+    public void createUniqueValue(String type, String[] uniqueCombination) {
         formatValue(uniqueCombination).ifPresent(formattedValue -> {
             validateUniqueValue(type, formattedValue, uniqueCombination);
             uniqueValueRepository.insert(new UniqueValueEntity(type, formattedValue));
@@ -39,7 +41,7 @@ public class UniqueValueService {
      * @param type              the type
      * @param uniqueCombination the unique combination
      */
-    public void deleteUniqueValue(String type, String... uniqueCombination) {
+    public void deleteUniqueValue(String type, String[] uniqueCombination) {
         formatValue(uniqueCombination)
                 .ifPresent(formattedValue -> uniqueValueRepository.delete(new UniqueValueEntity(type, formattedValue)));
 
@@ -53,7 +55,7 @@ public class UniqueValueService {
      * @param newValue      the new value
      * @param uniqueContext the unique context
      */
-    public void updateUniqueValue(String type, String oldValue, String newValue, String... uniqueContext) {
+    public void updateUniqueValue(String type, String oldValue, String newValue, String ... uniqueContext) {
         if (newValue == null || !newValue.equalsIgnoreCase(oldValue)) {
             createUniqueValue(type, CommonMethods.concat(uniqueContext, new String[] {newValue}));
             deleteUniqueValue(type, CommonMethods.concat(uniqueContext, new String[] {oldValue}));
@@ -66,7 +68,7 @@ public class UniqueValueService {
      * @param type              the type
      * @param uniqueCombination the unique combination
      */
-    public void validateUniqueValue(String type, String... uniqueCombination) {
+    public void validateUniqueValue(String type, String[] uniqueCombination) {
         formatValue(uniqueCombination)
                 .ifPresent(formattedValue -> validateUniqueValue(type, formattedValue, uniqueCombination));
     }
@@ -76,12 +78,12 @@ public class UniqueValueService {
      *
      * @return true if the unique value is occupied, false otherwise
      */
-    public boolean isUniqueValueOccupied(String type, String... uniqueCombination) {
+    public boolean isUniqueValueOccupied(String type, String[] uniqueCombination) {
         return formatValue(uniqueCombination).map(formattedValue -> isUniqueValueOccupied(type, formattedValue))
                                              .orElse(false);
     }
 
-    private void validateUniqueValue(String type, String formattedValue, String... uniqueCombination) {
+    private void validateUniqueValue(String type, String formattedValue, String[] uniqueCombination) {
         if (isUniqueValueOccupied(type, formattedValue)) {
             throw new UniqueValueViolationException(type, getValueWithoutContext(uniqueCombination));
         }
@@ -91,9 +93,8 @@ public class UniqueValueService {
         return uniqueValueRepository.findById(new UniqueValueEntity(type, formattedValue)).isPresent();
     }
 
-    private static Optional<String> formatValue(String[] uniqueCombination) {
-        if (uniqueCombination == null || uniqueCombination.length == 0
-                    || getValueWithoutContext(uniqueCombination) == null) {
+    private Optional<String> formatValue(String[] uniqueCombination) {
+        if (ArrayUtils.isEmpty(uniqueCombination) || getValueWithoutContext(uniqueCombination) == null) {
             return Optional.empty();
         }
 
@@ -101,7 +102,7 @@ public class UniqueValueService {
         return Optional.of(CommonMethods.arrayToSeparatedString(uniqueCombination, FORMATTED_UNIQUE_VALUE_SEPARATOR));
     }
 
-    private static String getValueWithoutContext(String... uniqueCombination) {
+    private String getValueWithoutContext(String[] uniqueCombination) {
         return uniqueCombination[uniqueCombination.length - 1];
     }
 }
