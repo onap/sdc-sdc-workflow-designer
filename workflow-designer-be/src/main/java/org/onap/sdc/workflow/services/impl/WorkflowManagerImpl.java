@@ -2,12 +2,11 @@ package org.onap.sdc.workflow.services.impl;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
+import org.onap.sdc.workflow.services.mappers.WorkflowMapper;
 import org.onap.sdc.workflow.persistence.types.Workflow;
 import org.onap.sdc.workflow.services.UniqueValueService;
 import org.onap.sdc.workflow.services.WorkflowManager;
 import org.onap.sdc.workflow.services.errors.WorkflowNotFoundException;
-import org.onap.sdc.workflow.services.impl.mappers.ItemToWorkflowMapper;
-import org.onap.sdc.workflow.services.impl.mappers.WorkflowToItemMapper;
 import org.openecomp.sdc.versioning.ItemManager;
 import org.openecomp.sdc.versioning.types.Item;
 import org.openecomp.sdc.versioning.types.ItemStatus;
@@ -22,34 +21,34 @@ public class WorkflowManagerImpl implements WorkflowManager {
     private static final String WORKFLOW_NAME_UNIQUE_TYPE = "WORKFLOW_NAME";
     private final ItemManager itemManager;
     private final UniqueValueService uniqueValueService;
+    private WorkflowMapper workflowMapper;
 
     @Autowired
     public WorkflowManagerImpl(ItemManager itemManager,
-            @Qualifier("uniqueValueService") UniqueValueService uniqueValueService) {
+            @Qualifier("uniqueValueService") UniqueValueService uniqueValueService, WorkflowMapper workflowMapper) {
         this.itemManager = itemManager;
         this.uniqueValueService = uniqueValueService;
+        this.workflowMapper = workflowMapper;
     }
 
     @Override
     public Collection<Workflow> list() {
-        ItemToWorkflowMapper mapper = new ItemToWorkflowMapper();
         return itemManager.list(item -> WORKFLOW_TYPE.equals(item.getType())).stream()
-                          .map(item -> mapper.applyMapping(item, Workflow.class)).collect(Collectors.toList());
+                          .map(item -> workflowMapper.itemToWorkflow(item)).collect(Collectors.toList());
     }
 
     @Override
     public Workflow get(Workflow workflow) {
-        ItemToWorkflowMapper mapper = new ItemToWorkflowMapper();
         Item retrievedItem = itemManager.get(workflow.getId());
         if (retrievedItem == null) {
             throw new WorkflowNotFoundException(workflow.getId());
         }
-        return mapper.applyMapping(retrievedItem, Workflow.class);
+        return this.workflowMapper.itemToWorkflow(retrievedItem);
     }
 
     @Override
     public void create(Workflow workflow) {
-        Item item = new WorkflowToItemMapper().applyMapping(workflow, Item.class);
+        Item item = workflowMapper.workflowToItem(workflow);
         item.setStatus(ItemStatus.ACTIVE);
 
         uniqueValueService.validateUniqueValue(WORKFLOW_NAME_UNIQUE_TYPE, workflow.getName());
@@ -66,7 +65,7 @@ public class WorkflowManagerImpl implements WorkflowManager {
 
         uniqueValueService.updateUniqueValue(WORKFLOW_NAME_UNIQUE_TYPE, retrievedItem.getName(), workflow.getName());
 
-        Item item = new WorkflowToItemMapper().applyMapping(workflow, Item.class);
+        Item item = workflowMapper.workflowToItem(workflow);
         item.setId(workflow.getId());
         item.setStatus(retrievedItem.getStatus());
         item.setVersionStatusCounters(retrievedItem.getVersionStatusCounters());
