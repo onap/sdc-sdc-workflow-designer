@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_4914cb4c",
+        "filename": "workflow-designer-be/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-06-18T13:34:10Z",
+      "side": 1,
+      "message": "Please use a concrete version",
+      "range": {
+        "startLine": 111,
+        "startChar": 21,
+        "endLine": 111,
+        "endChar": 28
+      },
+      "revId": "8f07b3287efedba992f037d499c7f55f71f823eb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_ac1b1d72",
+        "filename": "workflow-designer-be/src/test/org/onap/sdc/workflow/services/UniqueValueServiceTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-06-18T13:34:10Z",
+      "side": 1,
+      "message": "Please avoid pointless comments.",
+      "revId": "8f07b3287efedba992f037d499c7f55f71f823eb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
