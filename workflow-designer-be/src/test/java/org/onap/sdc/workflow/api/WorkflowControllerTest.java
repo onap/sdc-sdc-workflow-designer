@@ -103,7 +103,7 @@ public class WorkflowControllerTest {
         Workflow reqWorkflow = createWorkflow(1, false);
         mockMvc.perform(
                 post(WORKFLOWS_URL).header(RestConstants.USER_ID_HEADER_PARAM, USER_ID).contentType(APPLICATION_JSON)
-                                   .content(GSON.toJson(reqWorkflow))).andDo(print()).andExpect(status().isOk())
+                                   .content(GSON.toJson(reqWorkflow))).andDo(print()).andExpect(status().isCreated())
                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
         verify(workflowManagerMock, times(1)).create(reqWorkflow);
     }

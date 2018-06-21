@@ -1,11 +1,10 @@
 package org.onap.sdc.workflow.services;
 
-import com.google.common.annotations.VisibleForTesting;
 import java.util.Optional;
 import org.apache.commons.lang.ArrayUtils;
 import org.onap.sdc.workflow.persistence.UniqueValueRepository;
 import org.onap.sdc.workflow.persistence.types.UniqueValueEntity;
-import org.onap.sdc.workflow.services.errors.UniqueValueViolationException;
+import org.onap.sdc.workflow.services.Exceptions.UniqueValueViolationException;
 import org.openecomp.core.utilities.CommonMethods; // todo get rid of
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

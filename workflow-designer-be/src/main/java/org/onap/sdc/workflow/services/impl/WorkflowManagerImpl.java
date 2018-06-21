@@ -6,7 +6,7 @@ import org.onap.sdc.workflow.services.mappers.WorkflowMapper;
 import org.onap.sdc.workflow.persistence.types.Workflow;
 import org.onap.sdc.workflow.services.UniqueValueService;
 import org.onap.sdc.workflow.services.WorkflowManager;
-import org.onap.sdc.workflow.services.errors.WorkflowNotFoundException;
+import org.onap.sdc.workflow.services.Exceptions.WorkflowNotFoundException;
 import org.openecomp.sdc.versioning.ItemManager;
 import org.openecomp.sdc.versioning.types.Item;
 import org.openecomp.sdc.versioning.types.ItemStatus;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Service("workflowManager")
 public class WorkflowManagerImpl implements WorkflowManager {
 
-    public static final String WORKFLOW_TYPE = "WORKFLOW";
+    private static final String WORKFLOW_TYPE = "WORKFLOW";
     private static final String WORKFLOW_NAME_UNIQUE_TYPE = "WORKFLOW_NAME";
     private final ItemManager itemManager;
     private final UniqueValueService uniqueValueService;
