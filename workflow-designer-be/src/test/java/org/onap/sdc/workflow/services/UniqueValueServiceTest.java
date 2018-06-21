@@ -18,7 +18,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.onap.sdc.workflow.persistence.UniqueValueRepository;
 import org.onap.sdc.workflow.persistence.types.UniqueValueEntity;
-import org.onap.sdc.workflow.services.errors.UniqueValueViolationException;
+import org.onap.sdc.workflow.services.exceptions.UniqueValueViolationException;
 
 public class UniqueValueServiceTest {
 

@@ -6,6 +6,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.onap.sdc.workflow.api.types.CollectionWrapper;
 import org.onap.sdc.workflow.persistence.types.Workflow;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,19 +20,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Api("Workflows")
 public interface WorkflowController {
 
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation("List workflows")
     CollectionWrapper<Workflow> list(@RequestHeader(USER_ID_HEADER_PARAM) String user);
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation("Create workflow")
-    Workflow create(@RequestBody Workflow workflow, @RequestHeader(USER_ID_HEADER_PARAM) String user);
+    ResponseEntity<?> create(@RequestBody Workflow workflow, @RequestHeader(USER_ID_HEADER_PARAM) String user);
 
-    @GetMapping("/{id}")
+    @GetMapping(path = "/{id}")
     @ApiOperation("Get workflow")
     Workflow get(@PathVariable("id") String id, @RequestHeader(USER_ID_HEADER_PARAM) String user);
 
-    @PutMapping("/{id}")
+    @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation("Update workflow")
     Workflow update(@RequestBody Workflow workflow, @PathVariable("id") String id,
             @RequestHeader(USER_ID_HEADER_PARAM) String user);
