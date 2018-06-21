@@ -76,12 +76,6 @@
             <groupId>org.openecomp.sdc</groupId>
             <artifactId>openecomp-sdc-versioning-api</artifactId>
             <version>${onap.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.testng</groupId>
-                    <artifactId>testng</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.openecomp.sdc</groupId>
