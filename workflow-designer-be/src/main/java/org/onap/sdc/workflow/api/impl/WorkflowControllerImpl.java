@@ -8,6 +8,8 @@ import org.onap.sdc.workflow.persistence.types.Workflow;
 import org.onap.sdc.workflow.services.WorkflowManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -29,9 +31,9 @@ public class WorkflowControllerImpl implements WorkflowController {
     }
 
     @Override
-    public Workflow create(@RequestBody Workflow workflow, @RequestHeader(USER_ID_HEADER_PARAM) String user) {
+    public ResponseEntity<?> create(@RequestBody Workflow workflow, @RequestHeader(USER_ID_HEADER_PARAM) String user) {
         workflowManager.create(workflow);
-        return workflow;
+        return new ResponseEntity<>(workflow, HttpStatus.CREATED);
     }
 
     @Override
