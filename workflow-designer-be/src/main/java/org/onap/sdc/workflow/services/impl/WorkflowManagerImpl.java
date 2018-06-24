@@ -50,6 +50,7 @@ public class WorkflowManagerImpl implements WorkflowManager {
     public void create(Workflow workflow) {
         Item item = workflowMapper.workflowToItem(workflow);
         item.setStatus(ItemStatus.ACTIVE);
+        item.setType(WORKFLOW_TYPE);
 
         uniqueValueService.validateUniqueValue(WORKFLOW_NAME_UNIQUE_TYPE, new String[]{workflow.getName()});
         workflow.setId(itemManager.create(item).getId());
@@ -69,7 +70,7 @@ public class WorkflowManagerImpl implements WorkflowManager {
         item.setId(workflow.getId());
         item.setStatus(retrievedItem.getStatus());
         item.setVersionStatusCounters(retrievedItem.getVersionStatusCounters());
-
+        item.setType(retrievedItem.getType());
         itemManager.update(item);
     }
 }
