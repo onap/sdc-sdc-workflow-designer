@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_40349549",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/impl/WorkflowVersionManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-06-26T07:16:08Z",
+      "side": 1,
+      "message": "use inline",
+      "range": {
+        "startLine": 57,
+        "startChar": 7,
+        "endLine": 57,
+        "endChar": 32
+      },
+      "revId": "e9d97234f17d8ecdbfc0481d6a2ba2698d52ddd0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
