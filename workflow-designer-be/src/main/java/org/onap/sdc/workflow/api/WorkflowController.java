@@ -22,18 +22,17 @@ public interface WorkflowController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation("List workflows")
-    CollectionWrapper<Workflow> list(@RequestHeader(USER_ID_HEADER_PARAM) String user);
+    CollectionWrapper<Workflow> list(String user);
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation("Create workflow")
-    ResponseEntity<?> create(@RequestBody Workflow workflow, @RequestHeader(USER_ID_HEADER_PARAM) String user);
+    ResponseEntity<?> create(Workflow workflow, String user);
 
     @GetMapping(path = "/{id}")
     @ApiOperation("Get workflow")
-    Workflow get(@PathVariable("id") String id, @RequestHeader(USER_ID_HEADER_PARAM) String user);
+    Workflow get(String id, String user);
 
     @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation("Update workflow")
-    Workflow update(@RequestBody Workflow workflow, @PathVariable("id") String id,
-            @RequestHeader(USER_ID_HEADER_PARAM) String user);
+    Workflow update(Workflow workflow, String id, String user);
 }

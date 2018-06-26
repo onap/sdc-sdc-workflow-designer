@@ -4,6 +4,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 
 import org.onap.sdc.workflow.services.exceptions.UniqueValueViolationException;
+import org.onap.sdc.workflow.services.exceptions.VersionNotFoundException;
 import org.onap.sdc.workflow.services.exceptions.WorkflowNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -21,9 +22,9 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
         return new ResponseEntity<>(exception.getMessage(), UNPROCESSABLE_ENTITY);
     }
 
-    @ExceptionHandler(WorkflowNotFoundException.class)
+    @ExceptionHandler({WorkflowNotFoundException.class, VersionNotFoundException.class})
     public final ResponseEntity<String> handleWorkflowNotFoundException(
-            WorkflowNotFoundException exception) {
+            Exception exception) {
         return new ResponseEntity<>(exception.getMessage(), NOT_FOUND);
     }
 }
