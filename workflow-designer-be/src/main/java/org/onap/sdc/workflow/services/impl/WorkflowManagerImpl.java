@@ -1,6 +1,7 @@
 package org.onap.sdc.workflow.services.impl;
 
 import java.util.Collection;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import org.onap.sdc.workflow.services.mappers.WorkflowMapper;
 import org.onap.sdc.workflow.persistence.types.Workflow;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 public class WorkflowManagerImpl implements WorkflowManager {
 
     private static final String WORKFLOW_TYPE = "WORKFLOW";
+    protected static final Predicate<Item> ITEM_PREDICATE = item -> WORKFLOW_TYPE.equals(item.getType());
     private static final String WORKFLOW_NAME_UNIQUE_TYPE = "WORKFLOW_NAME";
     private final ItemManager itemManager;
     private final UniqueValueService uniqueValueService;
@@ -33,7 +35,7 @@ public class WorkflowManagerImpl implements WorkflowManager {
 
     @Override
     public Collection<Workflow> list() {
-        return itemManager.list(item -> WORKFLOW_TYPE.equals(item.getType())).stream()
+        return itemManager.list(ITEM_PREDICATE).stream()
                           .map(item -> workflowMapper.itemToWorkflow(item)).collect(Collectors.toList());
     }
 
