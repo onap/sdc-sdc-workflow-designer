@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_b69123f3",
+        "filename": "workflow-designer-be/src/test/java/org/onap/sdc/workflow/services/impl/WorkflowManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-06-27T10:24:59Z",
+      "side": 1,
+      "message": "we no longer have category. please remove it from the model and testings",
+      "range": {
+        "startLine": 134,
+        "startChar": 8,
+        "endLine": 134,
+        "endChar": 28
+      },
+      "revId": "057611669d7842dee525922bdc69ae6e6927f5b4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_168337aa",
+        "filename": "workflow-designer-be/src/test/java/org/onap/sdc/workflow/services/impl/WorkflowManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-06-27T10:24:59Z",
+      "side": 1,
+      "message": "we have similar function on WorkflowControllerTest.\nextract this functin to \"testutil\" class",
+      "range": {
+        "startLine": 129,
+        "startChar": 4,
+        "endLine": 139,
+        "endChar": 5
+      },
+      "revId": "057611669d7842dee525922bdc69ae6e6927f5b4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
