@@ -23,6 +23,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import static org.onap.sdc.workflow.TestUtil.createWorkflow;
 import org.onap.sdc.workflow.api.impl.WorkflowControllerImpl;
 import org.onap.sdc.workflow.persistence.types.Workflow;
 import org.onap.sdc.workflow.services.WorkflowManager;
@@ -117,14 +118,5 @@ public class WorkflowControllerTest {
         return workflowList;
     }
 
-    private Workflow createWorkflow(int workflowPropertySuffix, boolean createId) {
-        Workflow workflow = new Workflow();
-        if (createId) {
-            workflow.setId("workflowId" + workflowPropertySuffix);
-        }
-        workflow.setName("workflowName" + workflowPropertySuffix);
-        workflow.setDescription("workflowDesc" + workflowPropertySuffix);
 
-        return workflow;
-    }
 }

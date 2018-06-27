@@ -29,28 +29,23 @@ public class WorkflowMapperTest {
     WorkflowMapper workflowMapper;
 
     @Test
-    public void shouldMapItemPropertyToWorkflowCategory() {
+    public void shouldMapItemToWorkflow() {
 
         Item item = createMockItem();
-        HashMap<String, Object> properties = new HashMap<>();
-        properties.put(WorkflowProperty.CATEGORY, "category");
-        item.setProperties(properties);
-
         Workflow mappedWorkflow = workflowMapper.itemToWorkflow(item);
         assertEquals(mappedWorkflow.getId(), item.getId());
         assertEquals(mappedWorkflow.getDescription(), item.getDescription());
         assertEquals(mappedWorkflow.getName(), item.getName());
-        assertEquals(mappedWorkflow.getCategory(), properties.get(WorkflowProperty.CATEGORY));
     }
 
     @Test
-    public void shouldAddWorkflowCategoryToItemProperties(){
-        Workflow workflow = new Workflow();
-        workflow.setId("id");
-        workflow.setCategory("cat");
+    public void shouldMapWorkflowToItem(){
 
-        Item item = workflowMapper.workflowToItem(workflow);
-        assertNotNull(item.getProperties().get(WorkflowProperty.CATEGORY));
+       Workflow workflow = createMockWorkflow();
+       Item mappedItem = workflowMapper.workflowToItem(workflow);
+        assertEquals(mappedItem.getId(), workflow.getId());
+        assertEquals(mappedItem.getDescription(), workflow.getDescription());
+        assertEquals(mappedItem.getName(), workflow.getName());
     }
 
     private Item createMockItem() {
@@ -59,6 +54,14 @@ public class WorkflowMapperTest {
         item.setDescription("item description");
         item.setName("item name");
         return item;
+    }
+
+    private Workflow createMockWorkflow() {
+        Workflow workflow = new Workflow();
+        workflow.setId("id");
+        workflow.setDescription("workflow description");
+        workflow.setName("workflow name");
+        return workflow;
     }
 
 }

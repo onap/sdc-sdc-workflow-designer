@@ -3,7 +3,6 @@ package org.onap.sdc.workflow.services.impl;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import org.onap.sdc.workflow.services.WorkflowVersionManager;
 import org.onap.sdc.workflow.services.exceptions.VersionNotFoundException;
 import org.openecomp.sdc.versioning.VersioningManager;
@@ -50,11 +49,9 @@ public class WorkflowVersionManagerImpl  implements WorkflowVersionManager {
         versioningManager.updateVersion(id,version);
     }
 
-    private Version getLatestVersion(String itemId) {
+    protected Version getLatestVersion(String itemId) {
         List<Version> list = versioningManager.list(itemId);
-        Optional<Version> max = list.stream().max(Version::compareTo);
-
-        return max.orElse(null);
+        return list.stream().max(Version::compareTo).orElse(null);
     }
 
 }
