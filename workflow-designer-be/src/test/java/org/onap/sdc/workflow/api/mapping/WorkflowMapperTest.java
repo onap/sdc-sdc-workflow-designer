@@ -3,6 +3,8 @@ package org.onap.sdc.workflow.api.mapping;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.onap.sdc.workflow.TestUtil.createItem;
+import static org.onap.sdc.workflow.TestUtil.createWorkflow;
 
 import java.util.HashMap;
 import org.junit.Test;
@@ -29,36 +31,23 @@ public class WorkflowMapperTest {
     WorkflowMapper workflowMapper;
 
     @Test
-    public void shouldMapItemPropertyToWorkflowCategory() {
+    public void shouldMapItemToWorkflow() {
 
-        Item item = createMockItem();
-        HashMap<String, Object> properties = new HashMap<>();
-        properties.put(WorkflowProperty.CATEGORY, "category");
-        item.setProperties(properties);
-
+        Item item = createItem(1,false,true);
         Workflow mappedWorkflow = workflowMapper.itemToWorkflow(item);
         assertEquals(mappedWorkflow.getId(), item.getId());
         assertEquals(mappedWorkflow.getDescription(), item.getDescription());
         assertEquals(mappedWorkflow.getName(), item.getName());
-        assertEquals(mappedWorkflow.getCategory(), properties.get(WorkflowProperty.CATEGORY));
     }
 
     @Test
-    public void shouldAddWorkflowCategoryToItemProperties(){
-        Workflow workflow = new Workflow();
-        workflow.setId("id");
-        workflow.setCategory("cat");
+    public void shouldMapWorkflowToItem(){
 
-        Item item = workflowMapper.workflowToItem(workflow);
-        assertNotNull(item.getProperties().get(WorkflowProperty.CATEGORY));
-    }
-
-    private Item createMockItem() {
-        Item item = new Item();
-        item.setId("id");
-        item.setDescription("item description");
-        item.setName("item name");
-        return item;
+       Workflow workflow = createWorkflow(1,true);
+       Item mappedItem = workflowMapper.workflowToItem(workflow);
+        assertEquals(mappedItem.getId(), workflow.getId());
+        assertEquals(mappedItem.getDescription(), workflow.getDescription());
+        assertEquals(mappedItem.getName(), workflow.getName());
     }
 
 }
