@@ -7,6 +7,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.onap.sdc.workflow.TestUtil.createWorkflow;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -23,7 +24,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import static org.onap.sdc.workflow.TestUtil.createWorkflow;
+import org.onap.sdc.workflow.RestPath;
 import org.onap.sdc.workflow.api.impl.WorkflowControllerImpl;
 import org.onap.sdc.workflow.persistence.types.Workflow;
 import org.onap.sdc.workflow.services.WorkflowManager;
@@ -34,15 +35,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-
 @RunWith(MockitoJUnitRunner.class)
 public class WorkflowControllerTest {
 
     private static final String MISSING_REQUEST_HEADER_ERRROR_FORMAT =
             "Missing request header '%s' for method parameter of type String";
     private static final String USER_ID = "userId";
-    private static final String WORKFLOWS_URL = "/workflows";
     private static final Gson GSON = new Gson();
+    public static final String USER_ID_HEADER = "USER_ID";
 
     private MockMvc mockMvc;
 
@@ -62,7 +62,7 @@ public class WorkflowControllerTest {
     public void shouldReturnErrorWhenMissingUserIdInGetReqHeader() throws Exception {
         Workflow workflowMock = createWorkflow(1, true);
         MockHttpServletResponse response =
-                mockMvc.perform(get(WORKFLOWS_URL + "/" + workflowMock.getId()).contentType(APPLICATION_JSON))
+                mockMvc.perform(get(RestPath.getWorkflowPath(workflowMock.getId())).contentType(APPLICATION_JSON))
                        .andDo(print()).andExpect(status().isBadRequest()).andExpect(status().is(400)).andReturn()
                        .getResponse();
         assertEquals(String.format(MISSING_REQUEST_HEADER_ERRROR_FORMAT, "USER_ID"), response.getErrorMessage());
@@ -73,8 +73,8 @@ public class WorkflowControllerTest {
         Workflow workflowMock = createWorkflow(1, true);
         doReturn(workflowMock).when(workflowManagerMock).get(any(Workflow.class));
         mockMvc.perform(
-                get(WORKFLOWS_URL + "/" + workflowMock.getId()).header(RestConstants.USER_ID_HEADER_PARAM, USER_ID)
-                                                               .contentType(APPLICATION_JSON)).andDo(print())
+                get(RestPath.getWorkflowPath(workflowMock.getId())).header(RestConstants.USER_ID_HEADER_PARAM, USER_ID)
+                                                                   .contentType(APPLICATION_JSON)).andDo(print())
                .andExpect(status().isOk()).andExpect(jsonPath("$.id", is(workflowMock.getId())))
                .andExpect(jsonPath("$.name", is(workflowMock.getName())));
     }
@@ -82,29 +82,29 @@ public class WorkflowControllerTest {
     @Test
     public void shouldReturnErrorWhenMissingUserIdInListReqHeader() throws Exception {
         MockHttpServletResponse response =
-                mockMvc.perform(get(WORKFLOWS_URL).contentType(APPLICATION_JSON)).andDo(print())
+                mockMvc.perform(get(RestPath.getWorkflowsPath()).contentType(APPLICATION_JSON)).andDo(print())
                        .andExpect(status().isBadRequest()).andExpect(status().is(400)).andReturn().getResponse();
-        assertEquals(String.format(MISSING_REQUEST_HEADER_ERRROR_FORMAT, "USER_ID"), response.getErrorMessage());
+        assertEquals(String.format(MISSING_REQUEST_HEADER_ERRROR_FORMAT, USER_ID_HEADER), response.getErrorMessage());
     }
 
     @Test
-    public void shouldReturnListOfWorkflows() throws Exception {
+    public void shouldReturn5WorkflowWhen5WorkflowsExists() throws Exception {
         int numOfWorkflows = 5;
         List<Workflow> workflowMocks = createWorkflows(numOfWorkflows);
         doReturn(workflowMocks).when(workflowManagerMock).list();
         mockMvc.perform(
-                get(WORKFLOWS_URL).header(RestConstants.USER_ID_HEADER_PARAM, USER_ID).contentType(APPLICATION_JSON))
+                get(RestPath.getWorkflowsPath()).header(RestConstants.USER_ID_HEADER_PARAM, USER_ID).contentType(APPLICATION_JSON))
                .andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.results", hasSize(numOfWorkflows)));
     }
 
     @Test
-    public void create() throws Exception {
+    public void shouldCreateWorkflowWhenCallingPostRESTRequest() throws Exception {
         Item item = new Item();
         item.setId("abc");
         Workflow reqWorkflow = createWorkflow(1, false);
         mockMvc.perform(
-                post(WORKFLOWS_URL).header(RestConstants.USER_ID_HEADER_PARAM, USER_ID).contentType(APPLICATION_JSON)
-                                   .content(GSON.toJson(reqWorkflow))).andDo(print()).andExpect(status().isCreated())
+                post(RestPath.getWorkflowsPath()).header(RestConstants.USER_ID_HEADER_PARAM, USER_ID).contentType(APPLICATION_JSON)
+                                                 .content(GSON.toJson(reqWorkflow))).andDo(print()).andExpect(status().isCreated())
                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
         verify(workflowManagerMock, times(1)).create(reqWorkflow);
     }

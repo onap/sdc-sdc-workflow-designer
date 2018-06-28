@@ -24,6 +24,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.onap.sdc.workflow.RestPath;
 import org.onap.sdc.workflow.api.impl.WorkflowVersionControllerImpl;
 import org.onap.sdc.workflow.services.WorkflowVersionManager;
 import org.openecomp.sdc.versioning.dao.types.Version;
@@ -58,11 +59,11 @@ public class WorkflowVersionControllerTest {
     }
 
     @Test
-    public void shouldReturnVersionListOfWorkflow() throws Exception {
+    public void shouldReturnWorkflowVersionListWhenCallingVersionGetREST() throws Exception {
 
         doReturn(versionList).when(workflowVersionManagerMock).list(ITEM1_ID);
-        mockMvc.perform(get("/workflows/item_id_1/versions").header(RestConstants.USER_ID_HEADER_PARAM, USER_ID)
-                                                            .contentType(APPLICATION_JSON)).andExpect(status().isOk())
+        mockMvc.perform(get(RestPath.getWorkflowVersions(ITEM1_ID)).header(RestConstants.USER_ID_HEADER_PARAM, USER_ID)
+                                                                   .contentType(APPLICATION_JSON)).andExpect(status().isOk())
                .andExpect(jsonPath("$.results", hasSize(2)))
                .andExpect(jsonPath("$.results[0].id", equalTo(VERSION1_ID)))
                .andExpect(jsonPath("$.results[1].id", equalTo(VERSION2_ID)));
@@ -72,13 +73,13 @@ public class WorkflowVersionControllerTest {
 
 
     @Test
-    public void shouldCreateWorkflowVersion() throws Exception {
+    public void shouldCreateWorkflowVersionWhenCallingVersionsPostREST() throws Exception {
 
         Version version = new Version();
         version.setDescription("VersionDescription");
-        mockMvc.perform(post("/workflows/item_id_1/versions").header(RestConstants.USER_ID_HEADER_PARAM, USER_ID)
-                                                             .contentType(APPLICATION_JSON)
-                                                             .content(GSON.toJson(version)))
+        mockMvc.perform(post(RestPath.getWorkflowVersions(ITEM1_ID)).header(RestConstants.USER_ID_HEADER_PARAM, USER_ID)
+                                                                    .contentType(APPLICATION_JSON)
+                                                                    .content(GSON.toJson(version)))
                .andExpect(status().isCreated());
 
         verify(workflowVersionManagerMock, times(1)).create(ITEM1_ID, version);
@@ -90,21 +91,21 @@ public class WorkflowVersionControllerTest {
         Version version = new Version(VERSION1_ID);
         doReturn(version).when(workflowVersionManagerMock).get(ITEM1_ID, version);
         mockMvc.perform(
-                get("/workflows/item_id_1/versions/" + VERSION1_ID).header(RestConstants.USER_ID_HEADER_PARAM, USER_ID)
-                                                                   .contentType(APPLICATION_JSON)).andDo(print())
+                get(RestPath.getWorkflowVersion(ITEM1_ID, VERSION1_ID)).header(RestConstants.USER_ID_HEADER_PARAM, USER_ID)
+                                                                       .contentType(APPLICATION_JSON)).andDo(print())
                .andExpect(status().isOk()).andExpect(jsonPath("$.id", is(version.getId())));
         verify(workflowVersionManagerMock, times(1)).get(ITEM1_ID, version);
     }
 
     @Test
-    public void shouldUpdateWorkflowVersion() throws Exception {
+    public void shouldUpdateWorkflowVersionWhenCallingPutREST() throws Exception {
         Version version = new Version();
         version.setDescription("Updated");
 
         MockHttpServletResponse result = mockMvc.perform(
-                put("/workflows/item_id_1/versions/" + VERSION1_ID).header(RestConstants.USER_ID_HEADER_PARAM, USER_ID)
-                                                                   .contentType(APPLICATION_JSON)
-                                                                   .content(GSON.toJson(version))).andReturn()
+                put(RestPath.getWorkflowVersion(ITEM1_ID, VERSION1_ID)).header(RestConstants.USER_ID_HEADER_PARAM, USER_ID)
+                                                                       .contentType(APPLICATION_JSON)
+                                                                       .content(GSON.toJson(version))).andReturn()
                                                 .getResponse();
 
         assertEquals(HttpStatus.OK.value(), result.getStatus());

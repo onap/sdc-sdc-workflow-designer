@@ -27,7 +27,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class WorkflowManagerTest {
 
     private static final String ITEM1_ID = "workflowId1";
-    private static final String ITEM2_ID = "workflowId2";
     private static final String WORKFLOW_TYPE = "WORKFLOW";
     private static final String WORKFLOW_NAME_UNIQUE_TYPE = "WORKFLOW_NAME";
     private List<Item> itemList;
@@ -45,37 +44,35 @@ public class WorkflowManagerTest {
     private WorkflowManagerImpl workflowManager;
 
 
-
     @Before
-    public void setUp(){
-        itemList = Arrays.asList(createItem(1,true,true),
-                createItem(2,true,true),createItem(3,true,true));
+    public void setUp() {
+        itemList = Arrays.asList(createItem(1, true, true), createItem(2, true, true), createItem(3, true, true));
 
     }
 
 
     @Test
-    public void shouldReturnWorkflowVersionList(){
+    public void shouldReturnWorkflowVersionList() {
 
-        doReturn(itemList).when(itemManagerMock).list(workflowManager.ITEM_PREDICATE);
+        doReturn(itemList).when(itemManagerMock).list(WorkflowManagerImpl.ITEM_PREDICATE);
         workflowManager.list();
-        verify(itemManagerMock).list(workflowManager.ITEM_PREDICATE);
+        verify(itemManagerMock).list(WorkflowManagerImpl.ITEM_PREDICATE);
     }
 
     @Test(expected = WorkflowNotFoundException.class)
-    public void shouldThrowExceptionWhenWorkflowDontExist(){
+    public void shouldThrowExceptionWhenWorkflowDontExist() {
         Workflow nonExistingWorkflow = new Workflow();
         nonExistingWorkflow.setId(ITEM1_ID);
         doReturn(null).when(itemManagerMock).get(ITEM1_ID);
         workflowManager.get(nonExistingWorkflow);
-        verify(workflowMapperMock,times(3)).itemToWorkflow(any(Item.class));
+        verify(workflowMapperMock, times(3)).itemToWorkflow(any(Item.class));
     }
 
     @Test
-    public void shouldReturnWorkflow(){
-        Item retrievedItem = createItem(1,true,true);
+    public void shouldReturnWorkflow() {
+        Item retrievedItem = createItem(1, true, true);
         doReturn(retrievedItem).when(itemManagerMock).get(ITEM1_ID);
-        Workflow workflow = createWorkflow(1,true);
+        Workflow workflow = createWorkflow(1, true);
         workflowManager.get(workflow);
         verify(itemManagerMock).get(ITEM1_ID);
         verify(workflowMapperMock).itemToWorkflow(retrievedItem);
@@ -84,7 +81,7 @@ public class WorkflowManagerTest {
     }
 
     @Test
-    public void shouldCreateWorkflow() {
+    public void shouldCreateWorkflowItemFromWorkflow() {
         Workflow workflowToBeCreated = createWorkflow(1, false);
         Item createdWorkflowItem = createItem(1, false, true);
         doReturn(createdWorkflowItem).when(workflowMapperMock).workflowToItem(workflowToBeCreated);
@@ -101,7 +98,7 @@ public class WorkflowManagerTest {
     }
 
     @Test
-    public void shouldUpdateWorkflow(){
+    public void shouldUpdateWorkflow() {
         Item workflowItem = createItem(1, true, true);
         doReturn(workflowItem).when(itemManagerMock).get(ITEM1_ID);
         Workflow workflowToBeUpdated = createWorkflow(1, true);
@@ -109,12 +106,12 @@ public class WorkflowManagerTest {
         workflowManager.update(workflowToBeUpdated);
         verify(itemManagerMock).update(workflowItem);
         verify(uniqueValueServiceMock)
-                .updateUniqueValue(WORKFLOW_NAME_UNIQUE_TYPE,workflowItem.getName(),workflowToBeUpdated.getName());
+                .updateUniqueValue(WORKFLOW_NAME_UNIQUE_TYPE, workflowItem.getName(), workflowToBeUpdated.getName());
 
     }
 
     @Test(expected = WorkflowNotFoundException.class)
-    public void shouldThrowExceptionWhenWorkflowToUpdateNotFound(){
+    public void shouldThrowExceptionWhenWorkflowToUpdateNotFound() {
         doReturn(null).when(itemManagerMock).get(ITEM1_ID);
         workflowManager.update(createWorkflow(1, true));
     }

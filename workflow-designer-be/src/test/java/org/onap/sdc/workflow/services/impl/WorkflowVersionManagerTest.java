@@ -50,7 +50,7 @@ public class WorkflowVersionManagerTest {
     }
 
     @Test
-    public void shouldReturnWorkflowVersion(){
+    public void shouldReturnWorkflowVersionWhenExist(){
         Version version = new Version(VERSION1_ID);
         doReturn(version).when(versioningManagerMock).get(ITEM1_ID,version);
         workflowVersionManager.get(ITEM1_ID,version);
