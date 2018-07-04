@@ -2,6 +2,259 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a93c517_85eb81db",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/WorkflowVersionController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-04T12:07:48Z",
+      "side": 1,
+      "message": "ResponseEntity\u003cVersion\u003e",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 18
+      },
+      "revId": "558ac7b733769376309889f40abf225a082e3435",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_65f0b5c9",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/WorkflowVersionController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-04T12:07:48Z",
+      "side": 1,
+      "message": "1. I think it\u0027s quite risky to use 3rd party object in the rest signature. We should create an internal object with desc + baseId (maybe the baseId should be a queryParam)\n2. Let\u0027s put the body first and then the params",
+      "range": {
+        "startLine": 27,
+        "startChar": 37,
+        "endLine": 27,
+        "endChar": 52
+      },
+      "revId": "558ac7b733769376309889f40abf225a082e3435",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_45bd79d6",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/WorkflowVersionController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-04T12:07:48Z",
+      "side": 1,
+      "message": "Let\u0027s put the body first and then the params",
+      "range": {
+        "startLine": 35,
+        "startChar": 44,
+        "endLine": 35,
+        "endChar": 59
+      },
+      "revId": "558ac7b733769376309889f40abf225a082e3435",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_05b771f6",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/WorkflowVersionController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-04T12:07:48Z",
+      "side": 1,
+      "message": "params at the end",
+      "range": {
+        "startLine": 40,
+        "startChar": 24,
+        "endLine": 40,
+        "endChar": 51
+      },
+      "revId": "558ac7b733769376309889f40abf225a082e3435",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a5cd5d88",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/impl/WorkflowVersionControllerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-04T12:07:48Z",
+      "side": 1,
+      "message": "Version",
+      "range": {
+        "startLine": 38,
+        "startChar": 26,
+        "endLine": 38,
+        "endChar": 27
+      },
+      "revId": "558ac7b733769376309889f40abf225a082e3435",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_65c75565",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/impl/WorkflowVersionControllerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-04T12:07:48Z",
+      "side": 1,
+      "message": "extract and use the same twice",
+      "range": {
+        "startLine": 72,
+        "startChar": 75,
+        "endLine": 72,
+        "endChar": 97
+      },
+      "revId": "558ac7b733769376309889f40abf225a082e3435",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_05ea11ac",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/ArtifactRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-04T12:07:48Z",
+      "side": 1,
+      "message": "maybe we can create Artifact object with 2 members: name + data.\nThen, we might have one get which gets both and getInfo which gets only the name (cheaper load):\n-create\n-update\n-get\n-getInfo\n\nWhat do you think?",
+      "range": {
+        "startLine": 13,
+        "startChar": 51,
+        "endLine": 13,
+        "endChar": 91
+      },
+      "revId": "558ac7b733769376309889f40abf225a082e3435",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_65daf518",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/impl/ArtifactRepositoryImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-04T12:07:48Z",
+      "side": 1,
+      "message": "did it work for you?...",
+      "range": {
+        "startLine": 86,
+        "startChar": 20,
+        "endLine": 86,
+        "endChar": 32
+      },
+      "revId": "558ac7b733769376309889f40abf225a082e3435",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_65751531",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/WorkflowVersionManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-04T12:07:48Z",
+      "side": 1,
+      "message": "upload",
+      "range": {
+        "startLine": 18,
+        "startChar": 9,
+        "endLine": 18,
+        "endChar": 15
+      },
+      "revId": "558ac7b733769376309889f40abf225a082e3435",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a57b1d28",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/impl/WorkflowVersionManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-04T12:07:48Z",
+      "side": 1,
+      "message": "I think the baseId is one of the REST inputs - don\u0027t just automatically base on the latest one as this might change at the future.\nLoad the given base version and only if it\u0027s certified proceed.\n(if you\u0027ll try to create based on 2.0 while 3.0 already exits - versioningManager.create will stop you.",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 9
+      },
+      "revId": "558ac7b733769376309889f40abf225a082e3435",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c576693f",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/impl/WorkflowVersionManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-04T12:07:48Z",
+      "side": 1,
+      "message": "isFirstVersionCreation \u003d baseId is null \u0026\u0026 list versions is empty",
+      "range": {
+        "startLine": 68,
+        "startChar": 11,
+        "endLine": 68,
+        "endChar": 53
+      },
+      "revId": "558ac7b733769376309889f40abf225a082e3435",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_e5c925ad",
         "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/impl/WorkflowVersionManagerImpl.java",
         "patchSetId": 1
@@ -17,6 +270,121 @@
         "startLine": 84,
         "startChar": 8,
         "endLine": 84,
+        "endChar": 61
+      },
+      "revId": "558ac7b733769376309889f40abf225a082e3435",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_059c515c",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/impl/WorkflowVersionManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-04T12:07:48Z",
+      "side": 1,
+      "message": "why? user can upload without publish",
+      "range": {
+        "startLine": 87,
+        "startChar": 8,
+        "endLine": 87,
+        "endChar": 64
+      },
+      "revId": "558ac7b733769376309889f40abf225a082e3435",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_65ac358d",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/impl/WorkflowVersionManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-04T12:07:48Z",
+      "side": 1,
+      "message": "%s small s, no?",
+      "range": {
+        "startLine": 96,
+        "startChar": 60,
+        "endLine": 96,
+        "endChar": 62
+      },
+      "revId": "558ac7b733769376309889f40abf225a082e3435",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_85a701a7",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/impl/WorkflowVersionManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-04T12:07:48Z",
+      "side": 1,
+      "message": "is it really an error? we didn\u0027t get artifact by artifact id or something like that - we asked for artifact of wf version. it might have artifact or not and both cases are fine...",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 9
+      },
+      "revId": "558ac7b733769376309889f40abf225a082e3435",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_45b9f9c9",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/impl/WorkflowVersionManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-04T12:07:48Z",
+      "side": 1,
+      "message": "is it really an error? same as above...",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 9
+      },
+      "revId": "558ac7b733769376309889f40abf225a082e3435",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c5c42943",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/impl/WorkflowVersionManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-04T12:07:48Z",
+      "side": 1,
+      "message": "maybe it\u0027s better to pass the entire e",
+      "range": {
+        "startLine": 125,
+        "startChar": 49,
+        "endLine": 125,
         "endChar": 61
       },
       "revId": "558ac7b733769376309889f40abf225a082e3435",
