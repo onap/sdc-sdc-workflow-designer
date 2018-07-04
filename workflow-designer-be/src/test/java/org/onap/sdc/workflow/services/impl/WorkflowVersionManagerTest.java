@@ -1,6 +1,7 @@
 package org.onap.sdc.workflow.services.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
@@ -15,7 +16,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.onap.sdc.workflow.services.exceptions.VersionNotFoundException;
+import org.onap.sdc.workflow.persistence.ArtifactRepository;
+import org.onap.sdc.workflow.services.exceptions.EntityNotFoundException;
 import org.openecomp.sdc.versioning.VersioningManager;
 import org.openecomp.sdc.versioning.dao.types.Version;
 import org.openecomp.sdc.versioning.types.VersionCreationMethod;
@@ -32,6 +34,9 @@ public class WorkflowVersionManagerTest {
     @Mock
     private VersioningManager versioningManagerMock;
 
+    @Mock
+    private ArtifactRepository artifactRepositoryMock;
+
     @Spy
     @InjectMocks
     private WorkflowVersionManagerImpl workflowVersionManager;
@@ -42,7 +47,7 @@ public class WorkflowVersionManagerTest {
     }
 
 
-    @Test(expected = VersionNotFoundException.class)
+    @Test(expected = EntityNotFoundException.class)
     public void shouldThrowExceptionWhenVersionDontExist(){
         Version nonExistingVersion = new Version(VERSION1_ID);
         doThrow(new RuntimeException()).when(versioningManagerMock).get(ITEM1_ID, nonExistingVersion);
@@ -74,7 +79,10 @@ public class WorkflowVersionManagerTest {
 
     @Test
     public void shouldCreateWorkflowVersion(){
-        Version version = new Version();
+        Version version = new Version(ITEM1_ID);
+        version.setDescription("version desc");
+        doReturn(version).when(versioningManagerMock).create(ITEM1_ID,version, VersionCreationMethod.major);
+        doNothing().when(artifactRepositoryMock).createArtifactStructure(ITEM1_ID,version);
         workflowVersionManager.create(ITEM1_ID,version);
         verify(versioningManagerMock).create(ITEM1_ID,version, VersionCreationMethod.major);
         verify(workflowVersionManager).getLatestVersion(ITEM1_ID);
