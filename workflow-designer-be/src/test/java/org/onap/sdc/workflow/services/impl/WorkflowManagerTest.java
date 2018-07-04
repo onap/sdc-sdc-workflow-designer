@@ -16,7 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.onap.sdc.workflow.persistence.types.Workflow;
 import org.onap.sdc.workflow.services.UniqueValueService;
-import org.onap.sdc.workflow.services.exceptions.WorkflowNotFoundException;
+import org.onap.sdc.workflow.services.exceptions.EntityNotFoundException;
 import org.onap.sdc.workflow.services.mappers.WorkflowMapper;
 import org.openecomp.sdc.versioning.ItemManager;
 import org.openecomp.sdc.versioning.types.Item;
@@ -32,7 +32,7 @@ public class WorkflowManagerTest {
     private List<Item> itemList;
 
     @Mock
-    WorkflowMapper workflowMapperMock;
+    private WorkflowMapper workflowMapperMock;
 
     @Mock
     private ItemManager itemManagerMock;
@@ -59,7 +59,7 @@ public class WorkflowManagerTest {
         verify(itemManagerMock).list(WorkflowManagerImpl.ITEM_PREDICATE);
     }
 
-    @Test(expected = WorkflowNotFoundException.class)
+    @Test(expected = EntityNotFoundException.class)
     public void shouldThrowExceptionWhenWorkflowDontExist() {
         Workflow nonExistingWorkflow = new Workflow();
         nonExistingWorkflow.setId(ITEM1_ID);
@@ -110,7 +110,7 @@ public class WorkflowManagerTest {
 
     }
 
-    @Test(expected = WorkflowNotFoundException.class)
+    @Test(expected = EntityNotFoundException.class)
     public void shouldThrowExceptionWhenWorkflowToUpdateNotFound() {
         doReturn(null).when(itemManagerMock).get(ITEM1_ID);
         workflowManager.update(createWorkflow(1, true));
