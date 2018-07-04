@@ -1,16 +1,25 @@
 package org.onap.sdc.workflow.services;
 
 import java.util.Collection;
-import org.openecomp.sdc.versioning.dao.types.Version;
+import org.onap.sdc.workflow.api.types.VersionRequestDto;
+import org.onap.sdc.workflow.persistence.types.WorkflowVersion;
+import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
+
 
 public interface WorkflowVersionManager {
 
-    Collection<Version> list(String id);
+    Collection<WorkflowVersion> list(String workflowId);
 
-    Version get(String id, Version version);
+    WorkflowVersion get(String workflowId,String versionId);
 
-    Version create(String id, Version version);
+    WorkflowVersion create(String workflowId,  VersionRequestDto versionRequest);
 
-    void update(String id,Version version);
+    void update(String id,WorkflowVersion version);
+
+    void uploadArtifact(String workflowId,WorkflowVersion version, MultipartFile artifact);
+
+    ArtifactEntity getArtifact(String workflowId,WorkflowVersion version);
+
+    void deleteArtifact(String workflowId,WorkflowVersion version);
 
 }

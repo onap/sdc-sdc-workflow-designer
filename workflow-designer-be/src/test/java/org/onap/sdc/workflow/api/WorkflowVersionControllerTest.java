@@ -26,6 +26,8 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.sdc.workflow.RestPath;
 import org.onap.sdc.workflow.api.impl.WorkflowVersionControllerImpl;
+import org.onap.sdc.workflow.api.types.VersionRequestDto;
+import org.onap.sdc.workflow.persistence.types.WorkflowVersion;
 import org.onap.sdc.workflow.services.WorkflowVersionManager;
 import org.openecomp.sdc.versioning.dao.types.Version;
 import org.springframework.http.HttpStatus;
@@ -75,7 +77,7 @@ public class WorkflowVersionControllerTest {
     @Test
     public void shouldCreateWorkflowVersionWhenCallingVersionsPostREST() throws Exception {
 
-        Version version = new Version();
+        VersionRequestDto version = new VersionRequestDto();
         version.setDescription("VersionDescription");
         mockMvc.perform(post(RestPath.getWorkflowVersions(ITEM1_ID)).header(RestConstants.USER_ID_HEADER_PARAM, USER_ID)
                                                                     .contentType(APPLICATION_JSON)
@@ -88,18 +90,18 @@ public class WorkflowVersionControllerTest {
 
     @Test
     public void shouldReturnWorkflowVersionWhenExists() throws Exception {
-        Version version = new Version(VERSION1_ID);
-        doReturn(version).when(workflowVersionManagerMock).get(ITEM1_ID, version);
+        WorkflowVersion version = new WorkflowVersion(VERSION1_ID);
+        doReturn(version).when(workflowVersionManagerMock).get(ITEM1_ID, VERSION1_ID);
         mockMvc.perform(
                 get(RestPath.getWorkflowVersion(ITEM1_ID, VERSION1_ID)).header(RestConstants.USER_ID_HEADER_PARAM, USER_ID)
                                                                        .contentType(APPLICATION_JSON)).andDo(print())
                .andExpect(status().isOk()).andExpect(jsonPath("$.id", is(version.getId())));
-        verify(workflowVersionManagerMock, times(1)).get(ITEM1_ID, version);
+        verify(workflowVersionManagerMock, times(1)).get(ITEM1_ID, VERSION1_ID);
     }
 
     @Test
     public void shouldUpdateWorkflowVersionWhenCallingPutREST() throws Exception {
-        Version version = new Version();
+        WorkflowVersion version = new WorkflowVersion();
         version.setDescription("Updated");
 
         MockHttpServletResponse result = mockMvc.perform(
