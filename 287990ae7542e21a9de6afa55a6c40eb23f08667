@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_d18f0b2d",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/WorkflowVersionController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-07-09T08:31:06Z",
+      "side": 1,
+      "message": "change the name. VersionDto?",
+      "range": {
+        "startLine": 28,
+        "startChar": 54,
+        "endLine": 28,
+        "endChar": 86
+      },
+      "revId": "287990ae7542e21a9de6afa55a6c40eb23f08667",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_9199837b",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/WorkflowVersionController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-07-09T08:31:06Z",
+      "side": 1,
+      "message": "change to upload artifact",
+      "range": {
+        "startLine": 41,
+        "startChar": 9,
+        "endLine": 41,
+        "endChar": 23
+      },
+      "revId": "287990ae7542e21a9de6afa55a6c40eb23f08667",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_f181e7fb",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/WorkflowVersionManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-07-09T08:31:06Z",
+      "side": 1,
+      "message": "1. add space\n2. send version id instead of object",
+      "range": {
+        "startLine": 13,
+        "startChar": 34,
+        "endLine": 13,
+        "endChar": 57
+      },
+      "revId": "287990ae7542e21a9de6afa55a6c40eb23f08667",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_11857306",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/WorkflowVersionManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-07-09T08:31:06Z",
+      "side": 1,
+      "message": "change to workflowVersionId",
+      "range": {
+        "startLine": 13,
+        "startChar": 31,
+        "endLine": 13,
+        "endChar": 33
+      },
+      "revId": "287990ae7542e21a9de6afa55a6c40eb23f08667",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_3188af21",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/WorkflowVersionManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-07-09T08:31:06Z",
+      "side": 1,
+      "message": "send version id instead of object",
+      "range": {
+        "startLine": 15,
+        "startChar": 39,
+        "endLine": 15,
+        "endChar": 71
+      },
+      "revId": "287990ae7542e21a9de6afa55a6c40eb23f08667",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
