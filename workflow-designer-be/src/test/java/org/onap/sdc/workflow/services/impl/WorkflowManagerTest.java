@@ -6,14 +6,22 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.onap.sdc.workflow.TestUtil.createItem;
 import static org.onap.sdc.workflow.TestUtil.createWorkflow;
+import static org.onap.sdc.workflow.api.RestConstants.SORT_FIELD_NAME;
+import static org.onap.sdc.workflow.api.RestConstants.SORT_ORDER_ASC;
+import static org.onap.sdc.workflow.api.RestConstants.SORT_ORDER_DESC;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.onap.sdc.workflow.api.types.PaginationParameters;
 import org.onap.sdc.workflow.persistence.types.Workflow;
 import org.onap.sdc.workflow.services.UniqueValueService;
 import org.onap.sdc.workflow.services.exceptions.WorkflowNotFoundException;
@@ -30,9 +38,10 @@ public class WorkflowManagerTest {
     private static final String WORKFLOW_TYPE = "WORKFLOW";
     private static final String WORKFLOW_NAME_UNIQUE_TYPE = "WORKFLOW_NAME";
     private List<Item> itemList;
+    private List<Workflow> workflowList;
 
     @Mock
-    WorkflowMapper workflowMapperMock;
+    private WorkflowMapper workflowMapperMock;
 
     @Mock
     private ItemManager itemManagerMock;
@@ -46,16 +55,21 @@ public class WorkflowManagerTest {
 
     @Before
     public void setUp() {
-        itemList = Arrays.asList(createItem(1, true, true), createItem(2, true, true), createItem(3, true, true));
-
+        itemList = Arrays.asList(createItem(1, true, true), createItem(2, true, true), createItem(3, true, true),
+                createItem(4, true, true), createItem(5, true, true));
+        workflowList = Arrays.asList(createWorkflow(1, true), createWorkflow(2, true), createWorkflow(3, true),
+                createWorkflow(4, true), createWorkflow(5, true));
     }
-
 
     @Test
     public void shouldReturnWorkflowVersionList() {
-
+        PaginationParameters paginationParameters = getDataPaginationParameters(2, 1, SORT_ORDER_DESC,
+                SORT_FIELD_NAME);
         doReturn(itemList).when(itemManagerMock).list(WorkflowManagerImpl.ITEM_PREDICATE);
-        workflowManager.list();
+        for (int i=0; i<itemList.size(); i++) {
+            doReturn(workflowList.get(i)).when(workflowMapperMock).itemToWorkflow(itemList.get(i));
+        }
+        workflowManager.list(paginationParameters);
         verify(itemManagerMock).list(WorkflowManagerImpl.ITEM_PREDICATE);
     }
 
@@ -116,4 +130,116 @@ public class WorkflowManagerTest {
         workflowManager.update(createWorkflow(1, true));
     }
 
+    @Test
+    public void shouldListAllWorkflowsWhenLimitAndOffsetAreValid() {
+        PaginationParameters paginationParameters = getDataPaginationParameters(5, 0, SORT_ORDER_ASC,
+                SORT_FIELD_NAME);
+        doReturn(itemList).when(itemManagerMock).list(WorkflowManagerImpl.ITEM_PREDICATE);
+        for (int i=0; i<itemList.size(); i++) {
+            doReturn(workflowList.get(i)).when(workflowMapperMock).itemToWorkflow(itemList.get(i));
+        }
+        Assert.assertEquals(5, workflowManager.list(paginationParameters).size());
+    }
+
+    @Test
+    public void shouldListLimitFilteredWorkflowsInFirstOffsetRange() {
+        PaginationParameters paginationParameters = getDataPaginationParameters(3, 0, SORT_ORDER_ASC,
+                SORT_FIELD_NAME);
+        doReturn(itemList).when(itemManagerMock).list(WorkflowManagerImpl.ITEM_PREDICATE);
+        for (int i=0; i<itemList.size(); i++) {
+            doReturn(workflowList.get(i)).when(workflowMapperMock).itemToWorkflow(itemList.get(i));
+        }
+        Assert.assertEquals(3, workflowManager.list(paginationParameters).size());
+    }
+
+    @Test
+    public void shouldListLimitFilteredWorkflowsInSecondOffsetRange() {
+        PaginationParameters paginationParameters = getDataPaginationParameters(3, 1, SORT_ORDER_ASC,
+                SORT_FIELD_NAME);
+        doReturn(itemList).when(itemManagerMock).list(WorkflowManagerImpl.ITEM_PREDICATE);
+        for (int i=0; i<itemList.size(); i++) {
+            doReturn(workflowList.get(i)).when(workflowMapperMock).itemToWorkflow(itemList.get(i));
+        }
+        Assert.assertEquals(2, workflowManager.list(paginationParameters).size());
+    }
+
+    @Test
+    public void shouldListAllWorkflowsWhenLimitGreaterThanTotalRecordsAndOffsetInRange() {
+        PaginationParameters paginationParameters = getDataPaginationParameters(10, 0, SORT_ORDER_ASC,
+                SORT_FIELD_NAME);
+        doReturn(itemList).when(itemManagerMock).list(WorkflowManagerImpl.ITEM_PREDICATE);
+        for (int i=0; i<itemList.size(); i++) {
+            doReturn(workflowList.get(i)).when(workflowMapperMock).itemToWorkflow(itemList.get(i));
+        }
+        Assert.assertEquals(5, workflowManager.list(paginationParameters).size());
+    }
+
+    @Test
+    public void shouldNotListWorkflowsIfOffsetGreaterThanTotalRecords() {
+        PaginationParameters paginationParameters = getDataPaginationParameters(3, 6, SORT_ORDER_ASC,
+                SORT_FIELD_NAME);
+        doReturn(itemList).when(itemManagerMock).list(WorkflowManagerImpl.ITEM_PREDICATE);
+        for (int i=0; i<itemList.size(); i++) {
+            doReturn(workflowList.get(i)).when(workflowMapperMock).itemToWorkflow(itemList.get(i));
+        }
+        Assert.assertEquals(0, workflowManager.list(paginationParameters).size());
+    }
+
+    @Test
+    public void shouldNotListWorkflowsIfOffsetGreaterThanTotalRecordsAndLimitZero() {
+        PaginationParameters paginationParameters = getDataPaginationParameters(0, 6, SORT_ORDER_ASC,
+                SORT_FIELD_NAME);
+        doReturn(itemList).when(itemManagerMock).list(WorkflowManagerImpl.ITEM_PREDICATE);
+        for (int i=0; i<itemList.size(); i++) {
+            doReturn(workflowList.get(i)).when(workflowMapperMock).itemToWorkflow(itemList.get(i));
+        }
+        Assert.assertEquals(0, workflowManager.list(paginationParameters).size());
+    }
+
+    @Test
+    public void shouldNotListWorkflowsIfOffsetValidAndLimitZero() {
+        PaginationParameters paginationParameters = getDataPaginationParameters(0, 0, SORT_ORDER_ASC,
+                SORT_FIELD_NAME);
+        doReturn(itemList).when(itemManagerMock).list(WorkflowManagerImpl.ITEM_PREDICATE);
+        for (int i=0; i<itemList.size(); i++) {
+            doReturn(workflowList.get(i)).when(workflowMapperMock).itemToWorkflow(itemList.get(i));
+        }
+        Assert.assertEquals(0, workflowManager.list(paginationParameters).size());
+    }
+
+    @Test
+    public void shouldNotListWorkflowsBothLimitAndOffsetGreaterThanTotalRecords() {
+        PaginationParameters paginationParameters = getDataPaginationParameters(10, 10, SORT_ORDER_ASC,
+                SORT_FIELD_NAME);
+        doReturn(itemList).when(itemManagerMock).list(WorkflowManagerImpl.ITEM_PREDICATE);
+        for (int i=0; i<itemList.size(); i++) {
+            doReturn(workflowList.get(i)).when(workflowMapperMock).itemToWorkflow(itemList.get(i));
+        }
+        Assert.assertEquals(0, workflowManager.list(paginationParameters).size());
+    }
+
+    @Test
+    public void shouldListLimitOffsetAppliedWorkflowsSortedInDescOrder() {
+        PaginationParameters paginationParameters = getDataPaginationParameters(2, 1, SORT_ORDER_DESC,
+                SORT_FIELD_NAME);
+        doReturn(itemList).when(itemManagerMock).list(WorkflowManagerImpl.ITEM_PREDICATE);
+        for (int i=0; i<itemList.size(); i++) {
+            doReturn(workflowList.get(i)).when(workflowMapperMock).itemToWorkflow(itemList.get(i));
+        }
+        Collection<Workflow> workflows = workflowManager.list(paginationParameters);
+        Assert.assertEquals(2, workflows.size());
+        Iterator<Workflow> workflowIterator = workflows.iterator();
+        Assert.assertEquals("workflowName3", workflowIterator.next().getName());
+        Assert.assertEquals("workflowName2", workflowIterator.next().getName());
+    }
+
+    private PaginationParameters getDataPaginationParameters(int limit, int offset,
+                                                             String sortOrder, String sortField) {
+        PaginationParameters paginationParameters = new PaginationParameters();
+        paginationParameters.setLimit(limit);
+        paginationParameters.setOffset(offset);
+        paginationParameters.setSortOrder(sortOrder);
+        paginationParameters.setSortField(sortField);
+        return paginationParameters;
+    }
 }
