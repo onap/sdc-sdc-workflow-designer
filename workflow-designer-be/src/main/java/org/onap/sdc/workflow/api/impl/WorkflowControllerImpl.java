@@ -4,6 +4,8 @@ import static org.onap.sdc.workflow.api.RestConstants.USER_ID_HEADER_PARAM;
 
 import org.onap.sdc.workflow.api.WorkflowController;
 import org.onap.sdc.workflow.api.types.CollectionWrapper;
+import org.onap.sdc.workflow.api.types.PaginationParameters;
+import org.onap.sdc.workflow.api.types.PaginationParametersRequestDto;
 import org.onap.sdc.workflow.persistence.types.Workflow;
 import org.onap.sdc.workflow.services.WorkflowManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +28,10 @@ public class WorkflowControllerImpl implements WorkflowController {
     }
 
     @Override
-    public CollectionWrapper<Workflow> list(@RequestHeader(USER_ID_HEADER_PARAM) String user) {
-        return new CollectionWrapper<>(workflowManager.list());
+    public CollectionWrapper<Workflow> list(@RequestHeader(USER_ID_HEADER_PARAM) String user,
+                                            PaginationParametersRequestDto paginationParametersRequestDto) {
+        PaginationParameters paginationParameters = paginationParametersRequestDto.validatePaginationParameters();
+        return new CollectionWrapper<>(workflowManager.list(paginationParameters));
     }
 
     @Override
@@ -49,4 +53,5 @@ public class WorkflowControllerImpl implements WorkflowController {
         workflowManager.update(workflow);
         return workflow;
     }
+
 }

@@ -3,6 +3,7 @@ package org.onap.sdc.workflow.api;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.onap.sdc.workflow.api.types.CollectionWrapper;
+import org.onap.sdc.workflow.api.types.PaginationParametersRequestDto;
 import org.onap.sdc.workflow.persistence.types.Workflow;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public interface WorkflowController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation("List workflows")
-    CollectionWrapper<Workflow> list(String user);
+    CollectionWrapper<Workflow> list(String user, PaginationParametersRequestDto paginationParameters);
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation("Create workflow")
