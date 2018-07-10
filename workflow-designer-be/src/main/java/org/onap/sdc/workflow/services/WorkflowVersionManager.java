@@ -4,6 +4,7 @@ import java.util.Collection;
 import org.onap.sdc.workflow.api.types.VersionRequestDto;
 import org.onap.sdc.workflow.persistence.types.WorkflowVersion;
 import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 
 public interface WorkflowVersionManager {

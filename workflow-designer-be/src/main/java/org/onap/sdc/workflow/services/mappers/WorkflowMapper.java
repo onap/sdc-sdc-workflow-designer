@@ -10,7 +10,6 @@ public interface WorkflowMapper {
 
     Workflow itemToWorkflow(Item item);
 
-
     @InheritInverseConfiguration
     Item workflowToItem(Workflow workflow);
 

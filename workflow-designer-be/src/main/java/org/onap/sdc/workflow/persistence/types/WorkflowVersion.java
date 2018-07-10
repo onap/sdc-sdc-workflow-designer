@@ -13,12 +13,12 @@ public class WorkflowVersion {
     private String baseId;
     private Date creationTime;
     private Date modificationTime;
-    private VersionStatus status;
+    private WorkflowVersionStatus status;
 
 
     public WorkflowVersion(String id) {
         this.id = id;
-        this.status = VersionStatus.Draft;
+        this.status = WorkflowVersionStatus.DRAFT;
     }
 
     public WorkflowVersion() {

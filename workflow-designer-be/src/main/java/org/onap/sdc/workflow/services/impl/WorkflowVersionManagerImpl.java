@@ -9,11 +9,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.onap.sdc.workflow.api.types.VersionRequestDto;
 import org.onap.sdc.workflow.persistence.ArtifactRepository;
 import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
-import org.onap.sdc.workflow.persistence.types.VersionStatus;
+import org.onap.sdc.workflow.persistence.types.WorkflowVersionStatus;
 import org.onap.sdc.workflow.persistence.types.WorkflowVersion;
 import org.onap.sdc.workflow.services.WorkflowVersionManager;
 import org.onap.sdc.workflow.services.exceptions.CreateVersionException;
@@ -112,7 +111,7 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
     @Override
     public void uploadArtifact(String workflowId, WorkflowVersion version, MultipartFile artifact) {
         WorkflowVersion retrievedVersion = get(workflowId, version.getId());
-        if (VersionStatus.Certified.equals(retrievedVersion.getStatus())) {
+        if (WorkflowVersionStatus.CERTIFIED.equals(retrievedVersion.getStatus())) {
             throw new VersionModificationException(workflowId, version.getId());
         }
 
@@ -142,7 +141,7 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
     @Override
     public void deleteArtifact(String workflowId, WorkflowVersion version) {
         WorkflowVersion retrievedVersion = get(workflowId, version.getId());
-        if (VersionStatus.Certified.equals(retrievedVersion.getStatus())) {
+        if (WorkflowVersionStatus.CERTIFIED.equals(retrievedVersion.getStatus())) {
             throw new VersionModificationException(workflowId, version.getId());
         }
 

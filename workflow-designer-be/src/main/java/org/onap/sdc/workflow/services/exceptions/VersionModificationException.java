@@ -4,6 +4,6 @@ public class VersionModificationException extends RuntimeException {
 
     public VersionModificationException(String workflowId, String version) {
         super(String.format("Error while trying to modify version for workflow id %s. "
-                                    + "Version %s is Certified and can not be edited", workflowId, version));
+                                    + "Version %s is CERTIFIED and can not be edited", workflowId, version));
     }
 }

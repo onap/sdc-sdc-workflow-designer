@@ -7,7 +7,7 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.onap.sdc.workflow.persistence.types.VersionStatus.*;
+import static org.onap.sdc.workflow.persistence.types.WorkflowVersionStatus.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +16,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,6 +27,7 @@ import org.onap.sdc.workflow.api.types.VersionRequestDto;
 import org.onap.sdc.workflow.persistence.ArtifactRepository;
 import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
 import org.onap.sdc.workflow.persistence.types.WorkflowVersion;
+import org.onap.sdc.workflow.persistence.types.WorkflowVersionStatus;
 import org.onap.sdc.workflow.services.exceptions.CreateVersionException;
 import org.onap.sdc.workflow.services.exceptions.EntityNotFoundException;
 import org.onap.sdc.workflow.services.mappers.VersionMapper;
@@ -136,7 +136,7 @@ public class WorkflowVersionManagerTest {
         MockMultipartFile mockFile =
                 new MockMultipartFile("data", mockFileName, "text/plain", "some xml".getBytes());
         WorkflowVersion version = new WorkflowVersion(VERSION1_ID);
-        version.setStatus(org.onap.sdc.workflow.persistence.types.VersionStatus.Draft);
+        version.setStatus(WorkflowVersionStatus.DRAFT);
         doReturn(version).when(workflowVersionManager).get(ITEM1_ID,VERSION1_ID);
         workflowVersionManager.uploadArtifact(ITEM1_ID,version,mockFile);
 
@@ -146,7 +146,7 @@ public class WorkflowVersionManagerTest {
     @Test(expected = EntityNotFoundException.class)
     public void shouldThrowExceptionWhenArtifactNotFound(){
         WorkflowVersion version = new WorkflowVersion(VERSION1_ID);
-        version.setStatus(Draft);
+        version.setStatus(DRAFT);
         doReturn(version).when(workflowVersionManager).get(ITEM1_ID,VERSION1_ID);
         doReturn(Optional.empty()).when(artifactRepositoryMock).get(ITEM1_ID,VERSION1_ID);
         workflowVersionManager.getArtifact(ITEM1_ID,version);
