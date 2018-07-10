@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_2c4a9283",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/impl/WorkflowControllerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-07-10T06:55:18Z",
+      "side": 1,
+      "message": "validation should be done on the pagination object",
+      "range": {
+        "startLine": 52,
+        "startChar": 8,
+        "endLine": 52,
+        "endChar": 113
+      },
+      "revId": "fab77d9589fe8dda94e3808e094279f42ce8ef7d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_4c4d9e98",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/impl/WorkflowControllerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-07-10T06:55:18Z",
+      "side": 1,
+      "message": "validation on the pagination should be on the object",
+      "range": {
+        "startLine": 77,
+        "startChar": 4,
+        "endLine": 160,
+        "endChar": 5
+      },
+      "revId": "fab77d9589fe8dda94e3808e094279f42ce8ef7d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_ac5d424a",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/types/Workflow.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-07-10T06:55:18Z",
+      "side": 1,
+      "message": "this is not the way to add comparator. the class should implement Comparable interface.",
+      "range": {
+        "startLine": 15,
+        "startChar": 4,
+        "endLine": 20,
+        "endChar": 6
+      },
+      "revId": "fab77d9589fe8dda94e3808e094279f42ce8ef7d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_6c573a27",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/impl/WorkflowManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-07-10T06:55:18Z",
+      "side": 1,
+      "message": "it is not the Workflow manager to apply the pagination",
+      "range": {
+        "startLine": 45,
+        "startChar": 4,
+        "endLine": 81,
+        "endChar": 5
+      },
+      "revId": "fab77d9589fe8dda94e3808e094279f42ce8ef7d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
