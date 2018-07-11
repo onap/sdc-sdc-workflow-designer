@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_ad621bd7",
+        "filename": "workflow-docker-assembly/ReadMe/Workflow_Manual_Steps_And_Commands.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-11T11:39:34Z",
+      "side": 1,
+      "message": "you have commented on old version; it is already removed in patch set 4",
+      "parentUuid": "5a93c517_91c2e351",
+      "range": {
+        "startLine": 13,
+        "startChar": 63,
+        "endLine": 13,
+        "endChar": 123
+      },
+      "revId": "872cd014eb83dd2552adb2f1aaa27fb0c6c3d659",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_31a18fa9",
         "filename": "workflow-docker-assembly/workflow-be-init/create_workflow_db.cql",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2018-07-11T11:28:47Z",
       "side": 1,
       "message": "not needed if you declare \u0027USE workflow\u0027",
+      "range": {
+        "startLine": 9,
+        "startChar": 28,
+        "endLine": 9,
+        "endChar": 37
+      },
+      "revId": "872cd014eb83dd2552adb2f1aaa27fb0c6c3d659",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_8d671fea",
+        "filename": "workflow-docker-assembly/workflow-be-init/create_workflow_db.cql",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-11T11:39:34Z",
+      "side": 1,
+      "message": "I have used the file as it is which was sent. As part of docker activity; none of the functional aspects are changed.",
+      "parentUuid": "5a93c517_31a18fa9",
       "range": {
         "startLine": 9,
         "startChar": 28,
