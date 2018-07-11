@@ -1,0 +1,342 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_ca6c2d0b",
+        "filename": "workflow-docker-assembly/ReadMe/Workflow_Manual_Steps_And_Commands.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-07-11T11:01:33Z",
+      "side": 1,
+      "message": "I recommend using the Markdown format (.md) for such files.",
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_aaaa0118",
+        "filename": "workflow-docker-assembly/ReadMe/Workflow_Manual_Steps_And_Commands.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-07-11T11:01:33Z",
+      "side": 1,
+      "message": "If you\u0027re passing the configuration via environment variables, why do you need the external configuration file? Just package it inside the container, but populate from environment variables. Or vice versa - use volumes to map a configuration file inside a container, but then put the configuration directly in that file.",
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_eab80977",
+        "filename": "workflow-docker-assembly/ReadMe/application.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-07-11T11:01:33Z",
+      "side": 1,
+      "message": "Do you want to expose these pieces of configuration?\nAlso, I believe that changing the port will require changes in Dockerfile (EXPOSE).",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 16
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_8a7625d7",
+        "filename": "workflow-docker-assembly/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-07-11T11:01:33Z",
+      "side": 1,
+      "message": "Please fix the formatting. It is broken because both tabs and spaces are used.",
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_4a801d8b",
+        "filename": "workflow-docker-assembly/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-07-11T11:01:33Z",
+      "side": 1,
+      "message": "This is redundant because the parent groupId is the same. IntelliJ IDEA will give you a warning about it if you run static analysis.",
+      "range": {
+        "startLine": 6,
+        "startChar": 11,
+        "endLine": 6,
+        "endChar": 45
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_0a4a1583",
+        "filename": "workflow-docker-assembly/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-07-11T11:01:33Z",
+      "side": 1,
+      "message": "The groupId must follow the naming convention for Java packages, which means no dash/hyphen symbols. https://maven.apache.org/guides/mini/guide-naming-conventions.html",
+      "range": {
+        "startLine": 12,
+        "startChar": 17,
+        "endLine": 12,
+        "endChar": 51
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_2a4d9199",
+        "filename": "workflow-docker-assembly/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-07-11T11:01:33Z",
+      "side": 1,
+      "message": "These properties are redundant since they are used only once in pluginManagement. You could have use the values directly.",
+      "range": {
+        "startLine": 18,
+        "startChar": 1,
+        "endLine": 20,
+        "endChar": 1
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_ca43cd6a",
+        "filename": "workflow-docker-assembly/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-07-11T11:01:33Z",
+      "side": 1,
+      "message": "Is it OK to hard-code these values? Especially the credentials :/",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 37
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_ea46c97a",
+        "filename": "workflow-docker-assembly/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-07-11T11:01:33Z",
+      "side": 1,
+      "message": "I don\u0027t think these comments add any value.",
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_8a5dc54a",
+        "filename": "workflow-docker-assembly/workflow-be-init/create_workflow_db.cql",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-07-11T11:01:33Z",
+      "side": 1,
+      "message": "Is there a way to break these lines? They are very difficult to read, so you can\u0027t easily verify the schema.",
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_6a52b936",
+        "filename": "workflow-docker-assembly/workflow-be-init/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-07-11T11:01:33Z",
+      "side": 1,
+      "message": "You don\u0027t need this when using pluginManagement. Actually, this is exactly the point of the pluginManagement section - to declare the properties/configuration of a plugin that you want inherited.",
+      "range": {
+        "startLine": 28,
+        "startChar": 33,
+        "endLine": 28,
+        "endChar": 54
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_ca3aede6",
+        "filename": "workflow-docker-assembly/workflow-be/Dockerfile",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-07-11T11:01:33Z",
+      "side": 1,
+      "message": "Please don\u0027t do it. This way you may accidentally package a wrong artifact. Require a build argument, and pass it via the Docker plugin (i.e. artifact version).",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 22
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_aa1f616f",
+        "filename": "workflow-docker-assembly/workflow-be/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-07-11T11:01:33Z",
+      "side": 1,
+      "message": "I think this was supposed to come from the pluginManagement or the inherited property.",
+      "range": {
+        "startLine": 27,
+        "startChar": 29,
+        "endLine": 27,
+        "endChar": 34
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_6a29599a",
+        "filename": "workflow-docker-assembly/workflow-be/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-07-11T11:01:33Z",
+      "side": 1,
+      "message": "Should be inherited from pluginManagement.",
+      "range": {
+        "startLine": 67,
+        "startChar": 27,
+        "endLine": 67,
+        "endChar": 47
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_4a2edda6",
+        "filename": "workflow-docker-assembly/workflow-be/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-07-11T11:01:33Z",
+      "side": 1,
+      "message": "Please don\u0027t use tabs characters.",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 1
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_2a1b5181",
+        "filename": "workflow-docker-assembly/workflow-fe/Dockerfile",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-07-11T11:01:33Z",
+      "side": 1,
+      "message": "What is this? If there\u0027s nothing to add, just don\u0027t include the file until it actually can do something.",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 15
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
