@@ -119,6 +119,53 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_ade1bbfd",
+        "filename": "workflow-docker-assembly/ReadMe/application.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-07-11T13:24:11Z",
+      "side": 1,
+      "message": "What I meant is that this value may not match the EXPOSE in Dockerfile. In which case it will be at least confusing https://docs.docker.com/engine/reference/builder/#expose",
+      "parentUuid": "5a93c517_8d12bf56",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 16
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_6debb3dc",
+        "filename": "workflow-docker-assembly/ReadMe/application.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-07-11T13:24:11Z",
+      "side": 1,
+      "message": "These are coming from environment variables, aren\u0027t they? So it looks like unnecessary mixing two approaches - env variable and a mapped file.",
+      "range": {
+        "startLine": 5,
+        "startChar": 37,
+        "endLine": 5,
+        "endChar": 60
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_8a7625d7",
         "filename": "workflow-docker-assembly/pom.xml",
         "patchSetId": 4
@@ -259,6 +306,30 @@
       "side": 1,
       "message": "I prefer to put properties at once place as it is much easier to manage whenever any version upgrades etc comes in future.",
       "parentUuid": "5a93c517_2a4d9199",
+      "range": {
+        "startLine": 18,
+        "startChar": 1,
+        "endLine": 20,
+        "endChar": 1
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_ad8f7b2d",
+        "filename": "workflow-docker-assembly/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-07-11T13:24:11Z",
+      "side": 1,
+      "message": "I explained in other comments why you don\u0027t need it in the other places. The parent pom\u0027s pluginManagement is the only place where you need a version, so it\u0027s make sense to write the version there instead of a property - unnecessary extra step. See https://maven.apache.org/pom.html#Dependency_Management and https://maven.apache.org/pom.html#Plugin_Management",
+      "parentUuid": "5a93c517_0d746f9a",
       "range": {
         "startLine": 18,
         "startChar": 1,
@@ -482,6 +553,30 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_0d88ef20",
+        "filename": "workflow-docker-assembly/workflow-be/Dockerfile",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-07-11T13:24:11Z",
+      "side": 1,
+      "message": "There are many forces here. The fact that someone did it doesn\u0027t mean we must follow, if we know a better/more suitable in our situation way. For instance, changing the approach in SDC onboarding would require significant effort, while doing it from scratch is much easier.",
+      "parentUuid": "5a93c517_ad345bdf",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 22
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_aa1f616f",
         "filename": "workflow-docker-assembly/workflow-be/pom.xml",
         "patchSetId": 4
@@ -517,6 +612,30 @@
       "side": 1,
       "message": "it will come from inherited property; will be changed.",
       "parentUuid": "5a93c517_aa1f616f",
+      "range": {
+        "startLine": 27,
+        "startChar": 29,
+        "endLine": 27,
+        "endChar": 34
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_2d8b6b1f",
+        "filename": "workflow-docker-assembly/workflow-be/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-07-11T13:24:11Z",
+      "side": 1,
+      "message": "As I mentioned elsewhere, this should come from https://maven.apache.org/pom.html#Plugin_Management",
+      "parentUuid": "5a93c517_ed2263a2",
       "range": {
         "startLine": 27,
         "startChar": 29,
