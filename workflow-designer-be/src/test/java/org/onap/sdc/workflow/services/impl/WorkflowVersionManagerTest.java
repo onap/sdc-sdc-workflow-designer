@@ -30,7 +30,7 @@ import org.onap.sdc.workflow.persistence.types.WorkflowVersion;
 import org.onap.sdc.workflow.persistence.types.WorkflowVersionStatus;
 import org.onap.sdc.workflow.services.exceptions.CreateVersionException;
 import org.onap.sdc.workflow.services.exceptions.EntityNotFoundException;
-import org.onap.sdc.workflow.services.mappers.VersionMapper;
+import org.onap.sdc.workflow.services.impl.mappers.VersionMapper;
 import org.openecomp.sdc.versioning.VersioningManager;
 import org.openecomp.sdc.versioning.dao.types.Version;
 import org.openecomp.sdc.versioning.dao.types.VersionStatus;

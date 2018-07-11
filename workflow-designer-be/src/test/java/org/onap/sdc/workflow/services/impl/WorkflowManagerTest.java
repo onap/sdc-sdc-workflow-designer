@@ -17,7 +17,7 @@ import org.mockito.Mock;
 import org.onap.sdc.workflow.persistence.types.Workflow;
 import org.onap.sdc.workflow.services.UniqueValueService;
 import org.onap.sdc.workflow.services.exceptions.EntityNotFoundException;
-import org.onap.sdc.workflow.services.mappers.WorkflowMapper;
+import org.onap.sdc.workflow.services.impl.mappers.WorkflowMapper;
 import org.openecomp.sdc.versioning.ItemManager;
 import org.openecomp.sdc.versioning.types.Item;
 import org.openecomp.sdc.versioning.types.ItemStatus;

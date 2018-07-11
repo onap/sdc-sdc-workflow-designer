@@ -19,7 +19,7 @@ import org.onap.sdc.workflow.services.exceptions.CreateVersionException;
 import org.onap.sdc.workflow.services.exceptions.EntityNotFoundException;
 import org.onap.sdc.workflow.services.exceptions.InvalidArtifactException;
 import org.onap.sdc.workflow.services.exceptions.VersionModificationException;
-import org.onap.sdc.workflow.services.mappers.VersionMapper;
+import org.onap.sdc.workflow.services.impl.mappers.VersionMapper;
 import org.openecomp.sdc.versioning.VersioningManager;
 import org.openecomp.sdc.versioning.dao.types.Version;
 import org.openecomp.sdc.versioning.types.VersionCreationMethod;

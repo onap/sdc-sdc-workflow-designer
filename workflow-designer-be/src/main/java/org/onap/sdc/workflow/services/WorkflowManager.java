@@ -9,7 +9,7 @@ public interface WorkflowManager {
 
     Workflow get(Workflow workflow);
 
-    void create(Workflow workflow);
+    Workflow create(Workflow workflow);
 
     void update(Workflow workflow);
 }

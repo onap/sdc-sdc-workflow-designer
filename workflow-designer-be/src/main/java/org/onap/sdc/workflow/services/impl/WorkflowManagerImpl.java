@@ -3,11 +3,11 @@ package org.onap.sdc.workflow.services.impl;
 import java.util.Collection;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import org.onap.sdc.workflow.services.exceptions.EntityNotFoundException;
-import org.onap.sdc.workflow.services.mappers.WorkflowMapper;
 import org.onap.sdc.workflow.persistence.types.Workflow;
 import org.onap.sdc.workflow.services.UniqueValueService;
 import org.onap.sdc.workflow.services.WorkflowManager;
+import org.onap.sdc.workflow.services.exceptions.EntityNotFoundException;
+import org.onap.sdc.workflow.services.impl.mappers.WorkflowMapper;
 import org.openecomp.sdc.versioning.ItemManager;
 import org.openecomp.sdc.versioning.types.Item;
 import org.openecomp.sdc.versioning.types.ItemStatus;
@@ -18,13 +18,14 @@ import org.springframework.stereotype.Service;
 @Service("workflowManager")
 public class WorkflowManagerImpl implements WorkflowManager {
 
-    private static final String WORKFLOW_TYPE = "WORKFLOW";
+    public static final String WORKFLOW_TYPE = "WORKFLOW";
     private static final String WORKFLOW_NOT_FOUND_ERROR_MSG = "Workflow with id '%s' does not exist";
-    protected static final Predicate<Item> ITEM_PREDICATE = item -> WORKFLOW_TYPE.equals(item.getType());
     private static final String WORKFLOW_NAME_UNIQUE_TYPE = "WORKFLOW_NAME";
+    static final Predicate<Item> ITEM_PREDICATE = item -> WORKFLOW_TYPE.equals(item.getType());
+
     private final ItemManager itemManager;
     private final UniqueValueService uniqueValueService;
-    private WorkflowMapper workflowMapper;
+    private final WorkflowMapper workflowMapper;
 
     @Autowired
     public WorkflowManagerImpl(ItemManager itemManager,
@@ -36,8 +37,8 @@ public class WorkflowManagerImpl implements WorkflowManager {
 
     @Override
     public Collection<Workflow> list() {
-        return itemManager.list(ITEM_PREDICATE).stream()
-                          .map(item -> workflowMapper.itemToWorkflow(item)).collect(Collectors.toList());
+        return itemManager.list(ITEM_PREDICATE).stream().map(workflowMapper::itemToWorkflow)
+                          .collect(Collectors.toList());
     }
 
     @Override
@@ -50,14 +51,14 @@ public class WorkflowManagerImpl implements WorkflowManager {
     }
 
     @Override
-    public void create(Workflow workflow) {
+    public Workflow create(Workflow workflow) {
         Item item = workflowMapper.workflowToItem(workflow);
         item.setStatus(ItemStatus.ACTIVE);
-        item.setType(WORKFLOW_TYPE);
 
-        uniqueValueService.validateUniqueValue(WORKFLOW_NAME_UNIQUE_TYPE, new String[]{workflow.getName()});
+        uniqueValueService.validateUniqueValue(WORKFLOW_NAME_UNIQUE_TYPE, new String[] {workflow.getName()});
         workflow.setId(itemManager.create(item).getId());
-        uniqueValueService.createUniqueValue(WORKFLOW_NAME_UNIQUE_TYPE, new String[]{workflow.getName()});
+        uniqueValueService.createUniqueValue(WORKFLOW_NAME_UNIQUE_TYPE, new String[] {workflow.getName()});
+        return workflow;
     }
 
     @Override
@@ -73,7 +74,6 @@ public class WorkflowManagerImpl implements WorkflowManager {
         item.setId(workflow.getId());
         item.setStatus(retrievedItem.getStatus());
         item.setVersionStatusCounters(retrievedItem.getVersionStatusCounters());
-        item.setType(retrievedItem.getType());
         itemManager.update(item);
     }
 }

@@ -31,22 +31,21 @@ public class WorkflowControllerImpl implements WorkflowController {
     }
 
     @Override
-    public ResponseEntity<?> create(@RequestBody Workflow workflow, @RequestHeader(USER_ID_HEADER_PARAM) String user) {
-        workflowManager.create(workflow);
-        return new ResponseEntity<>(workflow, HttpStatus.CREATED);
+    public ResponseEntity<Workflow> create(@RequestBody Workflow workflow, @RequestHeader(USER_ID_HEADER_PARAM) String user) {
+        return new ResponseEntity<>(workflowManager.create(workflow), HttpStatus.CREATED);
     }
 
     @Override
-    public Workflow get(@PathVariable("id") String id, @RequestHeader(USER_ID_HEADER_PARAM) String user) {
+    public Workflow get(@PathVariable("workflowId") String workflowId, @RequestHeader(USER_ID_HEADER_PARAM) String user) {
         Workflow workflow = new Workflow();
-        workflow.setId(id);
+        workflow.setId(workflowId);
         return workflowManager.get(workflow);
     }
 
     @Override
-    public Workflow update(@RequestBody Workflow workflow, @PathVariable("id") String id,
+    public Workflow update(@RequestBody Workflow workflow, @PathVariable("workflowId") String workflowId,
             @RequestHeader(USER_ID_HEADER_PARAM) String user) {
-        workflow.setId(id);
+        workflow.setId(workflowId);
         workflowManager.update(workflow);
         return workflow;
     }

@@ -1,4 +1,4 @@
-package org.onap.sdc.workflow.api.mapping;
+package org.onap.sdc.workflow.services.impl.mappers;
 
 import static org.junit.Assert.assertEquals;
 
@@ -7,8 +7,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.onap.sdc.workflow.persistence.types.WorkflowVersion;
 import org.onap.sdc.workflow.persistence.types.WorkflowVersionStatus;
-import org.onap.sdc.workflow.services.mappers.VersionMapper;
-import org.onap.sdc.workflow.services.mappers.VersionStatusMapper;
 import org.openecomp.sdc.versioning.dao.types.Version;
 import org.openecomp.sdc.versioning.dao.types.VersionStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,31 +28,31 @@ public class VersionMapperTest {
 
 
     @Test
-    public void shouldMapVersionToWorkflowVersion(){
+    public void shouldMapVersionToWorkflowVersion() {
         Version version = createVersion();
         WorkflowVersion mappedWorkflowVersion = versionMapper.versionToWorkflowVersion(version);
-        assertEquals(mappedWorkflowVersion.getId(),version.getId());
-        assertEquals(mappedWorkflowVersion.getBaseId(),version.getBaseId());
-        assertEquals(mappedWorkflowVersion.getDescription(),version.getDescription());
-        assertEquals(mappedWorkflowVersion.getName(),version.getName());
-        assertEquals(mappedWorkflowVersion.getCreationTime(),version.getCreationTime());
-        assertEquals(mappedWorkflowVersion.getModificationTime(),version.getModificationTime());
+        assertEquals(mappedWorkflowVersion.getId(), version.getId());
+        assertEquals(mappedWorkflowVersion.getBaseId(), version.getBaseId());
+        assertEquals(mappedWorkflowVersion.getDescription(), version.getDescription());
+        assertEquals(mappedWorkflowVersion.getName(), version.getName());
+        assertEquals(mappedWorkflowVersion.getCreationTime(), version.getCreationTime());
+        assertEquals(mappedWorkflowVersion.getModificationTime(), version.getModificationTime());
     }
 
     @Test
-    public void shouldMapWorkflowVersionToVersion(){
+    public void shouldMapWorkflowVersionToVersion() {
         WorkflowVersion workflowVersion = createWorkflowVersion();
         Version mappedVersion = versionMapper.workflowVersionToVersion(workflowVersion);
-        assertEquals(mappedVersion.getId(),workflowVersion.getId());
-        assertEquals(mappedVersion.getBaseId(),workflowVersion.getBaseId());
-        assertEquals(mappedVersion.getDescription(),workflowVersion.getDescription());
-        assertEquals(mappedVersion.getName(),workflowVersion.getName());
-        assertEquals(mappedVersion.getCreationTime(),workflowVersion.getCreationTime());
-        assertEquals(mappedVersion.getModificationTime(),workflowVersion.getModificationTime());
+        assertEquals(mappedVersion.getId(), workflowVersion.getId());
+        assertEquals(mappedVersion.getBaseId(), workflowVersion.getBaseId());
+        assertEquals(mappedVersion.getDescription(), workflowVersion.getDescription());
+        assertEquals(mappedVersion.getName(), workflowVersion.getName());
+        assertEquals(mappedVersion.getCreationTime(), workflowVersion.getCreationTime());
+        assertEquals(mappedVersion.getModificationTime(), workflowVersion.getModificationTime());
 
     }
 
-    private Version createVersion(){
+    private Version createVersion() {
         Version version = new Version("version_id");
         version.setBaseId("base_version_id");
         version.setName("1.0");
@@ -67,7 +65,7 @@ public class VersionMapperTest {
 
     }
 
-    private WorkflowVersion createWorkflowVersion(){
+    private WorkflowVersion createWorkflowVersion() {
         WorkflowVersion workflowVersion = new WorkflowVersion();
         workflowVersion.setId("wf_version_id");
         workflowVersion.setBaseId("wf_base_version_id");

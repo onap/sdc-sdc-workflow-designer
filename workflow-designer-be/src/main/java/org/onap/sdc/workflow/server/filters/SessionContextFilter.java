@@ -38,7 +38,6 @@ public class SessionContextFilter implements Filter {
 
         try {
             if (servletRequest instanceof HttpServletRequest) {
-
                 contextProvider.create(getUser(servletRequest), getTenant());
             }
 
@@ -54,7 +53,9 @@ public class SessionContextFilter implements Filter {
     }
 
     private String getUser(ServletRequest servletRequest) {
-        return ((HttpServletRequest) servletRequest).getHeader(USER_ID_HEADER_PARAM);
+        return "GLOBAL_USER";
+        // TODO: 7/11/2018 get user from header when collaboration will be supported
+                //((HttpServletRequest) servletRequest).getHeader(USER_ID_HEADER_PARAM);
     }
 
     private String getTenant() {

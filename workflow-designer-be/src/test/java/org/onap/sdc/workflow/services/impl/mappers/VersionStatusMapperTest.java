@@ -1,11 +1,10 @@
-package org.onap.sdc.workflow.api.mapping;
+package org.onap.sdc.workflow.services.impl.mappers;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.onap.sdc.workflow.persistence.types.WorkflowVersionStatus;
-import org.onap.sdc.workflow.services.mappers.VersionStatusMapper;
 import org.openecomp.sdc.versioning.dao.types.VersionStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;

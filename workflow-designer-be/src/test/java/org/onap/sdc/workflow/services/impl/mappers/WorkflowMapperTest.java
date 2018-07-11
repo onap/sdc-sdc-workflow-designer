@@ -1,4 +1,4 @@
-package org.onap.sdc.workflow.api.mapping;
+package org.onap.sdc.workflow.services.impl.mappers;
 
 
 import static org.junit.Assert.assertEquals;
@@ -6,12 +6,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.onap.sdc.workflow.TestUtil.createItem;
 import static org.onap.sdc.workflow.TestUtil.createWorkflow;
 
-import java.util.HashMap;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.onap.sdc.workflow.persistence.types.Workflow;
-import org.onap.sdc.workflow.persistence.types.WorkflowProperty;
-import org.onap.sdc.workflow.services.mappers.WorkflowMapper;
 import org.openecomp.sdc.versioning.types.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
