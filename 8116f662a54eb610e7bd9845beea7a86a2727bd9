@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_ed0b4322",
+        "filename": "workflow-docker-assembly/ReadMe/Workflow_Manual_Steps_And_Commands.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-11T11:34:51Z",
+      "side": 1,
+      "message": "ok, this can be done.",
+      "parentUuid": "5a93c517_ca6c2d0b",
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_aaaa0118",
         "filename": "workflow-docker-assembly/ReadMe/Workflow_Manual_Steps_And_Commands.txt",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2018-07-11T11:01:33Z",
       "side": 1,
       "message": "If you\u0027re passing the configuration via environment variables, why do you need the external configuration file? Just package it inside the container, but populate from environment variables. Or vice versa - use volumes to map a configuration file inside a container, but then put the configuration directly in that file.",
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_2d028b09",
+        "filename": "workflow-docker-assembly/ReadMe/Workflow_Manual_Steps_And_Commands.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-11T11:34:51Z",
+      "side": 1,
+      "message": "This is only required for init container. If you look at 2nd point where the real workflow BE container is used; there volume mapping is used to populate configuration file.",
+      "parentUuid": "5a93c517_aaaa0118",
       "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_8d12bf56",
+        "filename": "workflow-docker-assembly/ReadMe/application.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-11T11:34:51Z",
+      "side": 1,
+      "message": "In a way yes, this is the default port on which application is running and can very well be overridden. In case multiple applications are running on same machine; then anyhow it has to be mapped to a unique VM port for outside world to access it.\n\nmoreover this won\u0027t require change in DOCKER file and simple port mapping in docker container would do.",
+      "parentUuid": "5a93c517_eab80977",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 16
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_8a7625d7",
         "filename": "workflow-docker-assembly/pom.xml",
         "patchSetId": 4
@@ -70,6 +130,24 @@
       "writtenOn": "2018-07-11T11:01:33Z",
       "side": 1,
       "message": "Please fix the formatting. It is broken because both tabs and spaces are used.",
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_ed590336",
+        "filename": "workflow-docker-assembly/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-11T11:34:51Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "5a93c517_8a7625d7",
       "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -122,6 +200,30 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_4d4a7756",
+        "filename": "workflow-docker-assembly/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-11T11:34:51Z",
+      "side": 1,
+      "message": "This is the old parent package structure which I have been told not to change yet.",
+      "parentUuid": "5a93c517_0a4a1583",
+      "range": {
+        "startLine": 12,
+        "startChar": 17,
+        "endLine": 12,
+        "endChar": 51
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_2a4d9199",
         "filename": "workflow-docker-assembly/pom.xml",
         "patchSetId": 4
@@ -133,6 +235,30 @@
       "writtenOn": "2018-07-11T11:01:33Z",
       "side": 1,
       "message": "These properties are redundant since they are used only once in pluginManagement. You could have use the values directly.",
+      "range": {
+        "startLine": 18,
+        "startChar": 1,
+        "endLine": 20,
+        "endChar": 1
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_0d746f9a",
+        "filename": "workflow-docker-assembly/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-11T11:34:51Z",
+      "side": 1,
+      "message": "I prefer to put properties at once place as it is much easier to manage whenever any version upgrades etc comes in future.",
+      "parentUuid": "5a93c517_2a4d9199",
       "range": {
         "startLine": 18,
         "startChar": 1,
@@ -168,6 +294,30 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_0d26afba",
+        "filename": "workflow-docker-assembly/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-11T11:34:51Z",
+      "side": 1,
+      "message": "All the modules in SDC ONAP are using the same approach; either direct or via defining a property in the same file.",
+      "parentUuid": "5a93c517_ca43cd6a",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 37
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_ea46c97a",
         "filename": "workflow-docker-assembly/pom.xml",
         "patchSetId": 4
@@ -179,6 +329,24 @@
       "writtenOn": "2018-07-11T11:01:33Z",
       "side": 1,
       "message": "I don\u0027t think these comments add any value.",
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_2d292b89",
+        "filename": "workflow-docker-assembly/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-11T11:34:51Z",
+      "side": 1,
+      "message": "can be removed.",
+      "parentUuid": "5a93c517_ea46c97a",
       "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -202,6 +370,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_2d504b09",
+        "filename": "workflow-docker-assembly/workflow-be-init/create_workflow_db.cql",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-11T11:34:51Z",
+      "side": 1,
+      "message": "sure, this was implementation file and was put in \"as received\". I will get it reformatted.",
+      "parentUuid": "5a93c517_8a5dc54a",
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_6a52b936",
         "filename": "workflow-docker-assembly/workflow-be-init/pom.xml",
         "patchSetId": 4
@@ -213,6 +399,30 @@
       "writtenOn": "2018-07-11T11:01:33Z",
       "side": 1,
       "message": "You don\u0027t need this when using pluginManagement. Actually, this is exactly the point of the pluginManagement section - to declare the properties/configuration of a plugin that you want inherited.",
+      "range": {
+        "startLine": 28,
+        "startChar": 33,
+        "endLine": 28,
+        "endChar": 54
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_4d3357f6",
+        "filename": "workflow-docker-assembly/workflow-be-init/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-11T11:34:51Z",
+      "side": 1,
+      "message": "sure, will refactor this.",
+      "parentUuid": "5a93c517_6a52b936",
       "range": {
         "startLine": 28,
         "startChar": 33,
@@ -248,6 +458,30 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_ad345bdf",
+        "filename": "workflow-docker-assembly/workflow-be/Dockerfile",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-11T11:34:51Z",
+      "side": 1,
+      "message": "The way build structure is defined; there won\u0027t be a use case where this can copy a wrong artifact. however It can be changed to make it more readable.\n\nIs it possible to pass on these guidelines to ONAP community; even SDC On-boarding uses the same approach with incorrect build structure which can cause incorrect artifact to get copied.",
+      "parentUuid": "5a93c517_ca3aede6",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 22
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_aa1f616f",
         "filename": "workflow-docker-assembly/workflow-be/pom.xml",
         "patchSetId": 4
@@ -271,6 +505,30 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_ed2263a2",
+        "filename": "workflow-docker-assembly/workflow-be/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-11T11:34:51Z",
+      "side": 1,
+      "message": "it will come from inherited property; will be changed.",
+      "parentUuid": "5a93c517_aa1f616f",
+      "range": {
+        "startLine": 27,
+        "startChar": 29,
+        "endLine": 27,
+        "endChar": 34
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_6a29599a",
         "filename": "workflow-docker-assembly/workflow-be/pom.xml",
         "patchSetId": 4
@@ -282,6 +540,30 @@
       "writtenOn": "2018-07-11T11:01:33Z",
       "side": 1,
       "message": "Should be inherited from pluginManagement.",
+      "range": {
+        "startLine": 67,
+        "startChar": 27,
+        "endLine": 67,
+        "endChar": 47
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_8d395fda",
+        "filename": "workflow-docker-assembly/workflow-be/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-11T11:34:51Z",
+      "side": 1,
+      "message": "it is inherited from parent properties.",
+      "parentUuid": "5a93c517_6a29599a",
       "range": {
         "startLine": 67,
         "startChar": 27,
@@ -328,6 +610,30 @@
       "writtenOn": "2018-07-11T11:01:33Z",
       "side": 1,
       "message": "What is this? If there\u0027s nothing to add, just don\u0027t include the file until it actually can do something.",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 15
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_cd1f675a",
+        "filename": "workflow-docker-assembly/workflow-fe/Dockerfile",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-11T11:34:51Z",
+      "side": 1,
+      "message": "This is pending because FE code is not yet ready and will help the person whoever is going to write these. They need not to run around to identify the structure etc.",
+      "parentUuid": "5a93c517_2a1b5181",
       "range": {
         "startLine": 3,
         "startChar": 0,
