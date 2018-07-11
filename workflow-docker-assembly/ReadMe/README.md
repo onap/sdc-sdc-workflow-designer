@@ -1,0 +1,26 @@
+# Steps to run workflow docker
+
+1. Create a directory on host machine to hold configuration file.
+
+2. Copy the provided _application.properties_ in this newly created directory and populate real environment value of 
+Cassandra to which workflow service needs to be connected.
+
+3. Execute below commands to start docker containers.
+
+## 1. Start workflow be init container
+
+docker run -d --name <CONTAINER_NAME> -e CS_HOST=<CS_HOST_IP> -e CS_PORT=<CS_PORT> -e CS_USER=<CS_USER> 
+-e CS_PASSWORD=<CS_PASSWORD> <IMAGE_NAME>
+
+## 2. Start workflow be container
+
+docker run -d --name <CONTAINER_NAME> -e JAVA_OPTIONS="-Xmx128m -Xms128m -Xss1m" 
+-v <CONFIG_FILE_DIRECTORY_PATH>:/etc/onap/workflow/be/config -p <PORT_TO_HOST_SERVICE>:8080 <IMAGE_NAME>
+
+# Example Commands
+
+docker run -d --name sdc-wfd-BE-init -e CS_HOST=10.247.41.19 -e CS_USER=test_user -e CS_PORT=9160 
+-e CS_PASSWORD=test_password onap/workflow-be-init:1.3.0-SNAPSHOT
+
+docker run -d --name sdc-wfd-BE -v /data/environments:/etc/onap/workflow/be/config 
+-p 8091:8080 onap/workflow-be:1.3.0-SNAPSHOT
