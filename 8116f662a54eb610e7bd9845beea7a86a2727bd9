@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "1a9dcd25_bb688788",
+        "filename": "workflow-docker-assembly/ReadMe/application.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-07-12T07:48:00Z",
+      "side": 1,
+      "message": "Sounds good.",
+      "parentUuid": "1a9dcd25_db123358",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 16
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_6debb3dc",
         "filename": "workflow-docker-assembly/ReadMe/application.properties",
         "patchSetId": 4
@@ -202,6 +226,30 @@
       "side": 1,
       "message": "No, this is a sample configuration file which should be updated with real values and then put in the volume mount location.",
       "parentUuid": "5a93c517_6debb3dc",
+      "range": {
+        "startLine": 5,
+        "startChar": 37,
+        "endLine": 5,
+        "endChar": 60
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_fbf5afcb",
+        "filename": "workflow-docker-assembly/ReadMe/application.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-07-12T07:48:00Z",
+      "side": 1,
+      "message": "If so, using this format to indicate placeholders might be a mistake, because this is how you inject environment variables in Spring https://stackoverflow.com/a/35535138/3365419. Mixing the two can be confusing. On the other hand, you could \"hide\" the file and expose the configuration as environment variables only. For server port, you could use server.port\u003d${APP_PORT:8080} - an APP_PORT environment variable with 8080 as the default.",
+      "parentUuid": "1a9dcd25_5b2623bc",
       "range": {
         "startLine": 5,
         "startChar": 37,
@@ -661,6 +709,30 @@
       "side": 1,
       "message": "The reason i mentioned about on-boarding BE is that it was written from scratch and still the incorrect format was followed. Saying that I agree that it should be more readable; the file will be changed.",
       "parentUuid": "5a93c517_0d88ef20",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 22
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_9b6b4b85",
+        "filename": "workflow-docker-assembly/workflow-be/Dockerfile",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-07-12T07:48:00Z",
+      "side": 1,
+      "message": "No, it was not.",
+      "parentUuid": "1a9dcd25_bb19677b",
       "range": {
         "startLine": 15,
         "startChar": 0,
