@@ -262,6 +262,30 @@
     },
     {
       "key": {
+        "uuid": "1a9dcd25_1b265b69",
+        "filename": "workflow-docker-assembly/ReadMe/application.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-12T08:04:04Z",
+      "side": 1,
+      "message": "This is just a sample file and the instructions to fill it with real values are given in ReadMe.\n\nAlso yes, auto population of values in hidden configuration files were being done by Chef in other modules but it has been decided not to use them. We can have number of environment variables passed in docker command to populate the hidden file or have a real config file mounted externally; both approaches will work seamlessly.",
+      "parentUuid": "1a9dcd25_fbf5afcb",
+      "range": {
+        "startLine": 5,
+        "startChar": 37,
+        "endLine": 5,
+        "endChar": 60
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_8a7625d7",
         "filename": "workflow-docker-assembly/pom.xml",
         "patchSetId": 4
@@ -733,6 +757,30 @@
       "side": 1,
       "message": "No, it was not.",
       "parentUuid": "1a9dcd25_bb19677b",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 22
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_3b2b1732",
+        "filename": "workflow-docker-assembly/workflow-be/Dockerfile",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-12T08:04:04Z",
+      "side": 1,
+      "message": "it\u0027s all about perception. Let\u0027s park that for some other time. For now; it has been updated ONLY for readability purpose.",
+      "parentUuid": "1a9dcd25_9b6b4b85",
       "range": {
         "startLine": 15,
         "startChar": 0,
