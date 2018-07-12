@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "1a9dcd25_db123358",
+        "filename": "workflow-docker-assembly/ReadMe/application.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-12T04:27:06Z",
+      "side": 1,
+      "message": "Yes, regardless of the EXPOSE settings, you can override them at run time by using the -p flag. To avoid the confusion; I will remove these exposed ports from DOCKER FILE.",
+      "parentUuid": "5a93c517_ade1bbfd",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 16
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_6debb3dc",
         "filename": "workflow-docker-assembly/ReadMe/application.properties",
         "patchSetId": 4
@@ -154,6 +178,30 @@
       "writtenOn": "2018-07-11T13:24:11Z",
       "side": 1,
       "message": "These are coming from environment variables, aren\u0027t they? So it looks like unnecessary mixing two approaches - env variable and a mapped file.",
+      "range": {
+        "startLine": 5,
+        "startChar": 37,
+        "endLine": 5,
+        "endChar": 60
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_5b2623bc",
+        "filename": "workflow-docker-assembly/ReadMe/application.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-12T04:27:06Z",
+      "side": 1,
+      "message": "No, this is a sample configuration file which should be updated with real values and then put in the volume mount location.",
+      "parentUuid": "5a93c517_6debb3dc",
       "range": {
         "startLine": 5,
         "startChar": 37,
@@ -330,6 +378,30 @@
       "side": 1,
       "message": "I explained in other comments why you don\u0027t need it in the other places. The parent pom\u0027s pluginManagement is the only place where you need a version, so it\u0027s make sense to write the version there instead of a property - unnecessary extra step. See https://maven.apache.org/pom.html#Dependency_Management and https://maven.apache.org/pom.html#Plugin_Management",
       "parentUuid": "5a93c517_0d746f9a",
+      "range": {
+        "startLine": 18,
+        "startChar": 1,
+        "endLine": 20,
+        "endChar": 1
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_7b2bdf82",
+        "filename": "workflow-docker-assembly/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-12T04:27:06Z",
+      "side": 1,
+      "message": "I agree for the plugin management part. The properties are put at once place for readability only so later if anyone wants to change the version; they need not to traverse the entire POM to find the hard coded values.",
+      "parentUuid": "5a93c517_ad8f7b2d",
       "range": {
         "startLine": 18,
         "startChar": 1,
@@ -565,6 +637,30 @@
       "side": 1,
       "message": "There are many forces here. The fact that someone did it doesn\u0027t mean we must follow, if we know a better/more suitable in our situation way. For instance, changing the approach in SDC onboarding would require significant effort, while doing it from scratch is much easier.",
       "parentUuid": "5a93c517_ad345bdf",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 22
+      },
+      "revId": "8116f662a54eb610e7bd9845beea7a86a2727bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_bb19677b",
+        "filename": "workflow-docker-assembly/workflow-be/Dockerfile",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-12T04:27:06Z",
+      "side": 1,
+      "message": "The reason i mentioned about on-boarding BE is that it was written from scratch and still the incorrect format was followed. Saying that I agree that it should be more readable; the file will be changed.",
+      "parentUuid": "5a93c517_0d88ef20",
       "range": {
         "startLine": 15,
         "startChar": 0,
