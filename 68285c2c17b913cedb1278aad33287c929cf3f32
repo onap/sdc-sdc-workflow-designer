@@ -1,0 +1,343 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_41463625",
+        "filename": "workflow/README.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-13T07:42:08Z",
+      "side": 1,
+      "message": "This should be replaced with a place holder as user can choose to specify these values.\n\nHowever the way image is being built; the java process will not get these JAVA_OPTIONS.",
+      "range": {
+        "startLine": 15,
+        "startChar": 31,
+        "endLine": 15,
+        "endChar": 57
+      },
+      "revId": "68285c2c17b913cedb1278aad33287c929cf3f32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_e14ae226",
+        "filename": "workflow/README.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-13T07:42:08Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 20,
+        "startChar": 31,
+        "endLine": 20,
+        "endChar": 57
+      },
+      "revId": "68285c2c17b913cedb1278aad33287c929cf3f32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_01482e2c",
+        "filename": "workflow/README.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-13T07:42:08Z",
+      "side": 1,
+      "message": "Should be 9042; 9160 is Cassandra thrift client port.\n9160 - Thrift client API\n9042 - CQL native transport port",
+      "range": {
+        "startLine": 28,
+        "startChar": 88,
+        "endLine": 28,
+        "endChar": 93
+      },
+      "revId": "68285c2c17b913cedb1278aad33287c929cf3f32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_61825254",
+        "filename": "workflow/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-13T07:42:08Z",
+      "side": 1,
+      "message": "Since this is a new parent POM; now the groupId must follow the naming convention for Java packages.https://maven.apache.org/guides/mini/guide-naming-conventions.html",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 53
+      },
+      "revId": "68285c2c17b913cedb1278aad33287c929cf3f32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_81875e61",
+        "filename": "workflow/workflow-bdd/README.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-13T07:42:08Z",
+      "side": 1,
+      "message": "It should also be changed to markdown format.",
+      "revId": "68285c2c17b913cedb1278aad33287c929cf3f32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_41cf16b1",
+        "filename": "workflow/workflow-bdd/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-13T07:42:08Z",
+      "side": 1,
+      "message": "I don\u0027t think you need to define a version here, it should be inherited from parent.",
+      "range": {
+        "startLine": 9,
+        "startChar": 3,
+        "endLine": 9,
+        "endChar": 37
+      },
+      "revId": "68285c2c17b913cedb1278aad33287c929cf3f32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_e1c3c288",
+        "filename": "workflow/workflow-bdd/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-13T07:42:08Z",
+      "side": 1,
+      "message": "The parent should also refer to newly created parent module workflow-designer-parent.",
+      "range": {
+        "startLine": 11,
+        "startChar": 3,
+        "endLine": 15,
+        "endChar": 20
+      },
+      "revId": "68285c2c17b913cedb1278aad33287c929cf3f32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_6137b2b1",
+        "filename": "workflow/workflow-bdd/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-13T07:42:08Z",
+      "side": 1,
+      "message": "Should come from plugin Management or properties.",
+      "range": {
+        "startLine": 21,
+        "startChar": 15,
+        "endLine": 21,
+        "endChar": 40
+      },
+      "revId": "68285c2c17b913cedb1278aad33287c929cf3f32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_a1bdba04",
+        "filename": "workflow/workflow-bdd/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-13T07:42:08Z",
+      "side": 1,
+      "message": "Should come from plugin Management or properties.",
+      "range": {
+        "startLine": 89,
+        "startChar": 16,
+        "endLine": 89,
+        "endChar": 38
+      },
+      "revId": "68285c2c17b913cedb1278aad33287c929cf3f32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_c1ba460a",
+        "filename": "workflow/workflow-bdd/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-13T07:42:08Z",
+      "side": 1,
+      "message": "Its more readable to put such hardcoded values in properties section.",
+      "range": {
+        "startLine": 103,
+        "startChar": 28,
+        "endLine": 104,
+        "endChar": 61
+      },
+      "revId": "68285c2c17b913cedb1278aad33287c929cf3f32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_01c10e80",
+        "filename": "workflow/workflow-bdd/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-13T07:42:08Z",
+      "side": 1,
+      "message": "Should come from plugin Management or properties.",
+      "range": {
+        "startLine": 146,
+        "startChar": 16,
+        "endLine": 146,
+        "endChar": 38
+      },
+      "revId": "68285c2c17b913cedb1278aad33287c929cf3f32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_41815649",
+        "filename": "workflow/workflow-designer-be/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-13T07:42:08Z",
+      "side": 1,
+      "message": "Please correct the groupId in parent POM as per the maven guidelines and align all children POMs.",
+      "range": {
+        "startLine": 11,
+        "startChar": 8,
+        "endLine": 11,
+        "endChar": 57
+      },
+      "revId": "68285c2c17b913cedb1278aad33287c929cf3f32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_217c4a72",
+        "filename": "workflow/workflow-designer-be/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-13T07:42:08Z",
+      "side": 1,
+      "message": "You don\u0027t need to specify annotation processor here. Just add the below dependency of Map Struct and it will work without any problem.\n\n \u003cdependency\u003e\n            \u003cgroupId\u003eorg.mapstruct\u003c/groupId\u003e\n            \u003cartifactId\u003emapstruct-processor\u003c/artifactId\u003e\n            \u003cversion\u003e${org.mapstruct.version}\u003c/version\u003e\n            \u003cscope\u003eprovided\u003c/scope\u003e\n \u003c/dependency\u003e",
+      "range": {
+        "startLine": 123,
+        "startChar": 15,
+        "endLine": 136,
+        "endChar": 32
+      },
+      "revId": "68285c2c17b913cedb1278aad33287c929cf3f32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_c1e32632",
+        "filename": "workflow/workflow-designer-be/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-13T07:42:08Z",
+      "side": 1,
+      "message": "For any java process there should always be an option to provide JAVA_OPTS for memory settings. debug points etc.\n\nDefining these in DockerFile gives you an edge when you need to pass on application or logging configuration.",
+      "range": {
+        "startLine": 178,
+        "startChar": 40,
+        "endLine": 178,
+        "endChar": 106
+      },
+      "revId": "68285c2c17b913cedb1278aad33287c929cf3f32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_813c3e95",
+        "filename": "workflow/workflow-designer-init/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-07-13T07:42:08Z",
+      "side": 1,
+      "message": "Please correct the groupId in parent POM as per the maven guidelines and align all children POMs.",
+      "range": {
+        "startLine": 11,
+        "startChar": 8,
+        "endLine": 11,
+        "endChar": 57
+      },
+      "revId": "68285c2c17b913cedb1278aad33287c929cf3f32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
