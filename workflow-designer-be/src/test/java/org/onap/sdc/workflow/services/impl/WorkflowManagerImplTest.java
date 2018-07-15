@@ -24,7 +24,7 @@ import org.openecomp.sdc.versioning.types.ItemStatus;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class WorkflowManagerTest {
+public class WorkflowManagerImplTest {
 
     private static final String ITEM1_ID = "workflowId1";
     private static final String WORKFLOW_TYPE = "WORKFLOW";

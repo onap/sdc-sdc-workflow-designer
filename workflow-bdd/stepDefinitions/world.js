@@ -38,9 +38,6 @@ var {setDefaultTimeout} = require('cucumber');
  *<Br>
  * Contains the following items:<br>
  * <li>this.context.server <ul>REST server and onboarding prefix including version. set either in configuration file or from the command line or SERVER environment variable</ul>
- * <li>this.context.vlm <ul>When a VLM has been created, this has the an id and versionId set to the correct IDs.</ul>
- * <li>this.context.vsp <ul>When a VSP has been created, this has the an id and versionId and componentId set to the correct IDs.</ul>
- * <li>this.context.item <ul>When a VLM or VSP has been created, this has the an id and versionId set to the correct IDs.</ul>
  * <li>this.context <ul>Object with properties that were saved in the steps.</ul>
  * <li>this.context.inputdata <ul><b>Automatically updated with the last responseData from the Rest call</b><br>Object with properties that were prepares in the steps.</ul>
  * <li>this.context.responseData <ul>Response from the last REST call.</ul>
@@ -57,8 +54,6 @@ class CustomWorld {
 			}
 		}
 
-		this.context.vlm = {id: null, versionId: null};
-		this.context.vsp = {id: null, versionId: null};
 		this.context.item = {id: null, versionId: null, componentId: null};
 
 		this.context.shouldFail = false;

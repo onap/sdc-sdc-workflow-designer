@@ -7,8 +7,9 @@ import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 import org.onap.sdc.workflow.services.exceptions.EntityNotFoundException;
 import org.onap.sdc.workflow.services.exceptions.InvalidArtifactException;
 import org.onap.sdc.workflow.services.exceptions.UniqueValueViolationException;
-import org.onap.sdc.workflow.services.exceptions.CreateVersionException;
+import org.onap.sdc.workflow.services.exceptions.VersionCreationException;
 import org.onap.sdc.workflow.services.exceptions.VersionModificationException;
+import org.onap.sdc.workflow.services.exceptions.VersionStateModificationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -31,16 +32,17 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
         return new ResponseEntity<>(exception.getMessage(), NOT_FOUND);
     }
 
-    @ExceptionHandler({InvalidArtifactException.class, VersionModificationException.class})
+    @ExceptionHandler({InvalidArtifactException.class, VersionModificationException.class,
+            VersionStateModificationException.class})
     public final ResponseEntity<String> handleInvalidArtifactException(
             Exception exception) {
         return new ResponseEntity<>(exception.getMessage(), UNPROCESSABLE_ENTITY);
     }
 
 
-    @ExceptionHandler(CreateVersionException.class)
+    @ExceptionHandler(VersionCreationException.class)
     public final ResponseEntity<String> handleVersioningErrorException(
-            CreateVersionException exception) {
+            VersionCreationException exception) {
         return new ResponseEntity<>(exception.getMessage(), FORBIDDEN);
     }
 }

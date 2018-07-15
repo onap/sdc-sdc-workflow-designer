@@ -6,20 +6,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.onap.sdc.workflow.api.types.VersionRequestDto;
 import org.onap.sdc.workflow.persistence.ArtifactRepository;
 import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
-import org.onap.sdc.workflow.persistence.types.WorkflowVersionStatus;
 import org.onap.sdc.workflow.persistence.types.WorkflowVersion;
+import org.onap.sdc.workflow.persistence.types.WorkflowVersionState;
 import org.onap.sdc.workflow.services.WorkflowVersionManager;
-import org.onap.sdc.workflow.services.exceptions.CreateVersionException;
 import org.onap.sdc.workflow.services.exceptions.EntityNotFoundException;
 import org.onap.sdc.workflow.services.exceptions.InvalidArtifactException;
+import org.onap.sdc.workflow.services.exceptions.VersionCreationException;
 import org.onap.sdc.workflow.services.exceptions.VersionModificationException;
+import org.onap.sdc.workflow.services.exceptions.VersionStateModificationException;
 import org.onap.sdc.workflow.services.impl.mappers.VersionMapper;
+import org.onap.sdc.workflow.services.impl.mappers.VersionStateMapper;
 import org.openecomp.sdc.versioning.VersioningManager;
 import org.openecomp.sdc.versioning.dao.types.Version;
 import org.openecomp.sdc.versioning.types.VersionCreationMethod;
@@ -31,54 +32,41 @@ import org.springframework.web.multipart.MultipartFile;
 @Service("workflowVersionManager")
 public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
 
+    private static final String VERSION_NOT_EXIST_MSG = "version with id '%s' does not exist for workflow with id '%s'";
     private final VersioningManager versioningManager;
     private final ArtifactRepository artifactRepository;
-    private VersionMapper versionMapper;
+    private final VersionMapper versionMapper;
+    private final VersionStateMapper versionStateMapper;
 
 
     @Autowired
     public WorkflowVersionManagerImpl(VersioningManager versioningManager, ArtifactRepository artifactRepository,
-            VersionMapper versionMapper) {
+            VersionMapper versionMapper, VersionStateMapper versionStateMapper) {
         this.versioningManager = versioningManager;
         this.artifactRepository = artifactRepository;
         this.versionMapper = versionMapper;
+        this.versionStateMapper = versionStateMapper;
     }
 
     @Override
     public Collection<WorkflowVersion> list(String workflowId) {
-
-        return versioningManager.list(workflowId).stream()
-                                .map(version -> versionMapper.versionToWorkflowVersion(version))
+        return versioningManager.list(workflowId).stream().map(versionMapper::versionToWorkflowVersion)
                                 .collect(Collectors.toList());
     }
 
     @Override
     public WorkflowVersion get(String workflowId, String versionId) {
-
-        Version version = new Version(versionId);
-        try {
-            return this.versionMapper.versionToWorkflowVersion(versioningManager.get(workflowId, version));
-        } catch (Exception e) {
-            throw new EntityNotFoundException(
-                    String.format("version with id '%s' does not exist for workflow with id %s", version.getId(),
-                            workflowId));
-        }
+        return versionMapper.versionToWorkflowVersion(getVersion(workflowId, versionId));
     }
 
     @Override
     public WorkflowVersion create(String workflowId, VersionRequestDto versionRequest) {
-
         List<Version> versions = versioningManager.list(workflowId);
 
         if (versionRequest.getBaseVersionId() != null) {
-            Version baseVersion = findVersion(versions, versionRequest.getBaseVersionId()).orElseThrow(
-                    () -> new EntityNotFoundException(
-                            String.format("version with id '%s' does not exist for workflow with id %s",
-                                    versionRequest.getBaseVersionId(), workflowId)));
-
-            if(!Certified.equals(baseVersion.getStatus())){
-                throw new CreateVersionException(workflowId, versionRequest.getBaseVersionId());
-            }
+            validateVersionExistAndCertified(workflowId, versions, versionRequest.getBaseVersionId());
+        } else if (!versions.isEmpty()) {
+            throw new VersionCreationException(workflowId);
         }
 
         Version version = new Version();
@@ -86,40 +74,63 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
         version.setBaseId(versionRequest.getBaseVersionId());
         Version createdVersion = versioningManager.create(workflowId, version, VersionCreationMethod.major);
 
-        if (versions.isEmpty()){
+        if (versions.isEmpty()) { // only for first version
             artifactRepository.createStructure(workflowId, createdVersion.getId());
+            versioningManager.publish(workflowId, createdVersion, "Add workflow structure");
         }
-
-        versioningManager.publish(workflowId, createdVersion, "Initial version");
 
         return versionMapper.versionToWorkflowVersion(createdVersion);
     }
 
-    private Optional<Version> findVersion(List<Version> versions, String baseVersionId) {
-        return versions.stream().filter(version -> baseVersionId.equals(version.getId())).findFirst();
+    @Override
+    public void update(String workflowId, WorkflowVersion workflowVersion) {
+        Version retrievedVersion = getVersion(workflowId, workflowVersion.getId());
+        if (WorkflowVersionState.CERTIFIED
+                    .equals(versionStateMapper.versionStatusToWorkflowVersionState(retrievedVersion.getStatus()))) {
+            throw new VersionModificationException(workflowId, workflowVersion.getId());
+        }
+
+        Version version = versionMapper.workflowVersionToVersion(workflowVersion);
+        version.setName(retrievedVersion.getName());
+        version.setStatus(retrievedVersion.getStatus());
+
+        versioningManager.updateVersion(workflowId, version);
+        versioningManager.publish(workflowId, version, "Update version");
     }
 
     @Override
-    public void update(String id, WorkflowVersion version) {
-
-        Version versionToUpdate = mapVersionInfo(id, version);
-        versioningManager.updateVersion(id, versionToUpdate);
-        versioningManager.publish(id, versionToUpdate, "Update version");
+    public WorkflowVersionState getState(String workflowId, String versionId) {
+        return versionStateMapper.versionStatusToWorkflowVersionState(getVersion(workflowId, versionId).getStatus());
     }
 
+    @Override
+    public void updateState(String workflowId, String versionId, WorkflowVersionState state) {
+        Version retrievedVersion = getVersion(workflowId, versionId);
+        WorkflowVersionState retrievedState =
+                versionStateMapper.versionStatusToWorkflowVersionState(retrievedVersion.getStatus());
+        if (WorkflowVersionState.CERTIFIED.equals(retrievedState) || retrievedState.equals(state)) {
+            throw new VersionStateModificationException(workflowId, versionId, retrievedState, state);
+        }
+
+        retrievedVersion.setStatus(versionStateMapper.workflowVersionStateToVersionStatus(state));
+        versioningManager.updateVersion(workflowId, retrievedVersion);
+        versioningManager.publish(workflowId, retrievedVersion,
+                String.format("Update version state from %s to %s", retrievedState.name(), state.name()));
+    }
 
     @Override
-    public void uploadArtifact(String workflowId, WorkflowVersion version, MultipartFile artifact) {
-        WorkflowVersion retrievedVersion = get(workflowId, version.getId());
-        if (WorkflowVersionStatus.CERTIFIED.equals(retrievedVersion.getStatus())) {
-            throw new VersionModificationException(workflowId, version.getId());
+    public void uploadArtifact(String workflowId, String versionId, MultipartFile artifact) {
+        Version retrievedVersion = getVersion(workflowId, versionId);
+        if (WorkflowVersionState.CERTIFIED
+                    .equals(versionStateMapper.versionStatusToWorkflowVersionState(retrievedVersion.getStatus()))) {
+            throw new VersionModificationException(workflowId, versionId);
         }
 
         try (InputStream artifactData = artifact.getInputStream()) {
             ArtifactEntity artifactEntity =
                     new ArtifactEntity(StringUtils.cleanPath(artifact.getOriginalFilename()), artifactData);
-            artifactRepository.update(workflowId, version.getId(), artifactEntity);
-            versioningManager.publish(workflowId, versionMapper.workflowVersionToVersion(version), "Update Artifact");
+            artifactRepository.update(workflowId, versionId, artifactEntity);
+            versioningManager.publish(workflowId, new Version(versionId), "Update Artifact");
 
         } catch (IOException e) {
             throw new InvalidArtifactException(e.getMessage());
@@ -127,38 +138,49 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
     }
 
     @Override
-    public ArtifactEntity getArtifact(String workflowId, WorkflowVersion version) {
-        WorkflowVersion retrievedVersion = get(workflowId, version.getId());
-        Optional<ArtifactEntity> artifactOptional = artifactRepository.get(workflowId, retrievedVersion.getId());
+    public ArtifactEntity getArtifact(String workflowId, String versionId) {
+        getVersion(workflowId, versionId);
+        Optional<ArtifactEntity> artifactOptional = artifactRepository.get(workflowId, versionId);
         if (!artifactOptional.isPresent()) {
             throw new EntityNotFoundException(
-                    String.format("Artifact for workflow id %S version id %S was not found", workflowId,
-                            version.getId()));
+                    String.format("Artifact for workflow id %S version id %S was not found", workflowId, versionId));
         }
         return artifactOptional.get();
     }
 
     @Override
-    public void deleteArtifact(String workflowId, WorkflowVersion version) {
-        WorkflowVersion retrievedVersion = get(workflowId, version.getId());
-        if (WorkflowVersionStatus.CERTIFIED.equals(retrievedVersion.getStatus())) {
-            throw new VersionModificationException(workflowId, version.getId());
+    public void deleteArtifact(String workflowId, String versionId) {
+        WorkflowVersion retrievedVersion = get(workflowId, versionId);
+        if (WorkflowVersionState.CERTIFIED.equals(retrievedVersion.getState())) {
+            throw new VersionModificationException(workflowId, versionId);
         }
 
-        artifactRepository.delete(workflowId, version.getId());
+        artifactRepository.delete(workflowId, versionId);
+        versioningManager.publish(workflowId, new Version(versionId), "Delete Artifact");
     }
 
-    private boolean isFirstVersionCreation(String id, Version createdVersion) {
-        return Objects.isNull(createdVersion.getBaseId()) && versioningManager.list(id).size() == 1;
+    private void validateVersionExistAndCertified(String workflowId, List<Version> versions, String versionId) {
+        Version baseVersion = findVersion(versions, versionId).orElseThrow(
+                () -> new EntityNotFoundException(String.format(VERSION_NOT_EXIST_MSG, versionId, workflowId)));
+
+        if (!Certified.equals(baseVersion.getStatus())) {
+            throw new VersionCreationException(workflowId, versionId);
+        }
     }
 
-    protected Version mapVersionInfo(String id, WorkflowVersion workflowVersion) {
-        WorkflowVersion retrievedVersion = get(id, workflowVersion.getId());
-        Version version = new Version(workflowVersion.getId());
-        version.setBaseId(retrievedVersion.getBaseId());
-        version.setName(retrievedVersion.getName());
-        return version;
+    private Version getVersion(String workflowId, String versionId) {
+        try {
+            Version version = versioningManager.get(workflowId, new Version(versionId));
+            if (version == null) {
+                throw new EntityNotFoundException(String.format(VERSION_NOT_EXIST_MSG, versionId, workflowId));
+            }
+            return version;
+        } catch (Exception e) {
+            throw new EntityNotFoundException(String.format(VERSION_NOT_EXIST_MSG, versionId, workflowId));
+        }
     }
 
-
+    private static Optional<Version> findVersion(List<Version> versions, String versionId) {
+        return versions.stream().filter(version -> versionId.equals(version.getId())).findFirst();
+    }
 }

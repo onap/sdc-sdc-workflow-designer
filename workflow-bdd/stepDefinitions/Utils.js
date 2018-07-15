@@ -55,6 +55,11 @@ function _request(context, method, path, data, isBinary=false, type='onboarding'
 					console.error(result.body);
 					reject('Status Code was ' + result.statusCode);
 				}
+                if (context.shouldFail && context.responseStatusCode) {
+                    if (result.statusCode !== context.responseStatusCode) {
+                        reject('Response Status Code was ' + result.statusCode + ' instead of ' + context.responseStatusCode);
+                    }
+                }
 				if (context.shouldFail && context.errorCode) {
                     if (typeof data === 'string' && data) {
                         data = JSON.parse(data);

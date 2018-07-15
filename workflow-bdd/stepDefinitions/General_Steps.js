@@ -52,11 +52,11 @@ Given('Response Data:', function (docString) {
 
 /**
  * @module ContextData
- * @description Copy a property from the response data to context Item/VLM/VSP data, example: vsp.componentId
+ * @description Copy a property from the response data to context Item data, example: item.componentId
  * @step I want to save on the context for {string} property {string} with value {string}
  **/
 Then('I want to save on the context for {string} property {string} with value {string}', function(string, string1, string2)  {
-	assert.equal(_.includes(['VLM', 'VSP', 'Item'], string), true);
+	assert.equal(_.includes(['Item'], string), true);
 	let val = _.get(this.context.responseData, string2);
 	_.set(this.context, string1, val);
 });
@@ -166,6 +166,17 @@ Then('I want to print the context data', function()  {
  **/
 Then('I want the following to fail', function()  {
 	this.context.shouldFail = true;
+});
+
+/**
+ * @module ContextData
+ * @description Set this in order to check that the following Rest call will not have response code 200
+ * @exampleFile Example_Rest_Calls.feature
+ * @step I want the following to fail
+ **/
+Then('I want the following to fail with response status code {int}', function(int)  {
+    this.context.shouldFail = true;
+    this.context.responseStatusCode = int;
 });
 
 /**
