@@ -6,7 +6,7 @@ import java.util.Date;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.onap.sdc.workflow.persistence.types.WorkflowVersion;
-import org.onap.sdc.workflow.persistence.types.WorkflowVersionStatus;
+import org.onap.sdc.workflow.persistence.types.WorkflowVersionState;
 import org.openecomp.sdc.versioning.dao.types.Version;
 import org.openecomp.sdc.versioning.dao.types.VersionStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class VersionMapperTest {
 
     @Configuration
-    @ComponentScan(basePackageClasses = {VersionMapper.class, VersionStatusMapper.class})
+    @ComponentScan(basePackageClasses = {VersionMapper.class, VersionStateMapper.class})
     public static class VersionMapperSpringTestConfig { }
 
     @Autowired
@@ -73,7 +73,7 @@ public class VersionMapperTest {
         workflowVersion.setCreationTime(new Date());
         workflowVersion.setModificationTime(new Date());
         workflowVersion.setDescription("version_description");
-        workflowVersion.setStatus(WorkflowVersionStatus.CERTIFIED);
+        workflowVersion.setState(WorkflowVersionState.CERTIFIED);
 
         return workflowVersion;
     }

@@ -25,7 +25,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.sdc.workflow.RestPath;
-import org.onap.sdc.workflow.api.impl.WorkflowVersionControllerImpl;
 import org.onap.sdc.workflow.api.types.VersionRequestDto;
 import org.onap.sdc.workflow.persistence.types.WorkflowVersion;
 import org.onap.sdc.workflow.services.WorkflowVersionManager;
@@ -52,7 +51,7 @@ public class WorkflowVersionControllerTest {
     private WorkflowVersionManager workflowVersionManagerMock;
 
     @InjectMocks
-    private WorkflowVersionControllerImpl workflowVersionController;
+    private WorkflowVersionController workflowVersionController;
 
     @Before
     public void setUp() {
