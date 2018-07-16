@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_7574489c",
+        "filename": "workflow/workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/impl/ArtifactRepositoryImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 2119
+      },
+      "writtenOn": "2018-07-16T14:20:55Z",
+      "side": 1,
+      "message": "Why is the exception ignored. How can we distinguish between real network failure to acceptable one?",
+      "revId": "7e78cd19bbb2b0730fafc0b328a71c69f5730e16",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
