@@ -1,5 +1,6 @@
 package org.onap.sdc.workflow.persistence.types;
 
+import java.util.Collection;
 import java.util.Date;
 import lombok.Data;
 
@@ -14,6 +15,8 @@ public class WorkflowVersion {
     private Date creationTime;
     private Date modificationTime;
     private WorkflowVersionState state;
+    private Collection<ParameterEntity> inputs;
+    private Collection<ParameterEntity> outputs;
 
 
     public WorkflowVersion(String id) {
