@@ -12,14 +12,13 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
-import java.util.Map;
 import java.util.Optional;
 import org.apache.commons.io.IOUtils;
 import org.onap.sdc.workflow.persistence.ArtifactRepository;
 import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
+import org.onap.sdc.workflow.persistence.types.WorkflowElementType;
 import org.openecomp.core.zusammen.api.ZusammenAdaptor;
 import org.openecomp.core.zusammen.api.ZusammenAdaptorFactory;
-import org.openecomp.sdc.datatypes.model.ElementType;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -33,7 +32,7 @@ public class ArtifactRepositoryImpl implements ArtifactRepository {
     @Override
     public void update(String id, String versionId, ArtifactEntity artifactEntity) {
 
-        ZusammenElement artifactElement = buildStructuralElement(ElementType.Artifact, Action.UPDATE);
+        ZusammenElement artifactElement = buildStructuralElement(WorkflowElementType.ARTIFACT.name(), Action.UPDATE);
         artifactElement.setData(artifactEntity.getArtifactData());
         artifactElement.getInfo().addProperty(FILE_NAME_PROPERTY, artifactEntity.getFileName());
 
@@ -50,7 +49,7 @@ public class ArtifactRepositoryImpl implements ArtifactRepository {
         ElementContext elementContext = new ElementContext(id, versionId);
 
         Optional<Element> elementOptional =
-                zusammenAdaptor.getElementByName(context, elementContext, null, ElementType.Artifact.name());
+                zusammenAdaptor.getElementByName(context, elementContext, null, WorkflowElementType.ARTIFACT.name());
 
         if (!elementOptional.isPresent() || hasEmptyData(elementOptional.get().getData())) {
             return Optional.empty();
@@ -69,7 +68,7 @@ public class ArtifactRepositoryImpl implements ArtifactRepository {
         SessionContext context = createSessionContext();
         ElementContext elementContext = new ElementContext(id, versionId);
 
-        ZusammenElement artifactElement = buildStructuralElement(ElementType.Artifact, Action.CREATE);
+        ZusammenElement artifactElement = buildStructuralElement(WorkflowElementType.ARTIFACT.name(), Action.CREATE);
         artifactElement.setData(new ByteArrayInputStream(EMPTY_DATA.getBytes()));
 
         zusammenAdaptor
@@ -82,12 +81,12 @@ public class ArtifactRepositoryImpl implements ArtifactRepository {
         SessionContext context = createSessionContext();
         ElementContext elementContext = new ElementContext(id, versionId);
 
-        ZusammenElement artifactElement = buildStructuralElement(ElementType.Artifact, Action.UPDATE);
+        ZusammenElement artifactElement = buildStructuralElement(WorkflowElementType.ARTIFACT.name(), Action.UPDATE);
         artifactElement.setData(new ByteArrayInputStream(EMPTY_DATA.getBytes()));
         artifactElement.getInfo().getProperties().remove(FILE_NAME_PROPERTY);
 
         zusammenAdaptor
-                .saveElement(context, elementContext, artifactElement, "Update WorkflowVersion Artifact Element");
+                .saveElement(context, elementContext, artifactElement, "Delete WorkflowVersion Artifact Data");
 
     }
 

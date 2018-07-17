@@ -10,7 +10,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.onap.sdc.workflow.api.types.VersionRequestDto;
 import org.onap.sdc.workflow.persistence.ArtifactRepository;
+import org.onap.sdc.workflow.persistence.ParameterRepository;
 import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
+import org.onap.sdc.workflow.persistence.types.ParameterEntity;
+import org.onap.sdc.workflow.persistence.types.ParameterRole;
 import org.onap.sdc.workflow.persistence.types.WorkflowVersion;
 import org.onap.sdc.workflow.persistence.types.WorkflowVersionState;
 import org.onap.sdc.workflow.services.WorkflowVersionManager;
@@ -35,29 +38,40 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
     private static final String VERSION_NOT_EXIST_MSG = "version with id '%s' does not exist for workflow with id '%s'";
     private final VersioningManager versioningManager;
     private final ArtifactRepository artifactRepository;
+    private final ParameterRepository parameterRepository;
     private final VersionMapper versionMapper;
     private final VersionStateMapper versionStateMapper;
 
 
     @Autowired
     public WorkflowVersionManagerImpl(VersioningManager versioningManager, ArtifactRepository artifactRepository,
-        VersionMapper versionMapper, VersionStateMapper versionStateMapper) {
+            VersionMapper versionMapper, VersionStateMapper versionStateMapper,
+            ParameterRepository parameterRepository) {
         this.versioningManager = versioningManager;
         this.artifactRepository = artifactRepository;
+        this.parameterRepository = parameterRepository;
         this.versionMapper = versionMapper;
         this.versionStateMapper = versionStateMapper;
     }
 
     @Override
     public Collection<WorkflowVersion> list(String workflowId) {
-        return versioningManager.list(workflowId).stream().map(versionMapper::versionToWorkflowVersion)
-            .collect(Collectors.toList());
+        Collection<WorkflowVersion> versions =
+                versioningManager.list(workflowId).stream().map(versionMapper::versionToWorkflowVersion)
+                                 .collect(Collectors.toList());
+        versions.forEach(workflowVersion -> addVersionParameters(workflowId,workflowVersion));
+
+        return  versions;
     }
 
     @Override
     public WorkflowVersion get(String workflowId, String versionId) {
-        return versionMapper.versionToWorkflowVersion(getVersion(workflowId, versionId));
+        WorkflowVersion workflowVersion = versionMapper.versionToWorkflowVersion(getVersion(workflowId, versionId));
+        addVersionParameters(workflowId,workflowVersion);
+        return workflowVersion;
+
     }
+
 
     @Override
     public WorkflowVersion create(String workflowId, VersionRequestDto versionRequest) {
@@ -76,10 +90,14 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
 
         if (versions.isEmpty()) { // only for first version
             artifactRepository.createStructure(workflowId, createdVersion.getId());
+            parameterRepository.createStructure(workflowId, createdVersion.getId());
             versioningManager.publish(workflowId, createdVersion, "Add workflow structure");
         }
 
-        return versionMapper.versionToWorkflowVersion(createdVersion);
+        updateVersionParameters(workflowId,  createdVersion.getId(), ParameterRole.INPUT, versionRequest.getInputs());
+        updateVersionParameters(workflowId,  createdVersion.getId(), ParameterRole.OUTPUT, versionRequest.getOutputs());
+
+        return get(workflowId, createdVersion.getId());
     }
 
     @Override
@@ -93,6 +111,9 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
         Version version = versionMapper.workflowVersionToVersion(workflowVersion);
         version.setName(retrievedVersion.getName());
         version.setStatus(retrievedVersion.getStatus());
+
+        updateVersionParameters(workflowId, version.getId(), ParameterRole.INPUT, workflowVersion.getInputs());
+        updateVersionParameters(workflowId, version.getId(), ParameterRole.OUTPUT, workflowVersion.getOutputs());
 
         versioningManager.updateVersion(workflowId, version);
         versioningManager.publish(workflowId, version, "Update version");
@@ -168,6 +189,7 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
         }
     }
 
+
     private Version getVersion(String workflowId, String versionId) {
         try {
             Version version = versioningManager.get(workflowId, new Version(versionId));
@@ -180,7 +202,34 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
         }
     }
 
+    private void updateVersionParameters(String workflowId, String versionId, ParameterRole role,
+            Collection<ParameterEntity> parameters) {
+
+        Collection<ParameterEntity> retrievedParameters = parameterRepository.list(workflowId, versionId, role);
+
+        parameters.forEach(parameterEntity -> {
+            if (retrievedParameters.stream().anyMatch(
+                    parameterEntity1 -> parameterEntity.getName().equals(parameterEntity1.getName()))) {
+                parameterRepository.update(workflowId, versionId, role, parameterEntity);
+            } else {
+                parameterRepository.create(workflowId, versionId, role, parameterEntity);
+            }
+        });
+
+        retrievedParameters.forEach(parameterEntity -> {
+            if (parameters.stream().noneMatch(
+                    parameterEntity1 -> parameterEntity.getName().equals(parameterEntity1.getName()))) {
+                parameterRepository.delete(workflowId, versionId, parameterEntity.getId());
+            }
+        });
+    }
+
     private static Optional<Version> findVersion(List<Version> versions, String versionId) {
         return versions.stream().filter(version -> versionId.equals(version.getId())).findFirst();
+    }
+
+    private void addVersionParameters(String workflowId, WorkflowVersion workflowVersion) {
+        workflowVersion.setInputs(parameterRepository.list(workflowId, workflowVersion.getId(), ParameterRole.INPUT));
+        workflowVersion.setOutputs(parameterRepository.list(workflowId, workflowVersion.getId(), ParameterRole.OUTPUT));
     }
 }
