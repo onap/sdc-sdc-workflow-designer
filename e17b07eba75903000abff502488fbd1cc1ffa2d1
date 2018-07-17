@@ -33,6 +33,23 @@
       "revId": "e17b07eba75903000abff502488fbd1cc1ffa2d1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_27c77547",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-07-17T14:22:53Z",
+      "side": 1,
+      "message": "I don\u0027t think this file is needed.",
+      "revId": "e17b07eba75903000abff502488fbd1cc1ffa2d1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
