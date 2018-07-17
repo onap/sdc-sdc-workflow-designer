@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_a794e537",
+        "filename": "workflow/workflow-designer-ui/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-07-17T14:17:02Z",
+      "side": 1,
+      "message": "Please avoid training spaces",
+      "revId": "e17b07eba75903000abff502488fbd1cc1ffa2d1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_4799616d",
+        "filename": "workflow/workflow-designer-ui/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-07-17T14:17:02Z",
+      "side": 1,
+      "message": "There are trailing spaces here, too.",
+      "revId": "e17b07eba75903000abff502488fbd1cc1ffa2d1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
