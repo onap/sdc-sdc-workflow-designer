@@ -1,0 +1,29 @@
+.general-page {
+  @extend .body-1;
+  width: calc(100% - 400px);
+  padding: 80px;
+  display: grid;
+  grid-template-columns:50% 50%;
+  grid-gap: 30px;
+  background-color: #fff;
+  color: #444;
+  .description-part {
+    .form-control {
+      height: 200px;
+    }
+  }
+  .version-info-part {
+    background-color: $tlv-gray;
+    height: 200px;    
+    margin-top: 25px;
+    padding: 20px;
+    box-sizing: border-box;
+      .label {
+        @extend .body-3-light;
+        margin-bottom: 5px;
+      }
+      .value {
+        margin-bottom: 10px;
+      }
+  }
+}
