@@ -1,0 +1,27 @@
+{
+  "port": 9000,
+  "proxyTarget": null,
+  "proxyConfig": {
+    "cookies": null,
+    "cookiesReplaceRules": [],
+    "urlReplaceRules": [],
+    "jsReplaceRules": [],
+    "appContextPath": null,
+    "login": null,
+    "redirectionPath": null,
+    "onboardingProxy": {
+      "rewrite": null,
+      "proxy": []
+    },
+    "catalogProxy": {
+      "rewrite": null,
+      "proxy": []
+    },
+    "websocketProxy": {
+      "proxy": []
+    },
+    "bundles": {
+      "bundle": ["src/index.js"]
+    }
+  }
+}

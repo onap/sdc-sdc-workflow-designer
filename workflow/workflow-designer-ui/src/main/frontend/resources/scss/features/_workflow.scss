@@ -1,0 +1,4 @@
+.workflow-view {
+    display: flex;
+    height: calc(100% - 71px); // replace "71px" with variable of top bar height (-1)
+}

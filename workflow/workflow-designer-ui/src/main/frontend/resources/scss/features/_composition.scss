@@ -1,0 +1,15 @@
+.composition-view {
+	display: flex;
+	width: 100%;
+
+	.bpmn-container {
+		flex-basis: 100%;
+		height: 100%;
+	}
+
+	.properties-panel {
+		&, .bpp-properties-panel {
+			height: 100%;
+		}
+	}
+}

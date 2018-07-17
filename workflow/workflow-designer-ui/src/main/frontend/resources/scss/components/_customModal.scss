@@ -1,0 +1,16 @@
+.sdc-modal {
+  .custom-modal-wrapper {
+    padding: 35px 60px 60px 60px;
+    width: auto;
+  }
+
+}
+
+.modal-action-bar {
+  display: flex;
+  justify-content: flex-end;
+
+  button:first-child {
+    margin-right: 2em;
+  }
+}

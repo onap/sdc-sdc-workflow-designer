@@ -1,0 +1,12 @@
+{
+	"pageSize": 25,
+	"version": "0.1",
+	"build": "dev",
+	"appContextPath" : "/",
+	"defaultRestPrefix": "/wf",
+	"defaultRestCatalogPrefix": "/",
+	"defaultWebsocketPort" : "8181",
+	"defaultDebugWebsocketPort" : "9000",
+	"defaultWebsocketPath" : "notification-api/ws/notificationHandler",
+	"showBrowseVNF" : true
+}
