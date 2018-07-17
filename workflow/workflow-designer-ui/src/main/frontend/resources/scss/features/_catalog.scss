@@ -1,0 +1,93 @@
+.wf-catalog {
+  background-color: $background-gray;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  .header {
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
+    background-color: $tlv-light-gray;
+    margin-bottom: 2px;
+    @include box-shadow(0px 1px 3px 0 rgba(0, 0, 0, 0.2));
+    padding: 8px 60px 0 60px;
+    &__search {
+      height: 25px;
+    }
+  }
+  .main {
+    flex: auto;
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 25px 60px;
+      &__total {
+        @extend .body-1-semibold;
+        color: $dark-gray;
+      }
+      &__order {
+        display: flex;
+        &__label {
+          @extend .body-1;
+          color: $dark-gray;
+        }
+        &__alphabetical {
+          cursor: pointer;
+          display: flex;
+          &__label {
+            margin-left: 5px;
+            @extend .body-1;
+            color: $blue;
+          }
+          &__icon {
+            display: flex;
+            align-items: center;
+            margin-left: 5px;
+            .svg-icon {
+              width: 9px;
+              height: 9px;
+            }
+            &--flip {
+              transform: rotate(180deg);
+            }
+          }
+        }
+      }
+    }
+    &__content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, 204px);
+      grid-gap: 20px;
+      padding: 0 60px;
+    }
+    .add-workflow {
+      border: 2px dashed #a8b3b9;
+      width: 204px;
+      height: 204px;
+      padding: 10px;
+      box-sizing: border-box;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: $gray;
+      &__icon {
+        color: $gray;
+        fill: $gray;
+      }
+      &__label {
+        text-transform: uppercase;
+        @extend .body-1-semibold;
+      }
+      &:hover {
+        color: $blue;
+        .svg-icon-wrapper {
+          color: $blue;
+          fill: $blue;
+        }
+      }
+    }
+  }
+}

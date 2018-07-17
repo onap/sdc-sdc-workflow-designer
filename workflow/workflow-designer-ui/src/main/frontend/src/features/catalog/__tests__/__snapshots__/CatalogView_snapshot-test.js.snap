@@ -1,0 +1,128 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Catalog View Snapshot renders correctly 1`] = `
+<div
+  className="wf-catalog"
+>
+  <div
+    className="header"
+  >
+    <div
+      className="header__search"
+    >
+      <div
+        className="expandable-input-top"
+      >
+        <div
+          className="svg-icon-wrapper  expandable-input-wrapper closed  clickable bottom"
+          data-test-id="expandable-input-closed"
+          disabled={undefined}
+          onClick={[Function]}
+        >
+          <test-file-stub
+            className="svg-icon __search"
+          />
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="main"
+  >
+    <div
+      className="main__header"
+    >
+      <div
+        className="main__header__total"
+      >
+        <span
+          className={undefined}
+          style={undefined}
+        >
+          elementFound
+        </span>
+      </div>
+      <div
+        className="main__header__order"
+      >
+        <div
+          className="main__header__order__label"
+        >
+          <span
+            className={undefined}
+            style={undefined}
+          >
+            orderBy
+          </span>
+          :
+        </div>
+        <div
+          className="main__header__order__alphabetical"
+          onClick={[Function]}
+        >
+          <div
+            className="main__header__order__alphabetical__label"
+          >
+            <span
+              className={undefined}
+              style={undefined}
+            >
+              alphabeticalOrder
+            </span>
+          </div>
+          <div
+            className="main__header__order__alphabetical__icon main__header__order__alphabetical__icon--flip"
+          >
+            <div
+              className="svg-icon-wrapper     bottom"
+              disabled={undefined}
+              onClick={undefined}
+            >
+              <test-file-stub
+                className="svg-icon __caretDown"
+              />
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        className="main__content"
+      >
+        <div
+          className="add-workflow"
+          onClick={[Function]}
+        >
+          <div
+            className="add-workflow__icon"
+          >
+            <div
+              className="svg-icon-wrapper     bottom"
+              disabled={undefined}
+              onClick={undefined}
+            >
+              <test-file-stub
+                className="svg-icon __plusCircle"
+              />
+              
+            </div>
+          </div>
+          <div
+            className="add-workflow__label"
+          >
+            <span
+              className={undefined}
+              style={undefined}
+            >
+              addWorkflow
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

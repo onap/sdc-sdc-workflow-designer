@@ -1,0 +1,118 @@
+.form-group {
+  .control-label {
+    @extend .body-2-semibold;
+    font-weight: normal;
+  }
+  &.required {
+    label:before {
+      content: "*";
+      color: $red;
+      margin: 0 4px 0 0;
+    }
+  }
+}
+.form-control {
+  @extend .body-1;
+  border-radius: 2px;
+  height: 30px;
+  @include box-shadow(none);
+  &:focus {
+    @include box-shadow(none);
+  }
+  &:hover {
+    border-color: $gray;
+  }
+  &.custom-select {
+    padding-top: 3px;
+  }
+}
+
+
+
+label {
+  @extend .body-3;
+  margin-bottom: 8px;
+}
+
+.sdc-radio {
+  label {
+    font-weight: normal;
+    margin-bottom: 0;
+  }
+  input[type="radio"] {
+    margin: 0;
+  }
+}
+select.form-control {
+  display: block;
+  width: 215px;
+}
+
+select[multiple] {
+  background: none;
+}
+
+input[type="checkbox"] {
+  margin: 0;
+
+  &:before {
+    content: "";
+    display: inline-block;
+    width: 11px;
+    height: 11px;
+    margin-right: 10px;
+    position: absolute;
+    background-color: $white;
+    border: 1px solid $blue;
+    box-sizing: content-box;
+  }
+}
+
+.radio label {
+  font-weight: normal;
+  display: inline-block;
+  cursor: pointer;
+  margin-right: $body-font-1;
+  font-size: $body-font-1;
+}
+
+.checkbox label {
+  font-weight: normal;
+  display: inline-block;
+  cursor: pointer;
+  margin-right: $body-font-1;
+  font-size: $body-font-1;
+}
+
+.radio input:before {
+  border-radius: 8px;
+}
+
+.checkbox input:before {
+  border-radius: 2px;
+}
+
+
+input[type=checkbox]:checked:before {
+  font-family: $icon-font-family;
+  content: "\2714";
+  font-size: $icon-font-size;
+  color: $blue;
+  text-align: center;
+	line-height: 13px;
+}
+
+.radio,
+.checkbox {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.radio input[type="radio"],
+.radio-inline input[type="radio"],
+.checkbox input[type="checkbox"],
+.checkbox-inline input[type="checkbox"] {
+  position: absolute;
+  margin-left: -20px;
+  top: 2px;
+}
