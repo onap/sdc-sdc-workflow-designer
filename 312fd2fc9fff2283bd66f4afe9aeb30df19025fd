@@ -1,0 +1,337 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_a46863f6",
+        "filename": "workflow/workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/impl/ParameterRepositoryImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-17T12:12:26Z",
+      "side": 1,
+      "message": "zusammenAdaptor.listElementsByName can be used",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 108
+      },
+      "revId": "312fd2fc9fff2283bd66f4afe9aeb30df19025fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_c4800f8e",
+        "filename": "workflow/workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/impl/ParameterRepositoryImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-17T12:12:26Z",
+      "side": 1,
+      "message": "use the method \"mapElementInfoToPrameter\"",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 61
+      },
+      "revId": "312fd2fc9fff2283bd66f4afe9aeb30df19025fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_6449fb8a",
+        "filename": "workflow/workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/impl/ParameterRepositoryImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-17T12:12:26Z",
+      "side": 1,
+      "message": "getElementInfoByName is enough",
+      "range": {
+        "startLine": 79,
+        "startChar": 66,
+        "endLine": 79,
+        "endChar": 82
+      },
+      "revId": "312fd2fc9fff2283bd66f4afe9aeb30df19025fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_245bf355",
+        "filename": "workflow/workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/impl/ParameterRepositoryImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-17T12:12:26Z",
+      "side": 1,
+      "message": "getParentElementType(role) - extract and reuse",
+      "range": {
+        "startLine": 91,
+        "startChar": 92,
+        "endLine": 91,
+        "endChar": 96
+      },
+      "revId": "312fd2fc9fff2283bd66f4afe9aeb30df19025fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_446ddf03",
+        "filename": "workflow/workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/impl/ParameterRepositoryImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-17T12:12:26Z",
+      "side": 1,
+      "message": "getElementInfo is enough as we save nothing in data, only in info",
+      "range": {
+        "startLine": 100,
+        "startChar": 52,
+        "endLine": 100,
+        "endChar": 62
+      },
+      "revId": "312fd2fc9fff2283bd66f4afe9aeb30df19025fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_844a0782",
+        "filename": "workflow/workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/impl/ParameterRepositoryImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-17T12:12:26Z",
+      "side": 1,
+      "message": "so this one will be \"mapElementInfoToPrameter\"",
+      "range": {
+        "startLine": 102,
+        "startChar": 33,
+        "endLine": 102,
+        "endChar": 57
+      },
+      "revId": "312fd2fc9fff2283bd66f4afe9aeb30df19025fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_e4542b23",
+        "filename": "workflow/workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/impl/ParameterRepositoryImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-17T12:12:26Z",
+      "side": 1,
+      "message": "This can be done inside the mapping method (which anyway maps from business object to persistence one)",
+      "range": {
+        "startLine": 121,
+        "startChar": 54,
+        "endLine": 121,
+        "endChar": 94
+      },
+      "revId": "312fd2fc9fff2283bd66f4afe9aeb30df19025fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_8431a70d",
+        "filename": "workflow/workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/impl/ParameterRepositoryImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-17T12:12:26Z",
+      "side": 1,
+      "message": "may be statis",
+      "range": {
+        "startLine": 174,
+        "startChar": 4,
+        "endLine": 174,
+        "endChar": 11
+      },
+      "revId": "312fd2fc9fff2283bd66f4afe9aeb30df19025fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_e4a66b53",
+        "filename": "workflow/workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/impl/ParameterRepositoryImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-17T12:12:26Z",
+      "side": 1,
+      "message": "\u003d\u003d instead of equals. better: use switch case...",
+      "range": {
+        "startLine": 175,
+        "startChar": 12,
+        "endLine": 175,
+        "endChar": 44
+      },
+      "revId": "312fd2fc9fff2283bd66f4afe9aeb30df19025fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_c4924ff6",
+        "filename": "workflow/workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/impl/WorkflowVersionManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-17T12:12:26Z",
+      "side": 1,
+      "message": "extract to method and reuse in get method",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 124
+      },
+      "revId": "312fd2fc9fff2283bd66f4afe9aeb30df19025fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_a4c143e6",
+        "filename": "workflow/workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/impl/WorkflowVersionManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-17T12:12:26Z",
+      "side": 1,
+      "message": "Should contain inputs/outputs as well",
+      "range": {
+        "startLine": 81,
+        "startChar": 53,
+        "endLine": 81,
+        "endChar": 85
+      },
+      "revId": "312fd2fc9fff2283bd66f4afe9aeb30df19025fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_44b63f8c",
+        "filename": "workflow/workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/impl/WorkflowVersionManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-17T12:12:26Z",
+      "side": 1,
+      "message": "if the input version contains inputs/outputs - it should be added here",
+      "revId": "312fd2fc9fff2283bd66f4afe9aeb30df19025fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_a4362302",
+        "filename": "workflow/workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/impl/WorkflowVersionManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-17T12:12:26Z",
+      "side": 1,
+      "message": "workflowId",
+      "range": {
+        "startLine": 206,
+        "startChar": 48,
+        "endLine": 206,
+        "endChar": 50
+      },
+      "revId": "312fd2fc9fff2283bd66f4afe9aeb30df19025fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_c42ecfa5",
+        "filename": "workflow/workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/impl/WorkflowVersionManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-17T12:12:26Z",
+      "side": 1,
+      "message": "I will be more efficient to use retrievedParameterById map:\nparameterRepository.list(id, versionId, role).stream().collect(Collectors.toMap(ParameterEntity::getId, Function.identity()));\nInstead of running over all retrieved for each new one...",
+      "range": {
+        "startLine": 209,
+        "startChar": 36,
+        "endLine": 209,
+        "endChar": 55
+      },
+      "revId": "312fd2fc9fff2283bd66f4afe9aeb30df19025fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_8418c785",
+        "filename": "workflow/workflow-designer-be/src/test/java/org/onap/sdc/workflow/services/impl/WorkflowVersionManagerImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-17T12:12:26Z",
+      "side": 1,
+      "message": "This test (and others I saw) doesn\u0027t really check that the method did what it should, it just makes sure that the method doesn\u0027t crash...",
+      "revId": "312fd2fc9fff2283bd66f4afe9aeb30df19025fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
