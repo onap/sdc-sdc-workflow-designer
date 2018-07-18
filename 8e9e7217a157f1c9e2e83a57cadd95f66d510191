@@ -186,6 +186,40 @@
       "revId": "8e9e7217a157f1c9e2e83a57cadd95f66d510191",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_1d10864d",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/tools/devConfig.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-07-18T06:22:43Z",
+      "side": 1,
+      "message": "please remove the host/port from this file. put some fake data",
+      "revId": "8e9e7217a157f1c9e2e83a57cadd95f66d510191",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_3d09c22c",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/webpack.config.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-07-18T06:22:43Z",
+      "side": 1,
+      "message": "please see how we determine dev vs. production in openecomp-ui and adjust accordingly",
+      "revId": "8e9e7217a157f1c9e2e83a57cadd95f66d510191",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
