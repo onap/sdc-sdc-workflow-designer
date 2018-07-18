@@ -101,6 +101,91 @@
       "revId": "8e9e7217a157f1c9e2e83a57cadd95f66d510191",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_ba2e38a4",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/config/Configuration.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-07-18T06:16:50Z",
+      "side": 1,
+      "message": "do u even have a websocket?",
+      "revId": "8e9e7217a157f1c9e2e83a57cadd95f66d510191",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_9a1d7c76",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/config/config.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-07-18T06:16:50Z",
+      "side": 1,
+      "message": "what is page size? are you sure all these props are needed?",
+      "revId": "8e9e7217a157f1c9e2e83a57cadd95f66d510191",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_3a122863",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/features/catalog/Catalog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-07-18T06:16:50Z",
+      "side": 1,
+      "message": "please use absolute paths",
+      "revId": "8e9e7217a157f1c9e2e83a57cadd95f66d510191",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_5a17f451",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/features/catalog/CatalogView.jsx",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-07-18T06:16:50Z",
+      "side": 1,
+      "message": "absolute paths...",
+      "revId": "8e9e7217a157f1c9e2e83a57cadd95f66d510191",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_fa0b6029",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/features/catalog/catalogSelectors.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-07-18T06:16:50Z",
+      "side": 1,
+      "message": "remove eslint and comment",
+      "revId": "8e9e7217a157f1c9e2e83a57cadd95f66d510191",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
