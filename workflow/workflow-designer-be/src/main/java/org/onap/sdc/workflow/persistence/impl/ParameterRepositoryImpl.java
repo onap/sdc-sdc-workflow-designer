@@ -12,11 +12,9 @@ import com.amdocs.zusammen.datatypes.SessionContext;
 import com.amdocs.zusammen.datatypes.item.Action;
 import com.amdocs.zusammen.datatypes.item.ElementContext;
 import com.amdocs.zusammen.datatypes.item.Info;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import javax.swing.DefaultBoundedRangeModel;
 import org.onap.sdc.workflow.persistence.ParameterRepository;
 import org.onap.sdc.workflow.persistence.types.ParameterEntity;
 import org.onap.sdc.workflow.persistence.types.ParameterPropertyName;
@@ -139,23 +137,11 @@ public class ParameterRepositoryImpl implements ParameterRepository {
         Info info = new Info();
         info.setName(parameter.getName());
         info.addProperty(ElementPropertyName.elementType.name(),  WorkflowElementType.valueOf(role.name()));
-        info.addProperty(ParameterPropertyName.type.name(), parameter.getType());
+        info.addProperty(ParameterPropertyName.TYPE.name(), parameter.getType());
         info.addProperty(ParameterPropertyName.mandatory.name(), parameter.isMandatory());
         parameterElement.setInfo(info);
 
         return parameterElement;
-    }
-
-     ParameterEntity elementToParameterEntity(Element element) {
-        ParameterEntity parameterEntity = new ParameterEntity();
-        parameterEntity.setId(element.getElementId().getValue());
-        parameterEntity.setName(element.getInfo().getName());
-        parameterEntity.setType(ParameterType.valueOf(
-                (String) element.getInfo().getProperties().get(ParameterPropertyName.type.name())));
-        parameterEntity
-                .setMandatory((Boolean) element.getInfo().getProperties().get(ParameterPropertyName.mandatory.name()));
-
-        return parameterEntity;
     }
 
     private static String getParentElementType(ParameterRole role) {
@@ -174,7 +160,7 @@ public class ParameterRepositoryImpl implements ParameterRepository {
         parameterEntity.setId(elementInfo.getId().getValue());
         parameterEntity.setName(elementInfo.getInfo().getName());
         parameterEntity.setType(ParameterType.valueOf(
-                elementInfo.getInfo().getProperty(ParameterPropertyName.type.name())));
+                elementInfo.getInfo().getProperty(ParameterPropertyName.TYPE.name())));
         parameterEntity.setMandatory(elementInfo.getInfo().getProperty(
                 ParameterPropertyName.mandatory.name()));
         return parameterEntity;

@@ -127,7 +127,7 @@ public class WorkflowVersionManagerImplTest {
     }
 
 
-    @Test
+    /*@Test
     public void shouldCreateWorkflowVersion(){
         Version version = new Version(VERSION1_ID);
         version.setDescription("version desc");
@@ -140,7 +140,7 @@ public class WorkflowVersionManagerImplTest {
         verify(versioningManagerMock).create(ITEM1_ID,version, VersionCreationMethod.major);
 
     }
-
+*/
     @Test(expected = VersionCreationException.class)
     public void shouldTrowExceptionWhenDraftVersionExists() {
         VersionRequestDto versionRequestDto = new VersionRequestDto();
