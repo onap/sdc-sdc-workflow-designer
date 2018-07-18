@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Notification View Snapshot renders correctly 1`] = `
+<div
+  className="workflow-notifications-container position-top-right"
+>
+  <div />
+</div>
+`;
