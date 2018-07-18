@@ -376,6 +376,24 @@
     },
     {
       "key": {
+        "uuid": "1a9dcd25_5dbb6e72",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/features/workflow/overview/overviewSelectors.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2018-07-18T11:33:04Z",
+      "side": 1,
+      "message": "currentVersion.id will be inside general now",
+      "parentUuid": "1a9dcd25_7d82ea53",
+      "revId": "8e9e7217a157f1c9e2e83a57cadd95f66d510191",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a9dcd25_9d87b661",
         "filename": "workflow/workflow-designer-ui/src/main/frontend/src/features/workflow/overview/views/VersionList/VersionListItem.jsx",
         "patchSetId": 3
