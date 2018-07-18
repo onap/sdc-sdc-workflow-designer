@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_5d5daee8",
+        "filename": "workflow/workflow-designer-ui/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1877
+      },
+      "writtenOn": "2018-07-18T08:59:44Z",
+      "side": 1,
+      "message": "should be property.",
+      "range": {
+        "startLine": 37,
+        "startChar": 11,
+        "endLine": 37,
+        "endChar": 47
+      },
+      "revId": "45fdfbbacb6974e859cb6c2ba3f0f29301069d1f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_1d6f2694",
+        "filename": "workflow/workflow-designer-ui/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1877
+      },
+      "writtenOn": "2018-07-18T08:59:44Z",
+      "side": 1,
+      "message": "should be properties, probably higher level pom",
+      "range": {
+        "startLine": 42,
+        "startChar": 13,
+        "endLine": 42,
+        "endChar": 36
+      },
+      "revId": "45fdfbbacb6974e859cb6c2ba3f0f29301069d1f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_fdf83ac6",
+        "filename": "workflow/workflow-designer-ui/src/main/webapp/WEB-INF/web.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1877
+      },
+      "writtenOn": "2018-07-18T08:59:44Z",
+      "side": 1,
+      "message": "i am missing a health check entry here",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 10
+      },
+      "revId": "45fdfbbacb6974e859cb6c2ba3f0f29301069d1f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
