@@ -189,6 +189,227 @@
     },
     {
       "key": {
+        "uuid": "1a9dcd25_fd403a37",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/features/version/general/General.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-07-18T07:48:21Z",
+      "side": 1,
+      "message": "not all files have licensing. please add",
+      "revId": "8e9e7217a157f1c9e2e83a57cadd95f66d510191",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_bd4ab253",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/features/version/inputOutput/InputOutputView.jsx",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-07-18T07:48:21Z",
+      "side": 1,
+      "message": "this file is huge and it seems like it may have too much logic inside componentdidupdate. please check",
+      "revId": "8e9e7217a157f1c9e2e83a57cadd95f66d510191",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_9d79f695",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/features/version/inputOutput/inputOutputReducer.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-07-18T07:48:21Z",
+      "side": 1,
+      "message": "what is the reason for using redux-actions in the reducer specifically? \n\nconsider putting the constants in separate file.",
+      "revId": "8e9e7217a157f1c9e2e83a57cadd95f66d510191",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_dd477e4a",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/features/version/inputOutput/views/TableHead.jsx",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-07-18T07:48:21Z",
+      "side": 1,
+      "message": "does it make sense for table and rows to be in sdc-ui?",
+      "revId": "8e9e7217a157f1c9e2e83a57cadd95f66d510191",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_fd67dae8",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/features/version/versionController/VersionControllerView.jsx",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-07-18T07:48:21Z",
+      "side": 1,
+      "message": "what is the dynamic dispatcher and why is it here?",
+      "revId": "8e9e7217a157f1c9e2e83a57cadd95f66d510191",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_bd6152d5",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/features/version/versionController/views/SvgButton.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-07-18T07:48:21Z",
+      "side": 1,
+      "message": "action logic should be the same and part of the SvgButton class. if it is disabled, just don\u0027t put the onClick, or prevent event",
+      "revId": "8e9e7217a157f1c9e2e83a57cadd95f66d510191",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_7d9bcac9",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/features/version/versionController/views/VersionButton.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-07-18T07:48:21Z",
+      "side": 1,
+      "message": "bad practice of having the action defined in the render",
+      "revId": "8e9e7217a157f1c9e2e83a57cadd95f66d510191",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_9da016f6",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/features/version/versionController/views/VersionSelect.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-07-18T07:48:21Z",
+      "side": 1,
+      "message": "bad practice using the function within render",
+      "revId": "8e9e7217a157f1c9e2e83a57cadd95f66d510191",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_3da54204",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/features/workflow/create/CreateWorkflowView.jsx",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-07-18T07:48:21Z",
+      "side": 1,
+      "message": "try to remove bootstrap. bad practice anonymous arrow functions in render",
+      "revId": "8e9e7217a157f1c9e2e83a57cadd95f66d510191",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_ddb53e32",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/features/workflow/overview/OverviewView.jsx",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-07-18T07:48:21Z",
+      "side": 1,
+      "message": "history manipulation should not be here in the view",
+      "revId": "8e9e7217a157f1c9e2e83a57cadd95f66d510191",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_7d82ea53",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/features/workflow/overview/overviewSelectors.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-07-18T07:48:21Z",
+      "side": 1,
+      "message": "date formatting should be done according to i18n. is this the case?",
+      "revId": "8e9e7217a157f1c9e2e83a57cadd95f66d510191",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_9d87b661",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/features/workflow/overview/views/VersionList/VersionListItem.jsx",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-07-18T07:48:21Z",
+      "side": 1,
+      "message": "where is the i18n for the text??",
+      "revId": "8e9e7217a157f1c9e2e83a57cadd95f66d510191",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_5d812e49",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/shared/componenets/Description/index.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-07-18T07:48:21Z",
+      "side": 1,
+      "message": "bad practice anonymous function in render",
+      "revId": "8e9e7217a157f1c9e2e83a57cadd95f66d510191",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a9dcd25_1d10864d",
         "filename": "workflow/workflow-designer-ui/src/main/frontend/tools/devConfig.json",
         "patchSetId": 3
