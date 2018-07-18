@@ -1,0 +1,15 @@
+{
+  "port": 9000,
+  "proxyTarget": "http://10.247.132.146:9090",
+  "proxyConfig": {
+      "cookies": {
+          "HTTP_CSP_EMAIL": "csantana@sdc.com",
+          "HTTP_CSP_FIRSTNAME": "Carlos",
+          "HTTP_CSP_LASTNAME": "Santana",
+          "HTTP_CSP_WSTYPE": "Intranet",
+          "HTTP_IV_REMOTE_ADDRESS": "0.0.0.0",
+          "HTTP_IV_USER": "cs0008",
+          "USER_ID": "cs0008"
+      }
+  }
+}

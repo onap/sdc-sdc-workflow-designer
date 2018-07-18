@@ -1,0 +1,47 @@
+.sdc-app {
+  height: 100%;
+  * {
+    box-sizing: border-box;
+  }
+  .sdc-container {
+    height: 100%;
+  }
+}
+
+.flex {
+  display: flex;
+  flex: 1;
+}
+
+.flex-column {
+  @extend .flex;
+  flex-direction: column;
+}
+
+.content-area {
+  padding: 30px 60px 70px 60px;
+  overflow-y: auto;
+	overflow-x: hidden;
+  height: 100%;
+  &.no-padding-content-area {
+    padding: 0;
+  }
+}
+
+.page-title {
+  @extend .heading-1;
+  @extend .text-uppercase !optional;
+  margin-bottom: 20px;
+  color: $blue;
+}
+
+#root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.disabled {
+  opacity: 0.7 !important;
+  cursor: $cursor-disabled;
+}
