@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_79368705",
+        "filename": "workflow/workflow-designer-be/src/main/resources/application.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-07-19T07:30:21Z",
+      "side": 1,
+      "message": "revert this",
+      "range": {
+        "startLine": 5,
+        "startChar": 47,
+        "endLine": 5,
+        "endChar": 57
+      },
+      "revId": "f6769aabf6e2720eeeb02ccd4f16e3127fc8f6f3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
