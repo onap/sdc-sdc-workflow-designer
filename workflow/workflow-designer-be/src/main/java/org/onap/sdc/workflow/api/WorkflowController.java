@@ -1,6 +1,6 @@
 package org.onap.sdc.workflow.api;
 
-import static org.onap.sdc.workflow.api.RestConstants.LIMIT_DEFAULT;
+import static org.onap.sdc.workflow.api.RestConstants.SIZE_DEFAULT;
 import static org.onap.sdc.workflow.api.RestConstants.SORT_FIELD_NAME;
 import static org.onap.sdc.workflow.api.RestConstants.SORT_PARAM;
 import static org.onap.sdc.workflow.api.RestConstants.USER_ID_HEADER_PARAM;
@@ -50,7 +50,7 @@ public class WorkflowController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation("List workflows")
     public CollectionWrapper<Workflow> list(@RequestHeader(USER_ID_HEADER_PARAM) String user,
-                                            @PageableDefault(size = LIMIT_DEFAULT)
+                                            @PageableDefault(size = SIZE_DEFAULT)
                                             @SortDefault.SortDefaults({
                                                 @SortDefault(sort = SORT_FIELD_NAME, direction = Sort.Direction.ASC)
                                             }) Pageable pageable) {
