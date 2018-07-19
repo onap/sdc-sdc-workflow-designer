@@ -4,9 +4,8 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.onap.sdc.workflow.TestUtil.createWorkflow;
 import static org.onap.sdc.workflow.api.RestConstants.LIMIT_DEFAULT;
 import static org.onap.sdc.workflow.api.RestConstants.OFFSET_DEFAULT;
@@ -15,7 +14,6 @@ import static org.onap.sdc.workflow.api.RestConstants.SORT_PARAM;
 import static org.onap.sdc.workflow.api.RestConstants.USER_ID_HEADER_PARAM;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -23,11 +21,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableSet;
 import com.google.gson.Gson;
-
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,13 +35,11 @@ import org.onap.sdc.workflow.RestPath;
 import org.onap.sdc.workflow.api.exceptionshandlers.CustomizedResponseEntityExceptionHandler;
 import org.onap.sdc.workflow.api.types.CollectionWrapper;
 import org.onap.sdc.workflow.persistence.types.Workflow;
+import org.onap.sdc.workflow.persistence.types.WorkflowVersionState;
 import org.onap.sdc.workflow.services.WorkflowManager;
-import org.openecomp.sdc.versioning.types.Item;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
-import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -71,11 +66,9 @@ public class WorkflowControllerTest {
 
     @Before
     public void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(workflowController).build();
         mockMvc = MockMvcBuilders.standaloneSetup(workflowController)
-                .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
-                .setControllerAdvice(new CustomizedResponseEntityExceptionHandler())
-                .build();
+                                 .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
+                                 .setControllerAdvice(new CustomizedResponseEntityExceptionHandler()).build();
     }
 
     @Test
@@ -85,17 +78,17 @@ public class WorkflowControllerTest {
                 mockMvc.perform(get(RestPath.getWorkflowPath(workflowMock.getId())).contentType(APPLICATION_JSON))
                        .andDo(print()).andExpect(status().isBadRequest()).andExpect(status().is(400)).andReturn()
                        .getResponse();
-        assertEquals(String.format(MISSING_REQUEST_HEADER_ERRROR_FORMAT, USER_ID_HEADER), response.getContentAsString());
+        assertEquals(String.format(MISSING_REQUEST_HEADER_ERRROR_FORMAT, USER_ID_HEADER),
+                response.getContentAsString());
     }
 
     @Test
     public void shouldReturnWorkflowDataWhenRequestPathIsOk() throws Exception {
         Workflow workflowMock = createWorkflow(1, true);
         doReturn(workflowMock).when(workflowManagerMock).get(any(Workflow.class));
-        mockMvc.perform(
-                get(RestPath.getWorkflowPath(workflowMock.getId())).header(USER_ID_HEADER_PARAM, USER_ID)
-                                                                   .contentType(APPLICATION_JSON)).andDo(print())
-               .andExpect(status().isOk()).andExpect(jsonPath("$.id", is(workflowMock.getId())))
+        mockMvc.perform(get(RestPath.getWorkflowPath(workflowMock.getId())).header(USER_ID_HEADER_PARAM, USER_ID)
+                                                                           .contentType(APPLICATION_JSON))
+               .andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.id", is(workflowMock.getId())))
                .andExpect(jsonPath("$.name", is(workflowMock.getName())));
     }
 
@@ -104,38 +97,59 @@ public class WorkflowControllerTest {
         MockHttpServletResponse response =
                 mockMvc.perform(get(RestPath.getWorkflowsPath()).contentType(APPLICATION_JSON)).andDo(print())
                        .andExpect(status().isBadRequest()).andExpect(status().is(400)).andReturn().getResponse();
-        assertEquals(String.format(MISSING_REQUEST_HEADER_ERRROR_FORMAT, USER_ID_HEADER_PARAM), response.getContentAsString());
+        assertEquals(String.format(MISSING_REQUEST_HEADER_ERRROR_FORMAT, USER_ID_HEADER_PARAM),
+                response.getContentAsString());
     }
 
     @Test
     public void shouldReturn5WorkflowWhen5WorkflowsExists() throws Exception {
         int numOfWorkflows = 5;
         List<Workflow> workflowMocks = createWorkflows(numOfWorkflows);
-        doReturn(workflowMocks).when(workflowManagerMock).list(any());
+        doReturn(workflowMocks).when(workflowManagerMock).list(any(), any());
         mockMvc.perform(
                 get(RestPath.getWorkflowsPath()).header(USER_ID_HEADER_PARAM, USER_ID).contentType(APPLICATION_JSON))
                .andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.results", hasSize(numOfWorkflows)));
     }
 
     @Test
+    public void listWithValidVersionStateFilter() throws Exception {
+        int numOfWorkflows = 3;
+        List<Workflow> workflows = createWorkflows(numOfWorkflows);
+        doReturn(workflows).when(workflowManagerMock)
+                           .list(eq(Collections.singleton(WorkflowVersionState.CERTIFIED)), any());
+        mockMvc.perform(
+                get(RestPath.getWorkflowsWithVersionStateFilterPath("CERTIFIED")).header(USER_ID_HEADER_PARAM, USER_ID)
+                                                                                 .contentType(APPLICATION_JSON))
+               .andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.total", is(numOfWorkflows)))
+               .andExpect(jsonPath("$.results", hasSize(numOfWorkflows)));
+    }
+
+    @Test
+    public void listWithInvalidVersionStateFilter() throws Exception {
+        mockMvc.perform(
+                get(RestPath.getWorkflowsWithVersionStateFilterPath("hasdhf")).header(USER_ID_HEADER_PARAM, USER_ID)
+                                                                              .contentType(APPLICATION_JSON))
+               .andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.total", is(0)));
+    }
+
+    @Test
     public void shouldReturnSortedLimitOffsetAppliedWorkflows() throws Exception {
         List<Workflow> workflowMocks = createLimit2AndOffset1For5WorkflowList();
-        doReturn(workflowMocks).when(workflowManagerMock).list(any());
-        mockMvc.perform(
-                get(RestPath.getWorkflowsPathAllQueryParams(DEFAULT_SORT_VALUE, "2", "1"))
-                        .header(RestConstants.USER_ID_HEADER_PARAM, USER_ID).contentType(APPLICATION_JSON))
-                .andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.results", hasSize(2)));
+        doReturn(workflowMocks).when(workflowManagerMock).list(any(), any());
+        mockMvc.perform(get(RestPath.getWorkflowsPathAllQueryParams(DEFAULT_SORT_VALUE, "2", "1"))
+                                .header(RestConstants.USER_ID_HEADER_PARAM, USER_ID).contentType(APPLICATION_JSON))
+               .andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.results", hasSize(2)));
     }
 
     @Test
     public void shouldReturnResultsWithDefaultWhenLimitIsNegative() throws Exception {
         List<Workflow> workflowMocks = createLimit2AndOffset1For5WorkflowList();
-        doReturn(workflowMocks).when(workflowManagerMock).list(any());
+        doReturn(workflowMocks).when(workflowManagerMock).list(any(), any());
         MockHttpServletResponse response = mockMvc.perform(
                 get(RestPath.getWorkflowsPathAllQueryParams(DEFAULT_SORT_VALUE, "-2", "1"))
                         .header(RestConstants.USER_ID_HEADER_PARAM, USER_ID).contentType(APPLICATION_JSON))
-                .andDo(print()).andExpect(status().isOk()).andExpect(status().is(200)).andReturn()
-                .getResponse();
+                                                  .andDo(print()).andExpect(status().isOk()).andExpect(status().is(200))
+                                                  .andReturn().getResponse();
         CollectionWrapper workflowListResponse =
                 new ObjectMapper().readValue(response.getContentAsString(), CollectionWrapper.class);
         assertEquals(LIMIT_DEFAULT, workflowListResponse.getLimit());
@@ -148,8 +162,8 @@ public class WorkflowControllerTest {
         MockHttpServletResponse response = mockMvc.perform(
                 get(RestPath.getWorkflowsPathAllQueryParams(DEFAULT_SORT_VALUE, "2", "-1"))
                         .header(RestConstants.USER_ID_HEADER_PARAM, USER_ID).contentType(APPLICATION_JSON))
-                .andDo(print()).andExpect(status().isOk()).andExpect(status().is(200)).andReturn()
-                .getResponse();
+                                                  .andDo(print()).andExpect(status().isOk()).andExpect(status().is(200))
+                                                  .andReturn().getResponse();
         CollectionWrapper workflowListResponse =
                 new ObjectMapper().readValue(response.getContentAsString(), CollectionWrapper.class);
         assertEquals(2, workflowListResponse.getLimit());
@@ -162,8 +176,8 @@ public class WorkflowControllerTest {
         MockHttpServletResponse response = mockMvc.perform(
                 get(RestPath.getWorkflowsPathAllQueryParams(DEFAULT_SORT_VALUE, "abc", "0"))
                         .header(RestConstants.USER_ID_HEADER_PARAM, USER_ID).contentType(APPLICATION_JSON))
-                .andDo(print()).andExpect(status().isOk()).andExpect(status().is(200)).andReturn()
-                .getResponse();
+                                                  .andDo(print()).andExpect(status().isOk()).andExpect(status().is(200))
+                                                  .andReturn().getResponse();
         CollectionWrapper workflowListResponse =
                 new ObjectMapper().readValue(response.getContentAsString(), CollectionWrapper.class);
         assertEquals(LIMIT_DEFAULT, workflowListResponse.getLimit());
@@ -176,8 +190,8 @@ public class WorkflowControllerTest {
         MockHttpServletResponse response = mockMvc.perform(
                 get(RestPath.getWorkflowsPathAllQueryParams(DEFAULT_SORT_VALUE, "2", "abc"))
                         .header(RestConstants.USER_ID_HEADER_PARAM, USER_ID).contentType(APPLICATION_JSON))
-                .andDo(print()).andExpect(status().isOk()).andExpect(status().is(200)).andReturn()
-                .getResponse();
+                                                  .andDo(print()).andExpect(status().isOk()).andExpect(status().is(200))
+                                                  .andReturn().getResponse();
         CollectionWrapper workflowListResponse =
                 new ObjectMapper().readValue(response.getContentAsString(), CollectionWrapper.class);
         assertEquals(2, workflowListResponse.getLimit());
@@ -190,8 +204,8 @@ public class WorkflowControllerTest {
         MockHttpServletResponse response = mockMvc.perform(
                 get(RestPath.getWorkflowsPathAllQueryParams("invalidSortField,asc", "2", "1"))
                         .header(RestConstants.USER_ID_HEADER_PARAM, USER_ID).contentType(APPLICATION_JSON))
-                .andDo(print()).andExpect(status().isBadRequest()).andExpect(status().is(400)).andReturn()
-                .getResponse();
+                                                  .andDo(print()).andExpect(status().isBadRequest())
+                                                  .andExpect(status().is(400)).andReturn().getResponse();
         assertEquals(String.format(INVALID_PAGINATION_PARAMETER_FORMAT, SORT_PARAM, "invalidSortField",
                 PAGINATION_PARAMETER_INVALID_SORT_FIELD_SUFFIX + getSupportedSortFields()),
                 response.getContentAsString());
@@ -200,31 +214,31 @@ public class WorkflowControllerTest {
     @Test
     public void shouldReturnAscSortedLimitOffsetAppliedWorkflowsWhenSortIsNotSpecified() throws Exception {
         List<Workflow> workflowMocks = createLimit2AndOffset1For5WorkflowList();
-        doReturn(workflowMocks).when(workflowManagerMock).list(any());
+        doReturn(workflowMocks).when(workflowManagerMock).list(any(), any());
         mockMvc.perform(
-                get(RestPath.getWorkflowsPathNoSort("2", "1"))
-                        .header(RestConstants.USER_ID_HEADER_PARAM, USER_ID).contentType(APPLICATION_JSON))
-                .andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.results", hasSize(2)));
+                get(RestPath.getWorkflowsPathNoSort("2", "1")).header(RestConstants.USER_ID_HEADER_PARAM, USER_ID)
+                                                              .contentType(APPLICATION_JSON)).andDo(print())
+               .andExpect(status().isOk()).andExpect(jsonPath("$.results", hasSize(2)));
     }
 
     @Test
     public void shouldReturnDefaultLimitOffsetAppliedWorkflowsWhenLimitIsNotSpecified() throws Exception {
         List<Workflow> workflowMocks = createLimit2AndOffset1For5WorkflowList();
-        doReturn(workflowMocks).when(workflowManagerMock).list(any());
+        doReturn(workflowMocks).when(workflowManagerMock).list(any(), any());
         mockMvc.perform(
-                get(RestPath.getWorkflowsPathNoSortAndLimit("1"))
-                        .header(RestConstants.USER_ID_HEADER_PARAM, USER_ID).contentType(APPLICATION_JSON))
-                .andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.results", hasSize(2)));
+                get(RestPath.getWorkflowsPathNoSortAndLimit("1")).header(RestConstants.USER_ID_HEADER_PARAM, USER_ID)
+                                                                 .contentType(APPLICATION_JSON)).andDo(print())
+               .andExpect(status().isOk()).andExpect(jsonPath("$.results", hasSize(2)));
     }
 
     @Test
     public void shouldReturnDefaultOffsetAppliedWorkflowsWhenOffsetIsNotSpecified() throws Exception {
         List<Workflow> workflowMocks = createLimit1WorkflowList();
-        doReturn(workflowMocks).when(workflowManagerMock).list(any());
+        doReturn(workflowMocks).when(workflowManagerMock).list(any(), any());
         mockMvc.perform(
-                get(RestPath.getWorkflowsPathNoSortAndOffset("1"))
-                        .header(RestConstants.USER_ID_HEADER_PARAM, USER_ID).contentType(APPLICATION_JSON))
-                .andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.results", hasSize(1)));
+                get(RestPath.getWorkflowsPathNoSortAndOffset("1")).header(RestConstants.USER_ID_HEADER_PARAM, USER_ID)
+                                                                  .contentType(APPLICATION_JSON)).andDo(print())
+               .andExpect(status().isOk()).andExpect(jsonPath("$.results", hasSize(1)));
     }
 
    /* @Test
@@ -234,8 +248,11 @@ public class WorkflowControllerTest {
         Workflow reqWorkflow = createWorkflow(1, false);
         mockMvc.perform(
                 post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER_PARAM, USER_ID).contentType(APPLICATION_JSON)
-                                                 .content(GSON.toJson(reqWorkflow))).andDo(print()).andExpect(status().isCreated())
+                                                 .content(GSON.toJson(reqWorkflow))).andDo(print())
+               .andExpect(status().isCreated())
                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
+        verify(workflowManagerMock).create(reqWorkflow);
+    }
         verify(workflowManagerMock, times(1)).create(reqWorkflow);
     }*/
 

@@ -64,6 +64,16 @@ Then('I want to update the input property {string} with value {string}', functio
 
 /**
  * @module InputData
+ * @description sets the property on the input data to the value of the given property
+ * @exampleFile WorkflowList.feature
+ * @step I want to update the input property {string} with value of property {string}
+ **/
+Then('I want to update the input property {string} with value of property {string}', function(string, string2)  {
+    _.set(this.context.inputData, string,  _.get(this.context, string2));
+});
+
+/**
+ * @module InputData
  * @description removes a property from the input data object
  * @exampleFile Example_Rest_Calls.feature
  * @step I want to remove {string} from the input data

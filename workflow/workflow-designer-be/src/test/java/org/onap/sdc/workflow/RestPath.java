@@ -5,11 +5,13 @@ import static org.onap.sdc.workflow.api.RestConstants.OFFSET_PARAM;
 import static org.onap.sdc.workflow.api.RestConstants.SORT_PARAM;
 
 public class RestPath {
+
     private RestPath() {
         //Hiding implicit constructor
     }
 
     private static final String WORKFLOWS_URL = "/workflows";
+    public static final String WORKFLOWS_WITH_VERSION_STATE_FILTER_URL = WORKFLOWS_URL + "?versionState=%s";
     private static final String WORKFLOW_URL_FORMATTER = WORKFLOWS_URL + "/%s";
     private static final String VERSIONS_URL_FORMATTER = WORKFLOWS_URL + "/%s/versions";
     private static final String VERSION_URL_FORMATTER = WORKFLOWS_URL + "/%s/versions/%s";
@@ -42,19 +44,23 @@ public class RestPath {
         return String.format(WORKFLOW_URL_FORMATTER_QUERY_PARAMS_NO_SORT_AND_OFFSET, limit);
     }
 
-    public static String getWorkflowsPath(){
+    public static String getWorkflowsPath() {
         return WORKFLOWS_URL;
     }
 
-    public static String getWorkflowPath(String workflowId){
+    public static String getWorkflowsWithVersionStateFilterPath(String versionState) {
+        return String.format(WORKFLOWS_WITH_VERSION_STATE_FILTER_URL, versionState);
+    }
+
+    public static String getWorkflowPath(String workflowId) {
         return String.format(WORKFLOW_URL_FORMATTER, workflowId);
     }
 
-    public static String getWorkflowVersions(String workflowId){
+    public static String getWorkflowVersions(String workflowId) {
         return String.format(VERSIONS_URL_FORMATTER, workflowId);
     }
 
-    public static String getWorkflowVersion(String workflowId, String versionId){
+    public static String getWorkflowVersion(String workflowId, String versionId) {
         return String.format(VERSION_URL_FORMATTER, workflowId, versionId);
     }
 }

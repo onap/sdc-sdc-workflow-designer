@@ -1,9 +1,10 @@
 package org.onap.sdc.workflow.services.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
@@ -193,6 +194,8 @@ public class WorkflowVersionManagerImplTest {
         version.setStatus(VersionStatus.Certified);
         doReturn(version).when(versioningManagerMock).get(eq(ITEM1_ID), eqVersion(VERSION1_ID));
         doReturn(CERTIFIED).when(versionStateMapperMock).versionStatusToWorkflowVersionState(version.getStatus());
+        doThrow(new RuntimeException()).when(versioningManagerMock)
+                                       .submit(eq(ITEM1_ID), eqVersion(VERSION1_ID), anyString());
 
         workflowVersionManager.updateState(ITEM1_ID, VERSION1_ID, CERTIFIED);
     }
@@ -203,15 +206,10 @@ public class WorkflowVersionManagerImplTest {
         retrievedVersion.setStatus(VersionStatus.Draft);
         doReturn(retrievedVersion).when(versioningManagerMock).get(eq(ITEM1_ID), eqVersion(VERSION1_ID));
         doReturn(DRAFT).when(versionStateMapperMock).versionStatusToWorkflowVersionState(VersionStatus.Draft);
-        doReturn(VersionStatus.Certified).when(versionStateMapperMock).workflowVersionStateToVersionStatus(CERTIFIED);
 
-        ArgumentCaptor<Version> versionArgCaptor = ArgumentCaptor.forClass(Version.class);
         workflowVersionManager.updateState(ITEM1_ID, VERSION1_ID, CERTIFIED);
 
-        verify(versioningManagerMock).updateVersion(eq(ITEM1_ID), versionArgCaptor.capture());
-        assertEquals(VersionStatus.Certified, versionArgCaptor.getValue().getStatus());
-        verify(versioningManagerMock)
-                .publish(eq(ITEM1_ID), eqVersion(VERSION1_ID), eq("Update version state from DRAFT to CERTIFIED"));
+        verify(versioningManagerMock).submit(eq(ITEM1_ID), eqVersion(VERSION1_ID), anyString());
     }
 
     @Test

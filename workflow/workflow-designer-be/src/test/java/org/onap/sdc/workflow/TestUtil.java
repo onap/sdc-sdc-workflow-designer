@@ -7,32 +7,29 @@ public class TestUtil {
 
     private static final String WORKFLOW_TYPE = "WORKFLOW";
 
-    public static Workflow createWorkflow(int workflowPropertySuffix, boolean createId) {
+    public static Workflow createWorkflow(int workflowNum, boolean createId) {
         Workflow workflow = new Workflow();
         if (createId) {
-            workflow.setId("workflowId" + workflowPropertySuffix);
+            workflow.setId(String.valueOf(workflowNum));
         }
-        workflow.setName("workflowName" + workflowPropertySuffix);
-        workflow.setDescription("workflowDesc" + workflowPropertySuffix);
+        workflow.setName("Workflow_" + workflowNum);
+        workflow.setDescription("Description_" + workflowNum);
 
         return workflow;
     }
 
-    public static Item createItem(int itemNum,boolean setType, boolean setId){
+    public static Item createItem(int itemNum, boolean setType, boolean setId) {
         Item item = new Item();
-        if(setId) {
-            item.setId("workflowId" + itemNum);
+        if (setId) {
+            item.setId(String.valueOf(itemNum));
         }
-        item.addProperty("category","category_" + itemNum);
         item.setName("Workflow_" + itemNum);
         item.setDescription("Description_" + itemNum);
-        if(setType) {
+        if (setType) {
             item.setType(WORKFLOW_TYPE);
         }
-
         return item;
     }
-
 
 
 }
