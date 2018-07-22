@@ -127,20 +127,21 @@ public class WorkflowVersionManagerImplTest {
     }
 
 
-    /*@Test
+    @Test
     public void shouldCreateWorkflowVersion(){
         Version version = new Version(VERSION1_ID);
         version.setDescription("version desc");
         doReturn(version).when(versioningManagerMock).create(ITEM1_ID,version, VersionCreationMethod.major);
         VersionRequestDto versionRequest = new VersionRequestDto();
         versionRequest.setDescription("version desc");
+        versionRequest.setInputs(new ArrayList<>());
+        versionRequest.setOutputs(new ArrayList<>());
         WorkflowVersion workflowVersion = new WorkflowVersion(VERSION1_ID);
         doReturn(workflowVersion).when(workflowVersionManager).get(ITEM1_ID,VERSION1_ID);
         workflowVersionManager.create(ITEM1_ID,versionRequest);
         verify(versioningManagerMock).create(ITEM1_ID,version, VersionCreationMethod.major);
-
     }
-*/
+
     @Test(expected = VersionCreationException.class)
     public void shouldTrowExceptionWhenDraftVersionExists() {
         VersionRequestDto versionRequestDto = new VersionRequestDto();

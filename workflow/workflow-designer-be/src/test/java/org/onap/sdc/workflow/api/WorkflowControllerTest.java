@@ -5,6 +5,8 @@ import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.onap.sdc.workflow.TestUtil.createWorkflow;
 import static org.onap.sdc.workflow.api.RestConstants.PAGE_DEFAULT;
 import static org.onap.sdc.workflow.api.RestConstants.SIZE_DEFAULT;
@@ -13,10 +15,13 @@ import static org.onap.sdc.workflow.api.RestConstants.SORT_PARAM;
 import static org.onap.sdc.workflow.api.RestConstants.USER_ID_HEADER_PARAM;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.amdocs.zusammen.datatypes.Id;
+import com.amdocs.zusammen.datatypes.item.Item;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableSet;
 import com.google.gson.Gson;
@@ -35,8 +40,10 @@ import org.onap.sdc.workflow.api.types.CollectionWrapper;
 import org.onap.sdc.workflow.persistence.types.Workflow;
 import org.onap.sdc.workflow.services.WorkflowManager;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -218,17 +225,17 @@ public class WorkflowControllerTest {
                .andExpect(status().isOk()).andExpect(jsonPath("$.results", hasSize(1)));
     }
 
-   /* @Test
+    @Test
     public void shouldCreateWorkflowWhenCallingPostRESTRequest() throws Exception {
         Item item = new Item();
-        item.setId("abc");
+        item.setId(new Id("abc"));
         Workflow reqWorkflow = createWorkflow(1, false);
         mockMvc.perform(
                 post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER_PARAM, USER_ID).contentType(APPLICATION_JSON)
-                                                 .content(GSON.toJson(reqWorkflow))).andDo(print()).andExpect(status().isCreated())
-               .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
+                                                 .content(GSON.toJson(reqWorkflow))).andDo(print())
+               .andExpect(status().isCreated());
         verify(workflowManagerMock, times(1)).create(reqWorkflow);
-    }*/
+    }
 
     private List<Workflow> createWorkflows(int numOfWorkflows) {
         List<Workflow> workflowList = new ArrayList<>(numOfWorkflows);
