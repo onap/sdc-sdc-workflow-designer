@@ -155,7 +155,7 @@ public class ParameterRepositoryImpl implements ParameterRepository {
         }
     }
 
-    private ParameterEntity mapElementInfoToParameter(ElementInfo elementInfo){
+     ParameterEntity mapElementInfoToParameter(ElementInfo elementInfo){
         ParameterEntity parameterEntity = new ParameterEntity();
         parameterEntity.setId(elementInfo.getId().getValue());
         parameterEntity.setName(elementInfo.getInfo().getName());
