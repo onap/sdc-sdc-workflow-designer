@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_6eba33e3",
+        "filename": "workflow/workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/impl/ParameterRepositoryImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-07-22T10:47:03Z",
+      "side": 1,
+      "message": "this should be private",
+      "range": {
+        "startLine": 158,
+        "startChar": 5,
+        "endLine": 158,
+        "endChar": 72
+      },
+      "revId": "45e796cd58072b09372102e5c9a9b4e4cd3faa73",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_ceed7ff1",
+        "filename": "workflow/workflow-designer-be/src/test/java/org/onap/sdc/workflow/api/WorkflowControllerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-07-22T10:47:03Z",
+      "side": 1,
+      "message": "this is not acceptable. you wanted to check that the returned content type is JSON. you cannot delete this check because it is failing the test. maybe something is wrong with the code???",
+      "range": {
+        "startLine": 236,
+        "startChar": 26,
+        "endLine": 236,
+        "endChar": 46
+      },
+      "revId": "45e796cd58072b09372102e5c9a9b4e4cd3faa73",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_8ebf87d0",
+        "filename": "workflow/workflow-designer-be/src/test/java/org/onap/sdc/workflow/persistence/impl/ParameterRepositoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-07-22T10:47:03Z",
+      "side": 1,
+      "message": "don\u0027t check internal implementaion. you can check the returned value",
+      "range": {
+        "startLine": 72,
+        "startChar": 46,
+        "endLine": 72,
+        "endChar": 71
+      },
+      "revId": "45e796cd58072b09372102e5c9a9b4e4cd3faa73",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
