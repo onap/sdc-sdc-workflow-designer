@@ -31,6 +31,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.openecomp.sdc.logging.api.Logger;
+import org.openecomp.sdc.logging.api.LoggerFactory;
 
 @Service("workflowVersionManager")
 public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
@@ -41,7 +43,7 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
     private final ParameterRepository parameterRepository;
     private final VersionMapper versionMapper;
     private final VersionStateMapper versionStateMapper;
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(WorkflowVersionManagerImpl.class);
 
     @Autowired
     public WorkflowVersionManagerImpl(VersioningManager versioningManager, ArtifactRepository artifactRepository,
@@ -130,6 +132,9 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
         WorkflowVersionState retrievedState =
             versionStateMapper.versionStatusToWorkflowVersionState(retrievedVersion.getStatus());
         if (WorkflowVersionState.CERTIFIED.equals(retrievedState) || retrievedState.equals(state)) {
+            LOGGER.error(String.format(
+                    "Workflow Version is certified and can not be edited.Workflow id %s and version id %s", workflowId,
+                    versionId));
             throw new VersionStateModificationException(workflowId, versionId, retrievedState, state);
         }
 
@@ -144,6 +149,8 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
         Version retrievedVersion = getVersion(workflowId, versionId);
         if (WorkflowVersionState.CERTIFIED
             .equals(versionStateMapper.versionStatusToWorkflowVersionState(retrievedVersion.getStatus()))) {
+            LOGGER.error(String.format("Workflow Version Artifact was not found for workflow id %s and version id %s",
+                    workflowId, versionId));
             throw new VersionModificationException(workflowId, versionId);
         }
 
@@ -154,6 +161,8 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
             versioningManager.publish(workflowId, new Version(versionId), "Update Artifact");
 
         } catch (IOException e) {
+            LOGGER.error(String.format("Upload Artifact failed for workflow id %s and version id %s",
+                    workflowId, versionId),e);
             throw new InvalidArtifactException(e.getMessage());
         }
     }
@@ -163,8 +172,10 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
         getVersion(workflowId, versionId);
         Optional<ArtifactEntity> artifactOptional = artifactRepository.get(workflowId, versionId);
         if (!artifactOptional.isPresent()) {
+            LOGGER.error(String.format("Workflow Version Artifact was not found for workflow id %s and version id %s",
+                    workflowId, versionId));
             throw new EntityNotFoundException(
-                String.format("Artifact for workflow id %S version id %S was not found", workflowId, versionId));
+                    String.format("Artifact for workflow id %S version id %S was not found", workflowId, versionId));
         }
         return artifactOptional.get();
     }
@@ -173,6 +184,9 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
     public void deleteArtifact(String workflowId, String versionId) {
         WorkflowVersion retrievedVersion = get(workflowId, versionId);
         if (WorkflowVersionState.CERTIFIED.equals(retrievedVersion.getState())) {
+            LOGGER.error(String.format(
+                    "Workflow Version is certified and can not be edited.Workflow id %s and version id %s", workflowId,
+                    versionId));
             throw new VersionModificationException(workflowId, versionId);
         }
 
@@ -198,6 +212,9 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
             }
             return version;
         } catch (Exception e) {
+            LOGGER.error(String.format(
+                    "Workflow Version was not found.Workflow id %s and version id %s", workflowId,
+                    versionId),e);
             throw new EntityNotFoundException(String.format(VERSION_NOT_EXIST_MSG, versionId, workflowId));
         }
     }

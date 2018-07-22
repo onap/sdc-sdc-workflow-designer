@@ -15,6 +15,8 @@ import org.onap.sdc.workflow.services.WorkflowManager;
 import org.onap.sdc.workflow.services.WorkflowNameComparator;
 import org.onap.sdc.workflow.services.exceptions.EntityNotFoundException;
 import org.onap.sdc.workflow.services.impl.mappers.WorkflowMapper;
+import org.openecomp.sdc.logging.api.Logger;
+import org.openecomp.sdc.logging.api.LoggerFactory;
 import org.openecomp.sdc.versioning.ItemManager;
 import org.openecomp.sdc.versioning.types.Item;
 import org.openecomp.sdc.versioning.types.ItemStatus;
@@ -35,6 +37,7 @@ public class WorkflowManagerImpl implements WorkflowManager {
     private final ItemManager itemManager;
     private final UniqueValueService uniqueValueService;
     private final WorkflowMapper workflowMapper;
+    private static final Logger LOGGER = LoggerFactory.getLogger(WorkflowManagerImpl.class);
 
     @Autowired
     public WorkflowManagerImpl(ItemManager itemManager,
@@ -56,6 +59,7 @@ public class WorkflowManagerImpl implements WorkflowManager {
     public Workflow get(Workflow workflow) {
         Item retrievedItem = itemManager.get(workflow.getId());
         if (retrievedItem == null) {
+            LOGGER.error(String.format("Workflow with id %s was not found",workflow.getId()));
             throw new EntityNotFoundException(String.format(WORKFLOW_NOT_FOUND_ERROR_MSG, workflow.getId()));
         }
         return this.workflowMapper.itemToWorkflow(retrievedItem);
@@ -76,6 +80,7 @@ public class WorkflowManagerImpl implements WorkflowManager {
     public void update(Workflow workflow) {
         Item retrievedItem = itemManager.get(workflow.getId());
         if (retrievedItem == null) {
+            LOGGER.error(String.format("Workflow with id %s was not found",workflow.getId()));
             throw new EntityNotFoundException(String.format(WORKFLOW_NOT_FOUND_ERROR_MSG, workflow.getId()));
         }
 
