@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`New Workflow View Snapshot renders correctly 1`] = `
+<form
+  onSubmit={[Function]}
+>
+  <div
+    className="new-workflow-page custom-modal-wrapper"
+  >
+    <div
+      className="sdc-input "
+    >
+      <label
+        className="sdc-input__label  required"
+        htmlFor="workflowName"
+      >
+        name
+      </label>
+      <input
+        className="sdc-input__input  "
+        data-test-id={undefined}
+        disabled={false}
+        id="workflowName"
+        name="workflowName"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onKeyDown={[Function]}
+        placeholder={undefined}
+        readOnly={false}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="description-part"
+    >
+      <div
+        className="sdc-input"
+      >
+        <div
+          className="sdc-input__label"
+        >
+          description
+        </div>
+        <textarea
+          className="field-section sdc-input__input"
+          data-test-id="description"
+          onChange={[Function]}
+          value={undefined}
+        />
+      </div>
+    </div>
+    <div
+      className="modal-action-bar"
+    >
+      <button
+        className="sdc-button sdc-button__primary   "
+        disabled={false}
+        onClick={undefined}
+      >
+        createBtn
+      </button>
+      <button
+        className="sdc-button sdc-button__secondary   "
+        disabled={false}
+        onClick={[Function]}
+      >
+        closeBtn
+      </button>
+    </div>
+  </div>
+</form>
+`;

@@ -1,0 +1,44 @@
+$cursor-disabled: not-allowed !default;
+$cursor-pointer: pointer;
+
+.flex {
+    display: flex;
+    flex: 1;
+}
+
+.flex-column {
+    @extend .flex;
+    flex-direction: column;
+}
+
+.text-uppercase {
+    text-transform: uppercase;
+}
+
+.content-area {
+    padding: 30px 60px 70px 60px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+    &.no-padding-content-area {
+        padding: 0;
+    }
+}
+
+.page-title {
+    @include heading-1;
+    @extend .text-uppercase !optional;
+    margin-bottom: 20px;
+    color: $blue;
+}
+
+.disabled {
+    opacity: 0.7 !important;
+    cursor: $cursor-disabled;
+}
+
+@mixin semi-bold() {
+    font-weight: 600;
+};
+
+
