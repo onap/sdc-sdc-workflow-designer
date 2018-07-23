@@ -1,0 +1,68 @@
+{
+    "en": {
+        "catalog": {
+            "elementFound": "%{count} Elements found",
+            "elementFound_0": "No Elements found",
+            "elementFound_1": "%{count} Element found",
+            "orderBy": "Order By",
+            "alphabeticalOrder": "Alphabetical order",
+            "addWorkflow": "Add Workflow"
+        },
+        "date": {
+            "short": "D/MM/YYYY hh:mm A",
+            "long": "MMMM Do, YYYY, hh:mm A"
+        },
+        "buttons": {
+            "submitBtn": "Submit",
+            "saveBtn": "Save",
+            "createBtn": "Create",
+            "cancelBtn": "Cancel",
+            "certifyBtn": "Certify",
+            "undoBtn": "Undo",
+            "closeBtn": "Close"
+        },
+        "form": {
+            "name": "Name",
+            "description": "Description"
+        },
+        "workflow": {
+            "general": {
+                "headerTitle": "General",
+                "name": "Name",
+                "description": "Description",
+                "created": "Created",
+                "modified": "Modified"
+            },
+            "sideBar": {
+                "general": "General",
+                "inputOutput": "Input / Output",
+                "composition": "Composition"
+            },
+            "overview": {
+                "viewOverview": "Workflow Overview",
+                "versionList": "Versions",
+                "newVersion": "Create New Version",
+                "title": "Overview",
+                "lastEdited": "Last Edited On"
+            },
+            "inputOutput": {
+                "name": "Name",
+                "type": "Type",
+                "mandatory": "Mandatory",
+                "noData": "No data to display",
+                "addInput": "ADD INPUT",
+                "addOutput": "ADD OUTPUT",
+                "inputs": "Inputs",
+                "outputs": "Outputs",
+                "DELETE": "DELETE",
+                "CANCEL": "CANCEL",
+                "confirmDlete": "Are you sure you want to delete \"%{name}\"?",
+                "alreadyExists": "Already exists",
+                "invalidCharacters": "Alphanumeric and underscore only"
+            }
+        },
+        "version": {
+            "category": "Version Category"
+        }
+    }
+}

@@ -1,0 +1,16 @@
+.workflow-app {
+  height: 100%;
+  * {
+    box-sizing: border-box;
+  }
+
+  .version-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+#root {
+  height: 100%;
+}

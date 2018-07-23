@@ -1,0 +1,122 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Version Controller View Snapshot renders correctly 1`] = `
+<div
+  className="version-controller-bar"
+>
+  <div
+    className="version-section-wrapper"
+  >
+    <div
+      className="group-name-wrapper"
+    >
+      <div
+        className="group-name"
+      >
+        
+      </div>
+    </div>
+  </div>
+  <div
+    className="vc-container"
+  >
+    <div
+      className="version-section-wrapper"
+    >
+      <div
+        className="version-status-container"
+      >
+        <select
+          className="version-selector"
+          data-test-id="vc-versions-select-box"
+          onChange={[Function]}
+          value={undefined}
+        />
+        <span
+          className="version-selector-more-versions"
+          data-test-id="vc-versions-page-link"
+          onClick={[Function]}
+        >
+          viewOverview
+        </span>
+      </div>
+    </div>
+    <div
+      className="save-submit-cancel-container"
+    >
+      <div
+        className="action-buttons"
+      >
+        <div
+          className="select-action-buttons"
+        >
+          <div
+            className="vc-separator"
+          />
+          <div
+            className="action-button-wrapper clickable"
+            onClick={[Function]}
+          >
+            <div
+              className="action-buttons-svg"
+            >
+              <div
+                className="svg-icon-wrapper     bottom"
+                data-test-id="vc-save-btn"
+                disabled={false}
+                onClick={undefined}
+              >
+                <test-file-stub
+                  className="svg-icon __version-controller-save"
+                />
+                <span
+                  className="svg-icon-label action-button-label"
+                >
+                  saveBtn
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            className="vc-separator"
+          />
+          <div
+            className="action-button-wrapper clickable"
+            onClick={[Function]}
+          >
+            <div
+              className="action-buttons-svg"
+            >
+              <div
+                className="svg-icon-wrapper     bottom"
+                data-test-id="vc-undo-btn"
+                disabled={false}
+                onClick={undefined}
+              >
+                <test-file-stub
+                  className="svg-icon __version-controller-undo"
+                />
+                <span
+                  className="svg-icon-label action-button-label"
+                >
+                  undoBtn
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            className="vc-separator"
+          />
+          <button
+            className="sdc-button sdc-button__primary  certifyBtn "
+            disabled={false}
+            onClick={[Function]}
+          >
+            certifyBtn
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
