@@ -1,0 +1,144 @@
+'use strict';
+
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const { DefinePlugin } = require('webpack');
+const ModuleRedirectPlugin = require('./tools/ModuleRedirectPlugin');
+const devConfig = require('./tools/getDevConfig');
+//TODO: check for better solution
+//const DEV = process.argv[1].indexOf('webpack-dev-server') >= 0;
+const apiMocker = require('webpack-api-mocker');
+const proxyServer = require('./tools/proxy-server');
+
+module.exports = (env, argv) => {
+    const WITH_MOCK = env === 'mock';
+    const DEV = argv.mode && argv.mode === 'development';
+    console.log('WITH_MOCK', WITH_MOCK);
+    let srcPath = [path.resolve(__dirname, 'src')];
+    let commonPath = [path.resolve(__dirname, 'common')];
+    let resourcesPath = [path.resolve(__dirname, 'resources')];
+    let modulePath = [path.resolve('.'), path.join(__dirname, 'node_modules')];
+
+    let webpackConfig = {
+        performance: { hints: false },
+        entry: [__dirname + '/src/index.js'],
+        devtool: DEV ? 'eval-source-map' : 'none',
+        resolve: {
+            modules: modulePath,
+            extensions: ['.js', '.json', '.css', '.scss', '.jsx'],
+            alias: {
+                features: path.resolve(__dirname, 'src/features'),
+                i18n: path.resolve(__dirname, 'src/i18n'),
+                services: path.resolve(__dirname, 'src/services'),
+                shared: path.resolve(__dirname, 'src/shared'),
+                config: path.resolve(__dirname, 'src/config')
+            },
+            plugins: [
+                new ModuleRedirectPlugin({
+                    intercept: /min-dom\/lib/,
+                    ignore: /\/bpmn-js-properties-panel/,
+                    redirect:
+                        'node_modules/bpmn-js-properties-panel/node_modules/min-dom/lib'
+                })
+            ]
+        },
+        output: {
+            path: __dirname + '/dist',
+            filename: 'bundle.js'
+        },
+        module: {
+            rules: [
+                {
+                    test: /\.(js|jsx)$/,
+                    include: [srcPath, commonPath],
+                    use: [
+                        { loader: 'babel-loader' },
+                        { loader: 'eslint-loader', options: { fix: false } }
+                    ]
+                },
+                {
+                    test: /\.(js|jsx)$/,
+                    loader: 'source-map-loader',
+                    include: [srcPath, commonPath],
+                    enforce: 'pre'
+                },
+                {
+                    test: /\.(css|scss)$/,
+                    use: [
+                        {
+                            loader: 'style-loader'
+                        },
+                        {
+                            loader: 'css-loader'
+                        },
+                        {
+                            loader: 'sass-loader',
+                            options: {
+                                output: { path: path.join(__dirname, 'dist') }
+                            }
+                        }
+                    ],
+                    include: [
+                        resourcesPath,
+                        path.join(__dirname, 'node_modules/sdc-ui'),
+                        commonPath
+                    ]
+                },
+                {
+                    test: /\.less$/,
+                    use: [
+                        {
+                            loader: 'style-loader'
+                        },
+                        {
+                            loader: 'css-loader'
+                        },
+                        {
+                            loader: 'less-loader',
+                            options: {
+                                output: { path: path.join(__dirname, 'dist') }
+                            }
+                        }
+                    ]
+                },
+                {
+                    test: /\.(bpmn|xml)$/,
+                    loader: 'raw-loader'
+                }
+            ]
+        },
+        plugins: [
+            new DefinePlugin({
+                DEBUG: DEV === true
+            }),
+            new HtmlWebpackPlugin({
+                filename: 'index.html',
+                template: __dirname + '/index.html'
+            })
+        ]
+    };
+
+    if (DEV) {
+        webpackConfig.devServer = {
+            before: WITH_MOCK
+                ? app => apiMocker(app, path.resolve('./tools/mocks/mock.js'))
+                : app => proxyServer(app),
+            port: devConfig.port,
+            historyApiFallback: true,
+            publicPath: `http://localhost:${devConfig.port}`,
+            //todo: need to check if array is mandatory
+            contentBase: [path.join(__dirname, 'dist')],
+            inline: true,
+            hot: true,
+            stats: {
+                colors: true,
+                exclude: ['node_modules']
+            }
+        };
+    } else {
+        webpackConfig.plugins.push(new UglifyJsPlugin());
+    }
+    console.log('Running build for : ' + argv.mode);
+    return webpackConfig;
+};
