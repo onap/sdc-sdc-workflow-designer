@@ -27,15 +27,16 @@ import org.onap.sdc.workflow.services.exceptions.VersionModificationException;
 import org.onap.sdc.workflow.services.exceptions.VersionStateModificationException;
 import org.onap.sdc.workflow.services.impl.mappers.VersionMapper;
 import org.onap.sdc.workflow.services.impl.mappers.VersionStateMapper;
+import org.openecomp.sdc.logging.api.Logger;
+import org.openecomp.sdc.logging.api.LoggerFactory;
 import org.openecomp.sdc.versioning.VersioningManager;
 import org.openecomp.sdc.versioning.dao.types.Version;
+import org.openecomp.sdc.versioning.dao.types.VersionStatus;
 import org.openecomp.sdc.versioning.types.VersionCreationMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import org.openecomp.sdc.logging.api.Logger;
-import org.openecomp.sdc.logging.api.LoggerFactory;
 
 @Service("workflowVersionManager")
 public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
@@ -61,8 +62,15 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
 
     @Override
     public Collection<WorkflowVersion> list(String workflowId, Set<WorkflowVersionState> stateFilter) {
-        return versioningManager.list(workflowId).stream().map(versionMapper::versionToWorkflowVersion)
-                                .filter(workflowVersion -> stateFilter.contains(workflowVersion.getState()))
+        Set<VersionStatus> versionStatusFilter =
+                stateFilter == null ? null :
+                        stateFilter.stream().map(versionStateMapper::workflowVersionStateToVersionStatus)
+                                           .collect(Collectors.toSet());
+
+        return versioningManager.list(workflowId).stream()
+                                .filter(version -> versionStatusFilter == null || versionStatusFilter.contains(
+                                        version.getStatus()))
+                                .map(versionMapper::versionToWorkflowVersion)
                                 .peek(workflowVersion -> loadAndAddParameters(workflowId, workflowVersion))
                                 .collect(Collectors.toList());
     }
