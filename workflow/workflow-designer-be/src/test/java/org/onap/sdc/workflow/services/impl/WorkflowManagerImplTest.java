@@ -9,7 +9,6 @@ import static org.mockito.Mockito.verify;
 import static org.onap.sdc.workflow.TestUtil.createItem;
 import static org.onap.sdc.workflow.TestUtil.createWorkflow;
 import static org.onap.sdc.workflow.api.RestConstants.SORT_FIELD_NAME;
-import static org.onap.sdc.workflow.services.impl.WorkflowManagerImpl.WORKFLOW_ITEM_FILTER;
 import static org.openecomp.sdc.versioning.dao.types.VersionStatus.Certified;
 
 import java.util.ArrayList;
@@ -72,7 +71,7 @@ public class WorkflowManagerImplTest {
 
     @Test
     public void shouldReturnWorkflowVersionList() {
-        doReturn(ITEMS).when(itemManagerMock).list(WORKFLOW_ITEM_FILTER);
+        doReturn(ITEMS).when(itemManagerMock).list(any());
         for (int i = 0; i < ITEMS.size(); i++) {
             doReturn(MAPPED_WORKFLOWS.get(i)).when(workflowMapperMock).itemToWorkflow(ITEMS.get(i));
         }
@@ -95,8 +94,8 @@ public class WorkflowManagerImplTest {
         doReturn(MAPPED_WORKFLOWS.get(0)).when(workflowMapperMock).itemToWorkflow(ITEMS.get(0));
         doReturn(MAPPED_WORKFLOWS.get(2)).when(workflowMapperMock).itemToWorkflow(ITEMS.get(2));
 
-        Collection<Workflow> workflows =
-                workflowManager.list(Collections.singleton(WorkflowVersionState.CERTIFIED), createPageRequest(20, 0, Sort.Direction.ASC, SORT_FIELD_NAME));
+        Collection<Workflow> workflows = workflowManager.list(Collections.singleton(WorkflowVersionState.CERTIFIED),
+                createPageRequest(20, 0, Sort.Direction.ASC, SORT_FIELD_NAME));
 
         Map<String, Workflow> workflowById =
                 workflows.stream().collect(Collectors.toMap(Workflow::getId, Function.identity()));
@@ -163,7 +162,7 @@ public class WorkflowManagerImplTest {
     @Test
     public void shouldListAllWorkflowsWhenLimitAndOffsetAreValid() {
         PageRequest pageRequest = createPageRequest(5, 0, Sort.Direction.ASC, SORT_FIELD_NAME);
-        doReturn(ITEMS).when(itemManagerMock).list(WORKFLOW_ITEM_FILTER);
+        doReturn(ITEMS).when(itemManagerMock).list(any());
         for (int i = 0; i < ITEMS.size(); i++) {
             doReturn(MAPPED_WORKFLOWS.get(i)).when(workflowMapperMock).itemToWorkflow(ITEMS.get(i));
         }
@@ -173,7 +172,7 @@ public class WorkflowManagerImplTest {
     @Test
     public void shouldListLimitFilteredWorkflowsInFirstOffsetRange() {
         PageRequest pageRequest = createPageRequest(3, 0, Sort.Direction.ASC, SORT_FIELD_NAME);
-        doReturn(ITEMS).when(itemManagerMock).list(WORKFLOW_ITEM_FILTER);
+        doReturn(ITEMS).when(itemManagerMock).list(any());
         for (int i = 0; i < ITEMS.size(); i++) {
             doReturn(MAPPED_WORKFLOWS.get(i)).when(workflowMapperMock).itemToWorkflow(ITEMS.get(i));
         }
@@ -183,7 +182,7 @@ public class WorkflowManagerImplTest {
     @Test
     public void shouldListLimitFilteredWorkflowsInSecondOffsetRange() {
         PageRequest pageRequest = createPageRequest(3, 1, Sort.Direction.ASC, SORT_FIELD_NAME);
-        doReturn(ITEMS).when(itemManagerMock).list(WORKFLOW_ITEM_FILTER);
+        doReturn(ITEMS).when(itemManagerMock).list(any());
         for (int i = 0; i < ITEMS.size(); i++) {
             doReturn(MAPPED_WORKFLOWS.get(i)).when(workflowMapperMock).itemToWorkflow(ITEMS.get(i));
         }
@@ -193,7 +192,7 @@ public class WorkflowManagerImplTest {
     @Test
     public void shouldListAllWorkflowsWhenLimitGreaterThanTotalRecordsAndOffsetInRange() {
         PageRequest pageRequest = createPageRequest(10, 0, Sort.Direction.ASC, SORT_FIELD_NAME);
-        doReturn(ITEMS).when(itemManagerMock).list(WORKFLOW_ITEM_FILTER);
+        doReturn(ITEMS).when(itemManagerMock).list(any());
         for (int i = 0; i < ITEMS.size(); i++) {
             doReturn(MAPPED_WORKFLOWS.get(i)).when(workflowMapperMock).itemToWorkflow(ITEMS.get(i));
         }
@@ -203,7 +202,7 @@ public class WorkflowManagerImplTest {
     @Test
     public void shouldNotListWorkflowsIfOffsetGreaterThanTotalRecords() {
         PageRequest pageRequest = createPageRequest(3, 6, Sort.Direction.ASC, SORT_FIELD_NAME);
-        doReturn(ITEMS).when(itemManagerMock).list(WORKFLOW_ITEM_FILTER);
+        doReturn(ITEMS).when(itemManagerMock).list(any());
         for (int i = 0; i < ITEMS.size(); i++) {
             doReturn(MAPPED_WORKFLOWS.get(i)).when(workflowMapperMock).itemToWorkflow(ITEMS.get(i));
         }
@@ -213,7 +212,7 @@ public class WorkflowManagerImplTest {
     @Test
     public void shouldNotListWorkflowsBothLimitAndOffsetGreaterThanTotalRecords() {
         PageRequest pageRequest = createPageRequest(10, 10, Sort.Direction.ASC, SORT_FIELD_NAME);
-        doReturn(ITEMS).when(itemManagerMock).list(WORKFLOW_ITEM_FILTER);
+        doReturn(ITEMS).when(itemManagerMock).list(any());
         for (int i = 0; i < ITEMS.size(); i++) {
             doReturn(MAPPED_WORKFLOWS.get(i)).when(workflowMapperMock).itemToWorkflow(ITEMS.get(i));
         }
@@ -223,7 +222,7 @@ public class WorkflowManagerImplTest {
     @Test
     public void shouldListLimitOffsetAppliedWorkflowsSortedInDescOrder() {
         PageRequest pageRequest = createPageRequest(2, 1, Sort.Direction.DESC, SORT_FIELD_NAME);
-        doReturn(ITEMS).when(itemManagerMock).list(WORKFLOW_ITEM_FILTER);
+        doReturn(ITEMS).when(itemManagerMock).list(any());
         for (int i = 0; i < ITEMS.size(); i++) {
             doReturn(MAPPED_WORKFLOWS.get(i)).when(workflowMapperMock).itemToWorkflow(ITEMS.get(i));
         }

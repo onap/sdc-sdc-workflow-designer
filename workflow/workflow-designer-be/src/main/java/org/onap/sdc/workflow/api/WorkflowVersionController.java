@@ -16,23 +16,17 @@
 
 package org.onap.sdc.workflow.api;
 
+import static org.onap.sdc.workflow.RestUtils.mapVersionStateFilter;
 import static org.onap.sdc.workflow.api.RestConstants.USER_ID_HEADER_PARAM;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Set;
-import java.util.stream.Collectors;
 import org.onap.sdc.workflow.api.types.CollectionWrapper;
 import org.onap.sdc.workflow.api.types.VersionStateDto;
 import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
 import org.onap.sdc.workflow.persistence.types.WorkflowVersion;
-import org.onap.sdc.workflow.persistence.types.WorkflowVersionState;
 import org.onap.sdc.workflow.services.WorkflowVersionManager;
-import org.openecomp.sdc.logging.api.Logger;
-import org.openecomp.sdc.logging.api.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.InputStreamResource;
@@ -58,7 +52,6 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController("workflowsVersionController")
 public class WorkflowVersionController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(WorkflowVersionController.class);
     private final WorkflowVersionManager workflowVersionManager;
 
     @Autowired
@@ -73,16 +66,7 @@ public class WorkflowVersionController {
             @ApiParam(value = "Filter by state", allowableValues = "DRAFT,CERTIFIED")
             @RequestParam(value = "state", required = false) String stateFilter,
             @RequestHeader(USER_ID_HEADER_PARAM) String user) {
-        Set<WorkflowVersionState> filter;
-        try {
-            filter = stateFilter == null ? null :
-                             Arrays.stream(stateFilter.split(",")).map(WorkflowVersionState::valueOf)
-                                   .collect(Collectors.toSet());
-        } catch (Exception e) {
-            LOGGER.info("Invalid state filter value - return empty list of workflow versions");
-            return new CollectionWrapper<>(Collections.emptyList());
-        }
-        return new CollectionWrapper<>(workflowVersionManager.list(workflowId, filter));
+        return new CollectionWrapper<>(workflowVersionManager.list(workflowId, mapVersionStateFilter(stateFilter)));
     }
 
     @PostMapping

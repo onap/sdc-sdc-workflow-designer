@@ -44,7 +44,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 @Service("workflowManager")
 public class WorkflowManagerImpl implements WorkflowManager {
@@ -52,7 +51,7 @@ public class WorkflowManagerImpl implements WorkflowManager {
     public static final String WORKFLOW_TYPE = "WORKFLOW";
     private static final String WORKFLOW_NOT_FOUND_ERROR_MSG = "Workflow with id '%s' does not exist";
     private static final String WORKFLOW_NAME_UNIQUE_TYPE = "WORKFLOW_NAME";
-    static final Predicate<Item> WORKFLOW_ITEM_FILTER = item -> WORKFLOW_TYPE.equals(item.getType());
+    private static final Predicate<Item> WORKFLOW_ITEM_FILTER = item -> WORKFLOW_TYPE.equals(item.getType());
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WorkflowManagerImpl.class);
     private final ItemManager itemManager;
@@ -73,14 +72,17 @@ public class WorkflowManagerImpl implements WorkflowManager {
     @Override
     public Collection<Workflow> list(Set<WorkflowVersionState> versionStatesFilter, Pageable pageRequest) {
         Set<VersionStatus> versionStatusesFilter =
-                CollectionUtils.isEmpty(versionStatesFilter) ? Collections.emptySet() :
+                versionStatesFilter == null ? null :
                         versionStatesFilter.stream().map(versionStateMapper::workflowVersionStateToVersionStatus)
                                            .collect(Collectors.toSet());
 
+
         List<Workflow> workflows = itemManager.list(getFilter(versionStatusesFilter)).stream()
                                               .map(workflowMapper::itemToWorkflow)
+                                              .sorted(pageRequest.getSort().getOrderFor(SORT_FIELD_NAME).getDirection()
+                                                              == Sort.Direction.ASC ? getWorkflowsComparator() :
+                                                              Collections.reverseOrder(getWorkflowsComparator()))
                                               .collect(Collectors.toList());
-        sortWorkflows(workflows, pageRequest);
         return applyLimitAndOffset(workflows, pageRequest);
     }
 
@@ -144,24 +146,14 @@ public class WorkflowManagerImpl implements WorkflowManager {
         return selectedWorkflows;
     }
 
-    private void sortWorkflows(List<Workflow> workflows, Pageable pageRequest) {
-        Comparator<Workflow> comparator = getWorkflowsComparator();
-        if (pageRequest.getSort().getOrderFor(SORT_FIELD_NAME).getDirection() == Sort.Direction.ASC) {
-            workflows.sort(comparator);
-        } else {
-            workflows.sort(Collections.reverseOrder(comparator));
-        }
-    }
-
     private Comparator<Workflow> getWorkflowsComparator() {
         //More comparators can be added if required based on sort field name
         return new WorkflowNameComparator();
     }
 
     private static Predicate<Item> getFilter(Set<VersionStatus> versionStatuses) {
-        return CollectionUtils.isEmpty(versionStatuses)
-                       ? WORKFLOW_ITEM_FILTER
-                       : WORKFLOW_ITEM_FILTER.and(item -> item.getVersionStatusCounters().keySet().stream()
-                                                              .anyMatch(versionStatuses::contains));
+        return WORKFLOW_ITEM_FILTER.and(item -> versionStatuses == null
+                                            || item.getVersionStatusCounters().keySet().stream()
+                                                   .anyMatch(versionStatuses::contains));
     }
 }
