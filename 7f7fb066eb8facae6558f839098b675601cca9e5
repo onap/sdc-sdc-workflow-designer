@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "da7095c5_ae05ab15",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/resources/scss/common/_typography.scss",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2018-07-23T10:43:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da7095c5_0e74d7cd",
+      "revId": "7f7fb066eb8facae6558f839098b675601cca9e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da7095c5_ae804b8c",
         "filename": "workflow/workflow-designer-ui/src/main/frontend/src/features/catalog/CatalogView.jsx",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2018-07-23T08:13:51Z",
       "side": 1,
       "message": "remove the word src from path",
+      "revId": "7f7fb066eb8facae6558f839098b675601cca9e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_82ff5b01",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/features/catalog/CatalogView.jsx",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2018-07-23T10:43:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da7095c5_ae804b8c",
       "revId": "7f7fb066eb8facae6558f839098b675601cca9e5",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "da7095c5_a204df15",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/features/workflow/create/createWorkflowSaga.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2018-07-23T10:43:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da7095c5_ce7d7fb3",
+      "revId": "7f7fb066eb8facae6558f839098b675601cca9e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da7095c5_8e36a702",
         "filename": "workflow/workflow-designer-ui/src/main/frontend/src/features/workflow/overview/overviewSelectors.js",
         "patchSetId": 7
@@ -64,6 +118,24 @@
       "writtenOn": "2018-07-23T08:13:51Z",
       "side": 1,
       "message": "please add a constant for certified",
+      "revId": "7f7fb066eb8facae6558f839098b675601cca9e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_4209432b",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/features/workflow/overview/overviewSelectors.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2018-07-23T10:43:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da7095c5_8e36a702",
       "revId": "7f7fb066eb8facae6558f839098b675601cca9e5",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "da7095c5_4220639b",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/features/workflow/overview/views/VersionList/VersionListItem.jsx",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2018-07-23T10:43:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da7095c5_2e3bdbec",
+      "revId": "7f7fb066eb8facae6558f839098b675601cca9e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da7095c5_6e4a3385",
         "filename": "workflow/workflow-designer-ui/src/main/frontend/src/index.js",
         "patchSetId": 7
@@ -98,6 +188,24 @@
       "writtenOn": "2018-07-23T08:13:51Z",
       "side": 1,
       "message": "remove \u0027src\u0027",
+      "revId": "7f7fb066eb8facae6558f839098b675601cca9e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_622567aa",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/index.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2018-07-23T10:43:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da7095c5_6e4a3385",
       "revId": "7f7fb066eb8facae6558f839098b675601cca9e5",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "da7095c5_22376fe5",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/shared/componenets/Description/index.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2018-07-23T10:43:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da7095c5_8e4f8792",
+      "revId": "7f7fb066eb8facae6558f839098b675601cca9e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da7095c5_2e443b73",
         "filename": "workflow/workflow-designer-ui/src/main/frontend/src/shared/componenets/VersionInfo/index.js",
         "patchSetId": 7
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "da7095c5_e23097ea",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/shared/componenets/VersionInfo/index.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2018-07-23T10:43:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da7095c5_2e443b73",
+      "revId": "7f7fb066eb8facae6558f839098b675601cca9e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da7095c5_4e496f8a",
         "filename": "workflow/workflow-designer-ui/src/main/frontend/src/shared/tree/Tree.jsx",
         "patchSetId": 7
@@ -149,6 +293,24 @@
       "writtenOn": "2018-07-23T08:13:51Z",
       "side": 1,
       "message": "no license",
+      "revId": "7f7fb066eb8facae6558f839098b675601cca9e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_824d1b75",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/shared/tree/Tree.jsx",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2018-07-23T10:43:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da7095c5_4e496f8a",
       "revId": "7f7fb066eb8facae6558f839098b675601cca9e5",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
