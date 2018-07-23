@@ -1,14 +1,17 @@
 package org.onap.sdc.workflow.services.impl;
 
-import static org.openecomp.sdc.versioning.dao.types.VersionStatus.Certified;
+import static org.onap.sdc.workflow.persistence.types.WorkflowVersionState.CERTIFIED;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
-import org.onap.sdc.workflow.api.types.VersionRequestDto;
 import org.onap.sdc.workflow.persistence.ArtifactRepository;
 import org.onap.sdc.workflow.persistence.ParameterRepository;
 import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
@@ -58,46 +61,42 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
 
     @Override
     public Collection<WorkflowVersion> list(String workflowId) {
-        Collection<WorkflowVersion> versions =
-                versioningManager.list(workflowId).stream().map(versionMapper::versionToWorkflowVersion)
-                                 .collect(Collectors.toList());
-        versions.forEach(workflowVersion -> addVersionParameters(workflowId,workflowVersion));
-
-        return  versions;
+        return versioningManager.list(workflowId).stream().map(versionMapper::versionToWorkflowVersion)
+                                .peek(workflowVersion -> loadAndAddParameters(workflowId, workflowVersion))
+                                .collect(Collectors.toList());
     }
 
     @Override
     public WorkflowVersion get(String workflowId, String versionId) {
         WorkflowVersion workflowVersion = versionMapper.versionToWorkflowVersion(getVersion(workflowId, versionId));
-        addVersionParameters(workflowId,workflowVersion);
+        loadAndAddParameters(workflowId, workflowVersion);
         return workflowVersion;
-
     }
 
-
     @Override
-    public WorkflowVersion create(String workflowId, VersionRequestDto versionRequest) {
+    public WorkflowVersion create(String workflowId, String baseVersionId, WorkflowVersion workflowVersion) {
         List<Version> versions = versioningManager.list(workflowId);
 
-        if (versionRequest.getBaseVersionId() != null) {
-            validateVersionExistAndCertified(workflowId, versions, versionRequest.getBaseVersionId());
+        if (baseVersionId != null) {
+            if (!workflowVersion.getInputs().isEmpty() || !workflowVersion.getOutputs().isEmpty()) {
+                throw new VersionCreationException(workflowId, baseVersionId, "Inputs/Outputs should not be supplied");
+            }
+            validateVersionExistAndCertified(workflowId, versions, baseVersionId);
         } else if (!versions.isEmpty()) {
             throw new VersionCreationException(workflowId);
         }
 
         Version version = new Version();
-        version.setDescription(versionRequest.getDescription());
-        version.setBaseId(versionRequest.getBaseVersionId());
+        version.setDescription(workflowVersion.getDescription());
+        version.setBaseId(baseVersionId);
         Version createdVersion = versioningManager.create(workflowId, version, VersionCreationMethod.major);
 
         if (versions.isEmpty()) { // only for first version
             artifactRepository.createStructure(workflowId, createdVersion.getId());
             parameterRepository.createStructure(workflowId, createdVersion.getId());
-            versioningManager.publish(workflowId, createdVersion, "Add workflow structure");
+            updateParameters(workflowId, createdVersion.getId(), workflowVersion.getInputs(), workflowVersion.getOutputs());
+            versioningManager.publish(workflowId, createdVersion, "Add initial data");
         }
-
-        updateVersionParameters(workflowId,  createdVersion.getId(), ParameterRole.INPUT, versionRequest.getInputs());
-        updateVersionParameters(workflowId,  createdVersion.getId(), ParameterRole.OUTPUT, versionRequest.getOutputs());
 
         return get(workflowId, createdVersion.getId());
     }
@@ -105,8 +104,7 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
     @Override
     public void update(String workflowId, WorkflowVersion workflowVersion) {
         Version retrievedVersion = getVersion(workflowId, workflowVersion.getId());
-        if (WorkflowVersionState.CERTIFIED
-            .equals(versionStateMapper.versionStatusToWorkflowVersionState(retrievedVersion.getStatus()))) {
+        if (CERTIFIED.equals(versionStateMapper.versionStatusToWorkflowVersionState(retrievedVersion.getStatus()))) {
             throw new VersionModificationException(workflowId, workflowVersion.getId());
         }
 
@@ -114,8 +112,7 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
         version.setName(retrievedVersion.getName());
         version.setStatus(retrievedVersion.getStatus());
 
-        updateVersionParameters(workflowId, version.getId(), ParameterRole.INPUT, workflowVersion.getInputs());
-        updateVersionParameters(workflowId, version.getId(), ParameterRole.OUTPUT, workflowVersion.getOutputs());
+        updateParameters(workflowId, version.getId(), workflowVersion.getInputs(), workflowVersion.getOutputs());
 
         versioningManager.updateVersion(workflowId, version);
         versioningManager.publish(workflowId, version, "Update version");
@@ -128,35 +125,31 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
 
     @Override
     public void updateState(String workflowId, String versionId, WorkflowVersionState state) {
-        Version retrievedVersion = getVersion(workflowId, versionId);
         WorkflowVersionState retrievedState =
-            versionStateMapper.versionStatusToWorkflowVersionState(retrievedVersion.getStatus());
-        if (WorkflowVersionState.CERTIFIED.equals(retrievedState) || retrievedState.equals(state)) {
-            LOGGER.error(String.format(
-                    "Workflow Version is certified and can not be edited.Workflow id %s and version id %s", workflowId,
-                    versionId));
+                versionStateMapper.versionStatusToWorkflowVersionState(getVersion(workflowId, versionId).getStatus());
+
+        if (state == CERTIFIED) {
+            try {
+                versioningManager.submit(workflowId, new Version(versionId),
+                        String.format("Update version state to %s", state.name()));
+            } catch (Exception e) {
+                throw new VersionStateModificationException(workflowId, versionId, retrievedState, state);
+            }
+        } else {
             throw new VersionStateModificationException(workflowId, versionId, retrievedState, state);
         }
-
-        retrievedVersion.setStatus(versionStateMapper.workflowVersionStateToVersionStatus(state));
-        versioningManager.updateVersion(workflowId, retrievedVersion);
-        versioningManager.publish(workflowId, retrievedVersion,
-            String.format("Update version state from %s to %s", retrievedState.name(), state.name()));
     }
 
     @Override
     public void uploadArtifact(String workflowId, String versionId, MultipartFile artifact) {
         Version retrievedVersion = getVersion(workflowId, versionId);
-        if (WorkflowVersionState.CERTIFIED
-            .equals(versionStateMapper.versionStatusToWorkflowVersionState(retrievedVersion.getStatus()))) {
-            LOGGER.error(String.format("Workflow Version Artifact was not found for workflow id %s and version id %s",
-                    workflowId, versionId));
+        if (CERTIFIED.equals(versionStateMapper.versionStatusToWorkflowVersionState(retrievedVersion.getStatus()))) {
             throw new VersionModificationException(workflowId, versionId);
         }
 
         try (InputStream artifactData = artifact.getInputStream()) {
             ArtifactEntity artifactEntity =
-                new ArtifactEntity(StringUtils.cleanPath(artifact.getOriginalFilename()), artifactData);
+                    new ArtifactEntity(StringUtils.cleanPath(artifact.getOriginalFilename()), artifactData);
             artifactRepository.update(workflowId, versionId, artifactEntity);
             versioningManager.publish(workflowId, new Version(versionId), "Update Artifact");
 
@@ -183,7 +176,7 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
     @Override
     public void deleteArtifact(String workflowId, String versionId) {
         WorkflowVersion retrievedVersion = get(workflowId, versionId);
-        if (WorkflowVersionState.CERTIFIED.equals(retrievedVersion.getState())) {
+        if (CERTIFIED.equals(retrievedVersion.getState())) {
             LOGGER.error(String.format(
                     "Workflow Version is certified and can not be edited.Workflow id %s and version id %s", workflowId,
                     versionId));
@@ -196,13 +189,12 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
 
     private void validateVersionExistAndCertified(String workflowId, List<Version> versions, String versionId) {
         Version baseVersion = findVersion(versions, versionId).orElseThrow(
-            () -> new EntityNotFoundException(String.format(VERSION_NOT_EXIST_MSG, versionId, workflowId)));
+                () -> new EntityNotFoundException(String.format(VERSION_NOT_EXIST_MSG, versionId, workflowId)));
 
-        if (!Certified.equals(baseVersion.getStatus())) {
-            throw new VersionCreationException(workflowId, versionId);
+        if (CERTIFIED != versionStateMapper.versionStatusToWorkflowVersionState(baseVersion.getStatus())) {
+            throw new VersionCreationException(workflowId, versionId, "base version must be CERTIFIED");
         }
     }
-
 
     private Version getVersion(String workflowId, String versionId) {
         try {
@@ -219,34 +211,42 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
         }
     }
 
+    private void updateParameters(String workflowId, String versionId, Collection<ParameterEntity> inputs,
+            Collection<ParameterEntity> outputs) {
+        updateVersionParameters(workflowId, versionId, ParameterRole.INPUT, inputs);
+        updateVersionParameters(workflowId, versionId, ParameterRole.OUTPUT, outputs);
+    }
+
     private void updateVersionParameters(String workflowId, String versionId, ParameterRole role,
             Collection<ParameterEntity> parameters) {
 
-        Collection<ParameterEntity> retrievedParameters = parameterRepository.list(workflowId, versionId, role);
+        Collection<ParameterEntity> retrievedParams = parameterRepository.list(workflowId, versionId, role);
+        Map<String, ParameterEntity> retrievedParamsByName =
+                retrievedParams.stream().collect(Collectors.toMap(ParameterEntity::getName, Function.identity()));
 
-        parameters.forEach(parameterEntity -> {
-            if (retrievedParameters.stream().anyMatch(
-                    parameterEntity1 -> parameterEntity.getName().equals(parameterEntity1.getName()))) {
-                parameterRepository.update(workflowId, versionId, role, parameterEntity);
+        Set<String> namesOfParamsToKeep = new HashSet<>();
+        for (ParameterEntity parameter : parameters) {
+
+            ParameterEntity retrievedParam = retrievedParamsByName.get(parameter.getName());
+            if (retrievedParam == null) {
+                parameterRepository.create(workflowId, versionId, role, parameter);
             } else {
-                parameterRepository.create(workflowId, versionId, role, parameterEntity);
+                parameterRepository.update(workflowId, versionId, role, parameter);
+                namesOfParamsToKeep.add(parameter.getName());
             }
-        });
+        }
 
-        retrievedParameters.forEach(parameterEntity -> {
-            if (parameters.stream().noneMatch(
-                    parameterEntity1 -> parameterEntity.getName().equals(parameterEntity1.getName()))) {
-                parameterRepository.delete(workflowId, versionId, parameterEntity.getId());
-            }
-        });
+        retrievedParams.stream().filter(retrievedParam -> !namesOfParamsToKeep.contains(retrievedParam.getName()))
+                       .forEach(retrievedParam -> parameterRepository
+                                                          .delete(workflowId, versionId, retrievedParam.getId()));
+    }
+
+    private void loadAndAddParameters(String workflowId, WorkflowVersion workflowVersion) {
+        workflowVersion.setInputs(parameterRepository.list(workflowId, workflowVersion.getId(), ParameterRole.INPUT));
+        workflowVersion.setOutputs(parameterRepository.list(workflowId, workflowVersion.getId(), ParameterRole.OUTPUT));
     }
 
     private static Optional<Version> findVersion(List<Version> versions, String versionId) {
         return versions.stream().filter(version -> versionId.equals(version.getId())).findFirst();
-    }
-
-    private void addVersionParameters(String workflowId, WorkflowVersion workflowVersion) {
-        workflowVersion.setInputs(parameterRepository.list(workflowId, workflowVersion.getId(), ParameterRole.INPUT));
-        workflowVersion.setOutputs(parameterRepository.list(workflowId, workflowVersion.getId(), ParameterRole.OUTPUT));
     }
 }

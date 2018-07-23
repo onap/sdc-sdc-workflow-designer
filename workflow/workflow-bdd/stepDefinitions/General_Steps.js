@@ -151,7 +151,7 @@ Then('I want to check property {string} does not exist', function(string)  {
 * @module ContextData
 * @description Use during development to see what is on the context
  * @exampleFile Example_ResponseData_CheckAndManipulation.feature
-* @step I want to print context data
+* @step I want to print the context data
 **/
 Then('I want to print the context data', function()  {
 	console.log('------------ context ---------------');
@@ -268,13 +268,13 @@ Then('I want to check that element in the response list with {string} equals to 
  **/
 Then('I want to check that element in the response list with {string} equals to value of saved property {string} exists', function(propertyPath, valueProperty) {
     const results = this.context.responseData.results;
-    assert.notEqual(results.find(result => this.context[valueProperty] === _.get(result, propertyPath)), undefined);
+    assert.notEqual(results.find(result => _.get(this.context, valueProperty) === _.get(result, propertyPath)), undefined);
 });
 
 
 Then('I want to check that property {string} in the response equals to value of saved property {string}', function(propertyPath, valueProperty) {
     const results = this.context.responseData;
-    assert.equal(results[propertyPath],this.context[valueProperty]);
+    assert.equal(results[propertyPath], _.get(this.context, valueProperty));
 });
 
 /**

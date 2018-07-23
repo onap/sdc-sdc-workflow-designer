@@ -1,7 +1,6 @@
 package org.onap.sdc.workflow.services;
 
 import java.util.Collection;
-import org.onap.sdc.workflow.api.types.VersionRequestDto;
 import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
 import org.onap.sdc.workflow.persistence.types.WorkflowVersion;
 import org.onap.sdc.workflow.persistence.types.WorkflowVersionState;
@@ -12,9 +11,9 @@ public interface WorkflowVersionManager {
 
     Collection<WorkflowVersion> list(String workflowId);
 
-    WorkflowVersion create(String workflowId, VersionRequestDto versionRequest);
+    WorkflowVersion create(String workflowId, String baseVersionId, WorkflowVersion version);
 
-    void update(String id, WorkflowVersion version);
+    void update(String workflowId, WorkflowVersion version);
 
     WorkflowVersion get(String workflowId, String versionId);
 

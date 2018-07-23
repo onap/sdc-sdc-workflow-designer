@@ -1,1 +1,4 @@
-{"name":"RANDOM","description":"Workflow Description","category":"category"}
+{
+  "name": "RANDOM",
+  "description": "Workflow Description"
+}
