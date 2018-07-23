@@ -1,0 +1,290 @@
+.overview-page {
+  @include body-1;
+  @include base-font-regular;
+  padding: 25px;
+
+  .overview-content {
+    display: flex;
+    flex-wrap: wrap;
+
+    .workflow-details {
+      @extend .flex;
+      padding: 20px 0 0 60px;
+      flex-direction: column;
+
+      .description-part textarea{
+        height: 200px;
+      }
+
+      .save-description {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .version-info-part {
+        background-color: $light-silver;
+        margin-top: 25px;
+        padding: 20px;
+        box-sizing: border-box;
+        .label {
+          @include body-3;
+          margin-bottom: 5px;
+        }
+        .value {
+          margin-bottom: 10px;
+        }
+      }
+    }
+
+    .workflow-versions {
+      display: flex;
+      flex: 2;
+    }
+  }
+
+  .overview-header {
+    @include heading-1;
+    text-transform: uppercase;
+    margin: 35px 0 35px 60px;
+    color: $blue;
+  }
+
+  @mixin version-page-box-shadow() {
+    box-shadow: 1px 1px 0 0 rgba(24, 24, 24, 0.06);
+  }
+
+  @mixin version-page-sub-title(){
+    color: $text-black;
+    text-transform: uppercase;
+    //background-color: $white;
+    border-bottom: 1px solid $light-gray;
+    padding: 12px 0 10px 45px;
+  }
+
+  .versions-page-view {
+    height: 100%;
+    overflow: auto;
+    padding: 0 35px 0 90px;
+    display: flex;
+    flex: 2;
+    flex-direction: column;
+
+    .svg-icon-wrapper {
+      justify-content: flex-start;
+    }
+
+    .create-new-version {
+      @extend .text-uppercase;
+      display: flex;
+      flex-direction: row-reverse;
+      color: $blue;
+      margin-left: auto;
+      cursor: pointer;
+    }
+    .newVersionDisabled > *, .svg-icon-wrapper{
+      pointer-events: none;
+      color: $gray;
+    }
+    .version-page-header {
+      display: flex;
+      justify-content: space-between;
+      .versions-page-title {
+        @include heading-1;
+        text-transform: uppercase;
+        margin-bottom: 29px;
+        color: $blue;
+      }
+      .depricate-btn-wrapper {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 10px;
+      }
+    }
+
+    .versions-page-list-and-tree {
+      display: flex;
+      margin-top: 20px;
+
+      .version-tree-wrapper {
+        display: flex;
+        flex-direction: column;
+        transition: all 1s ease;
+        @include version-page-box-shadow();
+
+        .version-tree-title-container {
+          @include base-font-semibold();
+          background-color: $light-silver;
+          display: flex;
+          align-items: center;
+          height: 40px;
+          @include version-page-sub-title();
+          padding-right: 10px;
+
+          .version-tree-full-screen {
+            margin-left: auto;
+          }
+        }
+
+        .tree-view {
+          //background-color: $white;
+          flex: 1;
+
+          .node:not(.selectedNode):hover {
+            .outer-circle, .inner-circle {
+              transform: scale(1.1);
+            }
+          }
+        }
+      }
+    }
+
+    .version-list {
+      @extend .flex;
+      color: $text-black;
+      flex-direction: column;
+
+      .version-list-items {
+        @extend .flex-column;
+
+        .version-item-row {
+          border-bottom: 1px solid $silver;
+
+          &:last-child {
+            border-bottom: none;
+          }
+        }
+      }
+
+      .version-item-row {
+        $row-hover-color: lighten($blue, 54%);
+        $row-active-color: lighten($blue, 51%);
+        cursor: $cursor-pointer;
+
+        display: flex;
+        align-items: center;
+        padding: 15px 30px;
+        @include version-page-box-shadow();
+        height: 70px;
+
+        &:hover {
+          background-color: $row-hover-color;
+        }
+
+        &.selected {
+          box-shadow: 0 1px 4px 0 rgba(24, 24, 24, 0.06), inset 5px 0 0 0 $blue;
+          background-color: $row-active-color;
+
+          &:hover {
+            box-shadow: 0 1px 4px 0 rgba(24, 24, 24, 0.06), inset 5px 0 0 0 lighten($blue, 35%);
+          }
+        }
+
+        &.header-row {
+          height: 40px;
+          background-color: $light-silver;
+
+          @include base-font-semibold();
+          @include version-page-sub-title();
+          padding: 15px 27px;
+
+          &:hover {
+            pointer-events: none;
+            &:active {
+              @include version-page-box-shadow();
+            }
+          }
+          .header-field.actions {
+            margin-right: 57px;
+          }
+        }
+
+        .version-item-field {
+          @extend .flex;
+          margin-right: 10px;
+
+          &.item-version, &.item-status {
+            flex: 0 1 10%;
+            color: $text-black;
+          }
+
+          &.item-description, &.item-last-edited {
+            @include body-1;
+            color: $dark-gray;
+          }
+
+          &.item-description, &.header-description {
+            flex: 2 1 0;
+          }
+
+          &.item-description > .description-text {
+            margin-right: 10px;
+            @include ellipsis($max-width: 280px);
+            width: initial;
+          }
+
+          &.item-actions {
+            display: flex;
+            flex: 1 1 3%;
+            justify-content: space-between;
+          }
+
+          &.item-select, &.item-create {
+            @include body-1;
+            flex: 0 1 auto;
+            margin-right: 0;
+
+            .svg-icon-wrapper {
+              fill: $blue;
+              color: $blue;
+
+              &[disabled] {
+                cursor: default;
+              }
+
+              .svg-icon {
+                width: 16px;
+                height: 16px;
+              }
+
+              &:hover:not([disabled]) {
+                fill: $dark-blue;
+                color: $dark-blue;
+              }
+            }
+          }
+
+        }
+
+        /* To keep ellipsis hider's background the same color as row background */
+        &:not(.selected):hover .item-description > .description-text:after {
+          background: $row-hover-color;
+        }
+
+        &:hover:active .item-description > .description-text:after {
+          background: $row-active-color;
+        }
+
+      }
+
+    }
+
+    &.clickable {
+      cursor: pointer;
+    }
+  }
+
+}
+
+.inputinput-selector {
+  padding-right: 10px;
+  border-color: $light-gray;
+  border-radius: 2px;
+  width: 100%;
+  height: 30px;
+  @include body-1;
+
+  &:disabled {
+    @extend .disabled;
+    background-color: $silver;
+  }
+}
