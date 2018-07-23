@@ -1,5 +1,6 @@
 package org.onap.sdc.workflow.api;
 
+import static org.onap.sdc.workflow.RestUtils.mapVersionStateFilter;
 import static org.onap.sdc.workflow.api.RestConstants.SIZE_DEFAULT;
 import static org.onap.sdc.workflow.api.RestConstants.SORT_FIELD_NAME;
 import static org.onap.sdc.workflow.api.RestConstants.SORT_PARAM;
@@ -10,16 +11,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Set;
-import java.util.stream.Collectors;
 import org.onap.sdc.workflow.api.types.CollectionWrapper;
 import org.onap.sdc.workflow.persistence.types.Workflow;
-import org.onap.sdc.workflow.persistence.types.WorkflowVersionState;
 import org.onap.sdc.workflow.services.WorkflowManager;
 import org.onap.sdc.workflow.services.exceptions.InvalidPaginationParameterException;
-import org.openecomp.sdc.logging.api.Logger;
-import org.openecomp.sdc.logging.api.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
@@ -46,7 +42,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController("workflowController")
 public class WorkflowController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(WorkflowController.class);
     private final WorkflowManager workflowManager;
 
     @Autowired
@@ -63,19 +58,8 @@ public class WorkflowController {
             @SortDefault.SortDefaults({@SortDefault(sort = SORT_FIELD_NAME, direction = Sort.Direction.ASC)})
                     Pageable pageable, @RequestHeader(USER_ID_HEADER_PARAM) String user) {
         PageRequest pageRequest = createPageRequest(pageable);
-
-        Set<WorkflowVersionState> filter;
-        try {
-            filter = versionStateFilter == null ? null :
-                             Arrays.stream(versionStateFilter.split(",")).map(WorkflowVersionState::valueOf)
-                                   .collect(Collectors.toSet());
-        } catch (Exception e) {
-            LOGGER.info("Invalid versionState filter value - return empty list of workflows");
-            return new CollectionWrapper<>(Collections.emptyList());
-        }
-
         return new CollectionWrapper<>(pageRequest.getPageSize(), pageRequest.getPageNumber(),
-                workflowManager.list(filter, pageRequest));
+                workflowManager.list(mapVersionStateFilter(versionStateFilter), pageRequest));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -102,6 +86,7 @@ public class WorkflowController {
         workflowManager.update(workflow);
         return workflow;
     }
+
 
     private PageRequest createPageRequest(Pageable pageable) {
         Set<String> validSortFields = ImmutableSet.of(SORT_FIELD_NAME);
