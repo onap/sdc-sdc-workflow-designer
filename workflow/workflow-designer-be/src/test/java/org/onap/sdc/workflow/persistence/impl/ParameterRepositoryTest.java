@@ -6,7 +6,6 @@ import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.ElementInfo;
@@ -62,8 +61,8 @@ public class ParameterRepositoryTest {
         element.setId(new Id(PARAMETER1_ID));
         Info info = new Info();
         info.setName("testInput");
-        info.addProperty(ParameterPropertyName.TYPE.name(),ParameterType.FLOAT.name());
-        info.addProperty(ParameterPropertyName.mandatory.name(),true);
+        info.addProperty(ParameterPropertyName.TYPE.name(), ParameterType.FLOAT.name());
+        info.addProperty(ParameterPropertyName.mandatory.name(), true);
         element.setInfo(info);
         doReturn(Optional.of(element)).when(zusammenAdaptorMock)
                                       .getElementInfo(any(SessionContext.class), any(ElementContext.class),
@@ -92,8 +91,8 @@ public class ParameterRepositoryTest {
     }
 
     @Test
-    public void shouldCreateParameterStructure(){
-        parameterRepository.createStructure(ITEM1_ID,VERSION1_ID);
+    public void shouldCreateParameterStructure() {
+        parameterRepository.createStructure(ITEM1_ID, VERSION1_ID);
         verify(zusammenAdaptorMock)
                 .saveElement(any(SessionContext.class), any(ElementContext.class), any(ZusammenElement.class),
                         eq("Create WorkflowVersion INPUTS Element"));
@@ -118,23 +117,24 @@ public class ParameterRepositoryTest {
         parameter1.setId(new Id(PARAMETER1_ID));
         Info info1 = new Info();
         info1.setName("input1");
-        info1.addProperty(ParameterPropertyName.TYPE.name(),"INTEGER");
-        info1.addProperty(ParameterPropertyName.mandatory.name(),true);
+        info1.addProperty(ParameterPropertyName.TYPE.name(), "INTEGER");
+        info1.addProperty(ParameterPropertyName.mandatory.name(), true);
         parameter1.setInfo(info1);
         ElementInfo parameter2 = new ElementInfo();
         parameter2.setId(new Id(PARAMETER2_ID));
         Info info2 = new Info();
         info2.setName("input2");
-        info2.addProperty(ParameterPropertyName.TYPE.name(),"STRING");
-        info2.addProperty(ParameterPropertyName.mandatory.name(),false);
+        info2.addProperty(ParameterPropertyName.TYPE.name(), "STRING");
+        info2.addProperty(ParameterPropertyName.mandatory.name(), false);
         parameter2.setInfo(info2);
         Collection<ElementInfo> parameters = Collections.asSet(parameter1, parameter2);
         doReturn(parameters).when(zusammenAdaptorMock)
-                            .listElementsByName(any(SessionContext.class), any(ElementContext.class),isNull(Id.class),eq(ParameterRole.INPUT.name()));
+                            .listElementsByName(any(SessionContext.class), any(ElementContext.class), isNull(),
+                                    eq(WorkflowElementType.INPUTS.name()));
         Collection<ParameterEntity> results = parameterRepository.list(ITEM1_ID, VERSION1_ID, ParameterRole.INPUT);
 
-        verify(zusammenAdaptorMock).listElementsByName(any(SessionContext.class), any(ElementContext.class), isNull(Id.class),
-                eq(WorkflowElementType.INPUT.name()));
+        verify(zusammenAdaptorMock).listElementsByName(any(SessionContext.class), any(ElementContext.class), isNull(),
+                eq(WorkflowElementType.INPUTS.name()));
         assertTrue(results.stream().anyMatch(parameterEntity -> parameterEntity.getId().equals(PARAMETER1_ID)));
         assertTrue(results.stream().anyMatch(parameterEntity -> parameterEntity.getId().equals(PARAMETER2_ID)));
     }
@@ -154,8 +154,8 @@ public class ParameterRepositoryTest {
         Optional<ElementInfo> elementOptional = Optional.of(parameterParentElement);
 
         doReturn(elementOptional).when(zusammenAdaptorMock)
-                                 .getElementInfoByName(any(SessionContext.class), any(ElementContext.class),
-                                         isNull(Id.class), eq(WorkflowElementType.INPUTS.name()));
+                                 .getElementInfoByName(any(SessionContext.class), any(ElementContext.class), isNull(),
+                                         eq(WorkflowElementType.INPUTS.name()));
 
         parameterRepository.deleteAll(ITEM1_ID, VERSION1_ID, ParameterRole.INPUT);
         verify(zusammenAdaptorMock)

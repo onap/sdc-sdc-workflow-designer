@@ -25,7 +25,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.sdc.workflow.RestPath;
-import org.onap.sdc.workflow.api.types.VersionRequestDto;
 import org.onap.sdc.workflow.persistence.types.WorkflowVersion;
 import org.onap.sdc.workflow.services.WorkflowVersionManager;
 import org.openecomp.sdc.versioning.dao.types.Version;
@@ -62,28 +61,28 @@ public class WorkflowVersionControllerTest {
     @Test
     public void shouldReturnWorkflowVersionListWhenCallingVersionGetREST() throws Exception {
 
-        doReturn(versionList).when(workflowVersionManagerMock).list(ITEM1_ID);
+        doReturn(versionList).when(workflowVersionManagerMock).list(ITEM1_ID, null);
         mockMvc.perform(get(RestPath.getWorkflowVersions(ITEM1_ID)).header(RestConstants.USER_ID_HEADER_PARAM, USER_ID)
                                                                    .contentType(APPLICATION_JSON)).andExpect(status().isOk())
                .andExpect(jsonPath("$.results", hasSize(2)))
                .andExpect(jsonPath("$.results[0].id", equalTo(VERSION1_ID)))
                .andExpect(jsonPath("$.results[1].id", equalTo(VERSION2_ID)));
 
-        verify(workflowVersionManagerMock, times(1)).list(ITEM1_ID);
+        verify(workflowVersionManagerMock, times(1)).list(ITEM1_ID, null);
     }
 
 
     @Test
     public void shouldCreateWorkflowVersionWhenCallingVersionsPostREST() throws Exception {
 
-        VersionRequestDto version = new VersionRequestDto();
+        WorkflowVersion version = new WorkflowVersion();
         version.setDescription("VersionDescription");
         mockMvc.perform(post(RestPath.getWorkflowVersions(ITEM1_ID)).header(RestConstants.USER_ID_HEADER_PARAM, USER_ID)
                                                                     .contentType(APPLICATION_JSON)
                                                                     .content(GSON.toJson(version)))
                .andExpect(status().isCreated());
 
-        verify(workflowVersionManagerMock, times(1)).create(ITEM1_ID, version);
+        verify(workflowVersionManagerMock, times(1)).create(ITEM1_ID, null, version);
     }
 
 

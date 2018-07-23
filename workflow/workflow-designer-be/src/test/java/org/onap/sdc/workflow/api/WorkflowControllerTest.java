@@ -4,8 +4,8 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.onap.sdc.workflow.TestUtil.createWorkflow;
 import static org.onap.sdc.workflow.api.RestConstants.PAGE_DEFAULT;
@@ -26,6 +26,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableSet;
 import com.google.gson.Gson;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import org.junit.Before;
@@ -38,12 +39,11 @@ import org.onap.sdc.workflow.RestPath;
 import org.onap.sdc.workflow.api.exceptionshandlers.CustomizedResponseEntityExceptionHandler;
 import org.onap.sdc.workflow.api.types.CollectionWrapper;
 import org.onap.sdc.workflow.persistence.types.Workflow;
+import org.onap.sdc.workflow.persistence.types.WorkflowVersionState;
 import org.onap.sdc.workflow.services.WorkflowManager;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
-import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -70,7 +70,6 @@ public class WorkflowControllerTest {
 
     @Before
     public void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(workflowController).build();
         mockMvc = MockMvcBuilders.standaloneSetup(workflowController)
                                  .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
                                  .setControllerAdvice(new CustomizedResponseEntityExceptionHandler()).build();
@@ -110,16 +109,37 @@ public class WorkflowControllerTest {
     public void shouldReturn5WorkflowWhen5WorkflowsExists() throws Exception {
         int numOfWorkflows = 5;
         List<Workflow> workflowMocks = createWorkflows(numOfWorkflows);
-        doReturn(workflowMocks).when(workflowManagerMock).list(any());
+        doReturn(workflowMocks).when(workflowManagerMock).list(any(), any());
         mockMvc.perform(
                 get(RestPath.getWorkflowsPath()).header(USER_ID_HEADER_PARAM, USER_ID).contentType(APPLICATION_JSON))
                .andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.results", hasSize(numOfWorkflows)));
     }
 
     @Test
+    public void listWithValidVersionStateFilter() throws Exception {
+        int numOfWorkflows = 3;
+        List<Workflow> workflows = createWorkflows(numOfWorkflows);
+        doReturn(workflows).when(workflowManagerMock)
+                           .list(eq(Collections.singleton(WorkflowVersionState.CERTIFIED)), any());
+        mockMvc.perform(
+                get(RestPath.getWorkflowsWithVersionStateFilterPath("CERTIFIED")).header(USER_ID_HEADER_PARAM, USER_ID)
+                                                                                 .contentType(APPLICATION_JSON))
+               .andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.total", is(numOfWorkflows)))
+               .andExpect(jsonPath("$.results", hasSize(numOfWorkflows)));
+    }
+
+    @Test
+    public void listWithInvalidVersionStateFilter() throws Exception {
+        mockMvc.perform(
+                get(RestPath.getWorkflowsWithVersionStateFilterPath("hasdhf")).header(USER_ID_HEADER_PARAM, USER_ID)
+                                                                              .contentType(APPLICATION_JSON))
+               .andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.total", is(0)));
+    }
+
+    @Test
     public void shouldReturnSortedSizeOffsetAppliedWorkflows() throws Exception {
         List<Workflow> workflowMocks = createSize2AndOffset1For5WorkflowList();
-        doReturn(workflowMocks).when(workflowManagerMock).list(any());
+        doReturn(workflowMocks).when(workflowManagerMock).list(any(), any());
         mockMvc.perform(get(RestPath.getWorkflowsPathAllQueryParams(DEFAULT_SORT_VALUE, "2", "1"))
                                 .header(RestConstants.USER_ID_HEADER_PARAM, USER_ID).contentType(APPLICATION_JSON))
                .andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.results", hasSize(2)));
@@ -128,7 +148,7 @@ public class WorkflowControllerTest {
     @Test
     public void shouldReturnResultsWithDefaultWhenSizeIsNegative() throws Exception {
         List<Workflow> workflowMocks = createSize2AndOffset1For5WorkflowList();
-        doReturn(workflowMocks).when(workflowManagerMock).list(any());
+        doReturn(workflowMocks).when(workflowManagerMock).list(any(), any());
         MockHttpServletResponse response = mockMvc.perform(
                 get(RestPath.getWorkflowsPathAllQueryParams(DEFAULT_SORT_VALUE, "-2", "1"))
                         .header(RestConstants.USER_ID_HEADER_PARAM, USER_ID).contentType(APPLICATION_JSON))
@@ -198,7 +218,7 @@ public class WorkflowControllerTest {
     @Test
     public void shouldReturnAscSortedSizeOffsetAppliedWorkflowsWhenSortIsNotSpecified() throws Exception {
         List<Workflow> workflowMocks = createSize2AndOffset1For5WorkflowList();
-        doReturn(workflowMocks).when(workflowManagerMock).list(any());
+        doReturn(workflowMocks).when(workflowManagerMock).list(any(), any());
         mockMvc.perform(
                 get(RestPath.getWorkflowsPathNoSort("2", "1")).header(RestConstants.USER_ID_HEADER_PARAM, USER_ID)
                                                               .contentType(APPLICATION_JSON)).andDo(print())
@@ -208,7 +228,7 @@ public class WorkflowControllerTest {
     @Test
     public void shouldReturnDefaultSizeOffsetAppliedWorkflowsWhenSizeIsNotSpecified() throws Exception {
         List<Workflow> workflowMocks = createSize2AndOffset1For5WorkflowList();
-        doReturn(workflowMocks).when(workflowManagerMock).list(any());
+        doReturn(workflowMocks).when(workflowManagerMock).list(any(), any());
         mockMvc.perform(
                 get(RestPath.getWorkflowsPathNoSortAndSize("1")).header(RestConstants.USER_ID_HEADER_PARAM, USER_ID)
                                                                 .contentType(APPLICATION_JSON)).andDo(print())
@@ -218,7 +238,7 @@ public class WorkflowControllerTest {
     @Test
     public void shouldReturnDefaultOffsetAppliedWorkflowsWhenOffsetIsNotSpecified() throws Exception {
         List<Workflow> workflowMocks = createSize1WorkflowList();
-        doReturn(workflowMocks).when(workflowManagerMock).list(any());
+        doReturn(workflowMocks).when(workflowManagerMock).list(any(), any());
         mockMvc.perform(
                 get(RestPath.getWorkflowsPathNoSortAndOffset("1")).header(RestConstants.USER_ID_HEADER_PARAM, USER_ID)
                                                                   .contentType(APPLICATION_JSON)).andDo(print())
@@ -234,7 +254,7 @@ public class WorkflowControllerTest {
                 post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER_PARAM, USER_ID).contentType(APPLICATION_JSON)
                                                  .content(GSON.toJson(reqWorkflow))).andDo(print())
                .andExpect(status().isCreated());
-        verify(workflowManagerMock, times(1)).create(reqWorkflow);
+        verify(workflowManagerMock).create(reqWorkflow);
     }
 
     private List<Workflow> createWorkflows(int numOfWorkflows) {

@@ -1,7 +1,7 @@
 package org.onap.sdc.workflow.services;
 
 import java.util.Collection;
-import org.onap.sdc.workflow.api.types.VersionRequestDto;
+import java.util.Set;
 import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
 import org.onap.sdc.workflow.persistence.types.WorkflowVersion;
 import org.onap.sdc.workflow.persistence.types.WorkflowVersionState;
@@ -10,11 +10,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface WorkflowVersionManager {
 
-    Collection<WorkflowVersion> list(String workflowId);
+    Collection<WorkflowVersion> list(String workflowId, Set<WorkflowVersionState> stateFilter);
 
-    WorkflowVersion create(String workflowId, VersionRequestDto versionRequest);
+    WorkflowVersion create(String workflowId, String baseVersionId, WorkflowVersion version);
 
-    void update(String id, WorkflowVersion version);
+    void update(String workflowId, WorkflowVersion version);
 
     WorkflowVersion get(String workflowId, String versionId);
 

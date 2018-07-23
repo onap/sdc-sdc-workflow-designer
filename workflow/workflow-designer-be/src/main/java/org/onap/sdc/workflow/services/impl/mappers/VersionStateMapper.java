@@ -1,5 +1,8 @@
 package org.onap.sdc.workflow.services.impl.mappers;
 
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.ValueMapping;
@@ -17,6 +20,12 @@ public interface VersionStateMapper {
 
     @InheritInverseConfiguration
     VersionStatus workflowVersionStateToVersionStatus(WorkflowVersionState status);
+
+    default Set<WorkflowVersionState> versionStatusCountersToWorkflowVersionStates(
+            Map<VersionStatus, Integer> versionStatusCounters) {
+        return versionStatusCounters.keySet().stream().map(this::versionStatusToWorkflowVersionState)
+                                    .collect(Collectors.toSet());
+    }
 
 
 }
