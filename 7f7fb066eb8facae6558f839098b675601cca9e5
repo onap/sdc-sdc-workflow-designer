@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_0e74d7cd",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/resources/scss/common/_typography.scss",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-07-23T08:13:51Z",
+      "side": 1,
+      "message": "remove double entry of fonts",
+      "revId": "7f7fb066eb8facae6558f839098b675601cca9e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_ae804b8c",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/features/catalog/CatalogView.jsx",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-07-23T08:13:51Z",
+      "side": 1,
+      "message": "remove the word src from path",
+      "revId": "7f7fb066eb8facae6558f839098b675601cca9e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_ce7d7fb3",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/features/workflow/create/createWorkflowSaga.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-07-23T08:13:51Z",
+      "side": 1,
+      "message": "remove \"src\" from import",
+      "revId": "7f7fb066eb8facae6558f839098b675601cca9e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_8e36a702",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/features/workflow/overview/overviewSelectors.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-07-23T08:13:51Z",
+      "side": 1,
+      "message": "please add a constant for certified",
+      "revId": "7f7fb066eb8facae6558f839098b675601cca9e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_2e3bdbec",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/features/workflow/overview/views/VersionList/VersionListItem.jsx",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-07-23T08:13:51Z",
+      "side": 1,
+      "message": "I think \"last edited on\" is still hard coded and not i18n",
+      "revId": "7f7fb066eb8facae6558f839098b675601cca9e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_6e4a3385",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/index.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-07-23T08:13:51Z",
+      "side": 1,
+      "message": "remove \u0027src\u0027",
+      "revId": "7f7fb066eb8facae6558f839098b675601cca9e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_8e4f8792",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/shared/componenets/Description/index.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-07-23T08:13:51Z",
+      "side": 1,
+      "message": "no license. also typo to fix in folder name",
+      "revId": "7f7fb066eb8facae6558f839098b675601cca9e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_2e443b73",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/shared/componenets/VersionInfo/index.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-07-23T08:13:51Z",
+      "side": 1,
+      "message": "no license",
+      "revId": "7f7fb066eb8facae6558f839098b675601cca9e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_4e496f8a",
+        "filename": "workflow/workflow-designer-ui/src/main/frontend/src/shared/tree/Tree.jsx",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-07-23T08:13:51Z",
+      "side": 1,
+      "message": "no license",
+      "revId": "7f7fb066eb8facae6558f839098b675601cca9e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
