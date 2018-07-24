@@ -1,5 +1,0 @@
-		<dataObject id="${dataObject.id}" name="${dataObject.name}">
-			<extensionElements>
-				<activiti:value><![CDATA[${dataObject.value}]]></activiti:value>
-			</extensionElements>
-		</dataObject>

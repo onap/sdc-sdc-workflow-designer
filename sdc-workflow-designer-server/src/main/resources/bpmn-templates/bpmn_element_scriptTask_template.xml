@@ -1,3 +1,0 @@
-		<scriptTask id="${element.id}" name="${element.name}" scriptFormat="${element.scriptFormat}" activiti:autoStoreVariables="false">
-		      <script><![CDATA[${element.script}]]></script>
-		</scriptTask>
