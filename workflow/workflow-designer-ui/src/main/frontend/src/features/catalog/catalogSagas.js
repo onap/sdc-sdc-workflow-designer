@@ -14,39 +14,32 @@
 * limitations under the License.
 */
 
-import qs from 'qs';
 import { call, put, takeLatest } from 'redux-saga/effects';
 
 import catalogApi from 'features/catalog/catalogApi';
-import { update, scroll } from 'features/catalog/catalogActions';
+import { fetchWorkflow, updateWorkflow } from 'features/catalog/catalogActions';
 
 const noOp = () => {};
 
-export function* fetchWorkflows({ payload }) {
-    const { page, size, sort } = payload;
-
-    const queryString = qs.stringify(
-        {
-            sort: Object.keys(sort).map(key => `${key},${sort[key]}`),
-            size,
-            page: page + 1
-        },
-        {
-            indices: false,
-            addQueryPrefix: true
-        }
-    );
+export function* fetchWorkflowSaga({ payload }) {
+    const { sort, size, page } = payload;
 
     try {
-        const data = yield call(catalogApi.getWorkflows, queryString);
-        yield put(update(data));
+        const data = yield call(
+            catalogApi.getWorkflows,
+            sort,
+            size,
+            page === undefined ? 0 : page + 1
+        );
+
+        yield put(updateWorkflow({ ...data, sort }));
     } catch (e) {
         noOp();
     }
 }
 
 function* catalogSaga() {
-    yield takeLatest(scroll, fetchWorkflows);
+    yield takeLatest(fetchWorkflow, fetchWorkflowSaga);
 }
 
 export default catalogSaga;

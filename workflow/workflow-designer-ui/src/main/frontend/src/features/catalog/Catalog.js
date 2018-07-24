@@ -17,21 +17,19 @@
 import { connect } from 'react-redux';
 
 import CatalogView from 'features/catalog/CatalogView';
-import { sort, scroll } from 'features/catalog/catalogActions';
-import { getSort, getWorkflows } from 'features/catalog/catalogSelectors';
+import { fetchWorkflow, resetWorkflow } from 'features/catalog/catalogActions';
 
 import { showCustomModalAction } from 'shared/modal/modalWrapperActions';
 import { NEW_WORKFLOW_MODAL } from 'shared/modal/modalWrapperComponents';
 import { clearWorkflowAction } from 'features/workflow/workflowConstants';
 
 const mapStateToProps = state => ({
-    sort: getSort(state),
-    workflows: getWorkflows(state)
+    catalog: state.catalog
 });
 
 const mapDispatchToProps = dispatch => ({
-    handleSort: payload => dispatch(sort(payload)),
-    handleScroll: (page, sort) => dispatch(scroll(page, sort)),
+    handleFetchWorkflow: (sort, page) => dispatch(fetchWorkflow(sort, page)),
+    handleResetWorkflow: () => dispatch(resetWorkflow()),
     clearWorkflow: () => dispatch(clearWorkflowAction),
     showNewWorkflowModal: () =>
         dispatch(

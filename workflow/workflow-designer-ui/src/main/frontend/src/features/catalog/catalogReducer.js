@@ -15,20 +15,16 @@
 */
 
 import {
-    LIMIT,
     NAME,
     ASC,
-    UPDATE,
-    SORT
+    UPDATE_WORKFLOW,
+    RESET_WORKFLOW
 } from 'features/catalog/catalogConstants';
 
 export const initialState = {
-    workflows: {
-        size: LIMIT,
-        page: -1,
-        results: [],
-        total: 0
-    },
+    hasMore: true,
+    results: [],
+    total: 0,
     sort: {
         [NAME]: ASC
     }
@@ -37,21 +33,23 @@ export const initialState = {
 const catalogReducer = (state = initialState, action) => {
     const { type, payload } = action;
 
+    let results;
+
     switch (type) {
-        case UPDATE:
+        case RESET_WORKFLOW:
+            return { ...initialState, sort: state.sort };
+
+        case UPDATE_WORKFLOW:
+            results =
+                payload.page === 0
+                    ? [...payload.results]
+                    : [...state.results, ...payload.results];
+
             return {
                 ...state,
-                workflows: {
-                    ...state.workflows,
-                    ...payload,
-                    results: [...state.workflows.results, ...payload.results]
-                }
-            };
-
-        case SORT:
-            return {
-                ...initialState,
-                sort: { ...payload.sort }
+                ...payload,
+                results,
+                hasMore: results.length < payload.total
             };
 
         default:
