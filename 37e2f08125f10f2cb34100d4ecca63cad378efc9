@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_db2bfe92",
+        "filename": "workflow/workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/exceptionshandlers/CustomizedResponseEntityExceptionHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-07-24T10:13:19Z",
+      "side": 1,
+      "message": "do not use org.openecomp.core packages unless you are using the whole package (like zusanmmen).\nmore over, if you need to use a specific package, add it to your pom and don\u0027t use it because it is transitive",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 50
+      },
+      "revId": "37e2f08125f10f2cb34100d4ecca63cad378efc9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_9b1d8676",
+        "filename": "workflow/workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/validator/WorkflowVersionValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-07-24T10:13:19Z",
+      "side": 1,
+      "message": "extract a function and give it needed parameters",
+      "range": {
+        "startLine": 44,
+        "startChar": 8,
+        "endLine": 60,
+        "endChar": 9
+      },
+      "revId": "37e2f08125f10f2cb34100d4ecca63cad378efc9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_b6042116",
+        "filename": "workflow/workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/validator/WorkflowVersionValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-07-24T10:13:19Z",
+      "side": 1,
+      "message": "you can use names.stream().allMatch(t -\u003e testSet.add(t));",
+      "range": {
+        "startLine": 66,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 21
+      },
+      "revId": "37e2f08125f10f2cb34100d4ecca63cad378efc9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
