@@ -33,6 +33,7 @@ module.exports = {
         '^src(.*)$': '<rootDir>/src$1',
         '^config(.*)$': '<rootDir>/src/config$1',
         '^features(.*)$': '<rootDir>/src/features$1',
+        '^wfapp(.*)$': '<rootDir>/src$1',
         '^common(.*)$': '<rootDir>/common$1',
         '^services(.*)$': '<rootDir>/src/services$1',
         '^shared(.*)$': '<rootDir>/src/shared$1',
