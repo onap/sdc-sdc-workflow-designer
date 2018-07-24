@@ -20,13 +20,18 @@ package org.onap.sdc.workflow.persistence.types;
 import java.util.Collection;
 import java.util.Set;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 @Data
 public class Workflow {
 
     private String id;
     @NotNull
+    @Length(min = 6, message = "The field must be at least 6 characters")
+    @Length(max = 30, message = "The field must be less than 30 characters")
+    @Pattern(regexp = "[A-Z_]*", message = "The field must contain only capital letters and underscores")
     private String name;
     private String description;
     private Set<WorkflowVersionState> versionStates;

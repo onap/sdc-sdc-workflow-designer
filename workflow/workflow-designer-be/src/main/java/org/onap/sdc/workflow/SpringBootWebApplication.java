@@ -16,11 +16,13 @@
 
 package org.onap.sdc.workflow;
 
+import org.onap.sdc.workflow.api.validator.WorkflowVersionValidator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.embedded.jetty.JettyServletWebServerFactory;
 import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.validation.Validator;
 
 @SpringBootApplication
 public class SpringBootWebApplication {
@@ -33,4 +35,7 @@ public class SpringBootWebApplication {
     public ConfigurableServletWebServerFactory webServerFactory() {
         return new JettyServletWebServerFactory();
     }
+
+    @Bean
+    public Validator workflowVersionValidator() { return new WorkflowVersionValidator(); }
 }

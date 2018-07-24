@@ -28,9 +28,12 @@ import org.onap.sdc.workflow.services.exceptions.UniqueValueViolationException;
 import org.onap.sdc.workflow.services.exceptions.VersionCreationException;
 import org.onap.sdc.workflow.services.exceptions.VersionModificationException;
 import org.onap.sdc.workflow.services.exceptions.VersionStateModificationException;
+import org.openecomp.core.utilities.json.JsonUtil;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -57,6 +60,19 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
     @ExceptionHandler({InvalidPaginationParameterException.class})
     public final ResponseEntity<String> handlePaginationException(InvalidPaginationParameterException exception) {
         return new ResponseEntity<>(exception.getMessage(), BAD_REQUEST);
+    }
+
+    //For workflowVersionValidator exception
+    @Override
+    protected final ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException e,
+            final HttpHeaders headers,
+            final HttpStatus status,
+            final WebRequest request) {
+
+        FieldError result = e.getBindingResult().getFieldError();
+        String rejectedArguments = JsonUtil.object2Json(result.getArguments()[0]);
+
+       return new ResponseEntity<>(result.getDefaultMessage() + "\n" + rejectedArguments, BAD_REQUEST);
     }
 
     //For missing header exceptions
