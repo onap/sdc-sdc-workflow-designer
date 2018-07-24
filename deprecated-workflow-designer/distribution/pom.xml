@@ -1,0 +1,294 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright (c) 2017 ZTE Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * and the Apache License 2.0 which both accompany this distribution,
+ * and are available at http://www.eclipse.org/legal/epl-v10.html
+ * and http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Contributors:
+ *     ZTE - initial API and implementation and/or initial documentation
+ */
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>org.onap.sdc.sdc-workflow-designer</groupId>
+        <artifactId>sdc-workflow-designer</artifactId>
+        <version>1.2.0-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>distribution</artifactId>
+    <name>distribution</name>
+    <packaging>pom</packaging>
+      
+    <properties>
+        <project.package>sdc-workflow-designer</project.package>
+        <project.jar>sdc-workflow-designer.jar</project.jar>
+        <src.assembly>src/main/assembly</src.assembly>
+        <src.docker>src/main/docker</src.docker>
+        <linux64id>linux64</linux64id>
+        <win64id>win64</win64id>
+        <linux64outputdir>target/assembly/linux64</linux64outputdir>
+        <win64outputdir>target/assembly/win64</win64outputdir>
+        <version.output>target/version</version.output>
+        <target.dir>target</target.dir>
+    </properties>
+    
+    <build>
+        <plugins>
+            <!-- assembly ui and backend to one jar -->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>org.onap.sdc.workflowdesigner.WorkflowDesignerApp</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>assembly-ui-and-backend</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <!-- copy assembly and jar to assembly -->
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-assembly-and-jar-${linux64id}</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${linux64outputdir}</outputDirectory>
+                            <overwrite>true</overwrite>
+                            <resources>
+                                <resource>
+                                    <directory>${src.assembly}</directory>
+                                    <filtering>false</filtering>
+                                    <includes>
+                                        <include>**/*</include>
+                                    </includes>
+                                    <excludes>
+                                        <exclude>**/*.bat</exclude>
+                                    </excludes>
+                                </resource>
+                                <resource>
+                                    <directory>${target.dir}</directory>
+                                    <filtering>false</filtering>
+                                    <includes>
+                                        <include>*.jar</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <!-- copy assembly and jar to assembly -->
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-assembly-and-jar-${win64id}</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${win64outputdir}</outputDirectory>
+                            <overwrite>true</overwrite>
+                            <resources>
+                                <resource>
+                                    <directory>${src.assembly}</directory>
+                                    <filtering>false</filtering>
+                                    <includes>
+                                        <include>**/*</include>
+                                    </includes>
+                                    <excludes>
+                                        <exclude>**/*.sh</exclude>
+                                    </excludes>
+                                </resource>
+                                <resource>
+                                    <directory>${target.dir}</directory>
+                                    <filtering>false</filtering>
+                                    <includes>
+                                        <include>*.jar</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <!-- rename jar name -->
+            <plugin>
+                <groupId>com.coderplus.maven.plugins</groupId>
+                <artifactId>copy-rename-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>rename-jar-name-${linux64id}</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>rename</goal>
+                        </goals>
+                        <configuration>
+                            <sourceFile>${linux64outputdir}/${project.name}-${project.version}-jar-with-dependencies.jar</sourceFile>
+                            <destinationFile>${linux64outputdir}/${project.jar}</destinationFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>rename-jar-name-${win64id}</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>rename</goal>
+                        </goals>
+                        <configuration>
+                            <sourceFile>${win64outputdir}/${project.name}-${project.version}-jar-with-dependencies.jar</sourceFile>
+                            <destinationFile>${win64outputdir}/${project.jar}</destinationFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+      
+            <!-- version package -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>distribution</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target name="distribution">
+                                <tar destfile="${version.output}/${project.package}-${project.version}-linux64.tar.gz" longfile="posix" compression="gzip">
+                                    <tarfileset dir="${linux64outputdir}" filemode="0644" dirmode="0755">
+                                        <exclude name="**/*.sh"/>
+                                    </tarfileset>
+                                    <tarfileset dir="${linux64outputdir}" filemode="0755" dirmode="0755">
+                                        <include name="**/*.sh"/>
+                                    </tarfileset>
+                                </tar>
+                                <attachartifact file="${version.output}/${project.package}-${project.version}-linux64.tar.gz" classifier="linux64" type="tar.gz"/>
+                                <zip destfile="${version.output}/${project.package}-${project.version}-win64.zip" update="true">
+                                    <zipfileset dir="${win64outputdir}" includes="**"/>
+                                </zip>
+                                <attachartifact file="${version.output}/${project.package}-${project.version}-win64.zip" classifier="win64" type="zip"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <!-- Copy dockerfile to version -->
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dockerfile</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${version.output}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${src.docker}</directory>
+                                    <filtering>false</filtering>
+                                    <includes>
+                                        <include>Dockerfile</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                            <overwrite>true</overwrite>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    
+    <profiles>
+        <profile>
+            <id>docker</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <version>0.16.5</version>
+                        <inherited>false</inherited>
+                        <configuration>
+                            <images>
+                                <image>
+                                    <name>onap/sdc/sdc-workflow-designer</name>
+                                    <build>
+                                        <cleanup>try</cleanup>
+                                        <dockerFileDir>${basedir}/${version.output}</dockerFileDir>
+                                        <dockerFile>${basedir}/target/version/Dockerfile</dockerFile>
+                                        <tags>
+                                            <tag>${project.version}-STAGING-latest</tag>
+                                        </tags>
+                                    </build>
+                                </image>
+                            </images>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>generate-images</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+
+                            <execution>
+                                <id>push-images</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                    <goal>push</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.onap.sdc.sdc-workflow-designer</groupId>
+            <artifactId>sdc-workflow-designer-server</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.onap.sdc.sdc-workflow-designer</groupId>
+            <artifactId>sdc-workflow-designer-ui</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+    
+</project>

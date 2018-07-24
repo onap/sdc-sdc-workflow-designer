@@ -1,0 +1,28 @@
+#set( $bpelvar = "$bpelvar" )
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:activiti="http://activiti.org/bpmn"
+	xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC"
+	xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema"
+	expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+	<process id="${process.id}" isExecutable="true">
+		<!-- dataObjects -->
+#foreach( $dataObject in $process.dataObjectList)
+#parse("${templatePath}bpmn_dataObject_template.xml")
+
+#end
+		
+		<!-- Perform bpmn elements -->
+#foreach( $element in $process.elementList)
+#parse("${templatePath}bpmn_element_${element.type}_template.xml")
+
+#end
+
+		<!-- Perform bpmn sequence flow -->
+#foreach( $sequenceFlow in $process.sequenceFlowList)
+#parse("${templatePath}bpmn_sequenceFlow_template.xml")
+
+#end
+
+	</process>
+</definitions>
