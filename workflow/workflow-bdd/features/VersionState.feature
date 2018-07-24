@@ -25,7 +25,7 @@ Feature: Workflow Version State
     Then I want to check property "name" for value "DRAFT"
     And I want to check property "nextStates[0]" for value "CERTIFIED"
 
-  Scenario: Update state to current state
+  Scenario: Update state to current state - invalid
     Then I want the following to fail with response status code 422
     When I want to update the input property "name" with value "DRAFT"
     And I want to create for path "/workflows/{item.id}/versions/{item.versionId}/state" with the input data from the context
@@ -37,8 +37,19 @@ Feature: Workflow Version State
     And I want to check property "name" for value "CERTIFIED"
     And I want to check property "nextStates" to have length 0
 
-  Scenario: Update state when CERTIFIED
+  Scenario: Update state when CERTIFIED - invalid
     When I want to update the input property "name" with value "CERTIFIED"
     And I want to create for path "/workflows/{item.id}/versions/{item.versionId}/state" with the input data from the context
     When I want the following to fail with response status code 422
     Then I want to create for path "/workflows/{item.id}/versions/{item.versionId}/state" with the input data from the context
+
+  Scenario: Update when CERTIFIED - invalid
+    When I want to update the input property "name" with value "CERTIFIED"
+    And I want to create for path "/workflows/{item.id}/versions/{item.versionId}/state" with the input data from the context
+    And I want to update the input property "description" with value "workflow version description updated"
+    Then I want the following to fail with response status code 422
+    When I want to update for path "/workflows/{item.id}/versions/{item.versionId}" with the input data from the context
+
+  Scenario: Create second version based on non CERTIFIED one - invalid
+    Then I want the following to fail with response status code 403
+    When I want to create for path "/workflows/{item.id}/versions?baseVersionId={item.versionId}" with the input data from the context
