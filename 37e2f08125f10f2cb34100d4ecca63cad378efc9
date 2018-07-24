@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "da7095c5_5657c502",
+        "filename": "workflow/workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/validator/WorkflowVersionValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-24T10:27:50Z",
+      "side": 1,
+      "message": "Is that really needed? can\u0027t the iteration work on the original collection?",
+      "range": {
+        "startLine": 45,
+        "startChar": 12,
+        "endLine": 46,
+        "endChar": 95
+      },
+      "revId": "37e2f08125f10f2cb34100d4ecca63cad378efc9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da7095c5_9b1d8676",
         "filename": "workflow/workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/validator/WorkflowVersionValidator.java",
         "patchSetId": 1
@@ -64,6 +87,75 @@
         "startChar": 8,
         "endLine": 70,
         "endChar": 21
+      },
+      "revId": "37e2f08125f10f2cb34100d4ecca63cad378efc9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_b652e111",
+        "filename": "workflow/workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/types/ParameterEntity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-24T10:27:50Z",
+      "side": 1,
+      "message": "add here a message too...",
+      "range": {
+        "startLine": 27,
+        "startChar": 5,
+        "endLine": 27,
+        "endChar": 12
+      },
+      "revId": "37e2f08125f10f2cb34100d4ecca63cad378efc9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_964d5d75",
+        "filename": "workflow/workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/types/Workflow.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-24T10:27:50Z",
+      "side": 1,
+      "message": "add here a massage too...",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 12
+      },
+      "revId": "37e2f08125f10f2cb34100d4ecca63cad378efc9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_d633d5f4",
+        "filename": "workflow/workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/types/Workflow.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-24T10:27:50Z",
+      "side": 1,
+      "message": "please use annotation from the same pkg - javax.validation.constraints: @Size(min \u003d 6, max \u003d 30)",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 76
       },
       "revId": "37e2f08125f10f2cb34100d4ecca63cad378efc9",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
