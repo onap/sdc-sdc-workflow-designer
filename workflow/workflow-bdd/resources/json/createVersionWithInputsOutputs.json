@@ -1,0 +1,17 @@
+{
+  "description": "first version - with inputs and outputs",
+  "inputs": [
+    {
+      "mandatory": true,
+      "name": "in1",
+      "type": "STRING"
+    }
+  ],
+  "outputs": [
+    {
+      "mandatory": true,
+      "name": "out1",
+      "type": "TIMESTAMP"
+    }
+  ]
+}

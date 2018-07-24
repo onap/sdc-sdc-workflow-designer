@@ -16,7 +16,7 @@
 
 /**
  * @module WORKFLOW
- * @description Creates a new WORKFLOW with a random name and saves the id and versionId on the context item object and the context vlm object<br>
+ * @description Creates a new WORKFLOW with a random name and saves the id and versionId on the context item object<br>
  *     Input data  will be taken from the 'resources/json/createWorkflow.json' file.
  * @step I want to create a Workflow
  **/
