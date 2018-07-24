@@ -35,8 +35,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Validator;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -53,11 +57,19 @@ import org.springframework.web.multipart.MultipartFile;
 public class WorkflowVersionController {
 
     private final WorkflowVersionManager workflowVersionManager;
+    private Validator validator;
+
+    @InitBinder
+    private void initBinder(WebDataBinder binder) {
+        binder.addValidators(validator);
+    }
 
     @Autowired
     public WorkflowVersionController(
-            @Qualifier("workflowVersionManager") WorkflowVersionManager workflowVersionManager) {
+            @Qualifier("workflowVersionManager") WorkflowVersionManager workflowVersionManager,
+            @Qualifier("workflowVersionValidator") Validator validator ) {
         this.workflowVersionManager = workflowVersionManager;
+        this.validator = validator;
     }
 
     @GetMapping
@@ -71,7 +83,7 @@ public class WorkflowVersionController {
 
     @PostMapping
     @ApiOperation("Create workflow version")
-    public ResponseEntity<WorkflowVersion> create(@RequestBody WorkflowVersion version,
+    public ResponseEntity<WorkflowVersion> create(@RequestBody @Validated WorkflowVersion version,
             @PathVariable("workflowId") String workflowId,
             @RequestParam(value = "baseVersionId", required = false) String baseVersionId,
             @RequestHeader(USER_ID_HEADER_PARAM) String user) {
@@ -88,7 +100,7 @@ public class WorkflowVersionController {
 
     @PutMapping("/{versionId}")
     @ApiOperation("Update workflow version")
-    public void update(@RequestBody WorkflowVersion version, @PathVariable("workflowId") String workflowId,
+    public void update(@RequestBody @Validated WorkflowVersion version, @PathVariable("workflowId") String workflowId,
             @PathVariable("versionId") String versionId, @RequestHeader(USER_ID_HEADER_PARAM) String user) {
         version.setId(versionId);
         workflowVersionManager.update(workflowId, version);

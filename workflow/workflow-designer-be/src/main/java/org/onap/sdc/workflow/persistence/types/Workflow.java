@@ -20,13 +20,18 @@ package org.onap.sdc.workflow.persistence.types;
 import java.util.Collection;
 import java.util.Set;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import lombok.Data;
+
 
 @Data
 public class Workflow {
 
     private String id;
-    @NotNull
+    @NotNull(message = "Workflow name may not be null")
+    @Size(min = 6, max = 30, message = "The field must be at least 6 characters, and less than 30 characters")
+    @Pattern(regexp = "[A-Za-z0-9_]*", message = "The field must contain only letters, digits and underscores")
     private String name;
     private String description;
     private Set<WorkflowVersionState> versionStates;
