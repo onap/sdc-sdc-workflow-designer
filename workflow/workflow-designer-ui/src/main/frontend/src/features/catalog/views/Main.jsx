@@ -71,4 +71,8 @@ Main.propTypes = {
     children: PropTypes.node
 };
 
+Main.defaultProps = {
+    total: 0
+};
+
 export default Main;

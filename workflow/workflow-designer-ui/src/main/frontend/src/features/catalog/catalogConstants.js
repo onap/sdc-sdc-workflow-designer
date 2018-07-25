@@ -15,11 +15,13 @@
 */
 
 export const NAMESPACE = 'catalog';
+
+export const NAME = 'name';
 export const ASC = 'asc';
 export const DESC = 'desc';
-export const NAME = 'name';
-export const LIMIT = 50;
 
-export const UPDATE = `${NAMESPACE}/UPDATE`;
-export const SORT = `${NAMESPACE}/SORT`;
-export const SCROLL = `${NAMESPACE}/SCROLL`;
+export const PAGE_SIZE = 1000;
+
+export const FETCH_WORKFLOW = `${NAMESPACE}/FETCH_WORKFLOW`;
+export const UPDATE_WORKFLOW = `${NAMESPACE}/UPDATE_WORKFLOW`;
+export const RESET_WORKFLOW = `${NAMESPACE}/RESET_WORKFLOW`;

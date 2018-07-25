@@ -16,37 +16,77 @@
 
 'use strict';
 
+import { NAME, ASC, DESC } from 'features/catalog/catalogConstants';
 import catalogReducer, { initialState } from 'features/catalog/catalogReducer';
-import { update } from 'features/catalog/catalogActions';
+import { updateWorkflow, resetWorkflow } from 'features/catalog/catalogActions';
 
 describe('Catalog Reducer', () => {
+    const state = {
+        hasMore: true,
+        results: [
+            {
+                id: '755eab7752374a2380544065b59b082d',
+                name: 'Workflow 1',
+                description: 'description description 1'
+            },
+            {
+                id: 'ef8159204dac4c10a85b29ec30b4bd56',
+                name: 'Workflow 2',
+                description: 'description description 2'
+            }
+        ],
+        total: 0,
+        sort: {
+            [NAME]: ASC
+        }
+    };
+    const sort = {
+        [NAME]: DESC
+    };
+    const page = 0;
+    const data = {
+        total: 20,
+        size: 100,
+        page,
+        sort,
+        results: [
+            {
+                id: '755eab7752374a2380544065b59b082d',
+                name: 'Workflow 11',
+                description: 'description description 11'
+            },
+            {
+                id: 'ef8159204dac4c10a85b29ec30b4bd56',
+                name: 'Workflow 22',
+                description: 'description description 22'
+            }
+        ]
+    };
+
     it('returns the initial state', () => {
         expect(catalogReducer(undefined, {})).toEqual(initialState);
     });
 
-    it('returns correct state for workflows update action', () => {
-        const payload = {
-            total: 2,
-            size: 100,
-            page: 0,
-            results: [
-                {
-                    id: '755eab7752374a2380544065b59b082d',
-                    name: 'Alfa',
-                    description: 'description description 1',
-                    category: null
-                },
-                {
-                    id: 'ef8159204dac4c10a85b29ec30b4bd56',
-                    name: 'Bravo',
-                    description: 'description description 2',
-                    category: null
-                }
-            ]
-        };
+    it('should replace results when page is first', () => {
+        expect(catalogReducer(state, updateWorkflow({ ...data }))).toEqual({
+            ...initialState,
+            ...data,
+            hasMore: data.results.length < data.total,
+            page,
+            sort
+        });
+    });
 
-        const action = update(payload);
+    it('should add results when page is not first', () => {
+        expect(
+            catalogReducer(state, updateWorkflow({ ...data, page: 1 })).results
+        ).toEqual(expect.arrayContaining([...data.results, ...state.results]));
+    });
 
-        expect(catalogReducer(initialState, action).workflows).toEqual(payload);
+    it('should reset state', () => {
+        expect(catalogReducer({ ...state, sort }, resetWorkflow())).toEqual({
+            ...initialState,
+            sort
+        });
     });
 });
