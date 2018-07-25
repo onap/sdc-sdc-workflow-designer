@@ -14,6 +14,8 @@
 * limitations under the License.
 */
 
+import qs from 'qs';
+
 import RestfulAPIUtil from 'services/restAPIUtil';
 import Configuration from 'config/Configuration.js';
 
@@ -23,7 +25,19 @@ function baseUrl() {
 }
 
 const Api = {
-    getWorkflows: queryString => {
+    getWorkflows: (sort, size, page) => {
+        const queryString = qs.stringify(
+            {
+                sort: Object.keys(sort).map(key => `${key},${sort[key]}`),
+                size,
+                page
+            },
+            {
+                indices: false,
+                addQueryPrefix: true
+            }
+        );
+
         return RestfulAPIUtil.fetch(`${baseUrl()}${queryString}`);
     }
 };

@@ -32,23 +32,32 @@ class CatalogView extends React.Component {
         clearWorkflow();
     }
 
+    componentWillUnmount() {
+        this.props.handleResetWorkflow();
+    }
+
     handleAlphabeticalOrderByClick = e => {
         e.preventDefault();
 
-        const { handleSort, sort } = this.props;
+        const {
+            handleFetchWorkflow,
+            catalog: { sort }
+        } = this.props;
 
         const payload = { ...sort };
 
         payload[NAME] = payload[NAME] === ASC ? DESC : ASC;
 
-        handleSort(payload);
+        handleFetchWorkflow(payload);
     };
 
     handleScroll = () => {
-        const { workflows, sort, handleScroll } = this.props;
-        const { page } = workflows;
+        const {
+            catalog: { page, sort },
+            handleFetchWorkflow
+        } = this.props;
 
-        handleScroll(page, sort);
+        handleFetchWorkflow(sort, page);
     };
 
     goToOverviewPage = id => {
@@ -57,14 +66,9 @@ class CatalogView extends React.Component {
     };
 
     render() {
-        const { workflows, sort, showNewWorkflowModal } = this.props;
-
+        const { catalog, showNewWorkflowModal } = this.props;
+        const { sort, hasMore, total, results } = catalog;
         const alphabeticalOrder = sort[NAME];
-        // TODO remove offset, fix hasMore, use size
-        const { total, results = [], /*size,*/ page, offset } = workflows;
-
-        // const hasMore = total === 0 || size * (page + 1) < total;
-        const hasMore = offset !== undefined ? offset < 0 : page < 0;
 
         return (
             <div className="wf-catalog">
@@ -81,7 +85,7 @@ class CatalogView extends React.Component {
                         <div className="main__content">
                             <AddWorkflow onClick={showNewWorkflowModal} />
                             <Workflows
-                                workflows={results}
+                                results={results}
                                 onWorkflowClick={this.goToOverviewPage}
                             />
                         </div>
@@ -94,18 +98,14 @@ class CatalogView extends React.Component {
 
 CatalogView.propTypes = {
     history: PropTypes.object,
-    workflows: PropTypes.object,
-    sort: PropTypes.object,
-    handleScroll: PropTypes.func,
-    handleSort: PropTypes.func,
+    catalog: PropTypes.object,
+    handleResetWorkflow: PropTypes.func,
+    handleFetchWorkflow: PropTypes.func,
     showNewWorkflowModal: PropTypes.func,
     clearWorkflow: PropTypes.func
 };
 
 CatalogView.defaultProps = {
-    workflows: {},
-    sort: {},
-    handleScroll: () => {},
     showNewWorkflowModal: () => {},
     clearWorkflow: () => {}
 };

@@ -14,51 +14,57 @@
 * limitations under the License.
 */
 
+'use strict';
+
 import {
-    UPDATE,
-    SCROLL,
-    SORT,
-    LIMIT,
+    FETCH_WORKFLOW,
+    UPDATE_WORKFLOW,
+    RESET_WORKFLOW,
+    PAGE_SIZE,
     NAME,
     ASC
 } from 'features/catalog/catalogConstants';
-import { update, scroll, sort } from 'features/catalog/catalogActions';
+import {
+    fetchWorkflow,
+    updateWorkflow,
+    resetWorkflow
+} from 'features/catalog/catalogActions';
 
 describe('Catalog Actions', () => {
-    it('show have `update` action', () => {
-        expect(update()).toEqual({
-            type: UPDATE
+    it('should have `fetchWorkflow` action', () => {
+        const sort = { [NAME]: ASC };
+        const page = 0;
+
+        expect(fetchWorkflow(sort, page)).toEqual({
+            type: FETCH_WORKFLOW,
+            payload: {
+                sort,
+                size: PAGE_SIZE,
+                page
+            }
         });
     });
 
-    it('show have `scroll` action', () => {
-        const page = 1;
-        const sort = {};
-
-        const expected = {
-            type: SCROLL,
-            payload: {
-                page,
-                sort,
-                size: LIMIT
+    it('should have `updateWorkflow` action', () => {
+        const payload = {
+            results: [],
+            total: 0,
+            page: 0,
+            size: 0,
+            sort: {
+                name: 'asc'
             }
         };
 
-        expect(scroll(page, sort)).toEqual(expected);
+        expect(updateWorkflow(payload)).toEqual({
+            type: UPDATE_WORKFLOW,
+            payload
+        });
     });
 
-    it('show have `sort` action', () => {
-        const sortPayload = {
-            [NAME]: ASC
-        };
-
-        const expected = {
-            type: SORT,
-            payload: {
-                sort: sortPayload
-            }
-        };
-
-        expect(sort(sortPayload)).toEqual(expected);
+    it('should have `resetWorkflow` action', () => {
+        expect(resetWorkflow()).toEqual({
+            type: RESET_WORKFLOW
+        });
     });
 });

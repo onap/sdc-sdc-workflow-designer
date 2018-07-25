@@ -16,20 +16,18 @@
 
 import { createActions } from 'redux-actions';
 
-import { NAMESPACE, LIMIT } from 'features/catalog/catalogConstants';
+import { NAMESPACE, PAGE_SIZE } from 'features/catalog/catalogConstants';
 
 export const {
-    [NAMESPACE]: { update, sort, scroll }
+    [NAMESPACE]: { fetchWorkflow, updateWorkflow, resetWorkflow }
 } = createActions({
     [NAMESPACE]: {
-        UPDATE: undefined,
-        SORT: sort => ({
-            sort
+        FETCH_WORKFLOW: (sort, page) => ({
+            sort,
+            size: PAGE_SIZE,
+            page
         }),
-        SCROLL: (page, sort) => ({
-            page,
-            size: LIMIT,
-            sort
-        })
+        UPDATE_WORKFLOW: undefined,
+        RESET_WORKFLOW: undefined
     }
 });

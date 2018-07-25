@@ -16,6 +16,68 @@
 
 'use strict';
 
+import { runSaga } from 'redux-saga';
+import { takeLatest } from 'redux-saga/effects';
+
+import { NAME, DESC, PAGE_SIZE } from 'features/catalog/catalogConstants';
+import catalogApi from '../catalogApi';
+import { fetchWorkflow, updateWorkflow } from 'features/catalog/catalogActions';
+import catalogSaga, { fetchWorkflowSaga } from 'features/catalog/catalogSagas';
+
+jest.mock('../catalogApi');
+
 describe('Catalog Sagas', () => {
-    it('Write test', () => {});
+    it('should watch for `fetchWorkflow` action', () => {
+        const gen = catalogSaga();
+
+        expect(gen.next().value).toEqual(
+            takeLatest(fetchWorkflow, fetchWorkflowSaga)
+        );
+
+        expect(gen.next().done).toBe(true);
+    });
+
+    it('should get workflows and put `updateWorkflow` action', async () => {
+        const sort = {
+            [NAME]: DESC
+        };
+        const page = 0;
+        const data = {
+            total: 2,
+            size: 100,
+            page,
+            results: [
+                {
+                    id: '755eab7752374a2380544065b59b082d',
+                    name: 'Workflow 11',
+                    description: 'description description 11'
+                },
+                {
+                    id: 'ef8159204dac4c10a85b29ec30b4bd56',
+                    name: 'Workflow 22',
+                    description: 'description description 22'
+                }
+            ]
+        };
+        const dispatched = [];
+
+        catalogApi.getWorkflows.mockReturnValue(data);
+
+        await runSaga(
+            {
+                dispatch: action => dispatched.push(action)
+            },
+            fetchWorkflowSaga,
+            fetchWorkflow(sort, page)
+        ).done;
+
+        expect(dispatched).toEqual(
+            expect.arrayContaining([updateWorkflow({ ...data, sort })])
+        );
+        expect(catalogApi.getWorkflows).toBeCalledWith(
+            sort,
+            PAGE_SIZE,
+            page + 1
+        );
+    });
 });
