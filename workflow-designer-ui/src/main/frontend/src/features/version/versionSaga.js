@@ -30,6 +30,8 @@ import {
 import versionApi from 'features/version/versionApi';
 import { notificationActions } from 'shared/notifications/notificationsActions';
 import { versionState } from 'features/version/versionConstants';
+import overviewApi from '../workflow/overview/overviewApi';
+import { versionListFetchAction } from '../workflow/overview/overviewConstansts';
 
 function* fetchVersion(action) {
     try {
@@ -49,8 +51,11 @@ function* watchSubmitVersion(action) {
     try {
         const { workflowId, history } = action.payload;
         const data = yield call(versionApi.createNewVersion, action.payload);
-        yield call(history.push('/workflow/' + workflowId + '/version/'));
-        console.log(data);
+        const versions = yield call(overviewApi.getVersions, workflowId);
+        yield put(versionListFetchAction(versions));
+        yield call(
+            history.push('/workflow/' + workflowId + '/version/' + data.id)
+        );
     } catch (error) {
         yield put(genericNetworkErrorAction(error));
     }

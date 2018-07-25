@@ -30,7 +30,7 @@ import {
 function mapStateToProps(state) {
     return {
         workflowId: getWorkflowId(state),
-        versionBaseId: getLatestBaseId(state)
+        baseVersionId: getLatestBaseId(state)
     };
 }
 

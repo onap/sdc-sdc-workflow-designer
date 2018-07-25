@@ -22,8 +22,6 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const { DefinePlugin } = require('webpack');
 const ModuleRedirectPlugin = require('./tools/ModuleRedirectPlugin');
 const devConfig = require('./tools/getDevConfig');
-//TODO: check for better solution
-//const DEV = process.argv[1].indexOf('webpack-dev-server') >= 0;
 const apiMocker = require('webpack-api-mocker');
 const proxyServer = require('./tools/proxy-server');
 
@@ -144,7 +142,6 @@ module.exports = (env, argv) => {
             port: devConfig.port,
             historyApiFallback: true,
             publicPath: `http://localhost:${devConfig.port}`,
-            //todo: need to check if array is mandatory
             contentBase: [path.join(__dirname, 'dist')],
             inline: true,
             hot: true,
