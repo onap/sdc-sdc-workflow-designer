@@ -16,7 +16,7 @@
 
 package org.onap.sdc.workflow.api;
 
-import static org.onap.sdc.workflow.RestUtils.mapVersionStateFilter;
+import static org.onap.sdc.workflow.RestUtils.*;
 import static org.onap.sdc.workflow.api.RestConstants.SIZE_DEFAULT;
 import static org.onap.sdc.workflow.api.RestConstants.SORT_FIELD_NAME;
 import static org.onap.sdc.workflow.api.RestConstants.SORT_PARAM;
@@ -31,6 +31,7 @@ import java.util.Set;
 import org.onap.sdc.workflow.api.types.CollectionWrapper;
 import org.onap.sdc.workflow.persistence.types.Workflow;
 import org.onap.sdc.workflow.services.WorkflowManager;
+import org.onap.sdc.workflow.services.WorkflowVersionManager;
 import org.onap.sdc.workflow.services.exceptions.InvalidPaginationParameterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -59,10 +60,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class WorkflowController {
 
     private final WorkflowManager workflowManager;
+    private final WorkflowVersionManager workflowVersionManager;
 
     @Autowired
-    public WorkflowController(@Qualifier("workflowManager") WorkflowManager workflowManager) {
+    public WorkflowController(@Qualifier("workflowManager") WorkflowManager workflowManager,
+            @Qualifier("workflowVersionManager") WorkflowVersionManager workflowVersionManager) {
         this.workflowManager = workflowManager;
+        this.workflowVersionManager = workflowVersionManager;
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -88,10 +92,16 @@ public class WorkflowController {
     @GetMapping(path = "/{workflowId}")
     @ApiOperation("Get workflow")
     public Workflow get(@PathVariable("workflowId") String workflowId,
+            @ApiParam(value = "Expand workflow data", allowableValues = "versions")
+            @RequestParam(value = "expand", required = false) String expand,
             @RequestHeader(USER_ID_HEADER_PARAM) String user) {
         Workflow workflow = new Workflow();
         workflow.setId(workflowId);
-        return workflowManager.get(workflow);
+        Workflow retrievedWorkflow = workflowManager.get(workflow);
+        if(shouldExpandVersions(expand)){
+            retrievedWorkflow.setVersions(workflowVersionManager.list(workflowId,null));
+        }
+        return retrievedWorkflow;
     }
 
     @PutMapping(path = "/{workflowId}", consumes = MediaType.APPLICATION_JSON_VALUE)
