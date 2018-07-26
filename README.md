@@ -35,6 +35,8 @@ or, if Cassandra authentication is not required
 The server listens on 8080 by default, but it is possible to change the application port by passing 
 `-e SERVER_PORT={PORT}` to Docker _run_ command.
 
+To check health information of application you can use option `-e SHOW_HEALTH={always}`
+
 **Example**
 
 `docker run -d -e JAVA_OPTIONS="-Xmx128m -Xms128m -Xss1m" -e CS_HOSTS=10.247.41.19,10.247.41.20 
