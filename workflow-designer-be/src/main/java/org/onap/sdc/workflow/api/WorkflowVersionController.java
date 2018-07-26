@@ -59,7 +59,7 @@ public class WorkflowVersionController {
     private final WorkflowVersionManager workflowVersionManager;
     private Validator validator;
 
-    @InitBinder
+    @InitBinder("WorkflowVersion")
     private void initBinder(WebDataBinder binder) {
         binder.addValidators(validator);
     }
