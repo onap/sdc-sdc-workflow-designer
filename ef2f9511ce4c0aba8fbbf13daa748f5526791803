@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_a1ddb016",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/WorkflowController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-26T07:09:04Z",
+      "side": 1,
+      "message": "\"versions\".equals(expand) is enough, no need to add this method to RestUtil as it won\u0027t be reused, it is relevant only here...",
+      "range": {
+        "startLine": 101,
+        "startChar": 11,
+        "endLine": 101,
+        "endChar": 39
+      },
+      "revId": "ef2f9511ce4c0aba8fbbf13daa748f5526791803",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
