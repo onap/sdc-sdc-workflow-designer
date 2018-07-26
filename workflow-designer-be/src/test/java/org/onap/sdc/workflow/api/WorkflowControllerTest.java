@@ -257,6 +257,18 @@ public class WorkflowControllerTest {
         verify(workflowManagerMock).create(reqWorkflow);
     }
 
+    @Test
+    public void shouldThrowExceptionWhenWorkflowNameInvalid() throws Exception {
+
+        Workflow reqWorkflow = new Workflow();
+        reqWorkflow.setName("Invalid workflow name %");
+        MockHttpServletResponse response = mockMvc.perform(
+                post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER_PARAM, USER_ID).contentType(APPLICATION_JSON)
+                                                 .content(GSON.toJson(reqWorkflow))).andDo(print())
+                                                  .andExpect(status().isBadRequest()).andReturn().getResponse();
+        assertEquals("Workflow name must contain only letters, digits and underscores", response.getContentAsString());
+    }
+
     private List<Workflow> createWorkflows(int numOfWorkflows) {
         List<Workflow> workflowList = new ArrayList<>(numOfWorkflows);
         for (int i = 0; i < numOfWorkflows; i++) {
