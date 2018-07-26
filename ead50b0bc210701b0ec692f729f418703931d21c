@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_bcbf17d0",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/versionApi.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2018-07-26T10:50:35Z",
+      "side": 1,
+      "message": "prefer to change it to const urlParam \u003d baseId \n` ?baseVersionId\u003d${baseId}` : \u0027\u0027;\n\nreturn RestfulAPIUtil.post(`${baseUrl}${urlParam}`);",
+      "range": {
+        "startLine": 31,
+        "startChar": 8,
+        "endLine": 40,
+        "endChar": 17
+      },
+      "revId": "ead50b0bc210701b0ec692f729f418703931d21c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_9c881324",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/versionController/views/VersionSelect.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2018-07-26T10:50:35Z",
+      "side": 1,
+      "message": "it\u0027s better to take item.name +\n                                \u0027 \u0027 +\n                                (currentWorkflowVersion.id \u003d\u003d\u003d item.id\n                                    ? currentWorkflowVersion.state.toUpperCase()\n                                    : item.state)  out from return to constant or you don\u0027t need { } with return ()  \nmap(item \u003d\u003e (\u003coption\n                            key\u003d{\u0027versionSelect\u0027 + item.id}\n                            value\u003d{item.id}\n                            data-test-id\u003d\"vc-version-option\"\u003e\n                            {item.name +\n                                \u0027 \u0027 +\n                                (currentWorkflowVersion.id \u003d\u003d\u003d item.id\n                                    ? currentWorkflowVersion.state.toUpperCase()\n                                    : item.state)}\n                        \u003c/option\u003e)",
+      "range": {
+        "startLine": 50,
+        "startChar": 28,
+        "endLine": 54,
+        "endChar": 50
+      },
+      "revId": "ead50b0bc210701b0ec692f729f418703931d21c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
