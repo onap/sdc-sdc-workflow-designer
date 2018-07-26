@@ -20,7 +20,13 @@
         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.onap.sdc.workflow_designer</groupId>
+
+    <!--
+        The groupId violates Maven naming conventions
+        (https://maven.apache.org/guides/mini/guide-naming-conventions.html)
+        because of a limitation of ONAP CI/CD infrastructure.
+    -->
+    <groupId>org.onap.sdc.sdc-workflow-designer</groupId>
     <artifactId>workflow-designer-parent</artifactId>
     <version>1.3.0-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -89,7 +95,7 @@
                 <version>1.6.8</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <serverId>onap-staging</serverId>
+                    <serverId>ecomp-staging</serverId>
                     <nexusUrl>${nexus.proxy}</nexusUrl>
                     <stagingProfileId>${staging.profile.id}</stagingProfileId>
                 </configuration>
@@ -99,34 +105,34 @@
 
     <repositories>
         <repository>
-            <id>onap-releases</id>
+            <id>ecomp-releases</id>
             <name>Release Repository</name>
             <url>${nexus.proxy}/content/repositories/releases/</url>
         </repository>
         <repository>
-            <id>onap-snapshots</id>
+            <id>ecomp-snapshots</id>
             <name>Snapshots Repository</name>
             <url>${nexus.proxy}/content/repositories/snapshots/</url>
         </repository>
         <repository>
-            <id>onap-public</id>
+            <id>ecomp-public</id>
             <name>Public Repository</name>
             <url>${nexus.proxy}/content/repositories/public/</url>
         </repository>
     </repositories>
     <distributionManagement>
         <repository>
-            <id>onap-releases</id>
+            <id>ecomp-releases</id>
             <name>Release Repository</name>
             <url>${nexus.proxy}/content/repositories/releases/</url>
         </repository>
         <snapshotRepository>
-            <id>onap-snapshots</id>
+            <id>ecomp-snapshots</id>
             <name>Snapshot Repository</name>
             <url>${nexus.proxy}/content/repositories/snapshots/</url>
         </snapshotRepository>
         <site>
-            <id>onap-site</id>
+            <id>ecomp-site</id>
             <url>dav:${nexus.proxy}${sitePath}</url>
         </site>
     </distributionManagement>

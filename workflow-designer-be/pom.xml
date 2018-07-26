@@ -8,7 +8,7 @@
     <artifactId>workflow-designer-be</artifactId>
 
     <parent>
-        <groupId>org.onap.sdc.workflow_designer</groupId>
+        <groupId>org.onap.sdc.sdc-workflow-designer</groupId>
         <artifactId>workflow-designer-parent</artifactId>
         <version>1.3.0-SNAPSHOT</version>
     </parent>
