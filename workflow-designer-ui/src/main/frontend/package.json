@@ -50,6 +50,7 @@
 		"validator": "^10.2.0"
 	},
 	"devDependencies": {
+		"awesome-typescript-loader": "^5.2.0",
 		"babel-core": "^6.24.0",
 		"babel-eslint": "^8.2.1",
 		"babel-jest": "^22.1.0",
@@ -83,6 +84,7 @@
 		"react-test-renderer": "^16.4.1",
 		"sass-loader": "^6.0.6",
 		"source-map-loader": "^0.1.5",
+		"typescript": "^2.9.2",
 		"uglifyjs-webpack-plugin": "^1.1.6",
 		"webpack": "^4.5.0",
 		"webpack-api-mocker": "^1.4.3",

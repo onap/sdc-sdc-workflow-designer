@@ -13,10 +13,12 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+
 import { hot } from 'react-hot-loader';
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 
+import { PluginPubSub } from 'shared/pubsub/plugin-pubsub';
 import 'resources/scss/style.scss';
 import 'bpmn-js-properties-panel/styles/properties.less';
 import { routes } from './routes';
@@ -30,8 +32,16 @@ const RouteWithSubRoutes = route => (
 );
 
 class App extends Component {
-    constructor(props) {
-        super(props);
+    componentDidMount() {
+        const searchParams = new URLSearchParams(location.search);
+        const eventsClientId = searchParams.get('eventsClientId');
+        const parentUrl = searchParams.get('parentUrl');
+
+        if (eventsClientId && parentUrl) {
+            const client = new PluginPubSub(eventsClientId, parentUrl);
+
+            client.notify('READY');
+        }
     }
 
     render() {

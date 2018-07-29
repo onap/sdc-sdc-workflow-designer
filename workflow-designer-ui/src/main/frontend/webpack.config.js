@@ -42,7 +42,7 @@ module.exports = (env, argv) => {
         devtool: DEV ? 'eval-source-map' : 'none',
         resolve: {
             modules: modulePath,
-            extensions: ['.js', '.json', '.css', '.scss', '.jsx'],
+            extensions: ['.js', '.json', '.css', '.scss', '.jsx', '.ts'],
             alias: {
                 wfapp: path.resolve(__dirname, 'src/'),
                 features: path.resolve(__dirname, 'src/features'),
@@ -122,6 +122,11 @@ module.exports = (env, argv) => {
                 {
                     test: /\.(bpmn|xml)$/,
                     loader: 'raw-loader'
+                },
+                {
+                    test: /\.ts|\.tsx$/,
+                    loader: ['babel-loader', 'awesome-typescript-loader'],
+                    include: srcPath
                 }
             ]
         },

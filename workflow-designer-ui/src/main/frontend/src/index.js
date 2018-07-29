@@ -17,7 +17,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { HashRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 
 import Notifications from 'shared/notifications/Notifications';
 import Loader from 'shared/loader/Loader';
@@ -30,14 +30,14 @@ ReactDOM.render(
         <React.Fragment>
             <Notifications />
             <Loader />
-            <HashRouter>
+            <BrowserRouter>
                 <React.Fragment>
                     <div className="workflow-app">
                         <App />
                     </div>
                     <ModalWrapper />
                 </React.Fragment>
-            </HashRouter>
+            </BrowserRouter>
         </React.Fragment>
     </Provider>,
     document.getElementById('root')
