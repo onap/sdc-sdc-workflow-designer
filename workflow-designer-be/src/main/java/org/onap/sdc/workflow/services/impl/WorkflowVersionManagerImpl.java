@@ -18,6 +18,7 @@ package org.onap.sdc.workflow.services.impl;
 
 import static org.onap.sdc.workflow.persistence.types.WorkflowVersionState.CERTIFIED;
 
+import com.amdocs.zusammen.datatypes.response.ErrorCode;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
@@ -43,6 +44,7 @@ import org.onap.sdc.workflow.services.exceptions.VersionModificationException;
 import org.onap.sdc.workflow.services.exceptions.VersionStateModificationException;
 import org.onap.sdc.workflow.services.impl.mappers.VersionMapper;
 import org.onap.sdc.workflow.services.impl.mappers.VersionStateMapper;
+import org.openecomp.sdc.common.errors.SdcRuntimeException;
 import org.openecomp.sdc.logging.api.Logger;
 import org.openecomp.sdc.logging.api.LoggerFactory;
 import org.openecomp.sdc.versioning.VersioningManager;
@@ -95,6 +97,7 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
     public WorkflowVersion get(String workflowId, String versionId) {
         WorkflowVersion workflowVersion = versionMapper.versionToWorkflowVersion(getVersion(workflowId, versionId));
         loadAndAddParameters(workflowId, workflowVersion);
+        workflowVersion.setHasArtifact(artifactRepository.get(workflowId,versionId).isPresent());
         return workflowVersion;
     }
 
@@ -140,8 +143,19 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
         updateParameters(workflowId, version.getId(), workflowVersion.getInputs(), workflowVersion.getOutputs());
 
         versioningManager.updateVersion(workflowId, version);
-        versioningManager.publish(workflowId, version, "Update version");
+        try {
+            versioningManager.publish(workflowId, version, "Update version");
+        } catch (SdcRuntimeException ex) {
+            if (isNothingToPublishException(ex)) {
+                LOGGER.error(
+                        String.format("Workflow id: %s. Version id: %s. Error: %s", workflowId, workflowVersion.getId(),
+                                ex.getMessage()));
+            } else {
+                throw ex;
+            }
+        }
     }
+
 
     @Override
     public WorkflowVersionState getState(String workflowId, String versionId) {
@@ -273,5 +287,9 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
 
     private static Optional<Version> findVersion(List<Version> versions, String versionId) {
         return versions.stream().filter(version -> versionId.equals(version.getId())).findFirst();
+    }
+
+    private boolean isNothingToPublishException(SdcRuntimeException ex) {
+        return ex.getMessage().contains(String.valueOf(ErrorCode.ZU_ITEM_VERSION_PUBLISH));
     }
 }
