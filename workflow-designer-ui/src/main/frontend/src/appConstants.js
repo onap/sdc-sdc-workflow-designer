@@ -16,6 +16,7 @@
 
 import { createAction } from 'redux-actions';
 export const LANG = 'en';
+export const USER_ID = 'USER_ID';
 export const VERSION_LEVEL_LIST = [
     {
         id: '2',

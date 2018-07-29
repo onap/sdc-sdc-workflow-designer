@@ -18,6 +18,7 @@ import md5 from 'md5';
 import axios from 'axios';
 
 import store from 'wfapp/store';
+import { USER_ID } from 'wfapp/appConstants';
 
 import {
     sendRequestAction,
@@ -44,7 +45,6 @@ const AUTHORIZATION_HEADER = 'X-AUTH-TOKEN';
 const STORAGE_AUTH_KEY = 'sdc-auth-token';
 const REQUEST_ID_HEADER = 'X-ECOMP-RequestID';
 const CONTENT_MD5_HEADER = 'Content-MD5';
-const USER_ID = 'USER_ID';
 
 function applySecurity(options, data) {
     let headers = options.headers || (options.headers = {});
@@ -70,7 +70,10 @@ function applySecurity(options, data) {
             md5(JSON.stringify(data)).toLowerCase()
         );
     }
-    headers[USER_ID] = 'cs0008';
+
+    if (localStorage.getItem(USER_ID)) {
+        headers[USER_ID] = localStorage.getItem(USER_ID);
+    }
 }
 
 function handleSuccess(responseHeaders, requestHeaders) {

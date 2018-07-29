@@ -13,24 +13,21 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-'use strict';
+'use strict'
 
-const proxy = require('http-proxy-middleware');
-const devConfig = require('./getDevConfig');
+const proxy = require('http-proxy-middleware')
+const devConfig = require('./getDevConfig')
 
 module.exports = function(server) {
     let proxyConfigDefaults = {
         changeOrigin: true,
         secure: false,
-        onProxyRes: (proxyRes, req, res) => {
-            let setCookie = proxyRes.headers['set-cookie'];
-            if (setCookie) {
-                setCookie[0] = setCookie[0].replace('USER_ID', 'cs0008');
-            }
+        onProxyReq: (proxyReq, req, res) => {
+            proxyReq.setHeader('USER_ID', devConfig.proxyConfig.cookies.USER_ID)
         },
-    };
+    }
 
-    let middlewares = [];
+    let middlewares = []
 
     middlewares.push(
         proxy(
@@ -39,6 +36,6 @@ module.exports = function(server) {
                 target: devConfig.proxyTarget,
             }),
         ),
-    );
-    server.use(middlewares);
-};
+    )
+    server.use(middlewares)
+}
