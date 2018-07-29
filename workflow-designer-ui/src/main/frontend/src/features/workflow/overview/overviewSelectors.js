@@ -19,6 +19,10 @@ import { getWorkflowParams } from 'features/workflow/create/createWorkflowSelect
 import { versionState } from 'features/version/versionConstants';
 
 export const getVersions = state => state && state.workflow.versions;
+export const getSortedVersions = createSelector(
+    getVersions,
+    versions => versions && versions.sort((a, b) => a.name - b.name)
+);
 export const getSelectedVersionId = state =>
     state && state.currentVersion.general.id;
 export const getWorkflowCreationTime = state =>
@@ -30,7 +34,7 @@ export const getWorkflowModificationTime = state =>
 export const getWorkflowId = state => state && state.workflow.data.id;
 
 export const getAllIsVersionsCertifies = createSelector(
-    getVersions,
+    getSortedVersions,
     versions =>
         versions &&
         versions.filter(
@@ -54,6 +58,6 @@ export const getWorkflowData = createSelector(
 );
 
 export const getLatestBaseId = createSelector(
-    getVersions,
-    versions => versions.length && versions[versions.length - 1].baseId
+    getSortedVersions,
+    versions => versions.length && versions[versions.length - 1].id
 );

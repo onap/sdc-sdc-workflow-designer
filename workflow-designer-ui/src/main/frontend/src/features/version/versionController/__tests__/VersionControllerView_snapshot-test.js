@@ -44,7 +44,12 @@ describe('Version Controller View Snapshot', () => {
             }
         ];
         const tree = renderer
-            .create(<VersionControllerView viewableVersions={versionList} />)
+            .create(
+                <VersionControllerView
+                    viewableVersions={versionList}
+                    currentWorkflowVersion={versionList[0]}
+                />
+            )
             .toJSON();
 
         expect(tree).toMatchSnapshot();

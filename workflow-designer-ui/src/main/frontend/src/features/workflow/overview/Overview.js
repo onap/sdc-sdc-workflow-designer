@@ -16,7 +16,7 @@
 import { connect } from 'react-redux';
 import OverviewView from 'features/workflow/overview/OverviewView';
 import {
-    getVersions,
+    getSortedVersions,
     getSelectedVersionId,
     getWorkflowData,
     getAllIsVersionsCertifies
@@ -32,7 +32,7 @@ import { inputChangeAction } from 'features/workflow/create/createWorkflowConsta
 
 function mapStateToProps(state) {
     return {
-        versions: getVersions(state),
+        versions: getSortedVersions(state),
         selectedVersion: getSelectedVersionId(state),
         workflow: getWorkflowData(state),
         isVersionsCertifies: getAllIsVersionsCertifies(state)

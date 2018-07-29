@@ -20,7 +20,7 @@ import GeneralView from 'features/version/general/GeneralView';
 import {
     getGeneralDescription,
     getCreationTime,
-    getMofificationTime
+    getModificationTime
 } from 'features/version/general/generalSelectors';
 import { workflowVersionDetailsChangedAction } from 'features/version/versionConstants';
 
@@ -28,7 +28,7 @@ export function mapStateToProps(state) {
     return {
         description: getGeneralDescription(state),
         created: getCreationTime(state),
-        modified: getMofificationTime(state)
+        modified: getModificationTime(state)
     };
 }
 

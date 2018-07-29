@@ -15,7 +15,7 @@
 */
 
 export const NEW_VERSION = {
-    baseVersionId: null,
+    baseId: null,
     description: null
 };
 export const WORKFLOW_INPUT_CHANGE = 'createWorkflow/INPUT_CHANGE';

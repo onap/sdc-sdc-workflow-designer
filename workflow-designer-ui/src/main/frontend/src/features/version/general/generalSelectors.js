@@ -19,21 +19,12 @@ export const getGeneralDescription = state =>
     state && state.currentVersion.general.description;
 export const getVersionInfo = state => state && state.currentVersion.general;
 
-export const getVersionsState = createSelector(
-    state => state && state.currentVersion.general.state
-);
-
 export const getCreationTime = state =>
     state && state.currentVersion.general.creationTime;
 
-export const getMofificationTime = state =>
+export const getModificationTime = state =>
     state && state.currentVersion.general.modificationTime;
 
-export const generalParamsSelector = createSelector(
-    getGeneralDescription,
-    description => {
-        return {
-            description
-        };
-    }
+export const getVersionsState = createSelector(
+    state => state && state.currentVersion.general.state
 );

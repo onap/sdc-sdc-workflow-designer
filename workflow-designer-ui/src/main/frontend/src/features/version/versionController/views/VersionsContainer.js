@@ -17,34 +17,22 @@ import React from 'react';
 import VersionSelect from 'features/version/versionController/views/VersionSelect';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from 'prop-types';
-import { isEmpty } from 'lodash';
 
 const VersionContainer = props => {
     let {
         currentWorkflowVersion,
         viewableVersions,
-        dynamicDispatcher,
-        onOverviewClick
+        onOverviewClick,
+        onVersionSelectChange
     } = props;
-
-    function createDisplayedVersionName() {
-        if (isEmpty(viewableVersions)) return;
-        Object.keys(viewableVersions).map((val, key) => {
-            viewableVersions[key].displayed =
-                viewableVersions[key].name + ' ' + viewableVersions[key].state;
-        });
-        return viewableVersions;
-    }
-
-    const versionList = createDisplayedVersionName();
 
     return (
         <div className="version-section-wrapper">
             <div className="version-status-container">
                 <VersionSelect
-                    dynamicDispatcher={dynamicDispatcher}
                     currentWorkflowVersion={currentWorkflowVersion}
-                    viewableVersions={versionList}
+                    viewableVersions={viewableVersions}
+                    onVersionSelectChange={onVersionSelectChange}
                 />
                 <span
                     className="version-selector-more-versions"
@@ -58,10 +46,10 @@ const VersionContainer = props => {
 };
 
 VersionContainer.propTypes = {
-    currentWorkflowVersion: PropTypes.string,
+    currentWorkflowVersion: PropTypes.object,
     viewableVersions: PropTypes.arrayOf(Object),
-    dynamicDispatcher: PropTypes.func,
-    onOverviewClick: PropTypes.func
+    onOverviewClick: PropTypes.func,
+    onVersionSelectChange: PropTypes.func
 };
 
 export default VersionContainer;

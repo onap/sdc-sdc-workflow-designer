@@ -22,7 +22,7 @@ const VersionSelect = props => {
     const {
         currentWorkflowVersion,
         viewableVersions,
-        dynamicDispatcher
+        onVersionSelectChange
     } = props;
 
     function onChangeHandler(ev) {
@@ -30,25 +30,29 @@ const VersionSelect = props => {
             key => viewableVersions[key].id === ev.target.value
         );
         const currentVersion = viewableVersions[versionIndex].id;
-        dynamicDispatcher('CHANGE_VERSION', currentVersion);
-        return currentVersion;
+        onVersionSelectChange(currentVersion);
     }
 
     return (
         <select
             className="version-selector"
             key={'selector'}
-            value={currentWorkflowVersion}
+            value={currentWorkflowVersion.id}
             onChange={onChangeHandler}
             data-test-id="vc-versions-select-box">
             {!isEmpty(viewableVersions) &&
                 viewableVersions.map(item => {
+                    const displayedName = `${item.name} ${
+                        currentWorkflowVersion.id === item.id
+                            ? currentWorkflowVersion.state.toUpperCase()
+                            : item.state
+                    }`;
                     return (
                         <option
                             key={'versionSelect' + item.id}
                             value={item.id}
                             data-test-id="vc-version-option">
-                            {item.displayed || item.name}
+                            {displayedName}
                         </option>
                     );
                 })}
@@ -57,9 +61,9 @@ const VersionSelect = props => {
 };
 
 VersionSelect.propTypes = {
-    currentWorkflowVersion: PropTypes.string,
+    currentWorkflowVersion: PropTypes.object,
     viewableVersions: PropTypes.arrayOf(Object),
-    dynamicDispatcher: PropTypes.func
+    onVersionSelectChange: PropTypes.func
 };
 
 export default VersionSelect;

@@ -1,0 +1,193 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`OverviewView Snapshot renders correctly 1`] = `
+<div>
+  <div
+    className="overview-page"
+  >
+    <div
+      className="overview-header"
+    >
+      wf1
+       - 
+      title
+    </div>
+    <div
+      className="overview-content"
+    >
+      <div
+        className="workflow-details"
+      >
+        <form
+          onSubmit={[Function]}
+        >
+          <div
+            className="sdc-input "
+          >
+            <label
+              className="sdc-input__label  required"
+              htmlFor="workflowName"
+            >
+              name
+            </label>
+            <input
+              className="sdc-input__input  "
+              data-test-id={undefined}
+              disabled={true}
+              id="workflowName"
+              name="workflowName"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onKeyDown={[Function]}
+              placeholder={undefined}
+              readOnly={false}
+              type="text"
+              value="wf1"
+            />
+          </div>
+          <div
+            className="description-part"
+          >
+            <div
+              className="sdc-input"
+            >
+              <div
+                className="sdc-input__label"
+              >
+                description
+              </div>
+              <textarea
+                className="field-section sdc-input__input"
+                data-test-id="description"
+                onChange={[Function]}
+                value="desc 1"
+              />
+            </div>
+          </div>
+          <div
+            className="save-description"
+          >
+            <button
+              className="sdc-button sdc-button__primary   "
+              disabled={false}
+              onClick={undefined}
+            >
+              saveBtn
+            </button>
+          </div>
+        </form>
+        <div
+          className="version-info-part"
+        >
+          
+          <div
+            className="label"
+          >
+            Invariant UUID
+          </div>
+          <div
+            className="value"
+          >
+            id1
+          </div>
+        </div>
+      </div>
+      <div
+        className="workflow-versions"
+      >
+        <div
+          className="versions-page-view"
+        >
+          <div
+            className="create-new-version newVersionDisabled"
+          >
+            <div
+              className="create-item-plus-icon"
+              onClick={[Function]}
+            >
+              <div
+                className="svg-icon-wrapper   __secondary  bottom"
+                disabled={undefined}
+                onClick={undefined}
+              >
+                <test-file-stub
+                  className="svg-icon __plus"
+                />
+                
+              </div>
+              newVersion
+            </div>
+          </div>
+          <div
+            className="versions-page-list-and-tree"
+          >
+            <div
+              className="version-tree-wrapper"
+            >
+              <div
+                className="version-tree-title-container"
+              >
+                <div
+                  className="version-tree-title"
+                >
+                  Version Tree
+                </div>
+              </div>
+              <div
+                className="tree-view versions-tree-container "
+              >
+                <svg
+                  className="versions-tree"
+                  width={200}
+                />
+              </div>
+            </div>
+            <div
+              className="version-list"
+            >
+              <div
+                className="version-item-row header-row "
+                data-test-id="version-item-row"
+                onClick={[Function]}
+              >
+                <div
+                  className="version-item-field header-field item-version"
+                >
+                  Version
+                </div>
+                <div
+                  className="version-item-field header-field item-status"
+                >
+                  Status
+                </div>
+                <div
+                  className="version-item-field header-field"
+                >
+                  <span
+                    className={undefined}
+                    style={undefined}
+                  >
+                    lastEdited
+                  </span>
+                </div>
+                <div
+                  className="version-item-field header-field"
+                >
+                  <div
+                    className="description-text"
+                  >
+                    Description
+                  </div>
+                </div>
+              </div>
+              <div
+                className="version-list-items"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

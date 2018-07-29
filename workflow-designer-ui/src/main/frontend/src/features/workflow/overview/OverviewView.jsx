@@ -22,16 +22,33 @@ import WorkflowVersions from 'features/workflow/overview/views/WorkflowVersions'
 import WorkflowHeader from 'features/workflow/overview/views/WorkflowHeader';
 
 class OverviewView extends Component {
-    static propTypes = {};
+    static propTypes = {
+        getOverview: PropTypes.func,
+        versions: PropTypes.array,
+        onSelectVersion: PropTypes.func,
+        onCreateVersion: PropTypes.func,
+        selectedVersion: PropTypes.string,
+        workflow: PropTypes.object,
+        history: PropTypes.object,
+        showNewVersionModal: PropTypes.func,
+        isVersionsCertifies: PropTypes.bool,
+        location: PropTypes.object,
+        match: PropTypes.object,
+        updateWorkflow: PropTypes.func
+    };
 
     constructor(props) {
         super(props);
     }
 
-    componentDidMount() {
+    getOverviewFromRouter = () => {
         const { match } = this.props;
         const workflowId = match.params.workflowId;
         this.props.getOverview(workflowId);
+    };
+
+    componentDidMount() {
+        this.getOverviewFromRouter();
     }
 
     onSelectVersionFromTable = data => {
@@ -91,26 +108,10 @@ class OverviewView extends Component {
     }
 }
 
-OverviewView.propTypes = {
-    getOverview: PropTypes.func,
-    versions: PropTypes.array,
-    onSelectVersion: PropTypes.func,
-    onCreateVersion: PropTypes.func,
-    selectedVersion: PropTypes.string,
-    workflow: PropTypes.object,
-    history: PropTypes.object,
-    showNewVersionModal: PropTypes.func,
-    isVersionsCertifies: PropTypes.bool,
-    location: PropTypes.object,
-    match: PropTypes.object,
-    updateWorkflow: PropTypes.func
-};
-
 OverviewView.defaultProps = {
     versions: [],
     getOverview: () => {},
     onSelectVersion: () => {},
-    onCreateVersion: () => {},
     selectedVersion: ''
 };
 

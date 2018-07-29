@@ -15,12 +15,12 @@
 */
 
 import { connect } from 'react-redux';
-import {
-    getVersionsList,
-    getSavedObjParams
-} from 'features/version/versionController/versionControllerSelectors';
+import { getSavedObjParams } from 'features/version/versionController/versionControllerSelectors';
 import VersionControllerView from 'features/version/versionController/VersionControllerView';
-import { getVersions } from 'features/workflow/overview/overviewSelectors';
+import {
+    getVersions,
+    getSortedVersions
+} from 'features/workflow/overview/overviewSelectors';
 import {
     getWorkflowId,
     getWorkflowName
@@ -29,25 +29,26 @@ import {
     saveParamsAction,
     certifyVersionAction
 } from 'features/version/versionController/versionControllerConstants';
+import { workflowVersionFetchRequestedAction } from '../versionConstants';
 
 function mapStateToProps(state) {
     return {
         workflowName: getWorkflowName(state),
         workflowId: getWorkflowId(state),
-        versionsList: getVersionsList(state),
+        versionsList: getSortedVersions(state),
         savedParams: getSavedObjParams(state),
-        currentWorkflowVersion: state.currentVersion.general.id,
+        currentWorkflowVersion: state.currentVersion.general,
         versionState: state.currentVersion.general.state
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        callForAction: (action, payload) =>
-            dispatch({ type: action, payload: payload }),
         getVersions: () => dispatch(getVersions),
         saveParamsToServer: params => dispatch(saveParamsAction(params)),
-        certifyVersion: payload => dispatch(certifyVersionAction(payload))
+        certifyVersion: payload => dispatch(certifyVersionAction(payload)),
+        changeVersion: payload =>
+            dispatch(workflowVersionFetchRequestedAction(payload))
     };
 }
 
