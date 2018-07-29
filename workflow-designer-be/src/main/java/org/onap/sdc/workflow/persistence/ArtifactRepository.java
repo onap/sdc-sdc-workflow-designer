@@ -27,6 +27,8 @@ public interface ArtifactRepository {
 
     Optional<ArtifactEntity> get(String id, String versionId);
 
+    boolean isExist(String id, String versionId);
+
     void createStructure(String id, String versionId);
 
     void delete(String id, String versionId);
