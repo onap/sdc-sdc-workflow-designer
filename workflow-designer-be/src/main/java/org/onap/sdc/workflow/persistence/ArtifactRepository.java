@@ -23,12 +23,14 @@ import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
 
 public interface ArtifactRepository {
 
-    void update(String id, String versionId,ArtifactEntity artifactEntity);
+    void update(String workflowId, String versionId,ArtifactEntity artifactEntity);
 
-    Optional<ArtifactEntity> get(String id, String versionId);
+    Optional<ArtifactEntity> get(String workflowId, String versionId);
 
-    void createStructure(String id, String versionId);
+    boolean isExist(String workflowId, String versionId);
 
-    void delete(String id, String versionId);
+    void createStructure(String workflowId, String versionId);
+
+    void delete(String workflowId, String versionId);
 
 }

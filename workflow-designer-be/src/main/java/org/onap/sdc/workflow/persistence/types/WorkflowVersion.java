@@ -30,6 +30,7 @@ public class WorkflowVersion {
     private String description;
     private String baseId;
     private WorkflowVersionState state;
+    private boolean hasArtifact;
     private Collection<ParameterEntity> inputs = Collections.emptyList();
     private Collection<ParameterEntity> outputs = Collections.emptyList();
     private Date creationTime;

@@ -41,6 +41,7 @@ import org.onap.sdc.workflow.services.impl.mappers.VersionMapper;
 import org.onap.sdc.workflow.services.impl.mappers.VersionStateMapper;
 import org.openecomp.sdc.versioning.VersioningManager;
 import org.openecomp.sdc.versioning.dao.types.Version;
+import org.openecomp.sdc.versioning.dao.types.VersionState;
 import org.openecomp.sdc.versioning.dao.types.VersionStatus;
 import org.openecomp.sdc.versioning.types.VersionCreationMethod;
 import org.springframework.mock.web.MockMultipartFile;
@@ -101,6 +102,9 @@ public class WorkflowVersionManagerImplTest {
         retrievedVersion.setName("1.0");
         retrievedVersion.setDescription("WorkflowVersion description");
         retrievedVersion.setStatus(VersionStatus.Draft);
+        VersionState versionState = new VersionState();
+        versionState.setDirty(true);
+        retrievedVersion.setState(versionState);
         doReturn(retrievedVersion).when(versioningManagerMock).get(eq(ITEM1_ID), eqVersion(VERSION1_ID));
         doReturn(DRAFT).when(versionStateMapperMock).versionStatusToWorkflowVersionState(retrievedVersion.getStatus());
 

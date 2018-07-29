@@ -20,6 +20,7 @@ import static org.openecomp.core.zusammen.api.ZusammenUtil.buildStructuralElemen
 import static org.openecomp.core.zusammen.api.ZusammenUtil.createSessionContext;
 
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.Element;
+import com.amdocs.zusammen.adaptor.inbound.api.types.item.ElementInfo;
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.ZusammenElement;
 import com.amdocs.zusammen.datatypes.SessionContext;
 import com.amdocs.zusammen.datatypes.item.Action;
@@ -46,23 +47,23 @@ public class ArtifactRepositoryImpl implements ArtifactRepository {
 
 
     @Override
-    public void update(String id, String versionId, ArtifactEntity artifactEntity) {
+    public void update(String workflowId, String versionId, ArtifactEntity artifactEntity) {
 
         ZusammenElement artifactElement = buildStructuralElement(WorkflowElementType.ARTIFACT.name(), Action.UPDATE);
         artifactElement.setData(artifactEntity.getArtifactData());
         artifactElement.getInfo().addProperty(FILE_NAME_PROPERTY, artifactEntity.getFileName());
 
         SessionContext context = createSessionContext();
-        ElementContext elementContext = new ElementContext(id, versionId);
+        ElementContext elementContext = new ElementContext(workflowId, versionId);
 
         zusammenAdaptor
                 .saveElement(context, elementContext, artifactElement, "Update WorkflowVersion Artifact Element");
     }
 
     @Override
-    public Optional<ArtifactEntity> get(String id, String versionId) {
+    public Optional<ArtifactEntity> get(String workflowId, String versionId) {
         SessionContext context = createSessionContext();
-        ElementContext elementContext = new ElementContext(id, versionId);
+        ElementContext elementContext = new ElementContext(workflowId, versionId);
 
         Optional<Element> elementOptional =
                 zusammenAdaptor.getElementByName(context, elementContext, null, WorkflowElementType.ARTIFACT.name());
@@ -80,9 +81,20 @@ public class ArtifactRepositoryImpl implements ArtifactRepository {
     }
 
     @Override
-    public void createStructure(String id, String versionId) {
+    public boolean isExist(String workflowId, String versionId) {
         SessionContext context = createSessionContext();
-        ElementContext elementContext = new ElementContext(id, versionId);
+        ElementContext elementContext = new ElementContext(workflowId, versionId);
+
+        Optional<ElementInfo> optionalElementInfo = zusammenAdaptor.getElementInfoByName(context, elementContext, null,
+                WorkflowElementType.ARTIFACT.name());
+        return optionalElementInfo.isPresent() && optionalElementInfo.get().getInfo().getProperties()
+                                                                     .containsKey(FILE_NAME_PROPERTY);
+    }
+
+    @Override
+    public void createStructure(String workflowId, String versionId) {
+        SessionContext context = createSessionContext();
+        ElementContext elementContext = new ElementContext(workflowId, versionId);
 
         ZusammenElement artifactElement = buildStructuralElement(WorkflowElementType.ARTIFACT.name(), Action.CREATE);
         artifactElement.setData(new ByteArrayInputStream(EMPTY_DATA.getBytes()));
@@ -93,9 +105,9 @@ public class ArtifactRepositoryImpl implements ArtifactRepository {
     }
 
     @Override
-    public void delete(String id, String versionId) {
+    public void delete(String workflowId, String versionId) {
         SessionContext context = createSessionContext();
-        ElementContext elementContext = new ElementContext(id, versionId);
+        ElementContext elementContext = new ElementContext(workflowId, versionId);
 
         ZusammenElement artifactElement = buildStructuralElement(WorkflowElementType.ARTIFACT.name(), Action.UPDATE);
         artifactElement.setData(new ByteArrayInputStream(EMPTY_DATA.getBytes()));
