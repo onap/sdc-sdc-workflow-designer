@@ -20,6 +20,7 @@ import static org.openecomp.core.zusammen.api.ZusammenUtil.buildStructuralElemen
 import static org.openecomp.core.zusammen.api.ZusammenUtil.createSessionContext;
 
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.Element;
+import com.amdocs.zusammen.adaptor.inbound.api.types.item.ElementInfo;
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.ZusammenElement;
 import com.amdocs.zusammen.datatypes.SessionContext;
 import com.amdocs.zusammen.datatypes.item.Action;
@@ -77,6 +78,17 @@ public class ArtifactRepositoryImpl implements ArtifactRepository {
                 artifactElement.getData());
 
         return Optional.of(artifact);
+    }
+
+    @Override
+    public boolean isExist(String id, String versionId) {
+        SessionContext context = createSessionContext();
+        ElementContext elementContext = new ElementContext(id, versionId);
+
+        Optional<ElementInfo> optionalElementInfo = zusammenAdaptor.getElementInfoByName(context, elementContext, null,
+                WorkflowElementType.ARTIFACT.name());
+        return optionalElementInfo.isPresent() && optionalElementInfo.get().getInfo().getProperties()
+                                                                     .containsKey(FILE_NAME_PROPERTY);
     }
 
     @Override
