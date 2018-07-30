@@ -21,7 +21,8 @@ import { Route } from 'react-router-dom';
 import { PluginPubSub } from 'shared/pubsub/plugin-pubsub';
 import 'resources/scss/style.scss';
 import 'bpmn-js-properties-panel/styles/properties.less';
-import { routes } from './routes';
+import { routes } from 'wfapp/routes';
+import { USER_ID } from 'wfapp/appConstants';
 
 const RouteWithSubRoutes = route => (
     <Route
@@ -32,10 +33,19 @@ const RouteWithSubRoutes = route => (
 );
 
 class App extends Component {
+    constructor(props) {
+        super(props);
+
+        this.searchParams = new URLSearchParams(location.search);
+
+        if (this.searchParams.get('userId')) {
+            localStorage.setItem(USER_ID, this.searchParams.get('userId'));
+        }
+    }
+
     componentDidMount() {
-        const searchParams = new URLSearchParams(location.search);
-        const eventsClientId = searchParams.get('eventsClientId');
-        const parentUrl = searchParams.get('parentUrl');
+        const eventsClientId = this.searchParams.get('eventsClientId');
+        const parentUrl = this.searchParams.get('parentUrl');
 
         if (eventsClientId && parentUrl) {
             const client = new PluginPubSub(eventsClientId, parentUrl);
