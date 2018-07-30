@@ -25,9 +25,8 @@ export default class VersionControllerView extends Component {
     static propTypes = {
         location: PropTypes.object,
         workflowName: PropTypes.string,
-        currentWorkflowVersion: PropTypes.string,
+        currentWorkflowVersion: PropTypes.object,
         viewableVersions: PropTypes.arrayOf(Object),
-        callForAction: PropTypes.func,
         getVersions: PropTypes.func,
         versionsList: PropTypes.array,
         history: PropTypes.object,
@@ -37,22 +36,13 @@ export default class VersionControllerView extends Component {
         saveParamsToServer: PropTypes.func,
         workflowId: PropTypes.string,
         versionState: PropTypes.string,
-        certifyVersion: PropTypes.func
+        certifyVersion: PropTypes.func,
+        changeVersion: PropTypes.func
     };
 
     constructor(props) {
         super(props);
     }
-
-    dynamicDispatcher = (action, payload) => {
-        const { history, callForAction } = this.props;
-        const actionName =
-            typeof action === 'object'
-                ? action.target.attributes.actionType.value
-                : action;
-        let pageName = history.location.pathname.split('/').pop();
-        callForAction(pageName + '/' + actionName, payload);
-    };
 
     routeToOverview = () => {
         const { history, match } = this.props;
@@ -71,7 +61,12 @@ export default class VersionControllerView extends Component {
             workflowId,
             currentWorkflowVersion
         } = this.props;
-        certifyVersion({ workflowId, versionId: currentWorkflowVersion });
+        certifyVersion({ workflowId, versionId: currentWorkflowVersion.id });
+    };
+
+    versionChangeCallback = versionId => {
+        const { changeVersion, workflowId } = this.props;
+        changeVersion({ versionId, workflowId });
     };
 
     render() {
@@ -92,6 +87,7 @@ export default class VersionControllerView extends Component {
                         currentWorkflowVersion={currentWorkflowVersion}
                         viewableVersions={versionsList}
                         onOverviewClick={this.routeToOverview}
+                        onVersionSelectChange={this.versionChangeCallback}
                     />
                     <ActionButtons
                         onSaveClick={this.sendSaveParamsToServer}
@@ -105,6 +101,5 @@ export default class VersionControllerView extends Component {
 }
 
 VersionControllerView.defaultProps = {
-    getVersions: () => {},
-    callForAction: () => {}
+    getVersions: () => {}
 };

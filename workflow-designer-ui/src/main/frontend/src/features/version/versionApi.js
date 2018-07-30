@@ -27,15 +27,15 @@ const Api = {
     fetchVersion: ({ workflowId, versionId }) => {
         return RestfulAPIUtil.fetch(`${baseUrl(workflowId)}/${versionId}`);
     },
-    createNewVersion: ({ workflowId, baseVersionId, description }) => {
-        return RestfulAPIUtil.post(baseUrl(workflowId), {
-            baseVersionId,
+    createNewVersion: ({ workflowId, baseId, description }) => {
+        const urlParams = baseId ? `?baseVersionId=${baseId}` : ``;
+        return RestfulAPIUtil.post(`${baseUrl(workflowId)}${urlParams}`, {
             description
         });
     },
     updateVersion: ({ workflowId, ...payload }) => {
         return RestfulAPIUtil.put(
-            `${baseUrl(workflowId)}${payload.params.id}`,
+            `${baseUrl(workflowId)}/${payload.params.id}`,
             {
                 ...payload.params
             }

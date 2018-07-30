@@ -30,7 +30,7 @@ exports[`Version Controller View Snapshot renders correctly 1`] = `
           className="version-selector"
           data-test-id="vc-versions-select-box"
           onChange={[Function]}
-          value={undefined}
+          value="7b5f6b086613470985082df2c0f6c713"
         />
         <span
           className="version-selector-more-versions"

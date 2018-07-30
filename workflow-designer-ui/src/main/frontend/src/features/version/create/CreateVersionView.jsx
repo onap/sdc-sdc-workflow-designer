@@ -48,7 +48,7 @@ class CreateVersionView extends Component {
         submitNewVersion({
             description: this.state.newVersion.description,
             workflowId: workflowId,
-            baseVersionId: baseVersionId || null,
+            baseId: baseVersionId || null,
             history: history
         });
     };

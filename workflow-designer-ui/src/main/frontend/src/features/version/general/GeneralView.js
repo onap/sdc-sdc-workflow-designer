@@ -16,10 +16,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Translate } from 'react-redux-i18n';
+import { I18n, Localize, Translate } from 'react-redux-i18n';
 
 import Description from 'shared/components/Description';
-import { VersionInfo } from 'shared/components/VersionInfo';
+import { VersionInfo, LabeledValue } from 'shared/components/VersionInfo';
 
 const GeneralView = ({ onDataChange, description, created, modified }) => (
     <div className="general-page">
@@ -31,7 +31,18 @@ const GeneralView = ({ onDataChange, description, created, modified }) => (
                 description={description}
                 onDataChange={onDataChange}
             />
-            <VersionInfo modified={modified} created={created} />
+            <VersionInfo>
+                <LabeledValue
+                    title={I18n.t('workflow.general.modified')}
+                    value={
+                        <Localize value={modified} dateFormat="date.short" />
+                    }
+                />
+                <LabeledValue
+                    title={I18n.t('workflow.general.created')}
+                    value={<Localize value={created} dateFormat="date.short" />}
+                />
+            </VersionInfo>
         </div>
     </div>
 );
