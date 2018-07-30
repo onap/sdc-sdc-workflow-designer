@@ -22,8 +22,7 @@
 
 		text {
 			text-anchor: end;
-			@include body-2;
-			@include semi-bold;
+			@include body-2-semibold;
 			fill: $blue;
 		}
 

@@ -125,6 +125,10 @@ module.exports = (env, argv) => {
                     test: /\.ts|\.tsx$/,
                     loader: ['babel-loader', 'awesome-typescript-loader'],
                     include: srcPath
+                },
+                {
+                    test: /\.woff|\.woff2$/,
+                    loader: 'file-loader'
                 }
             ]
         },

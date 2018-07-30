@@ -1,6 +1,5 @@
 .overview-page {
-  @include body-1;
-  @include base-font-regular;
+  @include body-1-semibold;
   padding: 25px;
 
   .overview-content {
@@ -112,7 +111,7 @@
         @include version-page-box-shadow();
 
         .version-tree-title-container {
-          @include base-font-semibold();
+          @include body-1-semibold();
           background-color: $light-silver;
           display: flex;
           align-items: center;
@@ -183,7 +182,7 @@
           height: 40px;
           background-color: $light-silver;
 
-          @include base-font-semibold();
+          @include body-1-semibold();
           @include version-page-sub-title();
           padding: 15px 27px;
 

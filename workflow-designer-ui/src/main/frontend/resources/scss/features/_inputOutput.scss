@@ -10,15 +10,13 @@
     &__title {
         height: 110px;
         line-height: 110px;
-        @include heading-1;
-        @include semi-bold;
+        @include heading-1-semibold;
         color: $dark-gray;
     }
 
     &__header {
         display: flex;
-        @include body-1;
-        @include semi-bold;
+        @include body-1-semibold;
         &__right {
             flex: 1;
             display: flex;
@@ -49,15 +47,14 @@
     &__table {
         &__thead {
             background-color: $silver;
-            @include body-1;
-            @include semi-bold;
+            @include body-1-semibold;
         }
     }
 
     &__tr {
         display: flex;
         @include border();
-        &:hover:not(.no-data) {
+        &:hover:not(&--no-hover) {
             background-color: $light-silver;
         }
         & + & {
@@ -81,8 +78,7 @@
         &--empty {
             padding: 20px;
             color: $dark-gray;
-            @include body-1;
-            @include semi-bold;
+            @include body-1-semibold;
             justify-content: center;
         }
 

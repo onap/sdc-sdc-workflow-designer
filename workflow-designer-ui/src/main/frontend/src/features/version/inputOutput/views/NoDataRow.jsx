@@ -18,7 +18,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const NoDataRow = ({ children }) => (
-    <div className="input-output__tr no-data">
+    <div className="input-output__tr input-output__tr--no-hover">
         <div className="input-output__td input-output__td--empty">
             {children}
         </div>

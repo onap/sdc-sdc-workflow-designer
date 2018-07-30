@@ -7,8 +7,7 @@
 	.group-name-wrapper {
 		width: 245px;
 		.group-name {
-			@include heading-4;
-			@include semi-bold;
+			@include heading-4-semibold;
 			@include ellipsis;
 			display: block;
 			padding: 24px 12px 13px 40px;

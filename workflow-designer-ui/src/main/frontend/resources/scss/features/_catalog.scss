@@ -23,15 +23,13 @@
             align-items: center;
             padding: 25px 60px;
             &__total {
-                @include body-1;
-                @include semi-bold;
+                @include body-1-semibold;
                 color: $dark-gray;
             }
             &__order {
                 display: flex;
                 &__label {
-                    @include body-1;
-                    @include semi-bold;
+                    @include body-1-semibold;
                     color: $dark-gray;
                 }
                 &__alphabetical {

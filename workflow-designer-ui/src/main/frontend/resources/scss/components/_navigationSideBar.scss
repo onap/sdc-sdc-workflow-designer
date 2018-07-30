@@ -16,10 +16,9 @@
       flex-direction: column;
       background-color: $light-silver;
       .group-name {
-        @include heading-4; 
-        @include semi-bold;       
-        @include ellipsis;        
-        display: block;        
+        @include heading-4-semibold;
+        @include ellipsis;
+        display: block;
         padding: 24px 12px 13px 40px;
         background-color: $white;
         border-bottom: 1px solid $silver;
@@ -46,15 +45,13 @@
           @include ellipsis;
           white-space: normal;
           &.selected {
-            @include body-1;
-            @include semi-bold;
+            @include body-1-semibold;
             border-left: 4px solid $blue;
             padding-left: 18px;
             color: $blue;
           }
           &.bold-name {
-            @include body-1;
-            @include semi-bold;
+            @include body-1-semibold;
           }
         }
       }

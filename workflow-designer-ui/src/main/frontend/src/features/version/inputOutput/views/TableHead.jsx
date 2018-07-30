@@ -21,7 +21,7 @@ export default class TableHead extends React.Component {
     render() {
         return (
             <div className="input-output__table__thead">
-                <div className="input-output__tr">
+                <div className="input-output__tr input-output__tr--no-hover">
                     <div className="input-output__th">
                         <Translate value="workflow.inputOutput.name" />
                     </div>

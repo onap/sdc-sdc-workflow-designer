@@ -6,8 +6,7 @@
     .general-page-title {
         height: 110px;
         line-height: 110px;
-        @include heading-1;
-        @include semi-bold;
+        @include heading-1-semibold;
         color: $dark-gray;
     }
 

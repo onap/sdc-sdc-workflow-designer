@@ -1,6 +1,90 @@
 $cursor-disabled: not-allowed !default;
 $cursor-pointer: pointer;
 
+$heading-font-1: 28px;
+$heading-font-2: 24px;
+$heading-font-3: 20px;
+$heading-font-4: 16px;
+$heading-font-5: 14px;
+
+$body-font-1: 14px;
+$body-font-2: 13px;
+$body-font-3: 12px;
+$body-font-4: 10px;
+
+@mixin regular-font() {
+    font-family: OpenSans-Regular, Arial, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+}
+
+@mixin italic-font() {
+    font-family: OpenSans-Italic, OpenSans-Regular, Arial, sans-serif;
+    font-style: italic;
+    font-weight: 400;
+}
+
+@mixin semibold-font() {
+    font-family: OpenSans-Semibold, Arial, sans-serif;
+    font-style: normal;
+    font-weight: 600;
+}
+
+@mixin body-1() {
+    @include regular-font;
+    font-size: $body-font-1;
+}
+
+@mixin body-1-semibold() {
+    @include semibold-font;
+    font-size: $body-font-1;
+}
+
+@mixin body-2() {
+    @include regular-font;
+    font-size: $body-font-2;
+}
+
+@mixin body-2-semibold() {
+    @include semibold-font;
+    font-size: $body-font-2;
+}
+
+@mixin body-3() {
+    @include regular-font;
+    font-size: $body-font-3;
+}
+
+@mixin body-4() {
+    @include regular-font;
+    font-size: $body-font-4;
+}
+
+@mixin heading-1() {
+    @include regular-font;
+    font-size: $heading-font-1;
+}
+
+@mixin heading-1-semibold() {
+    @include semibold-font;
+    font-size: $heading-font-1;
+}
+
+@mixin heading-4() {
+    @include regular-font;
+    font-size: $heading-font-4;
+}
+
+@mixin heading-4-semibold() {
+    @include semibold-font;
+    font-size: $heading-font-4;
+}
+
+@mixin heading-5() {
+    @include regular-font;
+    font-size: $heading-font-5;
+}
+
 .flex {
     display: flex;
     flex: 1;
@@ -36,9 +120,3 @@ $cursor-pointer: pointer;
     opacity: 0.7 !important;
     cursor: $cursor-disabled;
 }
-
-@mixin semi-bold() {
-    font-weight: 600;
-};
-
-
