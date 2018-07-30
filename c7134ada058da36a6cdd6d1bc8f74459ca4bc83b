@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a6a9dd7_f77380e5",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/impl/WorkflowVersionManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-07-30T07:28:48Z",
+      "side": 1,
+      "message": "write the full word",
+      "range": {
+        "startLine": 19,
+        "startChar": 63,
+        "endLine": 19,
+        "endChar": 65
+      },
+      "revId": "c7134ada058da36a6cdd6d1bc8f74459ca4bc83b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a6a9dd7_9780048d",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/impl/WorkflowVersionManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-07-30T07:28:48Z",
+      "side": 1,
+      "message": "extract this to a function with meaningful name (eq. \"isNothingToUpdate\")",
+      "range": {
+        "startLine": 149,
+        "startChar": 16,
+        "endLine": 149,
+        "endChar": 80
+      },
+      "revId": "c7134ada058da36a6cdd6d1bc8f74459ca4bc83b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
