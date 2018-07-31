@@ -18,5 +18,5 @@ import { createAction } from 'redux-actions';
 export const CLEAR_WORKFLOW_DATA = 'workflow/CLEAR_WORKFLOW_DATA';
 export const SET_WORKFLOW = 'workflow/SET_WORKFLOW';
 
-export const setWorkflowAction = createAction(SET_WORKFLOW);
+export const setWorkflowAction = createAction(SET_WORKFLOW, payload => payload);
 export const clearWorkflowAction = { type: CLEAR_WORKFLOW_DATA };

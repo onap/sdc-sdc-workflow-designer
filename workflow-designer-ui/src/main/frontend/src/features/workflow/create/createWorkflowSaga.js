@@ -20,8 +20,8 @@ import {
     clearWorkflowAction
 } from 'features/workflow/workflowConstants';
 import newWorkflowApi from 'features/workflow/create/createWorkflowApi';
-import versionApi from 'features/version/versionApi';
 import { genericNetworkErrorAction } from 'wfapp/appConstants';
+import { submitVersionAction } from 'features/version/create/createVersionConstants';
 import { NEW_VERSION } from 'features/workflow/create/createWorkflowConstants';
 
 export function* watchSubmitWorkflow(action) {
@@ -33,11 +33,7 @@ export function* watchSubmitWorkflow(action) {
         //Calling to create empty version
         const workflowId = workflow.id;
         const { history } = action.payload;
-        yield call(versionApi.createNewVersion, {
-            workflowId,
-            ...NEW_VERSION
-        });
-        yield call(history.push('/workflow/' + workflowId + '/overview'));
+        yield put(submitVersionAction({ history, workflowId, ...NEW_VERSION }));
         yield put(setWorkflowAction(workflow));
     } catch (error) {
         yield put(clearWorkflowAction);

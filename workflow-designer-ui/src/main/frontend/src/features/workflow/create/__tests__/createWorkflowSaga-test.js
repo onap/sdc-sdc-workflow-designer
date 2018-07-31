@@ -19,12 +19,16 @@ import {
     watchWorkflow,
     watchSubmitWorkflow
 } from 'features/workflow/create/createWorkflowSaga';
+import { put } from 'redux-saga/effects';
 import newWorkflowApi from 'features/workflow/create/createWorkflowApi';
+import { SUBMIT_WORKFLOW } from 'features/workflow/create/createWorkflowConstants';
+import { submitVersionAction } from 'features/version/create/createVersionConstants';
+import { NEW_VERSION } from 'features/workflow/create/createWorkflowConstants';
 import {
-    NEW_VERSION,
-    SUBMIT_WORKFLOW
-} from 'features/workflow/create/createWorkflowConstants';
-import versionApi from 'features/version/versionApi';
+    setWorkflowAction,
+    clearWorkflowAction
+} from 'features/workflow/workflowConstants';
+import { genericNetworkErrorAction } from 'wfapp/appConstants';
 
 describe('New workflow saga test', () => {
     it('Create new workflow', () => {
@@ -46,11 +50,21 @@ describe('New workflow saga test', () => {
         expect(gen.next().value).toEqual(
             call(newWorkflowApi.createNewWorkflow, action.payload)
         );
+        const history = undefined,
+            workflowId = undefined;
         expect(gen.next(action.payload).value).toEqual(
-            call(versionApi.createNewVersion, {
-                workflowId: undefined,
-                ...NEW_VERSION
-            })
+            put(submitVersionAction({ history, workflowId, ...NEW_VERSION }))
         );
+        expect(gen.next().value).toEqual(
+            put(setWorkflowAction({ ...action.payload, id: undefined }))
+        );
+        //handling errors
+        expect(gen.throw({ error: 'error' }).value).toEqual(
+            put(clearWorkflowAction)
+        );
+        expect(gen.next().value).toEqual(
+            put(genericNetworkErrorAction({ error: 'error' }))
+        );
+        expect(gen.next().done).toBe(true);
     });
 });
