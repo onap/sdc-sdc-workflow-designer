@@ -69,6 +69,15 @@ export default class VersionControllerView extends Component {
         changeVersion({ versionId, workflowId });
     };
 
+    undoClickCallback = () => {
+        const {
+            currentWorkflowVersion,
+            changeVersion,
+            workflowId
+        } = this.props;
+        changeVersion({ versionId: currentWorkflowVersion.id, workflowId });
+    };
+
     render() {
         const {
             currentWorkflowVersion,
@@ -93,6 +102,7 @@ export default class VersionControllerView extends Component {
                         onSaveClick={this.sendSaveParamsToServer}
                         certifyDisabled={isCertifyDisable}
                         onCertifyClick={this.certifyVersion}
+                        onUndoClick={this.undoClickCallback}
                     />
                 </div>
             </div>

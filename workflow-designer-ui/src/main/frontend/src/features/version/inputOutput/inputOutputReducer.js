@@ -18,6 +18,7 @@ import {
     INPUTS,
     OUTPUTS,
     STRING,
+    DEFAULT_STRING,
     BOOLEAN,
     INTEGER,
     FLOAT,
@@ -36,12 +37,12 @@ import {
 export const defaultInputOutput = {
     [INPUTS]: {
         name: '',
-        value: STRING,
+        type: DEFAULT_STRING,
         mandatory: false
     },
     [OUTPUTS]: {
         name: '',
-        value: STRING,
+        type: DEFAULT_STRING,
         mandatory: false
     }
 };

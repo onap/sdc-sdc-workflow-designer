@@ -37,7 +37,6 @@ function* fetchVersion(action) {
     try {
         const data = yield call(versionApi.fetchVersion, action.payload);
         const { inputs, outputs, ...rest } = data;
-
         yield all([
             put(setWorkflowVersionAction(rest)),
             put(setInputsOutputs({ inputs, outputs }))

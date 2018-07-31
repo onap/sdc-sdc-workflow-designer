@@ -20,11 +20,7 @@ import {
     watchSubmitWorkflow
 } from 'features/workflow/create/createWorkflowSaga';
 import newWorkflowApi from 'features/workflow/create/createWorkflowApi';
-import {
-    NEW_VERSION,
-    SUBMIT_WORKFLOW
-} from 'features/workflow/create/createWorkflowConstants';
-import versionApi from 'features/version/versionApi';
+import { SUBMIT_WORKFLOW } from 'features/workflow/create/createWorkflowConstants';
 
 describe('New workflow saga test', () => {
     it('Create new workflow', () => {
@@ -45,12 +41,6 @@ describe('New workflow saga test', () => {
         const gen = watchSubmitWorkflow(action);
         expect(gen.next().value).toEqual(
             call(newWorkflowApi.createNewWorkflow, action.payload)
-        );
-        expect(gen.next(action.payload).value).toEqual(
-            call(versionApi.createNewVersion, {
-                workflowId: undefined,
-                ...NEW_VERSION
-            })
         );
     });
 });

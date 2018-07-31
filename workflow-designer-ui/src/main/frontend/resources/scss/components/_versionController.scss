@@ -23,14 +23,12 @@
 		justify-content: space-between;
 		align-items: center;
 		padding-left: 16px;
-		padding-right: 40px;
+		padding-right: 100px;
 		border-left: 1px solid #eaeaea;
 
 		.vc-separator {
 			border-left: 1px solid $silver;
 			height: 37px;
-			margin-left: 5px;
-			margin-right: 5px;
 		}
 
 		.version-status-container {
@@ -119,7 +117,7 @@
 				}
 
 				.certifyBtn {
-					margin-left: 10px;
+					margin-left: 20px;
 				}
 
 				.version-control-buttons {
@@ -130,12 +128,13 @@
 					display: flex;
 					align-items: center;
 					height: 70px;
+					padding: 10px;
 
-					&:hover:not(.disabled) {
+					&:hover {
 						background-color: $silver;
 					}
 
-					&:active:not(.disabled) {
+					&:active {
 						background-color: $light-gray;
 					}
 

@@ -20,7 +20,7 @@ import { Translate, I18n } from 'react-redux-i18n';
 import { SVGIcon } from 'sdc-ui/lib/react';
 
 import SearchInput from 'shared/searchInput/SearchInput';
-import { getValidtionsError } from 'features/version/inputOutput/inputOutputValidations';
+import { getValidationsError } from 'features/version/inputOutput/inputOutputValidations';
 import Tab from 'features/version/inputOutput/views/Tab';
 import TableHead from 'features/version/inputOutput/views/TableHead';
 import TableBody from 'features/version/inputOutput/views/TableBody';
@@ -31,7 +31,7 @@ class InputOutputView extends React.Component {
     componentDidUpdate() {
         const { dataRows, error, handleChangeError } = this.props;
 
-        const validationsError = getValidtionsError(dataRows);
+        const validationsError = getValidationsError(dataRows);
 
         const isDiff = Object.keys(validationsError).some(errorKey => {
             if (!error.hasOwnProperty(errorKey)) {
@@ -76,6 +76,7 @@ class InputOutputView extends React.Component {
     };
 
     handleTypeChange = key => event => {
+        console.log(event.target.value);
         this.props.handleTypeChange(event.target.value, key);
     };
 
