@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a6a9dd7_86d8d454",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/types/WorkflowVersion.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-31T08:49:32Z",
+      "side": 1,
+      "message": "Please ask Stas if the artifact name is set by the user. If so - instead of hasArtifact change it to artifactName which will be null if not exist",
+      "revId": "1b7e243bbc1243919c1ba77cfc6a96b68cc0dea7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a6a9dd7_06e4c40b",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/impl/WorkflowVersionManagerImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-31T08:49:32Z",
+      "side": 1,
+      "message": "I would suggest to add an getInfo api which will only load element info (to prevent loading the file, which is heavy, just in order to set this tiny property)",
+      "range": {
+        "startLine": 100,
+        "startChar": 58,
+        "endLine": 100,
+        "endChar": 61
+      },
+      "revId": "1b7e243bbc1243919c1ba77cfc6a96b68cc0dea7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a6a9dd7_061da40f",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/impl/WorkflowVersionManagerImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-31T08:49:32Z",
+      "side": 1,
+      "message": "Ayala, as we talked later, instead on catching an exception, can you try checking version.getState().isDirty() and only if it does - publish?",
+      "revId": "1b7e243bbc1243919c1ba77cfc6a96b68cc0dea7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
