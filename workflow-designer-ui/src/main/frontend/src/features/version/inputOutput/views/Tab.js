@@ -18,13 +18,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 
-const Tab = ({ children, isActive, handleTabClick }) => {
+const Tab = ({ children, isActive, dataTestId, handleTabClick }) => {
     const className = cn('input-output__tab', {
         'input-output__tab--active': isActive
     });
 
     return (
-        <div className={className} onClick={handleTabClick}>
+        <div
+            className={className}
+            data-test-id={`${dataTestId}-tab`}
+            onClick={handleTabClick}>
             {children}
         </div>
     );
@@ -33,6 +36,7 @@ const Tab = ({ children, isActive, handleTabClick }) => {
 Tab.propTypes = {
     children: PropTypes.node,
     isActive: PropTypes.bool,
+    dataTestId: PropTypes.string,
     handleTabClick: PropTypes.func
 };
 

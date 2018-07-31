@@ -23,7 +23,10 @@ class AddWorkflow extends React.Component {
     render() {
         const { onClick } = this.props;
         return (
-            <div className="add-workflow" onClick={onClick}>
+            <div
+                className="add-workflow"
+                data-test-id="wf-catalog-add-workflow"
+                onClick={onClick}>
                 <div className="add-workflow__icon">
                     <SVGIcon name="plusCircle" />
                 </div>

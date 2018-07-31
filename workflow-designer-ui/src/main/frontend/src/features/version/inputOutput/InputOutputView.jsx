@@ -136,6 +136,7 @@ class InputOutputView extends React.Component {
                     data={data}
                     types={types}
                     nameErrorMessage={errorMessage}
+                    dataTestId="wf-input-output-row"
                     handleNameChange={this.handleNameChange(i)}
                     handleNameBlur={this.handleNameChange(i, true)}
                     handleTypeChange={this.handleTypeChange(i)}
@@ -163,22 +164,28 @@ class InputOutputView extends React.Component {
                 <div className="input-output__header">
                     <Tab
                         isActive={isShowInputs}
+                        dataTestId="wf-input-output-inputs"
                         handleTabClick={this.handleInputsTabClick}>
                         <Translate value="workflow.inputOutput.inputs" />
                     </Tab>
                     <Tab
                         isActive={!isShowInputs}
+                        dataTestId="wf-input-output-outputs"
                         handleTabClick={this.handleOutputsTabClick}>
                         <Translate value="workflow.inputOutput.outputs" />
                     </Tab>
                     <div className="input-output__header__right">
                         <div className="input-output__search">
                             <SearchInput
+                                dataTestId="wf-input-output-search"
                                 onChange={this.handleSearchChange}
                                 value={search}
                             />
                         </div>
-                        <div className="input-output__add" onClick={handleAdd}>
+                        <div
+                            className="input-output__add"
+                            data-test-id="wf-input-output-add"
+                            onClick={handleAdd}>
                             <SVGIcon
                                 label={addLabel}
                                 labelPosition="right"

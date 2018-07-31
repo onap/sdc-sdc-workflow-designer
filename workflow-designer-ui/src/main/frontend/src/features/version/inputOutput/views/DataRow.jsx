@@ -23,6 +23,7 @@ const DataRow = ({
     data: { name, type, mandatory },
     types,
     nameErrorMessage,
+    dataTestId,
     handleNameChange,
     handleNameBlur,
     handleTypeChange,
@@ -33,6 +34,7 @@ const DataRow = ({
         <div className="input-output__td">
             <Input
                 errorMessage={nameErrorMessage}
+                data-test-id={`${dataTestId}-name`}
                 onChange={handleNameChange}
                 onBlur={handleNameBlur}
                 type="text"
@@ -43,6 +45,7 @@ const DataRow = ({
             <select
                 className="input-output-select"
                 value={type}
+                data-test-id={`${dataTestId}-select`}
                 onChange={handleTypeChange}>
                 {types.map((type, i) => (
                     <option key={`type.${i}`} value={type.toUpperCase()}>
@@ -54,12 +57,17 @@ const DataRow = ({
         <div className="input-output__td input-output__td--unflex">
             <Checkbox
                 value="myVal"
+                data-test-id={`${dataTestId}-mandatory`}
                 onChange={handleMandatoryChange}
                 checked={mandatory}
             />
         </div>
         <div className="input-output__td input-output__td--unflex input-output__td--icon">
-            <SVGIcon name="trashO" onClick={handleRemoveClick} />
+            <SVGIcon
+                name="trashO"
+                data-test-id={`${dataTestId}-delete`}
+                onClick={handleRemoveClick}
+            />
         </div>
     </div>
 );
@@ -68,6 +76,7 @@ DataRow.propTypes = {
     data: PropTypes.object,
     types: PropTypes.array,
     nameErrorMessage: PropTypes.string,
+    dataTestId: PropTypes.string,
     handleNameChange: PropTypes.func,
     handleNameBlur: PropTypes.func,
     handleTypeChange: PropTypes.func,

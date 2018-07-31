@@ -23,6 +23,7 @@ const Workflows = ({ results, onWorkflowClick }) =>
     results.map((workflow, index) => (
         <Tile
             key={`workflow.${index}`}
+            dataTestId="wf-catalog-workflow-item"
             headerText="WF"
             headerColor="blue"
             iconName="workflow"

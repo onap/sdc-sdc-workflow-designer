@@ -20,6 +20,7 @@ import SVGIcon from 'sdc-ui/lib/react/SVGIcon';
 
 class ExpandableInput extends React.Component {
     static propTypes = {
+        dataTestId: PropTypes.string,
         onChange: PropTypes.func,
         value: PropTypes.string
     };
@@ -75,7 +76,7 @@ class ExpandableInput extends React.Component {
     };
 
     render() {
-        let { value } = this.props;
+        let { value, dataTestId } = this.props;
 
         const { showInput } = this.state;
 
@@ -85,6 +86,7 @@ class ExpandableInput extends React.Component {
                     <SVGIcon
                         className="search-input-wrapper closed"
                         name="search"
+                        data-test-id={dataTestId}
                         onClick={this.showInput}
                     />
                 </div>
@@ -100,6 +102,7 @@ class ExpandableInput extends React.Component {
                             value={value}
                             ref={this.handleRef}
                             className="input-control"
+                            data-test-id={`${dataTestId}-input-control`}
                             onChange={this.handleChange}
                             onKeyDown={this.handleKeyDown}
                             onBlur={this.handleBlur}
@@ -107,12 +110,17 @@ class ExpandableInput extends React.Component {
                     </div>
                     {value && (
                         <SVGIcon
+                            data-test-id={`${dataTestId}-close-search`}
                             onClick={() => this.handleClose()}
                             name="close"
                         />
                     )}
                     {!value && (
-                        <SVGIcon name="search" onClick={this.handleBlur} />
+                        <SVGIcon
+                            name="search"
+                            data-test-id={`${dataTestId}-blur-search`}
+                            onClick={this.handleBlur}
+                        />
                     )}
                 </div>
             </div>

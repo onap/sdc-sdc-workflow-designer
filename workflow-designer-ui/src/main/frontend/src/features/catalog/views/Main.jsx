@@ -42,6 +42,7 @@ class Main extends Component {
                         </div>
                         <div
                             className="main__header__order__alphabetical"
+                            data-test-id="wf-catalog-alphabetical-order"
                             onClick={onAlphabeticalOrderByClick}>
                             <div className="main__header__order__alphabetical__label">
                                 <Translate value="catalog.alphabeticalOrder" />

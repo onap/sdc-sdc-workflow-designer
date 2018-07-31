@@ -22,7 +22,11 @@ import SearchInput from 'shared/searchInput/SearchInput';
 const Header = ({ searchChange, searchValue }) => (
     <div className="header">
         <div className="header__search">
-            <SearchInput onChange={searchChange} value={searchValue} />
+            <SearchInput
+                dataTestId="wf-catalog-search"
+                onChange={searchChange}
+                value={searchValue}
+            />
         </div>
     </div>
 );
