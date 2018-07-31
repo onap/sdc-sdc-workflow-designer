@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a6a9dd7_c6456cb4",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/ArtifactRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-07-31T10:40:06Z",
+      "side": 1,
+      "message": "I don\u0027t like this so much, I think the repo should bring what it has and the app should check whether it exists or not...",
+      "revId": "d423dfb0b4b21fdb48a845d74cafe4e134cac5ca",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
