@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a6a9dd7_869a1413",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/impl/ArtifactRepositoryImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-07-31T11:37:11Z",
+      "side": 1,
+      "message": "you can keep the isExist interface but in the implementation use the get() implementation instead of re-write the code",
+      "range": {
+        "startLine": 85,
+        "startChar": 7,
+        "endLine": 91,
+        "endChar": 102
+      },
+      "revId": "003a07cad72402fb1a834bb624694ac4dcd9352a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
