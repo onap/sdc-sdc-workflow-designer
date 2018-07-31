@@ -1,6 +1,6 @@
 .sdc-modal {
   .custom-modal-wrapper {
-    padding: 35px 60px 60px 60px;
+    padding: 35px 60px 20px 60px;
     width: auto;
   }
 
@@ -13,4 +13,9 @@
   button:first-child {
     margin-right: 2em;
   }
+}
+
+textarea.field-section.sdc-input__input {
+   height: 75px;
+   padding-top: 5px;
 }

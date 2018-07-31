@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-export const getValidtionsError = dataRows => {
+export const getValidationsError = dataRows => {
     const error = {};
 
     const groupBy = dataRows.reduce((result, value, key) => {

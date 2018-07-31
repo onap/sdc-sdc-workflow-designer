@@ -13,6 +13,7 @@
 
       .description-part textarea{
         height: 200px;
+        padding-top: 5px;
       }
 
       .save-description {
@@ -26,7 +27,7 @@
         padding: 20px;
         box-sizing: border-box;
         .label {
-          @include body-3;
+          @include body-1;
           margin-bottom: 5px;
         }
         .value {
@@ -70,6 +71,7 @@
 
     .svg-icon-wrapper {
       justify-content: flex-start;
+      margin: 5px;
     }
 
     .create-new-version {
@@ -125,9 +127,11 @@
         }
 
         .tree-view {
-          //background-color: $white;
           flex: 1;
-
+          border-left: 1px solid $silver;
+          &:last-child {
+            border-bottom: 1px solid $silver;
+          }
           .node:not(.selectedNode):hover {
             .outer-circle, .inner-circle {
               transform: scale(1.1);
@@ -145,11 +149,13 @@
       .version-list-items {
         @extend .flex-column;
 
+        .item-version, .item-status {
+          font-size: 12px;
+          font-weight: 600;
+        }
         .version-item-row {
-          border-bottom: 1px solid $silver;
-
           &:last-child {
-            border-bottom: none;
+            border-bottom: 1px solid $silver;
           }
         }
       }

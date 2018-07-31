@@ -20,6 +20,7 @@ export const INPUTS = 'inputs';
 export const OUTPUTS = 'outputs';
 
 export const STRING = 'String';
+export const DEFAULT_STRING = 'STRING';
 export const BOOLEAN = 'Boolean';
 export const INTEGER = 'Integer';
 export const FLOAT = 'Float';
