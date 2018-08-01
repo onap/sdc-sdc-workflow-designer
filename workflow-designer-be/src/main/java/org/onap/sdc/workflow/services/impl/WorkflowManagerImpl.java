@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.onap.sdc.workflow.services.impl;
 
-import static org.onap.sdc.workflow.api.RestConstants.SORT_FIELD_NAME;
+import static org.onap.sdc.workflow.services.types.PagingConstants.DEFAULT_LIMIT;
+import static org.onap.sdc.workflow.services.types.PagingConstants.DEFAULT_OFFSET;
+import static org.onap.sdc.workflow.services.types.PagingConstants.MAX_LIMIT;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -29,10 +30,14 @@ import org.onap.sdc.workflow.persistence.types.Workflow;
 import org.onap.sdc.workflow.persistence.types.WorkflowVersionState;
 import org.onap.sdc.workflow.services.UniqueValueService;
 import org.onap.sdc.workflow.services.WorkflowManager;
-import org.onap.sdc.workflow.services.WorkflowNameComparator;
 import org.onap.sdc.workflow.services.exceptions.EntityNotFoundException;
 import org.onap.sdc.workflow.services.impl.mappers.VersionStateMapper;
 import org.onap.sdc.workflow.services.impl.mappers.WorkflowMapper;
+import org.onap.sdc.workflow.services.types.Page;
+import org.onap.sdc.workflow.services.types.PagingRequest;
+import org.onap.sdc.workflow.services.types.RequestSpec;
+import org.onap.sdc.workflow.services.types.Sort;
+import org.onap.sdc.workflow.services.types.SortingRequest;
 import org.openecomp.sdc.logging.api.Logger;
 import org.openecomp.sdc.logging.api.LoggerFactory;
 import org.openecomp.sdc.versioning.ItemManager;
@@ -41,8 +46,6 @@ import org.openecomp.sdc.versioning.types.Item;
 import org.openecomp.sdc.versioning.types.ItemStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service("workflowManager")
@@ -52,8 +55,13 @@ public class WorkflowManagerImpl implements WorkflowManager {
     private static final String WORKFLOW_NOT_FOUND_ERROR_MSG = "Workflow with id '%s' does not exist";
     private static final String WORKFLOW_NAME_UNIQUE_TYPE = "WORKFLOW_NAME";
     private static final Predicate<Item> WORKFLOW_ITEM_FILTER = item -> WORKFLOW_TYPE.equals(item.getType());
+    private static final String WORKSPACES_SORT_PROPERTY = "name";
+    private static final RequestSpec WORKSPACES_DEFAULT_REQUEST_SPEC =
+            new RequestSpec(new PagingRequest(DEFAULT_OFFSET, DEFAULT_LIMIT),
+                    SortingRequest.builder().sort(new Sort(WORKSPACES_SORT_PROPERTY, true)).build());
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WorkflowManagerImpl.class);
+
     private final ItemManager itemManager;
     private final UniqueValueService uniqueValueService;
     private final WorkflowMapper workflowMapper;
@@ -70,27 +78,29 @@ public class WorkflowManagerImpl implements WorkflowManager {
     }
 
     @Override
-    public Collection<Workflow> list(Set<WorkflowVersionState> versionStatesFilter, Pageable pageRequest) {
+    public Page<Workflow> list(Set<WorkflowVersionState> versionStatesFilter, RequestSpec requestSpec) {
+        requestSpec = getRequestSpec(requestSpec);
+
         Set<VersionStatus> versionStatusesFilter =
                 versionStatesFilter == null ? null :
                         versionStatesFilter.stream().map(versionStateMapper::workflowVersionStateToVersionStatus)
                                            .collect(Collectors.toSet());
 
+        Collection<Item> workflowItems = itemManager.list(getFilter(versionStatusesFilter));
 
-        List<Workflow> workflows = itemManager.list(getFilter(versionStatusesFilter)).stream()
-                                              .map(workflowMapper::itemToWorkflow)
-                                              .sorted(pageRequest.getSort().getOrderFor(SORT_FIELD_NAME).getDirection()
-                                                              == Sort.Direction.ASC ? getWorkflowsComparator() :
-                                                              Collections.reverseOrder(getWorkflowsComparator()))
-                                              .collect(Collectors.toList());
-        return applyLimitAndOffset(workflows, pageRequest);
+        List<Workflow> workflowsSlice = workflowItems.stream().map(workflowMapper::itemToWorkflow)
+                                                     .sorted(getWorkflowComparator(requestSpec.getSorting()))
+                                                     .skip(requestSpec.getPaging().getOffset())
+                                                     .limit(requestSpec.getPaging().getLimit())
+                                                     .collect(Collectors.toList());
+        return new Page<>(workflowsSlice, requestSpec.getPaging(), workflowItems.size());
     }
 
     @Override
     public Workflow get(Workflow workflow) {
         Item retrievedItem = itemManager.get(workflow.getId());
         if (retrievedItem == null) {
-            LOGGER.error(String.format("Workflow with id %s was not found",workflow.getId()));
+            LOGGER.error(String.format("Workflow with id %s was not found", workflow.getId()));
             throw new EntityNotFoundException(String.format(WORKFLOW_NOT_FOUND_ERROR_MSG, workflow.getId()));
         }
         return this.workflowMapper.itemToWorkflow(retrievedItem);
@@ -112,7 +122,7 @@ public class WorkflowManagerImpl implements WorkflowManager {
     public void update(Workflow workflow) {
         Item retrievedItem = itemManager.get(workflow.getId());
         if (retrievedItem == null) {
-            LOGGER.error(String.format("Workflow with id %s was not found",workflow.getId()));
+            LOGGER.error(String.format("Workflow with id %s was not found", workflow.getId()));
             throw new EntityNotFoundException(String.format(WORKFLOW_NOT_FOUND_ERROR_MSG, workflow.getId()));
         }
 
@@ -125,35 +135,33 @@ public class WorkflowManagerImpl implements WorkflowManager {
         itemManager.update(item);
     }
 
-    private List<Workflow> applyLimitAndOffset(List<Workflow> workflowList, Pageable pageRequest) {
-        int limit = pageRequest.getPageSize();
-        int offset = pageRequest.getPageNumber();
-        int totalNumOfWorkflows = workflowList.size();
-        List<Workflow> selectedWorkflows;
-        try {
-            if (limit > totalNumOfWorkflows) {
-                limit = totalNumOfWorkflows;
-            }
-            int startIndex = offset * limit;
-            int endIndex = startIndex + limit;
-            if (endIndex > totalNumOfWorkflows) {
-                endIndex = totalNumOfWorkflows;
-            }
-            selectedWorkflows = workflowList.subList(startIndex, endIndex);
-        } catch (IndexOutOfBoundsException | IllegalArgumentException ex) {
-            selectedWorkflows = new ArrayList<>();
+    private RequestSpec getRequestSpec(RequestSpec requestSpec) {
+        if (requestSpec == null) {
+            return WORKSPACES_DEFAULT_REQUEST_SPEC;
         }
-        return selectedWorkflows;
+        if (requestSpec.getPaging() == null) {
+            requestSpec.setPaging(WORKSPACES_DEFAULT_REQUEST_SPEC.getPaging());
+        } else if (requestSpec.getPaging().getLimit() > MAX_LIMIT) {
+            requestSpec.getPaging().setLimit(MAX_LIMIT);
+        }
+        if (requestSpec.getSorting() == null) {
+            requestSpec.setSorting(WORKSPACES_DEFAULT_REQUEST_SPEC.getSorting());
+        }
+        return requestSpec;
     }
 
-    private Comparator<Workflow> getWorkflowsComparator() {
-        //More comparators can be added if required based on sort field name
-        return new WorkflowNameComparator();
+    private Comparator<Workflow> getWorkflowComparator(SortingRequest sorting) {
+        Boolean byNameAscending = sorting.getSorts().stream()
+                                  .filter(sort -> WORKSPACES_SORT_PROPERTY.equalsIgnoreCase(sort.getProperty()))
+                                  .findFirst().map(Sort::isAscendingOrder).orElse(true);
+        Comparator<Workflow> byName = Comparator.comparing(Workflow::getName);
+
+        return byNameAscending ? byName : byName.reversed();
     }
 
     private static Predicate<Item> getFilter(Set<VersionStatus> versionStatuses) {
-        return WORKFLOW_ITEM_FILTER.and(item -> versionStatuses == null
-                                            || item.getVersionStatusCounters().keySet().stream()
-                                                   .anyMatch(versionStatuses::contains));
+        return WORKFLOW_ITEM_FILTER
+                       .and(item -> versionStatuses == null || item.getVersionStatusCounters().keySet().stream()
+                                                                   .anyMatch(versionStatuses::contains));
     }
 }

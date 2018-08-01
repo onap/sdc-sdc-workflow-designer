@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.onap.sdc.workflow;
+package org.onap.sdc.workflow.api;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -30,7 +30,7 @@ public class RestUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RestUtils.class);
 
-    public static Set<WorkflowVersionState> mapVersionStateFilter(String versionStateFilter) {
+    public static Set<WorkflowVersionState> formatVersionStates(String versionStateFilter) {
         Set<WorkflowVersionState> filter;
         try {
             filter = versionStateFilter == null ? null :
@@ -38,7 +38,7 @@ public class RestUtils {
                                    .collect(Collectors.toSet());
         } catch (Exception e) {
             LOGGER.info(
-                    "version state filter value is invalid and cannot be mapped to a set of version states, therefore it is set to empty set");
+                    "version state filter value is invalid and cannot be formatted to a set of version states, therefore it is set to empty set");
             filter = Collections.emptySet();
         }
         return filter;

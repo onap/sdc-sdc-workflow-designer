@@ -1,7 +1,5 @@
 package org.onap.sdc.workflow.server.filters;
 
-import static org.onap.sdc.workflow.api.RestConstants.USER_ID_HEADER_PARAM;
-
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;

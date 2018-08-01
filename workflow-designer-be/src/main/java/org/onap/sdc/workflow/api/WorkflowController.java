@@ -16,30 +16,30 @@
 
 package org.onap.sdc.workflow.api;
 
-import static org.onap.sdc.workflow.RestUtils.*;
-import static org.onap.sdc.workflow.api.RestConstants.SIZE_DEFAULT;
-import static org.onap.sdc.workflow.api.RestConstants.SORT_FIELD_NAME;
-import static org.onap.sdc.workflow.api.RestConstants.SORT_PARAM;
-import static org.onap.sdc.workflow.api.RestConstants.USER_ID_HEADER_PARAM;
+import static org.onap.sdc.workflow.api.RestParams.LIMIT;
+import static org.onap.sdc.workflow.api.RestParams.OFFSET;
+import static org.onap.sdc.workflow.api.RestParams.SORT;
+import static org.onap.sdc.workflow.api.RestParams.USER_ID_HEADER;
+import static org.onap.sdc.workflow.api.RestUtils.formatVersionStates;
+import static org.onap.sdc.workflow.services.types.PagingConstants.DEFAULT_LIMIT;
+import static org.onap.sdc.workflow.services.types.PagingConstants.DEFAULT_OFFSET;
 
-import com.google.common.collect.ImmutableSet;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import java.util.Arrays;
-import java.util.Set;
-import org.onap.sdc.workflow.api.types.CollectionWrapper;
+import org.onap.sdc.workflow.api.types.Paging;
+import org.onap.sdc.workflow.api.types.Sorting;
 import org.onap.sdc.workflow.persistence.types.Workflow;
 import org.onap.sdc.workflow.services.WorkflowManager;
 import org.onap.sdc.workflow.services.WorkflowVersionManager;
-import org.onap.sdc.workflow.services.exceptions.InvalidPaginationParameterException;
+import org.onap.sdc.workflow.services.types.Page;
+import org.onap.sdc.workflow.services.types.PagingRequest;
+import org.onap.sdc.workflow.services.types.RequestSpec;
+import org.onap.sdc.workflow.services.types.SortingRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -58,7 +58,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Api("Workflows")
 @RestController("workflowController")
 public class WorkflowController {
-
     private final WorkflowManager workflowManager;
     private final WorkflowVersionManager workflowVersionManager;
 
@@ -71,21 +70,26 @@ public class WorkflowController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation("List workflows")
-    public CollectionWrapper<Workflow> list(
-            @ApiParam(value = "Filter by version state", allowableValues = "DRAFT,CERTIFIED")
-            @RequestParam(value = "versionState", required = false) String versionStateFilter,
-            @PageableDefault(size = SIZE_DEFAULT)
-            @SortDefault.SortDefaults({@SortDefault(sort = SORT_FIELD_NAME, direction = Sort.Direction.ASC)})
-                    Pageable pageable, @RequestHeader(USER_ID_HEADER_PARAM) String user) {
-        PageRequest pageRequest = createPageRequest(pageable);
-        return new CollectionWrapper<>(pageRequest.getPageSize(), pageRequest.getPageNumber(),
-                workflowManager.list(mapVersionStateFilter(versionStateFilter), pageRequest));
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = OFFSET, dataType = "string", paramType = "query", defaultValue = "0",
+                    value = "Index of the starting item"),
+            @ApiImplicitParam(name = LIMIT, dataType = "string", paramType = "query", defaultValue = "200",
+                    value = "Number of returned items"),
+            @ApiImplicitParam(name = SORT, dataType = "string", paramType = "query", defaultValue = "name:asc",
+                    value = "Sorting criteria in the format: property:(asc|desc). Default sort order is ascending.",
+                    allowableValues = "name:asc,name:desc")})
+    public Page<Workflow> list(@ApiParam(value = "Filter by version state", allowableValues = "DRAFT,CERTIFIED")
+            @RequestParam(name = "versionState", required = false) String versionStateFilter,
+            @ApiParam(hidden = true) Paging paging,
+            @ApiParam(hidden = true) Sorting sorting,
+            @RequestHeader(USER_ID_HEADER) String user) {
+        return workflowManager.list(formatVersionStates(versionStateFilter), initRequestSpec(paging, sorting));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation("Create workflow")
     public ResponseEntity<Workflow> create(@Validated @RequestBody Workflow workflow,
-            @RequestHeader(USER_ID_HEADER_PARAM) String user) {
+            @RequestHeader(USER_ID_HEADER) String user) {
         return new ResponseEntity<>(workflowManager.create(workflow), HttpStatus.CREATED);
     }
 
@@ -94,7 +98,7 @@ public class WorkflowController {
     public Workflow get(@PathVariable("workflowId") String workflowId,
             @ApiParam(value = "Expand workflow data", allowableValues = "versions")
             @RequestParam(value = "expand", required = false) String expand,
-            @RequestHeader(USER_ID_HEADER_PARAM) String user) {
+            @RequestHeader(USER_ID_HEADER) String user) {
         Workflow workflow = new Workflow();
         workflow.setId(workflowId);
         Workflow retrievedWorkflow = workflowManager.get(workflow);
@@ -107,23 +111,15 @@ public class WorkflowController {
     @PutMapping(path = "/{workflowId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation("Update workflow")
     public Workflow update(@RequestBody Workflow workflow, @PathVariable("workflowId") String workflowId,
-            @RequestHeader(USER_ID_HEADER_PARAM) String user) {
+            @RequestHeader(USER_ID_HEADER) String user) {
         workflow.setId(workflowId);
         workflowManager.update(workflow);
         return workflow;
     }
 
-
-    private PageRequest createPageRequest(Pageable pageable) {
-        Set<String> validSortFields = ImmutableSet.of(SORT_FIELD_NAME);
-        Sort sort = pageable.getSort();
-        for (Sort.Order order : sort) {
-            String sortFieldName = order.getProperty();
-            if (!sortFieldName.equalsIgnoreCase(SORT_FIELD_NAME)) {
-                throw new InvalidPaginationParameterException(SORT_PARAM, sortFieldName,
-                        "is not supported. Supported values are: " + Arrays.toString(validSortFields.toArray()));
-            }
-        }
-        return PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
+    private RequestSpec initRequestSpec(Paging paging, Sorting sorting) {
+        return new RequestSpec(new PagingRequest(paging.getOffset() == null ? DEFAULT_OFFSET : paging.getOffset(),
+                paging.getLimit() == null ? DEFAULT_LIMIT : paging.getLimit()),
+                SortingRequest.builder().sorts(sorting.getSorts()).build());
     }
 }
