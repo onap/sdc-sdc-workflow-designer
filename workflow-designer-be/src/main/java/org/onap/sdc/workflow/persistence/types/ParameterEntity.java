@@ -25,7 +25,7 @@ public class ParameterEntity {
 
     private String id;
     @NotNull(message = "Parameter name may not be null")
-    @Pattern(regexp = "[A-Za-z0-9_]*", message = "The field must contain only letters, digits and underscores")
+    @Pattern(regexp = "[A-Za-z0-9_ ]*", message = "Parameter name must contain only letters, digits and underscores")
     private String name;
     @NotNull
     private ParameterType type;

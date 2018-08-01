@@ -219,6 +219,9 @@ public class WorkflowVersionManagerImplTest {
     public void shouldUploadArtifact() {
         Version version = new Version(VERSION1_ID);
         version.setStatus(VersionStatus.Draft);
+        VersionState versionState = new VersionState();
+        versionState.setDirty(false);
+        version.setState(versionState);
         doReturn(version).when(versioningManagerMock).get(eq(ITEM1_ID), eqVersion(VERSION1_ID));
         doReturn(DRAFT).when(versionStateMapperMock).versionStatusToWorkflowVersionState(version.getStatus());
 

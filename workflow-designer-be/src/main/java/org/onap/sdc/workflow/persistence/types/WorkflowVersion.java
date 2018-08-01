@@ -19,6 +19,7 @@ package org.onap.sdc.workflow.persistence.types;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import javax.validation.Valid;
 import lombok.Data;
 
 
@@ -31,7 +32,9 @@ public class WorkflowVersion {
     private String baseId;
     private WorkflowVersionState state;
     private boolean hasArtifact;
+    @Valid
     private Collection<ParameterEntity> inputs = Collections.emptyList();
+    @Valid
     private Collection<ParameterEntity> outputs = Collections.emptyList();
     private Date creationTime;
     private Date modificationTime;
