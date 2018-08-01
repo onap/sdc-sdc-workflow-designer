@@ -20,11 +20,12 @@ import java.util.Collection;
 import java.util.Set;
 import org.onap.sdc.workflow.persistence.types.Workflow;
 import org.onap.sdc.workflow.persistence.types.WorkflowVersionState;
-import org.springframework.data.domain.Pageable;
+import org.onap.sdc.workflow.services.types.Page;
+import org.onap.sdc.workflow.services.types.RequestSpec;
 
 public interface WorkflowManager {
 
-    Collection<Workflow> list(Set<WorkflowVersionState> versionStatesFilter, Pageable pageable);
+    Page<Workflow> list(Set<WorkflowVersionState> versionStatesFilter, RequestSpec requestSpec);
 
     Workflow get(Workflow workflow);
 

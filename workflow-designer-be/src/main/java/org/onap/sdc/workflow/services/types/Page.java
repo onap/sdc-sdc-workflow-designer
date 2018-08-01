@@ -14,19 +14,21 @@
  * limitations under the License.
  */
 
-package org.onap.sdc.workflow.services;
+package org.onap.sdc.workflow.services.types;
 
-import java.util.Comparator;
+import java.util.List;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import org.onap.sdc.workflow.persistence.types.Workflow;
+@Getter
+@NoArgsConstructor
+public class Page<T> {
 
-public class WorkflowNameComparator implements Comparator<Workflow>{
+    private Paging paging;
+    private List<T> items;
 
-    @Override
-    public int compare(Workflow workflow1, Workflow workflow2) {
-        String workflowName1 = workflow1.getName().toLowerCase();
-        String workflowName2 = workflow2.getName().toLowerCase();
-        //ascending order
-        return workflowName1.compareTo(workflowName2);
+    public Page(List<T> items, PagingRequest pagingRequest, int total) {
+        this.items = items;
+        this.paging = new Paging(pagingRequest, items.size(), total);
     }
 }

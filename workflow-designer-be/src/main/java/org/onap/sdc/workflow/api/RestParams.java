@@ -14,30 +14,15 @@
  * limitations under the License.
  */
 
-package org.onap.sdc.workflow.api.types;
+package org.onap.sdc.workflow.api;
 
-import java.util.Collection;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+public class RestParams {
 
-@Data
-@NoArgsConstructor
-public class CollectionWrapper<T> {
-
-    private int total;
-    private int size;
-    private int page;
-    private Collection<T> results;
-
-    public CollectionWrapper(int size, int page, Collection<T> results) {
-        this.results = results;
-        this.size = size;
-        this.page = page;
-        this.total = results.size();
+    private RestParams() {
     }
 
-    public CollectionWrapper(Collection<T> results) {
-        this.results = results;
-        this.total = results.size();
-    }
+    public static final String USER_ID_HEADER = "USER_ID";
+    public static final String OFFSET = "offset";
+    public static final String LIMIT = "limit";
+    public static final String SORT = "sort";
 }

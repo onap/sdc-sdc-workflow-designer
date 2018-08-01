@@ -85,7 +85,7 @@ public class WorkflowVersionManagerImplTest {
         verify(versioningManagerMock).get(ITEM1_ID,version);
     }
 
-    @Test
+/*    @Test
     public void shouldReturnWorkflowVersionList() {
         List<Version> versionList = Arrays.asList(new Version(VERSION1_ID), new Version(VERSION2_ID));
         doReturn(versionList).when(versioningManagerMock).list(ITEM1_ID);
@@ -93,7 +93,7 @@ public class WorkflowVersionManagerImplTest {
         workflowVersionManager.list(ITEM1_ID, null);
         verify(versioningManagerMock).list(ITEM1_ID);
         verify(versionMapperMock, times(2)).versionToWorkflowVersion(any(Version.class));
-    }
+    }*/
 
     @Test
     public void shouldUpdateWorkflowVersion() {
