@@ -18,7 +18,6 @@ package org.onap.sdc.workflow.services.impl;
 
 import static org.onap.sdc.workflow.persistence.types.WorkflowVersionState.CERTIFIED;
 
-import com.amdocs.zusammen.datatypes.response.ErrorCode;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
@@ -45,7 +44,6 @@ import org.onap.sdc.workflow.services.exceptions.VersionModificationException;
 import org.onap.sdc.workflow.services.exceptions.VersionStateModificationException;
 import org.onap.sdc.workflow.services.impl.mappers.VersionMapper;
 import org.onap.sdc.workflow.services.impl.mappers.VersionStateMapper;
-import org.openecomp.sdc.common.errors.SdcRuntimeException;
 import org.openecomp.sdc.logging.api.Logger;
 import org.openecomp.sdc.logging.api.LoggerFactory;
 import org.openecomp.sdc.versioning.VersioningManager;
@@ -186,7 +184,10 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
             ArtifactEntity artifactEntity =
                     new ArtifactEntity(StringUtils.cleanPath(artifact.getOriginalFilename()), artifactData);
             artifactRepository.update(workflowId, versionId, artifactEntity);
-            versioningManager.publish(workflowId, new Version(versionId), "Update Artifact");
+            Version updatedVersion = versioningManager.get(workflowId, new Version(versionId));
+            if(updatedVersion.getState().isDirty()) {
+                versioningManager.publish(workflowId, updatedVersion, "Update artifact");
+            }
 
         } catch (IOException e) {
             LOGGER.error(String.format("Upload Artifact failed for workflow id %s and version id %s",
