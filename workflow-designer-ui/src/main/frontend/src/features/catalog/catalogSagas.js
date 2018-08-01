@@ -22,17 +22,17 @@ import { fetchWorkflow, updateWorkflow } from 'features/catalog/catalogActions';
 const noOp = () => {};
 
 export function* fetchWorkflowSaga({ payload }) {
-    const { sort, size, page } = payload;
+    const { sort, limit, offset } = payload;
 
     try {
         const data = yield call(
             catalogApi.getWorkflows,
             sort,
-            size,
-            page === undefined ? 0 : page + 1
+            limit,
+            offset === undefined ? 0 : offset + limit
         );
 
-        yield put(updateWorkflow({ ...data, sort }));
+        yield put(updateWorkflow({ sort, ...data }));
     } catch (e) {
         noOp();
     }

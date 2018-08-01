@@ -20,7 +20,7 @@ import {
     FETCH_WORKFLOW,
     UPDATE_WORKFLOW,
     RESET_WORKFLOW,
-    PAGE_SIZE,
+    LIMIT,
     NAME,
     ASC
 } from 'features/catalog/catalogConstants';
@@ -33,24 +33,28 @@ import {
 describe('Catalog Actions', () => {
     it('should have `fetchWorkflow` action', () => {
         const sort = { [NAME]: ASC };
-        const page = 0;
+        const offset = 0;
 
-        expect(fetchWorkflow(sort, page)).toEqual({
+        expect(fetchWorkflow(sort, offset)).toEqual({
             type: FETCH_WORKFLOW,
             payload: {
                 sort,
-                size: PAGE_SIZE,
-                page
+                limit: LIMIT,
+                offset
             }
         });
     });
 
     it('should have `updateWorkflow` action', () => {
         const payload = {
-            results: [],
-            total: 0,
-            page: 0,
-            size: 0,
+            paging: {
+                offset: 1,
+                limit: 1,
+                count: 1,
+                hasMore: false,
+                total: 2
+            },
+            items: [],
             sort: {
                 name: 'asc'
             }

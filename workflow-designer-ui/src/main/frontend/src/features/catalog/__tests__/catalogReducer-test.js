@@ -22,43 +22,62 @@ import { updateWorkflow, resetWorkflow } from 'features/catalog/catalogActions';
 
 describe('Catalog Reducer', () => {
     const state = {
-        hasMore: true,
-        results: [
-            {
-                id: '755eab7752374a2380544065b59b082d',
-                name: 'Workflow 1',
-                description: 'description description 1'
-            },
-            {
-                id: 'ef8159204dac4c10a85b29ec30b4bd56',
-                name: 'Workflow 2',
-                description: 'description description 2'
-            }
-        ],
-        total: 0,
+        paging: {
+            offset: 1,
+            limit: 1,
+            count: 1,
+            hasMore: false,
+            total: 2
+        },
         sort: {
             [NAME]: ASC
-        }
+        },
+        items: [
+            {
+                id: 'c5b7ca1a0f7944bfa948b85b32c5f314',
+                name: 'Workflow_2',
+                description: null,
+                versionStates: ['DRAFT'],
+                versions: null
+            },
+            {
+                id: '221336ef3f1645c686bc81899368ac27',
+                name: 'Workflow_1',
+                description: null,
+                versionStates: ['DRAFT'],
+                versions: null
+            }
+        ]
     };
+
     const sort = {
         [NAME]: DESC
     };
-    const page = 0;
-    const data = {
-        total: 20,
-        size: 100,
-        page,
-        sort,
-        results: [
+
+    const offset = 0;
+
+    const dataPayload = {
+        paging: {
+            offset,
+            limit: 10,
+            count: 2,
+            hasMore: false,
+            total: 2
+        },
+        items: [
             {
-                id: '755eab7752374a2380544065b59b082d',
-                name: 'Workflow 11',
-                description: 'description description 11'
+                id: 'c5b7ca1a0f7944bfa948b85b32c5f314',
+                name: 'Workflow_2',
+                description: null,
+                versionStates: ['DRAFT'],
+                versions: null
             },
             {
-                id: 'ef8159204dac4c10a85b29ec30b4bd56',
-                name: 'Workflow 22',
-                description: 'description description 22'
+                id: '221336ef3f1645c686bc81899368ac27',
+                name: 'Workflow_1',
+                description: null,
+                versionStates: ['DRAFT'],
+                versions: null
             }
         ]
     };
@@ -68,19 +87,24 @@ describe('Catalog Reducer', () => {
     });
 
     it('should replace results when page is first', () => {
-        expect(catalogReducer(state, updateWorkflow({ ...data }))).toEqual({
+        expect(
+            catalogReducer(state, updateWorkflow({ sort, ...dataPayload }))
+        ).toEqual({
             ...initialState,
-            ...data,
-            hasMore: data.results.length < data.total,
-            page,
-            sort
+            sort,
+            ...dataPayload
         });
     });
 
     it('should add results when page is not first', () => {
         expect(
-            catalogReducer(state, updateWorkflow({ ...data, page: 1 })).results
-        ).toEqual(expect.arrayContaining([...data.results, ...state.results]));
+            catalogReducer(
+                state,
+                updateWorkflow({ sort, ...{ ...dataPayload, offset: 2 } })
+            ).items
+        ).toEqual(
+            expect.arrayContaining([...dataPayload.items, ...state.items])
+        );
     });
 
     it('should reset state', () => {

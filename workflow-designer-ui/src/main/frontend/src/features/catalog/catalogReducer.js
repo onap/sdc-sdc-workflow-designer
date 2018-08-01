@@ -22,9 +22,10 @@ import {
 } from 'features/catalog/catalogConstants';
 
 export const initialState = {
-    hasMore: true,
-    results: [],
-    total: 0,
+    paging: {
+        hasMore: true,
+        total: 0
+    },
     sort: {
         [NAME]: ASC
     }
@@ -33,23 +34,18 @@ export const initialState = {
 const catalogReducer = (state = initialState, action) => {
     const { type, payload } = action;
 
-    let results;
-
     switch (type) {
         case RESET_WORKFLOW:
             return { ...initialState, sort: state.sort };
 
         case UPDATE_WORKFLOW:
-            results =
-                payload.page === 0
-                    ? [...payload.results]
-                    : [...state.results, ...payload.results];
-
             return {
                 ...state,
                 ...payload,
-                results,
-                hasMore: results.length < payload.total
+                items:
+                    payload.paging.offset === 0
+                        ? [...payload.items]
+                        : [...state.items, ...payload.items]
             };
 
         default:

@@ -20,7 +20,7 @@ export const NAME = 'name';
 export const ASC = 'asc';
 export const DESC = 'desc';
 
-export const PAGE_SIZE = 1000;
+export const LIMIT = 100;
 
 export const FETCH_WORKFLOW = `${NAMESPACE}/FETCH_WORKFLOW`;
 export const UPDATE_WORKFLOW = `${NAMESPACE}/UPDATE_WORKFLOW`;

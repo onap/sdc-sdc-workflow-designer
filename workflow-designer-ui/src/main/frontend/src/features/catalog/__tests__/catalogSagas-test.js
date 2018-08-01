@@ -19,7 +19,7 @@
 import { runSaga } from 'redux-saga';
 import { takeLatest } from 'redux-saga/effects';
 
-import { NAME, DESC, PAGE_SIZE } from 'features/catalog/catalogConstants';
+import { NAME, DESC, LIMIT } from 'features/catalog/catalogConstants';
 import catalogApi from '../catalogApi';
 import { fetchWorkflow, updateWorkflow } from 'features/catalog/catalogActions';
 import catalogSaga, { fetchWorkflowSaga } from 'features/catalog/catalogSagas';
@@ -41,21 +41,29 @@ describe('Catalog Sagas', () => {
         const sort = {
             [NAME]: DESC
         };
-        const page = 0;
+        const offset = 0;
         const data = {
-            total: 2,
-            size: 100,
-            page,
-            results: [
+            paging: {
+                offset,
+                limit: 10,
+                count: 2,
+                hasMore: false,
+                total: 2
+            },
+            items: [
                 {
-                    id: '755eab7752374a2380544065b59b082d',
-                    name: 'Workflow 11',
-                    description: 'description description 11'
+                    id: 'c5b7ca1a0f7944bfa948b85b32c5f314',
+                    name: 'Workflow_2',
+                    description: null,
+                    versionStates: ['DRAFT'],
+                    versions: null
                 },
                 {
-                    id: 'ef8159204dac4c10a85b29ec30b4bd56',
-                    name: 'Workflow 22',
-                    description: 'description description 22'
+                    id: '221336ef3f1645c686bc81899368ac27',
+                    name: 'Workflow_1',
+                    description: null,
+                    versionStates: ['DRAFT'],
+                    versions: null
                 }
             ]
         };
@@ -68,16 +76,17 @@ describe('Catalog Sagas', () => {
                 dispatch: action => dispatched.push(action)
             },
             fetchWorkflowSaga,
-            fetchWorkflow(sort, page)
+            fetchWorkflow(sort, offset)
         ).done;
 
         expect(dispatched).toEqual(
-            expect.arrayContaining([updateWorkflow({ ...data, sort })])
+            expect.arrayContaining([updateWorkflow({ sort, ...data })])
         );
+
         expect(catalogApi.getWorkflows).toBeCalledWith(
             sort,
-            PAGE_SIZE,
-            page + 1
+            LIMIT,
+            offset + LIMIT
         );
     });
 });

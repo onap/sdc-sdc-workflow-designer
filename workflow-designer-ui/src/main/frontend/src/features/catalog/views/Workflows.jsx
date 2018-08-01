@@ -19,8 +19,8 @@ import PropTypes from 'prop-types';
 
 import { Tile, TileInfo, TileInfoLine } from 'sdc-ui/lib/react';
 
-const Workflows = ({ results, onWorkflowClick }) =>
-    results.map((workflow, index) => (
+const Workflows = ({ items, onWorkflowClick }) =>
+    items.map((workflow, index) => (
         <Tile
             key={`workflow.${index}`}
             dataTestId="wf-catalog-workflow-item"
@@ -36,12 +36,12 @@ const Workflows = ({ results, onWorkflowClick }) =>
     ));
 
 Workflows.propTypes = {
-    results: PropTypes.array,
+    items: PropTypes.array,
     onWorkflowClick: PropTypes.func
 };
 
 Workflows.defaultProps = {
-    results: []
+    items: []
 };
 
 export default Workflows;

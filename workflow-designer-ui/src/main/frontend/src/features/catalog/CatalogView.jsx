@@ -53,11 +53,14 @@ class CatalogView extends React.Component {
 
     handleScroll = () => {
         const {
-            catalog: { page, sort },
+            catalog: {
+                paging: { offset },
+                sort
+            },
             handleFetchWorkflow
         } = this.props;
 
-        handleFetchWorkflow(sort, page);
+        handleFetchWorkflow(sort, offset);
     };
 
     goToOverviewPage = id => {
@@ -67,7 +70,11 @@ class CatalogView extends React.Component {
 
     render() {
         const { catalog, showNewWorkflowModal } = this.props;
-        const { sort, hasMore, total, results } = catalog;
+        const {
+            sort,
+            paging: { hasMore, total },
+            items
+        } = catalog;
         const alphabeticalOrder = sort[NAME];
 
         return (
@@ -85,7 +92,7 @@ class CatalogView extends React.Component {
                         <div className="main__content">
                             <AddWorkflow onClick={showNewWorkflowModal} />
                             <Workflows
-                                results={results}
+                                items={items}
                                 onWorkflowClick={this.goToOverviewPage}
                             />
                         </div>

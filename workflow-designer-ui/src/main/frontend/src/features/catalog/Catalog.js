@@ -28,7 +28,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    handleFetchWorkflow: (sort, page) => dispatch(fetchWorkflow(sort, page)),
+    handleFetchWorkflow: (sort, offset) =>
+        dispatch(fetchWorkflow(sort, offset)),
     handleResetWorkflow: () => dispatch(resetWorkflow()),
     clearWorkflow: () => dispatch(clearWorkflowAction),
     showNewWorkflowModal: () =>

@@ -25,12 +25,12 @@ function baseUrl() {
 }
 
 const Api = {
-    getWorkflows: (sort, size, page) => {
+    getWorkflows: (sort, limit, offset) => {
         const queryString = qs.stringify(
             {
-                sort: Object.keys(sort).map(key => `${key},${sort[key]}`),
-                size,
-                page
+                sort: Object.keys(sort).map(key => `${key}:${sort[key]}`),
+                limit,
+                offset
             },
             {
                 indices: false,
