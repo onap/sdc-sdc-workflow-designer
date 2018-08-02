@@ -25,14 +25,15 @@ import loader from 'shared/loader/LoaderReducer';
 import modal from 'shared/modal/modalWrapperReducer';
 import overviewReducer from 'features/workflow/overview/overviewReducer';
 import workflowReducer from 'features/workflow/workflowReducer';
-
+import compositionReducer from 'features/version/composition/compositionReducer';
 export default combineReducers({
     i18n: i18nReducer,
     catalog,
     notifications: notificationsReducer,
     currentVersion: combineReducers({
         general: versionReducer,
-        inputOutput
+        inputOutput,
+        composition: compositionReducer
     }),
     workflow: combineReducers({
         data: workflowReducer,

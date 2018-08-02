@@ -1,5 +1,6 @@
 .workflow-notifications-container {
   position: absolute;
+  z-index: 99999;
   &.position-top-right {
     right: 30px;
     top: 50px;

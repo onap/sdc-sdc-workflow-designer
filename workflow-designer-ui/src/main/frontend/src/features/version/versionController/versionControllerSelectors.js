@@ -20,15 +20,18 @@ import {
     getOutputs
 } from 'features/version/inputOutput/inputOutputSelectors';
 import { getVersionInfo } from 'features/version/general/generalSelectors';
+import { getComposition } from 'features/version/composition/compositionSelectors';
 
 export const getVersionsList = state => state && state.workflow.versions;
 export const getSavedObjParams = createSelector(
     getOutputs,
     getInputs,
+    getComposition,
     getVersionInfo,
-    (outputs, inputs, general) => ({
+    (outputs, inputs, composition, general) => ({
         outputs,
         inputs,
+        composition,
         ...general
     })
 );

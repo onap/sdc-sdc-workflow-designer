@@ -23,7 +23,7 @@ describe('Overview reducer', () => {
             total: 2,
             size: 0,
             page: 0,
-            results: [
+            items: [
                 {
                     id: '99adf5bc36764628b8018033d285b591',
                     name: '1.0',
@@ -91,6 +91,6 @@ describe('Overview reducer', () => {
 
         expect(
             overviewReducer([], versionListFetchAction(versionResponse))
-        ).toEqual([...versionResponse.results]);
+        ).toEqual([...versionResponse.items]);
     });
 });
