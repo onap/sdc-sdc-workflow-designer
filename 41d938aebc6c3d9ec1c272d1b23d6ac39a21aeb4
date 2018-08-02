@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_08c13380",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/composition/Composition.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2018-08-02T10:45:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_0d74e5cd",
+      "revId": "41d938aebc6c3d9ec1c272d1b23d6ac39a21aeb4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_ad2e11a4",
         "filename": "workflow-designer-ui/src/main/frontend/src/features/version/composition/Composition.js",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2018-08-02T08:08:49Z",
       "side": 1,
       "message": "Fix indentation",
+      "revId": "41d938aebc6c3d9ec1c272d1b23d6ac39a21aeb4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_a8bd9f04",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/composition/Composition.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2018-08-02T10:45:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_ad2e11a4",
       "revId": "41d938aebc6c3d9ec1c272d1b23d6ac39a21aeb4",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_c8a9fb7c",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/composition/CompositionButtons.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2018-08-02T10:45:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_4d497d8a",
+      "revId": "41d938aebc6c3d9ec1c272d1b23d6ac39a21aeb4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_ed2409c8",
         "filename": "workflow-designer-ui/src/main/frontend/src/features/version/composition/CompositionView.js",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2018-08-02T08:08:49Z",
       "side": 1,
       "message": "Can you export diagram on element.out? Do we need to use componentWillUnmount?",
+      "revId": "41d938aebc6c3d9ec1c272d1b23d6ac39a21aeb4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_684a2785",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/composition/CompositionView.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2018-08-02T10:45:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_ed2409c8",
       "revId": "41d938aebc6c3d9ec1c272d1b23d6ac39a21aeb4",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_884f8392",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/composition/CompositionView.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2018-08-02T10:45:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_6d18f984",
+      "revId": "41d938aebc6c3d9ec1c272d1b23d6ac39a21aeb4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_8d1d5576",
         "filename": "workflow-designer-ui/src/main/frontend/src/features/version/composition/compositionActions.js",
         "patchSetId": 2
@@ -98,6 +188,24 @@
       "writtenOn": "2018-08-02T08:08:49Z",
       "side": 1,
       "message": "** Missing copyright",
+      "revId": "41d938aebc6c3d9ec1c272d1b23d6ac39a21aeb4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_1c3e54b9",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/composition/compositionActions.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2018-08-02T10:45:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_8d1d5576",
       "revId": "41d938aebc6c3d9ec1c272d1b23d6ac39a21aeb4",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_bc4ac053",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/composition/compositionConstants.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2018-08-02T10:45:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_2d120163",
+      "revId": "41d938aebc6c3d9ec1c272d1b23d6ac39a21aeb4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_4d173d52",
         "filename": "workflow-designer-ui/src/main/frontend/src/features/version/composition/compositionReducer.js",
         "patchSetId": 2
@@ -132,6 +258,24 @@
       "writtenOn": "2018-08-02T08:08:49Z",
       "side": 1,
       "message": "** Missing copyright",
+      "revId": "41d938aebc6c3d9ec1c272d1b23d6ac39a21aeb4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_7c74289c",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/composition/compositionReducer.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2018-08-02T10:45:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_4d173d52",
       "revId": "41d938aebc6c3d9ec1c272d1b23d6ac39a21aeb4",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_bcb8802b",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/composition/compositionReducer.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2018-08-02T10:45:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_0d094531",
+      "revId": "41d938aebc6c3d9ec1c272d1b23d6ac39a21aeb4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_ad05b115",
         "filename": "workflow-designer-ui/src/main/frontend/src/features/version/composition/compositionSelectors.js",
         "patchSetId": 2
@@ -166,6 +328,24 @@
       "writtenOn": "2018-08-02T08:08:49Z",
       "side": 1,
       "message": "Fix indentation",
+      "revId": "41d938aebc6c3d9ec1c272d1b23d6ac39a21aeb4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_9c87c461",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/composition/compositionSelectors.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2018-08-02T10:45:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_ad05b115",
       "revId": "41d938aebc6c3d9ec1c272d1b23d6ac39a21aeb4",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -319,6 +499,24 @@
       "writtenOn": "2018-08-02T08:08:49Z",
       "side": 1,
       "message": "Can you check if we need also the raw-loader in line 120?",
+      "revId": "41d938aebc6c3d9ec1c272d1b23d6ac39a21aeb4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_dc8c5c82",
+        "filename": "workflow-designer-ui/src/main/frontend/webpack.config.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2018-08-02T10:45:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_684d4772",
       "revId": "41d938aebc6c3d9ec1c272d1b23d6ac39a21aeb4",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
