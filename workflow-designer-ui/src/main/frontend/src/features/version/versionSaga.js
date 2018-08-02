@@ -32,14 +32,24 @@ import { notificationActions } from 'shared/notifications/notificationsActions';
 import { versionState } from 'features/version/versionConstants';
 import overviewApi from '../workflow/overview/overviewApi';
 import { versionListFetchAction } from '../workflow/overview/overviewConstansts';
+import { updateComposition } from 'features/version/composition/compositionActions';
 
 function* fetchVersion(action) {
     try {
         const data = yield call(versionApi.fetchVersion, action.payload);
         const { inputs, outputs, ...rest } = data;
+        let composition = false;
+
+        if (rest.hasArtifact) {
+            composition = yield call(
+                versionApi.fetchVersionArtifact,
+                action.payload
+            );
+        }
         yield all([
             put(setWorkflowVersionAction(rest)),
-            put(setInputsOutputs({ inputs, outputs }))
+            put(setInputsOutputs({ inputs, outputs })),
+            put(updateComposition(composition))
         ]);
     } catch (error) {
         yield put(genericNetworkErrorAction(error));
@@ -62,7 +72,22 @@ function* watchSubmitVersion(action) {
 
 function* watchUpdateVersion(action) {
     try {
-        yield call(versionApi.updateVersion, action.payload);
+        //const { composition, ...versionData } = action.payload;
+        const {
+            workflowId,
+            params: { composition, ...versionData }
+        } = action.payload;
+        yield call(versionApi.updateVersion, {
+            workflowId,
+            params: versionData
+        });
+        if (composition) {
+            yield call(versionApi.updateVersionArtifact, {
+                workflowId,
+                versionId: versionData.id,
+                payload: composition
+            });
+        }
         yield put(
             notificationActions.showSuccess({
                 title: 'Update Workflow Version',

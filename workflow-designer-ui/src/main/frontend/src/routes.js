@@ -19,7 +19,7 @@ import Version from 'features/version/Version';
 import GeneralView from 'features/version/general/General';
 import OverviewView from 'features/workflow/overview/Overview';
 import InputOutput from 'features/version/inputOutput/InputOutput';
-import CompositionView from 'features/version/composition/CompositionView';
+import Composition from 'features/version/composition/Composition';
 
 export const routes = [
     {
@@ -41,7 +41,7 @@ export const routes = [
             },
             {
                 path: '/composition',
-                component: CompositionView,
+                component: Composition,
                 i18nName: 'workflow.sideBar.composition',
                 id: 'COMPOSITION'
             }
