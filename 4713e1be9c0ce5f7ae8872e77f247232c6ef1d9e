@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_bcdac015",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/inputOutput/inputOutputSelectors.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-08-02T11:24:16Z",
+      "side": 1,
+      "message": "please load isEmpty from lodash/isEmpty",
+      "revId": "4713e1be9c0ce5f7ae8872e77f247232c6ef1d9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_7c04287e",
+        "filename": "workflow-designer-ui/src/main/frontend/src/shared/errorResponseHandler/errorResponseHandler.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-08-02T11:24:16Z",
+      "side": 1,
+      "message": "remove the comment",
+      "revId": "4713e1be9c0ce5f7ae8872e77f247232c6ef1d9e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
