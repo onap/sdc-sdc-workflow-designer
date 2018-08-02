@@ -14,13 +14,7 @@
 * limitations under the License.
 */
 
-import { FETCH_VERSION_LIST } from 'features/workflow/overview/overviewConstansts';
+//import { createSelector } from 'reselect';
 
-export default function overviewReducer(state = [], action) {
-    switch (action.type) {
-        case FETCH_VERSION_LIST:
-            return [...action.payload.items];
-        default:
-            return state;
-    }
-}
+export const getComposition = state =>
+    state && state.currentVersion && state.currentVersion.composition;

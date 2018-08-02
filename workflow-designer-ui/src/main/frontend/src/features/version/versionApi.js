@@ -41,6 +41,21 @@ const Api = {
             }
         );
     },
+    fetchVersionArtifact: ({ workflowId, versionId }) => {
+        return RestfulAPIUtil.fetch(
+            `${baseUrl(workflowId)}/${versionId}/artifact`
+        );
+    },
+    updateVersionArtifact: ({ workflowId, versionId, payload }) => {
+        let formData = new FormData();
+        var blob = new Blob([payload], { type: 'text/xml' });
+        formData.append('fileToUpload', blob);
+
+        return RestfulAPIUtil.put(
+            `${baseUrl(workflowId)}/${versionId}/artifact`,
+            formData
+        );
+    },
     certifyVersion: ({ workflowId, versionId }) => {
         return RestfulAPIUtil.post(
             `${baseUrl(workflowId)}/${versionId}/state`,
