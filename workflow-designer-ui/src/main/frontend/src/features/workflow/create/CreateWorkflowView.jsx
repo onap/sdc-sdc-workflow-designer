@@ -38,24 +38,26 @@ const CreateWorkflowView = props => {
     return (
         <form onSubmit={handleSubmitForm}>
             <div className="new-workflow-page custom-modal-wrapper">
-                <Input
-                    name="workflowName"
-                    value={workflowName || ''}
-                    type="text"
-                    label={I18n.t('workflow.general.name')}
-                    onChange={val =>
-                        workflowInputChange({
-                            name: val
-                        })
-                    }
-                    isRequired
-                />
-                <Description
-                    value={workflowDescription || ''}
-                    label={I18n.t('workflow.general.description')}
-                    onDataChange={workflowInputChange}
-                />
-                <div className="modal-action-bar">
+                <div className="form-custom-modal">
+                    <Input
+                        name="workflowName"
+                        value={workflowName || ''}
+                        type="text"
+                        label={I18n.t('workflow.general.name')}
+                        onChange={val =>
+                            workflowInputChange({
+                                name: val
+                            })
+                        }
+                        isRequired
+                    />
+                    <Description
+                        value={workflowDescription || ''}
+                        label={I18n.t('workflow.general.description')}
+                        onDataChange={workflowInputChange}
+                    />
+                </div>
+                <div className="modal-action-bar sdc-modal__footer">
                     <Button btnType="primary">
                         {I18n.t('buttons.createBtn')}
                     </Button>

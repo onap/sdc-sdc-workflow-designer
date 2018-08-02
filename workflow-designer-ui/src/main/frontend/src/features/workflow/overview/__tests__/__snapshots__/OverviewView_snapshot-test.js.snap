@@ -57,7 +57,7 @@ exports[`OverviewView Snapshot renders correctly 1`] = `
                 description
               </div>
               <textarea
-                className="field-section sdc-input__input"
+                className="custom-textarea field-section sdc-input__input"
                 data-test-id="description"
                 onChange={[Function]}
                 value="desc 1"

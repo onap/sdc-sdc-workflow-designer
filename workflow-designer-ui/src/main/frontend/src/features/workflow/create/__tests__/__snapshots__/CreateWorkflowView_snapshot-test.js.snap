@@ -8,50 +8,54 @@ exports[`New Workflow View Snapshot renders correctly 1`] = `
     className="new-workflow-page custom-modal-wrapper"
   >
     <div
-      className="sdc-input "
-    >
-      <label
-        className="sdc-input__label  required"
-        htmlFor="workflowName"
-      >
-        name
-      </label>
-      <input
-        className="sdc-input__input  "
-        data-test-id={undefined}
-        disabled={false}
-        id="workflowName"
-        name="workflowName"
-        onBlur={[Function]}
-        onChange={[Function]}
-        onKeyDown={[Function]}
-        placeholder={undefined}
-        readOnly={false}
-        type="text"
-        value=""
-      />
-    </div>
-    <div
-      className="description-part"
+      className="form-custom-modal"
     >
       <div
-        className="sdc-input"
+        className="sdc-input "
+      >
+        <label
+          className="sdc-input__label  required"
+          htmlFor="workflowName"
+        >
+          name
+        </label>
+        <input
+          className="sdc-input__input  "
+          data-test-id={undefined}
+          disabled={false}
+          id="workflowName"
+          name="workflowName"
+          onBlur={[Function]}
+          onChange={[Function]}
+          onKeyDown={[Function]}
+          placeholder={undefined}
+          readOnly={false}
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="description-part"
       >
         <div
-          className="sdc-input__label"
+          className="sdc-input"
         >
-          description
+          <div
+            className="sdc-input__label"
+          >
+            description
+          </div>
+          <textarea
+            className="custom-textarea field-section sdc-input__input"
+            data-test-id="description"
+            onChange={[Function]}
+            value={undefined}
+          />
         </div>
-        <textarea
-          className="field-section sdc-input__input"
-          data-test-id="description"
-          onChange={[Function]}
-          value={undefined}
-        />
       </div>
     </div>
     <div
-      className="modal-action-bar"
+      className="modal-action-bar sdc-modal__footer"
     >
       <button
         className="sdc-button sdc-button__primary   "

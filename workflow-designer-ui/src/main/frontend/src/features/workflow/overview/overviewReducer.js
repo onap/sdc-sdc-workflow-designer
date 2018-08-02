@@ -19,7 +19,7 @@ import { FETCH_VERSION_LIST } from 'features/workflow/overview/overviewConstanst
 export default function overviewReducer(state = [], action) {
     switch (action.type) {
         case FETCH_VERSION_LIST:
-            return [...action.payload.results];
+            return [...action.payload.items];
         default:
             return state;
     }
