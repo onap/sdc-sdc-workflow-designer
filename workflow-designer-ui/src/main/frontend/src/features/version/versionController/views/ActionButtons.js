@@ -22,7 +22,13 @@ import SvgButton from 'features/version/versionController/views/SvgButton';
 const Separator = () => <div className="vc-separator" />;
 
 const ActionButtons = props => {
-    const { onSaveClick, certifyDisabled, onCertifyClick, onUndoClick } = props;
+    const {
+        onSaveClick,
+        certifyDisabled,
+        onCertifyClick,
+        onUndoClick,
+        saveDisabled
+    } = props;
     return (
         <div className="save-submit-cancel-container">
             <div className="action-buttons">
@@ -32,7 +38,7 @@ const ActionButtons = props => {
                         dataTestId="vc-save-btn"
                         name="version-controller-save"
                         tooltipText={I18n.t('buttons.saveBtn')}
-                        disabled={false}
+                        disabled={saveDisabled}
                         onClick={onSaveClick}
                     />
                     <Separator />
@@ -61,7 +67,8 @@ ActionButtons.propTypes = {
     onSaveClick: PropTypes.func,
     certifyDisabled: PropTypes.bool,
     onCertifyClick: PropTypes.func,
-    onUndoClick: PropTypes.func
+    onUndoClick: PropTypes.func,
+    saveDisabled: PropTypes.bool
 };
 
 export default ActionButtons;

@@ -21,7 +21,6 @@ import {
 } from 'features/version/inputOutput/inputOutputSelectors';
 import { getVersionInfo } from 'features/version/general/generalSelectors';
 
-export const getVersionsList = state => state && state.workflow.versions;
 export const getSavedObjParams = createSelector(
     getOutputs,
     getInputs,

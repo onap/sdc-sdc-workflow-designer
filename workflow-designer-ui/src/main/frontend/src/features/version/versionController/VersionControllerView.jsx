@@ -37,7 +37,8 @@ export default class VersionControllerView extends Component {
         workflowId: PropTypes.string,
         versionState: PropTypes.string,
         certifyVersion: PropTypes.func,
-        changeVersion: PropTypes.func
+        changeVersion: PropTypes.func,
+        getIOErrors: PropTypes.bool
     };
 
     constructor(props) {
@@ -83,7 +84,8 @@ export default class VersionControllerView extends Component {
             currentWorkflowVersion,
             workflowName,
             versionsList,
-            versionState
+            versionState,
+            getIOErrors
         } = this.props;
         let isCertifyDisable =
             versionState &&
@@ -99,6 +101,7 @@ export default class VersionControllerView extends Component {
                         onVersionSelectChange={this.versionChangeCallback}
                     />
                     <ActionButtons
+                        saveDisabled={isCertifyDisable || getIOErrors}
                         onSaveClick={this.sendSaveParamsToServer}
                         certifyDisabled={isCertifyDisable}
                         onCertifyClick={this.certifyVersion}

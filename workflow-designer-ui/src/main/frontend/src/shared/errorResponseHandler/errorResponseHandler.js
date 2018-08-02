@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//import React from 'react';
 import store from 'wfapp/store';
 import { showErrorModalAction } from 'shared/modal/modalWrapperActions';
 
 export default error => {
     const errorData = {
         title: error.statusText,
-        body: error.responseText ? error.responseText : 'GENERIC ERROR'
+        body: error.data ? error.data : 'GENERIC ERROR'
     };
     store.dispatch(
         showErrorModalAction({

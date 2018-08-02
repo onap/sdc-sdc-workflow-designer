@@ -9,6 +9,10 @@
     display: flex;
     flex-direction: column;
   }
+
+  .custom-textarea {
+    resize: none;
+  }
 }
 
 #root {
