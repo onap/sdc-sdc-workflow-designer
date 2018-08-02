@@ -16,14 +16,16 @@ public class Paging {
     }
 
     public void setLimit(String limit) {
-        getIntValue(limit).map(integer -> integer > MAX_LIMIT ? MAX_LIMIT : integer)
-                          .ifPresent(integer -> this.limit = integer);
+        getIntValue(limit).map(integer -> integer > MAX_LIMIT ? MAX_LIMIT : integer).ifPresent(integer -> {
+            if (integer != 0) {
+                this.limit = integer;
+            }
+        });
     }
 
-    private Optional<Integer> getIntValue(String value) {
-        int intValue;
+    private static Optional<Integer> getIntValue(String value) {
         try {
-            intValue = Integer.parseInt(value);
+            int intValue = Integer.parseInt(value);
             return intValue < 0 ? Optional.empty() : Optional.of(intValue);
         } catch (NumberFormatException e) {
             return Optional.empty();

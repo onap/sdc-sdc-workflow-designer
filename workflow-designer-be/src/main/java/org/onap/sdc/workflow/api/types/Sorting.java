@@ -18,11 +18,11 @@ public class Sorting {
     private List<Sort> sorts = Collections.emptyList();
 
     public void setSort(String sortString) {
-        this.sorts = Arrays.stream(sortString.split(SORTS_DELIMITER)).map(this::formatSort).filter(Objects::nonNull)
+        this.sorts = Arrays.stream(sortString.split(SORTS_DELIMITER)).map(Sorting::formatSort).filter(Objects::nonNull)
                            .collect(Collectors.toList());
     }
 
-    private Sort formatSort(String sort) {
+    private static Sort formatSort(String sort) {
         String[] tokens = sort.split(DIRECTION_DELIMITER);
         try {
             return new Sort(tokens[0], ASCENDING_ORDER.equalsIgnoreCase(tokens[1]));

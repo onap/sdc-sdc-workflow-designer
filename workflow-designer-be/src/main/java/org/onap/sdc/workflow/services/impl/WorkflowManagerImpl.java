@@ -135,14 +135,14 @@ public class WorkflowManagerImpl implements WorkflowManager {
         itemManager.update(item);
     }
 
-    private RequestSpec getRequestSpec(RequestSpec requestSpec) {
+    private static RequestSpec getRequestSpec(RequestSpec requestSpec) {
         if (requestSpec == null) {
             return WORKSPACES_DEFAULT_REQUEST_SPEC;
         }
         if (requestSpec.getPaging() == null) {
             requestSpec.setPaging(WORKSPACES_DEFAULT_REQUEST_SPEC.getPaging());
-        } else if (requestSpec.getPaging().getLimit() > MAX_LIMIT) {
-            requestSpec.getPaging().setLimit(MAX_LIMIT);
+        } else {
+            handlePagingRequestValues(requestSpec.getPaging());
         }
         if (requestSpec.getSorting() == null) {
             requestSpec.setSorting(WORKSPACES_DEFAULT_REQUEST_SPEC.getSorting());
@@ -150,7 +150,18 @@ public class WorkflowManagerImpl implements WorkflowManager {
         return requestSpec;
     }
 
-    private Comparator<Workflow> getWorkflowComparator(SortingRequest sorting) {
+    private static void handlePagingRequestValues(PagingRequest paging) {
+        if (paging.getOffset() == null) {
+            paging.setOffset(DEFAULT_OFFSET);
+        }
+        if (paging.getLimit() == null) {
+            paging.setLimit(DEFAULT_LIMIT);
+        } else if (paging.getLimit() > MAX_LIMIT) {
+            paging.setLimit(MAX_LIMIT);
+        }
+    }
+
+    private static Comparator<Workflow> getWorkflowComparator(SortingRequest sorting) {
         Boolean byNameAscending = sorting.getSorts().stream()
                                   .filter(sort -> WORKSPACES_SORT_PROPERTY.equalsIgnoreCase(sort.getProperty()))
                                   .findFirst().map(Sort::isAscendingOrder).orElse(true);

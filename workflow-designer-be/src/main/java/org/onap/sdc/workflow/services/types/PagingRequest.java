@@ -1,15 +1,23 @@
 package org.onap.sdc.workflow.services.types;
 
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 public class PagingRequest {
 
-    private int offset;
-    private int limit;
+    private Integer offset;
+    private Integer limit;
 
     public PagingRequest(int offset, int limit) {
-        this.offset = offset;
-        this.limit = limit;
+        setOffset(offset);
+        setLimit(limit);
+    }
+
+    public void setOffset(int offset) {
+        this.offset = offset < 0 ? null : offset;
+    }
+
+    public void setLimit(int limit) {
+        this.limit = limit <= 0 ? null : limit;
     }
 }
