@@ -48,10 +48,6 @@ public class RestPath {
         return WORKFLOWS_URL;
     }
 
-    public static String getWorkflowsWithVersionStateFilterPath(String versionState) {
-        return String.format(WORKFLOWS_WITH_VERSION_STATE_FILTER_URL, versionState);
-    }
-
     public static String getWorkflowPath(String workflowId) {
         return String.format(WORKFLOW_URL_FORMATTER, workflowId);
     }

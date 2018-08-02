@@ -4,7 +4,6 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 import static org.onap.sdc.workflow.TestUtil.createWorkflow;
@@ -21,25 +20,29 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.amdocs.zusammen.datatypes.Id;
 import com.amdocs.zusammen.datatypes.item.Item;
 import com.google.gson.Gson;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.sdc.workflow.RestPath;
 import org.onap.sdc.workflow.api.exceptionshandlers.CustomizedResponseEntityExceptionHandler;
 import org.onap.sdc.workflow.persistence.types.Workflow;
-import org.onap.sdc.workflow.persistence.types.WorkflowVersionState;
 import org.onap.sdc.workflow.services.WorkflowManager;
 import org.onap.sdc.workflow.services.types.Page;
 import org.onap.sdc.workflow.services.types.PagingRequest;
+import org.onap.sdc.workflow.services.types.RequestSpec;
+import org.onap.sdc.workflow.services.types.Sort;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -55,11 +58,13 @@ public class WorkflowControllerTest {
     private MockMvc mockMvc;
 
 
+    @Mock
+    private WorkflowManager workflowManagerMock;
+    @Captor
+    private ArgumentCaptor<RequestSpec> requestSpecArg;
     @InjectMocks
     private WorkflowController workflowController;
 
-    @Mock
-    private WorkflowManager workflowManagerMock;
 
     @Before
     public void setUp() {
@@ -99,109 +104,92 @@ public class WorkflowControllerTest {
     }
 
     @Test
-    public void shouldReturn5WorkflowWhen5WorkflowsExists() throws Exception {
-        int numOfWorkflows = 5;
-        Page<Workflow> workflowMocks = createWorkflows(numOfWorkflows);
-        doReturn(workflowMocks).when(workflowManagerMock).list(any(), any());
-        mockMvc.perform(get(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON))
-               .andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.items", hasSize(numOfWorkflows)));
+    public void listWhenExist() throws Exception {
+        mockManagerList3();
+        ResultActions result = mockMvc.perform(
+                get(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON))
+                                      .andDo(print()).andExpect(status().isOk())
+                                      .andExpect(jsonPath("$.items", hasSize(3)));
+        for (int i = 0; i < 3; i++) {
+            result.andExpect(jsonPath(String.format("$.items[%s].id", i), is(String.valueOf(i + 1))));
+        }
+
+        verify(workflowManagerMock).list(any(), requestSpecArg.capture());
+        assertRequestSpec(requestSpecArg.getValue(), DEFAULT_OFFSET, DEFAULT_LIMIT, Collections.emptyList());
     }
 
     @Test
-    public void listWithValidVersionStateFilter() throws Exception {
-        int numOfWorkflows = 3;
-        Page<Workflow> workflows = createWorkflows(numOfWorkflows);
-        doReturn(workflows).when(workflowManagerMock)
-                           .list(eq(Collections.singleton(WorkflowVersionState.CERTIFIED)), any());
-        mockMvc.perform(
-                get(RestPath.getWorkflowsWithVersionStateFilterPath("CERTIFIED")).header(USER_ID_HEADER, USER_ID)
-                                                                                 .contentType(APPLICATION_JSON))
-               .andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.paging.total", is(numOfWorkflows)))
-               .andExpect(jsonPath("$.items", hasSize(numOfWorkflows)));
-    }
-
-    @Test
-    public void listWithInvalidVersionStateFilter() throws Exception {
-        int numOfWorkflows = 0;
-        Page<Workflow> workflows = createWorkflows(numOfWorkflows);
-        doReturn(workflows).when(workflowManagerMock).list(eq(Collections.emptySet()), any());
-
-        mockMvc.perform(
-                get(RestPath.getWorkflowsWithVersionStateFilterPath("gibberish")).header(USER_ID_HEADER, USER_ID)
-                                                                                 .contentType(APPLICATION_JSON))
-               .andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.paging.total", is(numOfWorkflows)));
-    }
-
-    @Test
-    public void shouldReturnSortedLimitOffsetAppliedWorkflows() throws Exception {
-        Page<Workflow> workflowMocks = createLimit2AndOffset1For5WorkflowList();
-        doReturn(workflowMocks).when(workflowManagerMock).list(any(), any());
+    public void listWhenPagingAndSortingAreSet() throws Exception {
+        mockManagerList3();
         mockMvc.perform(get(RestPath.getWorkflowsPathAllQueryParams(DEFAULT_SORT_VALUE, "2", "1"))
                                 .header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)).andDo(print())
-               .andExpect(status().isOk()).andExpect(jsonPath("$.items", hasSize(2)));
+               .andExpect(status().isOk()).andExpect(jsonPath("$.items", hasSize(3)));
+        verify(workflowManagerMock).list(any(), requestSpecArg.capture());
+        assertRequestSpec(requestSpecArg.getValue(), 1, 2, Collections.singletonList(new Sort("name", true)));
     }
 
-/*    @Test
+    @Test
     public void shouldReturnResultsWithDefaultWhenLimitIsNegative() throws Exception {
-        Page<Workflow> workflowMocks = createLimit2AndOffset1For5WorkflowList();
-        doReturn(workflowMocks).when(workflowManagerMock).list(any(), any());
+        mockManagerList3();
         mockMvc.perform(get(RestPath.getWorkflowsPathAllQueryParams(DEFAULT_SORT_VALUE, "-2", "1"))
                                 .header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)).andDo(print())
-               .andExpect(status().isOk())
-               .andExpect(jsonPath("$.paging.offset", is(1)))
-               .andExpect(jsonPath("$.paging.limit", is(DEFAULT_LIMIT)))
-               .andExpect(jsonPath("$.paging.total", is(2)));
-    }*/
+               .andExpect(status().isOk()).andExpect(jsonPath("$.items", hasSize(3)));
+        verify(workflowManagerMock).list(any(), requestSpecArg.capture());
+        assertRequestSpec(requestSpecArg.getValue(), 1, DEFAULT_LIMIT,
+                Collections.singletonList(new Sort("name", true)));
+    }
 
-/*    @Test
+    @Test
     public void shouldFallbackOnDefaultOffsetWhenOffsetIsNegative() throws Exception {
-        mockMvc.perform(
-                get(RestPath.getWorkflowsPathAllQueryParams(DEFAULT_SORT_VALUE, "2", "-1"))
-                        .header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)).andDo(print())
-                                                  .andExpect(status().isOk())
-               .andExpect(jsonPath("$.paging.offset", is(DEFAULT_OFFSET)))
-               .andExpect(jsonPath("$.paging.limit", is(2)))
-               .andExpect(jsonPath("$.paging.total", is(0)));
-    }*/
+        mockManagerList3();
+        mockMvc.perform(get(RestPath.getWorkflowsPathAllQueryParams(DEFAULT_SORT_VALUE, "2", "-1"))
+                                .header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)).andDo(print())
+               .andExpect(status().isOk()).andExpect(jsonPath("$.items", hasSize(3)));
+        verify(workflowManagerMock).list(any(), requestSpecArg.capture());
+        assertRequestSpec(requestSpecArg.getValue(), DEFAULT_OFFSET, 2,
+                Collections.singletonList(new Sort("name", true)));
+    }
 
-/*    @Test
+    @Test
     public void shouldFallbackOnDefaultLimitWhenLimitIsNotAnInteger() throws Exception {
-        mockMvc.perform(
-                get(RestPath.getWorkflowsPathAllQueryParams(DEFAULT_SORT_VALUE, "abc", "0"))
-                        .header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)).andDo(print())
-                                                  .andExpect(status().isOk())
-                                                  .andExpect(jsonPath("$.paging.offset", is(0)))
-                                                  .andExpect(jsonPath("$.paging.limit", is(DEFAULT_LIMIT)))
-                                                  .andExpect(jsonPath("$.paging.total", is(0)));
-    }*/
+        mockManagerList3();
+        mockMvc.perform(get(RestPath.getWorkflowsPathAllQueryParams(DEFAULT_SORT_VALUE, "abc", "0"))
+                                .header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)).andDo(print())
+               .andExpect(status().isOk()).andExpect(jsonPath("$.items", hasSize(3)));
+        verify(workflowManagerMock).list(any(), requestSpecArg.capture());
+        assertRequestSpec(requestSpecArg.getValue(), 0, DEFAULT_LIMIT,
+                Collections.singletonList(new Sort("name", true)));
+    }
 
-/*    @Test
+    @Test
     public void shouldFallbackOnDefaultOffsetWhenOffsetIsNotAnInteger() throws Exception {
-        mockMvc.perform(
-                get(RestPath.getWorkflowsPathAllQueryParams(DEFAULT_SORT_VALUE, "2", "abc"))
-                        .header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)).andDo(print())
-                                                  .andExpect(status().isOk())
-                                                  .andExpect(jsonPath("$.paging.offset", is(DEFAULT_OFFSET)))
-                                                  .andExpect(jsonPath("$.paging.limit", is(2)))
-                                                  .andExpect(jsonPath("$.paging.total", is(0)));
-    }*/
+        mockManagerList3();
+        mockMvc.perform(get(RestPath.getWorkflowsPathAllQueryParams(DEFAULT_SORT_VALUE, "2", "abc"))
+                                .header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)).andDo(print())
+               .andExpect(jsonPath("$.items", hasSize(3)));
+        verify(workflowManagerMock).list(any(), requestSpecArg.capture());
+        assertRequestSpec(requestSpecArg.getValue(), DEFAULT_OFFSET, 2,
+                Collections.singletonList(new Sort("name", true)));
+    }
 
     @Test
     public void shouldReturnDefaultLimitOffsetAppliedWorkflowsWhenLimitIsNotSpecified() throws Exception {
-        Page<Workflow> workflowMocks = createLimit2AndOffset1For5WorkflowList();
-        doReturn(workflowMocks).when(workflowManagerMock).list(any(), any());
+        mockManagerList3();
         mockMvc.perform(get(RestPath.getWorkflowsPathNoSortAndLimit("1")).header(USER_ID_HEADER, USER_ID)
                                                                          .contentType(APPLICATION_JSON)).andDo(print())
-               .andExpect(status().isOk()).andExpect(jsonPath("$.items", hasSize(2)));
+               .andExpect(jsonPath("$.items", hasSize(3)));
+        verify(workflowManagerMock).list(any(), requestSpecArg.capture());
+        assertRequestSpec(requestSpecArg.getValue(), 1, DEFAULT_LIMIT, Collections.emptyList());
     }
 
     @Test
     public void shouldReturnDefaultOffsetAppliedWorkflowsWhenOffsetIsNotSpecified() throws Exception {
-        Page<Workflow> workflowMocks = createLimit1WorkflowList();
-        doReturn(workflowMocks).when(workflowManagerMock).list(any(), any());
+        mockManagerList3();
         mockMvc.perform(get(RestPath.getWorkflowsPathNoSortAndOffset("1")).header(USER_ID_HEADER, USER_ID)
                                                                           .contentType(APPLICATION_JSON)).andDo(print())
-               .andExpect(status().isOk()).andExpect(jsonPath("$.items", hasSize(1)));
+               .andExpect(status().isOk()).andExpect(jsonPath("$.items", hasSize(3)));
+        verify(workflowManagerMock).list(any(), requestSpecArg.capture());
+        assertRequestSpec(requestSpecArg.getValue(), DEFAULT_OFFSET, 1, Collections.emptyList());
     }
 
     @Test
@@ -227,24 +215,25 @@ public class WorkflowControllerTest {
         assertEquals("Workflow name must contain only letters, digits and underscores", response.getContentAsString());
     }
 
-    private Page<Workflow> createWorkflows(int numOfWorkflows) {
-        List<Workflow> workflows = new ArrayList<>(numOfWorkflows);
-        for (int i = 0; i < numOfWorkflows; i++) {
-            workflows.add(createWorkflow(i, true));
+    private void mockManagerList3() {
+        doReturn(new Page<>(Arrays.asList(
+                createWorkflow(1, true),
+                createWorkflow(2, true),
+                createWorkflow(3, true)),
+                new PagingRequest(DEFAULT_OFFSET, DEFAULT_LIMIT), 3))
+                .when(workflowManagerMock).list(any(), any());
+    }
+
+    private static void assertRequestSpec(RequestSpec actual, int expectedOffset, int expectedLimit,
+            List<Sort> expectedSorts) {
+        assertEquals(Integer.valueOf(expectedOffset), actual.getPaging().getOffset());
+        assertEquals(Integer.valueOf(expectedLimit), actual.getPaging().getLimit());
+        if (expectedSorts.isEmpty()) {
+            assertEquals(expectedSorts, actual.getSorting().getSorts());
+        } else {
+            for (int i = 0; i < expectedSorts.size(); i++) {
+                assertEquals(expectedSorts.get(i), actual.getSorting().getSorts().get(i));
+            }
         }
-        return new Page<>(workflows, new PagingRequest(0, 200), numOfWorkflows);
-    }
-
-    private Page<Workflow> createLimit2AndOffset1For5WorkflowList() {
-        List<Workflow> workflows = new ArrayList<>();
-        workflows.add(createWorkflow(2, true));
-        workflows.add(createWorkflow(3, true));
-        return new Page<>(workflows, new PagingRequest(1, 200), 5);
-    }
-
-    private Page<Workflow> createLimit1WorkflowList() {
-        List<Workflow> workflows = new ArrayList<>();
-        workflows.add(createWorkflow(0, true));
-        return new Page<>(workflows, new PagingRequest(0, 1), 1);
     }
 }

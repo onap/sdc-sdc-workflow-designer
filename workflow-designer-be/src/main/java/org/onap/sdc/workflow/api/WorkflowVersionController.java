@@ -16,14 +16,14 @@
 
 package org.onap.sdc.workflow.api;
 
-import static org.onap.sdc.workflow.api.RestUtils.formatVersionStates;
 import static org.onap.sdc.workflow.api.RestParams.USER_ID_HEADER;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.onap.sdc.workflow.api.types.CollectionResponse;
 import org.onap.sdc.workflow.api.types.VersionStateDto;
+import org.onap.sdc.workflow.api.types.VersionStatesFormatter;
 import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
 import org.onap.sdc.workflow.persistence.types.WorkflowVersion;
 import org.onap.sdc.workflow.services.WorkflowVersionManager;
@@ -50,6 +50,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RequestMapping("/workflows/{workflowId}/versions")
 @Api("Workflow versions")
@@ -71,13 +72,14 @@ public class WorkflowVersionController {
         this.validator = validator;
     }
 
+    @ApiImplicitParam(name = "state", dataType = "string", paramType = "query",
+            allowableValues = "DRAFT,CERTIFIED", value = "Filter by state")
     @GetMapping
     @ApiOperation("List workflow versions")
     public CollectionResponse<WorkflowVersion> list(@PathVariable("workflowId") String workflowId,
-            @ApiParam(value = "Filter by state", allowableValues = "DRAFT,CERTIFIED")
-            @RequestParam(value = "state", required = false) String stateFilter,
+            @ApiIgnore VersionStatesFormatter stateFilter,
             @RequestHeader(USER_ID_HEADER) String user) {
-        return new CollectionResponse<>(workflowVersionManager.list(workflowId, formatVersionStates(stateFilter)));
+        return new CollectionResponse<>(workflowVersionManager.list(workflowId, stateFilter.getVersionStates()));
     }
 
     @PostMapping
