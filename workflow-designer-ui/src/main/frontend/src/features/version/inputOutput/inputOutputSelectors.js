@@ -15,6 +15,7 @@
 */
 
 import { createSelector } from 'reselect';
+import { isEmpty } from 'lodash';
 
 import { INPUTS } from 'features/version/inputOutput/inputOutputConstants';
 
@@ -59,4 +60,31 @@ export const getTypes = createSelector(
 export const getError = createSelector(
     [getInputOutput, getCurrent],
     (inputOutput, current) => inputOutput.error[current]
+);
+
+export const getErrorsInputOutput = createSelector(
+    getInputOutput,
+    ({ error }) => error
+);
+
+export const getInputErrors = createSelector(
+    getErrorsInputOutput,
+    ({ inputs }) =>
+        !isEmpty(inputs) &&
+        Boolean(inputs.alreadyExists.length || inputs.invalidCharacters.length)
+);
+
+export const getOutputErrors = createSelector(
+    getErrorsInputOutput,
+    ({ outputs }) =>
+        !isEmpty(outputs) &&
+        Boolean(
+            outputs.alreadyExists.length || outputs.invalidCharacters.length
+        )
+);
+
+export const getIOErrors = createSelector(
+    getInputErrors,
+    getOutputErrors,
+    (inputsErrors, outputsErrors) => inputsErrors || outputsErrors
 );
