@@ -59,6 +59,9 @@
                 "confirmDlete": "Are you sure you want to delete \"%{name}\"?",
                 "alreadyExists": "Already exists",
                 "invalidCharacters": "Alphanumeric and underscore only"
+            },
+            "composition": {
+                "bpmnError" : "BPMN.IO Error"
             }
         },
         "version": {

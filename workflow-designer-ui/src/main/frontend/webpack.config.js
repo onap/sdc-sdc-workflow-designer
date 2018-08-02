@@ -127,8 +127,13 @@ module.exports = (env, argv) => {
                     include: srcPath
                 },
                 {
-                    test: /\.woff|\.woff2$/,
-                    loader: 'file-loader'
+                    test: /\.(eot|svg|ttf|woff|woff2)(\?.*)?$/,
+                    use: [
+                        {
+                            loader: 'file-loader',
+                            options: {}
+                        }
+                    ]
                 }
             ]
         },
