@@ -25,15 +25,16 @@ Feature: Workflow Versions
     Then I want to get path "/workflows/{item.id}/versions/{item.versionId}"
     And I want to check that property "id" in the response equals to value of saved property "item.versionId"
     And I want to get path "/workflows/{item.id}/versions"
-    And I want to check that element in the response list with "id" equals to value of saved property "item.versionId" exists
+    And I want to check in the list "items" property "id" with value of saved property "item.versionId" exists
 
   Scenario: Create first version with inputs/outputs
-    When I want to set the input data to file "resources/json/createVersionWithInputsOutputs.json"
+    When I want to set the input data to file "resources/json/versionWith2Inputs2Outputs1.json"
     And I want to create for path "/workflows/{item.id}/versions" with the input data from the context
-    And I want to copy to property "item.versionId" from response data path "id"
 
-    Then I want to check property "inputs[0].name" for value "in1"
-    And I want to check property "outputs[0].name" for value "out1"
+    Then I want to check in the list "inputs" property "name" with value "in1" exists
+    And I want to check in the list "inputs" property "name" with value "in2" exists
+    And I want to check in the list "outputs" property "name" with value "out1" exists
+    And I want to check in the list "outputs" property "name" with value "out2" exists
 
   Scenario: Create second version
     And I want to update the input property "description" with value "first empty version"
@@ -50,7 +51,7 @@ Feature: Workflow Versions
     Then I want to get path "/workflows/{item.id}/versions/{item.versionId}"
     And I want to check that property "id" in the response equals to value of saved property "item.versionId"
     And I want to get path "/workflows/{item.id}/versions"
-    And I want to check that element in the response list with "id" equals to value of saved property "item.versionId" exists
+    And I want to check in the list "items" property "id" with value of saved property "item.versionId" exists
 
   Scenario: Update version
     And I want to create input data
@@ -63,3 +64,20 @@ Feature: Workflow Versions
 
     Then I want to get path "/workflows/{item.id}/versions/{item.versionId}"
     And I want to check property "description" for value "workflow version description updated"
+
+  Scenario: Update version with inputs/outputs (create/update/delete parameters)
+    And I want to set the input data to file "resources/json/versionWith2Inputs2Outputs1.json"
+    And I want to create for path "/workflows/{item.id}/versions" with the input data from the context
+    And I want to copy to property "item.versionId" from response data path "id"
+
+    When I want to set the input data to file "resources/json/versionWith2Inputs2Outputs2.json"
+    And I want to update for path "/workflows/{item.id}/versions/{item.versionId}" with the input data from the context
+
+    Then I want to get path "/workflows/{item.id}/versions/{item.versionId}"
+    And I want to check in the list "inputs" property "name" with value "in1" exists
+    And I want to check in the list "inputs" property "name" with value "in2" does not exist
+    And I want to check in the list "inputs" property "name" with value "in3" exists
+    And I want to check in the list "outputs" property "name" with value "out1" exists
+    And I want to check in the list "outputs" property "name" with value "out2" does not exist
+    And I want to check in the list "outputs" property "name" with value "out3" exists
+
