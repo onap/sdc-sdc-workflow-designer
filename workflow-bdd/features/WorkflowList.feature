@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-Feature: List Workflows
+Feature: Workflows list
 
   Background: Init - create various workflows in order to test list filter
     Given I want to create a Workflow
@@ -41,36 +41,36 @@ Feature: List Workflows
     And I want to create for path "/workflows/{item.id}/versions?baseVersionId={item.versionId}" with the input data from the context
 
   Scenario: List all
-    When I want to get path "/workflows?size=2000"
-    Then I want to check that element in the response list with "id" equals to value of saved property "noVersionsWorkflowId" exists
-    And I want to check that element in the response list with "id" equals to value of saved property "draftVersionWorkflowId" exists
-    And I want to check that element in the response list with "id" equals to value of saved property "certifiedVersionWorkflowId" exists
-    And I want to check that element in the response list with "id" equals to value of saved property "draftAndCertifiedVersionWorkflowId" exists
+    When I want to get path "/workflows?limit=2000"
+    Then I want to check in the list "items" property "id" with value of saved property "noVersionsWorkflowId" exists
+    And I want to check in the list "items" property "id" with value of saved property "draftVersionWorkflowId" exists
+    And I want to check in the list "items" property "id" with value of saved property "certifiedVersionWorkflowId" exists
+    And I want to check in the list "items" property "id" with value of saved property "draftAndCertifiedVersionWorkflowId" exists
 
   Scenario: List ones with DRAFT version(s)
-    When I want to get path "/workflows?versionState=DRAFT&size=2000"
-    Then I want to check that element in the response list with "id" equals to value of saved property "noVersionsWorkflowId" does not exist
-    And I want to check that element in the response list with "id" equals to value of saved property "draftVersionWorkflowId" exists
-    And I want to check that element in the response list with "id" equals to value of saved property "certifiedVersionWorkflowId" does not exist
-    And I want to check that element in the response list with "id" equals to value of saved property "draftAndCertifiedVersionWorkflowId" exists
+    When I want to get path "/workflows?versionState=DRAFT&limit=2000"
+    Then I want to check in the list "items" property "id" with value of saved property "noVersionsWorkflowId" does not exist
+    And I want to check in the list "items" property "id" with value of saved property "draftVersionWorkflowId" exists
+    And I want to check in the list "items" property "id" with value of saved property "certifiedVersionWorkflowId" does not exist
+    And I want to check in the list "items" property "id" with value of saved property "draftAndCertifiedVersionWorkflowId" exists
 
   Scenario: List ones with CERTIFIED version(s)
-    When I want to get path "/workflows?versionState=CERTIFIED&size=2000"
-    Then I want to check that element in the response list with "id" equals to value of saved property "noVersionsWorkflowId" does not exist
-    And I want to check that element in the response list with "id" equals to value of saved property "draftVersionWorkflowId" does not exist
-    And I want to check that element in the response list with "id" equals to value of saved property "certifiedVersionWorkflowId" exists
-    And I want to check that element in the response list with "id" equals to value of saved property "draftAndCertifiedVersionWorkflowId" exists
+    When I want to get path "/workflows?versionState=CERTIFIED&limit=2000"
+    Then I want to check in the list "items" property "id" with value of saved property "noVersionsWorkflowId" does not exist
+    And I want to check in the list "items" property "id" with value of saved property "draftVersionWorkflowId" does not exist
+    And I want to check in the list "items" property "id" with value of saved property "certifiedVersionWorkflowId" exists
+    And I want to check in the list "items" property "id" with value of saved property "draftAndCertifiedVersionWorkflowId" exists
 
   Scenario: List ones with DRAFT/CERTIFIED version(s)
-    When I want to get path "/workflows?versionState=DRAFT,CERTIFIED&size=2000"
-    Then I want to check that element in the response list with "id" equals to value of saved property "noVersionsWorkflowId" does not exist
-    And I want to check that element in the response list with "id" equals to value of saved property "draftVersionWorkflowId" exists
-    And I want to check that element in the response list with "id" equals to value of saved property "certifiedVersionWorkflowId" exists
-    And I want to check that element in the response list with "id" equals to value of saved property "draftAndCertifiedVersionWorkflowId" exists
+    When I want to get path "/workflows?versionState=DRAFT,CERTIFIED&limit=2000"
+    Then I want to check in the list "items" property "id" with value of saved property "noVersionsWorkflowId" does not exist
+    And I want to check in the list "items" property "id" with value of saved property "draftVersionWorkflowId" exists
+    And I want to check in the list "items" property "id" with value of saved property "certifiedVersionWorkflowId" exists
+    And I want to check in the list "items" property "id" with value of saved property "draftAndCertifiedVersionWorkflowId" exists
 
   Scenario: List ones with gibberish version(s) = none
-    When I want to get path "/workflows?versionState=gibberish&size=2000"
-    Then I want to check that element in the response list with "id" equals to value of saved property "noVersionsWorkflowId" does not exist
-    And I want to check that element in the response list with "id" equals to value of saved property "draftVersionWorkflowId" does not exist
-    And I want to check that element in the response list with "id" equals to value of saved property "certifiedVersionWorkflowId" does not exist
-    And I want to check that element in the response list with "id" equals to value of saved property "draftAndCertifiedVersionWorkflowId" does not exist
+    When I want to get path "/workflows?versionState=gibberish&limit=2000"
+    Then I want to check in the list "items" property "id" with value of saved property "noVersionsWorkflowId" does not exist
+    And I want to check in the list "items" property "id" with value of saved property "draftVersionWorkflowId" does not exist
+    And I want to check in the list "items" property "id" with value of saved property "certifiedVersionWorkflowId" does not exist
+    And I want to check in the list "items" property "id" with value of saved property "draftAndCertifiedVersionWorkflowId" does not exist

@@ -1,0 +1,27 @@
+{
+  "description": "version with 2 inputs and 2 outputs",
+  "inputs": [
+    {
+      "mandatory": false,
+      "name": "in1",
+      "type": "STRING"
+    },
+    {
+      "mandatory": true,
+      "name": "in3",
+      "type": "INTEGER"
+    }
+  ],
+  "outputs": [
+    {
+      "mandatory": false,
+      "name": "out1",
+      "type": "TIMESTAMP"
+    },
+    {
+      "mandatory": true,
+      "name": "out3",
+      "type": "BOOLEAN"
+    }
+  ]
+}

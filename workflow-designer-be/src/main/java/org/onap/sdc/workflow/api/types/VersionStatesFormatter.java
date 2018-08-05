@@ -1,6 +1,7 @@
 package org.onap.sdc.workflow.api.types;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.Getter;
@@ -29,8 +30,8 @@ public class VersionStatesFormatter {
                                                 .collect(Collectors.toSet());
         } catch (Exception ignore) {
             LOGGER.info(
-                    "value is invalid and cannot be formatted to a set of version states, therefore it set to null");
-            return null;
+                    "value is invalid and cannot be formatted to a set of version states, therefore it set to empty set");
+            return Collections.emptySet();
         }
     }
 }
