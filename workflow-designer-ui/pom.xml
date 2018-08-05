@@ -112,8 +112,7 @@
                         <resource>
                             <directory>src/main/frontend/dist</directory>
                             <includes>
-                                <include>*.html</include>
-                                <include>*.js</include>
+                                <include>*.*</include>                                
                             </includes>
                         </resource>
                         <resource>

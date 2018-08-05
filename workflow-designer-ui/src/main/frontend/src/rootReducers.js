@@ -26,6 +26,8 @@ import modal from 'shared/modal/modalWrapperReducer';
 import overviewReducer from 'features/workflow/overview/overviewReducer';
 import workflowReducer from 'features/workflow/workflowReducer';
 import compositionReducer from 'features/version/composition/compositionReducer';
+import activitiesReducer from 'features/activities/activitiesReducer';
+
 export default combineReducers({
     i18n: i18nReducer,
     catalog,
@@ -39,6 +41,7 @@ export default combineReducers({
         data: workflowReducer,
         versions: overviewReducer
     }),
+    activities: activitiesReducer,
     loader,
     modal
 });
