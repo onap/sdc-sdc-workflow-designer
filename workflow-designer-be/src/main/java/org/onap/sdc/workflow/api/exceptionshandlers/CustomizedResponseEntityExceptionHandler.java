@@ -28,6 +28,7 @@ import org.onap.sdc.workflow.services.exceptions.UniqueValueViolationException;
 import org.onap.sdc.workflow.services.exceptions.VersionCreationException;
 import org.onap.sdc.workflow.services.exceptions.VersionModificationException;
 import org.onap.sdc.workflow.services.exceptions.VersionStateModificationException;
+import org.onap.sdc.workflow.services.exceptions.VersionValidationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -82,7 +83,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
 
     @ExceptionHandler({InvalidArtifactException.class, VersionModificationException.class,
-            VersionStateModificationException.class})
+            VersionStateModificationException.class, VersionValidationException.class})
     public final ResponseEntity<String> handleInvalidArtifactException(
             Exception exception) {
         return new ResponseEntity<>(exception.getMessage(), UNPROCESSABLE_ENTITY);
