@@ -22,7 +22,7 @@ public class VersionStatesFormatterTest {
     @Test
     public void setVersionStateInvalid() {
         versionStateSet.setVersionState("aaa");
-        assertNull(versionStateSet.getVersionStates());
+        assertEquals(Collections.emptySet() ,versionStateSet.getVersionStates());
     }
 
     @Test

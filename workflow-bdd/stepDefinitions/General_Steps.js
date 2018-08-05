@@ -39,7 +39,7 @@ Given('Item {string} and version Id {string}', function (string, string2) {
 });
 /**
  * @module ContextData
- * @exampleFile Example_ResponseData_CheckAndManipulation.feature
+ * @exampleFile ResponseDataChecks.feature
  * @description Response Data::<br>
  *     """<br>
  *         {jsonObject}<br>
@@ -83,7 +83,7 @@ Then('I want to set property {string} to value {string}', function(string, strin
 /**
  * @module ResponseData
  * @description Will check the output data for a property and a value. property can be a path (example: results[0].id)
- * @exampleFile Example_ResponseData_CheckAndManipulation.feature
+ * @exampleFile ResponseDataChecks.feature
  * @step I want to check property {string} for value {string}
  **/
 Then('I want to check property {string} for value {string}', function(string, string2)  {
@@ -103,16 +103,17 @@ Then('I want to check property {string} for value:', function(string, docString)
 /**
  * @module ResponseData
  * @description Will check the output data for a property and a integer. property can be a path (example: results[0].id)
- * @exampleFile Example_ResponseData_CheckAndManipulation.feature
+ * @exampleFile ResponseDataChecks.feature
  * @step I want to check property {string} for value {int}
  **/
 Then('I want to check property {string} for value {int}', function(string, int)  {
 	assert.equal(_.get(this.context.responseData, string), int);
 });
+
 /**
  * @module ResponseData
  * @description Will check the output data for a property and a boolean. property can be a path (example: results[0].id)
- * @exampleFile Example_ResponseData_CheckAndManipulation.feature
+ * @exampleFile ResponseDataChecks.feature
  * @step I want to check property {string} to be "True/False"
  **/
 Then('I want to check property {string} to be {word}', function(string, string2)  {
@@ -121,7 +122,7 @@ Then('I want to check property {string} to be {word}', function(string, string2)
 /**
  * @module ResponseData
  * @description Will check the output data for a property and a boolean. property can be a path (example: results[0].id)
- * @exampleFile Example_ResponseData_CheckAndManipulation.feature
+ * @exampleFile ResponseDataChecks.feature
  * @step I want to check property {string} to have length {int}
  **/
 Then('I want to check property {string} to have length {int}', function(string, intLength)  {
@@ -131,7 +132,7 @@ Then('I want to check property {string} to have length {int}', function(string, 
 /**
  * @module ResponseData
  * @description Will check the output data for a property and make sure it exists
- * @exampleFile Example_ResponseData_CheckAndManipulation.feature
+ * @exampleFile ResponseDataChecks.feature
  * @step I want to check property {string} exists
  **/
 Then('I want to check property {string} exists', function(string)  {
@@ -140,7 +141,7 @@ Then('I want to check property {string} exists', function(string)  {
 /**
  * @module ResponseData
  * @description Will check the output data for a property and make sure it does not exist
- * @exampleFile Example_ResponseData_CheckAndManipulation.feature
+ * @exampleFile ResponseDataChecks.feature
  * @step I want to check property {string} does not exist
  **/
 Then('I want to check property {string} does not exist', function(string)  {
@@ -148,9 +149,55 @@ Then('I want to check property {string} does not exist', function(string)  {
 });
 
 /**
+ * @module ResponseData
+ * @description Will check the output data for a property and a value. property can be a path (example: results[0].id)
+ * @exampleFile ResponseDataChecks.feature
+ * @step I want to check property {string} for value {string}
+ **/
+Then('I want to check in the list {string} property {string} with value {string} exists', function(listPath, propertyPath, value)  {
+    var list = _.get(this.context.responseData, listPath);
+    assert.notEqual(list.find(element => _.get(element, propertyPath) === value), undefined);
+});
+
+/**
+ * @module ResponseData
+ * @description Will check the output data for a property and a value. property can be a path (example: results[0].id)
+ * @exampleFile ResponseDataChecks.feature
+ * @step I want to check property {string} for value {string}
+ **/
+Then('I want to check in the list {string} property {string} with value {string} does not exist', function(listPath, propertyPath, value)  {
+    var list = _.get(this.context.responseData, listPath);
+    assert.equal(list.find(element => _.get(element, propertyPath) === value), undefined);
+});
+
+/**
+ * @module ResponseData
+ * @description Will check the output data for a property and a value. property can be a path (example: results[0].id)
+ * @exampleFile ResponseDataChecks.feature
+ * @step I want to check property {string} for value {string}
+ **/
+Then('I want to check in the list {string} property {string} with value of saved property {string} exists', function(listPath, propertyPath, valueProperty)  {
+    var list = _.get(this.context.responseData, listPath);
+    var value = _.get(this.context, valueProperty);
+    assert.notEqual(list.find(element => _.get(element, propertyPath) === value), undefined);
+});
+
+/**
+ * @module ResponseData
+ * @description Will check the output data for a property and a value. property can be a path (example: results[0].id)
+ * @exampleFile ResponseDataChecks.feature
+ * @step I want to check property {string} for value {string}
+ **/
+Then('I want to check in the list {string} property {string} with value of saved property {string} does not exist', function(listPath, propertyPath, valueProperty)  {
+    var list = _.get(this.context.responseData, listPath);
+    var value = _.get(this.context, valueProperty);
+    assert.equal(list.find(element => _.get(element, propertyPath) === value), undefined);
+});
+
+/**
 * @module ContextData
 * @description Use during development to see what is on the context
- * @exampleFile Example_ResponseData_CheckAndManipulation.feature
+ * @exampleFile ResponseDataChecks.feature
 * @step I want to print the context data
 **/
 Then('I want to print the context data', function()  {
@@ -246,31 +293,6 @@ When('I want to load the json content of the entry {string} in the zip {string} 
 	this.context.responseData = JSON.parse(str);
 	callback();
 });
-
-/**
- * @module ResponseData
- * @description Check that the result list doesn't contain an element with property x which has value
- * equals to saved property y
- * @exampleFile ListItemsFilters.feature
- * @step I want to check that element in the response list with {string} equals to value of saved property {string} does not exist
- **/
-Then('I want to check that element in the response list with {string} equals to value of saved property {string} does not exist', function (propertyPath, valueProperty) {
-    const results = this.context.responseData.results;
-    assert.equal(results.find(result => this.context[valueProperty] === _.get(result, propertyPath)), undefined);
-});
-
-/**
- * @module ResponseData
- * @description Check that the result list contains an element with property x which has value
- * equals to saved property y
- * @exampleFile ListItemsFilters.feature
- * @step I want to check that element in the response list with {string} equals to value of saved property {string} exists
- **/
-Then('I want to check that element in the response list with {string} equals to value of saved property {string} exists', function(propertyPath, valueProperty) {
-    const results = this.context.responseData.results;
-    assert.notEqual(results.find(result => _.get(this.context, valueProperty) === _.get(result, propertyPath)), undefined);
-});
-
 
 Then('I want to check that property {string} in the response equals to value of saved property {string}', function(propertyPath, valueProperty) {
     const results = this.context.responseData;
