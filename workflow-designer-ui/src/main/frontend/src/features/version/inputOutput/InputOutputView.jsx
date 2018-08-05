@@ -158,9 +158,6 @@ class InputOutputView extends React.Component {
 
         return (
             <div className="input-output">
-                <div className="input-output__title">
-                    <Translate value="workflow.sideBar.inputOutput" />
-                </div>
                 <div className="input-output__header">
                     <Tab
                         isActive={isShowInputs}

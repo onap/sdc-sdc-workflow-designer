@@ -1,8 +1,10 @@
 .wf-catalog {
+    overflow: auto;
     background-color: $light-silver;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: 35px 1fr;
+    height: 100vh;
+    padding-bottom: 20px;
     .header {
         align-items: center;
         display: flex;
@@ -16,20 +18,19 @@
         }
     }
     .main {
-        flex: 1;
         &__header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 25px 60px;
             &__total {
-                @include body-1-semibold;
+                @include body-1;
                 color: $dark-gray;
             }
             &__order {
                 display: flex;
                 &__label {
-                    @include body-1-semibold;
+                    @include body-1;
                     color: $dark-gray;
                 }
                 &__alphabetical {
@@ -79,7 +80,7 @@
             }
             &__label {
                 text-transform: uppercase;
-                @include body-1;
+                @include body-1-semibold;
             }
             &:hover {
                 color: $blue;

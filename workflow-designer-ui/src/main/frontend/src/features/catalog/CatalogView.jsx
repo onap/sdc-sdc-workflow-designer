@@ -80,15 +80,16 @@ class CatalogView extends React.Component {
         return (
             <div className="wf-catalog">
                 <Header />
-                <Main
-                    total={total}
-                    alphabeticalOrder={alphabeticalOrder}
-                    onAlphabeticalOrderByClick={
-                        this.handleAlphabeticalOrderByClick
-                    }>
-                    <InfiniteScroll
-                        loadMore={this.handleScroll}
-                        hasMore={hasMore}>
+                <InfiniteScroll
+                    useWindow={false}
+                    loadMore={this.handleScroll}
+                    hasMore={hasMore}>
+                    <Main
+                        total={total}
+                        alphabeticalOrder={alphabeticalOrder}
+                        onAlphabeticalOrderByClick={
+                            this.handleAlphabeticalOrderByClick
+                        }>
                         <div className="main__content">
                             <AddWorkflow onClick={showNewWorkflowModal} />
                             <Workflows
@@ -96,8 +97,8 @@ class CatalogView extends React.Component {
                                 onWorkflowClick={this.goToOverviewPage}
                             />
                         </div>
-                    </InfiniteScroll>
-                </Main>
+                    </Main>
+                </InfiniteScroll>
             </div>
         );
     }
