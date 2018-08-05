@@ -1,9 +1,10 @@
 package org.onap.sdc.workflow.api;
 
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -25,6 +26,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.sdc.workflow.RestPath;
+import org.onap.sdc.workflow.api.types.WorkflowVersionValidator;
 import org.onap.sdc.workflow.persistence.types.WorkflowVersion;
 import org.onap.sdc.workflow.services.WorkflowVersionManager;
 import org.openecomp.sdc.versioning.dao.types.Version;
@@ -48,6 +50,9 @@ public class WorkflowVersionControllerTest {
 
     @Mock
     private WorkflowVersionManager workflowVersionManagerMock;
+
+    @Mock
+    private WorkflowVersionValidator versionValidator;
 
     @InjectMocks
     private WorkflowVersionController workflowVersionController;
@@ -77,6 +82,7 @@ public class WorkflowVersionControllerTest {
 
         WorkflowVersion version = new WorkflowVersion();
         version.setDescription("VersionDescription");
+        doNothing().when(versionValidator).validate(eq(ITEM1_ID),any(WorkflowVersion.class));
         mockMvc.perform(post(RestPath.getWorkflowVersions(ITEM1_ID)).header(RestParams.USER_ID_HEADER, USER_ID)
                                                                     .contentType(APPLICATION_JSON)
                                                                     .content(GSON.toJson(version)))
@@ -101,6 +107,7 @@ public class WorkflowVersionControllerTest {
     public void shouldUpdateWorkflowVersionWhenCallingPutREST() throws Exception {
         WorkflowVersion version = new WorkflowVersion();
         version.setDescription("Updated");
+        doNothing().when(versionValidator).validate(eq(ITEM1_ID),any(WorkflowVersion.class));
 
         MockHttpServletResponse result = mockMvc.perform(
                 put(RestPath.getWorkflowVersion(ITEM1_ID, VERSION1_ID)).header(RestParams.USER_ID_HEADER, USER_ID)
