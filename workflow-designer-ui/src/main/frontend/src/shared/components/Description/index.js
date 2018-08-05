@@ -29,7 +29,7 @@ const Description = ({ description, onDataChange, dataTestId }) => (
                 onChange={event => {
                     onDataChange({ description: event.target.value });
                 }}
-                className="field-section sdc-input__input"
+                className="custom-textarea field-section sdc-input__input"
             />
         </div>
     </div>

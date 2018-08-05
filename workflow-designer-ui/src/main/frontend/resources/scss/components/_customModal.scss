@@ -1,7 +1,14 @@
 .sdc-modal {
   .custom-modal-wrapper {
-    padding: 35px 60px 20px 60px;
     width: auto;
+  }
+
+  .form-custom-modal {
+    padding: 30px 35px 20px 35px;
+
+    .sdc-input {
+        margin-bottom: 15px;
+    }
   }
 
 }
@@ -9,10 +16,6 @@
 .modal-action-bar {
   display: flex;
   justify-content: flex-end;
-
-  button:first-child {
-    margin-right: 2em;
-  }
 }
 
 textarea.field-section.sdc-input__input {

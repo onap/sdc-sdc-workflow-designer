@@ -5,55 +5,59 @@ exports[`Create new version snapshot renders correctly 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="new-version-page custom-modal-wrapper "
+    className="new-version-page custom-modal-wrapper"
   >
     <div
-      className="select-wrapper version-selector sdc-input"
-    >
-      <label>
-        category
-      </label>
-      <select
-        className="inputinput-selector"
-        data-test-id="vc-select-box"
-        disabled={true}
-        value={undefined}
-      >
-        <option
-          data-test-id="vc-option"
-          value="2"
-        >
-          Major
-        </option>
-        <option
-          data-test-id="vc-option"
-          value="1"
-        >
-          Minor
-        </option>
-      </select>
-    </div>
-    <div
-      className="description-part"
+      className="form-custom-modal"
     >
       <div
-        className="sdc-input"
+        className="select-wrapper version-selector sdc-input"
+      >
+        <label>
+          category
+        </label>
+        <select
+          className="inputinput-selector"
+          data-test-id="vc-select-box"
+          disabled={true}
+          value={undefined}
+        >
+          <option
+            data-test-id="vc-option"
+            value="2"
+          >
+            Major
+          </option>
+          <option
+            data-test-id="vc-option"
+            value="1"
+          >
+            Minor
+          </option>
+        </select>
+      </div>
+      <div
+        className="description-part"
       >
         <div
-          className="sdc-input__label"
+          className="sdc-input"
         >
-          description
+          <div
+            className="sdc-input__label"
+          >
+            description
+          </div>
+          <textarea
+            className="custom-textarea field-section sdc-input__input"
+            data-test-id="new-version-description"
+            onChange={[Function]}
+            value={undefined}
+          />
         </div>
-        <textarea
-          className="field-section sdc-input__input"
-          data-test-id="new-version-description"
-          onChange={[Function]}
-          value={undefined}
-        />
       </div>
     </div>
     <div
-      className="modal-action-bar"
+      className="modal-action-bar sdc-modal__footer"
     >
       <button
         className="sdc-button sdc-button__primary   "

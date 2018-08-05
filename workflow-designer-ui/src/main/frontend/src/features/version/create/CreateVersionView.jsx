@@ -61,20 +61,22 @@ class CreateVersionView extends Component {
         const { closeCreateVersionModal } = this.props;
         return (
             <form onSubmit={this.handleSubmitForm}>
-                <div className="new-version-page custom-modal-wrapper ">
-                    <Select
-                        dataObj={VERSION_LEVEL_LIST}
-                        selectedItem={VERSION_LEVEL_LIST[0].value}
-                        label={I18n.t('version.category')}
-                        disabled
-                    />
-                    <Description
-                        name="version-description"
-                        description={this.state.newVersion.description}
-                        dataTestId="new-version-description"
-                        onDataChange={this.versionDetailsChanged}
-                    />
-                    <div className="modal-action-bar">
+                <div className="new-version-page custom-modal-wrapper">
+                    <div className="form-custom-modal">
+                        <Select
+                            dataObj={VERSION_LEVEL_LIST}
+                            selectedItem={VERSION_LEVEL_LIST[0].value}
+                            label={I18n.t('version.category')}
+                            disabled
+                        />
+                        <Description
+                            name="version-description"
+                            description={this.state.newVersion.description}
+                            dataTestId="new-version-description"
+                            onDataChange={this.versionDetailsChanged}
+                        />
+                    </div>
+                    <div className="modal-action-bar sdc-modal__footer">
                         <Button btnType="primary">
                             {I18n.t('buttons.createBtn')}
                         </Button>
