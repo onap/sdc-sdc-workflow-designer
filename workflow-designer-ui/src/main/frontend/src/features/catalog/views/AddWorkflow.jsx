@@ -28,7 +28,7 @@ class AddWorkflow extends React.Component {
                 data-test-id="wf-catalog-add-workflow"
                 onClick={onClick}>
                 <div className="add-workflow__icon">
-                    <SVGIcon name="plusCircle" />
+                    <SVGIcon name="plusCircleThick" />
                 </div>
                 <div className="add-workflow__label">
                     <Translate value="catalog.addWorkflow" />

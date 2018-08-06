@@ -46,7 +46,7 @@
 		"redux-saga": "^0.16.0",
 		"redux-thunk": "^2.3.0",
 		"reselect": "^3.0.1",
-		"sdc-ui": "1.6.55",
+		"sdc-ui": "1.6.57",
 		"uuid-js": "^0.7.5",
 		"validator": "^10.2.0"
 	},
