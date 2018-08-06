@@ -1,0 +1,199 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_999589e6",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/WorkflowVersionController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-06T14:50:03Z",
+      "side": 1,
+      "message": "The indentation looks like a formatting issue. The next line is \u003e120 characters long Please adhere to ONAP code style for Java.",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 8
+      },
+      "revId": "d1d9da650ea886ad59c85fbcb01b659ac273a55d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_f98fddca",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/exceptionshandlers/CustomizedResponseEntityExceptionHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-06T14:50:03Z",
+      "side": 1,
+      "message": "Is there any chance that this will be empty or null?",
+      "range": {
+        "startLine": 75,
+        "startChar": 43,
+        "endLine": 75,
+        "endChar": 65
+      },
+      "revId": "d1d9da650ea886ad59c85fbcb01b659ac273a55d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_f9a6fd52",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/validation/IsDuplicateIO.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-06T14:50:03Z",
+      "side": 1,
+      "message": "The class names violate Java coding conventions. Should be something like DuplicateIO/DuplicateIoValidator. And what does IO mean in this context?",
+      "range": {
+        "startLine": 15,
+        "startChar": 18,
+        "endLine": 15,
+        "endChar": 31
+      },
+      "revId": "d1d9da650ea886ad59c85fbcb01b659ac273a55d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_b96885f6",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/validation/IsDuplicateIO.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-06T14:50:03Z",
+      "side": 1,
+      "message": "How is address related to IO?",
+      "revId": "d1d9da650ea886ad59c85fbcb01b659ac273a55d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_596db103",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/validation/IsDuplicateIO.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-06T14:50:03Z",
+      "side": 1,
+      "message": "Is it OK not to require a value for these properties?",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 52
+      },
+      "revId": "d1d9da650ea886ad59c85fbcb01b659ac273a55d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_197739d6",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/validation/IsDuplicateIOValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-06T14:50:03Z",
+      "side": 1,
+      "message": "Empty methods must be explained. Please add a comment.",
+      "revId": "d1d9da650ea886ad59c85fbcb01b659ac273a55d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_5944d173",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/validation/IsDuplicateIOValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-06T14:50:03Z",
+      "side": 1,
+      "message": "I think this can be extracted as a method and called twice - for inputs and outputs.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 9
+      },
+      "revId": "d1d9da650ea886ad59c85fbcb01b659ac273a55d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_f97d9db2",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/validation/IsDuplicateIOValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-06T14:50:03Z",
+      "side": 1,
+      "message": "This name violates Java coding conventions.",
+      "range": {
+        "startLine": 35,
+        "startChar": 12,
+        "endLine": 35,
+        "endChar": 38
+      },
+      "revId": "d1d9da650ea886ad59c85fbcb01b659ac273a55d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_195e5946",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/types/WorkflowVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-06T14:50:03Z",
+      "side": 1,
+      "message": "Look at how constraints are generally named - Null, NonNull, Max, Size, etc. It probably makes sense to call this one NoDuplicates. Moreover, I\u0027d recommend to write and apply it separately to inputs and outputs. I.e. the constraint receives a collection (List?), and makes sure it doesn\u0027t contain duplicates. This will also solve my previous comment in the validator.",
+      "range": {
+        "startLine": 28,
+        "startChar": 1,
+        "endLine": 28,
+        "endChar": 14
+      },
+      "revId": "d1d9da650ea886ad59c85fbcb01b659ac273a55d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
