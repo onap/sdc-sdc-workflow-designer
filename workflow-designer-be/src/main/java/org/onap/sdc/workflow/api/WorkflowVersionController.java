@@ -21,10 +21,11 @@ import static org.onap.sdc.workflow.api.RestParams.USER_ID_HEADER;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import javax.validation.Valid;
 import org.onap.sdc.workflow.api.types.CollectionResponse;
 import org.onap.sdc.workflow.api.types.VersionStateDto;
 import org.onap.sdc.workflow.api.types.VersionStatesFormatter;
-import org.onap.sdc.workflow.api.types.WorkflowVersionValidator;
 import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
 import org.onap.sdc.workflow.persistence.types.WorkflowVersion;
 import org.onap.sdc.workflow.services.WorkflowVersionManager;
@@ -55,32 +56,28 @@ import springfox.documentation.annotations.ApiIgnore;
 public class WorkflowVersionController {
 
     private final WorkflowVersionManager workflowVersionManager;
-    private final WorkflowVersionValidator versionValidator;
 
     @Autowired
-    public WorkflowVersionController(@Qualifier("workflowVersionManager") WorkflowVersionManager workflowVersionManager,
-            @Qualifier("WorkflowVersionValidator") WorkflowVersionValidator versionValidator) {
+    public WorkflowVersionController(
+            @Qualifier("workflowVersionManager") WorkflowVersionManager workflowVersionManager) {
         this.workflowVersionManager = workflowVersionManager;
-        this.versionValidator = versionValidator;
     }
 
-    @ApiImplicitParam(name = "state", dataType = "string", paramType = "query",
-            allowableValues = "DRAFT,CERTIFIED", value = "Filter by state")
+    @ApiImplicitParam(name = "state", dataType = "string", paramType = "query", allowableValues = "DRAFT,CERTIFIED",
+            value = "Filter by state")
     @GetMapping
     @ApiOperation("List workflow versions")
     public CollectionResponse<WorkflowVersion> list(@PathVariable("workflowId") String workflowId,
-            @ApiIgnore VersionStatesFormatter stateFilter,
-            @RequestHeader(USER_ID_HEADER) String user) {
+            @ApiIgnore VersionStatesFormatter stateFilter, @RequestHeader(USER_ID_HEADER) String user) {
         return new CollectionResponse<>(workflowVersionManager.list(workflowId, stateFilter.getVersionStates()));
     }
 
     @PostMapping
     @ApiOperation("Create workflow version")
-    public ResponseEntity<WorkflowVersion> create(@RequestBody WorkflowVersion version,
+    public ResponseEntity<WorkflowVersion> create(@RequestBody @Valid WorkflowVersion version,
             @PathVariable("workflowId") String workflowId,
             @RequestParam(value = "baseVersionId", required = false) String baseVersionId,
             @RequestHeader(USER_ID_HEADER) String user) {
-        versionValidator.validate(workflowId,version);
         WorkflowVersion createdVersion = workflowVersionManager.create(workflowId, baseVersionId, version);
         return new ResponseEntity<>(createdVersion, HttpStatus.CREATED);
     }
@@ -94,9 +91,8 @@ public class WorkflowVersionController {
 
     @PutMapping("/{versionId}")
     @ApiOperation("Update workflow version")
-    public void update(@RequestBody WorkflowVersion version, @PathVariable("workflowId") String workflowId,
+    public void update(@RequestBody @Valid WorkflowVersion version, @PathVariable("workflowId") String workflowId,
             @PathVariable("versionId") String versionId, @RequestHeader(USER_ID_HEADER) String user) {
-        versionValidator.validate(workflowId,version);
         version.setId(versionId);
         workflowVersionManager.update(workflowId, version);
     }

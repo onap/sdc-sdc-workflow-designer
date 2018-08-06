@@ -2,9 +2,6 @@ package org.onap.sdc.workflow.api;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -18,6 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.google.gson.Gson;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +24,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.sdc.workflow.RestPath;
-import org.onap.sdc.workflow.api.types.WorkflowVersionValidator;
+import org.onap.sdc.workflow.persistence.types.ParameterEntity;
+import org.onap.sdc.workflow.persistence.types.ParameterType;
 import org.onap.sdc.workflow.persistence.types.WorkflowVersion;
 import org.onap.sdc.workflow.services.WorkflowVersionManager;
 import org.openecomp.sdc.versioning.dao.types.Version;
@@ -42,7 +41,6 @@ public class WorkflowVersionControllerTest {
     private static final String ITEM1_ID = "item_id_1";
     private static final String VERSION1_ID = "version_id_1";
     private static final String VERSION2_ID = "version_id_2";
-    private List<Version> versionList;
 
     private static final Gson GSON = new Gson();
 
@@ -51,15 +49,12 @@ public class WorkflowVersionControllerTest {
     @Mock
     private WorkflowVersionManager workflowVersionManagerMock;
 
-    @Mock
-    private WorkflowVersionValidator versionValidator;
-
     @InjectMocks
     private WorkflowVersionController workflowVersionController;
 
     @Before
     public void setUp() {
-        versionList = Arrays.asList( new Version(VERSION1_ID),new Version(VERSION2_ID));
+        List<Version> versionList = Arrays.asList(new Version(VERSION1_ID), new Version(VERSION2_ID));
         mockMvc = MockMvcBuilders.standaloneSetup(workflowVersionController).build();
     }
 
@@ -82,13 +77,28 @@ public class WorkflowVersionControllerTest {
 
         WorkflowVersion version = new WorkflowVersion();
         version.setDescription("VersionDescription");
-        doNothing().when(versionValidator).validate(eq(ITEM1_ID),any(WorkflowVersion.class));
+        //doNothing().when(versionValidator).validate(eq(ITEM1_ID),any(WorkflowVersion.class));
         mockMvc.perform(post(RestPath.getWorkflowVersions(ITEM1_ID)).header(RestParams.USER_ID_HEADER, USER_ID)
                                                                     .contentType(APPLICATION_JSON)
                                                                     .content(GSON.toJson(version)))
                .andExpect(status().isCreated());
 
         verify(workflowVersionManagerMock, times(1)).create(ITEM1_ID, null, version);
+    }
+
+    @Test
+    public void shouldFailCreateWorkflowVersionWhenCallingVersionsPostRESTWithDuplicateInput() throws Exception {
+
+        WorkflowVersion version = new WorkflowVersion();
+        Collection<ParameterEntity> inputs =
+                Arrays.asList(createParameterEntity("name1"), createParameterEntity("name1"));
+        version.setInputs(inputs);
+        version.setDescription("VersionDescription");
+        mockMvc.perform(post(RestPath.getWorkflowVersions(ITEM1_ID)).header(RestParams.USER_ID_HEADER, USER_ID)
+                                                                    .contentType(APPLICATION_JSON)
+                                                                    .content(GSON.toJson(version)))
+               .andExpect(status().isBadRequest());
+
     }
 
 
@@ -107,7 +117,7 @@ public class WorkflowVersionControllerTest {
     public void shouldUpdateWorkflowVersionWhenCallingPutREST() throws Exception {
         WorkflowVersion version = new WorkflowVersion();
         version.setDescription("Updated");
-        doNothing().when(versionValidator).validate(eq(ITEM1_ID),any(WorkflowVersion.class));
+        //doNothing().when(versionValidator).validate(eq(ITEM1_ID),any(WorkflowVersion.class));
 
         MockHttpServletResponse result = mockMvc.perform(
                 put(RestPath.getWorkflowVersion(ITEM1_ID, VERSION1_ID)).header(RestParams.USER_ID_HEADER, USER_ID)
@@ -119,6 +129,14 @@ public class WorkflowVersionControllerTest {
         version.setId(VERSION1_ID);
         verify(workflowVersionManagerMock, times(1)).update(ITEM1_ID, version);
 
+    }
+
+    private ParameterEntity createParameterEntity(String name) {
+        ParameterEntity parameterEntity = new ParameterEntity();
+        parameterEntity.setName(name);
+        parameterEntity.setMandatory(false);
+        parameterEntity.setType(ParameterType.STRING);
+        return parameterEntity;
     }
 
 }

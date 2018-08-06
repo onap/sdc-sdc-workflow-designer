@@ -21,9 +21,11 @@ import java.util.Collections;
 import java.util.Date;
 import javax.validation.Valid;
 import lombok.Data;
+import org.onap.sdc.workflow.api.validation.NoDuplicates;
 
 
 @Data
+@NoDuplicates
 public class WorkflowVersion {
 
     private String id;
