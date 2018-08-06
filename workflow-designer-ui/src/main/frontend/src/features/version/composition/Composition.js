@@ -20,11 +20,13 @@ import CompositionView from './CompositionView';
 import { showErrorModalAction } from '../../../shared/modal/modalWrapperActions';
 import { getComposition } from './compositionSelectors';
 import { getWorkflowName } from '../../workflow/workflowSelectors';
+import { activitiesSelector } from 'features/activities/activitiesSelectors';
 
 function mapStateToProps(state) {
     return {
         composition: getComposition(state),
-        name: getWorkflowName(state)
+        name: getWorkflowName(state),
+        activities: activitiesSelector(state)
     };
 }
 

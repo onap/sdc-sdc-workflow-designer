@@ -33,6 +33,8 @@ import { versionState } from 'features/version/versionConstants';
 import overviewApi from '../workflow/overview/overviewApi';
 import { versionListFetchAction } from '../workflow/overview/overviewConstansts';
 import { updateComposition } from 'features/version/composition/compositionActions';
+import activitiesApi from 'features/activities/activitiesApi';
+import { setActivitiesList } from 'features/activities/activitiesActions';
 
 function* fetchVersion(action) {
     try {
@@ -46,10 +48,12 @@ function* fetchVersion(action) {
                 action.payload
             );
         }
+        const activitiesList = yield call(activitiesApi.fetchActivities);
         yield all([
             put(setWorkflowVersionAction(rest)),
             put(setInputsOutputs({ inputs, outputs })),
-            put(updateComposition(composition))
+            put(updateComposition(composition)),
+            put(setActivitiesList(activitiesList.results))
         ]);
     } catch (error) {
         yield put(genericNetworkErrorAction(error));
