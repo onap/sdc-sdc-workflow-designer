@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_91447d75",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-08-07T14:20:32Z",
+      "side": 1,
+      "message": "Are we keeping these as optional? In case user doesn\u0027t provide these then what is the response to UI from backend?",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 26
+      },
+      "revId": "322ed5d301aa26b8e79d891b7d7e897abc66080b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
