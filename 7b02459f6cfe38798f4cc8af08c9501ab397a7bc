@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_0e492cd0",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/ArtifactAssociationHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-08-07T10:52:47Z",
+      "side": 1,
+      "message": "change to \u0027ArtifactAssociationService\u0027",
+      "range": {
+        "startLine": 46,
+        "startChar": 32,
+        "endLine": 46,
+        "endChar": 39
+      },
+      "revId": "7b02459f6cfe38798f4cc8af08c9501ab397a7bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_6ec78046",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/ArtifactAssociationHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-08-07T10:52:47Z",
+      "side": 1,
+      "message": "please return the user what parameter exactly was not initialized",
+      "range": {
+        "startLine": 77,
+        "startChar": 77,
+        "endLine": 77,
+        "endChar": 91
+      },
+      "revId": "7b02459f6cfe38798f4cc8af08c9501ab397a7bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_4e264418",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/types/dto/ArtifactDeliveriesRequestDto.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-08-07T10:52:47Z",
+      "side": 1,
+      "message": "1. add javadoc comment to explain what is it .eq. HTTP method\n2. same for endpoint",
+      "range": {
+        "startLine": 23,
+        "startChar": 19,
+        "endLine": 23,
+        "endChar": 25
+      },
+      "revId": "7b02459f6cfe38798f4cc8af08c9501ab397a7bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
