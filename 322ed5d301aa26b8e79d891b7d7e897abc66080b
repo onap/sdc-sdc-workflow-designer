@@ -22,6 +22,53 @@
       "revId": "322ed5d301aa26b8e79d891b7d7e897abc66080b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_f1361103",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-08-07T14:29:14Z",
+      "side": 1,
+      "message": "Yes, it is optional. the reason is that this application can be used also as a standalone application(in theory) just to create workflows.\nin that case the user will get an error \"Failed while attaching workflow artifact to Operation in SDC. Parameter was not initialized: %s\". %s is the parameter name he did not supplied.\n\ndon\u0027t you agree?",
+      "parentUuid": "1a76adc5_91447d75",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 26
+      },
+      "revId": "322ed5d301aa26b8e79d891b7d7e897abc66080b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_913b1deb",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/ArtifactAssociationService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-08-07T14:29:14Z",
+      "side": 1,
+      "message": "please make cumulative (return all parameters that was not set)",
+      "range": {
+        "startLine": 97,
+        "startChar": 8,
+        "endLine": 109,
+        "endChar": 32
+      },
+      "revId": "322ed5d301aa26b8e79d891b7d7e897abc66080b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
