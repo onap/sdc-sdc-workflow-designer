@@ -25,6 +25,7 @@ import io.swagger.annotations.ApiParam;
 import javax.validation.Valid;
 import org.onap.sdc.workflow.api.types.CollectionResponse;
 import org.onap.sdc.workflow.api.types.VersionStateDto;
+import org.onap.sdc.workflow.api.types.dto.ArtifactDeliveriesRequestDto;
 import org.onap.sdc.workflow.api.types.VersionStatesFormatter;
 import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
 import org.onap.sdc.workflow.persistence.types.WorkflowVersion;
@@ -56,11 +57,14 @@ import springfox.documentation.annotations.ApiIgnore;
 public class WorkflowVersionController {
 
     private final WorkflowVersionManager workflowVersionManager;
+    private final ArtifactAssociationService associationHandler;
 
     @Autowired
     public WorkflowVersionController(
-            @Qualifier("workflowVersionManager") WorkflowVersionManager workflowVersionManager) {
+            @Qualifier("workflowVersionManager") WorkflowVersionManager workflowVersionManager,
+            @Qualifier("ArtifactAssociationHandler") ArtifactAssociationService artifatcAssociationHandler) {
         this.workflowVersionManager = workflowVersionManager;
+        this.associationHandler = artifatcAssociationHandler;
     }
 
     @ApiImplicitParam(name = "state", dataType = "string", paramType = "query", allowableValues = "DRAFT,CERTIFIED",
@@ -111,6 +115,14 @@ public class WorkflowVersionController {
             @RequestHeader(USER_ID_HEADER) String user) {
         workflowVersionManager.updateState(workflowId, versionId, state.getName());
         return new VersionStateDto(state.getName());
+    }
+
+    @PostMapping("/{versionId}/artifact-deliveries")
+    @ApiOperation("upload of artifact to VF operation workflow")
+    public ResponseEntity<String> artifactDeliveries(@RequestBody ArtifactDeliveriesRequestDto deliveriesRequestDto, @PathVariable("workflowId") String workflowId,
+            @PathVariable("versionId") String versionId, @RequestHeader(USER_ID_HEADER) String user) {
+        return associationHandler.execute(user, deliveriesRequestDto,
+                workflowVersionManager.getArtifact(workflowId, versionId));
     }
 
     @PutMapping("/{versionId}/artifact")

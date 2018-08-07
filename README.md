@@ -32,6 +32,14 @@ or, if Cassandra authentication is not required
 `docker run -d -e JAVA_OPTIONS={JAVA_OPTIONS} -e CS_HOSTS={COMMA_SEPARATED_HOSTS} -e CS_PORT={PORT} 
 -e CS_AUTHENTICATE=false -p {HOST_PORT}:{APPLICATION_PORT} {BACKEND_IMAGE}`
 
+**optional parameters**
+
+For posting workflow artifact to external API
+
+`-e SDC_PROTOCOL={SDC_PROTOCOL} -e SDC_ENDPOINT={SDC_ENDPOINT}`
+SDC_PROTOCOL - HTTP\HTTPS
+SDC_ENDPOINT - <IP>:<PORT>
+
 The server listens on 8080 by default, but it is possible to change the application port by passing 
 `-e SERVER_PORT={PORT}` to Docker _run_ command.
 
