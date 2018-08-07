@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_440ce542",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 2125
+      },
+      "writtenOn": "2018-08-07T19:33:35Z",
+      "side": 1,
+      "message": "right, this make sense. the approach looks good to me.",
+      "parentUuid": "1a76adc5_f1361103",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 26
+      },
+      "revId": "322ed5d301aa26b8e79d891b7d7e897abc66080b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_913b1deb",
         "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/ArtifactAssociationService.java",
         "patchSetId": 2
