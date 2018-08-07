@@ -1,0 +1,152 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_8e9f7c03",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/validation/NoDuplicates.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-07T11:50:17Z",
+      "side": 1,
+      "message": "This can also work for ElementType.PARAMETER, can\u0027t it?",
+      "revId": "0cff765f978e5bda0540f3904e000191375be702",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_0e936cfb",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/validation/NoDuplicates.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-07T11:50:17Z",
+      "side": 1,
+      "message": "What I meant was that you provide default values for these two properties (an empty array). Which means a programmer is not required to put anything for these properties. Like @NoDuplicates(message \u003d \"Cannot have duplicates\"), without \"groups\" and \"payload\". Is this the desired behavior",
+      "revId": "0cff765f978e5bda0540f3904e000191375be702",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_ceeed48b",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/validation/NoDuplicatesValidator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-07T11:50:17Z",
+      "side": 1,
+      "message": "Why do you need another method? I think it can be inlined here.",
+      "revId": "0cff765f978e5bda0540f3904e000191375be702",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_eef39071",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/types/WorkflowVersion.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-07T11:50:17Z",
+      "side": 1,
+      "message": "I think it should be \"Input names\", or \"Names of input parameters\"",
+      "range": {
+        "startLine": 36,
+        "startChar": 29,
+        "endLine": 36,
+        "endChar": 41
+      },
+      "revId": "0cff765f978e5bda0540f3904e000191375be702",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_aeed988d",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/types/WorkflowVersion.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-07T11:50:17Z",
+      "side": 1,
+      "message": "Same problem as above.",
+      "range": {
+        "startLine": 39,
+        "startChar": 29,
+        "endLine": 39,
+        "endChar": 42
+      },
+      "revId": "0cff765f978e5bda0540f3904e000191375be702",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_4e02c43f",
+        "filename": "workflow-designer-be/src/test/java/org/onap/sdc/workflow/api/WorkflowVersionControllerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-07T11:50:17Z",
+      "side": 1,
+      "message": "Please delete commented-out code.",
+      "revId": "0cff765f978e5bda0540f3904e000191375be702",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_6eff8035",
+        "filename": "workflow-designer-be/src/test/java/org/onap/sdc/workflow/api/WorkflowVersionControllerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-07T11:50:17Z",
+      "side": 1,
+      "message": "Please delete commented-out code.",
+      "revId": "0cff765f978e5bda0540f3904e000191375be702",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_aebb5871",
+        "filename": "workflow-designer-be/src/test/java/org/onap/sdc/workflow/api/validation/NoDuplicatesValidatorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-07T11:50:17Z",
+      "side": 1,
+      "message": "You should have tested the corner cases of zero and one element, especially that your code explicitly handles the case of size \u003c 2. Zero to make sure it doesn\u0027t fail with an empty collection. Same for null.",
+      "revId": "0cff765f978e5bda0540f3904e000191375be702",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
