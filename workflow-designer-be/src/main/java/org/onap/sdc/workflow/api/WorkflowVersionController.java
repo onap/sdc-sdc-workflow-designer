@@ -49,7 +49,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
-@RequestMapping("/workflows/{workflowId}/versions")
+@RequestMapping("/wf/workflows/{workflowId}/versions")
 @Api("Workflow versions")
 @RestController("workflowsVersionController")
 public class WorkflowVersionController {

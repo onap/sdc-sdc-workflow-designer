@@ -14,16 +14,17 @@
  * limitations under the License.
  */
 
-package org.onap.sdc.workflow.api.exceptionshandlers;
+package org.onap.sdc.workflow.api;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 
+import org.onap.sdc.workflow.activityspec.errors.VersionStatusModificationException;
+import org.onap.sdc.workflow.api.types.ErrorResponse;
 import org.onap.sdc.workflow.services.exceptions.EntityNotFoundException;
 import org.onap.sdc.workflow.services.exceptions.InvalidArtifactException;
-import org.onap.sdc.workflow.services.exceptions.InvalidPaginationParameterException;
 import org.onap.sdc.workflow.services.exceptions.UniqueValueViolationException;
 import org.onap.sdc.workflow.services.exceptions.VersionCreationException;
 import org.onap.sdc.workflow.services.exceptions.VersionModificationException;
@@ -43,56 +44,38 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 @RestController
-public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
-
-    @ExceptionHandler(UniqueValueViolationException.class)
-    public final ResponseEntity<String> handleUniqueValueViolationException(
-            UniqueValueViolationException exception) {
-        return new ResponseEntity<>(exception.getMessage(), UNPROCESSABLE_ENTITY);
-    }
+public class ExceptionsHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public final ResponseEntity<String> handleWorkflowNotFoundException(
-            Exception exception) {
-        return new ResponseEntity<>(exception.getMessage(), NOT_FOUND);
+    public final ResponseEntity<ErrorResponse> handleNotFoundException(Exception exception) {
+        return new ResponseEntity<>(new ErrorResponse(exception.getMessage()), NOT_FOUND);
     }
 
-    @ExceptionHandler({InvalidPaginationParameterException.class})
-    public final ResponseEntity<String> handlePaginationException(InvalidPaginationParameterException exception) {
-        return new ResponseEntity<>(exception.getMessage(), BAD_REQUEST);
+    @ExceptionHandler({InvalidArtifactException.class, VersionModificationException.class,
+            VersionStateModificationException.class, VersionStatusModificationException.class,
+            UniqueValueViolationException.class, VersionValidationException.class})
+    public final ResponseEntity<ErrorResponse> handleUnprocessableEntityException(Exception exception) {
+        return new ResponseEntity<>(new ErrorResponse(exception.getMessage()), UNPROCESSABLE_ENTITY);
     }
 
-    //For workflowVersionValidator exception
-    @Override
-    protected final ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException e,
-            final HttpHeaders headers,
-            final HttpStatus status,
-            final WebRequest request) {
-
-        FieldError result = e.getBindingResult().getFieldError();
-       return new ResponseEntity<>(result.getDefaultMessage(), BAD_REQUEST);
+    @ExceptionHandler(VersionCreationException.class)
+    public final ResponseEntity<ErrorResponse> handleVersioningErrorException(VersionCreationException exception) {
+        return new ResponseEntity<>(new ErrorResponse(exception.getMessage()), FORBIDDEN);
     }
 
     //For missing header exceptions
     @Override
     public ResponseEntity<Object> handleServletRequestBindingException(ServletRequestBindingException ex,
-                                                                       HttpHeaders headers, HttpStatus status,
-                                                                       WebRequest request) {
-        return new ResponseEntity<>(ex.getMessage(), BAD_REQUEST);
+            HttpHeaders headers, HttpStatus status, WebRequest request) {
+        return new ResponseEntity<>(new ErrorResponse(ex.getMessage()), BAD_REQUEST);
     }
 
+    //For workflowVersionValidator exception
+    @Override
+    protected final ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException e,
+            final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
 
-    @ExceptionHandler({InvalidArtifactException.class, VersionModificationException.class,
-            VersionStateModificationException.class, VersionValidationException.class})
-    public final ResponseEntity<String> handleInvalidArtifactException(
-            Exception exception) {
-        return new ResponseEntity<>(exception.getMessage(), UNPROCESSABLE_ENTITY);
-    }
-
-
-    @ExceptionHandler(VersionCreationException.class)
-    public final ResponseEntity<String> handleVersioningErrorException(
-            VersionCreationException exception) {
-        return new ResponseEntity<>(exception.getMessage(), FORBIDDEN);
+        FieldError result = e.getBindingResult().getFieldError();
+        return new ResponseEntity<>(new ErrorResponse(result.getDefaultMessage()), BAD_REQUEST);
     }
 }

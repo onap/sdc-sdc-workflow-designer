@@ -81,10 +81,11 @@ public class WorkflowManagerImpl implements WorkflowManager {
     public Page<Workflow> list(Set<WorkflowVersionState> versionStatesFilter, RequestSpec requestSpec) {
         requestSpec = getRequestSpec(requestSpec);
 
-        Set<VersionStatus> versionStatusesFilter =
-                versionStatesFilter == null ? null :
-                        versionStatesFilter.stream().map(versionStateMapper::workflowVersionStateToVersionStatus)
-                                           .collect(Collectors.toSet());
+        Set<VersionStatus> versionStatusesFilter = versionStatesFilter == null ? null : versionStatesFilter.stream()
+                                                                                                           .map(versionStateMapper::workflowVersionStateToVersionStatus)
+                                                                                                           .collect(
+                                                                                                                   Collectors
+                                                                                                                           .toSet());
 
         Collection<Item> workflowItems = itemManager.list(getFilter(versionStatusesFilter));
 
@@ -111,9 +112,9 @@ public class WorkflowManagerImpl implements WorkflowManager {
         Item item = workflowMapper.workflowToItem(workflow);
         item.setStatus(ItemStatus.ACTIVE);
 
-        uniqueValueService.validateUniqueValue(WORKFLOW_NAME_UNIQUE_TYPE, new String[] {workflow.getName()});
+        uniqueValueService.validateUniqueValue(WORKFLOW_NAME_UNIQUE_TYPE, workflow.getName());
         Item createdItem = itemManager.create(item);
-        uniqueValueService.createUniqueValue(WORKFLOW_NAME_UNIQUE_TYPE, new String[] {workflow.getName()});
+        uniqueValueService.createUniqueValue(WORKFLOW_NAME_UNIQUE_TYPE, workflow.getName());
 
         return workflowMapper.itemToWorkflow(createdItem);
     }
@@ -163,8 +164,8 @@ public class WorkflowManagerImpl implements WorkflowManager {
 
     private static Comparator<Workflow> getWorkflowComparator(SortingRequest sorting) {
         Boolean byNameAscending = sorting.getSorts().stream()
-                                  .filter(sort -> WORKSPACES_SORT_PROPERTY.equalsIgnoreCase(sort.getProperty()))
-                                  .findFirst().map(Sort::isAscendingOrder).orElse(true);
+                                         .filter(sort -> WORKSPACES_SORT_PROPERTY.equalsIgnoreCase(sort.getProperty()))
+                                         .findFirst().map(Sort::isAscendingOrder).orElse(true);
         Comparator<Workflow> byName = Comparator.comparing(Workflow::getName);
 
         return byNameAscending ? byName : byName.reversed();

@@ -38,14 +38,19 @@ import org.onap.sdc.workflow.persistence.types.ParameterRole;
 import org.onap.sdc.workflow.persistence.types.ParameterType;
 import org.onap.sdc.workflow.persistence.types.WorkflowElementType;
 import org.openecomp.core.zusammen.api.ZusammenAdaptor;
-import org.openecomp.core.zusammen.api.ZusammenAdaptorFactory;
 import org.openecomp.types.ElementPropertyName;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class ParameterRepositoryImpl implements ParameterRepository {
 
-    private ZusammenAdaptor zusammenAdaptor = ZusammenAdaptorFactory.getInstance().createInterface();
+    private final ZusammenAdaptor zusammenAdaptor;
+
+    @Autowired
+    public ParameterRepositoryImpl(ZusammenAdaptor zusammenAdaptor) {
+        this.zusammenAdaptor = zusammenAdaptor;
+    }
 
     @Override
     public void createStructure(String id, String versionId) {

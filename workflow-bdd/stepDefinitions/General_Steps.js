@@ -81,6 +81,16 @@ Then('I want to set property {string} to value {string}', function(string, strin
 });
 
 /**
+ * @module ContextData
+ * @description sets context property to a random value
+ * @exampleFile Example_Rest_Calls.feature
+ * @step I want to update the input property {string} with a random value
+ **/
+Then('I want to set property {string} with a random value', function (string) {
+    _.set(this.context, string, util.random());
+});
+
+/**
  * @module ResponseData
  * @description Will check the output data for a property and a value. property can be a path (example: results[0].id)
  * @exampleFile ResponseDataChecks.feature

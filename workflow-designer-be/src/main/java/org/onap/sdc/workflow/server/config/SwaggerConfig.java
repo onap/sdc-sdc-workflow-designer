@@ -16,9 +16,8 @@ public class SwaggerConfig {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
-                       .select()
-                       .apis(RequestHandlerSelectors.basePackage("org.onap.sdc.workflow.api"))
-                       .paths(regex("/workflows.*"))
+                       .select().apis(RequestHandlerSelectors.basePackage("org.onap.sdc.workflow"))
+                       .paths(regex("/(wf/workflows|v1.0/activity-spec).*"))
                        .build();
     }
 }
