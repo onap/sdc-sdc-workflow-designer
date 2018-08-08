@@ -28,7 +28,7 @@ import org.onap.sdc.workflow.services.exceptions.UniqueValueViolationException;
 import org.onap.sdc.workflow.services.exceptions.VersionCreationException;
 import org.onap.sdc.workflow.services.exceptions.VersionModificationException;
 import org.onap.sdc.workflow.services.exceptions.VersionStateModificationException;
-import org.onap.sdc.workflow.services.exceptions.VersionValidationException;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +37,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -62,15 +63,18 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
         return new ResponseEntity<>(exception.getMessage(), BAD_REQUEST);
     }
 
-    //For workflowVersionValidator exception
     @Override
-    protected final ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException e,
+    protected final ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException exception,
             final HttpHeaders headers,
             final HttpStatus status,
             final WebRequest request) {
 
-        FieldError result = e.getBindingResult().getFieldError();
-       return new ResponseEntity<>(result.getDefaultMessage(), BAD_REQUEST);
+        String errorMsg = exception.getBindingResult().getFieldErrors().stream()
+                                   .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                                   .findFirst()
+                                   .orElse(exception.getMessage());
+
+        return new ResponseEntity<>(errorMsg, BAD_REQUEST);
     }
 
     //For missing header exceptions
@@ -83,7 +87,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
 
     @ExceptionHandler({InvalidArtifactException.class, VersionModificationException.class,
-            VersionStateModificationException.class, VersionValidationException.class})
+            VersionStateModificationException.class})
     public final ResponseEntity<String> handleInvalidArtifactException(
             Exception exception) {
         return new ResponseEntity<>(exception.getMessage(), UNPROCESSABLE_ENTITY);

@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.Date;
 import javax.validation.Valid;
 import lombok.Data;
+import org.onap.sdc.workflow.api.validation.NoDuplicates;
 
 
 @Data
@@ -31,11 +32,13 @@ public class WorkflowVersion {
     private String description;
     private String baseId;
     private WorkflowVersionState state;
-    private boolean hasArtifact;
     @Valid
+    @NoDuplicates(message = "Inputs names must be unique")
     private Collection<ParameterEntity> inputs = Collections.emptyList();
     @Valid
+    @NoDuplicates(message = "Outputs names must be unique")
     private Collection<ParameterEntity> outputs = Collections.emptyList();
+    private boolean hasArtifact;
     private Date creationTime;
     private Date modificationTime;
 
