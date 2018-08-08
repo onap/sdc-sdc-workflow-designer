@@ -1,0 +1,7 @@
+Code-Review+2: Vitaly Emporopulo <Vitaliy.Emporopulo@amdocs.com>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Submitted-by: Avi Gaffa <avi.gaffa@amdocs.com>
+Submitted-at: Wed, 08 Aug 2018 06:37:09 +0000
+Reviewed-on: https://gerrit.onap.org/r/59175
+Project: sdc/sdc-workflow-designer
+Branch: refs/heads/master
