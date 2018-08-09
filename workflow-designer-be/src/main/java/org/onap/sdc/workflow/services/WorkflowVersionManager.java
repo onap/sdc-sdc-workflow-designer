@@ -19,8 +19,8 @@ package org.onap.sdc.workflow.services;
 import java.util.Collection;
 import java.util.Set;
 import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
-import org.onap.sdc.workflow.persistence.types.WorkflowVersion;
-import org.onap.sdc.workflow.persistence.types.WorkflowVersionState;
+import org.onap.sdc.workflow.services.types.WorkflowVersion;
+import org.onap.sdc.workflow.services.types.WorkflowVersionState;
 import org.springframework.web.multipart.MultipartFile;
 
 

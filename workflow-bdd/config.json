@@ -16,13 +16,13 @@
   "workflow" : {
     "port" : 8080,
     "prefix" : "wf",
-    "server" : "",
+    "server": "wf.server",
     "user" : "user"
   },
   "activity_spec" : {
     "port" : 8080,
-    "prefix" : "activity-spec-api/v1.0",
-    "server" : "activity_spec.server",
+    "prefix": "v1.0",
+    "server": "wf.server",
     "user" : "user"
   }
 }

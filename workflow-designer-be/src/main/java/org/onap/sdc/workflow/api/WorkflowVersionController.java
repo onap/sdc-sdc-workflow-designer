@@ -21,15 +21,14 @@ import static org.onap.sdc.workflow.api.RestParams.USER_ID_HEADER;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import javax.validation.Valid;
 import org.onap.sdc.workflow.api.types.CollectionResponse;
 import org.onap.sdc.workflow.api.types.VersionStateDto;
-import org.onap.sdc.workflow.api.types.dto.ArtifactDeliveriesRequestDto;
 import org.onap.sdc.workflow.api.types.VersionStatesFormatter;
+import org.onap.sdc.workflow.api.types.dto.ArtifactDeliveriesRequestDto;
 import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
-import org.onap.sdc.workflow.persistence.types.WorkflowVersion;
 import org.onap.sdc.workflow.services.WorkflowVersionManager;
+import org.onap.sdc.workflow.services.types.WorkflowVersion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.InputStreamResource;
@@ -51,7 +50,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
-@RequestMapping("/workflows/{workflowId}/versions")
+@RequestMapping("/wf/workflows/{workflowId}/versions")
 @Api("Workflow versions")
 @RestController("workflowsVersionController")
 public class WorkflowVersionController {
@@ -60,17 +59,16 @@ public class WorkflowVersionController {
     private final ArtifactAssociationService associationHandler;
 
     @Autowired
-    public WorkflowVersionController(
-            @Qualifier("workflowVersionManager") WorkflowVersionManager workflowVersionManager,
+    public WorkflowVersionController(@Qualifier("workflowVersionManager") WorkflowVersionManager workflowVersionManager,
             @Qualifier("ArtifactAssociationHandler") ArtifactAssociationService artifatcAssociationHandler) {
         this.workflowVersionManager = workflowVersionManager;
         this.associationHandler = artifatcAssociationHandler;
     }
 
-    @ApiImplicitParam(name = "state", dataType = "string", paramType = "query", allowableValues = "DRAFT,CERTIFIED",
-            value = "Filter by state")
     @GetMapping
     @ApiOperation("List workflow versions")
+    @ApiImplicitParam(name = "state", dataType = "string", paramType = "query", allowableValues = "DRAFT,CERTIFIED",
+            value = "Filter by state")
     public CollectionResponse<WorkflowVersion> list(@PathVariable("workflowId") String workflowId,
             @ApiIgnore VersionStatesFormatter stateFilter, @RequestHeader(USER_ID_HEADER) String user) {
         return new CollectionResponse<>(workflowVersionManager.list(workflowId, stateFilter.getVersionStates()));
@@ -119,10 +117,11 @@ public class WorkflowVersionController {
 
     @PostMapping("/{versionId}/artifact-deliveries")
     @ApiOperation("upload of artifact to VF operation workflow")
-    public ResponseEntity<String> artifactDeliveries(@RequestBody ArtifactDeliveriesRequestDto deliveriesRequestDto, @PathVariable("workflowId") String workflowId,
-            @PathVariable("versionId") String versionId, @RequestHeader(USER_ID_HEADER) String user) {
-        return associationHandler.execute(user, deliveriesRequestDto,
-                workflowVersionManager.getArtifact(workflowId, versionId));
+    public ResponseEntity<String> artifactDeliveries(@RequestBody ArtifactDeliveriesRequestDto deliveriesRequestDto,
+            @PathVariable("workflowId") String workflowId, @PathVariable("versionId") String versionId,
+            @RequestHeader(USER_ID_HEADER) String user) {
+        return associationHandler
+                       .execute(user, deliveriesRequestDto, workflowVersionManager.getArtifact(workflowId, versionId));
     }
 
     @PutMapping("/{versionId}/artifact")
@@ -139,9 +138,9 @@ public class WorkflowVersionController {
         ArtifactEntity artifact = workflowVersionManager.getArtifact(workflowId, versionId);
 
         return ResponseEntity.ok()
-                             .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + artifact.getFileName())
-                             .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                             .body(new InputStreamResource(artifact.getArtifactData()));
+                       .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + artifact.getFileName())
+                       .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                       .body(new InputStreamResource(artifact.getArtifactData()));
     }
 
     @DeleteMapping("/{versionId}/artifact")

@@ -16,10 +16,9 @@
 
 package org.onap.sdc.workflow.services;
 
-import java.util.Collection;
 import java.util.Set;
-import org.onap.sdc.workflow.persistence.types.Workflow;
-import org.onap.sdc.workflow.persistence.types.WorkflowVersionState;
+import org.onap.sdc.workflow.services.types.Workflow;
+import org.onap.sdc.workflow.services.types.WorkflowVersionState;
 import org.onap.sdc.workflow.services.types.Page;
 import org.onap.sdc.workflow.services.types.RequestSpec;
 

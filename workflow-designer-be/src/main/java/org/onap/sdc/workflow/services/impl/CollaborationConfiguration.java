@@ -16,6 +16,8 @@
 
 package org.onap.sdc.workflow.services.impl;
 
+import org.openecomp.core.zusammen.api.ZusammenAdaptor;
+import org.openecomp.core.zusammen.api.ZusammenAdaptorFactory;
 import org.openecomp.sdc.versioning.ItemManager;
 import org.openecomp.sdc.versioning.ItemManagerFactory;
 import org.openecomp.sdc.versioning.VersioningManager;
@@ -34,5 +36,10 @@ public class CollaborationConfiguration {
     @Bean
     public VersioningManager versioningManager() {
         return VersioningManagerFactory.getInstance().createInterface();
+    }
+
+    @Bean
+    public ZusammenAdaptor zusammenAdaptor() {
+        return ZusammenAdaptorFactory.getInstance().createInterface();
     }
 }

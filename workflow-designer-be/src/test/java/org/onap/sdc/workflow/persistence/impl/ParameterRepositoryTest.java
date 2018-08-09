@@ -26,10 +26,10 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.sdc.workflow.persistence.types.ParameterEntity;
-import org.onap.sdc.workflow.persistence.types.ParameterPropertyName;
+import org.onap.sdc.workflow.persistence.impl.types.ParameterPropertyName;
 import org.onap.sdc.workflow.persistence.types.ParameterRole;
 import org.onap.sdc.workflow.persistence.types.ParameterType;
-import org.onap.sdc.workflow.persistence.types.WorkflowElementType;
+import org.onap.sdc.workflow.persistence.impl.types.WorkflowElementType;
 import org.openecomp.core.zusammen.api.ZusammenAdaptor;
 import org.openecomp.sdc.common.session.SessionContextProviderFactory;
 

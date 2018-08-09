@@ -33,9 +33,9 @@ import java.util.Optional;
 import org.apache.commons.io.IOUtils;
 import org.onap.sdc.workflow.persistence.ArtifactRepository;
 import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
-import org.onap.sdc.workflow.persistence.types.WorkflowElementType;
+import org.onap.sdc.workflow.persistence.impl.types.WorkflowElementType;
 import org.openecomp.core.zusammen.api.ZusammenAdaptor;
-import org.openecomp.core.zusammen.api.ZusammenAdaptorFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -43,8 +43,13 @@ public class ArtifactRepositoryImpl implements ArtifactRepository {
 
     private static final String FILE_NAME_PROPERTY = "fileName";
     private static final String EMPTY_DATA = "{}";
-    private ZusammenAdaptor zusammenAdaptor = ZusammenAdaptorFactory.getInstance().createInterface();
 
+    private final ZusammenAdaptor zusammenAdaptor;
+
+    @Autowired
+    public ArtifactRepositoryImpl(ZusammenAdaptor zusammenAdaptor) {
+        this.zusammenAdaptor = zusammenAdaptor;
+    }
 
     @Override
     public void update(String workflowId, String versionId, ArtifactEntity artifactEntity) {
@@ -113,8 +118,7 @@ public class ArtifactRepositoryImpl implements ArtifactRepository {
         artifactElement.setData(new ByteArrayInputStream(EMPTY_DATA.getBytes()));
         artifactElement.getInfo().getProperties().remove(FILE_NAME_PROPERTY);
 
-        zusammenAdaptor
-                .saveElement(context, elementContext, artifactElement, "Delete WorkflowVersion Artifact Data");
+        zusammenAdaptor.saveElement(context, elementContext, artifactElement, "Delete WorkflowVersion Artifact Data");
 
     }
 

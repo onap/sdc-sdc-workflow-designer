@@ -16,7 +16,7 @@
 
 package org.onap.sdc.workflow.services.exceptions;
 
-import org.onap.sdc.workflow.persistence.types.WorkflowVersionState;
+import org.onap.sdc.workflow.services.types.WorkflowVersionState;
 
 public class VersionStateModificationException extends RuntimeException {
 
