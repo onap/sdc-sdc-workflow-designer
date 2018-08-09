@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_a0c11c82",
+        "filename": "workflow-bdd/features/examples/ResponseDataChecks.feature",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-08-09T10:15:40Z",
+      "side": 1,
+      "message": "I want to leave it here in the example file so people will know they have the option to print during testing their feature.",
+      "parentUuid": "1a76adc5_5daa6f71",
+      "revId": "ec687eceb8bd61ace5a99602b6596c93034be076",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_7dd16bfa",
         "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/ExceptionsHandler.java",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_401a8818",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/ExceptionsHandler.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-08-09T10:15:40Z",
+      "side": 1,
+      "message": "I\u0027m not going to handle this as part of this commit - it\u0027s a separate task that will be done later on.\nI just added the JSON ErrorResponse (instead of the string it used to be before) to make activity-spec and workflow work the same way.\nPlease approve this commit as soon as you can since each merge later on will be difficult...",
+      "parentUuid": "1a76adc5_7dd16bfa",
+      "revId": "ec687eceb8bd61ace5a99602b6596c93034be076",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_1d0ab78a",
         "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/types/ErrorResponse.java",
         "patchSetId": 3
@@ -47,6 +83,30 @@
       "writtenOn": "2018-08-09T08:13:45Z",
       "side": 1,
       "message": "You could have used Lombok\u0027s @AllArgsConstructor annotation instead of this constructor.",
+      "range": {
+        "startLine": 10,
+        "startChar": 1,
+        "endLine": 12,
+        "endChar": 5
+      },
+      "revId": "ec687eceb8bd61ace5a99602b6596c93034be076",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_00ea500f",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/types/ErrorResponse.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-08-09T10:15:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_1d0ab78a",
       "range": {
         "startLine": 10,
         "startChar": 1,
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_c0f3f808",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/types/activityspec/ActivitySpecCreateResponse.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-08-09T10:15:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_bdfe236a",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 5
+      },
+      "revId": "ec687eceb8bd61ace5a99602b6596c93034be076",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_3df2139b",
         "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/impl/ActivitySpecRepositoryImpl.java",
         "patchSetId": 3
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_80dd0073",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/impl/ActivitySpecRepositoryImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-08-09T10:15:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_3df2139b",
+      "revId": "ec687eceb8bd61ace5a99602b6596c93034be076",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_dd119fad",
         "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/impl/types/ParameterPropertyName.java",
         "patchSetId": 3
@@ -110,6 +212,30 @@
       "writtenOn": "2018-08-09T08:13:45Z",
       "side": 1,
       "message": "This doesn\u0027t look right. I noticed you\u0027d got rid of similar \"enum\". Can this one be fixed as well?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 13
+      },
+      "revId": "ec687eceb8bd61ace5a99602b6596c93034be076",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_0038109f",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/impl/types/ParameterPropertyName.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-08-09T10:15:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_dd119fad",
       "range": {
         "startLine": 21,
         "startChar": 0,
@@ -145,6 +271,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_a0da7c76",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/types/ActivitySpecEntity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-08-09T10:15:40Z",
+      "side": 1,
+      "message": "Done only @NoArgs",
+      "parentUuid": "1a76adc5_1d31575a",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 5
+      },
+      "revId": "ec687eceb8bd61ace5a99602b6596c93034be076",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_bd35c347",
         "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/types/ActivitySpecParameter.java",
         "patchSetId": 3
@@ -168,6 +318,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_203d0c90",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/types/ActivitySpecParameter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-08-09T10:15:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_bd35c347",
+      "range": {
+        "startLine": 27,
+        "startChar": 1,
+        "endLine": 34,
+        "endChar": 5
+      },
+      "revId": "ec687eceb8bd61ace5a99602b6596c93034be076",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_7d3f2b26",
         "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/impl/WorkflowManagerImpl.java",
         "patchSetId": 3
@@ -179,6 +353,24 @@
       "writtenOn": "2018-08-09T08:13:45Z",
       "side": 1,
       "message": "Something went wrong with the formatting :(",
+      "revId": "ec687eceb8bd61ace5a99602b6596c93034be076",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_e0463423",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/impl/WorkflowManagerImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 2167
+      },
+      "writtenOn": "2018-08-09T10:15:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_7d3f2b26",
       "revId": "ec687eceb8bd61ace5a99602b6596c93034be076",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
