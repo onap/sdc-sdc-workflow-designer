@@ -33,19 +33,24 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.onap.sdc.workflow.persistence.ParameterRepository;
 import org.onap.sdc.workflow.persistence.types.ParameterEntity;
-import org.onap.sdc.workflow.persistence.types.ParameterPropertyName;
+import org.onap.sdc.workflow.persistence.impl.types.ParameterPropertyName;
 import org.onap.sdc.workflow.persistence.types.ParameterRole;
 import org.onap.sdc.workflow.persistence.types.ParameterType;
-import org.onap.sdc.workflow.persistence.types.WorkflowElementType;
+import org.onap.sdc.workflow.persistence.impl.types.WorkflowElementType;
 import org.openecomp.core.zusammen.api.ZusammenAdaptor;
-import org.openecomp.core.zusammen.api.ZusammenAdaptorFactory;
 import org.openecomp.types.ElementPropertyName;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class ParameterRepositoryImpl implements ParameterRepository {
 
-    private ZusammenAdaptor zusammenAdaptor = ZusammenAdaptorFactory.getInstance().createInterface();
+    private final ZusammenAdaptor zusammenAdaptor;
+
+    @Autowired
+    public ParameterRepositoryImpl(ZusammenAdaptor zusammenAdaptor) {
+        this.zusammenAdaptor = zusammenAdaptor;
+    }
 
     @Override
     public void createStructure(String id, String versionId) {
@@ -150,7 +155,7 @@ public class ParameterRepositoryImpl implements ParameterRepository {
         info.setName(parameter.getName());
         info.addProperty(ElementPropertyName.elementType.name(), WorkflowElementType.valueOf(role.name()));
         info.addProperty(ParameterPropertyName.TYPE.name(), parameter.getType());
-        info.addProperty(ParameterPropertyName.mandatory.name(), parameter.isMandatory());
+        info.addProperty(ParameterPropertyName.MANDATORY.name(), parameter.isMandatory());
         parameterElement.setInfo(info);
 
         return parameterElement;
@@ -162,7 +167,7 @@ public class ParameterRepositoryImpl implements ParameterRepository {
         parameterEntity.setName(elementInfo.getInfo().getName());
         parameterEntity
                 .setType(ParameterType.valueOf(elementInfo.getInfo().getProperty(ParameterPropertyName.TYPE.name())));
-        parameterEntity.setMandatory(elementInfo.getInfo().getProperty(ParameterPropertyName.mandatory.name()));
+        parameterEntity.setMandatory(elementInfo.getInfo().getProperty(ParameterPropertyName.MANDATORY.name()));
         return parameterEntity;
     }
 

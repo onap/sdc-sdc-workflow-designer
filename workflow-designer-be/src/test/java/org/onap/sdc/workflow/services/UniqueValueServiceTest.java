@@ -38,45 +38,45 @@ public class UniqueValueServiceTest {
     }
 
     @Test
-    public void shouldCallRepositoryInsertIfValueUnique(){
+    public void shouldCallRepositoryInsertIfValueUnique() {
         doReturn(Optional.empty()).when(uniqueValueRepositoryMock).findById(any());
-        uniqueValueService.createUniqueValue(TYPE, new String[]{DUMMY_COMBINATION});
+        uniqueValueService.createUniqueValue(TYPE, DUMMY_COMBINATION);
         verify(uniqueValueRepositoryMock, times(1)).insert(any(UniqueValueEntity.class));
     }
 
     @Test
-    public void shouldNotCheckValueIfNoUniqueCombination(){
-        uniqueValueService.createUniqueValue(TYPE, null);
+    public void shouldNotCheckValueIfNoUniqueCombination() {
+        uniqueValueService.createUniqueValue(TYPE);
         verify(uniqueValueRepositoryMock, never()).findById(any(UniqueValueEntity.class));
     }
 
     @Test(expected = UniqueValueViolationException.class)
-    public void shouldThrowExceptionIfValueIsNotUnique(){
+    public void shouldThrowExceptionIfValueIsNotUnique() {
         doReturn(Optional.of("xxx")).when(uniqueValueRepositoryMock).findById(any());
-        uniqueValueService.createUniqueValue(TYPE, new String[]{DUMMY_COMBINATION});
+        uniqueValueService.createUniqueValue(TYPE, DUMMY_COMBINATION);
     }
 
     @Test
-    public void shouldCallRepositoryDeleteIfValueValid(){
-        uniqueValueService.deleteUniqueValue(TYPE, new String[]{DUMMY_COMBINATION});
+    public void shouldCallRepositoryDeleteIfValueValid() {
+        uniqueValueService.deleteUniqueValue(TYPE, DUMMY_COMBINATION);
         verify(uniqueValueRepositoryMock, times(1)).delete(any(UniqueValueEntity.class));
     }
 
     @Test
-    public void shouldNotCallRepositoryDeleteIfValueNouniqueCombination(){
-        uniqueValueService.deleteUniqueValue(TYPE, new String[]{});
+    public void shouldNotCallRepositoryDeleteIfValueNouniqueCombination() {
+        uniqueValueService.deleteUniqueValue(TYPE);
         verify(uniqueValueRepositoryMock, never()).delete(any(UniqueValueEntity.class));
     }
 
     @Test
-    public void shouldNotUpdateIfNewAndOldValueAreEqualsCaseIgnore(){
+    public void shouldNotUpdateIfNewAndOldValueAreEqualsCaseIgnore() {
         String value = "value";
         uniqueValueService.updateUniqueValue(TYPE, value, value.toUpperCase());
         verify(uniqueValueService, never()).createUniqueValue(anyString(), any());
     }
 
     @Test
-    public void shouldUpdateIfNewAndOldValueAreNotEqualsCaseIgnore(){
+    public void shouldUpdateIfNewAndOldValueAreNotEqualsCaseIgnore() {
         String oldValue = "oldValue";
         String newValue = "newValue";
         uniqueValueService.updateUniqueValue(TYPE, oldValue, newValue);
@@ -87,12 +87,12 @@ public class UniqueValueServiceTest {
     @Test
     public void shouldReturnTrueIfValueExist() {
         doReturn(Optional.of("xxx")).when(uniqueValueRepositoryMock).findById(any());
-        assertTrue(uniqueValueService.isUniqueValueOccupied(TYPE, new String[]{DUMMY_COMBINATION}));
+        assertTrue(uniqueValueService.isUniqueValueOccupied(TYPE, DUMMY_COMBINATION));
     }
 
     @Test
     public void shouldReturnFalseIfValueNotExist() {
         doReturn(Optional.empty()).when(uniqueValueRepositoryMock).findById(any());
-        assertFalse(uniqueValueService.isUniqueValueOccupied(TYPE, new String[]{DUMMY_COMBINATION}));
+        assertFalse(uniqueValueService.isUniqueValueOccupied(TYPE, DUMMY_COMBINATION));
     }
 }

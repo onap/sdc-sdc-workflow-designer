@@ -10,8 +10,7 @@ public class RestPath {
         //Hiding implicit constructor
     }
 
-    private static final String WORKFLOWS_URL = "/workflows";
-    public static final String WORKFLOWS_WITH_VERSION_STATE_FILTER_URL = WORKFLOWS_URL + "?versionState=%s";
+    private static final String WORKFLOWS_URL = "/wf/workflows";
     private static final String WORKFLOW_URL_FORMATTER = WORKFLOWS_URL + "/%s";
     private static final String VERSIONS_URL_FORMATTER = WORKFLOWS_URL + "/%s/versions";
     private static final String VERSION_URL_FORMATTER = WORKFLOWS_URL + "/%s/versions/%s";
@@ -21,8 +20,6 @@ public class RestPath {
     private static final String WORKFLOW_URL_FORMATTER_QUERY_PARAMS_ALL =
             WORKFLOWS_URL + "?" + SORT_QUERY_STRING_FORMATTER+ "&" +  LIMIT_QUERY_STRING_FORMATTER + "&" +
                     OFFSET_QUERY_STRING_FORMATTER;
-    private static final String WORKFLOW_URL_FORMATTER_QUERY_PARAMS_NO_SORT =
-            WORKFLOWS_URL + "?" + LIMIT_QUERY_STRING_FORMATTER + "&" + OFFSET_QUERY_STRING_FORMATTER;
     private static final String WORKFLOW_URL_FORMATTER_QUERY_PARAMS_NO_SORT_AND_LIMIT =
             WORKFLOWS_URL + "?" + OFFSET_QUERY_STRING_FORMATTER;
     private static final String WORKFLOW_URL_FORMATTER_QUERY_PARAMS_NO_SORT_AND_OFFSET =
@@ -30,10 +27,6 @@ public class RestPath {
 
     public static String getWorkflowsPathAllQueryParams(String sort, String limit, String offset){
         return String.format(WORKFLOW_URL_FORMATTER_QUERY_PARAMS_ALL, sort, limit, offset);
-    }
-
-    public static String getWorkflowsPathNoSort(String limit, String offset){
-        return String.format(WORKFLOW_URL_FORMATTER_QUERY_PARAMS_NO_SORT, limit, offset);
     }
 
     public static String getWorkflowsPathNoSortAndLimit(String offset){

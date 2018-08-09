@@ -1,11 +1,11 @@
 package org.onap.sdc.workflow;
 
-import org.onap.sdc.workflow.persistence.types.Workflow;
+import static org.onap.sdc.workflow.services.impl.ItemType.WORKFLOW;
+
+import org.onap.sdc.workflow.services.types.Workflow;
 import org.openecomp.sdc.versioning.types.Item;
 
 public class TestUtil {
-
-    private static final String WORKFLOW_TYPE = "WORKFLOW";
 
     public static Workflow createWorkflow(int workflowNum, boolean createId) {
         Workflow workflow = new Workflow();
@@ -26,7 +26,7 @@ public class TestUtil {
         item.setName("Workflow_" + itemNum);
         item.setDescription("Description_" + itemNum);
         if (setType) {
-            item.setType(WORKFLOW_TYPE);
+            item.setType(WORKFLOW.name());
         }
         return item;
     }

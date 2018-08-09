@@ -31,13 +31,13 @@ import io.swagger.annotations.ApiParam;
 import org.onap.sdc.workflow.api.types.Paging;
 import org.onap.sdc.workflow.api.types.Sorting;
 import org.onap.sdc.workflow.api.types.VersionStatesFormatter;
-import org.onap.sdc.workflow.persistence.types.Workflow;
 import org.onap.sdc.workflow.services.WorkflowManager;
 import org.onap.sdc.workflow.services.WorkflowVersionManager;
 import org.onap.sdc.workflow.services.types.Page;
 import org.onap.sdc.workflow.services.types.PagingRequest;
 import org.onap.sdc.workflow.services.types.RequestSpec;
 import org.onap.sdc.workflow.services.types.SortingRequest;
+import org.onap.sdc.workflow.services.types.Workflow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -55,10 +55,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
-@RequestMapping("/workflows")
+@RequestMapping("/wf/workflows")
 @Api("Workflows")
 @RestController("workflowController")
 public class WorkflowController {
+
     private final WorkflowManager workflowManager;
     private final WorkflowVersionManager workflowVersionManager;
 
@@ -71,9 +72,8 @@ public class WorkflowController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation("List workflows")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "versionState", dataType = "string", paramType = "query",
-                    allowableValues = "DRAFT,CERTIFIED", value = "Filter by version state"),
+    @ApiImplicitParams({@ApiImplicitParam(name = "versionState", dataType = "string", paramType = "query",
+            allowableValues = "DRAFT,CERTIFIED", value = "Filter by version state"),
             @ApiImplicitParam(name = OFFSET, dataType = "string", paramType = "query", defaultValue = "0",
                     value = "Index of the starting item"),
             @ApiImplicitParam(name = LIMIT, dataType = "string", paramType = "query", defaultValue = "200",
@@ -81,10 +81,8 @@ public class WorkflowController {
             @ApiImplicitParam(name = SORT, dataType = "string", paramType = "query", defaultValue = "name:asc",
                     value = "Sorting criteria in the format: property:(asc|desc). Default sort order is ascending.",
                     allowableValues = "name:asc,name:desc")})
-    public Page<Workflow> list(@ApiIgnore VersionStatesFormatter versionStateFilter,
-            @ApiIgnore Paging paging,
-            @ApiIgnore Sorting sorting,
-            @RequestHeader(USER_ID_HEADER) String user) {
+    public Page<Workflow> list(@ApiIgnore VersionStatesFormatter versionStateFilter, @ApiIgnore Paging paging,
+            @ApiIgnore Sorting sorting, @RequestHeader(USER_ID_HEADER) String user) {
         return workflowManager.list(versionStateFilter.getVersionStates(), initRequestSpec(paging, sorting));
     }
 
@@ -104,8 +102,8 @@ public class WorkflowController {
         Workflow workflow = new Workflow();
         workflow.setId(workflowId);
         Workflow retrievedWorkflow = workflowManager.get(workflow);
-        if("versions".equals(expand)){
-            retrievedWorkflow.setVersions(workflowVersionManager.list(workflowId,null));
+        if ("versions".equals(expand)) {
+            retrievedWorkflow.setVersions(workflowVersionManager.list(workflowId, null));
         }
         return retrievedWorkflow;
     }

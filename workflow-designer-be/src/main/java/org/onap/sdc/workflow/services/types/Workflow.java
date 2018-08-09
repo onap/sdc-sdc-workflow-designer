@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.onap.sdc.workflow.persistence.types;
+package org.onap.sdc.workflow.services.types;
 
 
 import java.util.Collection;

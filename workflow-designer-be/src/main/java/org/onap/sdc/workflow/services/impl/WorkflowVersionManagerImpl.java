@@ -16,7 +16,7 @@
 
 package org.onap.sdc.workflow.services.impl;
 
-import static org.onap.sdc.workflow.persistence.types.WorkflowVersionState.CERTIFIED;
+import static org.onap.sdc.workflow.services.types.WorkflowVersionState.CERTIFIED;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,8 +34,8 @@ import org.onap.sdc.workflow.persistence.ParameterRepository;
 import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
 import org.onap.sdc.workflow.persistence.types.ParameterEntity;
 import org.onap.sdc.workflow.persistence.types.ParameterRole;
-import org.onap.sdc.workflow.persistence.types.WorkflowVersion;
-import org.onap.sdc.workflow.persistence.types.WorkflowVersionState;
+import org.onap.sdc.workflow.services.types.WorkflowVersion;
+import org.onap.sdc.workflow.services.types.WorkflowVersionState;
 import org.onap.sdc.workflow.services.WorkflowVersionManager;
 import org.onap.sdc.workflow.services.exceptions.EntityNotFoundException;
 import org.onap.sdc.workflow.services.exceptions.InvalidArtifactException;

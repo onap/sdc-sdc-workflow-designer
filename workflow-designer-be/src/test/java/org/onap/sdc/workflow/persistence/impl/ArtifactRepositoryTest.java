@@ -26,7 +26,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
-import org.onap.sdc.workflow.persistence.types.WorkflowElementType;
+import org.onap.sdc.workflow.persistence.impl.types.WorkflowElementType;
 import org.openecomp.core.zusammen.api.ZusammenAdaptor;
 import org.openecomp.sdc.common.session.SessionContextProviderFactory;
 

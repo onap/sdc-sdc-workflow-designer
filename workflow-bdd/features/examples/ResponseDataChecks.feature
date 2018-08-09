@@ -35,7 +35,7 @@ Feature: Example for checking response data
     }
     """
     # printing out for test purposes
-    Then I want to print the context data
+    #Then I want to print the context data
 
     # running the different options of checking the respone data
     Then I want to check property "field1" for value "string field"

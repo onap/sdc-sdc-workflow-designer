@@ -32,15 +32,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.sdc.workflow.RestPath;
-import org.onap.sdc.workflow.api.exceptionshandlers.CustomizedResponseEntityExceptionHandler;
-import org.onap.sdc.workflow.persistence.types.Workflow;
+import org.onap.sdc.workflow.services.types.Workflow;
 import org.onap.sdc.workflow.services.WorkflowManager;
 import org.onap.sdc.workflow.services.types.Page;
 import org.onap.sdc.workflow.services.types.PagingRequest;
 import org.onap.sdc.workflow.services.types.RequestSpec;
 import org.onap.sdc.workflow.services.types.Sort;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -48,15 +46,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @RunWith(MockitoJUnitRunner.class)
 public class WorkflowControllerTest {
 
-
-    private static final String MISSING_REQUEST_HEADER_ERRROR_FORMAT =
-            "Missing request header '%s' for method parameter of type String";
     private static final String USER_ID = "userId";
+    private static final String MISSING_USER_HEADER_ERROR =
+            "Missing request header 'USER_ID' for method parameter of type String";
     private static final Gson GSON = new Gson();
     private static final String DEFAULT_SORT_VALUE = "name:asc";
 
     private MockMvc mockMvc;
-
 
     @Mock
     private WorkflowManager workflowManagerMock;
@@ -65,23 +61,19 @@ public class WorkflowControllerTest {
     @InjectMocks
     private WorkflowController workflowController;
 
-
     @Before
     public void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(workflowController)
                                  .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
-                                 .setControllerAdvice(new CustomizedResponseEntityExceptionHandler()).build();
+                                 .setControllerAdvice(new ExceptionsHandler()).build();
     }
 
     @Test
     public void shouldReturnErrorWhenMissingUserIdInGetReqHeader() throws Exception {
         Workflow workflowMock = createWorkflow(1, true);
-        MockHttpServletResponse response =
-                mockMvc.perform(get(RestPath.getWorkflowPath(workflowMock.getId())).contentType(APPLICATION_JSON))
-                       .andDo(print()).andExpect(status().isBadRequest()).andExpect(status().is(400)).andReturn()
-                       .getResponse();
-        assertEquals(String.format(MISSING_REQUEST_HEADER_ERRROR_FORMAT, USER_ID_HEADER),
-                response.getContentAsString());
+        mockMvc.perform(get(RestPath.getWorkflowPath(workflowMock.getId())).contentType(APPLICATION_JSON))
+               .andDo(print()).andExpect(status().isBadRequest())
+               .andExpect(jsonPath("$.message", is(MISSING_USER_HEADER_ERROR)));
     }
 
     @Test
@@ -96,11 +88,8 @@ public class WorkflowControllerTest {
 
     @Test
     public void shouldReturnErrorWhenMissingUserIdInListReqHeader() throws Exception {
-        MockHttpServletResponse response =
-                mockMvc.perform(get(RestPath.getWorkflowsPath()).contentType(APPLICATION_JSON)).andDo(print())
-                       .andExpect(status().isBadRequest()).andExpect(status().is(400)).andReturn().getResponse();
-        assertEquals(String.format(MISSING_REQUEST_HEADER_ERRROR_FORMAT, USER_ID_HEADER),
-                response.getContentAsString());
+        mockMvc.perform(get(RestPath.getWorkflowsPath()).contentType(APPLICATION_JSON)).andDo(print())
+               .andExpect(status().isBadRequest()).andExpect(jsonPath("$.message", is(MISSING_USER_HEADER_ERROR)));
     }
 
     @Test
@@ -205,23 +194,17 @@ public class WorkflowControllerTest {
 
     @Test
     public void shouldThrowExceptionWhenWorkflowNameInvalid() throws Exception {
-
         Workflow reqWorkflow = new Workflow();
         reqWorkflow.setName("Invalid workflow name %");
-        MockHttpServletResponse response = mockMvc.perform(
-                post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)
-                                                 .content(GSON.toJson(reqWorkflow))).andDo(print())
-                                                  .andExpect(status().isBadRequest()).andReturn().getResponse();
-        assertEquals("Workflow name must contain only letters, digits and underscores", response.getContentAsString());
+        mockMvc.perform(post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)
+                                                         .content(GSON.toJson(reqWorkflow))).andDo(print())
+               .andExpect(status().isBadRequest())
+               .andExpect(jsonPath("$.message", is("Workflow name must contain only letters, digits and underscores")));
     }
 
     private void mockManagerList3() {
-        doReturn(new Page<>(Arrays.asList(
-                createWorkflow(1, true),
-                createWorkflow(2, true),
-                createWorkflow(3, true)),
-                new PagingRequest(DEFAULT_OFFSET, DEFAULT_LIMIT), 3))
-                .when(workflowManagerMock).list(any(), any());
+        doReturn(new Page<>(Arrays.asList(createWorkflow(1, true), createWorkflow(2, true), createWorkflow(3, true)),
+                new PagingRequest(DEFAULT_OFFSET, DEFAULT_LIMIT), 3)).when(workflowManagerMock).list(any(), any());
     }
 
     private static void assertRequestSpec(RequestSpec actual, int expectedOffset, int expectedLimit,

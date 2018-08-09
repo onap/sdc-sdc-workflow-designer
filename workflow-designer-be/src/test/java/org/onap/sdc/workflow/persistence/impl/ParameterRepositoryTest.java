@@ -26,10 +26,10 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.sdc.workflow.persistence.types.ParameterEntity;
-import org.onap.sdc.workflow.persistence.types.ParameterPropertyName;
+import org.onap.sdc.workflow.persistence.impl.types.ParameterPropertyName;
 import org.onap.sdc.workflow.persistence.types.ParameterRole;
 import org.onap.sdc.workflow.persistence.types.ParameterType;
-import org.onap.sdc.workflow.persistence.types.WorkflowElementType;
+import org.onap.sdc.workflow.persistence.impl.types.WorkflowElementType;
 import org.openecomp.core.zusammen.api.ZusammenAdaptor;
 import org.openecomp.sdc.common.session.SessionContextProviderFactory;
 
@@ -62,7 +62,7 @@ public class ParameterRepositoryTest {
         Info info = new Info();
         info.setName("testInput");
         info.addProperty(ParameterPropertyName.TYPE.name(), ParameterType.FLOAT.name());
-        info.addProperty(ParameterPropertyName.mandatory.name(), true);
+        info.addProperty(ParameterPropertyName.MANDATORY.name(), true);
         element.setInfo(info);
         doReturn(Optional.of(element)).when(zusammenAdaptorMock)
                                       .getElementInfo(any(SessionContext.class), any(ElementContext.class),
@@ -118,14 +118,14 @@ public class ParameterRepositoryTest {
         Info info1 = new Info();
         info1.setName("input1");
         info1.addProperty(ParameterPropertyName.TYPE.name(), "INTEGER");
-        info1.addProperty(ParameterPropertyName.mandatory.name(), true);
+        info1.addProperty(ParameterPropertyName.MANDATORY.name(), true);
         parameter1.setInfo(info1);
         ElementInfo parameter2 = new ElementInfo();
         parameter2.setId(new Id(PARAMETER2_ID));
         Info info2 = new Info();
         info2.setName("input2");
         info2.addProperty(ParameterPropertyName.TYPE.name(), "STRING");
-        info2.addProperty(ParameterPropertyName.mandatory.name(), false);
+        info2.addProperty(ParameterPropertyName.MANDATORY.name(), false);
         parameter2.setInfo(info2);
         Collection<ElementInfo> parameters = Collections.asSet(parameter1, parameter2);
         doReturn(parameters).when(zusammenAdaptorMock)
