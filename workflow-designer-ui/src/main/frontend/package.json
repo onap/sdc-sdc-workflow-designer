@@ -34,7 +34,6 @@
 		"react-datepicker": "^0.48.0",
 		"react-dom": "^16.3.2",
 		"react-hot-loader": "^4.3.3",
-		"react-infinite-scroller": "^1.2.0",
 		"react-redux": "^5.0.6",
 		"react-redux-i18n": "^1.9.2",
 		"react-router": "^4.3.1",

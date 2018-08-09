@@ -27,7 +27,7 @@ class CompositionView extends Component {
     static propTypes = {
         compositionUpdate: PropTypes.func,
         showErrorModal: PropTypes.func,
-        composition: PropTypes.string,
+        composition: PropTypes.bool,
         name: PropTypes.string
     };
     constructor() {
