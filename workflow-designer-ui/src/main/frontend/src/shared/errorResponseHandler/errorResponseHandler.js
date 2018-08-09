@@ -19,7 +19,7 @@ import { showErrorModalAction } from 'shared/modal/modalWrapperActions';
 export default error => {
     const errorData = {
         title: error.statusText,
-        body: error.data ? error.data : 'GENERIC ERROR'
+        body: error.data ? error.data.message : 'GENERIC ERROR'
     };
     store.dispatch(
         showErrorModalAction({
