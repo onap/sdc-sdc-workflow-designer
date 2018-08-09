@@ -27,18 +27,14 @@ import store from './store';
 
 ReactDOM.render(
     <Provider store={store}>
-        <React.Fragment>
-            <Notifications />
-            <Loader />
-            <BrowserRouter>
-                <React.Fragment>
-                    <div className="workflow-app">
-                        <App />
-                    </div>
-                    <ModalWrapper />
-                </React.Fragment>
-            </BrowserRouter>
-        </React.Fragment>
+        <BrowserRouter>
+            <React.Fragment>
+                <App />
+                <Notifications />
+                <ModalWrapper />
+                <Loader />
+            </React.Fragment>
+        </BrowserRouter>
     </Provider>,
     document.getElementById('root')
 );

@@ -16,7 +16,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import InfiniteScroll from 'react-infinite-scroller';
+import InfiniteScroll from 'shared/scroll/InfiniteScroll';
 import Workflows from 'features/catalog/views/Workflows';
 import AddWorkflow from 'features/catalog/views/AddWorkflow';
 

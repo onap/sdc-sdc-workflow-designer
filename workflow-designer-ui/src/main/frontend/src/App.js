@@ -5,9 +5,9 @@
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
- *      http://www.apache.org/licenses/LICENSE-2.0
+*      http://www.apache.org/licenses/LICENSE-2.0
 *
- * Unless required by applicable law or agreed to in writing, software
+* Unless required by applicable law or agreed to in writing, software
 * distributed under the License is distributed on an "AS IS" BASIS,
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
@@ -17,6 +17,7 @@
 import { hot } from 'react-hot-loader';
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
+import qs from 'qs';
 
 import { PluginPubSub } from 'shared/pubsub/plugin-pubsub';
 import 'resources/scss/style.scss';
@@ -36,28 +37,35 @@ class App extends Component {
     constructor(props) {
         super(props);
 
-        this.searchParams = new URLSearchParams(location.search);
+        this.searchParams = qs.parse(location.search, {
+            ignoreQueryPrefix: true
+        });
 
-        if (this.searchParams.get('userId')) {
-            localStorage.setItem(USER_ID, this.searchParams.get('userId'));
+        if (this.searchParams && this.searchParams.userId) {
+            localStorage.setItem(USER_ID, this.searchParams.userId);
         }
     }
 
     componentDidMount() {
-        const eventsClientId = this.searchParams.get('eventsClientId');
-        const parentUrl = this.searchParams.get('parentUrl');
+        if (this.searchParams) {
+            const { eventsClientId, parentUrl } = this.searchParams;
 
-        if (eventsClientId && parentUrl) {
-            const client = new PluginPubSub(eventsClientId, parentUrl);
+            if (eventsClientId && parentUrl) {
+                const client = new PluginPubSub(eventsClientId, parentUrl);
 
-            client.notify('READY');
+                client.notify('READY');
+            }
         }
     }
 
     render() {
-        return routes.map((route, i) => (
-            <RouteWithSubRoutes key={`App.route.${i}`} {...route} />
-        ));
+        return (
+            <div className="workflow-app">
+                {routes.map((route, i) => (
+                    <RouteWithSubRoutes key={`App.route.${i}`} {...route} />
+                ))}
+            </div>
+        );
     }
 }
 

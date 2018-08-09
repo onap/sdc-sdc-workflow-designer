@@ -49,7 +49,7 @@ exports[`New Workflow View Snapshot renders correctly 1`] = `
             className="custom-textarea field-section sdc-input__input"
             data-test-id="description"
             onChange={[Function]}
-            value={undefined}
+            value=""
           />
         </div>
       </div>

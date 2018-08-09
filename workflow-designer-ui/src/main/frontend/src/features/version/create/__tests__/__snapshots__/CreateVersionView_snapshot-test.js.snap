@@ -51,7 +51,7 @@ exports[`Create new version snapshot renders correctly 1`] = `
             className="custom-textarea field-section sdc-input__input"
             data-test-id="new-version-description"
             onChange={[Function]}
-            value={undefined}
+            value=""
           />
         </div>
       </div>
