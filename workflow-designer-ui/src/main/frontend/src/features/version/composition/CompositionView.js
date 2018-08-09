@@ -17,8 +17,10 @@ import React, { Component } from 'react';
 import fileSaver from 'file-saver';
 import CustomModeler from './custom-modeler';
 import propertiesPanelModule from 'bpmn-js-properties-panel';
-import propertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/camunda';
-import camundaModuleDescriptor from 'camunda-bpmn-moddle/resources/camunda';
+//import camundaPropertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/camunda';
+//import propertiesProviderModule from './custom-properties-provider/provider/activity/';
+import propertiesProviderModule from './custom-properties-provider/provider/camunda';
+import camundaModuleDescriptor from './custom-properties-provider/descriptors/camunda';
 import newDiagramXML from './newDiagram.bpmn';
 import PropTypes from 'prop-types';
 import CompositionButtons from './components/CompositionButtonsPanel';
@@ -28,7 +30,7 @@ class CompositionView extends Component {
         compositionUpdate: PropTypes.func,
         showErrorModal: PropTypes.func,
         composition: PropTypes.string,
-        name: PropTypes.string
+        name: PropTypes.oneOf([PropTypes.string, PropTypes.bool])
     };
     constructor() {
         super();
