@@ -1,0 +1,187 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_5daa6f71",
+        "filename": "workflow-bdd/features/examples/ResponseDataChecks.feature",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-09T08:13:45Z",
+      "side": 1,
+      "message": "Please remove commented out code.",
+      "revId": "ec687eceb8bd61ace5a99602b6596c93034be076",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_7dd16bfa",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/ExceptionsHandler.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-09T08:13:45Z",
+      "side": 1,
+      "message": "I think a mechanism similar to \"General Error\" should used here, with a unique error identifier. There are several reasons. First, a NullPointer, for instance, returns \"\" from getMessage(). It won\u0027t be helpful. Second, you don\u0027t know what kind of error may get here. If it\u0027s a DB error, for example, the user can do nothing about it and will be confused. Sensitive information may leak through such errors, too. At the same time, you want to be able to quickly find and troubleshoot the root cause of such an error - it\u0027s not a client\u0027s mistake, but a problem in code or runtime environment. You should also log these type of errors. Otherwise you lose a critical piece of information which is the stack trace. Static analysis should have warned you about it.",
+      "revId": "ec687eceb8bd61ace5a99602b6596c93034be076",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_1d0ab78a",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/types/ErrorResponse.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-09T08:13:45Z",
+      "side": 1,
+      "message": "You could have used Lombok\u0027s @AllArgsConstructor annotation instead of this constructor.",
+      "range": {
+        "startLine": 10,
+        "startChar": 1,
+        "endLine": 12,
+        "endChar": 5
+      },
+      "revId": "ec687eceb8bd61ace5a99602b6596c93034be076",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_bdfe236a",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/types/activityspec/ActivitySpecCreateResponse.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-09T08:13:45Z",
+      "side": 1,
+      "message": "@AllArgsConstructor :)",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 5
+      },
+      "revId": "ec687eceb8bd61ace5a99602b6596c93034be076",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_3df2139b",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/impl/ActivitySpecRepositoryImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-09T08:13:45Z",
+      "side": 1,
+      "message": "Please reformat according to ONAP style",
+      "revId": "ec687eceb8bd61ace5a99602b6596c93034be076",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_dd119fad",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/impl/types/ParameterPropertyName.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-09T08:13:45Z",
+      "side": 1,
+      "message": "This doesn\u0027t look right. I noticed you\u0027d got rid of similar \"enum\". Can this one be fixed as well?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 13
+      },
+      "revId": "ec687eceb8bd61ace5a99602b6596c93034be076",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_1d31575a",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/types/ActivitySpecEntity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-09T08:13:45Z",
+      "side": 1,
+      "message": "Please use Lombok\u0027s @AllArgsConstructor \u0026 @NoArgsConstructor",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 5
+      },
+      "revId": "ec687eceb8bd61ace5a99602b6596c93034be076",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_bd35c347",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/types/ActivitySpecParameter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-09T08:13:45Z",
+      "side": 1,
+      "message": "Please use Lombok\u0027s @AllArgsConstructor \u0026 @NoArgsConstructor",
+      "range": {
+        "startLine": 27,
+        "startChar": 1,
+        "endLine": 34,
+        "endChar": 5
+      },
+      "revId": "ec687eceb8bd61ace5a99602b6596c93034be076",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_7d3f2b26",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/impl/WorkflowManagerImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-09T08:13:45Z",
+      "side": 1,
+      "message": "Something went wrong with the formatting :(",
+      "revId": "ec687eceb8bd61ace5a99602b6596c93034be076",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
