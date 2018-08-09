@@ -16,6 +16,7 @@
 
 package org.onap.sdc.workflow.services.impl;
 
+import static org.onap.sdc.workflow.services.impl.ItemType.WORKFLOW;
 import static org.onap.sdc.workflow.services.types.PagingConstants.DEFAULT_LIMIT;
 import static org.onap.sdc.workflow.services.types.PagingConstants.DEFAULT_OFFSET;
 import static org.onap.sdc.workflow.services.types.PagingConstants.MAX_LIMIT;
@@ -26,8 +27,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import org.onap.sdc.workflow.persistence.types.Workflow;
-import org.onap.sdc.workflow.persistence.types.WorkflowVersionState;
+import org.onap.sdc.workflow.services.types.Workflow;
+import org.onap.sdc.workflow.services.types.WorkflowVersionState;
 import org.onap.sdc.workflow.services.UniqueValueService;
 import org.onap.sdc.workflow.services.WorkflowManager;
 import org.onap.sdc.workflow.services.exceptions.EntityNotFoundException;
@@ -51,10 +52,9 @@ import org.springframework.stereotype.Service;
 @Service("workflowManager")
 public class WorkflowManagerImpl implements WorkflowManager {
 
-    public static final String WORKFLOW_TYPE = "WORKFLOW";
     private static final String WORKFLOW_NOT_FOUND_ERROR_MSG = "Workflow with id '%s' does not exist";
     private static final String WORKFLOW_NAME_UNIQUE_TYPE = "WORKFLOW_NAME";
-    private static final Predicate<Item> WORKFLOW_ITEM_FILTER = item -> WORKFLOW_TYPE.equals(item.getType());
+    private static final Predicate<Item> WORKFLOW_ITEM_FILTER = item -> WORKFLOW.name().equals(item.getType());
     private static final String WORKSPACES_SORT_PROPERTY = "name";
     private static final RequestSpec WORKSPACES_DEFAULT_REQUEST_SPEC =
             new RequestSpec(new PagingRequest(DEFAULT_OFFSET, DEFAULT_LIMIT),
@@ -81,10 +81,11 @@ public class WorkflowManagerImpl implements WorkflowManager {
     public Page<Workflow> list(Set<WorkflowVersionState> versionStatesFilter, RequestSpec requestSpec) {
         requestSpec = getRequestSpec(requestSpec);
 
-        Set<VersionStatus> versionStatusesFilter =
-                versionStatesFilter == null ? null :
-                        versionStatesFilter.stream().map(versionStateMapper::workflowVersionStateToVersionStatus)
-                                           .collect(Collectors.toSet());
+        Set<VersionStatus> versionStatusesFilter = versionStatesFilter == null ? null : versionStatesFilter.stream()
+                                                                                                           .map(versionStateMapper::workflowVersionStateToVersionStatus)
+                                                                                                           .collect(
+                                                                                                                   Collectors
+                                                                                                                           .toSet());
 
         Collection<Item> workflowItems = itemManager.list(getFilter(versionStatusesFilter));
 
@@ -111,9 +112,9 @@ public class WorkflowManagerImpl implements WorkflowManager {
         Item item = workflowMapper.workflowToItem(workflow);
         item.setStatus(ItemStatus.ACTIVE);
 
-        uniqueValueService.validateUniqueValue(WORKFLOW_NAME_UNIQUE_TYPE, new String[] {workflow.getName()});
+        uniqueValueService.validateUniqueValue(WORKFLOW_NAME_UNIQUE_TYPE, workflow.getName());
         Item createdItem = itemManager.create(item);
-        uniqueValueService.createUniqueValue(WORKFLOW_NAME_UNIQUE_TYPE, new String[] {workflow.getName()});
+        uniqueValueService.createUniqueValue(WORKFLOW_NAME_UNIQUE_TYPE, workflow.getName());
 
         return workflowMapper.itemToWorkflow(createdItem);
     }
@@ -163,8 +164,8 @@ public class WorkflowManagerImpl implements WorkflowManager {
 
     private static Comparator<Workflow> getWorkflowComparator(SortingRequest sorting) {
         Boolean byNameAscending = sorting.getSorts().stream()
-                                  .filter(sort -> WORKSPACES_SORT_PROPERTY.equalsIgnoreCase(sort.getProperty()))
-                                  .findFirst().map(Sort::isAscendingOrder).orElse(true);
+                                         .filter(sort -> WORKSPACES_SORT_PROPERTY.equalsIgnoreCase(sort.getProperty()))
+                                         .findFirst().map(Sort::isAscendingOrder).orElse(true);
         Comparator<Workflow> byName = Comparator.comparing(Workflow::getName);
 
         return byNameAscending ? byName : byName.reversed();

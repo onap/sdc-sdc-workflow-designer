@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.onap.sdc.workflow.persistence.types;
+package org.onap.sdc.workflow.services.types;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -22,6 +22,8 @@ import java.util.Date;
 import javax.validation.Valid;
 import lombok.Data;
 import org.onap.sdc.workflow.api.validation.NoDuplicates;
+import org.onap.sdc.workflow.persistence.types.ParameterEntity;
+
 
 
 @Data

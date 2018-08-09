@@ -8,7 +8,7 @@ import static org.onap.sdc.workflow.TestUtil.createWorkflow;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.onap.sdc.workflow.persistence.types.Workflow;
+import org.onap.sdc.workflow.services.types.Workflow;
 import org.openecomp.sdc.versioning.types.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;

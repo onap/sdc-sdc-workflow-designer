@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.Getter;
-import org.onap.sdc.workflow.persistence.types.WorkflowVersionState;
+import org.onap.sdc.workflow.services.types.WorkflowVersionState;
 import org.openecomp.sdc.logging.api.Logger;
 import org.openecomp.sdc.logging.api.LoggerFactory;
 

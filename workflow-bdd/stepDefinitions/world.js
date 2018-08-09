@@ -70,7 +70,7 @@ class CustomWorld {
 			var _server = context.server;
 			var _config = config;
 			return function(type) {
-				let typeData = _config["workflow"];
+                let typeData = _config[type];
 				let _url = _config.protocol + '://' +
 					typeData.server + ':' +
 					typeData.port + '/' +

@@ -17,7 +17,7 @@ const request = require('request');
 const fs = require('fs');
 require('node-zip');
 
-function _request(context, method, path, data, isBinary=false, type='onboarding') {
+function _request(context, method, path, data, isBinary=false, type='workflow') {
 	let server = context.getUrlForType(type);
 
 	let options = {
@@ -106,7 +106,7 @@ function _request(context, method, path, data, isBinary=false, type='onboarding'
 	});
 }
 
-function download(context, path, filePath,  callback, type='onboarding') {
+function download(context, path, filePath, callback, type='workflow') {
 	let server = context.getUrlForType(type);
 	let options = {
 			method: 'GET',

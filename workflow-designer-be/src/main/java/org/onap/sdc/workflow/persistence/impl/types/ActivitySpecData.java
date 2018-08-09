@@ -1,11 +1,11 @@
 /*
- * Copyright © 2018 European Support Limited
+ * Copyright © 2016-2018 European Support Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,23 +14,18 @@
  * limitations under the License.
  */
 
-package org.onap.sdc.workflow.persistence.types;
+package org.onap.sdc.workflow.persistence.impl.types;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.onap.sdc.workflow.persistence.types.ActivitySpecParameter;
 
-public enum WorkflowVersionState {
+@lombok.Data
+public class ActivitySpecData {
 
-    CERTIFIED, DRAFT(CERTIFIED);
-
-    private final List<WorkflowVersionState> nextStates;
-
-    WorkflowVersionState(WorkflowVersionState... nextStates) {
-        this.nextStates = Collections.unmodifiableList(Arrays.asList(nextStates));
-    }
-
-    public List<WorkflowVersionState> getNextStates() {
-        return nextStates;
-    }
+    private List<ActivitySpecParameter> inputs = Collections.emptyList();
+    private List<ActivitySpecParameter> outputs = Collections.emptyList();
+    private String type;
+    private String content;
 }
+
