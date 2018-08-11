@@ -16,16 +16,16 @@
 
 package org.onap.sdc.workflow.persistence.types;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import lombok.Data;
-import javax.validation.constraints.NotNull;
 
 @Data
 public class ParameterEntity {
 
     private String id;
     @NotNull(message = "Parameter name may not be null")
-    @Pattern(regexp = "[A-Za-z0-9_ ]*", message = "Parameter name must contain only letters, digits and underscores")
+    @Pattern(regexp = "[A-Za-z0-9_ ]+", message = "Parameter name must contain only letters, digits and underscores")
     private String name;
     @NotNull
     private ParameterType type;
