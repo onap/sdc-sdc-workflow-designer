@@ -17,7 +17,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 
-const Description = ({ description, onDataChange, dataTestId }) => (
+const Description = ({ description, onDataChange, dataTestId, disabled }) => (
     <div className="description-part">
         <div className="sdc-input">
             <div className="sdc-input__label">
@@ -30,6 +30,7 @@ const Description = ({ description, onDataChange, dataTestId }) => (
                     onDataChange({ description: event.target.value });
                 }}
                 className="custom-textarea field-section sdc-input__input"
+                disabled={disabled}
             />
         </div>
     </div>
@@ -38,7 +39,12 @@ const Description = ({ description, onDataChange, dataTestId }) => (
 Description.propTypes = {
     description: PropTypes.string,
     onDataChange: PropTypes.func,
-    dataTestId: PropTypes.string
+    dataTestId: PropTypes.string,
+    disabled: PropTypes.bool
+};
+
+Description.defaultProps = {
+    disabled: false
 };
 
 export default Description;

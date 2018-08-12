@@ -18,25 +18,19 @@ import { connect } from 'react-redux';
 
 import GeneralView from 'features/version/general/GeneralView';
 import {
-    getGeneralDescription,
-    getCreationTime,
-    getModificationTime
+    getVersionInfo,
+    getIsCertified
 } from 'features/version/general/generalSelectors';
 import { workflowVersionDetailsChangedAction } from 'features/version/versionConstants';
 
-export function mapStateToProps(state) {
-    return {
-        description: getGeneralDescription(state),
-        created: getCreationTime(state),
-        modified: getModificationTime(state)
-    };
-}
+const mapStateToProps = state => ({
+    versionInfo: getVersionInfo(state),
+    isCertified: getIsCertified(state)
+});
 
-export function mapDispatchToProps(dispatch) {
-    return {
-        onDataChange: payload =>
-            dispatch(workflowVersionDetailsChangedAction(payload))
-    };
-}
+const mapDispatchToProps = dispatch => ({
+    onDataChange: payload =>
+        dispatch(workflowVersionDetailsChangedAction(payload))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(GeneralView);

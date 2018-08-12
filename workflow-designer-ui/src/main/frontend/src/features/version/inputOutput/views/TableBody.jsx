@@ -17,6 +17,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import cn from 'classnames';
 
 class TableBody extends React.Component {
     handleNameInputChange = params => {
@@ -28,13 +29,21 @@ class TableBody extends React.Component {
     };
 
     render() {
-        const { children } = this.props;
+        const { isCertified, children } = this.props;
 
-        return <div className="input-output__table__tbody">{children}</div>;
+        return (
+            <div
+                className={cn('input-output__table__tbody', {
+                    disabled: isCertified
+                })}>
+                {children}
+            </div>
+        );
     }
 }
 
 TableBody.propTypes = {
+    isCertified: PropTypes.bool,
     children: PropTypes.node
 };
 
