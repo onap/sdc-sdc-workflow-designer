@@ -14,7 +14,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.google.gson.Gson;
 import java.util.Arrays;
 import java.util.Collection;
 import org.junit.Before;
@@ -28,6 +27,7 @@ import org.onap.sdc.workflow.persistence.types.ParameterEntity;
 import org.onap.sdc.workflow.persistence.types.ParameterType;
 import org.onap.sdc.workflow.services.WorkflowVersionManager;
 import org.onap.sdc.workflow.services.types.WorkflowVersion;
+import org.onap.sdc.workflow.services.utilities.JsonUtil;
 import org.openecomp.sdc.versioning.dao.types.Version;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -41,8 +41,6 @@ public class WorkflowVersionControllerTest {
     private static final String ITEM1_ID = "item_id_1";
     private static final String VERSION1_ID = "version_id_1";
     private static final String VERSION2_ID = "version_id_2";
-
-    private static final Gson GSON = new Gson();
 
     private MockMvc mockMvc;
 
@@ -76,7 +74,7 @@ public class WorkflowVersionControllerTest {
         WorkflowVersion version = new WorkflowVersion();
         version.setDescription("VersionDescription");
         mockMvc.perform(post(RestPath.getWorkflowVersions(ITEM1_ID)).header(RestParams.USER_ID_HEADER, USER_ID)
-                                .contentType(APPLICATION_JSON).content(GSON.toJson(version)))
+                                .contentType(APPLICATION_JSON).content(JsonUtil.object2Json(version)))
                 .andExpect(status().isCreated());
 
         verify(workflowVersionManagerMock, times(1)).create(ITEM1_ID, null, version);
@@ -91,7 +89,7 @@ public class WorkflowVersionControllerTest {
         version.setInputs(inputs);
         version.setDescription("VersionDescription");
         mockMvc.perform(post(RestPath.getWorkflowVersions(ITEM1_ID)).header(RestParams.USER_ID_HEADER, USER_ID)
-                                .contentType(APPLICATION_JSON).content(GSON.toJson(version)))
+                                .contentType(APPLICATION_JSON).content(JsonUtil.object2Json(version)))
                 .andExpect(status().isBadRequest());
 
     }
@@ -115,7 +113,8 @@ public class WorkflowVersionControllerTest {
 
         MockHttpServletResponse result = mockMvc.perform(
                 put(RestPath.getWorkflowVersion(ITEM1_ID, VERSION1_ID)).header(RestParams.USER_ID_HEADER, USER_ID)
-                        .contentType(APPLICATION_JSON).content(GSON.toJson(version))).andReturn().getResponse();
+                        .contentType(APPLICATION_JSON).content(JsonUtil.object2Json(version))).andReturn()
+                                                 .getResponse();
 
         assertEquals(HttpStatus.OK.value(), result.getStatus());
         version.setId(VERSION1_ID);

@@ -19,7 +19,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.amdocs.zusammen.datatypes.Id;
 import com.amdocs.zusammen.datatypes.item.Item;
-import com.google.gson.Gson;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -32,12 +31,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.sdc.workflow.RestPath;
-import org.onap.sdc.workflow.services.types.Workflow;
 import org.onap.sdc.workflow.services.WorkflowManager;
 import org.onap.sdc.workflow.services.types.Page;
 import org.onap.sdc.workflow.services.types.PagingRequest;
 import org.onap.sdc.workflow.services.types.RequestSpec;
 import org.onap.sdc.workflow.services.types.Sort;
+import org.onap.sdc.workflow.services.types.Workflow;
+import org.onap.sdc.workflow.services.utilities.JsonUtil;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -49,7 +49,6 @@ public class WorkflowControllerTest {
     private static final String USER_ID = "userId";
     private static final String MISSING_USER_HEADER_ERROR =
             "Missing request header 'USER_ID' for method parameter of type String";
-    private static final Gson GSON = new Gson();
     private static final String DEFAULT_SORT_VALUE = "name:asc";
 
     private MockMvc mockMvc;
@@ -187,8 +186,8 @@ public class WorkflowControllerTest {
         item.setId(new Id("abc"));
         Workflow reqWorkflow = createWorkflow(1, false);
         mockMvc.perform(post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)
-                                                         .content(GSON.toJson(reqWorkflow))).andDo(print())
-               .andExpect(status().isCreated());
+                                .content(JsonUtil.object2Json(reqWorkflow))).andDo(print())
+                .andExpect(status().isCreated());
         verify(workflowManagerMock).create(reqWorkflow);
     }
 
@@ -197,9 +196,9 @@ public class WorkflowControllerTest {
         Workflow reqWorkflow = new Workflow();
         reqWorkflow.setName("Invalid workflow name %");
         mockMvc.perform(post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)
-                                                         .content(GSON.toJson(reqWorkflow))).andDo(print())
-               .andExpect(status().isBadRequest())
-               .andExpect(jsonPath("$.message", is("Workflow name must contain only letters, digits and underscores")));
+                                .content(JsonUtil.object2Json(reqWorkflow))).andDo(print())
+                .andExpect(status().isBadRequest()).andExpect(
+                jsonPath("$.message", is("Workflow name must contain only letters, digits and underscores")));
     }
 
     private void mockManagerList3() {

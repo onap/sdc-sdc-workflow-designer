@@ -34,7 +34,7 @@ import org.onap.sdc.workflow.persistence.impl.types.ActivitySpecData;
 import org.onap.sdc.workflow.persistence.impl.types.ActivitySpecElementType;
 import org.onap.sdc.workflow.persistence.types.ActivitySpecEntity;
 import org.onap.sdc.workflow.services.ActivitySpecConstant;
-import org.openecomp.core.utilities.json.JsonUtil;
+import org.onap.sdc.workflow.services.utilities.JsonUtil;
 import org.openecomp.core.zusammen.api.ZusammenAdaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
