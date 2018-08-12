@@ -19,7 +19,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.amdocs.zusammen.datatypes.Id;
 import com.amdocs.zusammen.datatypes.item.Item;
-import com.google.gson.Gson;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -32,12 +31,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.sdc.workflow.RestPath;
-import org.onap.sdc.workflow.services.types.Workflow;
 import org.onap.sdc.workflow.services.WorkflowManager;
 import org.onap.sdc.workflow.services.types.Page;
 import org.onap.sdc.workflow.services.types.PagingRequest;
 import org.onap.sdc.workflow.services.types.RequestSpec;
 import org.onap.sdc.workflow.services.types.Sort;
+import org.onap.sdc.workflow.services.types.Workflow;
+import org.onap.sdc.workflow.services.utilities.JsonUtil;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -49,7 +49,6 @@ public class WorkflowControllerTest {
     private static final String USER_ID = "userId";
     private static final String MISSING_USER_HEADER_ERROR =
             "Missing request header 'USER_ID' for method parameter of type String";
-    private static final Gson GSON = new Gson();
     private static final String DEFAULT_SORT_VALUE = "name:asc";
 
     private MockMvc mockMvc;
@@ -64,16 +63,16 @@ public class WorkflowControllerTest {
     @Before
     public void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(workflowController)
-                                 .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
-                                 .setControllerAdvice(new ExceptionsHandler()).build();
+                          .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
+                          .setControllerAdvice(new ExceptionsHandler()).build();
     }
 
     @Test
     public void shouldReturnErrorWhenMissingUserIdInGetReqHeader() throws Exception {
         Workflow workflowMock = createWorkflow(1, true);
         mockMvc.perform(get(RestPath.getWorkflowPath(workflowMock.getId())).contentType(APPLICATION_JSON))
-               .andDo(print()).andExpect(status().isBadRequest())
-               .andExpect(jsonPath("$.message", is(MISSING_USER_HEADER_ERROR)));
+                .andDo(print()).andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is(MISSING_USER_HEADER_ERROR)));
     }
 
     @Test
@@ -81,15 +80,15 @@ public class WorkflowControllerTest {
         Workflow workflowMock = createWorkflow(1, true);
         doReturn(workflowMock).when(workflowManagerMock).get(any(Workflow.class));
         mockMvc.perform(get(RestPath.getWorkflowPath(workflowMock.getId())).header(USER_ID_HEADER, USER_ID)
-                                                                           .contentType(APPLICATION_JSON))
-               .andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.id", is(workflowMock.getId())))
-               .andExpect(jsonPath("$.name", is(workflowMock.getName())));
+                                .contentType(APPLICATION_JSON)).andDo(print()).andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(workflowMock.getId())))
+                .andExpect(jsonPath("$.name", is(workflowMock.getName())));
     }
 
     @Test
     public void shouldReturnErrorWhenMissingUserIdInListReqHeader() throws Exception {
         mockMvc.perform(get(RestPath.getWorkflowsPath()).contentType(APPLICATION_JSON)).andDo(print())
-               .andExpect(status().isBadRequest()).andExpect(jsonPath("$.message", is(MISSING_USER_HEADER_ERROR)));
+                .andExpect(status().isBadRequest()).andExpect(jsonPath("$.message", is(MISSING_USER_HEADER_ERROR)));
     }
 
     @Test
@@ -97,8 +96,8 @@ public class WorkflowControllerTest {
         mockManagerList3();
         ResultActions result = mockMvc.perform(
                 get(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON))
-                                      .andDo(print()).andExpect(status().isOk())
-                                      .andExpect(jsonPath("$.items", hasSize(3)));
+                                       .andDo(print()).andExpect(status().isOk())
+                                       .andExpect(jsonPath("$.items", hasSize(3)));
         for (int i = 0; i < 3; i++) {
             result.andExpect(jsonPath(String.format("$.items[%s].id", i), is(String.valueOf(i + 1))));
         }
@@ -112,7 +111,7 @@ public class WorkflowControllerTest {
         mockManagerList3();
         mockMvc.perform(get(RestPath.getWorkflowsPathAllQueryParams(DEFAULT_SORT_VALUE, "2", "1"))
                                 .header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)).andDo(print())
-               .andExpect(status().isOk()).andExpect(jsonPath("$.items", hasSize(3)));
+                .andExpect(status().isOk()).andExpect(jsonPath("$.items", hasSize(3)));
         verify(workflowManagerMock).list(any(), requestSpecArg.capture());
         assertRequestSpec(requestSpecArg.getValue(), 1, 2, Collections.singletonList(new Sort("name", true)));
     }
@@ -122,7 +121,7 @@ public class WorkflowControllerTest {
         mockManagerList3();
         mockMvc.perform(get(RestPath.getWorkflowsPathAllQueryParams(DEFAULT_SORT_VALUE, "-2", "1"))
                                 .header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)).andDo(print())
-               .andExpect(status().isOk()).andExpect(jsonPath("$.items", hasSize(3)));
+                .andExpect(status().isOk()).andExpect(jsonPath("$.items", hasSize(3)));
         verify(workflowManagerMock).list(any(), requestSpecArg.capture());
         assertRequestSpec(requestSpecArg.getValue(), 1, DEFAULT_LIMIT,
                 Collections.singletonList(new Sort("name", true)));
@@ -133,7 +132,7 @@ public class WorkflowControllerTest {
         mockManagerList3();
         mockMvc.perform(get(RestPath.getWorkflowsPathAllQueryParams(DEFAULT_SORT_VALUE, "2", "-1"))
                                 .header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)).andDo(print())
-               .andExpect(status().isOk()).andExpect(jsonPath("$.items", hasSize(3)));
+                .andExpect(status().isOk()).andExpect(jsonPath("$.items", hasSize(3)));
         verify(workflowManagerMock).list(any(), requestSpecArg.capture());
         assertRequestSpec(requestSpecArg.getValue(), DEFAULT_OFFSET, 2,
                 Collections.singletonList(new Sort("name", true)));
@@ -144,7 +143,7 @@ public class WorkflowControllerTest {
         mockManagerList3();
         mockMvc.perform(get(RestPath.getWorkflowsPathAllQueryParams(DEFAULT_SORT_VALUE, "abc", "0"))
                                 .header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)).andDo(print())
-               .andExpect(status().isOk()).andExpect(jsonPath("$.items", hasSize(3)));
+                .andExpect(status().isOk()).andExpect(jsonPath("$.items", hasSize(3)));
         verify(workflowManagerMock).list(any(), requestSpecArg.capture());
         assertRequestSpec(requestSpecArg.getValue(), 0, DEFAULT_LIMIT,
                 Collections.singletonList(new Sort("name", true)));
@@ -155,7 +154,7 @@ public class WorkflowControllerTest {
         mockManagerList3();
         mockMvc.perform(get(RestPath.getWorkflowsPathAllQueryParams(DEFAULT_SORT_VALUE, "2", "abc"))
                                 .header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)).andDo(print())
-               .andExpect(jsonPath("$.items", hasSize(3)));
+                .andExpect(jsonPath("$.items", hasSize(3)));
         verify(workflowManagerMock).list(any(), requestSpecArg.capture());
         assertRequestSpec(requestSpecArg.getValue(), DEFAULT_OFFSET, 2,
                 Collections.singletonList(new Sort("name", true)));
@@ -165,8 +164,8 @@ public class WorkflowControllerTest {
     public void shouldReturnDefaultLimitOffsetAppliedWorkflowsWhenLimitIsNotSpecified() throws Exception {
         mockManagerList3();
         mockMvc.perform(get(RestPath.getWorkflowsPathNoSortAndLimit("1")).header(USER_ID_HEADER, USER_ID)
-                                                                         .contentType(APPLICATION_JSON)).andDo(print())
-               .andExpect(jsonPath("$.items", hasSize(3)));
+                                .contentType(APPLICATION_JSON)).andDo(print())
+                .andExpect(jsonPath("$.items", hasSize(3)));
         verify(workflowManagerMock).list(any(), requestSpecArg.capture());
         assertRequestSpec(requestSpecArg.getValue(), 1, DEFAULT_LIMIT, Collections.emptyList());
     }
@@ -175,8 +174,8 @@ public class WorkflowControllerTest {
     public void shouldReturnDefaultOffsetAppliedWorkflowsWhenOffsetIsNotSpecified() throws Exception {
         mockManagerList3();
         mockMvc.perform(get(RestPath.getWorkflowsPathNoSortAndOffset("1")).header(USER_ID_HEADER, USER_ID)
-                                                                          .contentType(APPLICATION_JSON)).andDo(print())
-               .andExpect(status().isOk()).andExpect(jsonPath("$.items", hasSize(3)));
+                                .contentType(APPLICATION_JSON)).andDo(print()).andExpect(status().isOk())
+                .andExpect(jsonPath("$.items", hasSize(3)));
         verify(workflowManagerMock).list(any(), requestSpecArg.capture());
         assertRequestSpec(requestSpecArg.getValue(), DEFAULT_OFFSET, 1, Collections.emptyList());
     }
@@ -187,8 +186,8 @@ public class WorkflowControllerTest {
         item.setId(new Id("abc"));
         Workflow reqWorkflow = createWorkflow(1, false);
         mockMvc.perform(post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)
-                                                         .content(GSON.toJson(reqWorkflow))).andDo(print())
-               .andExpect(status().isCreated());
+                                .content(JsonUtil.object2Json(reqWorkflow))).andDo(print())
+                .andExpect(status().isCreated());
         verify(workflowManagerMock).create(reqWorkflow);
     }
 
@@ -197,9 +196,9 @@ public class WorkflowControllerTest {
         Workflow reqWorkflow = new Workflow();
         reqWorkflow.setName("Invalid workflow name %");
         mockMvc.perform(post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)
-                                                         .content(GSON.toJson(reqWorkflow))).andDo(print())
-               .andExpect(status().isBadRequest())
-               .andExpect(jsonPath("$.message", is("Workflow name must contain only letters, digits and underscores")));
+                                .content(JsonUtil.object2Json(reqWorkflow))).andDo(print())
+                .andExpect(status().isBadRequest()).andExpect(
+                jsonPath("$.message", is("Workflow name must contain only letters, digits and underscores")));
     }
 
     private void mockManagerList3() {

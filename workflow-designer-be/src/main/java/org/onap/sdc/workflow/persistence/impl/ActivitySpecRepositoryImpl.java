@@ -34,7 +34,7 @@ import org.onap.sdc.workflow.persistence.impl.types.ActivitySpecData;
 import org.onap.sdc.workflow.persistence.impl.types.ActivitySpecElementType;
 import org.onap.sdc.workflow.persistence.types.ActivitySpecEntity;
 import org.onap.sdc.workflow.services.ActivitySpecConstant;
-import org.openecomp.core.utilities.json.JsonUtil;
+import org.onap.sdc.workflow.services.utilities.JsonUtil;
 import org.openecomp.core.zusammen.api.ZusammenAdaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -64,8 +64,8 @@ public class ActivitySpecRepositoryImpl implements ActivitySpecRepository {
         SessionContext context = createSessionContext();
 
         ElementContext elementContext = new ElementContext(entity.getId(), entity.getVersion().getId());
-        Optional<Element> element =
-                zusammenAdaptor.getElementByName(context, elementContext, null, ActivitySpecElementType.ACTIVITYSPEC.name());
+        Optional<Element> element = zusammenAdaptor.getElementByName(context, elementContext, null,
+                ActivitySpecElementType.ACTIVITYSPEC.name());
         return element.map(this::mapZusammenElementToActivityDetails).orElse(null);
     }
 
