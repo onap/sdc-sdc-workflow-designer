@@ -129,6 +129,8 @@ class InputOutputView extends React.Component {
                 errorMessage = I18n.t('workflow.inputOutput.invalidCharacters');
             } else if (error.alreadyExists && error.alreadyExists.includes(i)) {
                 errorMessage = I18n.t('workflow.inputOutput.alreadyExists');
+            } else if (error.emptyName && error.emptyName.includes(i)) {
+                errorMessage = I18n.t('workflow.inputOutput.emptyName');
             }
 
             return (

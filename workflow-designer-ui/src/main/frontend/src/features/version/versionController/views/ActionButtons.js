@@ -46,7 +46,7 @@ const ActionButtons = props => {
                         dataTestId="vc-undo-btn"
                         name="version-controller-undo"
                         tooltipText={I18n.t('buttons.undoBtn')}
-                        disabled={false}
+                        disabled={certifyDisabled}
                         onClick={onUndoClick}
                     />
                     <Separator />

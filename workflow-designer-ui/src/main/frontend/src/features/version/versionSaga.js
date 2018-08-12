@@ -76,7 +76,6 @@ function* watchSubmitVersion(action) {
 
 function* watchUpdateVersion(action) {
     try {
-        //const { composition, ...versionData } = action.payload;
         const {
             workflowId,
             params: { composition, ...versionData }
@@ -105,6 +104,11 @@ function* watchUpdateVersion(action) {
 
 function* watchCertifyVersion(action) {
     try {
+        const { workflowId, params } = action.payload;
+        yield call(versionApi.updateVersion, {
+            workflowId,
+            params: params
+        });
         yield call(versionApi.certifyVersion, {
             ...action.payload
         });

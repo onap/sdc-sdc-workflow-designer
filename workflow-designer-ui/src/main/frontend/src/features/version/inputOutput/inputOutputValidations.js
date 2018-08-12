@@ -38,6 +38,16 @@ export const getValidationsError = dataRows => {
         return result;
     }, []);
 
+    error.emptyName = dataRows.reduce((result, value, key) => {
+        const name = value.name;
+
+        if (!name) {
+            result.push(key);
+        }
+
+        return result;
+    }, []);
+
     error.invalidCharacters = dataRows.reduce((result, value, key) => {
         const groupKey = value.name;
 

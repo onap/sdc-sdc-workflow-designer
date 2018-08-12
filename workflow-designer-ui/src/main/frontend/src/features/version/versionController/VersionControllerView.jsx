@@ -19,7 +19,6 @@ import PropTypes from 'prop-types';
 import ActionButtons from 'features/version/versionController/views/ActionButtons';
 import VersionContainer from 'features/version/versionController/views/VersionsContainer';
 import WorkflowTitle from 'features/version/versionController/views/WorkflowTitle';
-import { versionState as versionStateType } from 'features/version/versionConstants';
 
 export default class VersionControllerView extends Component {
     static propTypes = {
@@ -35,10 +34,10 @@ export default class VersionControllerView extends Component {
         savedParams: PropTypes.object,
         saveParamsToServer: PropTypes.func,
         workflowId: PropTypes.string,
-        versionState: PropTypes.string,
         certifyVersion: PropTypes.func,
         changeVersion: PropTypes.func,
-        getIOErrors: PropTypes.bool
+        getIOErrors: PropTypes.bool,
+        isCertifyDisable: PropTypes.bool
     };
 
     constructor(props) {
@@ -60,9 +59,14 @@ export default class VersionControllerView extends Component {
         const {
             certifyVersion,
             workflowId,
-            currentWorkflowVersion
+            currentWorkflowVersion,
+            savedParams
         } = this.props;
-        certifyVersion({ workflowId, versionId: currentWorkflowVersion.id });
+        certifyVersion({
+            workflowId,
+            versionId: currentWorkflowVersion.id,
+            params: savedParams
+        });
     };
 
     versionChangeCallback = versionId => {
@@ -84,12 +88,9 @@ export default class VersionControllerView extends Component {
             currentWorkflowVersion,
             workflowName,
             versionsList,
-            versionState,
-            getIOErrors
+            getIOErrors,
+            isCertifyDisable
         } = this.props;
-        let isCertifyDisable =
-            versionState &&
-            versionState.toLowerCase() === versionStateType.CERTIFIED;
         return (
             <div className="version-controller-bar">
                 <WorkflowTitle workflowName={workflowName} />

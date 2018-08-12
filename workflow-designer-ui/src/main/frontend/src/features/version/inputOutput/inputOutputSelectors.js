@@ -71,7 +71,11 @@ export const getInputErrors = createSelector(
     getErrorsInputOutput,
     ({ inputs }) =>
         !isEmpty(inputs) &&
-        Boolean(inputs.alreadyExists.length || inputs.invalidCharacters.length)
+        Boolean(
+            inputs.alreadyExists.length ||
+                inputs.invalidCharacters.length ||
+                inputs.emptyName.length
+        )
 );
 
 export const getOutputErrors = createSelector(
@@ -79,7 +83,9 @@ export const getOutputErrors = createSelector(
     ({ outputs }) =>
         !isEmpty(outputs) &&
         Boolean(
-            outputs.alreadyExists.length || outputs.invalidCharacters.length
+            outputs.alreadyExists.length ||
+                outputs.invalidCharacters.length ||
+                outputs.emptyName.length
         )
 );
 

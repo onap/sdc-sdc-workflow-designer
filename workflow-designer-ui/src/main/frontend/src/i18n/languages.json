@@ -58,7 +58,8 @@
                 "CANCEL": "CANCEL",
                 "confirmDlete": "Are you sure you want to delete \"%{name}\"?",
                 "alreadyExists": "Already exists",
-                "invalidCharacters": "Alphanumeric and underscore only"
+                "invalidCharacters": "Alphanumeric and underscore only",
+                "emptyName": "Empty Name"
             },
             "composition": {
                 "bpmnError" : "BPMN.IO Error"
