@@ -55,7 +55,7 @@ import org.onap.sdc.workflow.persistence.impl.types.ActivitySpecData;
 import org.onap.sdc.workflow.persistence.impl.types.ActivitySpecElementType;
 import org.onap.sdc.workflow.persistence.types.ActivitySpecEntity;
 import org.onap.sdc.workflow.persistence.types.ActivitySpecParameter;
-import org.openecomp.core.utilities.json.JsonUtil;
+import org.onap.sdc.workflow.services.utilities.JsonUtil;
 import org.openecomp.core.zusammen.api.ZusammenAdaptor;
 import org.openecomp.sdc.common.session.SessionContextProviderFactory;
 import org.openecomp.sdc.versioning.dao.types.Version;
