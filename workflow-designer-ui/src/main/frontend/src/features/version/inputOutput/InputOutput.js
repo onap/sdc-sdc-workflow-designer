@@ -27,6 +27,7 @@ import {
     getTypes,
     getError
 } from 'features/version/inputOutput/inputOutputSelectors';
+import { getIsCertified } from 'features/version/general/generalSelectors';
 import {
     changeError,
     showInputs,
@@ -46,7 +47,8 @@ const mapStateToProps = state => ({
     search: getSearch(state),
     dataRows: getDataRows(state),
     types: getTypes(state),
-    error: getError(state)
+    error: getError(state),
+    isCertified: getIsCertified(state)
 });
 
 const mapDispatchToProps = dispatch => ({

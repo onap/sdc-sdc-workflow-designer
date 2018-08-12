@@ -17,6 +17,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Translate, I18n } from 'react-redux-i18n';
+import cn from 'classnames';
 import { SVGIcon } from 'sdc-ui/lib/react';
 
 import SearchInput from 'shared/searchInput/SearchInput';
@@ -148,7 +149,7 @@ class InputOutputView extends React.Component {
     };
 
     render() {
-        const { isShowInputs, search, handleAdd } = this.props;
+        const { isShowInputs, search, handleAdd, isCertified } = this.props;
 
         const addLabel = isShowInputs
             ? I18n.t('workflow.inputOutput.addInput')
@@ -180,7 +181,9 @@ class InputOutputView extends React.Component {
                             />
                         </div>
                         <div
-                            className="input-output__add"
+                            className={cn('input-output__add', {
+                                disabled: isCertified
+                            })}
                             data-test-id="wf-input-output-add"
                             onClick={handleAdd}>
                             <SVGIcon
@@ -194,7 +197,9 @@ class InputOutputView extends React.Component {
                 </div>
                 <div className="input-output__table">
                     <TableHead />
-                    <TableBody>{dataRowsView}</TableBody>
+                    <TableBody isCertified={isCertified}>
+                        {dataRowsView}
+                    </TableBody>
                 </div>
             </div>
         );
@@ -213,6 +218,7 @@ InputOutputView.propTypes = {
     ),
     types: PropTypes.array,
     error: PropTypes.object,
+    isCertified: PropTypes.bool,
     handleChangeError: PropTypes.func,
     handleShowInputs: PropTypes.func,
     handleShowOutputs: PropTypes.func,

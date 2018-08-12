@@ -48,6 +48,7 @@ exports[`New Workflow View Snapshot renders correctly 1`] = `
           <textarea
             className="custom-textarea field-section sdc-input__input"
             data-test-id="description"
+            disabled={false}
             onChange={[Function]}
             value=""
           />

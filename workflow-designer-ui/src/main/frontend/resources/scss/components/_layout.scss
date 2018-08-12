@@ -18,4 +18,9 @@
         grid-template-rows: 70px 1fr;
         height: 100vh;
     }
+
+    .disabled {
+        pointer-events: none;
+        opacity: 0.4;
+    }
 }

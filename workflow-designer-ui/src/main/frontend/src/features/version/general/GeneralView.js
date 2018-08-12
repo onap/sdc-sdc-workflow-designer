@@ -21,9 +21,13 @@ import { I18n, Translate } from 'react-redux-i18n';
 import Description from 'shared/components/Description';
 import { VersionInfo, LabeledValue } from 'shared/components/VersionInfo';
 
-const GeneralView = ({ onDataChange, description, created, modified }) => {
-    const modifiedValue = I18n.l(modified, { dateFormat: 'date.short' });
-    const createdValue = I18n.l(created, { dateFormat: 'date.short' });
+const GeneralView = ({ onDataChange, versionInfo, isCertified }) => {
+    const modifiedValue = I18n.l(versionInfo.modificationTime, {
+        dateFormat: 'date.short'
+    });
+    const createdValue = I18n.l(versionInfo.creationTime, {
+        dateFormat: 'date.short'
+    });
 
     return (
         <div className="general-page">
@@ -32,8 +36,9 @@ const GeneralView = ({ onDataChange, description, created, modified }) => {
             </div>
             <div className="general-page-content">
                 <Description
-                    description={description}
+                    description={versionInfo.description}
                     onDataChange={onDataChange}
+                    disabled={isCertified}
                 />
                 <VersionInfo>
                     <LabeledValue
@@ -52,9 +57,8 @@ const GeneralView = ({ onDataChange, description, created, modified }) => {
 
 GeneralView.propTypes = {
     onDataChange: PropTypes.func,
-    description: PropTypes.string,
-    created: PropTypes.string,
-    modified: PropTypes.string
+    versionInfo: PropTypes.object,
+    isCertified: PropTypes.bool
 };
 
 export default GeneralView;

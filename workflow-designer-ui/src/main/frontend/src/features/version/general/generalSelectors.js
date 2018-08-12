@@ -13,18 +13,21 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+
 import { createSelector } from 'reselect';
 
-export const getGeneralDescription = state =>
-    state && state.currentVersion.general.description;
+import { versionState } from 'features/version/versionConstants';
+
 export const getVersionInfo = state => state && state.currentVersion.general;
-
-export const getCreationTime = state =>
-    state && state.currentVersion.general.creationTime;
-
-export const getModificationTime = state =>
-    state && state.currentVersion.general.modificationTime;
 
 export const getVersionsState = createSelector(
     state => state && state.currentVersion.general.state
+);
+
+export const getIsCertified = createSelector(
+    getVersionInfo,
+    versionInfo =>
+        versionInfo &&
+        versionInfo.state &&
+        versionInfo.state.toLowerCase() === versionState.CERTIFIED
 );
