@@ -90,7 +90,7 @@ exports[`Version Controller View Snapshot renders correctly 1`] = `
               <div
                 className="svg-icon-wrapper     bottom"
                 data-test-id="vc-undo-btn"
-                disabled={false}
+                disabled={undefined}
                 onClick={undefined}
               >
                 <test-file-stub
