@@ -24,7 +24,7 @@ const Description = ({ description, onDataChange, dataTestId, disabled }) => (
                 {I18n.t('workflow.general.description')}
             </div>
             <textarea
-                value={description || ''}
+                value={description}
                 data-test-id={dataTestId || 'description'}
                 onChange={event => {
                     onDataChange({ description: event.target.value });

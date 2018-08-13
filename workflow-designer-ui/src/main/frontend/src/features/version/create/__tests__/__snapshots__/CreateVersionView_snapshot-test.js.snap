@@ -52,7 +52,7 @@ exports[`Create new version snapshot renders correctly 1`] = `
             data-test-id="new-version-description"
             disabled={false}
             onChange={[Function]}
-            value=""
+            value={undefined}
           />
         </div>
       </div>
