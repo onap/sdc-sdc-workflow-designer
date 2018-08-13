@@ -15,11 +15,48 @@
 */
 
 const mockActivities = {
-    results: []
+    results: [
+        { id: '', name: '' },
+        { id: 1, name: 'activity1', value: 'activity1' },
+        { id: 2, name: 'activity2', value: 'activity2' },
+        { id: 3, name: 'activity3', value: 'activity3' }
+    ]
 };
+
+const activitiesData = [
+    {
+        id: 1,
+        name: 'activity1',
+        inputParameters: [
+            { name: 'param1', value: 'value1' },
+            { name: 'param2', value: 'value2' }
+        ]
+    },
+    {
+        id: 2,
+        name: 'activity2',
+        inputParameters: [
+            { name: 'param1', value: 'value1' },
+            { name: 'param2', value: 'value2' }
+        ]
+    },
+    {
+        id: 3,
+        name: 'activity3',
+        inputParameters: [
+            { name: 'param1', value: 'value1' },
+            { name: 'param2', value: 'value2' }
+        ]
+    }
+];
 
 export default {
     fetchActivities: () => {
         return Promise.resolve(mockActivities);
+    },
+    fetchActivity: activity => {
+        return Promise.resolve(
+            activitiesData.find(el => el.id === activity.id)
+        );
     }
 };
