@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_dd93cda1",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/ExceptionsHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-14T10:06:32Z",
+      "side": 1,
+      "message": "I think Boolean.FALSE.toString() can be a bit clearer.",
+      "revId": "58eac31ce4f32bf1ec594ee24464924fe6031b6a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_bdddb172",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/ExceptionsHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-14T10:06:32Z",
+      "side": 1,
+      "message": "I don\u0027t think we want to see ALL exception, ALWAYS in the log. For example, input validation errors are self-explanatory and add nothing for troubleshooting a real problem. Especially without seeing the input being validated. On the contrary, they may create unnecessary noise that obscures real problems. I\u0027d recommend writing them with LOGGER.debug(). Please also provide a meaningful message to give the right context - what was happening when the error was written.",
+      "revId": "58eac31ce4f32bf1ec594ee24464924fe6031b6a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_fdca49a0",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/ExceptionsHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-14T10:06:32Z",
+      "side": 1,
+      "message": "Is RandomStringGenerator thread safe? I.e. can the same instance be reused, or do you have to create a new instance every time you need to generate a random string?",
+      "revId": "58eac31ce4f32bf1ec594ee24464924fe6031b6a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
