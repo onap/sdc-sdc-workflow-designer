@@ -89,6 +89,11 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
             <groupId>org.openecomp.sdc</groupId>
             <artifactId>openecomp-sdc-versioning-core</artifactId>
             <version>${onap.version}</version>
@@ -128,11 +133,11 @@
             <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-actuator</artifactId>
-                <scope>provided</scope>
-            </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -182,7 +187,9 @@
                                             <descriptorRef>artifact</descriptorRef>
                                             <targetDir>/</targetDir>
                                         </assembly>
-                                        <entryPoint>java ${JAVA_OPTIONS} -jar /${project.build.finalName}.jar</entryPoint>
+                                        <entryPoint>
+                                            java ${JAVA_OPTIONS} -jar /${project.build.finalName}.jar
+                                        </entryPoint>
                                     </build>
                                 </image>
                             </images>
