@@ -51,5 +51,5 @@ Feature: Workflow Version State
     When I want to update for path "/workflows/{item.id}/versions/{item.versionId}" with the input data from the context
 
   Scenario: Create second version based on non CERTIFIED one - invalid
-    Then I want the following to fail with response status code 403
+    Then I want the following to fail with response status code 422
     When I want to create for path "/workflows/{item.id}/versions?baseVersionId={item.versionId}" with the input data from the context
