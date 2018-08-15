@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_e85a8482",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/ExceptionsHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-15T09:08:58Z",
+      "side": 1,
+      "message": "You could have also used Java 8 lambdas with a functional interface. Example\n\nFunction\u003cException, UnexpectedErrorResponse\u003e unexpectedErrorMapper \u003d isDevInfoEnbaled ?\ne -\u003e new UnexpectedErrorResponse(msg, stackTrace) : e -\u003e new UnexpectedErrorResponse(msg);\n\nand then call \n\nreturn unexpectedErrorMapper.apply(e);",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 5
+      },
+      "revId": "5f231160c8cf6f14d5b2a9bb23a9c71a8599c183",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_08602031",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/types/UnexpectedErrorResponse.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-15T09:08:58Z",
+      "side": 1,
+      "message": "IMHO having a dedicated constructor could be a bit nicer\n\npublic UnexpectedErrorResponse(String message, String devInfo). \n\nEspecially that UnexpectedErrorResponse can (and should) be immutable just like ErrorResponse.",
+      "revId": "5f231160c8cf6f14d5b2a9bb23a9c71a8599c183",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
