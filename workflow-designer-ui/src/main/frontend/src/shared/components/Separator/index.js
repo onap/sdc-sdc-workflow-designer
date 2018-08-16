@@ -13,31 +13,16 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+
 import React from 'react';
 import PropTypes from 'prop-types';
-export const LabeledValue = ({ title, value }) => (
-    <React.Fragment>
-        <div className="label">{title}</div>
-        <div className="value selectable">{value}</div>
-    </React.Fragment>
-);
 
-LabeledValue.propTypes = {
-    title: PropTypes.string,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
+const Separator = styleClass => {
+    return <div className={`separator ${styleClass}`} />;
 };
 
-export const VersionInfo = ({ children }) => (
-    <div className="version-info-part">{children}</div>
-);
-
-VersionInfo.defaultProps = {
-    created: '',
-    modified: ''
+Separator.propTypes = {
+    styleClass: PropTypes.string
 };
 
-VersionInfo.propTypes = {
-    created: PropTypes.string,
-    modified: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
-};
+export default Separator;

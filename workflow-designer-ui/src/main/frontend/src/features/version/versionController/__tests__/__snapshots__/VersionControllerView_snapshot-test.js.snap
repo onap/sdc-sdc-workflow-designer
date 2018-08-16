@@ -26,6 +26,7 @@ exports[`Version Controller View Snapshot renders correctly 1`] = `
       <div
         className="version-status-container"
       >
+        Version
         <select
           className="version-selector"
           data-test-id="vc-versions-select-box"
@@ -51,7 +52,7 @@ exports[`Version Controller View Snapshot renders correctly 1`] = `
           className="select-action-buttons"
         >
           <div
-            className="vc-separator"
+            className="separator [object Object]"
           />
           <div
             className="action-button-wrapper clickable"
@@ -78,7 +79,7 @@ exports[`Version Controller View Snapshot renders correctly 1`] = `
             </div>
           </div>
           <div
-            className="vc-separator"
+            className="separator [object Object]"
           />
           <div
             className="action-button-wrapper clickable"
@@ -105,7 +106,7 @@ exports[`Version Controller View Snapshot renders correctly 1`] = `
             </div>
           </div>
           <div
-            className="vc-separator"
+            className="separator [object Object]"
           />
           <button
             className="sdc-button sdc-button__primary  certifyBtn "

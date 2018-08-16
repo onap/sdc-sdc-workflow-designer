@@ -23,4 +23,12 @@
         pointer-events: none;
         opacity: 0.4;
     }
+
+    .selectable {
+        user-select: text;
+    }
+
+    .separator {
+        border-left: 1px solid $silver;
+    }
 }
