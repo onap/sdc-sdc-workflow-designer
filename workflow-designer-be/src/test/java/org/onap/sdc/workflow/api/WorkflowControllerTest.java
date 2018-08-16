@@ -201,6 +201,36 @@ public class WorkflowControllerTest {
                 jsonPath("$.message", is("Workflow name must contain only letters, digits and underscores")));
     }
 
+    @Test
+    public void shouldThrowExceptionWhenWorkflowNameBlank() throws Exception {
+        Workflow reqWorkflow = new Workflow();
+        reqWorkflow.setName("  ");
+        mockMvc.perform(post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)
+                                                         .content(JsonUtil.object2Json(reqWorkflow))).andDo(print())
+               .andExpect(status().isBadRequest()).andExpect(
+                jsonPath("$.message", is("Workflow name may not be blank")));
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenWorkflowNameNull() throws Exception {
+        Workflow reqWorkflow = new Workflow();
+        reqWorkflow.setName(null);
+        mockMvc.perform(post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)
+                                                         .content(JsonUtil.object2Json(reqWorkflow))).andDo(print())
+               .andExpect(status().isBadRequest()).andExpect(
+                jsonPath("$.message", is("Workflow name may not be blank")));
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenWorkflowNameEmptyString() throws Exception {
+        Workflow reqWorkflow = new Workflow();
+        reqWorkflow.setName("");
+        mockMvc.perform(post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)
+                                                         .content(JsonUtil.object2Json(reqWorkflow))).andDo(print())
+               .andExpect(status().isBadRequest()).andExpect(
+                jsonPath("$.message", is("Workflow name may not be blank")));
+    }
+
     private void mockManagerList3() {
         doReturn(new Page<>(Arrays.asList(createWorkflow(1, true), createWorkflow(2, true), createWorkflow(3, true)),
                 new PagingRequest(DEFAULT_OFFSET, DEFAULT_LIMIT), 3)).when(workflowManagerMock).list(any(), any());
