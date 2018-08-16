@@ -74,6 +74,11 @@ $browserPrefixes: webkit moz o ms;
   @include prefix(box-shadow, $value, $box-shadow-radius-prefix);
 }
 
+@mixin sticky($value) {
+  position: sticky;
+  top: $value;
+}
+
 @mixin text-shadow($value) {
   @include prefix(text-shadow, $value, $text-shadow-radius-prefix);
 }

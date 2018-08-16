@@ -29,6 +29,7 @@ const VersionContainer = props => {
     return (
         <div className="version-section-wrapper">
             <div className="version-status-container">
+                Version
                 <VersionSelect
                     currentWorkflowVersion={currentWorkflowVersion}
                     viewableVersions={viewableVersions}

@@ -20,6 +20,7 @@ import PropTypes from 'prop-types';
 import WorkflowDetails from 'features/workflow/overview/views/WorkflowDetails';
 import WorkflowVersions from 'features/workflow/overview/views/WorkflowVersions';
 import WorkflowHeader from 'features/workflow/overview/views/WorkflowHeader';
+import Separator from 'shared/components/Separator';
 
 class OverviewView extends Component {
     static propTypes = {
@@ -80,28 +81,27 @@ class OverviewView extends Component {
             parent: version.baseId || ''
         }));
         return (
-            <div>
-                <div className="overview-page">
-                    <WorkflowHeader name={workflow.name} />
-                    <div className="overview-content">
-                        <WorkflowDetails
-                            name={workflow.name}
-                            description={workflow.description}
-                            modified={workflow.modified}
-                            created={workflow.created}
-                            workflowId={workflow.id}
-                            versionId={selectedVersion}
-                            updateWorkflow={this.onUpdateWorkflow}
-                        />
-                        <WorkflowVersions
-                            nodeVersions={nodeVersions}
-                            versions={versions}
-                            onCreateVersion={this.onCreateNewVersionFromTable}
-                            onSelectVersion={this.onSelectVersionFromTable}
-                            selectedVersion={selectedVersion}
-                            isVersionsCertifies={isVersionsCertifies}
-                        />
-                    </div>
+            <div className="overview-page">
+                <WorkflowHeader name={workflow.name} />
+                <div className="overview-content">
+                    <WorkflowDetails
+                        name={workflow.name}
+                        description={workflow.description}
+                        modified={workflow.modified}
+                        created={workflow.created}
+                        workflowId={workflow.id}
+                        versionId={selectedVersion}
+                        updateWorkflow={this.onUpdateWorkflow}
+                    />
+                    <Separator styleClass={'overview-separator'} />
+                    <WorkflowVersions
+                        nodeVersions={nodeVersions}
+                        versions={versions}
+                        onCreateVersion={this.onCreateNewVersionFromTable}
+                        onSelectVersion={this.onSelectVersionFromTable}
+                        selectedVersion={selectedVersion}
+                        isVersionsCertifies={isVersionsCertifies}
+                    />
                 </div>
             </div>
         );

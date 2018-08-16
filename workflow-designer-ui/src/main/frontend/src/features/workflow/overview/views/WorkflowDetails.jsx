@@ -25,8 +25,18 @@ class WorkflowDetails extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            editWorkflow: ''
+            editWorkflow: { description: props.description }
         };
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.description !== this.props.description) {
+            this.setState({
+                editWorkflow: {
+                    description: this.props.description
+                }
+            });
+        }
     }
 
     workflowDetailsChanged = val => {
@@ -39,7 +49,7 @@ class WorkflowDetails extends Component {
     };
 
     render() {
-        const { name, description, workflowId, versionId } = this.props;
+        const { name, workflowId, versionId } = this.props;
         return (
             <div className="workflow-details">
                 <form onSubmit={this.handleSubmitForm}>
@@ -52,9 +62,7 @@ class WorkflowDetails extends Component {
                         disabled
                     />
                     <Description
-                        description={
-                            this.state.editWorkflow.description || description
-                        }
+                        description={this.state.editWorkflow.description}
                         onDataChange={this.workflowDetailsChanged}
                     />
                     <div className="save-description">

@@ -26,7 +26,8 @@ import {
 } from 'features/workflow/workflowSelectors';
 import {
     inputChangeAction,
-    submitWorkflowAction
+    submitWorkflowAction,
+    putNameError
 } from 'features/workflow/create/createWorkflowConstants';
 
 function mapStateToProps(state) {
@@ -34,7 +35,8 @@ function mapStateToProps(state) {
         translation: i18nSelector(state),
         workflowDescription: getWorkflowDescription(state),
         workflowName: getWorkflowName(state),
-        workflowParams: getWorkflowParams(state)
+        workflowParams: getWorkflowParams(state),
+        errorMessage: state.workflow.data.error
     };
 }
 
@@ -45,6 +47,7 @@ function mapDispatchToProps(dispatch) {
             dispatch(hideModalAction());
         },
         closeCreateWorkflowModal: () => dispatch(hideModalAction()),
+        putNameError: () => dispatch(putNameError()),
         workflowInputChange: payload => dispatch(inputChangeAction(payload))
     };
 }
