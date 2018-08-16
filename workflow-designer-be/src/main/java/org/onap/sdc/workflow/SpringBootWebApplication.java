@@ -16,6 +16,9 @@
 
 package org.onap.sdc.workflow;
 
+import org.openecomp.sdc.logging.LoggingConstants;
+import org.openecomp.sdc.logging.servlet.HttpHeader;
+import org.openecomp.sdc.logging.servlet.spring.LoggingInterceptor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.embedded.jetty.JettyServletWebServerFactory;
@@ -25,8 +28,16 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class SpringBootWebApplication {
 
+    private HttpHeader requestIdHeader = new HttpHeader(LoggingConstants.DEFAULT_REQUEST_ID_HEADER);
+    private HttpHeader partnerNameHeader = new HttpHeader(LoggingConstants.DEFAULT_PARTNER_NAME_HEADER);
+
     public static void main(String[] args) {
         SpringApplication.run(SpringBootWebApplication.class, args);
+    }
+
+    @Bean
+    public LoggingInterceptor loggingInterceptorCreate() {
+        return new LoggingInterceptor(partnerNameHeader, requestIdHeader);
     }
 
     @Bean
