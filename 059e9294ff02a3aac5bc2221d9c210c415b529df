@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_fef79557",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/server/config/WorkflowBEConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-16T15:13:27Z",
+      "side": 1,
+      "message": "Why do you need two separate classes for configuration? This one and ApplicationConfigurer?",
+      "revId": "059e9294ff02a3aac5bc2221d9c210c415b529df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_3efe6d39",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/server/config/WorkflowBEConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-16T15:13:27Z",
+      "side": 1,
+      "message": "Please rename to WorkflowConfig.",
+      "range": {
+        "startLine": 12,
+        "startChar": 21,
+        "endLine": 12,
+        "endChar": 23
+      },
+      "revId": "059e9294ff02a3aac5bc2221d9c210c415b529df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_1e8a91bf",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/server/config/WorkflowBEConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-16T15:13:27Z",
+      "side": 1,
+      "message": "What\u0027s wrong with much simpler @Value(\"${requestIdHeader}\") ? Doesn\u0027t it work? Also, I would rename this config parameter to clarify what is\u0027t used for.\n\nhttps://stackoverflow.com/questions/6212898/spring-properties-file-get-element-as-an-array",
+      "range": {
+        "startLine": 13,
+        "startChar": 11,
+        "endLine": 13,
+        "endChar": 47
+      },
+      "revId": "059e9294ff02a3aac5bc2221d9c210c415b529df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_be991d21",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/server/config/WorkflowBEConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-16T15:13:27Z",
+      "side": 1,
+      "message": "Please add an empty line between the two fields - it will be more readable.",
+      "revId": "059e9294ff02a3aac5bc2221d9c210c415b529df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_de93b9f8",
+        "filename": "workflow-designer-be/src/main/resources/application-dev.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-16T15:13:27Z",
+      "side": 1,
+      "message": "I don\u0027t see any value in parameterizing these properties. They will unlikely to change between environments, but probably between releases (Workflow doesn\u0027t decide what values to use, it\u0027s a cross-component, ONAP-wide decision).\n\nrequestIdHeader\u003dX-ECOMP-RequestID,X-ONAP-RequestID\npartnerNameHeader\u003dUSER_ID",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 46
+      },
+      "revId": "059e9294ff02a3aac5bc2221d9c210c415b529df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_9ebd416b",
+        "filename": "workflow-designer-be/src/main/resources/application.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-16T15:13:27Z",
+      "side": 1,
+      "message": "requestIdHeader\u003dX-ECOMP-RequestID,X-ONAP-RequestID\npartnerNameHeader\u003dUSER_ID\n\nThis is how they are defined in SDC Onboarding. I don\u0027t see a point in doing it differently. Let\u0027s keep it simple.",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 39
+      },
+      "revId": "059e9294ff02a3aac5bc2221d9c210c415b529df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
