@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a76adc5_1b8aa3bf",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/SpringBootWebApplication.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-16T11:59:02Z",
+      "side": 1,
+      "message": "You could also inject configuration using Spring Boot configuration capabilities. E.g.\n\n@Value(\"${onap.logging.requestIdHeaders}\")\nprivate String[] requestIdHeaders;\n\n@Value(\"${onap.logging.partnerNameHeaders}\")\nprivate String[] partnerNameHeaders;\n\nand then\n\nreturn new LoggingInterceptor(new HttpHeader(partnerNameHeaders), new HttpHeader(requestIdHeaders));",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 104
+      },
+      "revId": "2fb173a359cf9027ba0db0fcb20c25a2f0d134de",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_5ba01b43",
         "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/SpringBootWebApplication.java",
         "patchSetId": 1
