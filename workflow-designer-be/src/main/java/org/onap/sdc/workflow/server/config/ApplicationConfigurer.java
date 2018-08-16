@@ -16,24 +16,20 @@
 
 package org.onap.sdc.workflow.server.config;
 
-import static springfox.documentation.builders.PathSelectors.regex;
-
-import org.springframework.context.annotation.Bean;
+import org.openecomp.sdc.logging.servlet.spring.LoggingInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-@EnableSwagger2
-public class SwaggerConfig {
+public class ApplicationConfigurer implements WebMvcConfigurer {
 
-    @Bean
-    public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                       .select().apis(RequestHandlerSelectors.basePackage("org.onap.sdc.workflow.api"))
-                       .paths(regex("/(wf/workflows|v1.0/activity-spec).*"))
-                       .build();
+    @Autowired
+    LoggingInterceptor loggingInterceptor;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(loggingInterceptor);
     }
 }

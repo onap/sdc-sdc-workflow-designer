@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.onap.sdc.workflow.api.types.dto;
 
 import lombok.Data;
@@ -37,7 +38,7 @@ public class ArtifactDeliveriesRequestDto {
     public ArtifactDeliveriesRequestDto(){
     }
 
-    public ArtifactDeliveriesRequestDto(String method, String endpoint){
+    public ArtifactDeliveriesRequestDto(String method, String endpoint) {
         this.method = method;
         this.endpoint = endpoint;
     }

@@ -80,7 +80,11 @@
             <groupId>org.openecomp.sdc</groupId>
             <artifactId>openecomp-sdc-logging-api</artifactId>
             <version>${onap.version}</version>
-            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openecomp.sdc</groupId>
+            <artifactId>openecomp-sdc-logging-spring</artifactId>
+            <version>${onap.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openecomp.sdc</groupId>
