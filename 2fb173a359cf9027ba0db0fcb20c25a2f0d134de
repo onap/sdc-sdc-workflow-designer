@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_5ba01b43",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/SpringBootWebApplication.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-16T11:53:22Z",
+      "side": 1,
+      "message": "I\u0027d recommend to declare the bean in a configuration file, where you can also inject the headers as constructor arguments.",
+      "range": {
+        "startLine": 38,
+        "startChar": 1,
+        "endLine": 41,
+        "endChar": 5
+      },
+      "revId": "2fb173a359cf9027ba0db0fcb20c25a2f0d134de",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
