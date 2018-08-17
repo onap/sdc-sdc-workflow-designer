@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_f506d01f",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/server/config/WorkflowBEConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1879
+      },
+      "writtenOn": "2018-08-17T12:07:33Z",
+      "side": 1,
+      "message": "Actually I thought in a way we should have 2 separate file one for initializing beans and other for configuring all kind of Spring framework capabilities like for now we are using interceptor in future we might use other as well like request response formatter.",
+      "parentUuid": "1a76adc5_fef79557",
+      "revId": "059e9294ff02a3aac5bc2221d9c210c415b529df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_3efe6d39",
         "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/server/config/WorkflowBEConfig.java",
         "patchSetId": 2
