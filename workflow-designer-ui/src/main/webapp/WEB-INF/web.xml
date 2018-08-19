@@ -14,6 +14,7 @@
     <servlet-mapping>
         <servlet-name>Transparent Proxy</servlet-name>
         <url-pattern>/wf/*</url-pattern>
+        <url-pattern>/v1.0/activity-spec/*</url-pattern>
     </servlet-mapping>
 
 </web-app>
