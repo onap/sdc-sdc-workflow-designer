@@ -24,7 +24,7 @@ import org.onap.sdc.workflow.services.types.RequestSpec;
 
 public interface WorkflowManager {
 
-    Page<Workflow> list(Set<WorkflowVersionState> versionStatesFilter, RequestSpec requestSpec);
+    Page<Workflow> list(String searchNameFilter, Set<WorkflowVersionState> versionStatesFilter, RequestSpec requestSpec);
 
     Workflow get(Workflow workflow);
 

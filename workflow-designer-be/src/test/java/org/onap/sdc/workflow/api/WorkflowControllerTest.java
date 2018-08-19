@@ -102,7 +102,7 @@ public class WorkflowControllerTest {
             result.andExpect(jsonPath(String.format("$.items[%s].id", i), is(String.valueOf(i + 1))));
         }
 
-        verify(workflowManagerMock).list(any(), requestSpecArg.capture());
+        verify(workflowManagerMock).list(any(),any(), requestSpecArg.capture());
         assertRequestSpec(requestSpecArg.getValue(), DEFAULT_OFFSET, DEFAULT_LIMIT, Collections.emptyList());
     }
 
@@ -112,7 +112,7 @@ public class WorkflowControllerTest {
         mockMvc.perform(get(RestPath.getWorkflowsPathAllQueryParams(DEFAULT_SORT_VALUE, "2", "1"))
                                 .header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)).andDo(print())
                .andExpect(status().isOk()).andExpect(jsonPath("$.items", hasSize(3)));
-        verify(workflowManagerMock).list(any(), requestSpecArg.capture());
+        verify(workflowManagerMock).list(any(),any(), requestSpecArg.capture());
         assertRequestSpec(requestSpecArg.getValue(), 1, 2, Collections.singletonList(new Sort("name", true)));
     }
 
@@ -122,7 +122,7 @@ public class WorkflowControllerTest {
         mockMvc.perform(get(RestPath.getWorkflowsPathAllQueryParams(DEFAULT_SORT_VALUE, "-2", "1"))
                                 .header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)).andDo(print())
                .andExpect(status().isOk()).andExpect(jsonPath("$.items", hasSize(3)));
-        verify(workflowManagerMock).list(any(), requestSpecArg.capture());
+        verify(workflowManagerMock).list(any(),any(), requestSpecArg.capture());
         assertRequestSpec(requestSpecArg.getValue(), 1, DEFAULT_LIMIT,
                 Collections.singletonList(new Sort("name", true)));
     }
@@ -133,7 +133,7 @@ public class WorkflowControllerTest {
         mockMvc.perform(get(RestPath.getWorkflowsPathAllQueryParams(DEFAULT_SORT_VALUE, "2", "-1"))
                                 .header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)).andDo(print())
                .andExpect(status().isOk()).andExpect(jsonPath("$.items", hasSize(3)));
-        verify(workflowManagerMock).list(any(), requestSpecArg.capture());
+        verify(workflowManagerMock).list(any(),any(), requestSpecArg.capture());
         assertRequestSpec(requestSpecArg.getValue(), DEFAULT_OFFSET, 2,
                 Collections.singletonList(new Sort("name", true)));
     }
@@ -144,7 +144,7 @@ public class WorkflowControllerTest {
         mockMvc.perform(get(RestPath.getWorkflowsPathAllQueryParams(DEFAULT_SORT_VALUE, "abc", "0"))
                                 .header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)).andDo(print())
                .andExpect(status().isOk()).andExpect(jsonPath("$.items", hasSize(3)));
-        verify(workflowManagerMock).list(any(), requestSpecArg.capture());
+        verify(workflowManagerMock).list(any(),any(), requestSpecArg.capture());
         assertRequestSpec(requestSpecArg.getValue(), 0, DEFAULT_LIMIT,
                 Collections.singletonList(new Sort("name", true)));
     }
@@ -155,7 +155,7 @@ public class WorkflowControllerTest {
         mockMvc.perform(get(RestPath.getWorkflowsPathAllQueryParams(DEFAULT_SORT_VALUE, "2", "abc"))
                                 .header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)).andDo(print())
                .andExpect(jsonPath("$.items", hasSize(3)));
-        verify(workflowManagerMock).list(any(), requestSpecArg.capture());
+        verify(workflowManagerMock).list(any(),any(), requestSpecArg.capture());
         assertRequestSpec(requestSpecArg.getValue(), DEFAULT_OFFSET, 2,
                 Collections.singletonList(new Sort("name", true)));
     }
@@ -166,7 +166,7 @@ public class WorkflowControllerTest {
         mockMvc.perform(get(RestPath.getWorkflowsPathNoSortAndLimit("1")).header(USER_ID_HEADER, USER_ID)
                                                                          .contentType(APPLICATION_JSON)).andDo(print())
                .andExpect(jsonPath("$.items", hasSize(3)));
-        verify(workflowManagerMock).list(any(), requestSpecArg.capture());
+        verify(workflowManagerMock).list(any(),any(), requestSpecArg.capture());
         assertRequestSpec(requestSpecArg.getValue(), 1, DEFAULT_LIMIT, Collections.emptyList());
     }
 
@@ -176,7 +176,7 @@ public class WorkflowControllerTest {
         mockMvc.perform(get(RestPath.getWorkflowsPathNoSortAndOffset("1")).header(USER_ID_HEADER, USER_ID)
                                                                           .contentType(APPLICATION_JSON)).andDo(print())
                .andExpect(status().isOk()).andExpect(jsonPath("$.items", hasSize(3)));
-        verify(workflowManagerMock).list(any(), requestSpecArg.capture());
+        verify(workflowManagerMock).list(any(),any(), requestSpecArg.capture());
         assertRequestSpec(requestSpecArg.getValue(), DEFAULT_OFFSET, 1, Collections.emptyList());
     }
 
@@ -207,8 +207,27 @@ public class WorkflowControllerTest {
         reqWorkflow.setName("  ");
         mockMvc.perform(post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)
                                                          .content(JsonUtil.object2Json(reqWorkflow))).andDo(print())
+               .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenWorkflowNameMoreThanMax() throws Exception {
+        Workflow reqWorkflow = new Workflow();
+        reqWorkflow.setName("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        mockMvc.perform(post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)
+                                                         .content(JsonUtil.object2Json(reqWorkflow))).andDo(print())
                .andExpect(status().isBadRequest()).andExpect(
-                jsonPath("$.message", is("Workflow name may not be blank")));
+                jsonPath("$.message", is("Workflow name must be at least 6 characters, and no more than 80 characters")));
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenWorkflowNameLessThanMin() throws Exception {
+        Workflow reqWorkflow = new Workflow();
+        reqWorkflow.setName("AAA");
+        mockMvc.perform(post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)
+                                                         .content(JsonUtil.object2Json(reqWorkflow))).andDo(print())
+               .andExpect(status().isBadRequest()).andExpect(
+                       jsonPath("$.message", is("Workflow name must be at least 6 characters, and no more than 80 characters")));
     }
 
     @Test
@@ -217,23 +236,21 @@ public class WorkflowControllerTest {
         reqWorkflow.setName(null);
         mockMvc.perform(post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)
                                                          .content(JsonUtil.object2Json(reqWorkflow))).andDo(print())
-               .andExpect(status().isBadRequest()).andExpect(
-                jsonPath("$.message", is("Workflow name may not be blank")));
+               .andExpect(status().isBadRequest());
     }
 
     @Test
     public void shouldThrowExceptionWhenWorkflowNameEmptyString() throws Exception {
         Workflow reqWorkflow = new Workflow();
-        reqWorkflow.setName("");
+        reqWorkflow.setName("  ");
         mockMvc.perform(post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)
                                                          .content(JsonUtil.object2Json(reqWorkflow))).andDo(print())
-               .andExpect(status().isBadRequest()).andExpect(
-                jsonPath("$.message", is("Workflow name may not be blank")));
+               .andExpect(status().isBadRequest());
     }
 
     private void mockManagerList3() {
         doReturn(new Page<>(Arrays.asList(createWorkflow(1, true), createWorkflow(2, true), createWorkflow(3, true)),
-                new PagingRequest(DEFAULT_OFFSET, DEFAULT_LIMIT), 3)).when(workflowManagerMock).list(any(), any());
+                new PagingRequest(DEFAULT_OFFSET, DEFAULT_LIMIT), 3)).when(workflowManagerMock).list(any(),any(), any());
     }
 
     private static void assertRequestSpec(RequestSpec actual, int expectedOffset, int expectedLimit,

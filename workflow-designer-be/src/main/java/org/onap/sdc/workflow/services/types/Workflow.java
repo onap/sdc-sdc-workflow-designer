@@ -30,7 +30,7 @@ public class Workflow {
 
     private String id;
     @NotBlank(message = "Workflow name may not be blank")
-    @Size(max = 80, message = "Workflow name must be less than 80 characters")
+    @Size(min = 6, max = 80, message = "Workflow name must be at least 6 characters, and no more than 80 characters")
     @Pattern(regexp = "[A-Za-z0-9_ ]+", message = "Workflow name must contain only letters, digits and underscores")
     private String name;
     private String description;
