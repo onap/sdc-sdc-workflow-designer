@@ -27,12 +27,18 @@ const CreateWorkflowView = props => {
         submitWorkflow,
         closeCreateWorkflowModal,
         workflowParams,
-        history
+        history,
+        errorMessage,
+        putNameError
     } = props;
 
     function handleSubmitForm(e) {
         e.preventDefault();
-        submitWorkflow({ ...workflowParams, history });
+        if (workflowParams.name) {
+            submitWorkflow({ ...workflowParams, history });
+        } else {
+            putNameError();
+        }
     }
 
     return (
@@ -49,6 +55,7 @@ const CreateWorkflowView = props => {
                                 name: val
                             })
                         }
+                        errorMessage={errorMessage}
                         isRequired
                     />
                     <Description
@@ -79,7 +86,9 @@ CreateWorkflowView.propTypes = {
     workflowName: PropTypes.string,
     closeCreateWorkflowModal: PropTypes.func,
     workflowParams: PropTypes.object,
-    history: PropTypes.object
+    history: PropTypes.object,
+    errorMessage: PropTypes.string,
+    putNameError: PropTypes.func
 };
 
 CreateWorkflowView.defaultProps = {

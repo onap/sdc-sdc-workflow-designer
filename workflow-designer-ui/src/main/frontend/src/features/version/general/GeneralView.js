@@ -16,7 +16,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { I18n, Translate } from 'react-redux-i18n';
+import { I18n } from 'react-redux-i18n';
 
 import Description from 'shared/components/Description';
 import { VersionInfo, LabeledValue } from 'shared/components/VersionInfo';
@@ -31,9 +31,6 @@ const GeneralView = ({ onDataChange, versionInfo, isCertified }) => {
 
     return (
         <div className="general-page">
-            <div className="general-page-title">
-                <Translate value="workflow.general.headerTitle" />
-            </div>
             <div className="general-page-content">
                 <Description
                     description={versionInfo.description}

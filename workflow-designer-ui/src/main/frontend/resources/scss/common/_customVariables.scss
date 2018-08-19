@@ -15,13 +15,11 @@ $body-font-4: 10px;
 @mixin regular-font() {
     font-family: OpenSans-Regular, Arial, sans-serif;
     font-style: normal;
-    font-weight: 400;
 }
 
 @mixin italic-font() {
     font-family: OpenSans-Italic, OpenSans-Regular, Arial, sans-serif;
     font-style: italic;
-    font-weight: 400;
 }
 
 @mixin semibold-font() {

@@ -1,19 +1,32 @@
 .overview-page {
   @include body-1;
-  padding: 25px;
+  color: $dark-gray;
+  overflow-y: auto;
+  height: 100vh;
 
   .overview-content {
     display: flex;
     flex-wrap: wrap;
+    min-height: 775px;
+
+    .overview-separator {
+      border-left: 1px solid $silver;
+    }
 
     .workflow-details {
       @extend .flex;
-      padding: 20px 0 0 60px;
+      @media (min-width: 1076px) {
+        @include sticky(30px);
+      }
+      max-height: 600px;
+      padding: 0 45px 0 56px;
       flex-direction: column;
 
-      .description-part textarea{
-        height: 200px;
-        padding-top: 5px;
+      .description-part {
+        padding-top: 20px;
+        textarea{
+          height: 200px;
+        }
       }
 
       .save-description {
@@ -31,7 +44,10 @@
           margin-bottom: 5px;
         }
         .value {
-          margin-bottom: 10px;
+          margin-bottom: 20px;
+          &:last-child {
+            margin-bottom: 0;
+          }
         }
       }
     }
@@ -45,7 +61,7 @@
   .overview-header {
     @include heading-1;
     text-transform: uppercase;
-    margin: 35px 0 35px 60px;
+    margin: 63px 0 35px 56px;
     color: $blue;
   }
 
@@ -56,18 +72,35 @@
   @mixin version-page-sub-title(){
     color: $text-black;
     text-transform: uppercase;
-    //background-color: $white;
     border-bottom: 1px solid $light-gray;
     padding: 12px 0 10px 45px;
   }
 
   .versions-page-view {
-    height: 100%;
-    overflow: auto;
-    padding: 0 35px 0 90px;
+    padding: 0 56px 0 45px;
     display: flex;
     flex: 2;
     flex-direction: column;
+
+    /* width */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+      background: #888;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
 
     .svg-icon-wrapper {
       justify-content: flex-start;
@@ -104,7 +137,7 @@
 
     .versions-page-list-and-tree {
       display: flex;
-      margin-top: 20px;
+      margin-top: 10px;
 
       .version-tree-wrapper {
         display: flex;
@@ -114,6 +147,9 @@
 
         .version-tree-title-container {
           @include body-1-semibold();
+          @media (min-width: 1076px) {
+            @include sticky(1px);
+          }
           background-color: $light-silver;
           display: flex;
           align-items: center;
@@ -143,7 +179,6 @@
 
     .version-list {
       @extend .flex;
-      color: $text-black;
       flex-direction: column;
 
       .version-list-items {
@@ -170,6 +205,7 @@
         padding: 15px 30px;
         @include version-page-box-shadow();
         height: 70px;
+        max-height: 70px;
 
         &:hover {
           background-color: $row-hover-color;
@@ -187,7 +223,9 @@
         &.header-row {
           height: 40px;
           background-color: $light-silver;
-
+          @media (min-width: 1076px) {
+            @include sticky(1px);
+          }
           @include body-1-semibold();
           @include version-page-sub-title();
           padding: 15px 27px;
@@ -214,11 +252,10 @@
 
           &.item-description, &.item-last-edited {
             @include body-1;
-            color: $dark-gray;
           }
 
           &.item-description, &.header-description {
-            flex: 2 1 0;
+            flex: 1 1 0;
           }
 
           &.item-description > .description-text {
