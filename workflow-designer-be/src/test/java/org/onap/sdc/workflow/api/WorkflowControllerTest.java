@@ -207,8 +207,7 @@ public class WorkflowControllerTest {
         reqWorkflow.setName("  ");
         mockMvc.perform(post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)
                                                          .content(JsonUtil.object2Json(reqWorkflow))).andDo(print())
-               .andExpect(status().isBadRequest()).andExpect(
-                jsonPath("$.message", is("Workflow name may not be blank")));
+               .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -217,8 +216,7 @@ public class WorkflowControllerTest {
         reqWorkflow.setName(null);
         mockMvc.perform(post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)
                                                          .content(JsonUtil.object2Json(reqWorkflow))).andDo(print())
-               .andExpect(status().isBadRequest()).andExpect(
-                jsonPath("$.message", is("Workflow name may not be blank")));
+               .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -227,8 +225,7 @@ public class WorkflowControllerTest {
         reqWorkflow.setName("");
         mockMvc.perform(post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)
                                                          .content(JsonUtil.object2Json(reqWorkflow))).andDo(print())
-               .andExpect(status().isBadRequest()).andExpect(
-                jsonPath("$.message", is("Workflow name may not be blank")));
+               .andExpect(status().isBadRequest());
     }
 
     private void mockManagerList3() {
