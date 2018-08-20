@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_3830b8e7",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/types/Workflow.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-08-20T08:21:27Z",
+      "side": 1,
+      "message": "A space is missing. Please also try to use constants. Because if the constraints change, the message may become outdated.\n\n@Size(min \u003d MIN, max \u003d MAX, message \u003d \"Workflow name must be at least \" + MIN + \" characters, and no more than \" + MAX + \" characters\")",
+      "revId": "a9505c5a1d8e536ae8a2debf6ca28f0bfaaffa5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
