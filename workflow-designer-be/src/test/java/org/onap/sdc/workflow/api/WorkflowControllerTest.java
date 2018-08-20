@@ -10,6 +10,8 @@ import static org.onap.sdc.workflow.TestUtil.createWorkflow;
 import static org.onap.sdc.workflow.api.RestParams.USER_ID_HEADER;
 import static org.onap.sdc.workflow.services.types.PagingConstants.DEFAULT_LIMIT;
 import static org.onap.sdc.workflow.services.types.PagingConstants.DEFAULT_OFFSET;
+import static org.onap.sdc.workflow.services.types.WorkflowValidationConstants.MAX_LENGTH;
+import static org.onap.sdc.workflow.services.types.WorkflowValidationConstants.MIN_LENGTH;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -198,7 +200,7 @@ public class WorkflowControllerTest {
         mockMvc.perform(post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)
                                 .content(JsonUtil.object2Json(reqWorkflow))).andDo(print())
                 .andExpect(status().isBadRequest()).andExpect(
-                jsonPath("$.message", is("Workflow name must contain only letters, digits and underscores")));
+                jsonPath("$.message", is("Workflow name must contain only letters, digits and underscores.")));
     }
 
     @Test
@@ -207,8 +209,7 @@ public class WorkflowControllerTest {
         reqWorkflow.setName("  ");
         mockMvc.perform(post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)
                                                          .content(JsonUtil.object2Json(reqWorkflow))).andDo(print())
-               .andExpect(status().isBadRequest()).andExpect(
-                jsonPath("$.message", is("Workflow name may not be blank")));
+               .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -217,8 +218,7 @@ public class WorkflowControllerTest {
         reqWorkflow.setName(null);
         mockMvc.perform(post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)
                                                          .content(JsonUtil.object2Json(reqWorkflow))).andDo(print())
-               .andExpect(status().isBadRequest()).andExpect(
-                jsonPath("$.message", is("Workflow name may not be blank")));
+               .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -227,8 +227,27 @@ public class WorkflowControllerTest {
         reqWorkflow.setName("");
         mockMvc.perform(post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)
                                                          .content(JsonUtil.object2Json(reqWorkflow))).andDo(print())
+               .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenWorkflowNameMoreThanMax() throws Exception {
+        Workflow reqWorkflow = new Workflow();
+        reqWorkflow.setName("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        mockMvc.perform(post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)
+                                                         .content(JsonUtil.object2Json(reqWorkflow))).andDo(print())
                .andExpect(status().isBadRequest()).andExpect(
-                jsonPath("$.message", is("Workflow name may not be blank")));
+                jsonPath("$.message", is("Workflow name must be at least " + MIN_LENGTH + " characters, and no more than " + MAX_LENGTH + " characters.")));
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenWorkflowNameLessThanMin() throws Exception {
+        Workflow reqWorkflow = new Workflow();
+        reqWorkflow.setName("AAA");
+        mockMvc.perform(post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)
+                                                         .content(JsonUtil.object2Json(reqWorkflow))).andDo(print())
+               .andExpect(status().isBadRequest()).andExpect(
+                jsonPath("$.message", is("Workflow name must be at least " + MIN_LENGTH + " characters, and no more than " + MAX_LENGTH + " characters.")));
     }
 
     private void mockManagerList3() {

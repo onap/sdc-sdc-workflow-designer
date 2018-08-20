@@ -17,6 +17,9 @@
 package org.onap.sdc.workflow.services.types;
 
 
+import static org.onap.sdc.workflow.services.types.WorkflowValidationConstants.MAX_LENGTH;
+import static org.onap.sdc.workflow.services.types.WorkflowValidationConstants.MIN_LENGTH;
+
 import java.util.Collection;
 import java.util.Set;
 import javax.validation.constraints.NotBlank;
@@ -29,9 +32,9 @@ import lombok.Data;
 public class Workflow {
 
     private String id;
-    @NotBlank(message = "Workflow name may not be blank")
-    @Size(max = 80, message = "Workflow name must be less than 80 characters")
-    @Pattern(regexp = "[A-Za-z0-9_ ]+", message = "Workflow name must contain only letters, digits and underscores")
+    @NotBlank(message = "Workflow name may not be blank.")
+    @Size(min = MIN_LENGTH, max = MAX_LENGTH, message = "Workflow name must be at least " + MIN_LENGTH + " characters, and no more than " + MAX_LENGTH +" characters.")
+    @Pattern(regexp = "[A-Za-z0-9_ ]+", message = "Workflow name must contain only letters, digits and underscores.")
     private String name;
     private String description;
     private Set<WorkflowVersionState> versionStates;
