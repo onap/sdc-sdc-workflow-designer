@@ -28,10 +28,14 @@ import lombok.Data;
 @Data
 public class Workflow {
 
+    private static final String NOT_BLANK_MSG = "Workflow name may not be blank.";
+    private static final String SIZE_MSG = "Workflow name must be at least 6 characters, and no more than 80 characters.";
+    private static final String INVALID_CHAR_MSG = "Workflow name must contain only letters, digits and underscores.";
+
     private String id;
-    @NotBlank(message = "Workflow name may not be blank")
-    @Size(max = 80, message = "Workflow name must be less than 80 characters")
-    @Pattern(regexp = "[A-Za-z0-9_ ]+", message = "Workflow name must contain only letters, digits and underscores")
+    @NotBlank(message = NOT_BLANK_MSG)
+    @Size(min = 6, max = 80, message = SIZE_MSG)
+    @Pattern(regexp = "[A-Za-z0-9_ ]+", message =INVALID_CHAR_MSG)
     private String name;
     private String description;
     private Set<WorkflowVersionState> versionStates;
