@@ -14,4 +14,6 @@
 * limitations under the License.
 */
 
-export const activitiesSelector = state => state && state.activities;
+export const activitiesSelector = state =>
+    state &&
+    state.activities.map(item => ({ name: item.name, value: item.name }));

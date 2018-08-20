@@ -1,0 +1,82 @@
+import inherits from 'inherits';
+
+import ImplementationTypeHelper from 'bpmn-js-properties-panel/lib/helper/ImplementationTypeHelper';
+import ServiceTaskDelegateProps from 'bpmn-js-properties-panel/lib/provider/camunda/parts/ServiceTaskDelegateProps';
+import workflowImplementationType from './implementation/WorkflowImplementationType';
+import workflowActivity from './implementation/WorkflowActivity';
+
+const getImplementationType = element => {
+    let implementationType = ImplementationTypeHelper.getImplementationType(
+        element
+    );
+
+    if (!implementationType) {
+        const bo = getBusinessObject(element);
+        if (bo) {
+            if (typeof bo.get('camunda:workflowActivity') !== 'undefined') {
+                return 'workflowActivity';
+            }
+        }
+    }
+
+    return implementationType;
+};
+
+const getBusinessObject = element =>
+    ImplementationTypeHelper.getServiceTaskLikeBusinessObject(element);
+
+const isDmnCapable = element => ImplementationTypeHelper.isDmnCapable(element);
+
+const isExternalCapable = element =>
+    ImplementationTypeHelper.isExternalCapable(element);
+
+const isServiceTaskLike = element =>
+    ImplementationTypeHelper.isServiceTaskLike(element);
+
+function WorkflowServiceTaskDelegateProps(
+    group,
+    element,
+    bpmnFactory,
+    translate,
+    additionalData
+) {
+    ServiceTaskDelegateProps.call(this, group, element, bpmnFactory, translate);
+
+    if (isServiceTaskLike(getBusinessObject(element))) {
+        group.entries = group.entries.filter(
+            entry => entry.id !== 'implementation'
+        );
+
+        group.entries = [
+            ...workflowImplementationType(
+                element,
+                bpmnFactory,
+                {
+                    getBusinessObject: getBusinessObject,
+                    getImplementationType: getImplementationType,
+                    hasDmnSupport: isDmnCapable(element),
+                    hasExternalSupport: isExternalCapable(
+                        getBusinessObject(element)
+                    ),
+                    hasServiceTaskLikeSupport: true
+                },
+                translate
+            ),
+            ...group.entries,
+            ...workflowActivity(
+                element,
+                bpmnFactory,
+                {
+                    getBusinessObject: getBusinessObject,
+                    getImplementationType: getImplementationType
+                },
+                translate,
+                additionalData.activities
+            )
+        ];
+    }
+}
+
+inherits(WorkflowServiceTaskDelegateProps, ServiceTaskDelegateProps);
+
+export default WorkflowServiceTaskDelegateProps;

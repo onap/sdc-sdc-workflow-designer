@@ -12,6 +12,16 @@
 		.properties-panel {
 			&, .bpp-properties-panel {
 				height: 100%;
+				.bbp-properties {
+					max-height: 856px;
+					overflow: auto;
+				}
+				#cam-extensionElements-remove-inputs,
+				#cam-extensionElements-create-inputs,
+				#cam-extensionElements-remove-outputs,
+				#cam-extensionElements-create-outputs {
+					display: none
+				}
 			}
 		}
 		.composition-buttons {
