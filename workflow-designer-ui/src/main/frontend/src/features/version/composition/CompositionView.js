@@ -17,23 +17,47 @@ import React, { Component } from 'react';
 import fileSaver from 'file-saver';
 import CustomModeler from './custom-modeler';
 import propertiesPanelModule from 'bpmn-js-properties-panel';
-import propertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/camunda';
-import camundaModuleDescriptor from 'camunda-bpmn-moddle/resources/camunda';
+//import camundaPropertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/camunda';
+//import propertiesProviderModule from './custom-properties-provider/provider/activity/';
+import propertiesProviderModule from './custom-properties-provider/provider/camunda';
+import camundaModuleDescriptor from './custom-properties-provider/descriptors/camunda';
 import newDiagramXML from './newDiagram.bpmn';
 import PropTypes from 'prop-types';
 import CompositionButtons from './components/CompositionButtonsPanel';
 
+function getExtension(element, type) {
+    if (!element.extensionElements || !element.extensionElements.values) {
+        return null;
+    }
+
+    return element.extensionElements.values.filter(function(e) {
+        return e.$instanceOf(type);
+    })[0];
+}
+
+function updatedData(moddle, inputData, existingArray, type) {
+    return inputData.map(item => {
+        const existingInput = existingArray.find(el => el.name === item.name);
+        return moddle.create(
+            type,
+            existingInput ? { ...item, value: existingInput.value } : item
+        );
+    });
+}
 class CompositionView extends Component {
     static propTypes = {
         compositionUpdate: PropTypes.func,
         showErrorModal: PropTypes.func,
-        composition: PropTypes.bool,
-        name: PropTypes.string
+        composition: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+        name: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+        inputOutput: PropTypes.object,
+        activities: PropTypes.array
     };
     constructor() {
         super();
         this.generatedId = 'bpmn-container' + Date.now();
         this.fileInput = React.createRef();
+        this.selectedElement = false;
         this.state = {
             diagram: false
         };
@@ -48,7 +72,7 @@ class CompositionView extends Component {
             },
             additionalModules: [
                 propertiesPanelModule,
-                propertiesProviderModule
+                propertiesProviderModule({ activities: this.props.activities })
             ],
             moddleExtensions: {
                 camunda: camundaModuleDescriptor
@@ -61,8 +85,75 @@ class CompositionView extends Component {
         eventBus.on('element.out', () => {
             this.exportDiagramToStore();
         });
+        this.modeler.on('element.click', event =>
+            this.elementClickHandler(event)
+        );
     }
 
+    setProcessInputsOutputs = (element, businessObject, inputOutput) => {
+        const { inputs = [], outputs = [] } = inputOutput;
+        const moddle = this.modeler.get('moddle');
+
+        if (!businessObject.extensionElements) {
+            console.log('creating new extension elements');
+            businessObject.extensionElements = moddle.create(
+                'bpmn:ExtensionElements'
+            );
+        }
+
+        const existingInputOutput = getExtension(
+            businessObject,
+            'camunda:InputOutput'
+        );
+        console.log('existingInputOutput', existingInputOutput);
+
+        const processInputs = updatedData(
+            moddle,
+            inputs,
+            (existingInputOutput && existingInputOutput.inputParameters) || [],
+            'camunda:InputParameter'
+        );
+
+        const processOutputs = updatedData(
+            moddle,
+            outputs,
+            (existingInputOutput && existingInputOutput.outputParameters) || [],
+            'camunda:OutputParameter'
+        );
+
+        const processInputOutput = moddle.create('camunda:InputOutput');
+        processInputOutput.inputParameters = [...processInputs];
+        processInputOutput.outputParameters = [...processOutputs];
+
+        const extensionElements = businessObject.extensionElements.get(
+            'values'
+        );
+
+        businessObject.extensionElements.set(
+            'values',
+            extensionElements
+                .filter(item => item.$type !== 'camunda:InputOutput')
+                .concat(processInputOutput)
+        );
+    };
+    elementClickHandler(event) {
+        const { element } = event;
+        const businessObject = element.businessObject;
+
+        this.selectedElement = businessObject;
+        const activitySelector = document.getElementById(
+            'camunda-selectedActivity-select'
+        );
+        if (activitySelector) {
+            activitySelector.addEventListener('change', e =>
+                this.selectChangedHandler(e)
+            );
+        }
+    }
+    selectChangedHandler(e) {
+        console.log('selectChanged', e.target.value);
+        console.log(this.selectedElement);
+    }
     setDiagram = diagram => {
         this.setState(
             {
@@ -82,6 +173,13 @@ class CompositionView extends Component {
             }
             let canvas = modeler.get('canvas');
             canvas.zoom('fit-viewport');
+
+            console.log(canvas._rootElement);
+            this.setProcessInputsOutputs(
+                canvas._rootElement,
+                canvas._rootElement.businessObject,
+                this.props.inputOutput
+            );
         });
     };
 

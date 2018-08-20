@@ -53,7 +53,7 @@ function* fetchVersion(action) {
             put(setWorkflowVersionAction(rest)),
             put(setInputsOutputs({ inputs, outputs })),
             put(updateComposition(composition)),
-            put(setActivitiesList(activitiesList.results))
+            put(setActivitiesList(activitiesList.items))
         ]);
     } catch (error) {
         yield put(genericNetworkErrorAction(error));
