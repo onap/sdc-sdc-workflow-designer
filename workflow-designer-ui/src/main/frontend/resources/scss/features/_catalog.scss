@@ -80,7 +80,7 @@
             }
             &__label {
                 text-transform: uppercase;
-                @include body-1-semibold;
+                @include body-1-emphasis;
             }
             &:hover {
                 color: $blue;

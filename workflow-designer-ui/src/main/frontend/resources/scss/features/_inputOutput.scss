@@ -10,7 +10,7 @@
     &__title {
         height: 110px;
         line-height: 110px;
-        @include heading-1-semibold;
+        @include heading-1-emphasis;
         color: $dark-gray;
     }
 
@@ -26,7 +26,7 @@
 
     &__tab {
         padding: 12px;
-        @include body-1-semibold;
+        @include body-1-emphasis;
         @include border(1px, 1px, 0, 1px);
         background-color: $light-silver;
         color: $gray;
@@ -50,7 +50,7 @@
         overflow-y: auto;
         &__thead {
             background-color: $silver;
-            @include body-1-semibold;
+            @include body-1-emphasis;
             position: -webkit-sticky;
             position: sticky;
             top: 0px;

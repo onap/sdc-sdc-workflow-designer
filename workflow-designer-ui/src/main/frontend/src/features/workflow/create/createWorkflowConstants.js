@@ -20,6 +20,7 @@ export const NEW_VERSION = {
 };
 export const WORKFLOW_INPUT_CHANGE = 'createWorkflow/INPUT_CHANGE';
 export const SUBMIT_WORKFLOW = 'createWorkflow/SUBMIT_WORKFLOW';
+export const EMPTY_NAME_ERROR = 'createWorkflow/EMPTY_NAME_ERROR';
 
 export const inputChangeAction = payload => ({
     type: WORKFLOW_INPUT_CHANGE,
@@ -29,4 +30,8 @@ export const inputChangeAction = payload => ({
 export const submitWorkflowAction = payload => ({
     type: SUBMIT_WORKFLOW,
     payload
+});
+
+export const putNameError = () => ({
+    type: EMPTY_NAME_ERROR
 });
