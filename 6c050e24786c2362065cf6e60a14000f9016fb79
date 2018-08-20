@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_1d54ce1f",
+        "filename": "workflow-designer-ui/src/main/frontend/resources/scss/common/_customVariables.scss",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-08-20T07:41:22Z",
+      "side": 1,
+      "message": "y not taking it from sdc-ui???",
+      "revId": "6c050e24786c2362065cf6e60a14000f9016fb79",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_dd35f6f7",
+        "filename": "workflow-designer-ui/src/main/frontend/resources/scss/features/_overview.scss",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-08-20T07:41:22Z",
+      "side": 1,
+      "message": "since when r we doing hard coded colors???",
+      "revId": "6c050e24786c2362065cf6e60a14000f9016fb79",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_9d3f7ed6",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/versionController/views/ActionButtons.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-08-20T07:41:22Z",
+      "side": 1,
+      "message": "why re-inventing the wheel?\nwhy not use className?",
+      "revId": "6c050e24786c2362065cf6e60a14000f9016fb79",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_1d2b6e95",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/workflow/overview/views/WorkflowDetails.jsx",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-08-20T07:41:22Z",
+      "side": 1,
+      "message": "please explain why u need to keep the description in the state like this",
+      "revId": "6c050e24786c2362065cf6e60a14000f9016fb79",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
