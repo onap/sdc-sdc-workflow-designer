@@ -104,7 +104,7 @@ export default class VersionControllerView extends Component {
                     <ActionButtons
                         saveDisabled={isCertifyDisable || getIOErrors}
                         onSaveClick={this.sendSaveParamsToServer}
-                        certifyDisabled={isCertifyDisable}
+                        certifyDisabled={isCertifyDisable || getIOErrors}
                         onCertifyClick={this.certifyVersion}
                         onUndoClick={this.undoClickCallback}
                     />

@@ -22,24 +22,20 @@ import Description from 'shared/components/Description';
 import { VersionInfo, LabeledValue } from 'shared/components/VersionInfo';
 
 class WorkflowDetails extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            editWorkflow: ''
-        };
-    }
-
-    workflowDetailsChanged = val => {
-        this.setState({ editWorkflow: val });
-    };
-
     handleSubmitForm = e => {
         e.preventDefault();
-        this.props.updateWorkflow(this.state.editWorkflow);
+        const { description } = this.props;
+        this.props.updateWorkflow(description);
     };
 
     render() {
-        const { name, description, workflowId, versionId } = this.props;
+        const {
+            name,
+            workflowId,
+            versionId,
+            description,
+            workflowDetailsChanged
+        } = this.props;
         return (
             <div className="workflow-details">
                 <form onSubmit={this.handleSubmitForm}>
@@ -52,10 +48,8 @@ class WorkflowDetails extends Component {
                         disabled
                     />
                     <Description
-                        description={
-                            this.state.editWorkflow.description || description
-                        }
-                        onDataChange={this.workflowDetailsChanged}
+                        description={description}
+                        onDataChange={workflowDetailsChanged}
                     />
                     <div className="save-description">
                         <Button btnType="primary">
@@ -79,9 +73,11 @@ WorkflowDetails.propTypes = {
     created: PropTypes.string,
     modified: PropTypes.string,
     description: PropTypes.string,
+    defaultDescription: PropTypes.string,
     workflowId: PropTypes.string,
     versionId: PropTypes.string,
-    updateWorkflow: PropTypes.func
+    updateWorkflow: PropTypes.func,
+    workflowDetailsChanged: PropTypes.func
 };
 
 export default WorkflowDetails;
