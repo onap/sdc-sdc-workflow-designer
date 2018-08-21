@@ -17,14 +17,14 @@
 package org.onap.sdc.workflow.services;
 
 import java.util.Set;
-import org.onap.sdc.workflow.services.types.Workflow;
-import org.onap.sdc.workflow.services.types.WorkflowVersionState;
 import org.onap.sdc.workflow.services.types.Page;
 import org.onap.sdc.workflow.services.types.RequestSpec;
+import org.onap.sdc.workflow.services.types.Workflow;
+import org.onap.sdc.workflow.services.types.WorkflowVersionState;
 
 public interface WorkflowManager {
 
-    Page<Workflow> list(Set<WorkflowVersionState> versionStatesFilter, RequestSpec requestSpec);
+    Page<Workflow> list(String searchNameFilter, Set<WorkflowVersionState> versionStatesFilter, RequestSpec requestSpec);
 
     Workflow get(Workflow workflow);
 
