@@ -33,6 +33,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.sdc.workflow.RestPath;
+import org.onap.sdc.workflow.server.resolvers.UserIdResolver;
 import org.onap.sdc.workflow.services.WorkflowManager;
 import org.onap.sdc.workflow.services.types.Page;
 import org.onap.sdc.workflow.services.types.PagingRequest;
@@ -49,8 +50,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 public class WorkflowControllerTest {
 
     private static final String USER_ID = "userId";
-    private static final String MISSING_USER_HEADER_ERROR =
-            "Missing request header 'USER_ID' for method parameter of type String";
+    private static final String MISSING_USER_HEADER_ERROR = "Missing mandatory request header 'USER_ID'";
     private static final String DEFAULT_SORT_VALUE = "name:asc";
 
     private MockMvc mockMvc;
@@ -66,6 +66,7 @@ public class WorkflowControllerTest {
     public void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(workflowController)
                                  .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
+                                 .setCustomArgumentResolvers(new UserIdResolver())
                                  .setControllerAdvice(new ExceptionsHandler()).build();
     }
 
@@ -183,7 +184,7 @@ public class WorkflowControllerTest {
     }
 
     @Test
-    public void shouldCreateWorkflowWhenCallingPostRESTRequest() throws Exception {
+    public void shouldCreateWorkflowWhenCallingPostRestRequest() throws Exception {
         Item item = new Item();
         item.setId(new Id("abc"));
         Workflow reqWorkflow = createWorkflow(1, false);
@@ -235,9 +236,11 @@ public class WorkflowControllerTest {
         Workflow reqWorkflow = new Workflow();
         reqWorkflow.setName("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         mockMvc.perform(post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)
-                                                         .content(JsonUtil.object2Json(reqWorkflow))).andDo(print())
-               .andExpect(status().isBadRequest()).andExpect(
-                jsonPath("$.message", is("Workflow name must be at least " + MIN_LENGTH + " characters, and no more than " + MAX_LENGTH + " characters.")));
+                                .content(JsonUtil.object2Json(reqWorkflow))).andDo(print()).andExpect(
+                                        status().isBadRequest()).andExpect(jsonPath("$.message", is(
+                                                "Workflow name must be at least " + MIN_LENGTH
+                                                        + " characters, and no more than " + MAX_LENGTH
+                                                        + " characters.")));
     }
 
     @Test
@@ -245,9 +248,10 @@ public class WorkflowControllerTest {
         Workflow reqWorkflow = new Workflow();
         reqWorkflow.setName("AAA");
         mockMvc.perform(post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)
-                                                         .content(JsonUtil.object2Json(reqWorkflow))).andDo(print())
-               .andExpect(status().isBadRequest()).andExpect(
-                jsonPath("$.message", is("Workflow name must be at least " + MIN_LENGTH + " characters, and no more than " + MAX_LENGTH + " characters.")));
+                                .content(JsonUtil.object2Json(reqWorkflow))).andDo(print()).andExpect(
+                                        status().isBadRequest()).andExpect(jsonPath("$.message",
+                is("Workflow name must be at least " + MIN_LENGTH + " characters, and no more than "
+                           + MAX_LENGTH + " characters.")));
     }
 
     private void mockManagerList3() {

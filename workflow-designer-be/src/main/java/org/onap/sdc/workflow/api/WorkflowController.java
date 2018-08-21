@@ -19,7 +19,6 @@ package org.onap.sdc.workflow.api;
 import static org.onap.sdc.workflow.api.RestParams.LIMIT;
 import static org.onap.sdc.workflow.api.RestParams.OFFSET;
 import static org.onap.sdc.workflow.api.RestParams.SORT;
-import static org.onap.sdc.workflow.api.RestParams.USER_ID_HEADER;
 import static org.onap.sdc.workflow.services.types.PagingConstants.DEFAULT_LIMIT;
 import static org.onap.sdc.workflow.services.types.PagingConstants.DEFAULT_OFFSET;
 
@@ -33,6 +32,7 @@ import org.onap.sdc.workflow.api.types.Sorting;
 import org.onap.sdc.workflow.api.types.VersionStatesFormatter;
 import org.onap.sdc.workflow.services.WorkflowManager;
 import org.onap.sdc.workflow.services.WorkflowVersionManager;
+import org.onap.sdc.workflow.services.annotations.UserId;
 import org.onap.sdc.workflow.services.types.Page;
 import org.onap.sdc.workflow.services.types.PagingRequest;
 import org.onap.sdc.workflow.services.types.RequestSpec;
@@ -49,7 +49,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -82,14 +81,13 @@ public class WorkflowController {
                     value = "Sorting criteria in the format: property:(asc|desc). Default sort order is ascending.",
                     allowableValues = "name:asc,name:desc")})
     public Page<Workflow> list(@ApiIgnore VersionStatesFormatter versionStateFilter, @ApiIgnore Paging paging,
-            @ApiIgnore Sorting sorting, @RequestHeader(USER_ID_HEADER) String user) {
+            @ApiIgnore Sorting sorting, @UserId String user) {
         return workflowManager.list(versionStateFilter.getVersionStates(), initRequestSpec(paging, sorting));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation("Create workflow")
-    public ResponseEntity<Workflow> create(@Validated @RequestBody Workflow workflow,
-            @RequestHeader(USER_ID_HEADER) String user) {
+    public ResponseEntity<Workflow> create(@Validated @RequestBody Workflow workflow, @UserId String user) {
         return new ResponseEntity<>(workflowManager.create(workflow), HttpStatus.CREATED);
     }
 
@@ -97,8 +95,7 @@ public class WorkflowController {
     @ApiOperation("Get workflow")
     public Workflow get(@PathVariable("workflowId") String workflowId,
             @ApiParam(value = "Expand workflow data", allowableValues = "versions")
-            @RequestParam(value = "expand", required = false) String expand,
-            @RequestHeader(USER_ID_HEADER) String user) {
+            @RequestParam(value = "expand", required = false) String expand, @UserId String user) {
         Workflow workflow = new Workflow();
         workflow.setId(workflowId);
         Workflow retrievedWorkflow = workflowManager.get(workflow);
@@ -111,7 +108,7 @@ public class WorkflowController {
     @PutMapping(path = "/{workflowId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation("Update workflow")
     public Workflow update(@RequestBody Workflow workflow, @PathVariable("workflowId") String workflowId,
-            @RequestHeader(USER_ID_HEADER) String user) {
+            @UserId String user) {
         workflow.setId(workflowId);
         workflowManager.update(workflow);
         return workflow;
