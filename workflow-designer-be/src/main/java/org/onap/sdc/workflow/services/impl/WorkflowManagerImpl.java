@@ -27,8 +27,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import org.onap.sdc.workflow.services.types.Workflow;
-import org.onap.sdc.workflow.services.types.WorkflowVersionState;
 import org.onap.sdc.workflow.services.UniqueValueService;
 import org.onap.sdc.workflow.services.WorkflowManager;
 import org.onap.sdc.workflow.services.exceptions.EntityNotFoundException;
@@ -39,6 +37,8 @@ import org.onap.sdc.workflow.services.types.PagingRequest;
 import org.onap.sdc.workflow.services.types.RequestSpec;
 import org.onap.sdc.workflow.services.types.Sort;
 import org.onap.sdc.workflow.services.types.SortingRequest;
+import org.onap.sdc.workflow.services.types.Workflow;
+import org.onap.sdc.workflow.services.types.WorkflowVersionState;
 import org.openecomp.sdc.logging.api.Logger;
 import org.openecomp.sdc.logging.api.LoggerFactory;
 import org.openecomp.sdc.versioning.ItemManager;
@@ -78,7 +78,8 @@ public class WorkflowManagerImpl implements WorkflowManager {
     }
 
     @Override
-    public Page<Workflow> list(Set<WorkflowVersionState> versionStatesFilter, RequestSpec requestSpec) {
+    public Page<Workflow> list(String searchNameFilter, Set<WorkflowVersionState> versionStatesFilter,
+            RequestSpec requestSpec) {
         requestSpec = getRequestSpec(requestSpec);
 
         Set<VersionStatus> versionStatusesFilter =
@@ -86,7 +87,8 @@ public class WorkflowManagerImpl implements WorkflowManager {
                         versionStatesFilter.stream().map(versionStateMapper::workflowVersionStateToVersionStatus)
                                 .collect(Collectors.toSet());
 
-        Collection<Item> workflowItems = itemManager.list(getFilter(versionStatusesFilter));
+        Predicate<Item> filter = addSearchNameFilter(WORKFLOW_ITEM_FILTER, searchNameFilter);
+        Collection<Item> workflowItems = itemManager.list(addVersionStatusFilter(filter, versionStatusesFilter));
 
         List<Workflow> workflowsSlice = workflowItems.stream().map(workflowMapper::itemToWorkflow)
                                                      .sorted(getWorkflowComparator(requestSpec.getSorting()))
@@ -170,8 +172,13 @@ public class WorkflowManagerImpl implements WorkflowManager {
         return byNameAscending ? byName : byName.reversed();
     }
 
-    private static Predicate<Item> getFilter(Set<VersionStatus> versionStatuses) {
-        return WORKFLOW_ITEM_FILTER
+    private static Predicate<Item> addSearchNameFilter(Predicate<Item> filter, String searchNameFilter) {
+        return filter
+                       .and(item -> searchNameFilter == null || item.getName().contains(searchNameFilter));
+    }
+
+    private static Predicate<Item> addVersionStatusFilter(Predicate<Item> filter, Set<VersionStatus> versionStatuses) {
+        return filter
                        .and(item -> versionStatuses == null || item.getVersionStatusCounters().keySet().stream()
                                                                    .anyMatch(versionStatuses::contains));
     }

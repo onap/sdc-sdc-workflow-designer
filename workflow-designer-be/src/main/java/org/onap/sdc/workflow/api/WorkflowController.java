@@ -80,10 +80,13 @@ public class WorkflowController {
                     value = "Number of returned items"),
             @ApiImplicitParam(name = SORT, dataType = "string", paramType = "query", defaultValue = "name:asc",
                     value = "Sorting criteria in the format: property:(asc|desc). Default sort order is ascending.",
-                    allowableValues = "name:asc,name:desc")})
-    public Page<Workflow> list(@ApiIgnore VersionStatesFormatter versionStateFilter, @ApiIgnore Paging paging,
+                    allowableValues = "name:asc,name:desc"),
+            @ApiImplicitParam(name = "searchNameFilter", dataType = "string", paramType = "query",
+            value = "Filter by workflow name")})
+    public Page<Workflow> list(@ApiIgnore String searchNameFilter,
+            @ApiIgnore VersionStatesFormatter versionStateFilter, @ApiIgnore Paging paging,
             @ApiIgnore Sorting sorting, @RequestHeader(USER_ID_HEADER) String user) {
-        return workflowManager.list(versionStateFilter.getVersionStates(), initRequestSpec(paging, sorting));
+        return workflowManager.list(searchNameFilter, versionStateFilter.getVersionStates(), initRequestSpec(paging, sorting));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
