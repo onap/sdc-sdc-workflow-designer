@@ -7,10 +7,10 @@
 	.group-name-wrapper {
 		width: 245px;
 		.group-name {
-			@include heading-4-semibold;
+			@include heading-4-emphasis;
 			@include ellipsis;
 			display: block;
-			padding: 24px 12px 13px 40px;
+			padding: 24px 12px 13px 20px;
 			background-color: $white;
 		}
 	}
@@ -25,6 +25,7 @@
 		padding-left: 16px;
 		padding-right: 100px;
 		border-left: 1px solid #eaeaea;
+		height: 45px;
 
 		.vc-separator {
 			border-left: 1px solid $silver;
@@ -33,12 +34,13 @@
 
 		.version-status-container {
 			.version-selector-more-versions {
+				@include body-1-emphasis;
 				color: $blue;
 				cursor: pointer;
 			}
 
 			.version-selector {
-				margin-top: 0px;
+				margin-top: 0;
 				padding-right: 10px;
 				margin-right: 15px;
 				margin-left: 10px;

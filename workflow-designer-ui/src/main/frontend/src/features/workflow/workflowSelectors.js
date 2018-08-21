@@ -15,6 +15,8 @@
 */
 
 export const getWorkflowName = state =>
+    state && state.workflow.data.name && state.workflow.data.name;
+export const getTrimWorkflowName = state =>
     state && state.workflow.data.name && state.workflow.data.name.trim();
 export const getWorkflowId = state => state && state.workflow.data.id;
 export const getWorkflowDescription = state =>

@@ -33,6 +33,7 @@
                 "created": "Created",
                 "modified": "Modified"
             },
+            "version": "Version",
             "sideBar": {
                 "general": "General",
                 "inputOutput": "Input / Output",
@@ -56,10 +57,12 @@
                 "outputs": "Outputs",
                 "DELETE": "DELETE",
                 "CANCEL": "CANCEL",
-                "confirmDlete": "Are you sure you want to delete \"%{name}\"?",
+                "confirmDelete": "Are you sure you want to delete \"%{name}\"?"
+            },
+            "errorMessages": {
                 "alreadyExists": "Already exists",
                 "invalidCharacters": "Alphanumeric and underscore only",
-                "emptyName": "Empty Name"
+                "emptyName": "Field is required"
             },
             "composition": {
                 "bpmnError" : "BPMN.IO Error"

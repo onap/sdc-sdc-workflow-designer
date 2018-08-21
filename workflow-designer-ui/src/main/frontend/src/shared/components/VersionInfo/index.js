@@ -18,7 +18,7 @@ import PropTypes from 'prop-types';
 export const LabeledValue = ({ title, value }) => (
     <React.Fragment>
         <div className="label">{title}</div>
-        <div className="value">{value}</div>
+        <div className="value selectable">{value}</div>
     </React.Fragment>
 );
 

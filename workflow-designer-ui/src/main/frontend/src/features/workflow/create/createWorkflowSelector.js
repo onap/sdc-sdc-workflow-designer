@@ -15,12 +15,12 @@
 */
 import { createSelector } from 'reselect';
 import {
-    getWorkflowName,
+    getTrimWorkflowName,
     getWorkflowDescription
 } from 'features/workflow/workflowSelectors';
 
 export const getWorkflowParams = createSelector(
-    getWorkflowName,
+    getTrimWorkflowName,
     getWorkflowDescription,
     (name, description) => {
         return {

@@ -91,7 +91,7 @@ class InputOutputView extends React.Component {
 
         if (name.replace(/\s+/g, '')) {
             const title = I18n.t('workflow.inputOutput.DELETE');
-            const body = I18n.t('workflow.inputOutput.confirmDlete', {
+            const body = I18n.t('workflow.inputOutput.confirmDelete', {
                 name: name.replace(/s+$/g, '')
             });
             const closeButtonText = I18n.t('workflow.inputOutput.CANCEL');
@@ -126,11 +126,13 @@ class InputOutputView extends React.Component {
                 error.invalidCharacters &&
                 error.invalidCharacters.includes(i)
             ) {
-                errorMessage = I18n.t('workflow.inputOutput.invalidCharacters');
+                errorMessage = I18n.t(
+                    'workflow.errorMessages.invalidCharacters'
+                );
             } else if (error.alreadyExists && error.alreadyExists.includes(i)) {
-                errorMessage = I18n.t('workflow.inputOutput.alreadyExists');
+                errorMessage = I18n.t('workflow.errorMessages.alreadyExists');
             } else if (error.emptyName && error.emptyName.includes(i)) {
-                errorMessage = I18n.t('workflow.inputOutput.emptyName');
+                errorMessage = I18n.t('workflow.errorMessages.emptyName');
             }
 
             return (
