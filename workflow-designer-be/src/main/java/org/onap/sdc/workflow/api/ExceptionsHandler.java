@@ -51,7 +51,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestController
 public class ExceptionsHandler extends ResponseEntityExceptionHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionsHandler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ExceptionsHandler.class);
+
     private static final String LOG_MSG = "Exception was mapped to {} response";
     private static final String UNEXPECTED_ERROR_MSG = "Something bad happened. Please contact support with code %s";
     private static final RandomStringGenerator CODE_GENERATOR =
@@ -66,15 +67,15 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
     @Override
     public ResponseEntity<Object> handleServletRequestBindingException(ServletRequestBindingException ex,
             HttpHeaders headers, HttpStatus status, WebRequest request) {
-        //For missing header exceptions
-        LOGGER.debug(LOG_MSG, BAD_REQUEST, ex);
+        LOG.debug(LOG_MSG, BAD_REQUEST, ex);
+        // Convert Spring-generated binding exceptions into the format of an application message
         return new ResponseEntity<>(new ErrorResponse(ex.getMessage()), BAD_REQUEST);
     }
 
     @Override
     protected final ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException exception,
             final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
-        LOGGER.debug(LOG_MSG, BAD_REQUEST, exception);
+        LOG.debug(LOG_MSG, BAD_REQUEST, exception);
         String errorMsg = exception.getBindingResult().getFieldErrors().stream()
                                   .map(DefaultMessageSourceResolvable::getDefaultMessage).findFirst()
                                   .orElse(exception.getMessage());
@@ -83,7 +84,7 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     public final ResponseEntity<ErrorResponse> handleNotFoundException(Exception exception) {
-        LOGGER.debug(LOG_MSG, NOT_FOUND, exception);
+        LOG.debug(LOG_MSG, NOT_FOUND, exception);
         return new ResponseEntity<>(new ErrorResponse(exception.getMessage()), NOT_FOUND);
     }
 
@@ -92,14 +93,14 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
                     VersionStateModificationException.class, VersionStatusModificationException.class,
                     UniqueValueViolationException.class})
     public final ResponseEntity<ErrorResponse> handleUnprocessableEntityException(Exception exception) {
-        LOGGER.debug(LOG_MSG, UNPROCESSABLE_ENTITY, exception);
+        LOG.debug(LOG_MSG, UNPROCESSABLE_ENTITY, exception);
         return new ResponseEntity<>(new ErrorResponse(exception.getMessage()), UNPROCESSABLE_ENTITY);
     }
 
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<UnexpectedErrorResponse> handleUnexpectedException(Exception exception) {
         UnexpectedErrorResponse response = UNEXPECTED_EXCEPTION_MAPPER.apply(exception);
-        LOGGER.error(response.getMessage(), exception);
+        LOG.error(response.getMessage(), exception);
         return new ResponseEntity<>(response, INTERNAL_SERVER_ERROR);
     }
 
