@@ -15,8 +15,8 @@
 */
 
 import languagesData from 'wfapp/i18n/languages.json';
-import merge from 'lodash/object/merge.js';
-import setPath from 'lodash/object/set.js';
+import merge from 'lodash.merge';
+import setPath from 'lodash.set';
 
 let languagesObj = {};
 let language = null;

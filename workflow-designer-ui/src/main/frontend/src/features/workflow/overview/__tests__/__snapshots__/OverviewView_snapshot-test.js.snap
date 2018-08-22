@@ -7,9 +7,27 @@ exports[`OverviewView Snapshot renders correctly 1`] = `
   <div
     className="overview-header"
   >
-    wf1
-     - 
-    title
+    <div
+      className="title"
+    >
+      wf1
+       - 
+      title
+    </div>
+    <div
+      className="svg-icon-wrapper  go-catalog-btn  clickable right"
+      disabled={undefined}
+      onClick={[Function]}
+    >
+      <test-file-stub
+        className="svg-icon __back"
+      />
+      <span
+        className="svg-icon-label "
+      >
+        backBtnLabel
+      </span>
+    </div>
   </div>
   <div
     className="overview-content"
