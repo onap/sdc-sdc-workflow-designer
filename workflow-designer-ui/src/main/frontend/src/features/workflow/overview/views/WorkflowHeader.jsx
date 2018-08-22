@@ -16,17 +16,45 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
+import SVGIcon from 'sdc-ui/lib/react/SVGIcon';
 
-const WorkflowHeader = ({ name }) => {
+const BackBtn = ({ history }) => (
+    <SVGIcon
+        onClick={() => {
+            history.push('/');
+        }}
+        label={I18n.t('workflow.overview.backBtnLabel')}
+        className="go-catalog-btn"
+        labelPosition="right"
+        name="back"
+    />
+);
+
+BackBtn.propTypes = {
+    history: PropTypes.object
+};
+
+const Title = ({ name }) => (
+    <div className="title">
+        {name} - {I18n.t('workflow.overview.title')}
+    </div>
+);
+Title.propTypes = {
+    name: PropTypes.string
+};
+
+const WorkflowHeader = ({ name, history }) => {
     return (
         <div className="overview-header">
-            {name} - {I18n.t('workflow.overview.title')}
+            <Title history={history} name={name} />
+            <BackBtn />
         </div>
     );
 };
 
 WorkflowHeader.propTypes = {
-    name: PropTypes.string
+    name: PropTypes.string,
+    history: PropTypes.object
 };
 
 export default WorkflowHeader;

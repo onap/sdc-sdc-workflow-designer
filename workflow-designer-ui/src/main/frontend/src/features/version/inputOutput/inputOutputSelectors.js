@@ -15,7 +15,7 @@
 */
 
 import { createSelector } from 'reselect';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash.isempty';
 
 import { INPUTS } from 'features/version/inputOutput/inputOutputConstants';
 

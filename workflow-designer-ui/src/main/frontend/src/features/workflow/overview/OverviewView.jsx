@@ -87,7 +87,7 @@ class OverviewView extends Component {
         }));
         return (
             <div className="overview-page">
-                <WorkflowHeader name={workflow.name} />
+                <WorkflowHeader history={history} name={workflow.name} />
                 <div className="overview-content">
                     <WorkflowDetails
                         name={workflow.name}

@@ -17,23 +17,29 @@ import React, { Component } from 'react';
 import fileSaver from 'file-saver';
 import CustomModeler from './custom-modeler';
 import propertiesPanelModule from 'bpmn-js-properties-panel';
-import propertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/camunda';
-import camundaModuleDescriptor from 'camunda-bpmn-moddle/resources/camunda';
+import propertiesProviderModule from './custom-properties-provider/provider/camunda';
+import camundaModuleDescriptor from './custom-properties-provider/descriptors/camunda';
 import newDiagramXML from './newDiagram.bpmn';
 import PropTypes from 'prop-types';
 import CompositionButtons from './components/CompositionButtonsPanel';
+import activitiesApi from 'features/activities/activitiesApi';
+import { setElementInputsOutputs } from './bpmnUtils.js';
+import { I18n } from 'react-redux-i18n';
 
 class CompositionView extends Component {
     static propTypes = {
         compositionUpdate: PropTypes.func,
         showErrorModal: PropTypes.func,
-        composition: PropTypes.bool,
-        name: PropTypes.string
+        composition: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+        name: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+        inputOutput: PropTypes.object,
+        activities: PropTypes.array
     };
     constructor() {
         super();
         this.generatedId = 'bpmn-container' + Date.now();
         this.fileInput = React.createRef();
+        this.selectedElement = false;
         this.state = {
             diagram: false
         };
@@ -52,44 +58,68 @@ class CompositionView extends Component {
             ],
             moddleExtensions: {
                 camunda: camundaModuleDescriptor
+            },
+            workflow: {
+                activities: this.props.activities,
+                onChange: this.onActivityChanged
             }
         });
-        window.modeler = this.modeler;
-        this.modeler.attachTo('#' + this.generatedId);
-        this.setDiagram(composition ? composition : newDiagramXML);
-        var eventBus = this.modeler.get('eventBus');
-        eventBus.on('element.out', () => {
-            this.exportDiagramToStore();
-        });
-    }
 
-    setDiagram = diagram => {
-        this.setState(
-            {
-                diagram
-            },
-            this.importXML
+        this.modeler.attachTo('#' + this.generatedId);
+        this.setDiagramToBPMN(composition ? composition : newDiagramXML);
+        this.modeler.on('element.out', () => this.exportDiagramToStore());
+    }
+    onActivityChanged = async (bo, selectedValue) => {
+        const selectedActivity = this.props.activities.find(
+            el => el.name === selectedValue
         );
+
+        if (selectedActivity) {
+            const activity = await activitiesApi.fetchActivity(
+                selectedActivity.id
+            );
+            const inputsOutputs = {
+                inputs: activity.inputs,
+                outputs: activity.outputs
+            };
+            setElementInputsOutputs(
+                bo,
+                inputsOutputs,
+                this.modeler.get('moddle')
+            );
+            var propertiesPanel = this.modeler.get('propertiesPanel');
+
+            bo.click();
+
+            // detach the panel
+            console.log(propertiesPanel);
+        }
     };
 
-    importXML = () => {
-        const { diagram } = this.state;
+    setDiagramToBPMN = diagram => {
         let modeler = this.modeler;
         this.modeler.importXML(diagram, err => {
             if (err) {
-                //TDOD add i18n
-                return this.props.showErrorModal('could not import diagram');
+                return this.props.showErrorModal(
+                    I18n.t('workflow.composition.importErrorMsg')
+                );
             }
             let canvas = modeler.get('canvas');
             canvas.zoom('fit-viewport');
+            setElementInputsOutputs(
+                canvas._rootElement.businessObject,
+                this.props.inputOutput,
+                this.modeler.get('moddle')
+            );
         });
     };
 
     exportDiagramToStore = () => {
         this.modeler.saveXML({ format: true }, (err, xml) => {
             if (err) {
-                //TODO   add i18n
-                return this.props.showErrorModal('could not save diagram');
+                return this.props.showErrorModal(
+                    I18n.t('workflow.composition.saveErrorMsg')
+                );
             }
             return this.props.compositionUpdate(xml);
         });
@@ -99,8 +129,9 @@ class CompositionView extends Component {
         const { name, showErrorModal } = this.props;
         this.modeler.saveXML({ format: true }, (err, xml) => {
             if (err) {
-                //TODO add i18n
-                return showErrorModal('could not save diagram');
+                return showErrorModal(
+                    I18n.t('workflow.composition.exportErrorMsg')
+                );
             }
             const blob = new Blob([xml], { type: 'text/html;charset=utf-8' });
             fileSaver.saveAs(blob, `${name}-diagram.bpmn`);
@@ -108,7 +139,7 @@ class CompositionView extends Component {
     };
 
     loadNewDiagram = () => {
-        this.setDiagram(newDiagramXML);
+        this.setDiagramToBPMN(newDiagramXML);
     };
 
     uploadDiagram = () => {
@@ -120,7 +151,7 @@ class CompositionView extends Component {
         const reader = new FileReader();
         reader.onloadend = event => {
             var xml = event.target.result;
-            this.setDiagram(xml);
+            this.setDiagramToBPMN(xml);
             this.fileInput.value = '';
         };
         reader.readAsText(file);
