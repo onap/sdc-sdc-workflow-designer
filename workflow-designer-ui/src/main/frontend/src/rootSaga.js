@@ -21,6 +21,8 @@ import catalogSaga from 'features/catalog/catalogSagas';
 import { watchWorkflow } from 'features/workflow/create/createWorkflowSaga';
 import { watchNotifications } from 'shared/notifications/notificationsSagas';
 import versionSaga from 'features/version/versionSaga';
+import activitiesSaga from 'features/activities/activitiesSaga';
+
 import { watchOverview } from 'features/workflow/overview/overviewSagas';
 
 export default function* rootSaga() {
@@ -30,6 +32,7 @@ export default function* rootSaga() {
         fork(watchWorkflow),
         fork(watchNotifications),
         fork(versionSaga),
-        fork(watchOverview)
+        fork(watchOverview),
+        fork(activitiesSaga)
     ]);
 }

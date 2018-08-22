@@ -13,13 +13,20 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+import RestfulAPIUtil from 'services/restAPIUtil';
+import Configuration from 'config/Configuration.js';
 
-const mockActivities = {
-    results: []
-};
+function baseUrl() {
+    const restPrefix = Configuration.get('activitiesRestPrefix');
+    return `${restPrefix}/activity-spec`;
+}
 
 export default {
     fetchActivities: () => {
-        return Promise.resolve(mockActivities);
+        return RestfulAPIUtil.fetch(`${baseUrl()}?status=Certified`);
+    },
+
+    fetchActivity: id => {
+        return RestfulAPIUtil.fetch(`${baseUrl()}/${id}/versions/latest`);
     }
 };

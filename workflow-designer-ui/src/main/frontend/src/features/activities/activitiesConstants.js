@@ -14,3 +14,4 @@
 * limitations under the License.
 */
 export const SET_ACTIVITIES_LIST = 'activites/SET_ACTIVITIES_LIST';
+export const GET_ACTIVITIES = 'activities/GET_ACTIVITIES';
