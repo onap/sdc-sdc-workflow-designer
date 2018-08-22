@@ -25,18 +25,17 @@ function baseUrl() {
 }
 
 const Api = {
-    getWorkflows: (sort, limit, offset) => {
-        const queryString = qs.stringify(
-            {
-                sort: Object.keys(sort).map(key => `${key}:${sort[key]}`),
-                limit,
-                offset
-            },
-            {
-                indices: false,
-                addQueryPrefix: true
-            }
-        );
+    getWorkflows: (sort, limit, offset, searchNameFilter) => {
+        const queryParams = {
+            sort: Object.keys(sort).map(key => `${key}:${sort[key]}`),
+            limit,
+            offset
+        };
+        if (searchNameFilter) queryParams.searchNameFilter = searchNameFilter;
+        const queryString = qs.stringify(queryParams, {
+            indices: false,
+            addQueryPrefix: true
+        });
 
         return RestfulAPIUtil.fetch(`${baseUrl()}${queryString}`);
     }
