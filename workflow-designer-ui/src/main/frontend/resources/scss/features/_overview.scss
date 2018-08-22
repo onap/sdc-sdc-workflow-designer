@@ -59,9 +59,27 @@
   }
 
   .overview-header {
-    @include heading-1;
+    display: flex;
+    justify-content: space-between;
+    .title {
+      @include heading-1;
     text-transform: uppercase;
     margin: 63px 0 35px 56px;
+    }
+    .go-catalog-btn {
+      fill: $blue;
+      @include heading-4;
+      &:hover {
+        fill: $light-blue;
+        color: $light-blue;
+        cursor: pointer;
+      }
+      .svg-icon {
+        width: 16px;
+        height: 16px;
+      }
+    }
+    margin: 35px 0 35px 60px;
     color: $blue;
   }
 

@@ -16,11 +16,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
+import SVGIcon from 'sdc-ui/lib/react/SVGIcon';
+import { withRouter } from 'react-router-dom';
+
+const BackBtn = withRouter(({ history }) => (
+    <SVGIcon
+        onClick={() => {
+            history.push('/');
+        }}
+        label={I18n.t('workflow.overview.backBtnLabel')}
+        className="go-catalog-btn"
+        labelPosition="right"
+        name="back"
+    />
+));
+
+const Title = ({ name }) => (
+    <div className="title">
+        {name} - {I18n.t('workflow.overview.title')}
+    </div>
+);
+Title.propTypes = {
+    name: PropTypes.string
+};
 
 const WorkflowHeader = ({ name }) => {
     return (
         <div className="overview-header">
-            {name} - {I18n.t('workflow.overview.title')}
+            <Title name={name} />
+            <BackBtn />
         </div>
     );
 };

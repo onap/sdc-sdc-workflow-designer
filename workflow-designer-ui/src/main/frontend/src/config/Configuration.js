@@ -53,6 +53,10 @@ const configuration = new Configuration();
         'restCatalogPrefix',
         configuration.get('defaultRestCatalogPrefix')
     );
+    configuration.set(
+        'activitiesRestPrefix',
+        configuration.get('activitiesRestPrefix')
+    );
     configuration.set('appContextPath', configuration.get('appContextPath'));
 })(configuration);
 

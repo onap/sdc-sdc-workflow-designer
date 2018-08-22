@@ -21,12 +21,20 @@ import { showErrorModalAction } from '../../../shared/modal/modalWrapperActions'
 import { getComposition } from './compositionSelectors';
 import { getWorkflowName } from '../../workflow/workflowSelectors';
 import { activitiesSelector } from 'features/activities/activitiesSelectors';
+import {
+    getInputs,
+    getOutputs
+} from 'features/version/inputOutput/inputOutputSelectors';
 
 function mapStateToProps(state) {
     return {
         composition: getComposition(state),
         name: getWorkflowName(state),
-        activities: activitiesSelector(state)
+        activities: activitiesSelector(state),
+        inputOutput: {
+            inputs: getInputs(state),
+            outputs: getOutputs(state)
+        }
     };
 }
 
