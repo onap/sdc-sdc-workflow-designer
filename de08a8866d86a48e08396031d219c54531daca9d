@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_5f1d4772",
+        "filename": "workflow-designer-ui/src/main/frontend/resources/scss/features/_composition.scss",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-08-23T07:12:27Z",
+      "side": 1,
+      "message": "please remove commented out code",
+      "revId": "de08a8866d86a48e08396031d219c54531daca9d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_df08772f",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/activities/activitiesApi.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-08-23T07:12:27Z",
+      "side": 1,
+      "message": "please use constant for status certified",
+      "revId": "de08a8866d86a48e08396031d219c54531daca9d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_7f07e31c",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/activities/activitiesSaga.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-08-23T07:12:27Z",
+      "side": 1,
+      "message": "please remove commented out code",
+      "revId": "de08a8866d86a48e08396031d219c54531daca9d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_9f02ff09",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/composition/Composition.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-08-23T07:12:27Z",
+      "side": 1,
+      "message": "I know it got in before your change but can you please replace the button text to i18n text?",
+      "revId": "de08a8866d86a48e08396031d219c54531daca9d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_020bf825",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/composition/bpmnUtils.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-08-23T07:12:27Z",
+      "side": 1,
+      "message": "is moddle a typo?\nalso, can you use constants for your camunda strings?",
+      "revId": "de08a8866d86a48e08396031d219c54531daca9d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_e20fdc2c",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/composition/custom-properties-provider/provider/camunda/WorkflowPropertiesProvider.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-08-23T07:12:27Z",
+      "side": 1,
+      "message": "you may want to think about creating a \"shortcut\" for bpmn-js-properties-panel/lib/provider in webpack. not mandatory. just a thought.\nAre you not missing licensing here?\nProcess key hints should be i18n\nplease create constants file for all comunda strings",
+      "revId": "de08a8866d86a48e08396031d219c54531daca9d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_42281086",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/composition/custom-properties-provider/provider/camunda/index.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-08-23T07:12:27Z",
+      "side": 1,
+      "message": "missing licensing",
+      "revId": "de08a8866d86a48e08396031d219c54531daca9d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_622bcc82",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/composition/custom-properties-provider/provider/camunda/parts/InputOutputParameterProps.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-08-23T07:12:27Z",
+      "side": 1,
+      "message": "missing licensing",
+      "revId": "de08a8866d86a48e08396031d219c54531daca9d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_022218a4",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/composition/custom-properties-provider/provider/camunda/parts/InputOutputProps.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-08-23T07:12:27Z",
+      "side": 1,
+      "message": "missing licensing\nrequire? talk to me",
+      "revId": "de08a8866d86a48e08396031d219c54531daca9d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_2225d4aa",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/composition/custom-properties-provider/provider/camunda/parts/WorkflowServiceTaskDelegateProps.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-08-23T07:12:27Z",
+      "side": 1,
+      "message": "missing licensing\nmissing constants",
+      "revId": "de08a8866d86a48e08396031d219c54531daca9d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_e236fce6",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/composition/custom-properties-provider/provider/camunda/parts/createInputOutputTabGroups.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-08-23T07:12:27Z",
+      "side": 1,
+      "message": "again lots of constants\nlicensing missing",
+      "revId": "de08a8866d86a48e08396031d219c54531daca9d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_8235c8db",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/composition/custom-properties-provider/provider/camunda/parts/implementation/InputOutput.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-08-23T07:12:27Z",
+      "side": 1,
+      "message": "constants, licensing",
+      "revId": "de08a8866d86a48e08396031d219c54531daca9d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_424fb06b",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/composition/custom-properties-provider/provider/camunda/parts/implementation/InputOutputHelper.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-08-23T07:12:27Z",
+      "side": 1,
+      "message": "licensing\nconstants",
+      "revId": "de08a8866d86a48e08396031d219c54531daca9d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_0259b835",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/composition/custom-properties-provider/provider/camunda/parts/implementation/InputOutputParameter.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-08-23T07:12:27Z",
+      "side": 1,
+      "message": "licensing constants",
+      "revId": "de08a8866d86a48e08396031d219c54531daca9d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
