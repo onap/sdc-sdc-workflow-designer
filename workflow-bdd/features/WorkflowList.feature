@@ -40,6 +40,21 @@ Feature: Workflows list
     And I want to update the input property "description" with value "second version"
     And I want to create for path "/workflows/{item.id}/versions?baseVersionId={item.versionId}" with the input data from the context
 
+    Given I want to create a Workflow
+    And I want to copy to property "rand1" from response data path "name"
+    And I want to update the input property "name" with value "workflow_ss_1_{rand1}"
+    And I want to update for path "/workflows/{item.id}" with the input data from the context
+
+    Given I want to create a Workflow
+    And I want to copy to property "rand2" from response data path "name"
+    And I want to update the input property "name" with value "workflow_ss_2_{rand2}"
+    And I want to update for path "/workflows/{item.id}" with the input data from the context
+
+    Given I want to create a Workflow
+    And I want to copy to property "rand3" from response data path "name"
+    And I want to update the input property "name" with value "workflow_ss_3_{rand3}"
+    And I want to update for path "/workflows/{item.id}" with the input data from the context
+
   Scenario: List all
     When I want to get path "/workflows?limit=2000"
     Then I want to check in the list "items" property "id" with value of saved property "noVersionsWorkflowId" exists
@@ -74,3 +89,9 @@ Feature: Workflows list
     And I want to check in the list "items" property "id" with value of saved property "draftVersionWorkflowId" does not exist
     And I want to check in the list "items" property "id" with value of saved property "certifiedVersionWorkflowId" does not exist
     And I want to check in the list "items" property "id" with value of saved property "draftAndCertifiedVersionWorkflowId" does not exist
+
+  Scenario: List ones that contain 'workflow_ss' in name
+    When I want to get path "/workflows?searchNameFilter=workflow_ss&limit=2000"
+    And I want to check in the list "items" property "name" with value "workflow_ss_1_{rand1}" exists
+    And I want to check in the list "items" property "name" with value "workflow_ss_2_{rand2}" exists
+    And I want to check in the list "items" property "name" with value "workflow_ss_3_{rand3}" exists
