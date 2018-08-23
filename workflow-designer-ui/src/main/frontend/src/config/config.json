@@ -1,5 +1,6 @@
 {
 	"version": "0.1",
 	"appContextPath" : "/",
-	"defaultRestPrefix": "/wf"
+	"defaultRestPrefix": "/wf",
+	"activitiesRestPrefix": "/v1.0"
 }

@@ -78,16 +78,18 @@ class OverviewView extends Component {
             versions,
             selectedVersion,
             workflow,
-            isVersionsCertifies
+            isVersionsCertifies,
+            history
         } = this.props;
         const nodeVersions = versions.map(version => ({
             id: version.id,
             name: version.name,
             parent: version.baseId || ''
         }));
+
         return (
             <div className="overview-page">
-                <WorkflowHeader name={workflow.name} />
+                <WorkflowHeader history={history} name={workflow.name} />
                 <div className="overview-content">
                     <WorkflowDetails
                         name={workflow.name}

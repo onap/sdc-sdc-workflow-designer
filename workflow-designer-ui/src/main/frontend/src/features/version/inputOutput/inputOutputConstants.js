@@ -19,11 +19,11 @@ export const NAME_MAX_LEN = 50;
 export const INPUTS = 'inputs';
 export const OUTPUTS = 'outputs';
 
-export const STRING = 'String';
+export const STRING = 'string';
 export const DEFAULT_STRING = 'STRING';
-export const BOOLEAN = 'Boolean';
-export const INTEGER = 'Integer';
-export const FLOAT = 'Float';
+export const BOOLEAN = 'boolean';
+export const INTEGER = 'integer';
+export const FLOAT = 'float';
 
 export const NAMESPACE = 'inputOutput';
 
