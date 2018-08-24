@@ -10,8 +10,7 @@
     Contributors:
         ZTE - initial API and implementation and/or initial documentation
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <parent>
         <groupId>org.onap.sdc.sdc-workflow-designer</groupId>
@@ -23,7 +22,7 @@
     <artifactId>sdc-workflow-designer-server</artifactId>
     <name>sdc-workflow-designer-server</name>
     <packaging>jar</packaging>
-    
+
     <properties>
         <dropwizard.version>1.3.0</dropwizard.version>
         <swagger.version>1.5.3</swagger.version>
@@ -38,7 +37,7 @@
         <commons-io.version>2.4</commons-io.version>
         <dom4j.version>1.6.1</dom4j.version>
     </properties>
-    
+
     <build>
         <plugins>
             <plugin>
@@ -74,7 +73,7 @@
                     </execution>
                 </executions>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -98,7 +97,7 @@
                     </execution>
                 </executions>
             </plugin>
-            
+
         </plugins>
     </build>
 
@@ -129,13 +128,13 @@
             <artifactId>hibernate-validator</artifactId>
             <version>${hibernate-validator.version}</version>
         </dependency>
-        
+
         <dependency>
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-assets</artifactId>
             <version>${dropwizard.version}</version>
         </dependency>
-        
+
         <!-- swagger -->
         <dependency>
             <groupId>io.swagger</groupId>
@@ -152,7 +151,7 @@
             </exclusions>
             <version>${swagger.version}</version>
         </dependency>
-        
+
         <!-- jersey -->
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
@@ -169,13 +168,13 @@
             <artifactId>jersey-container-servlet-core</artifactId>
             <version>${jersey.version}</version>
         </dependency>
-        
+
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>${commons-io.version}</version>
         </dependency>
-        
+
         <!-- consumer -->
         <dependency>
             <groupId>com.eclipsesource.jaxrs</groupId>
@@ -188,14 +187,14 @@
             </exclusions>
             <version>${jaxrs.consumer.version}</version>
         </dependency>
-        
+
         <!-- gson -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>${gson.version}</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
@@ -212,18 +211,18 @@
             <artifactId>commons-collections</artifactId>
             <version>${commons-collections.version}</version>
         </dependency>
-        
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
         </dependency>
-        
+
         <dependency>
             <groupId>dom4j</groupId>
             <artifactId>dom4j</artifactId>
             <version>${dom4j.version}</version>
         </dependency>
     </dependencies>
-    
+
 </project>

@@ -1,4 +1,5 @@
 [gerrit]
 host=gerrit.onap.org
 port=29418
-project=sdc/sdc-workflow-designer
+project=sdc/sdc-workflow-designer.git
+defaultbranch=master

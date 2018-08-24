@@ -23,7 +23,7 @@
     <artifactId>distribution</artifactId>
     <name>distribution</name>
     <packaging>pom</packaging>
-      
+
     <properties>
         <project.package>sdc-workflow-designer</project.package>
         <project.jar>sdc-workflow-designer.jar</project.jar>
@@ -36,7 +36,7 @@
         <version.output>target/version</version.output>
         <target.dir>target</target.dir>
     </properties>
-    
+
     <build>
         <plugins>
             <!-- assembly ui and backend to one jar -->
@@ -62,7 +62,7 @@
                     </execution>
                 </executions>
             </plugin>
-            
+
             <!-- copy assembly and jar to assembly -->
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -99,7 +99,7 @@
                     </execution>
                 </executions>
             </plugin>
-            
+
             <!-- copy assembly and jar to assembly -->
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -136,7 +136,7 @@
                     </execution>
                 </executions>
             </plugin>
-            
+
             <!-- rename jar name -->
             <plugin>
                 <groupId>com.coderplus.maven.plugins</groupId>
@@ -166,7 +166,7 @@
                     </execution>
                 </executions>
             </plugin>
-      
+
             <!-- version package -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -198,7 +198,7 @@
                     </execution>
                 </executions>
             </plugin>
-            
+
             <!-- Copy dockerfile to version -->
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -227,7 +227,7 @@
             </plugin>
         </plugins>
     </build>
-    
+
     <profiles>
         <profile>
             <id>docker</id>
@@ -276,19 +276,19 @@
             </build>
         </profile>
     </profiles>
-    
+
     <dependencies>
         <dependency>
             <groupId>org.onap.sdc.sdc-workflow-designer</groupId>
             <artifactId>sdc-workflow-designer-server</artifactId>
             <version>${project.version}</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.onap.sdc.sdc-workflow-designer</groupId>
             <artifactId>sdc-workflow-designer-ui</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
-    
+
 </project>
