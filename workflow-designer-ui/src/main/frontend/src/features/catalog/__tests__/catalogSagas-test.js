@@ -17,18 +17,20 @@
 'use strict';
 
 import { runSaga } from 'redux-saga';
-import { takeLatest, throttle } from 'redux-saga/effects';
+import { takeLatest } from 'redux-saga/effects';
 
 import {
     NAME,
     DESC,
     LIMIT,
-    SEARCH_CHANGED,
-    SEARCH_BUFFER
+    SEARCH_CHANGED
 } from 'features/catalog/catalogConstants';
 import catalogApi from '../catalogApi';
 import { fetchWorkflow, updateWorkflow } from 'features/catalog/catalogActions';
-import catalogSaga, { fetchWorkflowSaga } from 'features/catalog/catalogSagas';
+import catalogSaga, {
+    fetchWorkflowSaga,
+    debounceSearchChanged
+} from 'features/catalog/catalogSagas';
 
 jest.mock('../catalogApi');
 
@@ -39,9 +41,8 @@ describe('Catalog Sagas', () => {
         expect(gen.next().value).toEqual(
             takeLatest(fetchWorkflow, fetchWorkflowSaga)
         );
-
         expect(gen.next().value).toEqual(
-            throttle(SEARCH_BUFFER, SEARCH_CHANGED, fetchWorkflowSaga)
+            takeLatest(SEARCH_CHANGED, debounceSearchChanged)
         );
         expect(gen.next().done).toBe(true);
     });

@@ -19,22 +19,28 @@ import { createActions, createAction } from 'redux-actions';
 import {
     NAMESPACE,
     LIMIT,
-    SEARCH_CHANGED
+    SEARCH_CHANGED,
+    FETCH_WORKFLOW
 } from 'features/catalog/catalogConstants';
 
 export const {
-    [NAMESPACE]: { fetchWorkflow, updateWorkflow, resetWorkflow }
+    [NAMESPACE]: { updateWorkflow, resetWorkflow }
 } = createActions({
     [NAMESPACE]: {
-        FETCH_WORKFLOW: (sort, offset) => ({
-            sort,
-            limit: LIMIT,
-            offset
-        }),
         UPDATE_WORKFLOW: undefined,
         RESET_WORKFLOW: undefined
     }
 });
+
+export const fetchWorkflow = createAction(
+    FETCH_WORKFLOW,
+    (sort, offset, searchNameFilter) => ({
+        sort,
+        limit: LIMIT,
+        offset,
+        searchNameFilter
+    })
+);
 
 export const searchChangedAction = createAction(
     SEARCH_CHANGED,

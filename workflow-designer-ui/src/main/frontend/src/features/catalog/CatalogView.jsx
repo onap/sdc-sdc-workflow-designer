@@ -50,11 +50,11 @@ class CatalogView extends Component {
             catalog: { sort }
         } = this.props;
 
-        const payload = { ...sort };
-
+        const payload = {
+            ...sort
+        };
         payload[NAME] = payload[NAME] === ASC ? DESC : ASC;
-
-        handleFetchWorkflow(payload);
+        handleFetchWorkflow(payload, undefined, this.state.searchValue);
     };
 
     handleScroll = () => {
@@ -65,8 +65,7 @@ class CatalogView extends Component {
             },
             handleFetchWorkflow
         } = this.props;
-
-        handleFetchWorkflow(sort, offset);
+        handleFetchWorkflow(sort, offset, this.state.searchValue);
     };
 
     goToOverviewPage = id => {
@@ -75,8 +74,12 @@ class CatalogView extends Component {
     };
 
     searchChange = searchValue => {
-        const { searchInputChanged, catalog } = this.props;
         this.setState({ searchValue: searchValue });
+        this.dispatchChange(searchValue);
+    };
+
+    dispatchChange = searchValue => {
+        const { searchInputChanged, catalog } = this.props;
         searchInputChanged({
             ...catalog,
             searchNameFilter: searchValue
