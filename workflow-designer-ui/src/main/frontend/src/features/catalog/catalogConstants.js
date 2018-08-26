@@ -21,6 +21,8 @@ export const ASC = 'asc';
 export const DESC = 'desc';
 
 export const LIMIT = 20;
+export const SEARCH_BUFFER = 1000;
+export const SEARCH_CHANGED = `catalog/SEARCH_CHANGED`;
 
 export const FETCH_WORKFLOW = `${NAMESPACE}/FETCH_WORKFLOW`;
 export const UPDATE_WORKFLOW = `${NAMESPACE}/UPDATE_WORKFLOW`;

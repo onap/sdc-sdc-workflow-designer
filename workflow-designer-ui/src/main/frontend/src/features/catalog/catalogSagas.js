@@ -14,24 +14,27 @@
 * limitations under the License.
 */
 
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest, throttle } from 'redux-saga/effects';
 
 import catalogApi from 'features/catalog/catalogApi';
 import { fetchWorkflow, updateWorkflow } from 'features/catalog/catalogActions';
+import {
+    SEARCH_CHANGED,
+    SEARCH_BUFFER
+} from 'features/catalog/catalogConstants';
 
 const noOp = () => {};
 
 export function* fetchWorkflowSaga({ payload }) {
-    const { sort, limit, offset } = payload;
-
+    const { sort, limit, offset, searchNameFilter } = payload;
     try {
         const data = yield call(
             catalogApi.getWorkflows,
             sort,
             limit,
-            offset === undefined ? 0 : offset + limit
+            offset === undefined ? 0 : offset + limit,
+            searchNameFilter
         );
-
         yield put(updateWorkflow({ sort, ...data }));
     } catch (e) {
         noOp();
@@ -40,6 +43,7 @@ export function* fetchWorkflowSaga({ payload }) {
 
 function* catalogSaga() {
     yield takeLatest(fetchWorkflow, fetchWorkflowSaga);
+    yield throttle(SEARCH_BUFFER, SEARCH_CHANGED, fetchWorkflowSaga);
 }
 
 export default catalogSaga;

@@ -14,9 +14,13 @@
 * limitations under the License.
 */
 
-import { createActions } from 'redux-actions';
+import { createActions, createAction } from 'redux-actions';
 
-import { NAMESPACE, LIMIT } from 'features/catalog/catalogConstants';
+import {
+    NAMESPACE,
+    LIMIT,
+    SEARCH_CHANGED
+} from 'features/catalog/catalogConstants';
 
 export const {
     [NAMESPACE]: { fetchWorkflow, updateWorkflow, resetWorkflow }
@@ -31,3 +35,8 @@ export const {
         RESET_WORKFLOW: undefined
     }
 });
+
+export const searchChangedAction = createAction(
+    SEARCH_CHANGED,
+    payload => payload
+);

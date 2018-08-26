@@ -17,9 +17,15 @@
 'use strict';
 
 import { runSaga } from 'redux-saga';
-import { takeLatest } from 'redux-saga/effects';
+import { takeLatest, throttle } from 'redux-saga/effects';
 
-import { NAME, DESC, LIMIT } from 'features/catalog/catalogConstants';
+import {
+    NAME,
+    DESC,
+    LIMIT,
+    SEARCH_CHANGED,
+    SEARCH_BUFFER
+} from 'features/catalog/catalogConstants';
 import catalogApi from '../catalogApi';
 import { fetchWorkflow, updateWorkflow } from 'features/catalog/catalogActions';
 import catalogSaga, { fetchWorkflowSaga } from 'features/catalog/catalogSagas';
@@ -34,6 +40,9 @@ describe('Catalog Sagas', () => {
             takeLatest(fetchWorkflow, fetchWorkflowSaga)
         );
 
+        expect(gen.next().value).toEqual(
+            throttle(SEARCH_BUFFER, SEARCH_CHANGED, fetchWorkflowSaga)
+        );
         expect(gen.next().done).toBe(true);
     });
 
@@ -42,6 +51,7 @@ describe('Catalog Sagas', () => {
             [NAME]: DESC
         };
         const offset = 0;
+        const searchNameFilter = undefined;
         const data = {
             paging: {
                 offset,
@@ -50,6 +60,7 @@ describe('Catalog Sagas', () => {
                 hasMore: false,
                 total: 2
             },
+            searchNameFilter: 'w',
             items: [
                 {
                     id: 'c5b7ca1a0f7944bfa948b85b32c5f314',
@@ -86,7 +97,8 @@ describe('Catalog Sagas', () => {
         expect(catalogApi.getWorkflows).toBeCalledWith(
             sort,
             LIMIT,
-            offset + LIMIT
+            offset + LIMIT,
+            searchNameFilter
         );
     });
 });

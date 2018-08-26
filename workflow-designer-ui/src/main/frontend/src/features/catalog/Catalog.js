@@ -17,7 +17,11 @@
 import { connect } from 'react-redux';
 
 import CatalogView from 'features/catalog/CatalogView';
-import { fetchWorkflow, resetWorkflow } from 'features/catalog/catalogActions';
+import {
+    fetchWorkflow,
+    resetWorkflow,
+    searchChangedAction
+} from 'features/catalog/catalogActions';
 
 import { showCustomModalAction } from 'shared/modal/modalWrapperActions';
 import { NEW_WORKFLOW_MODAL } from 'shared/modal/modalWrapperComponents';
@@ -38,7 +42,9 @@ const mapDispatchToProps = dispatch => ({
                 customComponentName: NEW_WORKFLOW_MODAL,
                 title: 'New Workflow'
             })
-        )
+        ),
+    searchInputChanged: searchValue =>
+        dispatch(searchChangedAction(searchValue))
 });
 
 const Catalog = connect(mapStateToProps, mapDispatchToProps)(CatalogView);

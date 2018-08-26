@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import InfiniteScroll from 'shared/scroll/InfiniteScroll';
 import Workflows from 'features/catalog/views/Workflows';
@@ -22,10 +22,16 @@ import AddWorkflow from 'features/catalog/views/AddWorkflow';
 
 import Header from 'features/catalog/views/Header';
 import Main from 'features/catalog/views/Main';
-
 import { NAME, ASC, DESC } from 'features/catalog/catalogConstants';
 
-class CatalogView extends React.Component {
+class CatalogView extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            searchValue: ''
+        };
+    }
+
     componentDidMount() {
         const { clearWorkflow } = this.props;
 
@@ -68,6 +74,15 @@ class CatalogView extends React.Component {
         history.push('/workflow/' + id + '/overview');
     };
 
+    searchChange = searchValue => {
+        const { searchInputChanged, catalog } = this.props;
+        this.setState({ searchValue: searchValue });
+        searchInputChanged({
+            ...catalog,
+            searchNameFilter: searchValue
+        });
+    };
+
     render() {
         const { catalog, showNewWorkflowModal } = this.props;
         const {
@@ -79,7 +94,10 @@ class CatalogView extends React.Component {
 
         return (
             <div className="wf-catalog">
-                <Header />
+                <Header
+                    searchChange={this.searchChange}
+                    searchValue={this.state.searchValue}
+                />
                 <InfiniteScroll
                     useWindow={false}
                     loadMore={this.handleScroll}
@@ -110,7 +128,8 @@ CatalogView.propTypes = {
     handleResetWorkflow: PropTypes.func,
     handleFetchWorkflow: PropTypes.func,
     showNewWorkflowModal: PropTypes.func,
-    clearWorkflow: PropTypes.func
+    clearWorkflow: PropTypes.func,
+    searchInputChanged: PropTypes.func
 };
 
 CatalogView.defaultProps = {
