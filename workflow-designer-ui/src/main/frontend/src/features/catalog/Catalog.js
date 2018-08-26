@@ -32,8 +32,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    handleFetchWorkflow: (sort, offset) =>
-        dispatch(fetchWorkflow(sort, offset)),
+    handleFetchWorkflow: (sort, offset, searchNameFilter) =>
+        dispatch(fetchWorkflow(sort, offset, searchNameFilter)),
     handleResetWorkflow: () => dispatch(resetWorkflow()),
     clearWorkflow: () => dispatch(clearWorkflowAction),
     showNewWorkflowModal: () =>

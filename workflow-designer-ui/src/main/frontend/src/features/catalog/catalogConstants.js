@@ -20,7 +20,9 @@ export const NAME = 'name';
 export const ASC = 'asc';
 export const DESC = 'desc';
 
-export const LIMIT = 20;
+//Limit = max tiles in a standard screen
+export const LIMIT = 31;
+
 export const SEARCH_BUFFER = 1000;
 export const SEARCH_CHANGED = `catalog/SEARCH_CHANGED`;
 

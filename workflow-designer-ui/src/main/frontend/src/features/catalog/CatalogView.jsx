@@ -19,6 +19,7 @@ import PropTypes from 'prop-types';
 import InfiniteScroll from 'shared/scroll/InfiniteScroll';
 import Workflows from 'features/catalog/views/Workflows';
 import AddWorkflow from 'features/catalog/views/AddWorkflow';
+// import { debounce } from 'lodash';
 
 import Header from 'features/catalog/views/Header';
 import Main from 'features/catalog/views/Main';
@@ -30,6 +31,7 @@ class CatalogView extends Component {
         this.state = {
             searchValue: ''
         };
+        // this.dispatchChange = debounce(this.dispatchChange, 1000);
     }
 
     componentDidMount() {
@@ -50,11 +52,11 @@ class CatalogView extends Component {
             catalog: { sort }
         } = this.props;
 
-        const payload = { ...sort };
-
+        const payload = {
+            ...sort
+        };
         payload[NAME] = payload[NAME] === ASC ? DESC : ASC;
-
-        handleFetchWorkflow(payload);
+        handleFetchWorkflow(payload, undefined, this.state.searchValue);
     };
 
     handleScroll = () => {
@@ -65,8 +67,7 @@ class CatalogView extends Component {
             },
             handleFetchWorkflow
         } = this.props;
-
-        handleFetchWorkflow(sort, offset);
+        handleFetchWorkflow(sort, offset, this.state.searchValue);
     };
 
     goToOverviewPage = id => {
@@ -75,8 +76,12 @@ class CatalogView extends Component {
     };
 
     searchChange = searchValue => {
-        const { searchInputChanged, catalog } = this.props;
         this.setState({ searchValue: searchValue });
+        this.dispatchChange(searchValue);
+    };
+
+    dispatchChange = searchValue => {
+        const { searchInputChanged, catalog } = this.props;
         searchInputChanged({
             ...catalog,
             searchNameFilter: searchValue
