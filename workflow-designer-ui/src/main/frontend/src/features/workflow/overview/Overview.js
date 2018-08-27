@@ -55,4 +55,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(OverviewView);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(OverviewView);

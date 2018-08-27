@@ -27,8 +27,9 @@ const mapDispatchToProps = dispatch => ({
     hideModal: () => dispatch(hideModalAction())
 });
 
-const ModalWrapper = connect(mapStateToProps, mapDispatchToProps)(
-    ModalWrapperView
-);
+const ModalWrapper = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ModalWrapperView);
 
 export default ModalWrapper;

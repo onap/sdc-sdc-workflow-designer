@@ -47,6 +47,9 @@ const mapDispatchToProps = dispatch => ({
         dispatch(searchChangedAction(searchValue))
 });
 
-const Catalog = connect(mapStateToProps, mapDispatchToProps)(CatalogView);
+const Catalog = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(CatalogView);
 
 export default Catalog;
