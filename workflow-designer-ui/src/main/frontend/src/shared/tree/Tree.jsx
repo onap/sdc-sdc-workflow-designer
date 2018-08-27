@@ -130,7 +130,7 @@ class Tree extends Component {
             let minX = Math.min(...nodesXValue);
 
             let svgTempWidth =
-                (maxX - minX) / 30 * horizontalSpaceBetweenLeaves;
+                ((maxX - minX) / 30) * horizontalSpaceBetweenLeaves;
             let svgWidth = svgTempWidth < width ? width - 5 : svgTempWidth;
             const svgEL = select(`svg.${name}`);
             const container = select(`.tree-view.${name}-container`);
@@ -185,17 +185,14 @@ class Tree extends Component {
                 )
                 .on('click', node => this.onNodeClick(node));
 
-            node
-                .append('circle')
+            node.append('circle')
                 .attr('r', nodeRadius)
                 .attr('class', 'outer-circle');
-            node
-                .append('circle')
+            node.append('circle')
                 .attr('r', nodeRadius - 3)
                 .attr('class', 'inner-circle');
 
-            node
-                .append('text')
+            node.append('text')
                 .attr('y', nodeRadius / 4 + 1)
                 .attr('x', -nodeRadius * 1.8)
                 .text(node => node.data.name)
@@ -209,11 +206,11 @@ class Tree extends Component {
                     'scrollLeft',
                     svgWidth / 4 +
                         (svgWidth / 4 - 100) -
-                        selectedNode.x / 30 * horizontalSpaceBetweenLeaves
+                        (selectedNode.x / 30) * horizontalSpaceBetweenLeaves
                 );
                 container.property(
                     'scrollTop',
-                    selectedNode.y / 100 * verticalSpaceBetweenNodes
+                    (selectedNode.y / 100) * verticalSpaceBetweenNodes
                 );
             } else {
                 container.property(

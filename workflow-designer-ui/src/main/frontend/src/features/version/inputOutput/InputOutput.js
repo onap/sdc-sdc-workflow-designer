@@ -77,4 +77,7 @@ const mapDispatchToProps = dispatch => ({
     }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(InputOutputView);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(InputOutputView);

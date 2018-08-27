@@ -7,4 +7,7 @@ const mapDispatchToProps = dispatch => ({
         dispatch(workflowVersionFetchRequestedAction(payload))
 });
 
-export default connect(null, mapDispatchToProps)(VersionView);
+export default connect(
+    null,
+    mapDispatchToProps
+)(VersionView);

@@ -53,5 +53,8 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default withRouter(
-    connect(mapStateToProps, mapDispatchToProps)(CreateWorkflowView)
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )(CreateWorkflowView)
 );
