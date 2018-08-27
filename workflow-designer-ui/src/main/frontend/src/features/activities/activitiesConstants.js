@@ -14,3 +14,11 @@
 * limitations under the License.
 */
 export const SET_ACTIVITIES_LIST = 'activites/SET_ACTIVITIES_LIST';
+export const GET_ACTIVITIES = 'activities/GET_ACTIVITIES';
+
+export const activityStatus = {
+    CERTIFIED: 'Certified',
+    DRAFT: 'Draft',
+    DEPRICATED: 'Depricated',
+    DELETED: 'Deleted'
+};

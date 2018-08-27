@@ -1,6 +1,9 @@
 $cursor-disabled: not-allowed !default;
 $cursor-pointer: pointer;
 
+$camunda-panel-error-border-color: #cc3333;
+$camunda-panel-error-background-color: #f0c2c2;
+
 @mixin body-1-emphasis() {
     @include base-font-semibold;
     font-size: $body-font-1;

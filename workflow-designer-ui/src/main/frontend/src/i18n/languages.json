@@ -19,7 +19,8 @@
             "cancelBtn": "Cancel",
             "certifyBtn": "Certify",
             "undoBtn": "Undo",
-            "closeBtn": "Close"
+            "closeBtn": "Close",
+            "okBtn": "Ok"
         },
         "form": {
             "name": "Name",
@@ -44,7 +45,8 @@
                 "versionList": "Versions",
                 "newVersion": "Create New Version",
                 "title": "Overview",
-                "lastEdited": "Last Edited On"
+                "lastEdited": "Last Edited On",
+                "backBtnLabel": "WORKFLOW CATALOG"
             },
             "inputOutput": {
                 "name": "Name",
@@ -65,7 +67,10 @@
                 "emptyName": "Field is required"
             },
             "composition": {
-                "bpmnError" : "BPMN.IO Error"
+                "bpmnError" : "BPMN.IO Error",
+                "exportErrorMsg": "Could not export diagram",
+                "saveErrorMsg": "Could not save diagram",
+                "importErrorMsg": "Could not import diagram"
             }
         },
         "version": {

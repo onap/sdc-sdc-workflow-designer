@@ -14,3 +14,10 @@
 * limitations under the License.
 */
 export const SET_COMPOSITION = 'composition/SET_COMPOSITION';
+
+export const bpmnElementsTypes = {
+    EXTENSION_ElEMENTS: 'bpmn:ExtensionElements',
+    INPUT_OUTPUT: 'camunda:InputOutput',
+    INPUT_PARAMETER: 'camunda:InputParameter',
+    OUTPUT_PARAMETER: 'camunda:OutputParameter'
+};

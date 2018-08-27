@@ -15,7 +15,7 @@
 */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash.isempty';
 
 const Select = props => {
     const { dataObj, selectedItemValue, disabled, label } = props;

@@ -7,19 +7,37 @@
 		flex-grow: 1
 	}
 	.bpmn-sidebar {
+		background-color: $light-silver;
 		height: 100%;
 		width: 320px;
+		height: 100%;		
+		label {			
+			@include body-1;
+		}
+		.group-label {
+			@include heading-4-emphasis;
+			font-size: 110%;
+		}
 		.properties-panel {
+			background-color: $light-silver;
+			max-height: 888px;
+			overflow-y: auto;
 			&, .bpp-properties-panel {
-				height: 100%;
+				background-color: $light-silver;
+				#camunda-activitySelect-select {
+					&.invalid {
+						border-color: $camunda-panel-error-border-color;
+						background-color: $camunda-panel-error-background-color;
+					}
+				}
 			}
 		}
 		.composition-buttons {
 			position: fixed;
-			background-color: #fafafa;
+			background-color: $light-silver;
 			left: 265px;
 			bottom: 46px;
-			border: 1px solid lightgray;
+			border: 1px solid $light-gray;
 			width: 189px;
 			display: flex;
 			flex-direction: row;
@@ -29,7 +47,7 @@
 			padding: 10px;
 			.divider {
 				height: 35px;
-    			border: 1px solid $silver;
+    			border: 1px solid $light-gray;
 			}
 			.diagram-btn {
 				

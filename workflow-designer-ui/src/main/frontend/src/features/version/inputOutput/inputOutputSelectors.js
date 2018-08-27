@@ -15,13 +15,23 @@
 */
 
 import { createSelector } from 'reselect';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash.isempty';
 
 import { INPUTS } from 'features/version/inputOutput/inputOutputConstants';
 
 export const getInputOutput = state => state.currentVersion.inputOutput;
 export const getInputs = createSelector(getInputOutput, data => data.inputs);
 export const getOutputs = createSelector(getInputOutput, data => data.outputs);
+export const getInputOutputForComposition = state => ({
+    inputs: getInputs(state).map(item => ({
+        ...item,
+        type: item.type.toLowerCase()
+    })),
+    outputs: getOutputs(state).map(item => ({
+        ...item,
+        type: item.type.toLowerCase()
+    }))
+});
 export const getCurrent = createSelector(
     getInputOutput,
     inputOutput => inputOutput.current
