@@ -166,7 +166,8 @@ Then('I want to check property {string} does not exist', function(string)  {
  **/
 Then('I want to check in the list {string} property {string} with value {string} exists', function(listPath, propertyPath, value)  {
     var list = _.get(this.context.responseData, listPath);
-    assert.notEqual(list.find(element => _.get(element, propertyPath) === value), undefined);
+    let valueCheck = getPath(value, this.context);
+    assert.notEqual(list.find(element => _.get(element, propertyPath) === valueCheck), undefined);
 });
 
 /**

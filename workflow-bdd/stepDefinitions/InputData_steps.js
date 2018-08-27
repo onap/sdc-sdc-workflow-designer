@@ -19,6 +19,11 @@ const _ = require('lodash');
 const fs = require('fs');
 const util = require('./Utils.js');
 
+function getPath(path, context) {
+    let compiled = _.template(path);
+    return compiled(context);
+}
+
 /**
  * @module InputData
  * @description creates an ampty input data object
@@ -59,7 +64,8 @@ When('I want to set the input data to file {string}', function (string) {
  * @step I want to update the input property {string} with value {string}
  **/
 Then('I want to update the input property {string} with value {string}', function(string, string2)  {
-	_.set(this.context.inputData, string, string2);
+    let value = getPath(string2, this.context);
+	_.set(this.context.inputData, string, value);
 });
 
 /**
