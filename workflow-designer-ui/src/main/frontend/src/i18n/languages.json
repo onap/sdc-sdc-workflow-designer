@@ -71,6 +71,12 @@
                 "exportErrorMsg": "Could not export diagram",
                 "saveErrorMsg": "Could not save diagram",
                 "importErrorMsg": "Could not import diagram"
+            },
+            "confirmationMessages": {
+                "certifyTitle": "Certify Version",
+                "certifyMessage": "Successfully certified",
+                "updateTitle": "Update Workflow Version",
+                "updateMessage": "Successfully updated"
             }
         },
         "version": {

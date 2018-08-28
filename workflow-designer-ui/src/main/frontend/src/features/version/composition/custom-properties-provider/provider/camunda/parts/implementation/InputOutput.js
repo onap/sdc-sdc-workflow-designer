@@ -1,8 +1,4 @@
 'use strict';
-import {
-    IMPLEMENTATION_TYPE_VALUE,
-    implementationType
-} from './implementationConstants';
 var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
 var elementHelper = require('bpmn-js-properties-panel/lib/helper/ElementHelper'),
@@ -11,15 +7,6 @@ var elementHelper = require('bpmn-js-properties-panel/lib/helper/ElementHelper')
     cmdHelper = require('bpmn-js-properties-panel/lib/helper/CmdHelper');
 
 var extensionElementsEntry = require('bpmn-js-properties-panel/lib/provider/camunda/parts/implementation//ExtensionElements');
-
-function isCreateDeleteSupported(element) {
-    const bo = getBusinessObject(element);
-    return (
-        (element.type !== 'bpmn:ServiceTask' ||
-            bo[implementationType.ACTIVITY] !== IMPLEMENTATION_TYPE_VALUE) &&
-        element.type !== 'bpmn:Process'
-    );
-}
 
 function getInputOutput(element, insideConnector) {
     return inputOutputHelper.getInputOutput(element, insideConnector);
@@ -236,10 +223,14 @@ module.exports = function(element, bpmnFactory, options, translate) {
         prefix: 'Input',
         resizable: true,
 
-        createExtensionElement: isCreateDeleteSupported(element)
+        createExtensionElement: inputOutputHelper.isCreateDeleteSupported(
+            element
+        )
             ? newElement('camunda:InputParameter', 'inputParameters')
             : undefined,
-        removeExtensionElement: isCreateDeleteSupported(element)
+        removeExtensionElement: inputOutputHelper.isCreateDeleteSupported(
+            element
+        )
             ? removeElement(
                   getInputParameter,
                   'inputParameters',
@@ -269,16 +260,20 @@ module.exports = function(element, bpmnFactory, options, translate) {
             prefix: 'Output',
             resizable: true,
 
-            createExtensionElement: isCreateDeleteSupported(element)
+            createExtensionElement: inputOutputHelper.isCreateDeleteSupported(
+                element
+            )
                 ? newElement('camunda:OutputParameter', 'outputParameters')
                 : undefined,
-            removeExtensionElement: isCreateDeleteSupported(element)
+            removeExtensionElement: inputOutputHelper.isCreateDeleteSupported(
+                element
+            )
                 ? removeElement(
                       getOutputParameter,
                       'outputParameters',
                       'inputParameters'
                   )
-                : isCreateDeleteSupported(element),
+                : inputOutputHelper.isCreateDeleteSupported(element),
 
             getExtensionElements: function(element) {
                 return getOutputParameters(element, insideConnector);
