@@ -48,4 +48,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CompositionView);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(CompositionView);
