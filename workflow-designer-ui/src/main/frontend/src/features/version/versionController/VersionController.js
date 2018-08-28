@@ -55,6 +55,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-    VersionControllerView
-);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(VersionControllerView);

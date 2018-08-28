@@ -33,4 +33,7 @@ const mapDispatchToProps = dispatch => ({
         dispatch(workflowVersionDetailsChangedAction(payload))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(GeneralView);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(GeneralView);
