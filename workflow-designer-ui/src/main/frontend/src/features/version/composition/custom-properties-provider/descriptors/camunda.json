@@ -360,11 +360,6 @@
           "type": "String"
         },
         {
-          "name": "workflowActivity",
-          "isAttr": true,
-          "type": "String"
-        },
-        {
           "name": "delegateExpression",
           "isAttr": true,
           "type": "String"

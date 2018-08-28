@@ -14,6 +14,7 @@
 * limitations under the License.
 */
 import { all, call, put, takeEvery, takeLatest } from 'redux-saga/effects';
+import { I18n } from 'react-redux-i18n';
 
 import { genericNetworkErrorAction } from 'src/appConstants';
 import {
@@ -92,8 +93,8 @@ function* watchUpdateVersion(action) {
         }
         yield put(
             notificationActions.showSuccess({
-                title: 'Update Workflow Version',
-                message: 'Successfully updated'
+                title: I18n.t('workflow.confirmationMessages.updateTitle'),
+                message: I18n.t('workflow.confirmationMessages.updateMessage')
             })
         );
     } catch (error) {
@@ -103,18 +104,14 @@ function* watchUpdateVersion(action) {
 
 function* watchCertifyVersion(action) {
     try {
-        const { workflowId, params } = action.payload;
-        yield call(versionApi.updateVersion, {
-            workflowId,
-            params: params
-        });
+        yield call(watchUpdateVersion, action);
         yield call(versionApi.certifyVersion, {
             ...action.payload
         });
         yield put(
             notificationActions.showSuccess({
-                title: 'Certify Version',
-                message: 'Successfully updated'
+                title: I18n.t('workflow.confirmationMessages.certifyTitle'),
+                message: I18n.t('workflow.confirmationMessages.certifyMessage')
             })
         );
         yield put(versionStateChangedAction({ state: versionState.CERTIFIED }));
