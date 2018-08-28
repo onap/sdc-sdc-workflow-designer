@@ -60,7 +60,7 @@ class CreateVersionView extends Component {
     render() {
         const { closeCreateVersionModal } = this.props;
         return (
-            <form onSubmit={this.handleSubmitForm}>
+            <form onSubmit={this.handleSubmitForm} autoComplete="off">
                 <div className="new-version-page custom-modal-wrapper">
                     <div className="form-custom-modal">
                         <Select

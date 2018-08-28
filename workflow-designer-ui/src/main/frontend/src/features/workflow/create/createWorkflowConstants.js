@@ -18,9 +18,12 @@ export const NEW_VERSION = {
     baseId: null,
     description: null
 };
+export const MIN_NAME_LENGTH = 6;
+export const MAX_NAME_LENGTH = 40;
 export const WORKFLOW_INPUT_CHANGE = 'createWorkflow/INPUT_CHANGE';
 export const SUBMIT_WORKFLOW = 'createWorkflow/SUBMIT_WORKFLOW';
-export const EMPTY_NAME_ERROR = 'createWorkflow/EMPTY_NAME_ERROR';
+export const VALIDATION_ERROR = 'createWorkflow/VALIDATION_ERROR';
+export const CLEAR_VALIDATION_ERROR = 'createWorkflow/CLEAR_VALIDATION_ERROR';
 
 export const inputChangeAction = payload => ({
     type: WORKFLOW_INPUT_CHANGE,
@@ -32,6 +35,9 @@ export const submitWorkflowAction = payload => ({
     payload
 });
 
-export const putNameError = () => ({
-    type: EMPTY_NAME_ERROR
+export const putValidationError = payload => ({
+    type: VALIDATION_ERROR,
+    payload
 });
+
+export const clearValidationError = () => ({ type: CLEAR_VALIDATION_ERROR });
