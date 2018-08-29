@@ -14,14 +14,6 @@ var entryFactory = require('bpmn-js-properties-panel/lib/factory/EntryFactory'),
         true
     );
 
-function isElementDisabled(element) {
-    return (
-        (element.type === 'bpmn:ServiceTask' &&
-            element.businessObject.workflowActivity) ||
-        element.type === 'bpmn:Process'
-    );
-}
-
 function createElement(type, parent, factory, properties) {
     return elementHelper.createElement(type, properties, parent, factory);
 }
@@ -115,7 +107,7 @@ module.exports = function(element, bpmnFactory, options, translate) {
                 return !isSelected(element, node);
             },
             disabled: function(element) {
-                return isElementDisabled(element);
+                return !inputOutputHelper.isCreateDeleteSupported(element);
             }
         })
     );
@@ -189,7 +181,7 @@ module.exports = function(element, bpmnFactory, options, translate) {
                 return isSelected(element, node);
             },
             disabled: function(element) {
-                return isElementDisabled(element);
+                return !inputOutputHelper.isCreateDeleteSupported(element);
             }
         })
     );

@@ -64,13 +64,20 @@
             "errorMessages": {
                 "alreadyExists": "Already exists",
                 "invalidCharacters": "Alphanumeric and underscore only",
-                "emptyName": "Field is required"
+                "emptyName": "Field is required",
+                "nameFieldLength": "Name must be at least %{minValue} characters and no more than %{maxValue} characters"
             },
             "composition": {
                 "bpmnError" : "BPMN.IO Error",
                 "exportErrorMsg": "Could not export diagram",
                 "saveErrorMsg": "Could not save diagram",
                 "importErrorMsg": "Could not import diagram"
+            },
+            "confirmationMessages": {
+                "certifyTitle": "Certify Version",
+                "certifyMessage": "Successfully certified",
+                "updateTitle": "Update Workflow Version",
+                "updateMessage": "Successfully updated"
             }
         },
         "version": {

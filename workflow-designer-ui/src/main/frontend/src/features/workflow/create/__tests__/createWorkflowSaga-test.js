@@ -47,6 +47,12 @@ describe('New workflow saga test', () => {
             }
         };
         const gen = watchSubmitWorkflow(action);
+
+        /**
+         * expecting the error message to return as undefined
+         * from validateNameField method
+         */
+        expect(gen.next().value).toEqual(undefined);
         expect(gen.next().value).toEqual(
             call(newWorkflowApi.createNewWorkflow, action.payload)
         );

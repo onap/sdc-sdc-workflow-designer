@@ -48,15 +48,7 @@ module.exports = (env, argv) => {
                 services: path.resolve(__dirname, 'src/services'),
                 shared: path.resolve(__dirname, 'src/shared'),
                 config: path.resolve(__dirname, 'src/config')
-            },
-            plugins: [
-                new ModuleRedirectPlugin({
-                    intercept: /min-dom\/lib/,
-                    ignore: /\/bpmn-js-properties-panel/,
-                    redirect:
-                        'node_modules/bpmn-js-properties-panel/node_modules/min-dom/lib'
-                })
-            ]
+            }
         },
         output: {
             path: __dirname + '/dist',

@@ -14,10 +14,10 @@
 * limitations under the License.
 */
 
-import { I18n } from 'react-redux-i18n';
 import {
     WORKFLOW_INPUT_CHANGE,
-    EMPTY_NAME_ERROR
+    VALIDATION_ERROR,
+    CLEAR_VALIDATION_ERROR
 } from 'features/workflow/create/createWorkflowConstants';
 import {
     SET_WORKFLOW,
@@ -37,10 +37,15 @@ function workflowReducer(state = {}, action) {
             return {
                 ...action.payload
             };
-        case EMPTY_NAME_ERROR:
+        case VALIDATION_ERROR:
             return {
                 ...state,
-                error: I18n.t('workflow.errorMessages.emptyName')
+                error: action.payload
+            };
+        case CLEAR_VALIDATION_ERROR:
+            return {
+                ...state,
+                error: ''
             };
         default:
             return state;

@@ -34,6 +34,7 @@ class CompositionView extends Component {
         inputOutput: PropTypes.object,
         activities: PropTypes.array
     };
+
     constructor() {
         super();
         this.generatedId = 'bpmn-container' + Date.now();
@@ -45,7 +46,7 @@ class CompositionView extends Component {
     }
 
     componentDidMount() {
-        const { composition } = this.props;
+        const { composition, activities } = this.props;
 
         this.modeler = new CustomModeler({
             propertiesPanel: {
@@ -59,7 +60,7 @@ class CompositionView extends Component {
                 camunda: camundaModuleDescriptor
             },
             workflow: {
-                activities: this.props.activities,
+                activities: activities,
                 onChange: this.onActivityChanged
             }
         });
@@ -67,6 +68,12 @@ class CompositionView extends Component {
         this.modeler.attachTo('#' + this.generatedId);
         this.setDiagramToBPMN(composition ? composition : newDiagramXML);
         this.modeler.on('element.out', () => this.exportDiagramToStore());
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.composition !== this.props.composition) {
+            this.setDiagramToBPMN(this.props.composition);
+        }
     }
     onActivityChanged = async (bo, selectedValue) => {
         const selectedActivity = this.props.activities.find(

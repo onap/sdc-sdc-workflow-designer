@@ -22,7 +22,14 @@ import CreateWorkflowView from 'features/workflow/create/CreateWorkflowView';
 
 describe('New Workflow View Snapshot', () => {
     it('renders correctly', () => {
-        const tree = renderer.create(<CreateWorkflowView />).toJSON();
+        const tree = renderer
+            .create(
+                <CreateWorkflowView
+                    clearValidationError={() => {}}
+                    clearWorkflow={() => {}}
+                />
+            )
+            .toJSON();
 
         expect(tree).toMatchSnapshot();
     });
