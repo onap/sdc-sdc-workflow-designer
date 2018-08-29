@@ -20,6 +20,7 @@ import { Translate, I18n } from 'react-redux-i18n';
 import cn from 'classnames';
 import { SVGIcon } from 'sdc-ui/lib/react';
 
+import Scrollbars from 'shared/scroll/Scrollbars';
 import SearchInput from 'shared/searchInput/SearchInput';
 import { getValidationsError } from 'features/version/inputOutput/inputOutputValidations';
 import Tab from 'features/version/inputOutput/views/Tab';
@@ -202,7 +203,9 @@ class InputOutputView extends React.Component {
                 <div className="input-output__table">
                     <TableHead />
                     <TableBody isCertified={isCertified}>
-                        {dataRowsView}
+                        <Scrollbars className="scrollbars">
+                            {dataRowsView}
+                        </Scrollbars>
                     </TableBody>
                 </div>
             </div>
