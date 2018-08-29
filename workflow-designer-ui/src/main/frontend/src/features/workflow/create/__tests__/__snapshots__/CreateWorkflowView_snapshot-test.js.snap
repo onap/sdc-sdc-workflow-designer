@@ -2,6 +2,7 @@
 
 exports[`New Workflow View Snapshot renders correctly 1`] = `
 <form
+  autoComplete="off"
   onSubmit={[Function]}
 >
   <div

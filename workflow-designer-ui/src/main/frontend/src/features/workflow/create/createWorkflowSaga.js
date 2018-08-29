@@ -14,31 +14,64 @@
 * limitations under the License.
 */
 import { takeEvery, call, put } from 'redux-saga/effects';
-import { SUBMIT_WORKFLOW } from 'features/workflow/create/createWorkflowConstants';
+import { I18n } from 'react-redux-i18n';
+
+import {
+    SUBMIT_WORKFLOW,
+    NEW_VERSION,
+    MAX_NAME_LENGTH,
+    MIN_NAME_LENGTH,
+    CHARS_VALIDATION_EXP,
+    putValidationError
+} from 'features/workflow/create/createWorkflowConstants';
 import {
     setWorkflowAction,
     clearWorkflowAction
 } from 'features/workflow/workflowConstants';
+import { hideModalAction } from 'shared/modal/modalWrapperActions';
 import newWorkflowApi from 'features/workflow/create/createWorkflowApi';
 import { genericNetworkErrorAction } from 'wfapp/appConstants';
 import { submitVersionAction } from 'features/version/create/createVersionConstants';
-import { NEW_VERSION } from 'features/workflow/create/createWorkflowConstants';
 
 export function* watchSubmitWorkflow(action) {
     try {
-        const workflow = yield call(
-            newWorkflowApi.createNewWorkflow,
-            action.payload
-        );
-        //Calling to create empty version
-        const workflowId = workflow.id;
-        const { history } = action.payload;
-        yield put(submitVersionAction({ history, workflowId, ...NEW_VERSION }));
-        yield put(setWorkflowAction(workflow));
+        const { name } = action.payload;
+        const validationError = yield validateNameField(name);
+        if (validationError) {
+            yield put(putValidationError(validationError));
+        } else {
+            const workflow = yield call(
+                newWorkflowApi.createNewWorkflow,
+                action.payload
+            );
+            //Calling to create empty version
+            const workflowId = workflow.id;
+            const { history } = action.payload;
+            yield put(
+                submitVersionAction({ history, workflowId, ...NEW_VERSION })
+            );
+            yield put(setWorkflowAction(workflow));
+            yield put(hideModalAction());
+        }
     } catch (error) {
         yield put(clearWorkflowAction);
         yield put(genericNetworkErrorAction(error));
     }
+}
+
+export function validateNameField(name) {
+    let errorMessage;
+    if (!name) {
+        errorMessage = I18n.t('workflow.errorMessages.emptyName');
+    } else if (!CHARS_VALIDATION_EXP.test(name)) {
+        errorMessage = I18n.t('workflow.errorMessages.invalidCharacters');
+    } else if (name.length < MIN_NAME_LENGTH || name.length > MAX_NAME_LENGTH) {
+        errorMessage = I18n.t('workflow.errorMessages.nameFieldLength', {
+            minValue: 6,
+            maxValue: 40
+        });
+    }
+    return errorMessage;
 }
 
 export function* watchWorkflow() {

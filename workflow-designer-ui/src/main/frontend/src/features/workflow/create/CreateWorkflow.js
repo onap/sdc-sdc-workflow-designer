@@ -27,8 +27,9 @@ import {
 import {
     inputChangeAction,
     submitWorkflowAction,
-    putNameError
+    clearValidationError
 } from 'features/workflow/create/createWorkflowConstants';
+import { clearWorkflowAction } from 'features/workflow/workflowConstants';
 
 function mapStateToProps(state) {
     return {
@@ -44,11 +45,11 @@ function mapDispatchToProps(dispatch) {
     return {
         submitWorkflow: payload => {
             dispatch(submitWorkflowAction(payload));
-            dispatch(hideModalAction());
         },
         closeCreateWorkflowModal: () => dispatch(hideModalAction()),
-        putNameError: () => dispatch(putNameError()),
-        workflowInputChange: payload => dispatch(inputChangeAction(payload))
+        clearValidationError: () => dispatch(clearValidationError()),
+        workflowInputChange: payload => dispatch(inputChangeAction(payload)),
+        clearWorkflow: () => dispatch(clearWorkflowAction)
     };
 }
 

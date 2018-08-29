@@ -13,88 +13,89 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Input, Button } from 'sdc-ui/lib/react';
 import { I18n } from 'react-redux-i18n';
 import Description from 'shared/components/Description';
 
-const CreateWorkflowView = props => {
-    const {
-        workflowInputChange,
-        workflowDescription,
-        workflowName,
-        submitWorkflow,
-        closeCreateWorkflowModal,
-        workflowParams,
-        history,
-        errorMessage,
-        putNameError
-    } = props;
+class CreateWorkflowView extends Component {
+    static propTypes = {
+        submitWorkflow: PropTypes.func,
+        workflowInputChange: PropTypes.func,
+        workflowDescription: PropTypes.string,
+        workflowName: PropTypes.string,
+        closeCreateWorkflowModal: PropTypes.func,
+        workflowParams: PropTypes.object,
+        history: PropTypes.object,
+        errorMessage: PropTypes.string,
+        clearValidationError: PropTypes.func,
+        clearWorkflow: PropTypes.func
+    };
 
-    function handleSubmitForm(e) {
-        e.preventDefault();
-        if (workflowParams.name) {
-            submitWorkflow({ ...workflowParams, history });
-        } else {
-            putNameError();
-        }
+    componentDidMount() {
+        const { clearValidationError, clearWorkflow } = this.props;
+        clearValidationError();
+        clearWorkflow();
     }
+    handleSubmitForm = e => {
+        e.preventDefault();
+        const { workflowParams, history, submitWorkflow } = this.props;
+        submitWorkflow({ ...workflowParams, history });
+    };
 
-    return (
-        <form onSubmit={handleSubmitForm}>
-            <div className="new-workflow-page custom-modal-wrapper">
-                <div className="form-custom-modal">
-                    <Input
-                        name="workflowName"
-                        value={workflowName || ''}
-                        type="text"
-                        label={I18n.t('workflow.general.name')}
-                        onChange={val =>
-                            workflowInputChange({
-                                name: val
-                            })
-                        }
-                        errorMessage={errorMessage}
-                        isRequired
-                    />
-                    <Description
-                        value={workflowDescription || ''}
-                        label={I18n.t('workflow.general.description')}
-                        onDataChange={workflowInputChange}
-                    />
+    render() {
+        const {
+            workflowInputChange,
+            workflowDescription,
+            workflowName,
+            closeCreateWorkflowModal,
+            errorMessage
+        } = this.props;
+        return (
+            <form onSubmit={this.handleSubmitForm} autoComplete="off">
+                <div className="new-workflow-page custom-modal-wrapper">
+                    <div className="form-custom-modal">
+                        <Input
+                            name="workflowName"
+                            value={workflowName || ''}
+                            type="text"
+                            label={I18n.t('workflow.general.name')}
+                            onChange={val =>
+                                workflowInputChange({
+                                    name: val
+                                })
+                            }
+                            errorMessage={errorMessage}
+                            isRequired
+                        />
+                        <Description
+                            value={workflowDescription || ''}
+                            label={I18n.t('workflow.general.description')}
+                            onDataChange={workflowInputChange}
+                        />
+                    </div>
+                    <div className="modal-action-bar sdc-modal__footer">
+                        <Button btnType="primary">
+                            {I18n.t('buttons.createBtn')}
+                        </Button>
+                        <Button
+                            btnType="secondary"
+                            onClick={closeCreateWorkflowModal}>
+                            {I18n.t('buttons.closeBtn')}
+                        </Button>
+                    </div>
                 </div>
-                <div className="modal-action-bar sdc-modal__footer">
-                    <Button btnType="primary">
-                        {I18n.t('buttons.createBtn')}
-                    </Button>
-                    <Button
-                        btnType="secondary"
-                        onClick={closeCreateWorkflowModal}>
-                        {I18n.t('buttons.closeBtn')}
-                    </Button>
-                </div>
-            </div>
-        </form>
-    );
-};
-
-CreateWorkflowView.propTypes = {
-    submitWorkflow: PropTypes.func,
-    workflowInputChange: PropTypes.func,
-    workflowDescription: PropTypes.string,
-    workflowName: PropTypes.string,
-    closeCreateWorkflowModal: PropTypes.func,
-    workflowParams: PropTypes.object,
-    history: PropTypes.object,
-    errorMessage: PropTypes.string,
-    putNameError: PropTypes.func
-};
+            </form>
+        );
+    }
+}
 
 CreateWorkflowView.defaultProps = {
     submitWorkflow: () => {},
     workflowInputChange: () => {},
-    closeCreateWorkflowModal: () => {}
+    closeCreateWorkflowModal: () => {},
+    clearWorkflow: () => {}
 };
 
 export default CreateWorkflowView;
