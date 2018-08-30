@@ -21,7 +21,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import Notifications from 'shared/notifications/Notifications';
 import Loader from 'shared/loader/Loader';
-import App from 'wfapp/App';
+import App from 'App';
 import ModalWrapper from 'shared/modal/ModalWrapper';
 import store from './store';
 

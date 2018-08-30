@@ -20,7 +20,7 @@ import {
     clearWorkflowAction
 } from 'features/workflow/workflowConstants';
 import newWorkflowApi from 'features/workflow/create/createWorkflowApi';
-import { genericNetworkErrorAction } from 'wfapp/appConstants';
+import { genericNetworkErrorAction } from 'appConstants';
 import { submitVersionAction } from 'features/version/create/createVersionConstants';
 import { NEW_VERSION } from 'features/workflow/create/createWorkflowConstants';
 
