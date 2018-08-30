@@ -1,9 +1,9 @@
-'use strict';
+import inputOutputHelper from './InputOutputHelper';
+
 var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
 var elementHelper = require('bpmn-js-properties-panel/lib/helper/ElementHelper'),
     extensionElementsHelper = require('bpmn-js-properties-panel/lib/helper/ExtensionElementsHelper'),
-    inputOutputHelper = require('./InputOutputHelper'),
     cmdHelper = require('bpmn-js-properties-panel/lib/helper/CmdHelper');
 
 var extensionElementsEntry = require('bpmn-js-properties-panel/lib/provider/camunda/parts/implementation//ExtensionElements');
@@ -61,7 +61,7 @@ function ensureOutparameterSupported(element, insideConnector) {
     );
 }
 
-module.exports = function(element, bpmnFactory, options, translate) {
+function InputOutput(element, bpmnFactory, options, translate) {
     var TYPE_LABEL = {
         'camunda:Map': translate('Map'),
         'camunda:List': translate('List'),
@@ -289,4 +289,6 @@ module.exports = function(element, bpmnFactory, options, translate) {
     }
 
     return result;
-};
+}
+
+export default InputOutput;

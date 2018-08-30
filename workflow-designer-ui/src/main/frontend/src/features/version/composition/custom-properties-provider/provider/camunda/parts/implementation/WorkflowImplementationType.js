@@ -33,7 +33,7 @@ const ACTIVITY_PROPS = {};
 
 ACTIVITY_PROPS[implementationType] = undefined;
 
-module.exports = function(element, bpmnFactory, options, translate) {
+function WorkflowImplementationType(element, bpmnFactory, options, translate) {
     var DEFAULT_OPTIONS = [
         { value: 'class', name: translate('Java Class') },
         { value: 'expression', name: translate('Expression') },
@@ -224,4 +224,6 @@ module.exports = function(element, bpmnFactory, options, translate) {
     );
 
     return entries;
-};
+}
+
+export default WorkflowImplementationType;
