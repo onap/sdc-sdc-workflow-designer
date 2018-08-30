@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-import languagesData from 'wfapp/i18n/languages.json';
+import languagesData from 'i18n/languages.json';
 import merge from 'lodash.merge';
 import setPath from 'lodash.set';
 

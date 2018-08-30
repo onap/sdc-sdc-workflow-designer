@@ -1,9 +1,8 @@
-'use strict';
+import inputOutputHelper from './InputOutputHelper';
 
 var is = require('bpmn-js/lib/util/ModelUtil').is;
 
 var elementHelper = require('bpmn-js-properties-panel/lib/helper/ElementHelper'),
-    inputOutputHelper = require('./InputOutputHelper'),
     cmdHelper = require('bpmn-js-properties-panel/lib/helper/CmdHelper'),
     utils = require('bpmn-js-properties-panel/lib/Utils');
 
@@ -34,7 +33,7 @@ function ensureInputOutputSupported(element, insideConnector) {
     return inputOutputHelper.isInputOutputSupported(element, insideConnector);
 }
 
-module.exports = function(element, bpmnFactory, options, translate) {
+function InputOutputParameter(element, bpmnFactory, options, translate) {
     var typeInfo = {
         'camunda:Map': {
             value: 'map',
@@ -422,4 +421,6 @@ module.exports = function(element, bpmnFactory, options, translate) {
     );
 
     return entries;
-};
+}
+
+export default InputOutputParameter;

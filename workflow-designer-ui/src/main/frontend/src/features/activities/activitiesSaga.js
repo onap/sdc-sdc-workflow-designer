@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 import { call, put, takeEvery, all } from 'redux-saga/effects';
-import { genericNetworkErrorAction } from 'src/appConstants';
+import { genericNetworkErrorAction } from 'appConstants';
 import { GET_ACTIVITIES } from './activitiesConstants';
 import activitiesApi from './activitiesApi';
 import { setActivitiesList } from './activitiesActions';

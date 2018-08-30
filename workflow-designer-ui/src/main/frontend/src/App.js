@@ -14,16 +14,15 @@
 * limitations under the License.
 */
 
-import { hot } from 'react-hot-loader';
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import qs from 'qs';
 
 import { PluginPubSub } from 'shared/pubsub/plugin-pubsub';
-import 'resources/scss/style.scss';
+import '../resources/scss/style.scss';
 import 'bpmn-js-properties-panel/styles/properties.less';
-import { routes } from 'wfapp/routes';
-import { USER_ID } from 'wfapp/appConstants';
+import { routes } from 'routes';
+import { USER_ID } from 'appConstants';
 
 const RouteWithSubRoutes = route => (
     <Route
@@ -69,4 +68,4 @@ class App extends Component {
     }
 }
 
-export default hot(module)(App);
+export default App;

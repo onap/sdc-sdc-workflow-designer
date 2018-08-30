@@ -1,8 +1,6 @@
-'use strict';
+import inputOutput from './implementation/InputOutput';
 
-var inputOutput = require('./implementation/InputOutput');
-
-module.exports = function(group, element, bpmnFactory, translate) {
+function InputOutputProps(group, element, bpmnFactory, translate) {
     var inputOutputEntry = inputOutput(element, bpmnFactory, {}, translate);
 
     group.entries = group.entries.concat(inputOutputEntry.entries);
@@ -10,4 +8,6 @@ module.exports = function(group, element, bpmnFactory, translate) {
     return {
         getSelectedParameter: inputOutputEntry.getSelectedParameter
     };
-};
+}
+
+export default InputOutputProps;

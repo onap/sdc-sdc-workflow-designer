@@ -3,7 +3,13 @@
 import inputOutputParameter from './implementation/InputOutputParameter';
 import assign from 'lodash.assign';
 
-module.exports = function(group, element, bpmnFactory, options, translate) {
+function InputOutputParameterProps(
+    group,
+    element,
+    bpmnFactory,
+    options,
+    translate
+) {
     group.entries = group.entries.concat(
         inputOutputParameter(
             element,
@@ -12,4 +18,6 @@ module.exports = function(group, element, bpmnFactory, options, translate) {
             translate
         )
     );
-};
+}
+
+export default InputOutputParameterProps;

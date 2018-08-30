@@ -17,8 +17,8 @@ import uuid from 'uuid-js';
 import md5 from 'md5';
 import axios from 'axios';
 
-import store from 'wfapp/store';
-import { USER_ID } from 'wfapp/appConstants';
+import store from 'store';
+import { USER_ID } from 'appConstants';
 
 import {
     sendRequestAction,
