@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_3815dde4",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/ArtifactAssociationService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 2119
+      },
+      "writtenOn": "2018-08-30T11:04:19Z",
+      "side": 1,
+      "message": "StringUtils.isEmpty might be nice",
+      "revId": "cebbe0144bce9b2e9ee1b390dc02389e9ce015d1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_f8da054b",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/ArtifactAssociationService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 2119
+      },
+      "writtenOn": "2018-08-30T11:04:19Z",
+      "side": 1,
+      "message": "No need for the else. Just return the result.",
+      "revId": "cebbe0144bce9b2e9ee1b390dc02389e9ce015d1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
