@@ -17,7 +17,7 @@ import { put } from 'redux-saga/effects';
 import { loadTranslations, setLocale } from 'react-redux-i18n';
 
 import translationsObject from 'i18n/I18n';
-import { LANG } from 'wfapp/appConstants';
+import { LANG } from 'appConstants';
 export function* initTranslationSaga() {
     yield put(loadTranslations(translationsObject));
     yield put(setLocale(LANG));

@@ -7,10 +7,8 @@
         "eslint:recommended",
         "plugin:react/recommended",
         "plugin:jest/recommended",
-        "prettier"
+        "plugin:prettier/recommended"
     ],
-
-    "plugins": ["prettier", "react"],
 
     "env": {
         "browser": true,
@@ -29,7 +27,11 @@
             "experimentalObjectRestSpread": true
         }
     },
-
+    "settings": {
+        "react": {
+            "version": "16.3"
+        }
+    },
     "rules": {
         "no-console": 0,
         "prettier/prettier": [

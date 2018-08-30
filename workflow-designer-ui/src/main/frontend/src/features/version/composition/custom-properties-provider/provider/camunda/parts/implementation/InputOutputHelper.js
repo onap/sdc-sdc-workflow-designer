@@ -1,5 +1,3 @@
-'use strict';
-
 var ModelUtil = require('bpmn-js/lib/util/ModelUtil'),
     is = ModelUtil.is,
     getBusinessObject = ModelUtil.getBusinessObject;
@@ -12,8 +10,6 @@ import {
 } from './implementationConstants';
 
 var InputOutputHelper = {};
-
-module.exports = InputOutputHelper;
 
 function getElements(bo, type, prop) {
     var elems = extensionElementsHelper.getExtensionElements(bo, type) || [];
@@ -164,3 +160,5 @@ InputOutputHelper.isCreateDeleteSupported = function(element) {
         element.type !== 'bpmn:Process'
     );
 };
+
+export default InputOutputHelper;
