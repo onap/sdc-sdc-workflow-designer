@@ -52,7 +52,8 @@ public class ArtifactAssociationService {
     private static final String USER_ID_HEADER = "USER_ID";
     private static final String MD5_HEADER = "Content-MD5";
     private static final String X_ECOMP_INSTANCE_ID_HEADER = "X-ECOMP-InstanceID";
-    private static final String INIT_ERROR_MSG = "Failed while attaching workflow artifact to Operation in SDC. Parameters were not initialized: %s";
+    private static final String INIT_ERROR_MSG =
+            "Failed while attaching workflow artifact to Operation in SDC. Parameters were not initialized: %s";
     private static final Logger LOGGER = LoggerFactory.getLogger(ArtifactAssociationService.class);
     @Value("${sdc.be.endpoint}")
     private String sdcBeEndpoint;
@@ -63,19 +64,26 @@ public class ArtifactAssociationService {
     @Value("${sdc.be.external.password}")
     private String sdcPassword;
 
-    private final RestTemplate restClient;
+    private RestTemplate restClient;
 
     @Autowired
     public ArtifactAssociationService(RestTemplateBuilder builder) {
         this.restClient = builder.build();
     }
 
+     void setRestClient(RestTemplate restClient) {
+        this.restClient = restClient;
+    }
+
+    void setSdcBeEndpoint(String value) {
+        this.sdcBeEndpoint = value;
+    }
 
     ResponseEntity<String> execute(String userId, ArtifactDeliveriesRequestDto deliveriesRequestDto,
             ArtifactEntity artifactEntity) {
 
         Optional<String> initializationState = parametersInitializationState();
-        if(initializationState.isPresent()){
+        if(initializationState.isPresent()) {
             LOGGER.error(String.format(INIT_ERROR_MSG,initializationState.get()));
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(String.format(INIT_ERROR_MSG,initializationState.get()));
         }
@@ -90,29 +98,30 @@ public class ArtifactAssociationService {
 
         HttpEntity<String> request = new HttpEntity<>(formattedArtifact, createHeaders(userId,formattedArtifact));
 
-        return restClient.exchange(sdcBeProtocol +"://" + sdcBeEndpoint + "/" + deliveriesRequestDto.getEndpoint(),
+        return restClient.exchange(sdcBeProtocol + "://" + sdcBeEndpoint + "/" + deliveriesRequestDto.getEndpoint(),
                 HttpMethod.valueOf(deliveriesRequestDto.getMethod()), request, String.class);
     }
 
-    private Optional<String> parametersInitializationState() {
-        ArrayList<String> result=new ArrayList();
-        if (sdcBeEndpoint.equals("")) {
+    Optional<String> parametersInitializationState() {
+        ArrayList<String> result = new ArrayList<>();
+        if (sdcBeEndpoint == null || sdcBeEndpoint.equals("")) {
             result.add("SDC_ENDPOINT");
         }
-        if (sdcBeProtocol.equals("")) {
+        if (sdcBeProtocol == null || sdcBeProtocol.equals("")) {
             result.add("SDC_PROTOCOL");
         }
-        if (sdcUser.equals("")) {
+        if (sdcUser == null || sdcUser.equals("")) {
             result.add("SDC_USER");
         }
-        if (sdcPassword.equals("")) {
+        if (sdcPassword == null || sdcPassword.equals("")) {
             result.add("SDC_PASSWORD");
         }
 
-        if(result.isEmpty()) {
+        if (result.isEmpty()) {
             return Optional.empty();
+        } else {
+            return Optional.of(result.toString());
         }
-        else return Optional.of(result.toString());
     }
 
 
