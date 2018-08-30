@@ -16,7 +16,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { i18nSelector } from 'wfapp/appSelectors';
+import { i18nSelector } from 'appSelectors';
 import { hideModalAction } from 'shared/modal/modalWrapperActions';
 import CreateWorkflowView from 'features/workflow/create/CreateWorkflowView';
 import { getWorkflowParams } from 'features/workflow/create/createWorkflowSelector';

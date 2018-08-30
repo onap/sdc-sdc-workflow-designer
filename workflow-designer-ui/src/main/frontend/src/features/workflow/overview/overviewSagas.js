@@ -15,7 +15,7 @@
 */
 import { call, takeEvery, put } from 'redux-saga/effects';
 
-import { genericNetworkErrorAction } from 'wfapp/appConstants';
+import { genericNetworkErrorAction } from 'appConstants';
 import overviewApi from 'features/workflow/overview/overviewApi';
 import {
     versionListFetchAction,

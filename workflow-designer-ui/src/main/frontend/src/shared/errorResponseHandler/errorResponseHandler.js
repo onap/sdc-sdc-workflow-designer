@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import store from 'wfapp/store';
+import store from 'store';
 import { showErrorModalAction } from 'shared/modal/modalWrapperActions';
 
 export default error => {

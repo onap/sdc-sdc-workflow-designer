@@ -11,6 +11,7 @@
 # production
 /target
 /dist
+/build
 
 # misc
 npm-debug.log*
