@@ -174,7 +174,8 @@ public class WorkflowManagerImpl implements WorkflowManager {
 
     private static Predicate<Item> addSearchNameFilter(Predicate<Item> filter, String searchNameFilter) {
         return filter
-                       .and(item -> searchNameFilter == null || item.getName().contains(searchNameFilter));
+                       .and(item -> searchNameFilter == null ||
+                                            item.getName().toLowerCase().contains(searchNameFilter.toLowerCase()));
     }
 
     private static Predicate<Item> addVersionStatusFilter(Predicate<Item> filter, Set<VersionStatus> versionStatuses) {
