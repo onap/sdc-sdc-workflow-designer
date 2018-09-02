@@ -33,6 +33,74 @@
       "revId": "cebbe0144bce9b2e9ee1b390dc02389e9ce015d1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_9bdf4169",
+        "filename": "workflow-designer-be/src/test/java/org/onap/sdc/workflow/api/ArtifactAssociationHandlerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 2119
+      },
+      "writtenOn": "2018-09-02T05:52:55Z",
+      "side": 1,
+      "message": "do not use equal . just return the Mock",
+      "revId": "cebbe0144bce9b2e9ee1b390dc02389e9ce015d1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_bbdc7d74",
+        "filename": "workflow-designer-be/src/test/java/org/onap/sdc/workflow/api/ArtifactAssociationHandlerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 2119
+      },
+      "writtenOn": "2018-09-02T05:52:55Z",
+      "side": 1,
+      "message": "Do not use equal. Just return the mock",
+      "revId": "cebbe0144bce9b2e9ee1b390dc02389e9ce015d1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_dbf13902",
+        "filename": "workflow-designer-be/src/test/java/org/onap/sdc/workflow/api/ArtifactAssociationHandlerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 2119
+      },
+      "writtenOn": "2018-09-02T05:52:55Z",
+      "side": 1,
+      "message": "use @Autowire instead of static",
+      "revId": "cebbe0144bce9b2e9ee1b390dc02389e9ce015d1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_fbf675f8",
+        "filename": "workflow-designer-be/src/test/java/org/onap/sdc/workflow/api/ArtifactAssociationHandlerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 2119
+      },
+      "writtenOn": "2018-09-02T05:52:55Z",
+      "side": 1,
+      "message": "use @Autowire instead of static",
+      "revId": "cebbe0144bce9b2e9ee1b390dc02389e9ce015d1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
