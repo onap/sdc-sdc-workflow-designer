@@ -58,14 +58,12 @@ public class ArtifactAssociationHandlerTest {
 
         @Bean
         public RestTemplateBuilder templateBuilder() {
-            restTemplateBuilderMock = Mockito.mock(RestTemplateBuilder.class);
-            return restTemplateBuilderMock;
+            return Mockito.mock(RestTemplateBuilder.class);
         }
 
         @Bean
         public RestTemplate restTemplate() {
-            restClientMock = Mockito.mock(RestTemplate.class);
-            return restClientMock;
+            return Mockito.mock(RestTemplate.class);
         }
     }
 
@@ -87,9 +85,9 @@ public class ArtifactAssociationHandlerTest {
     @Value("${sdc.be.external.password}")
     private String sdcPassword;
 
-    private static RestTemplate restClientMock;
+    @Autowired
+    private RestTemplate restClientMock;
 
-    private static RestTemplateBuilder restTemplateBuilderMock;
 
     @Autowired
     private ArtifactAssociationService associationService;
