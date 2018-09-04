@@ -48,7 +48,11 @@ committers:
         company: 'ZTE'
         id: 'Zhaoxing'
         timezone: 'Asia/Shanghai'
-
+    - name: 'Einav Keidar'
+        email: 'einavw@amdocs.com'
+        company: 'ATT'
+        id: 'einavk'
+        timezone: 'Israel/Aviv'
 tsc:
     approval: 'https://lists.onap.org/pipermail/onap-tsc'
     changes:
@@ -59,4 +63,5 @@ tsc:
             name: 'Vitaliy Emporopulo'
             name: 'Huabing Zhao'
             name: 'Zhaoxing Meng'
+            name: 'Einav Keidar'
             link: 'https://wiki.onap.org/pages/viewpage.action?pageId=25435557'
