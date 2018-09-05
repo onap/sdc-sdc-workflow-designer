@@ -563,6 +563,16 @@
           "type": "String"
         },
         {
+          "name": "workflowSource",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "workflowTarget",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
           "name": "value",
           "isBody": true,
           "type": "String"

@@ -46,7 +46,7 @@ class CompositionView extends Component {
     }
 
     componentDidMount() {
-        const { composition, activities } = this.props;
+        const { composition, activities, inputOutput } = this.props;
 
         this.modeler = new CustomModeler({
             propertiesPanel: {
@@ -61,7 +61,8 @@ class CompositionView extends Component {
             },
             workflow: {
                 activities: activities,
-                onChange: this.onActivityChanged
+                onChange: this.onActivityChanged,
+                workflowInputOutput: inputOutput
             }
         });
 
@@ -79,16 +80,20 @@ class CompositionView extends Component {
         const selectedActivity = this.props.activities.find(
             el => el.name === selectedValue
         );
+        const config = this.modeler.get('config');
 
         if (selectedActivity) {
             const inputsOutputs = {
                 inputs: selectedActivity.inputs,
                 outputs: selectedActivity.outputs
             };
+            config.workflow.selectedActivityInputs = inputsOutputs;
+            this.modeler.config = config;
             setElementInputsOutputs(
                 bo,
                 inputsOutputs,
-                this.modeler.get('moddle')
+                this.modeler.get('moddle'),
+                true
             );
         }
     };

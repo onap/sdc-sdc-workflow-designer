@@ -78,8 +78,10 @@ function* watchUpdateVersion(action) {
     try {
         const {
             workflowId,
+            workflowName,
             params: { composition, ...versionData }
         } = action.payload;
+
         yield call(versionApi.updateVersion, {
             workflowId,
             params: versionData
@@ -87,6 +89,8 @@ function* watchUpdateVersion(action) {
         if (composition) {
             yield call(versionApi.updateVersionArtifact, {
                 workflowId,
+                workflowName,
+                versionName: versionData.name.split('.').join('_'),
                 versionId: versionData.id,
                 payload: composition
             });

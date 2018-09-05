@@ -278,7 +278,8 @@ function WorkflowPropertiesProvider(
                 element,
                 bpmnFactory,
                 elementRegistry,
-                translate
+                translate,
+                config
             )
         };
         tabs.unshift(inputOutputTab);

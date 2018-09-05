@@ -52,7 +52,7 @@ export const getValidationsError = dataRows => {
         const groupKey = value.name;
 
         if (groupKey) {
-            if (!/^[\w\s\d]+$/.test(groupKey)) {
+            if (!/^[\w\d]+$/.test(groupKey)) {
                 result.push(key);
             }
         }

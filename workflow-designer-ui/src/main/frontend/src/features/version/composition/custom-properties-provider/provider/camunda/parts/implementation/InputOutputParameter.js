@@ -1,9 +1,8 @@
-'use strict';
+import inputOutputHelper from './InputOutputHelper';
 
 var is = require('bpmn-js/lib/util/ModelUtil').is;
 
 var elementHelper = require('bpmn-js-properties-panel/lib/helper/ElementHelper'),
-    inputOutputHelper = require('./InputOutputHelper'),
     cmdHelper = require('bpmn-js-properties-panel/lib/helper/CmdHelper'),
     utils = require('bpmn-js-properties-panel/lib/Utils');
 
@@ -34,7 +33,7 @@ function ensureInputOutputSupported(element, insideConnector) {
     return inputOutputHelper.isInputOutputSupported(element, insideConnector);
 }
 
-module.exports = function(element, bpmnFactory, options, translate) {
+export default function(element, bpmnFactory, options, translate, config) {
     var typeInfo = {
         'camunda:Map': {
             value: 'map',
@@ -421,5 +420,97 @@ module.exports = function(element, bpmnFactory, options, translate) {
         })
     );
 
+    //workflow source parameter  (type = text) ///////////////////////////////////////////////////////
+    const workflowInputs = config.workflowInputOutput.inputs.map(item => ({
+        name: item.name,
+        value: item.name
+    }));
+
+    const workflowOutputs = config.workflowInputOutput.outputs.map(item => ({
+        name: item.name,
+        value: item.name
+    }));
+
+    const workflowSources = [
+        { name: '', value: '' },
+        ...workflowInputs,
+        ...workflowOutputs
+    ];
+
+    entries.push(
+        entryFactory.selectBox({
+            id: 'parameter-workflowSource',
+            label: 'Workflow Source Parameter',
+            selectOptions: workflowSources,
+            modelProperty: 'workflowSource',
+
+            get: function(element, node) {
+                return {
+                    workflowSource: (getSelected(element, node) || {})
+                        .workflowSource
+                };
+            },
+
+            set: function(element, values, node) {
+                var properties = {
+                    workflowSource: undefined
+                };
+
+                properties.workflowSource = values.workflowSource;
+                var param = getSelected(element, node);
+                values.workflowSource = values.workflowSource || undefined;
+
+                return cmdHelper.updateBusinessObject(element, param, values);
+            },
+
+            hidden: function(element, node) {
+                var bo = getSelected(element, node);
+                return !(
+                    bo &&
+                    bo.$type &&
+                    bo.$type === 'camunda:InputParameter'
+                );
+            }
+        })
+    );
+
+    //workflow target parameter  (type = text) ///////////////////////////////////////////////////////
+    entries.push(
+        entryFactory.selectBox({
+            id: 'parameter-workflowTarget',
+            label: 'Workflow Target Parameter',
+            selectOptions: workflowSources,
+            modelProperty: 'workflowTarget',
+
+            get: function(element, node) {
+                return {
+                    workflowTarget: (getSelected(element, node) || {})
+                        .workflowTarget
+                };
+            },
+
+            set: function(element, values, node) {
+                var properties = {
+                    workflowTarget: undefined
+                };
+
+                properties.workflowTarget = values.workflowTarget;
+                var param = getSelected(element, node);
+                values.workflowTarget = values.workflowTarget || undefined;
+
+                return cmdHelper.updateBusinessObject(element, param, values);
+            },
+
+            hidden: function(element, node) {
+                var bo = getSelected(element, node);
+                return !(
+                    bo &&
+                    bo.$type &&
+                    bo.$type === 'camunda:OutputParameter'
+                );
+            }
+        })
+    );
+
     return entries;
-};
+}

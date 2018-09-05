@@ -46,10 +46,20 @@ const Api = {
             `${baseUrl(workflowId)}/${versionId}/artifact`
         );
     },
-    updateVersionArtifact: ({ workflowId, versionId, payload }) => {
+    updateVersionArtifact: ({
+        workflowId,
+        versionId,
+        workflowName,
+        versionName,
+        payload
+    }) => {
         let formData = new FormData();
         var blob = new Blob([payload], { type: 'text/xml' });
-        formData.append('fileToUpload', blob);
+        formData.append(
+            'fileToUpload',
+            blob,
+            `${workflowName}-${versionName}.bpmn`
+        );
 
         return RestfulAPIUtil.put(
             `${baseUrl(workflowId)}/${versionId}/artifact`,

@@ -34,7 +34,12 @@ export function updatedData(moddle, inputData, existingArray, type) {
     });
 }
 
-export function setElementInputsOutputs(businessObject, inputOutput, moddle) {
+export function setElementInputsOutputs(
+    businessObject,
+    inputOutput,
+    moddle,
+    cleanInputsOutpus
+) {
     const { inputs = [], outputs = [] } = inputOutput;
 
     if (!businessObject.extensionElements) {
@@ -51,14 +56,20 @@ export function setElementInputsOutputs(businessObject, inputOutput, moddle) {
     const processInputs = updatedData(
         moddle,
         inputs,
-        (existingInputOutput && existingInputOutput.inputParameters) || [],
+        cleanInputsOutpus
+            ? []
+            : (existingInputOutput && existingInputOutput.inputParameters) ||
+              [],
         bpmnElementsTypes.INPUT_PARAMETER
     );
 
     const processOutputs = updatedData(
         moddle,
         outputs,
-        (existingInputOutput && existingInputOutput.outputParameters) || [],
+        cleanInputsOutpus
+            ? []
+            : (existingInputOutput && existingInputOutput.outputParameters) ||
+              [],
         bpmnElementsTypes.OUTPUT_PARAMETER
     );
 

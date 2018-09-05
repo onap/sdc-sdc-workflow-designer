@@ -51,8 +51,13 @@ export default class VersionControllerView extends Component {
     };
 
     sendSaveParamsToServer = () => {
-        const { savedParams, saveParamsToServer, workflowId } = this.props;
-        saveParamsToServer({ params: savedParams, workflowId });
+        const {
+            savedParams,
+            saveParamsToServer,
+            workflowId,
+            workflowName
+        } = this.props;
+        saveParamsToServer({ params: savedParams, workflowId, workflowName });
     };
 
     certifyVersion = () => {

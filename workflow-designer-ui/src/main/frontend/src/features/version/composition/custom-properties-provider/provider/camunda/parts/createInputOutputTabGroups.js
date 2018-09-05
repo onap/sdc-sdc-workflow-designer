@@ -1,6 +1,6 @@
-let inputOutputParameter = require('./InputOutputParameterProps');
-let inputOutput = require('./InputOutputProps');
-var is = require('bpmn-js/lib/util/ModelUtil').is;
+import inputOutputParameter from './InputOutputParameterProps';
+import inputOutput from './InputOutputProps';
+const is = require('bpmn-js/lib/util/ModelUtil').is;
 
 var getInputOutputParameterLabel = function(param, translate) {
     if (is(param, 'camunda:InputParameter')) {
@@ -18,7 +18,8 @@ export default function createInputOutputTabGroups(
     element,
     bpmnFactory,
     elementRegistry,
-    translate
+    translate,
+    config
 ) {
     var inputOutputGroup = {
         id: 'input-output',
@@ -32,7 +33,6 @@ export default function createInputOutputTabGroups(
         bpmnFactory,
         translate
     );
-
     var inputOutputParameterGroup = {
         id: 'input-output-parameter',
         entries: [],
@@ -50,7 +50,8 @@ export default function createInputOutputTabGroups(
         element,
         bpmnFactory,
         options,
-        translate
+        translate,
+        config
     );
 
     return [inputOutputGroup, inputOutputParameterGroup];

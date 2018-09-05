@@ -67,13 +67,7 @@ class InputOutputView extends React.Component {
         this.props.handleSearch(value);
     };
 
-    handleNameChange = (key, isBlur = false) => value => {
-        let name = isBlur ? value.target.value : value;
-        name = name.replace(/\s+/g, ' ');
-        name = isBlur
-            ? name.replace(/^\s+|\s+$/g, '')
-            : name.replace(/^\s+/g, '');
-
+    handleNameChange = key => name => {
         this.props.handleNameChange(name, key);
     };
 
@@ -144,7 +138,6 @@ class InputOutputView extends React.Component {
                     nameErrorMessage={errorMessage}
                     dataTestId="wf-input-output-row"
                     handleNameChange={this.handleNameChange(i)}
-                    handleNameBlur={this.handleNameChange(i, true)}
                     handleTypeChange={this.handleTypeChange(i)}
                     handleMandatoryChange={this.handleMandatoryChange(i)}
                     handleRemoveClick={this.handleRemoveClick(i)}
