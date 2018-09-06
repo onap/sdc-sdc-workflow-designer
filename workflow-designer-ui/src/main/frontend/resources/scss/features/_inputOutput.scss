@@ -27,7 +27,7 @@
     &__tab {
         padding: 12px;
         @include body-1-emphasis;
-        @include border(1px, 1px, 0, 1px);
+        @include border(1px, 1px, 0px, 1px);
         background-color: $light-silver;
         color: $gray;
         min-width: 128px;
@@ -54,9 +54,11 @@
             max-height: calc(100vh - 243px);
             overflow: auto;
             position: relative;
-        }
-
-        &__tbody {
+            &.ps {
+                &.ps--active-y {
+                    @include border(0px, 0px, 1px, 0px);
+                }
+            }
         }
     }
 

@@ -28,7 +28,7 @@ import {
     setWorkflowAction,
     clearWorkflowAction
 } from 'features/workflow/workflowConstants';
-import { genericNetworkErrorAction } from 'wfapp/appConstants';
+import { genericNetworkErrorAction } from 'appConstants';
 
 describe('New workflow saga test', () => {
     it('Create new workflow', () => {

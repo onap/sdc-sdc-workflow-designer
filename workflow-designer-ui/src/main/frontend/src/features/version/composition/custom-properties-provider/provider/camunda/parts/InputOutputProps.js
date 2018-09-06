@@ -1,5 +1,3 @@
-'use strict';
-
 import inputOutput from './implementation/InputOutput';
 
 export default function(group, element, bpmnFactory, translate) {

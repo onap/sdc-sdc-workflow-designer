@@ -16,7 +16,7 @@
 import { all, call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 import { I18n } from 'react-redux-i18n';
 
-import { genericNetworkErrorAction } from 'src/appConstants';
+import { genericNetworkErrorAction } from 'appConstants';
 import {
     setWorkflowVersionAction,
     versionStateChangedAction,

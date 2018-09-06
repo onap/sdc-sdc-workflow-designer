@@ -30,7 +30,7 @@ import {
 } from 'features/workflow/workflowConstants';
 import { hideModalAction } from 'shared/modal/modalWrapperActions';
 import newWorkflowApi from 'features/workflow/create/createWorkflowApi';
-import { genericNetworkErrorAction } from 'wfapp/appConstants';
+import { genericNetworkErrorAction } from 'appConstants';
 import { submitVersionAction } from 'features/version/create/createVersionConstants';
 
 export function* watchSubmitWorkflow(action) {

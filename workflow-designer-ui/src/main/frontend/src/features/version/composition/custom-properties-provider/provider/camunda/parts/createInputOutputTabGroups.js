@@ -1,5 +1,5 @@
 import inputOutputParameter from './InputOutputParameterProps';
-import inputOutput from './InputOutputProps';
+import inputOutputProps from './InputOutputProps';
 const is = require('bpmn-js/lib/util/ModelUtil').is;
 
 var getInputOutputParameterLabel = function(param, translate) {
@@ -27,7 +27,7 @@ export default function createInputOutputTabGroups(
         entries: []
     };
 
-    var options = inputOutput(
+    var options = inputOutputProps(
         inputOutputGroup,
         element,
         bpmnFactory,

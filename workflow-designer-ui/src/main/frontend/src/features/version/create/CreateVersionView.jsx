@@ -19,7 +19,7 @@ import { I18n } from 'react-redux-i18n';
 import { Button } from 'sdc-ui/lib/react';
 import Description from 'shared/components/Description';
 import Select from 'shared/components/Select/index';
-import { VERSION_LEVEL_LIST } from 'wfapp/appConstants';
+import { VERSION_LEVEL_LIST } from 'appConstants';
 
 class CreateVersionView extends Component {
     static propTypes = {
