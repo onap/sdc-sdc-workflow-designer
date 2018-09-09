@@ -161,4 +161,16 @@ InputOutputHelper.isCreateDeleteSupported = function(element) {
     );
 };
 
+InputOutputHelper.isWorkflowTargetSupported = function(element, selected) {
+    const bo = getBusinessObject(element);
+    return (
+        is(bo, 'bpmn:ServiceTask') && is(selected, 'camunda:OutputParameter')
+    );
+};
+
+InputOutputHelper.isWorkflowSourceSupported = function(element, selected) {
+    const bo = getBusinessObject(element);
+    return is(bo, 'bpmn:ServiceTask') && is(selected, 'camunda:InputParameter');
+};
+
 export default InputOutputHelper;
