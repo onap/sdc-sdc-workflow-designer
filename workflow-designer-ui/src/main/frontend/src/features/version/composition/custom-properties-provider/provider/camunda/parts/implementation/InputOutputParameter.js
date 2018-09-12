@@ -452,23 +452,22 @@ export default function(element, bpmnFactory, options, translate, config) {
             },
 
             set: function(element, values, node) {
-                var properties = {
+                const properties = {
                     workflowSource: undefined
                 };
 
                 properties.workflowSource = values.workflowSource;
-                var param = getSelected(element, node);
+                const param = getSelected(element, node);
                 values.workflowSource = values.workflowSource || undefined;
 
                 return cmdHelper.updateBusinessObject(element, param, values);
             },
 
             hidden: function(element, node) {
-                var bo = getSelected(element, node);
-                return !(
-                    bo &&
-                    bo.$type &&
-                    bo.$type === 'camunda:InputParameter'
+                const selected = getSelected(element, node);
+                return !inputOutputHelper.isWorkflowSourceSupported(
+                    element,
+                    selected
                 );
             }
         })
@@ -490,23 +489,22 @@ export default function(element, bpmnFactory, options, translate, config) {
             },
 
             set: function(element, values, node) {
-                var properties = {
+                const properties = {
                     workflowTarget: undefined
                 };
 
                 properties.workflowTarget = values.workflowTarget;
-                var param = getSelected(element, node);
+                const param = getSelected(element, node);
                 values.workflowTarget = values.workflowTarget || undefined;
 
                 return cmdHelper.updateBusinessObject(element, param, values);
             },
 
             hidden: function(element, node) {
-                var bo = getSelected(element, node);
-                return !(
-                    bo &&
-                    bo.$type &&
-                    bo.$type === 'camunda:OutputParameter'
+                const selected = getSelected(element, node);
+                return !inputOutputHelper.isWorkflowTargetSupported(
+                    element,
+                    selected
                 );
             }
         })
