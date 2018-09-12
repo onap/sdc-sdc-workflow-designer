@@ -16,6 +16,24 @@
       "revId": "67ee0efa7ed08c83b394876541289181f3b3be39",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_9170540c",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 481
+      },
+      "writtenOn": "2018-09-12T07:59:12Z",
+      "side": 1,
+      "message": "This name reflects on the Sonar report. \nIt needs to match the name of the project \"sdc/sdc-workflow-designer\" so that the Sonar report is generated under that name.  \n\nWe are trying to cleanup the names in Sonar across all projects to be named after the repo",
+      "parentUuid": "1a76adc5_31e4e0df",
+      "revId": "67ee0efa7ed08c83b394876541289181f3b3be39",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
