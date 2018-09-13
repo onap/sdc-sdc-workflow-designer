@@ -10374,9 +10374,9 @@ scss-tokenizer@^0.2.3:
     js-base64 "^2.1.8"
     source-map "^0.4.2"
 
-sdc-ui@1.6.57:
-  version "1.6.57"
-  resolved "https://registry.yarnpkg.com/sdc-ui/-/sdc-ui-1.6.57.tgz#9250faa279163e13f36bb91c835b8fe78f77ebaf"
+sdc-ui@1.6.59:
+  version "1.6.59"
+  resolved "https://registry.yarnpkg.com/sdc-ui/-/sdc-ui-1.6.59.tgz#f25a80115e5145fa139fdfd9af830fc62f0b55a9"
   dependencies:
     "@angular/common" "~2.4.8"
     "@angular/core" "~2.4.8"

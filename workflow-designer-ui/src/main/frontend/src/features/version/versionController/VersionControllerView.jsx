@@ -65,10 +65,12 @@ export default class VersionControllerView extends Component {
             certifyVersion,
             workflowId,
             currentWorkflowVersion,
-            savedParams
+            savedParams,
+            workflowName
         } = this.props;
         certifyVersion({
             workflowId,
+            workflowName,
             versionId: currentWorkflowVersion.id,
             params: savedParams
         });

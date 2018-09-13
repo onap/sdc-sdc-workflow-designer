@@ -171,13 +171,7 @@ class CompositionView extends Component {
                     name="file-input"
                     style={{ display: 'none' }}
                 />
-                <div
-                    onBlur={() => {
-                        this.exportDiagramToStore();
-                    }}
-                    className="bpmn-container"
-                    id={this.generatedId}
-                />
+                <div className="bpmn-container" id={this.generatedId} />
                 <div className="bpmn-sidebar">
                     <div
                         className="properties-panel"
