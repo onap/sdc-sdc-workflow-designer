@@ -19,10 +19,12 @@ package org.onap.sdc.workflow.persistence.types;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.onap.sdc.workflow.api.validation.ValidName;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ValidName(message = "Input and output names must match the validation pattern")
 public class ActivitySpecParameter {
 
     private String name;

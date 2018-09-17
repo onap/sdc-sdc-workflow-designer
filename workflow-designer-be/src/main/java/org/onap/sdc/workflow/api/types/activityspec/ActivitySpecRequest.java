@@ -18,6 +18,7 @@ package org.onap.sdc.workflow.api.types.activityspec;
 
 import io.swagger.annotations.ApiModel;
 import java.util.List;
+import javax.validation.Valid;
 import lombok.EqualsAndHashCode;
 import org.onap.sdc.workflow.persistence.types.ActivitySpecParameter;
 
@@ -27,7 +28,9 @@ import org.onap.sdc.workflow.persistence.types.ActivitySpecParameter;
 public class ActivitySpecRequest extends ActivitySpecBase {
 
     private String description;
+    @Valid
     private List<ActivitySpecParameter> inputs;
+    @Valid
     private List<ActivitySpecParameter> outputs;
     private String type;
     private String content;
