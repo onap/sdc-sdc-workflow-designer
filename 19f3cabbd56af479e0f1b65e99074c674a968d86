@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_1fe434df",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/validation/ActivitySpecParameterNameValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-09-17T12:20:41Z",
+      "side": 1,
+      "message": "The name is too generic, it won\u0027t be clear by looking at the configuration what this property is related to.",
+      "range": {
+        "startLine": 29,
+        "startChar": 14,
+        "endLine": 29,
+        "endChar": 37
+      },
+      "revId": "19f3cabbd56af479e0f1b65e99074c674a968d86",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_5f1aacc6",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/validation/ActivitySpecParameterNameValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-09-17T12:20:41Z",
+      "side": 1,
+      "message": "Have a default value in the code, so that it doesn\u0027t have to be included in the configuration file. At this point, for example, having the config parameter in the file contributes nothing and can be left out.",
+      "revId": "19f3cabbd56af479e0f1b65e99074c674a968d86",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_3fc33039",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/validation/ActivitySpecParameterNameValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-09-17T12:20:41Z",
+      "side": 1,
+      "message": "I think it will be better if you annotate this method with  @Value(\"${parameterName.validation}\"), instead of the data member.",
+      "revId": "19f3cabbd56af479e0f1b65e99074c674a968d86",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_dfe9dcb7",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/types/ActivitySpecParameter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-09-17T12:20:41Z",
+      "side": 1,
+      "message": "This message is not user-friendly. If you mention a pattern, the user should at least know it to understand what he/she did wrong. Also keep in mind that some users don\u0027t understand what a pattern is, and can\u0027t read regular expressions.",
+      "range": {
+        "startLine": 27,
+        "startChar": 22,
+        "endLine": 27,
+        "endChar": 78
+      },
+      "revId": "19f3cabbd56af479e0f1b65e99074c674a968d86",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_7ffbe878",
+        "filename": "workflow-designer-be/src/test/java/org/onap/sdc/workflow/api/validation/ActivitySpecParameterNameValidatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-09-17T12:20:41Z",
+      "side": 1,
+      "message": "Test also other special characters. Test with spaces at the beginning and in the end, not just in the middle of a value. Test with other regex.",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 5
+      },
+      "revId": "19f3cabbd56af479e0f1b65e99074c674a968d86",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
