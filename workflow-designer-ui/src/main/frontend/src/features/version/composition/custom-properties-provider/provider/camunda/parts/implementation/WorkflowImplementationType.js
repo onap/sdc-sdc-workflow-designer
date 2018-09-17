@@ -142,13 +142,13 @@ export default function(element, bpmnFactory, options, translate) {
                         );
                     }
                 }
-
                 props = assign(props, ACTIVITY_PROPS);
                 props[implementationType.ACTIVITY] = undefined;
                 var commands = [];
                 if (newType === 'workflowActivity') {
                     props[implementationType.ACTIVITY] = '';
-                    props[implementationType.ACTIVITY_RESOURCE] = '';
+                    props[implementationType.RESULT_VARIABLE] = undefined;
+                    props[implementationType.EXPRESSION_VALUE] = undefined;
                 } else {
                     var inputsOutputs = extensionElementsHelper.getExtensionElements(
                         bo,

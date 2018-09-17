@@ -33,7 +33,7 @@ function ensureInputOutputSupported(element, insideConnector) {
     return inputOutputHelper.isInputOutputSupported(element, insideConnector);
 }
 
-export default function(element, bpmnFactory, options, translate, config) {
+export default function(element, bpmnFactory, options, translate) {
     var typeInfo = {
         'camunda:Map': {
             value: 'map',
@@ -416,96 +416,6 @@ export default function(element, bpmnFactory, options, translate, config) {
             show: function(element, node) {
                 var bo = getSelected(element, node);
                 return bo && bo.definition && isMap(bo.definition);
-            }
-        })
-    );
-
-    //workflow source parameter  (type = text) ///////////////////////////////////////////////////////
-    const workflowInputs = config.workflowInputOutput.inputs.map(item => ({
-        name: item.name,
-        value: item.name
-    }));
-
-    const workflowOutputs = config.workflowInputOutput.outputs.map(item => ({
-        name: item.name,
-        value: item.name
-    }));
-
-    const workflowSources = [
-        { name: '', value: '' },
-        ...workflowInputs,
-        ...workflowOutputs
-    ];
-
-    entries.push(
-        entryFactory.selectBox({
-            id: 'parameter-workflowSource',
-            label: 'Workflow Source Parameter',
-            selectOptions: workflowSources,
-            modelProperty: 'workflowSource',
-
-            get: function(element, node) {
-                return {
-                    workflowSource: (getSelected(element, node) || {})
-                        .workflowSource
-                };
-            },
-
-            set: function(element, values, node) {
-                const properties = {
-                    workflowSource: undefined
-                };
-
-                properties.workflowSource = values.workflowSource;
-                const param = getSelected(element, node);
-                values.workflowSource = values.workflowSource || undefined;
-
-                return cmdHelper.updateBusinessObject(element, param, values);
-            },
-
-            hidden: function(element, node) {
-                const selected = getSelected(element, node);
-                return !inputOutputHelper.isWorkflowSourceSupported(
-                    element,
-                    selected
-                );
-            }
-        })
-    );
-
-    //workflow target parameter  (type = text) ///////////////////////////////////////////////////////
-    entries.push(
-        entryFactory.selectBox({
-            id: 'parameter-workflowTarget',
-            label: 'Workflow Target Parameter',
-            selectOptions: workflowSources,
-            modelProperty: 'workflowTarget',
-
-            get: function(element, node) {
-                return {
-                    workflowTarget: (getSelected(element, node) || {})
-                        .workflowTarget
-                };
-            },
-
-            set: function(element, values, node) {
-                const properties = {
-                    workflowTarget: undefined
-                };
-
-                properties.workflowTarget = values.workflowTarget;
-                const param = getSelected(element, node);
-                values.workflowTarget = values.workflowTarget || undefined;
-
-                return cmdHelper.updateBusinessObject(element, param, values);
-            },
-
-            hidden: function(element, node) {
-                const selected = getSelected(element, node);
-                return !inputOutputHelper.isWorkflowTargetSupported(
-                    element,
-                    selected
-                );
             }
         })
     );

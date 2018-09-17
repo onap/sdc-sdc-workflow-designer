@@ -5,13 +5,15 @@ import ServiceTaskDelegateProps from 'bpmn-js-properties-panel/lib/provider/camu
 import workflowImplementationType from './implementation/WorkflowImplementationType';
 import workflowActivity from './implementation/WorkflowActivity';
 import { implementationType as implementationTypeConst } from './implementation/implementationConstants';
+import Delegate from './implementation/Delegate';
+import ResultVariable from './implementation/ResultVariable';
 
 const getImplementationType = element => {
     let implementationType = ImplementationTypeHelper.getImplementationType(
         element
     );
 
-    if (!implementationType) {
+    if (!implementationType || implementationType === 'expression') {
         const bo = getBusinessObject(element);
         if (bo) {
             if (
@@ -47,7 +49,10 @@ function WorkflowServiceTaskDelegateProps(
 
     if (isServiceTaskLike(getBusinessObject(element))) {
         group.entries = group.entries.filter(
-            entry => entry.id !== 'implementation'
+            entry =>
+                entry.id !== 'implementation' &&
+                entry.id !== 'delegate' &&
+                entry.id !== 'resultVariable'
         );
 
         group.entries = [
@@ -69,6 +74,24 @@ function WorkflowServiceTaskDelegateProps(
             ...workflowActivity(
                 element,
                 config,
+                bpmnFactory,
+                {
+                    getBusinessObject: getBusinessObject,
+                    getImplementationType: getImplementationType
+                },
+                translate
+            ),
+            ...Delegate(
+                element,
+                bpmnFactory,
+                {
+                    getBusinessObject: getBusinessObject,
+                    getImplementationType: getImplementationType
+                },
+                translate
+            ),
+            ...ResultVariable(
+                element,
                 bpmnFactory,
                 {
                     getBusinessObject: getBusinessObject,
