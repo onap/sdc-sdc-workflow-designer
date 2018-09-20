@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_3a4a5e55",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/validation/ActivitySpecParameterNameValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 2121
+      },
+      "writtenOn": "2018-09-20T12:18:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_1fe434df",
+      "range": {
+        "startLine": 29,
+        "startChar": 14,
+        "endLine": 29,
+        "endChar": 37
+      },
+      "revId": "19f3cabbd56af479e0f1b65e99074c674a968d86",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_5f1aacc6",
         "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/validation/ActivitySpecParameterNameValidator.java",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_9a3ff2b3",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/validation/ActivitySpecParameterNameValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 2121
+      },
+      "writtenOn": "2018-09-20T12:18:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_5f1aacc6",
+      "revId": "19f3cabbd56af479e0f1b65e99074c674a968d86",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_3fc33039",
         "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/validation/ActivitySpecParameterNameValidator.java",
         "patchSetId": 1
@@ -53,6 +95,24 @@
       "writtenOn": "2018-09-17T12:20:41Z",
       "side": 1,
       "message": "I think it will be better if you annotate this method with  @Value(\"${parameterName.validation}\"), instead of the data member.",
+      "revId": "19f3cabbd56af479e0f1b65e99074c674a968d86",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_7a445649",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/validation/ActivitySpecParameterNameValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 2121
+      },
+      "writtenOn": "2018-09-20T12:18:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_3fc33039",
       "revId": "19f3cabbd56af479e0f1b65e99074c674a968d86",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -93,6 +153,30 @@
       "writtenOn": "2018-09-17T12:20:41Z",
       "side": 1,
       "message": "Test also other special characters. Test with spaces at the beginning and in the end, not just in the middle of a value. Test with other regex.",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 5
+      },
+      "revId": "19f3cabbd56af479e0f1b65e99074c674a968d86",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_da59ea35",
+        "filename": "workflow-designer-be/src/test/java/org/onap/sdc/workflow/api/validation/ActivitySpecParameterNameValidatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 2121
+      },
+      "writtenOn": "2018-09-20T12:18:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_7ffbe878",
       "range": {
         "startLine": 46,
         "startChar": 0,
