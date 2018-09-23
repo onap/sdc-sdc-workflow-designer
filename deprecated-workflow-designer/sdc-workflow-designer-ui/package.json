@@ -1,7 +1,6 @@
 {
   "name": "workflow-modeler",
   "version": "1.0.0",
-  "license": "SEE LICENSE IN LICENSE.TXT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host localhost --disable-host-check true",

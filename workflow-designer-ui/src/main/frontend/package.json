@@ -1,6 +1,5 @@
 {
 	"name": "sdc-workflow",
-	"license": "SEE LICENSE IN LICENSE",
 	"scripts": {
 		"start": "webpack-dev-server --mode=development --progress --hot --inline",
 		"start-mock": "webpack-dev-server --mode=development --progress --hot --inline --env=mock",
