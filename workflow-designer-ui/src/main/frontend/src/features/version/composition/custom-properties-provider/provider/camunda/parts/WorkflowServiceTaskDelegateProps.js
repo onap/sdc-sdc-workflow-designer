@@ -4,14 +4,19 @@ import ImplementationTypeHelper from 'bpmn-js-properties-panel/lib/helper/Implem
 import ServiceTaskDelegateProps from 'bpmn-js-properties-panel/lib/provider/camunda/parts/ServiceTaskDelegateProps';
 import workflowImplementationType from './implementation/WorkflowImplementationType';
 import workflowActivity from './implementation/WorkflowActivity';
-import { implementationType as implementationTypeConst } from './implementation/implementationConstants';
+import {
+    implementationType as implementationTypeConst,
+    serviceTaskEntries
+} from './implementation/implementationConstants';
+import Delegate from './implementation/Delegate';
+import ResultVariable from './implementation/ResultVariable';
 
 const getImplementationType = element => {
     let implementationType = ImplementationTypeHelper.getImplementationType(
         element
     );
 
-    if (!implementationType) {
+    if (!implementationType || implementationType === 'expression') {
         const bo = getBusinessObject(element);
         if (bo) {
             if (
@@ -23,6 +28,10 @@ const getImplementationType = element => {
     }
 
     return implementationType;
+};
+
+const hideResultVariable = element => {
+    return getImplementationType(element) !== 'expression';
 };
 
 const getBusinessObject = element =>
@@ -47,11 +56,14 @@ function WorkflowServiceTaskDelegateProps(
 
     if (isServiceTaskLike(getBusinessObject(element))) {
         group.entries = group.entries.filter(
-            entry => entry.id !== 'implementation'
+            entry =>
+                entry.id !== serviceTaskEntries.IMPLEMENTATION &&
+                entry.id !== serviceTaskEntries.DELEGATE &&
+                entry.id !== serviceTaskEntries.RESULT_VARIABLE
         );
 
-        group.entries = [
-            ...workflowImplementationType(
+        group.entries = group.entries.concat(
+            workflowImplementationType(
                 element,
                 bpmnFactory,
                 {
@@ -64,9 +76,10 @@ function WorkflowServiceTaskDelegateProps(
                     hasServiceTaskLikeSupport: true
                 },
                 translate
-            ),
-            ...group.entries,
-            ...workflowActivity(
+            )
+        );
+        group.entries = group.entries.concat(
+            workflowActivity(
                 element,
                 config,
                 bpmnFactory,
@@ -76,7 +89,32 @@ function WorkflowServiceTaskDelegateProps(
                 },
                 translate
             )
-        ];
+        );
+
+        group.entries = group.entries.concat(
+            Delegate(
+                element,
+                bpmnFactory,
+                {
+                    getBusinessObject: getBusinessObject,
+                    getImplementationType: getImplementationType
+                },
+                translate
+            )
+        );
+
+        group.entries = group.entries.concat(
+            ResultVariable(
+                element,
+                bpmnFactory,
+                {
+                    getBusinessObject: getBusinessObject,
+                    getImplementationType: getImplementationType,
+                    hideResultVariable: hideResultVariable
+                },
+                translate
+            )
+        );
     }
 }
 

@@ -24,13 +24,15 @@ function getExtension(element, type) {
     })[0];
 }
 
-export function updatedData(moddle, inputData, existingArray, type) {
+export function updatedData(moddle, inputData, existingArray, type, parent) {
     return inputData.map(item => {
         const existingInput = existingArray.find(el => el.name === item.name);
-        return moddle.create(
+        const updatedElement = moddle.create(
             type,
             existingInput ? { ...item, value: existingInput.value } : item
         );
+        updatedElement.$parent = parent;
+        return updatedElement;
     });
 }
 
@@ -41,13 +43,15 @@ export function setElementInputsOutputs(
     cleanInputsOutpus
 ) {
     const { inputs = [], outputs = [] } = inputOutput;
+    console.log(businessObject);
 
     if (!businessObject.extensionElements) {
         businessObject.extensionElements = moddle.create(
             bpmnElementsTypes.EXTENSION_ElEMENTS
         );
+        businessObject.extensionElements.$parent = businessObject.id;
     }
-
+    //console.log(businessObject);
     const existingInputOutput = getExtension(
         businessObject,
         bpmnElementsTypes.INPUT_OUTPUT
@@ -60,7 +64,8 @@ export function setElementInputsOutputs(
             ? []
             : (existingInputOutput && existingInputOutput.inputParameters) ||
               [],
-        bpmnElementsTypes.INPUT_PARAMETER
+        bpmnElementsTypes.INPUT_PARAMETER,
+        businessObject.id
     );
 
     const processOutputs = updatedData(
@@ -70,15 +75,20 @@ export function setElementInputsOutputs(
             ? []
             : (existingInputOutput && existingInputOutput.outputParameters) ||
               [],
-        bpmnElementsTypes.OUTPUT_PARAMETER
+        bpmnElementsTypes.OUTPUT_PARAMETER,
+        businessObject.id
     );
 
     const processInputOutput = moddle.create(bpmnElementsTypes.INPUT_OUTPUT);
+    processInputOutput.$parent = businessObject.id;
+    //console.log('utils', processInputOutput);
+
     processInputOutput.inputParameters = [...processInputs];
     processInputOutput.outputParameters = [...processOutputs];
 
     const extensionElements = businessObject.extensionElements.get('values');
-
+    //console.log('bpmnUtils', processInputOutput);
+    //businessObject.extensionElements.get('values').push(processInputOutput);
     businessObject.extensionElements.set(
         'values',
         extensionElements

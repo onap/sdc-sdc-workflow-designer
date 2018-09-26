@@ -31,6 +31,7 @@ class CompositionView extends Component {
         showErrorModal: PropTypes.func,
         composition: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
         name: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+        versionName: PropTypes.string,
         inputOutput: PropTypes.object,
         activities: PropTypes.array
     };
@@ -61,7 +62,7 @@ class CompositionView extends Component {
             },
             workflow: {
                 activities: activities,
-                onChange: this.onActivityChanged,
+                getActivityInputsOutputs: this.getActivityInputsOutputs,
                 workflowInputOutput: inputOutput
             }
         });
@@ -71,31 +72,18 @@ class CompositionView extends Component {
         this.modeler.on('element.out', () => this.exportDiagramToStore());
     }
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.composition !== this.props.composition) {
-            this.setDiagramToBPMN(this.props.composition);
-        }
-    }
-    onActivityChanged = async (bo, selectedValue) => {
+    getActivityInputsOutputs = selectedValue => {
         const selectedActivity = this.props.activities.find(
             el => el.name === selectedValue
         );
-        const config = this.modeler.get('config');
 
         if (selectedActivity) {
             const inputsOutputs = {
                 inputs: selectedActivity.inputs,
                 outputs: selectedActivity.outputs
             };
-            config.workflow.selectedActivityInputs = inputsOutputs;
-            this.modeler.config = config;
-            setElementInputsOutputs(
-                bo,
-                inputsOutputs,
-                this.modeler.get('moddle'),
-                true
-            );
-        }
+            return inputsOutputs;
+        } else return { inputs: [], outputs: [] };
     };
 
     setDiagramToBPMN = diagram => {
@@ -108,8 +96,13 @@ class CompositionView extends Component {
             }
             let canvas = modeler.get('canvas');
             canvas.zoom('fit-viewport');
+            let { businessObject } = canvas._rootElement;
+
+            if (!businessObject.name) {
+                businessObject.name = this.props.name;
+            }
             setElementInputsOutputs(
-                canvas._rootElement.businessObject,
+                businessObject,
                 this.props.inputOutput,
                 this.modeler.get('moddle')
             );
@@ -128,7 +121,7 @@ class CompositionView extends Component {
     };
 
     exportDiagram = () => {
-        const { name, showErrorModal } = this.props;
+        const { name, showErrorModal, versionName } = this.props;
         this.modeler.saveXML({ format: true }, (err, xml) => {
             if (err) {
                 return showErrorModal(
@@ -136,7 +129,10 @@ class CompositionView extends Component {
                 );
             }
             const blob = new Blob([xml], { type: 'text/html;charset=utf-8' });
-            fileSaver.saveAs(blob, `${name}-diagram.bpmn`);
+            fileSaver.saveAs(
+                blob,
+                `${name.replace(/\s/g, '').toLowerCase()}-${versionName}.bpmn`
+            );
         });
     };
 
