@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_88869912",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/composition/bpmnUtils.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3657
+      },
+      "writtenOn": "2018-09-26T08:31:09Z",
+      "side": 1,
+      "message": "Remove console log and commented statements",
+      "revId": "1b16e0f59c2a4cd7d482531fa2530f1115e40a6f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_4878812b",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/composition/custom-properties-provider/provider/camunda/parts/implementation/ResultVariable.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 3657
+      },
+      "writtenOn": "2018-09-26T08:31:09Z",
+      "side": 1,
+      "message": "import assign from \u0027lodash.assign\u0027;",
+      "revId": "1b16e0f59c2a4cd7d482531fa2530f1115e40a6f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
