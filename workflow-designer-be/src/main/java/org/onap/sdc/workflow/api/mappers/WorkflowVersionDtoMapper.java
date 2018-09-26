@@ -1,5 +1,5 @@
 /*
- * Copyright © 2018 European Support Limited
+ * Copyright © 2016-2018 European Support Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,18 @@
  * limitations under the License.
  */
 
-package org.onap.sdc.workflow.persistence.types;
+package org.onap.sdc.workflow.api.mappers;
 
-import lombok.Data;
+import org.mapstruct.Mapper;
+import org.onap.sdc.workflow.api.types.WorkflowVersionRequest;
+import org.onap.sdc.workflow.api.types.WorkflowVersionResponse;
+import org.onap.sdc.workflow.services.types.WorkflowVersion;
 
-@Data
-public class ParameterEntity {
+@Mapper(componentModel = "spring")
+public interface WorkflowVersionDtoMapper {
 
-    private String id;
-    private String name;
-    private ParameterType type;
-    private boolean mandatory;
+    WorkflowVersion requestToWorkflowVersion(WorkflowVersionRequest request);
+
+    WorkflowVersionResponse workflowVersionToResponse(WorkflowVersion workflowVersion);
+
 }

@@ -21,7 +21,6 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.ArgumentMatcher;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
@@ -30,13 +29,13 @@ import org.onap.sdc.workflow.persistence.ArtifactRepository;
 import org.onap.sdc.workflow.persistence.ParameterRepository;
 import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
 import org.onap.sdc.workflow.persistence.types.ParameterRole;
-import org.onap.sdc.workflow.services.types.WorkflowVersion;
-import org.onap.sdc.workflow.services.types.WorkflowVersionState;
 import org.onap.sdc.workflow.services.exceptions.EntityNotFoundException;
 import org.onap.sdc.workflow.services.exceptions.VersionCreationException;
 import org.onap.sdc.workflow.services.exceptions.VersionStateModificationException;
 import org.onap.sdc.workflow.services.impl.mappers.VersionMapper;
 import org.onap.sdc.workflow.services.impl.mappers.VersionStateMapper;
+import org.onap.sdc.workflow.services.types.WorkflowVersion;
+import org.onap.sdc.workflow.services.types.WorkflowVersionState;
 import org.openecomp.sdc.versioning.VersioningManager;
 import org.openecomp.sdc.versioning.dao.types.Version;
 import org.openecomp.sdc.versioning.dao.types.VersionState;
@@ -77,10 +76,11 @@ public class WorkflowVersionManagerImplTest {
         Version version = new Version(VERSION1_ID);
         WorkflowVersion workflowVersion = new WorkflowVersion(VERSION1_ID);
         doReturn(workflowVersion).when(versionMapperMock).versionToWorkflowVersion(any(Version.class));
-        doReturn(version).when(versioningManagerMock).get(eq(ITEM1_ID),any(Version.class));
-        doReturn(new ArrayList()).when(parameterRepositoryMock).list(eq(ITEM1_ID), eq(VERSION1_ID), any(ParameterRole.class));
-        workflowVersionManager.get(ITEM1_ID,VERSION1_ID);
-        verify(versioningManagerMock).get(ITEM1_ID,version);
+        doReturn(version).when(versioningManagerMock).get(eq(ITEM1_ID), any(Version.class));
+        doReturn(new ArrayList()).when(parameterRepositoryMock)
+                .list(eq(ITEM1_ID), eq(VERSION1_ID), any(ParameterRole.class));
+        workflowVersionManager.get(ITEM1_ID, VERSION1_ID);
+        verify(versioningManagerMock).get(ITEM1_ID, version);
     }
 
 /*    @Test
@@ -130,18 +130,18 @@ public class WorkflowVersionManagerImplTest {
 
 
     @Test
-    public void shouldCreateWorkflowVersion(){
+    public void shouldCreateWorkflowVersion() {
         Version version = new Version(VERSION1_ID);
         version.setDescription("version desc");
-        doReturn(version).when(versioningManagerMock).create(ITEM1_ID,version, VersionCreationMethod.major);
+        doReturn(version).when(versioningManagerMock).create(ITEM1_ID, version, VersionCreationMethod.major);
         WorkflowVersion versionRequest = new WorkflowVersion();
         versionRequest.setDescription("version desc");
         versionRequest.setInputs(new ArrayList<>());
         versionRequest.setOutputs(new ArrayList<>());
         WorkflowVersion workflowVersion = new WorkflowVersion(VERSION1_ID);
-        doReturn(workflowVersion).when(workflowVersionManager).get(ITEM1_ID,VERSION1_ID);
+        doReturn(workflowVersion).when(workflowVersionManager).get(ITEM1_ID, VERSION1_ID);
         workflowVersionManager.create(ITEM1_ID, null, versionRequest);
-        verify(versioningManagerMock).create(ITEM1_ID,version, VersionCreationMethod.major);
+        verify(versioningManagerMock).create(ITEM1_ID, version, VersionCreationMethod.major);
     }
 
     @Test(expected = VersionCreationException.class)
@@ -196,7 +196,7 @@ public class WorkflowVersionManagerImplTest {
         doReturn(version).when(versioningManagerMock).get(eq(ITEM1_ID), eqVersion(VERSION1_ID));
         doReturn(CERTIFIED).when(versionStateMapperMock).versionStatusToWorkflowVersionState(version.getStatus());
         doThrow(new RuntimeException()).when(versioningManagerMock)
-                                       .submit(eq(ITEM1_ID), eqVersion(VERSION1_ID), anyString());
+                .submit(eq(ITEM1_ID), eqVersion(VERSION1_ID), anyString());
 
         workflowVersionManager.updateState(ITEM1_ID, VERSION1_ID, CERTIFIED);
     }
@@ -249,21 +249,6 @@ public class WorkflowVersionManagerImplTest {
     }
 
     private static Version eqVersion(String versionId) {
-        return argThat(new EqVersion(versionId));
+        return argThat(version -> versionId.equals(version.getId()));
     }
-
-    private static class EqVersion implements ArgumentMatcher<Version> {
-
-        private final String versionId;
-
-        EqVersion(String versionId) {
-            this.versionId = versionId;
-        }
-
-        @Override
-        public boolean matches(Version version) {
-            return versionId.equals(version.getId());
-        }
-    }
-
 }

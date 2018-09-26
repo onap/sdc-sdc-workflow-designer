@@ -1,5 +1,5 @@
 /*
- * Copyright © 2018 European Support Limited
+ * Copyright © 2016-2018 European Support Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,23 @@
  * limitations under the License.
  */
 
-package org.onap.sdc.workflow.persistence.types;
+package org.onap.sdc.workflow.api.types;
 
+import java.util.Collection;
+import java.util.Collections;
+import javax.validation.Valid;
 import lombok.Data;
+import org.onap.sdc.workflow.api.validation.NoDuplicates;
 
 @Data
-public class ParameterEntity {
+public class WorkflowVersionRequest {
 
-    private String id;
     private String name;
-    private ParameterType type;
-    private boolean mandatory;
+    private String description;
+    @Valid
+    @NoDuplicates(message = "Inputs names must be unique")
+    private Collection<Parameter> inputs = Collections.emptyList();
+    @Valid
+    @NoDuplicates(message = "Outputs names must be unique")
+    private Collection<Parameter> outputs = Collections.emptyList();
 }

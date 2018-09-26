@@ -3,26 +3,25 @@ package org.onap.sdc.workflow.api.validation;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
+import java.util.Collections;
 import javax.validation.ConstraintValidatorContext;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.onap.sdc.workflow.persistence.types.ParameterEntity;
+import org.onap.sdc.workflow.api.types.Parameter;
 
 public class NoDuplicatesValidatorTest {
 
     class AnnotationWrapper {
 
         @NoDuplicates(message = "test message")
-        public Collection<ParameterEntity> collection;
+        public Collection<Parameter> collection;
     }
 
     private NoDuplicatesValidator noDuplicatesValidator;
@@ -32,7 +31,8 @@ public class NoDuplicatesValidatorTest {
     @Mock
     private ConstraintValidatorContext.ConstraintViolationBuilder constraintViolationBuilder;
     @Mock
-    private ConstraintValidatorContext.ConstraintViolationBuilder.NodeBuilderCustomizableContext nodeBuilderCustomizableContext;
+    private ConstraintValidatorContext.ConstraintViolationBuilder.NodeBuilderCustomizableContext
+            nodeBuilderCustomizableContext;
 
     @Before
     public void init() throws NoSuchFieldException {
@@ -44,24 +44,21 @@ public class NoDuplicatesValidatorTest {
 
     @Test
     public void shouldFailIfCollectionHaveMoreThen1ParameterEntityWithSameName() {
-        Collection<ParameterEntity> inputs =
-                Arrays.asList(createParameterEntity("name1"), createParameterEntity("name1"));
+        Collection<Parameter> inputs = Arrays.asList(createParameter("name1"), createParameter("name1"));
 
         assertFalse(noDuplicatesValidator.isValid(inputs, context));
     }
 
     @Test
     public void shouldPassIfCollectionDontHaveMoreThen1ParameterEntityWithSameName() {
-        Collection<ParameterEntity> inputs =
-                Arrays.asList(createParameterEntity("name2"), createParameterEntity("name1"));
+        Collection<Parameter> inputs = Arrays.asList(createParameter("name2"), createParameter("name1"));
 
         assertTrue(noDuplicatesValidator.isValid(inputs, context));
     }
 
     @Test
     public void shouldPassIfCollectionContainsOnlyOneObject() {
-        Collection<ParameterEntity> inputs =
-                Arrays.asList(createParameterEntity("name2"));
+        Collection<Parameter> inputs = Collections.singletonList(createParameter("name2"));
 
         assertTrue(noDuplicatesValidator.isValid(inputs, context));
     }
@@ -83,9 +80,9 @@ public class NoDuplicatesValidatorTest {
         return validator;
     }
 
-    private ParameterEntity createParameterEntity(String name) {
-        ParameterEntity parameterEntity = new ParameterEntity();
-        parameterEntity.setName(name);
-        return parameterEntity;
+    private Parameter createParameter(String name) {
+        Parameter parameter = new Parameter();
+        parameter.setName(name);
+        return parameter;
     }
 }

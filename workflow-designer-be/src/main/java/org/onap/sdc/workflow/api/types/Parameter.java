@@ -1,5 +1,5 @@
 /*
- * Copyright © 2018 European Support Limited
+ * Copyright © 2016-2018 European Support Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,21 @@
  * limitations under the License.
  */
 
-package org.onap.sdc.workflow.persistence.types;
+package org.onap.sdc.workflow.api.types;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import lombok.Data;
+import org.onap.sdc.workflow.persistence.types.ParameterType;
 
 @Data
-public class ParameterEntity {
-
-    private String id;
+public class Parameter {
+    @NotBlank(message = "Parameter Name may not be blank")
+    @Pattern(regexp = "[A-Za-z0-9_ ]+", message = "Parameter name must contain only letters, digits and underscores")
     private String name;
+    @NotNull
     private ParameterType type;
+    @NotNull
     private boolean mandatory;
 }
