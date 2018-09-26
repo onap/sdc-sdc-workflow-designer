@@ -21,3 +21,5 @@ export const bpmnElementsTypes = {
     INPUT_PARAMETER: 'camunda:InputParameter',
     OUTPUT_PARAMETER: 'camunda:OutputParameter'
 };
+
+export const PROCESS_DEFAULT_ID = 'Process_1';

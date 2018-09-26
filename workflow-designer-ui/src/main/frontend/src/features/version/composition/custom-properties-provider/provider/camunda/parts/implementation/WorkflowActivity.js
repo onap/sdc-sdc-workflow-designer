@@ -2,8 +2,11 @@ import entryFactory from 'bpmn-js-properties-panel/lib/factory/EntryFactory';
 import cmdHelper from 'bpmn-js-properties-panel/lib/helper/CmdHelper';
 import {
     implementationType,
-    IMPLEMENTATION_TYPE_VALUE
+    IMPLEMENTATION_TYPE_VALUE,
+    SERVICE_TASK_NAME
 } from './implementationConstants';
+
+import InputOutputUpdater from './InputOutputUpdater';
 
 const workflowActivity = (element, config, bpmnFactory, options, translate) => {
     const { getImplementationType, getBusinessObject } = options;
@@ -20,25 +23,49 @@ const workflowActivity = (element, config, bpmnFactory, options, translate) => {
 
         get: function(element) {
             var bo = getBusinessObject(element);
+            const value = bo.get(implementationType.ACTIVITY);
+            const activityValue =
+                value && value.indexOf(IMPLEMENTATION_TYPE_VALUE) > -1
+                    ? value.substr(IMPLEMENTATION_TYPE_VALUE.length)
+                    : '';
+
             return {
-                workflowActivity: bo.get(implementationType.ACTIVITY_RESOURCE)
+                workflowActivity: activityValue
             };
         },
 
         set: function(element, values) {
             var bo = getBusinessObject(element);
-            config.onChange(bo, values.workflowActivity);
+
             const commands = [];
             const dataForUpdate = {};
-            dataForUpdate[implementationType.ACTIVITY_RESOURCE] =
-                values.workflowActivity;
+
+            const activityInputsOutputs = config.getActivityInputsOutputs(
+                values.workflowActivity
+            );
+
             dataForUpdate[
                 implementationType.ACTIVITY
-            ] = IMPLEMENTATION_TYPE_VALUE;
+            ] = `${IMPLEMENTATION_TYPE_VALUE}${values.workflowActivity}`;
+
+            dataForUpdate[implementationType.EXPRESSION] =
+                implementationType.EXPRESSION_VALUE;
+
+            dataForUpdate[SERVICE_TASK_NAME] = values.workflowActivity;
+
             commands.push(
                 cmdHelper.updateBusinessObject(element, bo, dataForUpdate)
             );
-            return commands;
+            return [
+                ...commands,
+                ...InputOutputUpdater({
+                    element,
+                    bo,
+                    bpmnFactory,
+                    activityInputsOutputs,
+                    commands
+                })
+            ];
         },
 
         validate: function(element, values) {

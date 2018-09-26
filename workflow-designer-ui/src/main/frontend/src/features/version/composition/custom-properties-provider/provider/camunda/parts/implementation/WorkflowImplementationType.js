@@ -103,7 +103,6 @@ export default function(element, bpmnFactory, options, translate) {
                 var bo = getBusinessObject(element);
                 var oldType = getType(element);
                 var newType = values.implType;
-
                 var props = assign({}, DELEGATE_PROPS);
 
                 if (DEFAULT_DELEGATE_PROPS.indexOf(newType) !== -1) {
@@ -142,13 +141,14 @@ export default function(element, bpmnFactory, options, translate) {
                         );
                     }
                 }
-
                 props = assign(props, ACTIVITY_PROPS);
                 props[implementationType.ACTIVITY] = undefined;
+
                 var commands = [];
                 if (newType === 'workflowActivity') {
                     props[implementationType.ACTIVITY] = '';
-                    props[implementationType.ACTIVITY_RESOURCE] = '';
+                    props[implementationType.RESULT_VARIABLE] = undefined;
+                    props[implementationType.EXPRESSION] = undefined;
                 } else {
                     var inputsOutputs = extensionElementsHelper.getExtensionElements(
                         bo,
@@ -217,7 +217,6 @@ export default function(element, bpmnFactory, options, translate) {
                         );
                     }
                 }
-
                 return commands;
             }
         })
