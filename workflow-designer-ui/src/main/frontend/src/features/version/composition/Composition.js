@@ -22,11 +22,12 @@ import { getComposition } from './compositionSelectors';
 import { getWorkflowName } from '../../workflow/workflowSelectors';
 import { activitiesSelector } from 'features/activities/activitiesSelectors';
 import { getInputOutputForComposition } from 'features/version/inputOutput/inputOutputSelectors';
-
+import { getVersionInfo } from 'features/version/general/generalSelectors';
 function mapStateToProps(state) {
     return {
         composition: getComposition(state),
         name: getWorkflowName(state),
+        versionName: getVersionInfo(state).name,
         activities: activitiesSelector(state),
         inputOutput: getInputOutputForComposition(state)
     };

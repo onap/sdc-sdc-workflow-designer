@@ -4,10 +4,7 @@ var ModelUtil = require('bpmn-js/lib/util/ModelUtil'),
 
 var extensionElementsHelper = require('bpmn-js-properties-panel/lib/helper/ExtensionElementsHelper'),
     implementationTypeHelper = require('bpmn-js-properties-panel/lib/helper/ImplementationTypeHelper');
-import {
-    IMPLEMENTATION_TYPE_VALUE,
-    implementationType
-} from './implementationConstants';
+import { implementationType } from './implementationConstants';
 
 var InputOutputHelper = {};
 
@@ -156,7 +153,7 @@ InputOutputHelper.isCreateDeleteSupported = function(element) {
     const bo = getBusinessObject(element);
     return (
         (element.type !== 'bpmn:ServiceTask' ||
-            bo[implementationType.ACTIVITY] !== IMPLEMENTATION_TYPE_VALUE) &&
+            !bo[implementationType.ACTIVITY]) &&
         element.type !== 'bpmn:Process'
     );
 };

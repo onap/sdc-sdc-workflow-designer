@@ -31,12 +31,12 @@ function getOutputParameter(element, insideConnector, idx) {
     return inputOutputHelper.getOutputParameter(element, insideConnector, idx);
 }
 
-function createElement(type, parent, factory, properties) {
+export function createElement(type, parent, factory, properties) {
     const el = elementHelper.createElement(type, properties, parent, factory);
     return el;
 }
 
-function createInputOutput(parent, bpmnFactory, properties) {
+export function createInputOutput(parent, bpmnFactory, properties) {
     return createElement(
         'camunda:InputOutput',
         parent,

@@ -24,13 +24,15 @@ function getExtension(element, type) {
     })[0];
 }
 
-export function updatedData(moddle, inputData, existingArray, type) {
+export function updatedData(moddle, inputData, existingArray, type, parent) {
     return inputData.map(item => {
         const existingInput = existingArray.find(el => el.name === item.name);
-        return moddle.create(
+        const updatedElement = moddle.create(
             type,
             existingInput ? { ...item, value: existingInput.value } : item
         );
+        updatedElement.$parent = parent;
+        return updatedElement;
     });
 }
 
@@ -46,6 +48,7 @@ export function setElementInputsOutputs(
         businessObject.extensionElements = moddle.create(
             bpmnElementsTypes.EXTENSION_ElEMENTS
         );
+        businessObject.extensionElements.$parent = businessObject.id;
     }
 
     const existingInputOutput = getExtension(
@@ -60,7 +63,8 @@ export function setElementInputsOutputs(
             ? []
             : (existingInputOutput && existingInputOutput.inputParameters) ||
               [],
-        bpmnElementsTypes.INPUT_PARAMETER
+        bpmnElementsTypes.INPUT_PARAMETER,
+        businessObject.id
     );
 
     const processOutputs = updatedData(
@@ -70,15 +74,16 @@ export function setElementInputsOutputs(
             ? []
             : (existingInputOutput && existingInputOutput.outputParameters) ||
               [],
-        bpmnElementsTypes.OUTPUT_PARAMETER
+        bpmnElementsTypes.OUTPUT_PARAMETER,
+        businessObject.id
     );
 
     const processInputOutput = moddle.create(bpmnElementsTypes.INPUT_OUTPUT);
+    processInputOutput.$parent = businessObject.id;
     processInputOutput.inputParameters = [...processInputs];
     processInputOutput.outputParameters = [...processOutputs];
 
     const extensionElements = businessObject.extensionElements.get('values');
-
     businessObject.extensionElements.set(
         'values',
         extensionElements
