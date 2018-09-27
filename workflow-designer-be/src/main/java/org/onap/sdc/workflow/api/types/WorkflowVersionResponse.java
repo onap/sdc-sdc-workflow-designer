@@ -1,5 +1,5 @@
 /*
- * Copyright © 2018 European Support Limited
+ * Copyright © 2016-2018 European Support Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,33 +14,21 @@
  * limitations under the License.
  */
 
-package org.onap.sdc.workflow.services.types;
+package org.onap.sdc.workflow.api.types;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.onap.sdc.workflow.persistence.types.ParameterEntity;
+import lombok.EqualsAndHashCode;
+import org.onap.sdc.workflow.services.types.WorkflowVersionState;
 
-
+@EqualsAndHashCode(callSuper = true)
 @Data
-@NoArgsConstructor
-public class WorkflowVersion {
+public class WorkflowVersionResponse extends WorkflowVersionRequest {
 
     private String id;
-    private String name;
-    private String description;
     private String baseId;
     private WorkflowVersionState state;
-    private Collection<ParameterEntity> inputs = Collections.emptyList();
-    private Collection<ParameterEntity> outputs = Collections.emptyList();
     private boolean hasArtifact;
     private Date creationTime;
     private Date modificationTime;
-
-    public WorkflowVersion(String id) {
-        this.id = id;
-        this.state = WorkflowVersionState.DRAFT;
-    }
 }

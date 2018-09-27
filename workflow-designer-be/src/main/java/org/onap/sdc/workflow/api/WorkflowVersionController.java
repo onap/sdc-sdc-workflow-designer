@@ -19,10 +19,14 @@ package org.onap.sdc.workflow.api;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
+import org.onap.sdc.workflow.api.mappers.WorkflowVersionDtoMapper;
 import org.onap.sdc.workflow.api.types.CollectionResponse;
 import org.onap.sdc.workflow.api.types.VersionStateDto;
 import org.onap.sdc.workflow.api.types.VersionStatesFormatter;
+import org.onap.sdc.workflow.api.types.WorkflowVersionRequest;
+import org.onap.sdc.workflow.api.types.WorkflowVersionResponse;
 import org.onap.sdc.workflow.api.types.dto.ArtifactDeliveriesRequestDto;
 import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
 import org.onap.sdc.workflow.services.WorkflowVersionManager;
@@ -53,13 +57,16 @@ import springfox.documentation.annotations.ApiIgnore;
 @RestController("workflowsVersionController")
 public class WorkflowVersionController {
 
-    private final WorkflowVersionManager workflowVersionManager;
+    private final WorkflowVersionManager versionManager;
+    private final WorkflowVersionDtoMapper versionDtoMapper;
     private final ArtifactAssociationService associationHandler;
 
     @Autowired
-    public WorkflowVersionController(@Qualifier("workflowVersionManager") WorkflowVersionManager workflowVersionManager,
+    public WorkflowVersionController(@Qualifier("workflowVersionManager") WorkflowVersionManager versionManager,
+            WorkflowVersionDtoMapper versionDtoMapper,
             @Qualifier("ArtifactAssociationHandler") ArtifactAssociationService artifactAssociationHandler) {
-        this.workflowVersionManager = workflowVersionManager;
+        this.versionManager = versionManager;
+        this.versionDtoMapper = versionDtoMapper;
         this.associationHandler = artifactAssociationHandler;
     }
 
@@ -67,40 +74,45 @@ public class WorkflowVersionController {
     @ApiOperation("List workflow versions")
     @ApiImplicitParam(name = "state", dataType = "string", paramType = "query", allowableValues = "DRAFT,CERTIFIED",
             value = "Filter by state")
-    public CollectionResponse<WorkflowVersion> list(@PathVariable("workflowId") String workflowId,
+    public CollectionResponse<WorkflowVersionResponse> list(@PathVariable("workflowId") String workflowId,
             @ApiIgnore VersionStatesFormatter stateFilter, @UserId String user) {
-        return new CollectionResponse<>(workflowVersionManager.list(workflowId, stateFilter.getVersionStates()));
+        return new CollectionResponse<>(versionManager.list(workflowId, stateFilter.getVersionStates()).stream()
+                                                .map(versionDtoMapper::workflowVersionToResponse)
+                                                .collect(Collectors.toList()));
     }
 
     @PostMapping
     @ApiOperation("Create workflow version")
-    public ResponseEntity<WorkflowVersion> create(@RequestBody @Valid WorkflowVersion version,
+    public ResponseEntity<WorkflowVersionResponse> create(@RequestBody @Valid WorkflowVersionRequest request,
             @PathVariable("workflowId") String workflowId,
             @RequestParam(value = "baseVersionId", required = false) String baseVersionId, @UserId String user) {
-        WorkflowVersion createdVersion = workflowVersionManager.create(workflowId, baseVersionId, version);
+        WorkflowVersionResponse createdVersion = versionDtoMapper.workflowVersionToResponse(
+                versionManager.create(workflowId, baseVersionId, versionDtoMapper.requestToWorkflowVersion(request)));
         return new ResponseEntity<>(createdVersion, HttpStatus.CREATED);
     }
 
     @GetMapping("/{versionId}")
     @ApiOperation("Get workflow version")
-    public WorkflowVersion get(@PathVariable("workflowId") String workflowId,
+    public WorkflowVersionResponse get(@PathVariable("workflowId") String workflowId,
             @PathVariable("versionId") String versionId, @UserId String user) {
-        return workflowVersionManager.get(workflowId, versionId);
+        return versionDtoMapper.workflowVersionToResponse(versionManager.get(workflowId, versionId));
     }
 
     @PutMapping("/{versionId}")
     @ApiOperation("Update workflow version")
-    public void update(@RequestBody @Valid WorkflowVersion version, @PathVariable("workflowId") String workflowId,
-            @PathVariable("versionId") String versionId, @UserId String user) {
+    public void update(@RequestBody @Valid WorkflowVersionRequest request,
+            @PathVariable("workflowId") String workflowId, @PathVariable("versionId") String versionId,
+            @UserId String user) {
+        WorkflowVersion version = versionDtoMapper.requestToWorkflowVersion(request);
         version.setId(versionId);
-        workflowVersionManager.update(workflowId, version);
+        versionManager.update(workflowId, version);
     }
 
     @GetMapping("/{versionId}/state")
     @ApiOperation("Get workflow version state")
     public VersionStateDto getState(@PathVariable("workflowId") String workflowId,
             @PathVariable("versionId") String versionId, @UserId String user) {
-        return new VersionStateDto(workflowVersionManager.getState(workflowId, versionId));
+        return new VersionStateDto(versionManager.getState(workflowId, versionId));
     }
 
     @PostMapping("/{versionId}/state")
@@ -108,7 +120,7 @@ public class WorkflowVersionController {
     public VersionStateDto updateState(@RequestBody VersionStateDto state,
             @PathVariable("workflowId") String workflowId, @PathVariable("versionId") String versionId,
             @UserId String user) {
-        workflowVersionManager.updateState(workflowId, versionId, state.getName());
+        versionManager.updateState(workflowId, versionId, state.getName());
         return new VersionStateDto(state.getName());
     }
 
@@ -118,21 +130,21 @@ public class WorkflowVersionController {
             @PathVariable("workflowId") String workflowId, @PathVariable("versionId") String versionId,
             @UserId String user) {
         return associationHandler
-                       .execute(user, deliveriesRequestDto, workflowVersionManager.getArtifact(workflowId, versionId));
+                       .execute(user, deliveriesRequestDto, versionManager.getArtifact(workflowId, versionId));
     }
 
     @PutMapping("/{versionId}/artifact")
     @ApiOperation("Create/update artifact of a version")
     public void uploadArtifact(@RequestBody MultipartFile fileToUpload, @PathVariable("workflowId") String workflowId,
             @PathVariable("versionId") String versionId, @UserId String user) {
-        workflowVersionManager.uploadArtifact(workflowId, versionId, fileToUpload);
+        versionManager.uploadArtifact(workflowId, versionId, fileToUpload);
     }
 
     @GetMapping("/{versionId}/artifact")
     @ApiOperation("Download workflow version artifact")
     public ResponseEntity<Resource> getArtifact(@PathVariable("workflowId") String workflowId,
             @PathVariable("versionId") String versionId, @UserId String user) {
-        ArtifactEntity artifact = workflowVersionManager.getArtifact(workflowId, versionId);
+        ArtifactEntity artifact = versionManager.getArtifact(workflowId, versionId);
 
         return ResponseEntity.ok()
                        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + artifact.getFileName())
@@ -144,6 +156,6 @@ public class WorkflowVersionController {
     @ApiOperation("Delete workflow version artifact")
     public void deleteArtifact(@PathVariable("workflowId") String workflowId,
             @PathVariable("versionId") String versionId, @UserId String user) {
-        workflowVersionManager.deleteArtifact(workflowId, versionId);
+        versionManager.deleteArtifact(workflowId, versionId);
     }
 }

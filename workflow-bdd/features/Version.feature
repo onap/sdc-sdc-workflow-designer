@@ -65,6 +65,24 @@ Feature: Workflow Versions
     Then I want to get path "/workflows/{item.id}/versions/{item.versionId}"
     And I want to check property "description" for value "workflow version description updated"
 
+  Scenario: Update version with duplicate input name - invalid
+    And I want to update the input property "description" with value "version with with duplicate input name"
+    And I want to create for path "/workflows/{item.id}/versions" with the input data from the context
+    And I want to copy to property "item.versionId" from response data path "id"
+
+    And I want to set the input data to file "resources/json/versionWithDuplicateInputName.json"
+    Then I want the following to fail with response status code 400
+    When I want to update for path "/workflows/{item.id}/versions/{item.versionId}" with the input data from the context
+
+  Scenario: Update version with duplicate output name - invalid
+    And I want to update the input property "description" with value "version with with duplicate output name"
+    And I want to create for path "/workflows/{item.id}/versions" with the input data from the context
+    And I want to copy to property "item.versionId" from response data path "id"
+
+    And I want to set the input data to file "resources/json/versionWithDuplicateOutputName.json"
+    Then I want the following to fail with response status code 400
+    When I want to update for path "/workflows/{item.id}/versions/{item.versionId}" with the input data from the context
+
   Scenario: Update version with inputs/outputs (create/update/delete parameters)
     And I want to set the input data to file "resources/json/versionWith2Inputs2Outputs1.json"
     And I want to create for path "/workflows/{item.id}/versions" with the input data from the context

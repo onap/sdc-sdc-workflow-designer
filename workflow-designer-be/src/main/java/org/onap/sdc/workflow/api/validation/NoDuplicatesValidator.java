@@ -22,16 +22,16 @@ import java.util.Objects;
 import java.util.Set;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import org.onap.sdc.workflow.persistence.types.ParameterEntity;
+import org.onap.sdc.workflow.api.types.Parameter;
 
-public class NoDuplicatesValidator implements ConstraintValidator<NoDuplicates, Collection<ParameterEntity>> {
+public class NoDuplicatesValidator implements ConstraintValidator<NoDuplicates, Collection<Parameter>> {
 
     @Override
-    public boolean isValid(Collection<ParameterEntity> parameterEntities, ConstraintValidatorContext context) {
-        if (Objects.isNull(parameterEntities) || parameterEntities.size() < 2) {
+    public boolean isValid(Collection<Parameter> parameters, ConstraintValidatorContext context) {
+        if (Objects.isNull(parameters) || parameters.size() < 2) {
             return true;
         }
         Set<String> testSet = new HashSet<>();
-        return !parameterEntities.stream().anyMatch(s -> !testSet.add(s.getName()));
+        return parameters.stream().allMatch(parameter -> testSet.add(parameter.getName()));
     }
 }
