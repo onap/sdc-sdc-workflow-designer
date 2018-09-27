@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_8ea45c09",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-09-27T12:09:16Z",
+      "side": 1,
+      "message": "Please use the latest version 0.8.2",
+      "range": {
+        "startLine": 64,
+        "startChar": 29,
+        "endLine": 64,
+        "endChar": 34
+      },
+      "revId": "1c8b2ecc4214ecef23f530cdbcfeb40b9bf55e25",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_8ef21c05",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-09-27T12:09:16Z",
+      "side": 1,
+      "message": "Please move this to pluginManagement and change version to 2.22.0",
+      "range": {
+        "startLine": 102,
+        "startChar": 1,
+        "endLine": 105,
+        "endChar": 1
+      },
+      "revId": "1c8b2ecc4214ecef23f530cdbcfeb40b9bf55e25",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_6ed9c082",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-09-27T12:09:16Z",
+      "side": 1,
+      "message": "These all are the default values anyway. No need to include them.",
+      "range": {
+        "startLine": 105,
+        "startChar": 2,
+        "endLine": 118,
+        "endChar": 21
+      },
+      "revId": "1c8b2ecc4214ecef23f530cdbcfeb40b9bf55e25",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_4ec3a48a",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-09-27T12:09:16Z",
+      "side": 1,
+      "message": "Please remove.",
+      "range": {
+        "startLine": 120,
+        "startChar": 12,
+        "endLine": 120,
+        "endChar": 39
+      },
+      "revId": "1c8b2ecc4214ecef23f530cdbcfeb40b9bf55e25",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_cecfb4b2",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-09-27T12:09:16Z",
+      "side": 1,
+      "message": "Please remove the meaningless comments.",
+      "range": {
+        "startLine": 145,
+        "startChar": 28,
+        "endLine": 145,
+        "endChar": 97
+      },
+      "revId": "1c8b2ecc4214ecef23f530cdbcfeb40b9bf55e25",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_aecef8b2",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-09-27T12:09:16Z",
+      "side": 1,
+      "message": "Please remove this comment, too.",
+      "range": {
+        "startLine": 147,
+        "startChar": 28,
+        "endLine": 147,
+        "endChar": 92
+      },
+      "revId": "1c8b2ecc4214ecef23f530cdbcfeb40b9bf55e25",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
