@@ -19,10 +19,12 @@ package org.onap.sdc.workflow.persistence.types;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.onap.sdc.workflow.api.validation.ValidName;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ValidName
 public class ActivitySpecParameter {
 
     private String name;
