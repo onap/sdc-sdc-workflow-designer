@@ -42,5 +42,5 @@ public interface WorkflowVersionManager {
 
     void deleteArtifact(String workflowId, String versionId);
 
-    void uploadArtifact(String workflowId, String versionId, MultipartFile artifact);
+    void uploadArtifact(String workflowId, String versionId, MultipartFile artifact, String description);
 }

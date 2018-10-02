@@ -72,15 +72,24 @@ public class WorkflowVersionManagerImplTest {
     }
 
     @Test
-    public void shouldReturnWorkflowVersionWhenExist() {
+    public void shouldReturnWorkflowVersionWhenExist() throws IOException {
         Version version = new Version(VERSION1_ID);
         WorkflowVersion workflowVersion = new WorkflowVersion(VERSION1_ID);
         doReturn(workflowVersion).when(versionMapperMock).versionToWorkflowVersion(any(Version.class));
         doReturn(version).when(versioningManagerMock).get(eq(ITEM1_ID), any(Version.class));
         doReturn(new ArrayList()).when(parameterRepositoryMock)
                 .list(eq(ITEM1_ID), eq(VERSION1_ID), any(ParameterRole.class));
-        workflowVersionManager.get(ITEM1_ID, VERSION1_ID);
+        doReturn(true).when(artifactRepositoryMock).isExist(ITEM1_ID,VERSION1_ID);
+        InputStream inputStreamMock = IOUtils.toInputStream("some test data for my input stream", "UTF-8");
+        ArtifactEntity artifactMock = new ArtifactEntity("fileName.txt", inputStreamMock);
+        artifactMock.setDescription("test desc");
+        artifactMock.setContentType("zip");
+        doReturn(Optional.of(artifactMock)).when(artifactRepositoryMock).get(ITEM1_ID,VERSION1_ID);
+        WorkflowVersion returnedWorkflowVersion = workflowVersionManager.get(ITEM1_ID, VERSION1_ID);
         verify(versioningManagerMock).get(ITEM1_ID, version);
+        assertEquals("fileName.txt",returnedWorkflowVersion.getMetaData().getArtifactFileName());
+        assertEquals("test desc",returnedWorkflowVersion.getMetaData().getArtifactFileDescription());
+        assertEquals("zip",returnedWorkflowVersion.getMetaData().getArtifactFileType());
     }
 
 /*    @Test
@@ -224,7 +233,7 @@ public class WorkflowVersionManagerImplTest {
         doReturn(DRAFT).when(versionStateMapperMock).versionStatusToWorkflowVersionState(version.getStatus());
 
         MockMultipartFile mockFile = new MockMultipartFile("data", "filename.txt", "text/plain", "some xml".getBytes());
-        workflowVersionManager.uploadArtifact(ITEM1_ID, VERSION1_ID, mockFile);
+        workflowVersionManager.uploadArtifact(ITEM1_ID, VERSION1_ID, mockFile,"desc");
 
         verify(artifactRepositoryMock).update(eq(ITEM1_ID), eq(VERSION1_ID), any(ArtifactEntity.class));
     }

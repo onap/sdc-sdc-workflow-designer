@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.Date;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.onap.sdc.workflow.api.types.WorkflowVersionMetaData;
 import org.onap.sdc.workflow.persistence.types.ParameterEntity;
 
 
@@ -38,6 +39,7 @@ public class WorkflowVersion {
     private boolean hasArtifact;
     private Date creationTime;
     private Date modificationTime;
+    private WorkflowVersionMetaData metaData;
 
     public WorkflowVersion(String id) {
         this.id = id;

@@ -136,8 +136,9 @@ public class WorkflowVersionController {
     @PutMapping("/{versionId}/artifact")
     @ApiOperation("Create/update artifact of a version")
     public void uploadArtifact(@RequestBody MultipartFile fileToUpload, @PathVariable("workflowId") String workflowId,
-            @PathVariable("versionId") String versionId, @UserId String user) {
-        versionManager.uploadArtifact(workflowId, versionId, fileToUpload);
+            @PathVariable("versionId") String versionId,
+            @RequestParam(value = "description", required = false) String description, @UserId String user) {
+        versionManager.uploadArtifact(workflowId, versionId, fileToUpload, description);
     }
 
     @GetMapping("/{versionId}/artifact")

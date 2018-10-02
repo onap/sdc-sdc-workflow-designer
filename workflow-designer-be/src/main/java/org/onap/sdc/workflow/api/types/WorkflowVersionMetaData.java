@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016-2018 European Support Limited
+ * Copyright © 2018 European Support Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,23 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.onap.sdc.workflow.api.types;
 
-import java.util.Date;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.onap.sdc.workflow.services.types.WorkflowVersionState;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
-public class WorkflowVersionResponse extends WorkflowVersionRequest {
+public class WorkflowVersionMetaData {
 
-    private String id;
-    private String baseId;
-    private WorkflowVersionState state;
-    private boolean hasArtifact;
-    private Date creationTime;
-    private Date modificationTime;
-    private WorkflowVersionMetaData metaData;
+    private String artifactFileName;
+    private String artifactFileType;
+    private String artifactFileDescription;
+
+    public WorkflowVersionMetaData() {
+    }
+
+    public WorkflowVersionMetaData(String fileName, String contentType, String description) {
+        artifactFileName = fileName;
+        artifactFileType = contentType;
+        artifactFileDescription = description;
+    }
 }

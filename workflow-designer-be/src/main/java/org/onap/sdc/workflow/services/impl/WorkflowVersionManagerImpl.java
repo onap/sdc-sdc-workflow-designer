@@ -29,6 +29,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import org.onap.sdc.workflow.api.types.WorkflowVersionMetaData;
 import org.onap.sdc.workflow.persistence.ArtifactRepository;
 import org.onap.sdc.workflow.persistence.ParameterRepository;
 import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
@@ -97,7 +98,14 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
     public WorkflowVersion get(String workflowId, String versionId) {
         WorkflowVersion workflowVersion = versionMapper.versionToWorkflowVersion(getVersion(workflowId, versionId));
         loadAndAddParameters(workflowId, workflowVersion);
-        workflowVersion.setHasArtifact(artifactRepository.isExist(workflowId,versionId));
+        boolean artifactExist = artifactRepository.isExist(workflowId, versionId);
+        if (artifactExist) {
+            workflowVersion.setHasArtifact(true);
+            Optional<ArtifactEntity> artifactEntityOptional = artifactRepository.get(workflowId, versionId);
+            ArtifactEntity artifact = artifactEntityOptional.get();
+            workflowVersion.setMetaData(new WorkflowVersionMetaData(artifact.getFileName(), artifact.getContentType(),
+                    artifact.getDescription()));
+        }
         return workflowVersion;
     }
 
@@ -173,7 +181,7 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
     }
 
     @Override
-    public void uploadArtifact(String workflowId, String versionId, MultipartFile artifact) {
+    public void uploadArtifact(String workflowId, String versionId, MultipartFile artifact, String description) {
         Version retrievedVersion = getVersion(workflowId, versionId);
         if (CERTIFIED.equals(versionStateMapper.versionStatusToWorkflowVersionState(retrievedVersion.getStatus()))) {
             throw new VersionModificationException(workflowId, versionId);
@@ -182,6 +190,8 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
         try (InputStream artifactData = artifact.getInputStream()) {
             ArtifactEntity artifactEntity =
                     new ArtifactEntity(StringUtils.cleanPath(artifact.getOriginalFilename()), artifactData);
+            artifactEntity.setContentType(artifact.getContentType());
+            artifactEntity.setDescription(description);
             artifactRepository.update(workflowId, versionId, artifactEntity);
             Version updatedVersion = versioningManager.get(workflowId, new Version(versionId));
             if(updatedVersion.getState().isDirty()) {

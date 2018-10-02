@@ -42,6 +42,7 @@ import org.springframework.stereotype.Repository;
 public class ArtifactRepositoryImpl implements ArtifactRepository {
 
     private static final String FILE_NAME_PROPERTY = "fileName";
+    private static final String CONTENT_TYPE_PROPERTY = "contentType";
     private static final String EMPTY_DATA = "{}";
 
     private final ZusammenAdaptor zusammenAdaptor;
@@ -56,7 +57,9 @@ public class ArtifactRepositoryImpl implements ArtifactRepository {
 
         ZusammenElement artifactElement = buildStructuralElement(WorkflowElementType.ARTIFACT.name(), Action.UPDATE);
         artifactElement.setData(artifactEntity.getArtifactData());
+        artifactElement.getInfo().setDescription(artifactEntity.getDescription());
         artifactElement.getInfo().addProperty(FILE_NAME_PROPERTY, artifactEntity.getFileName());
+        artifactElement.getInfo().addProperty(CONTENT_TYPE_PROPERTY,artifactEntity.getContentType());
 
         SessionContext context = createSessionContext();
         ElementContext elementContext = new ElementContext(workflowId, versionId);
@@ -81,6 +84,8 @@ public class ArtifactRepositoryImpl implements ArtifactRepository {
 
         ArtifactEntity artifact = new ArtifactEntity(artifactElement.getInfo().getProperty(FILE_NAME_PROPERTY),
                 artifactElement.getData());
+        artifact.setContentType(artifactElement.getInfo().getProperty(CONTENT_TYPE_PROPERTY));
+        artifact.setDescription(artifactElement.getInfo().getDescription());
 
         return Optional.of(artifact);
     }

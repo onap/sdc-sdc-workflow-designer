@@ -34,6 +34,7 @@ import org.openecomp.sdc.common.session.SessionContextProviderFactory;
 public class ArtifactRepositoryTest {
 
     private static final String FILE_NAME_PROPERTY = "fileName";
+    private static final String CONTENT_TYPE_PROPERTY = "contentType";
     private static final String FILE_NAME = "fileName.txt";
     private static final String ITEM1_ID = "item_id_1";
     private static final String VERSION1_ID = "version_id_1";
@@ -65,9 +66,14 @@ public class ArtifactRepositoryTest {
     @Test
     public void shouldGetArtifactWhenExist() throws IOException {
 
+        String description = "zip file artifact";
+        String contentType =  "zip";
+
         ZusammenElement artifactElement = buildStructuralElement(WorkflowElementType.ARTIFACT.name(), Action.UPDATE);
         artifactElement.setData(IOUtils.toInputStream("some test data for my input stream", "UTF-8"));
         artifactElement.getInfo().addProperty(FILE_NAME_PROPERTY, FILE_NAME);
+        artifactElement.getInfo().addProperty(CONTENT_TYPE_PROPERTY,contentType);
+        artifactElement.getInfo().setDescription(description);
         Optional<Element> elementOptional = Optional.of(artifactElement);
 
         doReturn(elementOptional).when(zusammenAdaptorMock)
@@ -77,6 +83,8 @@ public class ArtifactRepositoryTest {
         Optional<ArtifactEntity> result = artifactRepository.get(ITEM1_ID, VERSION1_ID);
         assertTrue(result.isPresent());
         assertEquals(FILE_NAME,result.get().getFileName());
+        assertEquals(contentType,result.get().getContentType());
+        assertEquals(description,result.get().getDescription());
         verify(zusammenAdaptorMock).getElementByName(any(SessionContext.class), any(ElementContext.class), isNull(Id.class),
                 eq(WorkflowElementType.ARTIFACT.name()));
     }
@@ -90,7 +98,7 @@ public class ArtifactRepositoryTest {
     }
 
     @Test
-    public void shouldDeleteArtifact(){
+    public void shouldDeleteArtifact() {
         artifactRepository.delete(ITEM1_ID,VERSION1_ID);
         verify(zusammenAdaptorMock).saveElement(any(SessionContext.class), any(ElementContext.class), any(ZusammenElement.class),
                 eq("Delete WorkflowVersion Artifact Data"));

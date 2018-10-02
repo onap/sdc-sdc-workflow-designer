@@ -23,6 +23,8 @@ import lombok.Data;
 public class ArtifactEntity {
 
     private String fileName;
+    private String contentType;
+    private String description;
     private InputStream artifactData;
 
     public ArtifactEntity(String fileName, InputStream artifactData) {
