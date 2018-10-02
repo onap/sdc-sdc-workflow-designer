@@ -23,27 +23,44 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.Getter;
 import org.onap.sdc.workflow.services.types.Sort;
+import org.openecomp.sdc.logging.api.Logger;
+import org.openecomp.sdc.logging.api.LoggerFactory;
 
 @Getter
 public class Sorting {
 
     private static final String SORTS_DELIMITER = ",";
     private static final String DIRECTION_DELIMITER = ":";
-    private static final String ASCENDING_ORDER = "asc";
+    private static final String ASC = "asc";
+    private static final String DESC = "desc";
+    private static final Logger LOGGER = LoggerFactory.getLogger(Sorting.class);
 
     private List<Sort> sorts = Collections.emptyList();
 
     public void setSort(String sortString) {
-        this.sorts = Arrays.stream(sortString.split(SORTS_DELIMITER)).map(Sorting::formatSort).filter(Objects::nonNull)
-                           .collect(Collectors.toList());
+        this.sorts = Arrays.stream(sortString.split(SORTS_DELIMITER))
+                             .map(Sorting::formatSort)
+                             .filter(Objects::nonNull)
+                             .collect(Collectors.toList());
     }
 
     private static Sort formatSort(String sort) {
-        String[] tokens = sort.split(DIRECTION_DELIMITER);
-        try {
-            return new Sort(tokens[0], ASCENDING_ORDER.equalsIgnoreCase(tokens[1]));
-        } catch (Exception e) {
-            return null;
+        String[] tokens = sort.split(DIRECTION_DELIMITER, 2);
+
+        return tokens.length == 2
+                       ? formatSingleSort(tokens[0], tokens[1])
+                       : new Sort(tokens[0], true);
+    }
+
+    private static Sort formatSingleSort(String property, String direction) {
+        if (ASC.equalsIgnoreCase(direction)) {
+            return new Sort(property, true);
         }
+        if (DESC.equalsIgnoreCase(direction)) {
+            return new Sort(property, false);
+        }
+        LOGGER.warn("Sorting direction {} of property {} is invalid. Allowed direction values: asc, desc.", direction,
+                property);
+        return null;
     }
 }

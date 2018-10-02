@@ -22,7 +22,12 @@ public class VersionStateModificationException extends RuntimeException {
 
     public VersionStateModificationException(String workflowId, String versionId, WorkflowVersionState sourceState,
             WorkflowVersionState targetState) {
+        this(workflowId, versionId, sourceState, targetState, null);
+    }
+
+    public VersionStateModificationException(String workflowId, String versionId, WorkflowVersionState sourceState,
+            WorkflowVersionState targetState, Exception submitException) {
         super(String.format("Workflow %s, version %s: state can not be changed from %s to %s", workflowId, versionId,
-                sourceState.name(), targetState.name()));
+                sourceState.name(), targetState.name()), submitException);
     }
 }
