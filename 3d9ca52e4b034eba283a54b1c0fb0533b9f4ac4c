@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_4aa41757",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/types/PagingConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-10-02T11:20:38Z",
+      "side": 1,
+      "message": "There\u0027s no need to throw an exception. The fact you made the only constructor private should already make instantiation impossible.",
+      "revId": "3d9ca52e4b034eba283a54b1c0fb0533b9f4ac4c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
