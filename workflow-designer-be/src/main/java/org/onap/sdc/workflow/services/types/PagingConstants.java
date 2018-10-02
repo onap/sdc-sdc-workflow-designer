@@ -5,4 +5,8 @@ public class PagingConstants {
     public static final int DEFAULT_OFFSET = 0;
     public static final int DEFAULT_LIMIT = 200;
     public static final int MAX_LIMIT = 2000;
+
+    private PagingConstants() {
+        throw new IllegalStateException("Constants class");
+    }
 }

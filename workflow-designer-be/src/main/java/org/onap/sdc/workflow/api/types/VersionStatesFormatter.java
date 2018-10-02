@@ -37,16 +37,17 @@ public class VersionStatesFormatter {
     }
 
     public void setState(String value) {
-        this.versionStates = formatString(value);
+        setVersionState(value);
     }
 
     private static Set<WorkflowVersionState> formatString(String value) {
         try {
             return value == null ? null : Arrays.stream(value.split(",")).map(WorkflowVersionState::valueOf)
-                                                .collect(Collectors.toSet());
-        } catch (Exception ignore) {
-            LOGGER.info(
-                    "value is invalid and cannot be formatted to a set of version states, therefore it set to empty set");
+                                                  .collect(Collectors.toSet());
+        } catch (IllegalArgumentException ex) {
+            LOGGER.warn(String.format(
+                    "value %s is invalid and cannot be formatted to a set of version states, therefore it set to empty set",
+                    value), ex);
             return Collections.emptySet();
         }
     }

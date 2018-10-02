@@ -21,7 +21,7 @@ public class VersionStatesFormatterTest {
 
     @Test
     public void setVersionStateInvalid() {
-        versionStateSet.setVersionState("aaa");
+        versionStateSet.setVersionState(",,a");
         assertEquals(Collections.emptySet() ,versionStateSet.getVersionStates());
     }
 

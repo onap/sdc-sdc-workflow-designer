@@ -34,8 +34,6 @@ import org.onap.sdc.workflow.persistence.ParameterRepository;
 import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
 import org.onap.sdc.workflow.persistence.types.ParameterEntity;
 import org.onap.sdc.workflow.persistence.types.ParameterRole;
-import org.onap.sdc.workflow.services.types.WorkflowVersion;
-import org.onap.sdc.workflow.services.types.WorkflowVersionState;
 import org.onap.sdc.workflow.services.WorkflowVersionManager;
 import org.onap.sdc.workflow.services.exceptions.EntityNotFoundException;
 import org.onap.sdc.workflow.services.exceptions.InvalidArtifactException;
@@ -44,6 +42,8 @@ import org.onap.sdc.workflow.services.exceptions.VersionModificationException;
 import org.onap.sdc.workflow.services.exceptions.VersionStateModificationException;
 import org.onap.sdc.workflow.services.impl.mappers.VersionMapper;
 import org.onap.sdc.workflow.services.impl.mappers.VersionStateMapper;
+import org.onap.sdc.workflow.services.types.WorkflowVersion;
+import org.onap.sdc.workflow.services.types.WorkflowVersionState;
 import org.openecomp.sdc.logging.api.Logger;
 import org.openecomp.sdc.logging.api.LoggerFactory;
 import org.openecomp.sdc.versioning.VersioningManager;
@@ -158,15 +158,14 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
 
     @Override
     public void updateState(String workflowId, String versionId, WorkflowVersionState state) {
-        WorkflowVersionState retrievedState =
-                versionStateMapper.versionStatusToWorkflowVersionState(getVersion(workflowId, versionId).getStatus());
-
+        WorkflowVersionState retrievedState = getState(workflowId, versionId);
         if (state == CERTIFIED) {
             try {
                 versioningManager.submit(workflowId, new Version(versionId),
                         String.format("Update version state to %s", state.name()));
-            } catch (Exception e) {
-                throw new VersionStateModificationException(workflowId, versionId, retrievedState, state);
+            } catch (Exception submitException) {
+                throw new VersionStateModificationException(workflowId, versionId, retrievedState,
+                        state, submitException);
             }
         } else {
             throw new VersionStateModificationException(workflowId, versionId, retrievedState, state);

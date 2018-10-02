@@ -18,8 +18,14 @@ public class SortingTest {
 
     @Test
     public void setSortInvalid() {
-        sorting.setSort("a");
+        sorting.setSort("name:asc:a,:,");
         assertEquals(Collections.emptyList(), sorting.getSorts());
+    }
+
+    @Test
+    public void setSortAscByDefault() {
+        sorting.setSort("name");
+        assertEquals(Collections.singletonList(new Sort("name", true)), sorting.getSorts());
     }
 
     @Test
@@ -36,7 +42,10 @@ public class SortingTest {
 
     @Test
     public void setSortMoreThanOne() {
-        sorting.setSort("name:asc,date:desc");
-        assertEquals(Arrays.asList(new Sort("name", true), new Sort("date", false)), sorting.getSorts());
+        sorting.setSort("name:asc,type,date:desc");
+        assertEquals(Arrays.asList(
+                new Sort("name", true),
+                new Sort("type", true),
+                new Sort("date", false)), sorting.getSorts());
     }
 }
