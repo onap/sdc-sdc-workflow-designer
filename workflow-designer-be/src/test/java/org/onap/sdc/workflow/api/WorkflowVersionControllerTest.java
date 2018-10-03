@@ -116,7 +116,7 @@ public class WorkflowVersionControllerTest {
 
         mockMvc.perform(
                 get(RestPath.getWorkflowVersion(ITEM1_ID, VERSION1_ID)).header(RestParams.USER_ID_HEADER, USER_ID)
-                        .contentType(APPLICATION_JSON)).andDo(print()).andExpect(status().isOk())
+                        .contentType(APPLICATION_JSON)).andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(VERSION1_ID)));
         verify(workflowVersionManagerMock).get(ITEM1_ID, VERSION1_ID);
     }
