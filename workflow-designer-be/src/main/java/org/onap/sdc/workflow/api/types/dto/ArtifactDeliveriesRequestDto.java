@@ -16,30 +16,26 @@
 
 package org.onap.sdc.workflow.api.types.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
- * This class is a simple data object for the Artifact-Deliveries API
- * It will be used to build a HTTP request to be sent to SDC external API
- *
- * method
- *      the HTTP method (PUT, POST etc) that will be executed.
- *
- *  endpoint
- *          the server to which the request will be sent.
- *          correct format is <IP>:<PORT>
+ * This class is a simple data object for the Artifact-Deliveries API.
+ * It will be used to build a HTTP request to be sent to SDC external API.
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ArtifactDeliveriesRequestDto {
 
+    /**
+     * The HTTP method (PUT, POST etc) that will be executed.
+     */
     private String method;
+
+    /**
+     * The server to which the request will be sent. Correct format is &lt;IP&gt;:&lt;PORT&gt;.
+     */
     private String endpoint;
-
-    public ArtifactDeliveriesRequestDto(){
-    }
-
-    public ArtifactDeliveriesRequestDto(String method, String endpoint) {
-        this.method = method;
-        this.endpoint = endpoint;
-    }
 }
