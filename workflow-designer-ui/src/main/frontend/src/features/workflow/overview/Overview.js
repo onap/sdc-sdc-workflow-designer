@@ -23,8 +23,7 @@ import {
 } from 'features/workflow/overview/overviewSelectors';
 import {
     getVersionsAction,
-    updateWorkflowAction,
-    selectVersionAction
+    updateWorkflowAction
 } from 'features/workflow/overview/overviewConstansts';
 import { NEW_VERSION_MODAL } from 'shared/modal/modalWrapperComponents';
 import { showCustomModalAction } from 'shared/modal/modalWrapperActions';
@@ -42,7 +41,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         getOverview: workflowId => dispatch(getVersionsAction(workflowId)),
-        onSelectVersion: payload => dispatch(selectVersionAction(payload)),
         showNewVersionModal: () =>
             dispatch(
                 showCustomModalAction({

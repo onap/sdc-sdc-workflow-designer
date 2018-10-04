@@ -36,7 +36,7 @@ export default ({ element, bo, bpmnFactory, activityInputsOutputs }) => {
         })
     );
 
-    const outputs = activityInputsOutputs.inputs.map(({ name, value }) =>
+    const outputs = activityInputsOutputs.outputs.map(({ name, value }) =>
         createElement(OUTPUT, newInputOutput, bpmnFactory, {
             name,
             type: 'Text',
