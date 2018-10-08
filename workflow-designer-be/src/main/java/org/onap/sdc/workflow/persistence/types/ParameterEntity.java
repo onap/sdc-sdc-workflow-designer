@@ -25,4 +25,12 @@ public class ParameterEntity {
     private String name;
     private ParameterType type;
     private boolean mandatory;
+
+    public ParameterEntity(){
+
+    }
+
+    public ParameterEntity(String name) {
+        this.name = name;
+    }
 }
