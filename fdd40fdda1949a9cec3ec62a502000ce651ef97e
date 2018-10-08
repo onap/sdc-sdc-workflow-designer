@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_1fe4fa39",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/persistence/types/ParameterEntity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 2119
+      },
+      "writtenOn": "2018-10-08T13:38:10Z",
+      "side": 1,
+      "message": "Use NoArgsConstructor\nhttps://projectlombok.org/api/lombok/NoArgsConstructor.html",
+      "revId": "fdd40fdda1949a9cec3ec62a502000ce651ef97e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_9fcf8ab0",
+        "filename": "workflow-designer-be/src/test/java/org/onap/sdc/workflow/persistence/impl/ParameterRepositoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 2119
+      },
+      "writtenOn": "2018-10-08T13:38:10Z",
+      "side": 1,
+      "message": "Why not to use constructor with params?",
+      "revId": "fdd40fdda1949a9cec3ec62a502000ce651ef97e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_ffbd7603",
+        "filename": "workflow-designer-be/src/test/java/org/onap/sdc/workflow/services/impl/WorkflowVersionManagerImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 2119
+      },
+      "writtenOn": "2018-10-08T13:38:10Z",
+      "side": 1,
+      "message": "Collections.emptyList() is more suitable than new ArrayList()\nThis is suitable for most os new ArrayList\u003c\u003e in this file\n\nhttps://docs.oracle.com/javase/6/docs/api/java/util/Collections.html#emptyList%28%29",
+      "revId": "fdd40fdda1949a9cec3ec62a502000ce651ef97e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
