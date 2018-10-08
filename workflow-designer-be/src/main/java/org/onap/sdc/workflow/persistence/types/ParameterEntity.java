@@ -17,12 +17,18 @@
 package org.onap.sdc.workflow.persistence.types;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class ParameterEntity {
 
     private String id;
     private String name;
     private ParameterType type;
     private boolean mandatory;
+
+    public ParameterEntity(String name) {
+        this.name = name;
+    }
 }

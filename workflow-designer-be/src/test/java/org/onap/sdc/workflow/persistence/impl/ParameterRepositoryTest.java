@@ -25,11 +25,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.onap.sdc.workflow.persistence.types.ParameterEntity;
 import org.onap.sdc.workflow.persistence.impl.types.ParameterPropertyName;
+import org.onap.sdc.workflow.persistence.impl.types.WorkflowElementType;
+import org.onap.sdc.workflow.persistence.types.ParameterEntity;
 import org.onap.sdc.workflow.persistence.types.ParameterRole;
 import org.onap.sdc.workflow.persistence.types.ParameterType;
-import org.onap.sdc.workflow.persistence.impl.types.WorkflowElementType;
 import org.openecomp.core.zusammen.api.ZusammenAdaptor;
 import org.openecomp.sdc.common.session.SessionContextProviderFactory;
 
@@ -161,6 +161,36 @@ public class ParameterRepositoryTest {
         verify(zusammenAdaptorMock)
                 .saveElement(any(SessionContext.class), any(ElementContext.class), any(ZusammenElement.class),
                         eq("Delete all INPUT"));
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void shouldFailIfParentElementDoesNotExist() {
+        doReturn(Optional.empty()).when(zusammenAdaptorMock)
+                                 .getElementInfoByName(any(SessionContext.class), any(ElementContext.class), isNull(),
+                                         eq(WorkflowElementType.INPUTS.name()));
+        parameterRepository.deleteAll(ITEM1_ID, VERSION1_ID, ParameterRole.INPUT);
+    }
+
+    @Test
+    public void shouldCreateParameter() {
+        ZusammenElement zusammenParentElement = new ZusammenElement();
+        zusammenParentElement.setElementId(new Id(PARAMETERS_PARENT_ID));
+        ZusammenElement zusammenElement = new ZusammenElement();
+        zusammenElement.setElementId(new Id(PARAMETER1_ID));
+        zusammenParentElement.addSubElement(zusammenElement);
+        doReturn(zusammenParentElement).when(zusammenAdaptorMock)
+                                       .saveElement(any(SessionContext.class), any(ElementContext.class),
+                                               any(ZusammenElement.class), eq("Create WorkflowVersion Parameter Element"));
+        ParameterEntity parameterEntity = new ParameterEntity("test_input_parameter");
+        parameterEntity.setType(ParameterType.INTEGER);
+        parameterEntity.setMandatory(true);
+
+        ParameterEntity returnedParameter =
+                parameterRepository.create(ITEM1_ID, VERSION1_ID, ParameterRole.INPUT, parameterEntity);
+        verify(zusammenAdaptorMock)
+                .saveElement(any(SessionContext.class), any(ElementContext.class), any(ZusammenElement.class),
+                        eq("Create WorkflowVersion Parameter Element"));
+        assertEquals(PARAMETER1_ID, returnedParameter.getId());
     }
 
 }
