@@ -1,6 +1,7 @@
 package org.onap.sdc.workflow.persistence.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Matchers.any;
@@ -10,11 +11,13 @@ import static org.mockito.Mockito.verify;
 import static org.openecomp.core.zusammen.api.ZusammenUtil.buildStructuralElement;
 
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.Element;
+import com.amdocs.zusammen.adaptor.inbound.api.types.item.ElementInfo;
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.ZusammenElement;
 import com.amdocs.zusammen.datatypes.Id;
 import com.amdocs.zusammen.datatypes.SessionContext;
 import com.amdocs.zusammen.datatypes.item.Action;
 import com.amdocs.zusammen.datatypes.item.ElementContext;
+import com.amdocs.zusammen.datatypes.item.Info;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Optional;
@@ -82,6 +85,19 @@ public class ArtifactRepositoryTest {
     }
 
     @Test
+    public void shouldReturnOptionalEmptyWhenDoesNotExist() throws IOException {
+
+        doReturn(Optional.empty()).when(zusammenAdaptorMock)
+                                 .getElementByName(any(SessionContext.class), any(ElementContext.class), isNull(Id.class),
+                                         eq(WorkflowElementType.ARTIFACT.name()));
+
+        Optional<ArtifactEntity> result = artifactRepository.get(ITEM1_ID, VERSION1_ID);
+        verify(zusammenAdaptorMock).getElementByName(any(SessionContext.class), any(ElementContext.class), isNull(Id.class),
+                eq(WorkflowElementType.ARTIFACT.name()));
+        assertFalse(result.isPresent());
+    }
+
+    @Test
     public void shouldCreateArtifactStructure() {
         artifactRepository.createStructure(ITEM1_ID, VERSION1_ID);
         verify(zusammenAdaptorMock)
@@ -90,10 +106,25 @@ public class ArtifactRepositoryTest {
     }
 
     @Test
-    public void shouldDeleteArtifact(){
+    public void shouldDeleteArtifact() {
         artifactRepository.delete(ITEM1_ID,VERSION1_ID);
         verify(zusammenAdaptorMock).saveElement(any(SessionContext.class), any(ElementContext.class), any(ZusammenElement.class),
                 eq("Delete WorkflowVersion Artifact Data"));
+    }
+
+    @Test
+    public void shouldReturnTrueIfExists() {
+        ElementInfo elementInfo = new ElementInfo();
+        elementInfo.setId(new Id("test_id"));
+        Info info = new Info();
+        info.addProperty(FILE_NAME_PROPERTY, "test_fileName");
+        elementInfo.setInfo(info);
+
+        doReturn(Optional.of(elementInfo)).when(zusammenAdaptorMock)
+                             .getElementInfoByName(any(SessionContext.class), any(ElementContext.class), isNull(),
+                                     eq(WorkflowElementType.ARTIFACT.name()));
+
+        assertTrue(artifactRepository.isExist(ITEM1_ID, VERSION1_ID));
     }
 
 }
