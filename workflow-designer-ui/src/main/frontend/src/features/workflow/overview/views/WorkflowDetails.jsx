@@ -19,7 +19,6 @@ import { Input, Button } from 'sdc-ui/lib/react';
 import PropTypes from 'prop-types';
 
 import Description from 'shared/components/Description';
-import { VersionInfo, LabeledValue } from 'shared/components/VersionInfo';
 
 class WorkflowDetails extends Component {
     handleSubmitForm = e => {
@@ -29,13 +28,7 @@ class WorkflowDetails extends Component {
     };
 
     render() {
-        const {
-            name,
-            workflowId,
-            versionId,
-            description,
-            workflowDetailsChanged
-        } = this.props;
+        const { name, description, workflowDetailsChanged } = this.props;
         return (
             <div className="workflow-details">
                 <form onSubmit={this.handleSubmitForm}>
@@ -57,12 +50,6 @@ class WorkflowDetails extends Component {
                         </Button>
                     </div>
                 </form>
-                <VersionInfo>
-                    {versionId && (
-                        <LabeledValue title="UUID" value={versionId} />
-                    )}
-                    <LabeledValue title="Invariant UUID" value={workflowId} />
-                </VersionInfo>
             </div>
         );
     }
@@ -74,8 +61,6 @@ WorkflowDetails.propTypes = {
     modified: PropTypes.string,
     description: PropTypes.string,
     defaultDescription: PropTypes.string,
-    workflowId: PropTypes.string,
-    versionId: PropTypes.string,
     updateWorkflow: PropTypes.func,
     workflowDetailsChanged: PropTypes.func
 };

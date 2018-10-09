@@ -94,21 +94,6 @@ exports[`OverviewView Snapshot renders correctly 1`] = `
           </button>
         </div>
       </form>
-      <div
-        className="version-info-part"
-      >
-        
-        <div
-          className="label"
-        >
-          Invariant UUID
-        </div>
-        <div
-          className="value selectable"
-        >
-          id1
-        </div>
-      </div>
     </div>
     <div
       className="separator overview-separator"

@@ -94,8 +94,6 @@ class OverviewView extends Component {
                         description={workflow.description}
                         modified={workflow.modified}
                         created={workflow.created}
-                        workflowId={workflow.id}
-                        versionId={selectedVersion}
                         workflowDetailsChanged={this.workflowDetailsChanged}
                         updateWorkflow={this.onUpdateWorkflow}
                     />
