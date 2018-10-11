@@ -15,3 +15,18 @@
 */
 export const getComposition = state =>
     state && state.currentVersion && state.currentVersion.composition.diagram;
+
+export const getCompositionHasErrors = state =>
+    state &&
+    state.currentVersion &&
+    state.currentVersion.composition &&
+    state.currentVersion.composition.errors &&
+    Boolean(
+        state.currentVersion.composition.errors.find(item => !item.isValid)
+    );
+
+export const getErrors = state =>
+    state &&
+    state.currentVersion &&
+    state.currentVersion.composition &&
+    state.currentVersion.composition.errors;

@@ -15,6 +15,7 @@
 */
 import React, { Component } from 'react';
 import fileSaver from 'file-saver';
+import isEqual from 'lodash.isequal';
 import CustomModeler from './custom-modeler';
 import propertiesPanelModule from 'bpmn-js-properties-panel';
 import propertiesProviderModule from './custom-properties-provider/provider/camunda';
@@ -24,7 +25,12 @@ import PropTypes from 'prop-types';
 import CompositionButtons from './components/CompositionButtonsPanel';
 import { setElementInputsOutputs } from './bpmnUtils.js';
 import { I18n } from 'react-redux-i18n';
-import { PROCESS_DEFAULT_ID } from './compositionConstants';
+import {
+    PROCESS_DEFAULT_ID,
+    COMPOSITION_ERROR_COLOR,
+    COMPOSITION_VALID_COLOR
+} from './compositionConstants';
+
 class CompositionView extends Component {
     static propTypes = {
         compositionUpdate: PropTypes.func,
@@ -33,7 +39,9 @@ class CompositionView extends Component {
         name: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
         versionName: PropTypes.string,
         inputOutput: PropTypes.object,
-        activities: PropTypes.array
+        activities: PropTypes.array,
+        validationUpdate: PropTypes.func,
+        errors: PropTypes.array
     };
 
     constructor() {
@@ -46,9 +54,25 @@ class CompositionView extends Component {
             diagram: false
         };
     }
-
+    componentDidUpdate(prevProps) {
+        const { errors } = this.props;
+        if (!isEqual(prevProps.errors, errors)) {
+            errors.map(item => {
+                this.modeling.setColor([item.element], {
+                    fill: item.isValid
+                        ? COMPOSITION_VALID_COLOR
+                        : COMPOSITION_ERROR_COLOR
+                });
+            });
+        }
+    }
     componentDidMount() {
-        const { composition, activities, inputOutput } = this.props;
+        const {
+            composition,
+            activities,
+            inputOutput,
+            validationUpdate
+        } = this.props;
 
         this.modeler = new CustomModeler({
             propertiesPanel: {
@@ -64,7 +88,8 @@ class CompositionView extends Component {
             workflow: {
                 activities: activities,
                 getActivityInputsOutputs: this.getActivityInputsOutputs,
-                workflowInputOutput: inputOutput
+                workflowInputOutput: inputOutput,
+                validationUpdate: validationUpdate
             }
         });
 
@@ -72,6 +97,7 @@ class CompositionView extends Component {
         this.setDiagramToBPMN(composition ? composition : newDiagramXML);
         this.modeler.on('element.out', () => this.exportDiagramToStore());
         this.bpmnContainer.current.click();
+        this.modeling = this.modeler.get('modeling');
     }
 
     getActivityInputsOutputs = selectedValue => {
@@ -96,9 +122,9 @@ class CompositionView extends Component {
                     I18n.t('workflow.composition.importErrorMsg')
                 );
             }
-            let canvas = modeler.get('canvas');
+            const canvas = modeler.get('canvas');
             canvas.zoom('fit-viewport');
-            let { businessObject } = canvas._rootElement;
+            const { businessObject } = canvas._rootElement;
 
             this.setDefaultIdAndName(businessObject);
             setElementInputsOutputs(
@@ -109,7 +135,7 @@ class CompositionView extends Component {
         });
     };
     setDefaultIdAndName = businessObject => {
-        const { name } = this.props;
+        const { name = '' } = this.props;
         if (!businessObject.name) {
             businessObject.name = name;
         }

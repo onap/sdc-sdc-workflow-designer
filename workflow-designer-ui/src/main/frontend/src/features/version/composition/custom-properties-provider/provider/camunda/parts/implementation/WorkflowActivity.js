@@ -69,7 +69,11 @@ const workflowActivity = (element, config, bpmnFactory, options, translate) => {
         },
 
         validate: function(element, values) {
-            return isWorkflowActivity(element) && !values.workflowActivity
+            const hasErrors =
+                isWorkflowActivity(element) && !values.workflowActivity;
+            config.validationUpdate(element, !hasErrors);
+
+            return hasErrors
                 ? { workflowActivity: 'Must provide a value' }
                 : {};
         },

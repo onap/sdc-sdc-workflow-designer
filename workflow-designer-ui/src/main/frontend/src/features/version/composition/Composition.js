@@ -15,10 +15,10 @@
 */
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
-import { updateComposition } from './compositionActions';
+import { updateComposition, updateValidation } from './compositionActions';
 import CompositionView from './CompositionView';
 import { showErrorModalAction } from '../../../shared/modal/modalWrapperActions';
-import { getComposition } from './compositionSelectors';
+import { getComposition, getErrors } from './compositionSelectors';
 import { getWorkflowName } from '../../workflow/workflowSelectors';
 import { activitiesSelector } from 'features/activities/activitiesSelectors';
 import { getInputOutputForComposition } from 'features/version/inputOutput/inputOutputSelectors';
@@ -29,7 +29,8 @@ function mapStateToProps(state) {
         name: getWorkflowName(state),
         versionName: getVersionInfo(state).name,
         activities: activitiesSelector(state),
-        inputOutput: getInputOutputForComposition(state)
+        inputOutput: getInputOutputForComposition(state),
+        errors: getErrors(state)
     };
 }
 
@@ -45,7 +46,9 @@ function mapDispatchToProps(dispatch) {
                     withButtons: true,
                     closeButtonText: I18n.t('buttons.okBtn')
                 })
-            )
+            ),
+        validationUpdate: (element, isValid) =>
+            dispatch(updateValidation({ element, isValid }))
     };
 }
 

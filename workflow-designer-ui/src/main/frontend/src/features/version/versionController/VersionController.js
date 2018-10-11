@@ -32,6 +32,7 @@ import {
 import { workflowVersionFetchRequestedAction } from '../versionConstants';
 import { getIsCertified } from 'features/version/general/generalSelectors';
 import { getIOErrors } from 'features/version/inputOutput/inputOutputSelectors';
+import { getCompositionHasErrors } from 'features/version/composition/compositionSelectors';
 
 function mapStateToProps(state) {
     return {
@@ -39,7 +40,7 @@ function mapStateToProps(state) {
         workflowId: getWorkflowId(state),
         versionsList: getSortedVersions(state),
         savedParams: getSavedObjParams(state),
-        getIOErrors: getIOErrors(state),
+        hasErrors: getIOErrors(state) || getCompositionHasErrors(state),
         isCertifyDisable: getIsCertified(state),
         currentWorkflowVersion: state.currentVersion.general
     };

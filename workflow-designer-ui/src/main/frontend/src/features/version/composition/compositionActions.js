@@ -13,9 +13,14 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { SET_COMPOSITION } from './compositionConstants';
+import { SET_COMPOSITION, UPDATE_ERRORS } from './compositionConstants';
 
 export const updateComposition = payload => ({
     type: SET_COMPOSITION,
+    payload
+});
+
+export const updateValidation = payload => ({
+    type: UPDATE_ERRORS,
     payload
 });

@@ -14,6 +14,7 @@
 * limitations under the License.
 */
 export const SET_COMPOSITION = 'composition/SET_COMPOSITION';
+export const UPDATE_ERRORS = 'composition/UPDATE_ERRORS';
 
 export const bpmnElementsTypes = {
     EXTENSION_ElEMENTS: 'bpmn:ExtensionElements',
@@ -23,3 +24,6 @@ export const bpmnElementsTypes = {
 };
 
 export const PROCESS_DEFAULT_ID = 'Process_1';
+
+export const COMPOSITION_ERROR_COLOR = '#f0c2c2';
+export const COMPOSITION_VALID_COLOR = 'white';

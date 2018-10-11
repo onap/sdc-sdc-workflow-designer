@@ -14,13 +14,24 @@
 * limitations under the License.
 */
 import { SET_COMPOSITION } from './compositionConstants';
+import { UPDATE_ERRORS } from './compositionConstants';
 
-export default (state = {}, action) => {
+export default (state = { diagram: false, errors: [] }, action) => {
     switch (action.type) {
         case SET_COMPOSITION:
             return {
+                ...state,
                 diagram: action.payload
             };
+        case UPDATE_ERRORS: {
+            const filteredErrors = state.errors.filter(
+                el => el.id !== action.payload.id
+            );
+            return {
+                ...state,
+                errors: [...filteredErrors, action.payload]
+            };
+        }
         default:
             return state;
     }
