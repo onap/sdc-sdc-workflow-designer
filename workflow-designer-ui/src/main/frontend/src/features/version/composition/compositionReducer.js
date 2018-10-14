@@ -25,7 +25,7 @@ export default (state = { diagram: false, errors: [] }, action) => {
             };
         case UPDATE_ERRORS: {
             const filteredErrors = state.errors.filter(
-                el => el.id !== action.payload.id
+                item => item.element.id !== action.payload.element.id
             );
             return {
                 ...state,
