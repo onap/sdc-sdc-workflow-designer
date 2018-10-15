@@ -1,0 +1,8 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Malek Zoabi <malek.zoabi@amdocs.com>
+Code-Review+2: Avi Gaffa <avi.gaffa@amdocs.com>
+Submitted-by: Avi Gaffa <avi.gaffa@amdocs.com>
+Submitted-at: Mon, 15 Oct 2018 13:02:48 +0000
+Reviewed-on: https://gerrit.onap.org/r/70470
+Project: sdc/sdc-workflow-designer
+Branch: refs/heads/master
