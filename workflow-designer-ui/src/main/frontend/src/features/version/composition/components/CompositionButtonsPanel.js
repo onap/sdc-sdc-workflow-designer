@@ -19,14 +19,16 @@ import CompositionButton from './CompositionButton';
 
 const Divider = () => <div className="divider" />;
 
-const CompositionButtons = ({ onClean, onUpload, onDownload }) => (
+const CompositionButtons = ({ onClean, onUpload, onDownload, isReadOnly }) => (
     <div className="composition-buttons">
         <CompositionButton
+            disabled={isReadOnly}
             data-test-id="composition-clear-btn"
             onClick={onClean}
             name="trashO"
             title="clear"
         />
+
         <Divider />
         <CompositionButton
             data-test-id="composition-download-btn"
@@ -36,6 +38,7 @@ const CompositionButtons = ({ onClean, onUpload, onDownload }) => (
         />
         <Divider />
         <CompositionButton
+            disabled={isReadOnly}
             data-test-id="composition-download-upload"
             onClick={onUpload}
             name="upload"
@@ -47,6 +50,7 @@ const CompositionButtons = ({ onClean, onUpload, onDownload }) => (
 CompositionButtons.propTypes = {
     onClean: PropTypes.func,
     onUpload: PropTypes.func,
-    onDownload: PropTypes.func
+    onDownload: PropTypes.func,
+    isReadOnly: PropTypes.bool
 };
 export default CompositionButtons;

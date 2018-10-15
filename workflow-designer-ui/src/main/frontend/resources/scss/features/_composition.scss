@@ -55,6 +55,9 @@
 					fill: $blue;
 					cursor: pointer;
 				}
+				&.disabled {
+					fill: $gray;
+				}
 				.svg-icon {
 					width: 25px;
 				    height: 23px;

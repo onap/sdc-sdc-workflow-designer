@@ -28,9 +28,37 @@ import { I18n } from 'react-redux-i18n';
 import {
     PROCESS_DEFAULT_ID,
     COMPOSITION_ERROR_COLOR,
-    COMPOSITION_VALID_COLOR
+    COMPOSITION_VALID_COLOR,
+    CAMUNDA_PANEL_INPUTS_NAMES
 } from './compositionConstants';
+import readOnly from './readOnly';
 
+function setStatusToElement(type, status, parent) {
+    let elements = parent.getElementsByTagName(type);
+    for (let item of elements) {
+        if (item.name !== 'selectedExtensionElement') {
+            item.readOnly = status;
+            item.disabled = status;
+        }
+    }
+}
+
+function disablePanelInputs(status) {
+    let panel = document.getElementById('js-properties-panel');
+
+    if (panel) {
+        setStatusToElement('input', status, panel);
+        setStatusToElement('button', status, panel);
+        setStatusToElement('select', status, panel);
+
+        CAMUNDA_PANEL_INPUTS_NAMES.map(name => {
+            const div = document.getElementById(name);
+            if (div) {
+                div.setAttribute('contenteditable', !status);
+            }
+        });
+    }
+}
 class CompositionView extends Component {
     static propTypes = {
         compositionUpdate: PropTypes.func,
@@ -41,7 +69,8 @@ class CompositionView extends Component {
         inputOutput: PropTypes.object,
         activities: PropTypes.array,
         validationUpdate: PropTypes.func,
-        errors: PropTypes.array
+        errors: PropTypes.array,
+        isReadOnly: PropTypes.bool
     };
 
     constructor() {
@@ -53,9 +82,10 @@ class CompositionView extends Component {
         this.state = {
             diagram: false
         };
+        this.versionChanged = false;
     }
     componentDidUpdate(prevProps) {
-        const { errors } = this.props;
+        const { errors, isReadOnly, versionName, composition } = this.props;
         if (!isEqual(prevProps.errors, errors)) {
             errors.map(item => {
                 this.modeling.setColor([item.element], {
@@ -65,22 +95,43 @@ class CompositionView extends Component {
                 });
             });
         }
+        if (prevProps.isReadOnly !== isReadOnly) {
+            this.modeler.get('readOnly').readOnly(isReadOnly);
+            disablePanelInputs(isReadOnly);
+        }
+
+        if (prevProps.versionName !== versionName) {
+            this.versionChanged = true;
+        }
+        if (
+            !isEqual(prevProps.composition, composition) &&
+            this.versionChanged
+        ) {
+            this.setDiagramToBPMN(composition);
+            this.versionChanged = false;
+        }
     }
     componentDidMount() {
         const {
             composition,
             activities,
             inputOutput,
-            validationUpdate
+            validationUpdate,
+            isReadOnly
         } = this.props;
 
+        const readOnlyModule = {
+            __init__: ['readOnly'],
+            readOnly: ['type', readOnly]
+        };
         this.modeler = new CustomModeler({
             propertiesPanel: {
                 parent: '#js-properties-panel'
             },
             additionalModules: [
                 propertiesPanelModule,
-                propertiesProviderModule
+                propertiesProviderModule,
+                readOnlyModule
             ],
             moddleExtensions: {
                 camunda: camundaModuleDescriptor
@@ -96,10 +147,14 @@ class CompositionView extends Component {
         this.modeler.attachTo('#' + this.generatedId);
         this.setDiagramToBPMN(composition ? composition : newDiagramXML);
         this.modeler.on('element.out', () => this.exportDiagramToStore());
+        this.modeler.on('element.click', this.handleCompositionStatus);
         this.bpmnContainer.current.click();
         this.modeling = this.modeler.get('modeling');
+        this.modeler.get('readOnly').readOnly(isReadOnly);
     }
-
+    handleCompositionStatus = () => {
+        disablePanelInputs(this.props.isReadOnly);
+    };
     getActivityInputsOutputs = selectedValue => {
         const selectedActivity = this.props.activities.find(
             el => el.name === selectedValue
@@ -132,6 +187,7 @@ class CompositionView extends Component {
                 this.props.inputOutput,
                 this.modeler.get('moddle')
             );
+            disablePanelInputs(this.props.isReadOnly);
         });
     };
     setDefaultIdAndName = businessObject => {
@@ -213,6 +269,7 @@ class CompositionView extends Component {
                         id="js-properties-panel"
                     />
                     <CompositionButtons
+                        isReadOnly={this.props.isReadOnly}
                         onClean={this.loadNewDiagram}
                         onDownload={this.exportDiagram}
                         onUpload={this.uploadDiagram}

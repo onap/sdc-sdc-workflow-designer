@@ -17,8 +17,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SVGIcon from 'sdc-ui/lib/react/SVGIcon';
 
-const CompositionButton = ({ onClick, name, title }) => (
-    <div onClick={onClick} className="diagram-btn">
+const CompositionButton = ({ onClick, name, title, disabled }) => (
+    <div
+        onClick={disabled ? () => {} : onClick}
+        className={`diagram-btn ${disabled ? 'disabled' : ''}`}>
         <SVGIcon title={title} name={name} />
     </div>
 );
@@ -27,7 +29,8 @@ CompositionButton.propTypes = {
     onClick: PropTypes.func,
     className: PropTypes.string,
     name: PropTypes.string,
-    title: PropTypes.string
+    title: PropTypes.string,
+    disabled: PropTypes.bool
 };
 
 export default CompositionButton;
