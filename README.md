@@ -1,51 +1,203 @@
-# Steps to run the Workflow application on Docker
+Introduction
+============
 
-## 1. Initialize Workflow Database
+Workflow Designer is a [pluggable SDC designer](https://wiki.onap.org/display/DW/Generic+Designer+Support) that allows 
+a user to design a workflow, save it, and attach it to a SDC service as an artifact. Workflow Designer also manages 
+the definitions of activities, which can be later used as parts of the designed workflows.
 
-`docker run -d -e CS_AUTHENTICATE={CS_AUTHENTICATE} -e CS_HOST={HOST} -e CS_PORT={PORT} -e CS_USER={USER} 
--e CS_PASSWORD={PASSWORD} {INIT_IMAGE}`
+Components
+==========
 
-This is done only once to initialize the DB schema.
+The designer is comprised of the following deployment units:
 
-**Example** 
+- Designer backend is the core component. It exposes RESTful APIs for managing workflow and activity data. The backend
+is agnostic to the type of a workflow artifact &mdash; its main concerns are workflow inputs and outputs, and metadata.
+One of the APIs enables to attach a certified workflow artifact to a SDC service, therefore the designer must be able
+to call an API on SDC. In order to do so, the location of a SDC server, and 
+[SDC consumer](https://wiki.onap.org/display/DW/Consumer+creation) credentials are required.
+ 
+- Designer frontend serves static content of a Web application for creating and managing workflows, and forwards API 
+requests to the backend. The static content includes JavaScript, images, CSS, etc. A major part of the Web application 
+is Workflow Composition View &mdash; a graphical interface for arranging a workflow sequence. The Web application also produces a 
+workflow artifact that will be sent to the backend, saved along with other data, and later used by a service. The architecture 
+allows for different implementations of the frontend component. For example, a different technology can be used for the 
+Composition View, which will probably also result in a different type of the artifacts (e.g. Bpmn.io vs. Camunda).
 
-running docker with secured Cassandra DB
+- Cassandra database is used by the designer backend as the main storage for workflow data. A dedicated instance of 
+Cassandra can be deployed, or an existing cluster may be used.
 
-`docker run -d -e CS_HOST=10.247.41.19 -e CS_AUTHENTICATE=true -e CS_USER=test -e CS_PASSWORD=secret -e CS_PORT=9160 
-onap/workflow-init:latest`
+- Database initialization scripts run once per deployment to create the necessary Cassandra keyspaces and tables, pre-populate data, etc.     
 
-running docker with unsecured Cassandra DB
+Deployment on Docker
+====================
 
-`docker run -d -e CS_HOST=10.247.41.19 -e CS_AUTHENTICATE=false -e CS_PORT=9160 onap/workflow-init:latest`
+The procedure below describes manual deployment on plain Docker for development or a demo.
 
-or
+## 1. Database
 
-`docker run -d -e CS_HOST=10.247.41.19 -e CS_PORT=9160 onap/workflow-init:latest`
+Create a dedicated instance of Cassandra. This step is optional if you already have a Cassandra cluster.
+The designer is not expected to have problems working with Cassandra 3.x, but has been tested with 2.1.x because this is the version used by 
+SDC.
 
-## 2. Start Backend
+An easy way to spin up a Cassandra instance is using a Cassandra Docker image as described in the 
+[official documentation](https://hub.docker.com/_/cassandra/).
 
-`docker run -d -e JAVA_OPTIONS={JAVA_OPTIONS} -e CS_HOSTS={COMMA_SEPARATED_HOSTS} -e CS_PORT={PORT} 
--e CS_USER={USER} -e CS_PASSWORD={PASSWORD} -p {HOST_PORT}:{APPLICATION_PORT} {BACKEND_IMAGE}`
+### Example
 
-or, if Cassandra authentication is not required
+`docker run -d --name workflow-cassandra cassandra:2.1` 
 
-`docker run -d -e JAVA_OPTIONS={JAVA_OPTIONS} -e CS_HOSTS={COMMA_SEPARATED_HOSTS} -e CS_PORT={PORT} 
--e CS_AUTHENTICATE=false -p {HOST_PORT}:{APPLICATION_PORT} {BACKEND_IMAGE}`
+## 2. Database Initialization
 
-**optional parameters**
+**WARNING**: *This step must be executed only once.* 
 
-For posting workflow artifact to external API
+`docker run -ti -e CS_HOST=<cassandra-host> -e CS_PORT=<cassandra-port> -e CS_AUTHENTICATE=true/false
+-e CS_USER=<cassandra-user> -e CS_PASSWORD=<cassandra-password> nexus3.onap.org:10001/onap/workflow-init:latest`
 
-`-e SDC_PROTOCOL={SDC_PROTOCOL} -e SDC_ENDPOINT={SDC_ENDPOINT}`
-SDC_PROTOCOL - HTTP\HTTPS
-SDC_ENDPOINT - <IP>:<PORT>
+### Environment Variables
 
-The server listens on 8080 by default, but it is possible to change the application port by passing 
-`-e SERVER_PORT={PORT}` to Docker _run_ command.
+- CS_HOST &mdash; Cassandra hostname or IP address.
 
-To check health information of application you can use option `-e SHOW_HEALTH={always}`
+- CS_PORT &mdash; Cassandra Thrift client port. If not specified, the default of 9160 will be used.
 
-**Example**
+- CS_AUTHENTICATE &mdash; whether password authentication must be used to connect to Cassandra. A *false* will be 
+assumed if this variable is not specified.
 
-`docker run -d -e JAVA_OPTIONS="-Xmx128m -Xms128m -Xss1m" -e CS_HOSTS=10.247.41.19,10.247.41.20 
--e CS_PORT=9042 -e CS_AUTHENTICATE=false -p 8080:8080 onap/workflow-backend:latest`
+- CS_USER &mdash; Cassandra username if CS_AUTHENTICATE is *true*.
+
+- CS_PASSWORD &mdash; Cassandra password if CS_AUTHENTICATE is *true*.
+
+### Example
+
+Assuming you have created a dedicated Cassandra container as described in Database section, and the access to it is not 
+protected with a password, the following command will initialize the database:
+
+`docker run -d --name workflow-init 
+-e CS_HOST=$(docker inspect workflow-cassandra --format={{.NetworkSettings.IPAddress}})  
+nexus3.onap.org:10001/onap/workflow-init:latest`
+
+### Troubleshooting
+
+In order to see if the Workflow Designer was successfully initialized, make sure the console does not contain error messages. 
+You can also see the logs of the initialization container using `docker logs workflow-init` command.
+
+## 3. Backend
+
+`docker run -d -e SDC_PROTOCL=http/https -e SDC_ENDPOINT=<sdc-host>:<sdc-port> -e SDC_USER=<sdc-username> 
+-e SDC_PASSWORD=<sdc-password> -e CS_HOSTS=<cassandra-hosts> -e CS_PORT=<cassandra-port> 
+-e CS_AUTHENTICATE=true/false -e CS_USER=<cassandra-user> -e CS_PASSWORD=<cassandra-password> 
+-e JAVA_OPTIONS=<jvm-options> -e SHOW_HEALTH=<heathcheck-mode> nexus3.onap.org:10001/onap/workflow-backend:latest`
+
+### Environment Variables
+
+- SDC_PROTOCOL &mdash; protocol to be used for calling SDC APIs (http or https).
+
+- SDC_ENDPOINT &mdash; the base path of SDC external API, in the format  ="10.247.41.20:8080" 
+
+- SDC_USER &mdash; Workflow consumer username 
+
+- SDC_PASSWORD &mdash; Workflow consumer password
+
+- CS_HOSTS &mdash; comma-separated list of Cassandra hostnames or IP addresses.
+
+- CS_PORT &mdash; CQL native client port. If not specified, the default of 9042 will be used.
+
+- CS_AUTHENTICATE &mdash; whether password authentication must be used to connect to Cassandra. A *false* will be 
+assumed if this variable is not specified.
+
+- CS_USER &mdash; Cassandra username if CS_AUTHENTICATE is *true*.
+
+- CS_PASSWORD &mdash; Cassandra password if CS_AUTHENTICATE is *true*.
+
+- JAVA_OPTIONS &mdash; optionally, JVM (Java Virtual Machine) arguments.
+
+- SHOW_HEALTH &mdash; how health information will be exposed, as documented in 
+[Spring Boot](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html#production-ready-health) documentation.
+The default for Workflow designer is *always*.
+
+### Example
+
+Assuming you have a dedicated Cassandra container as described in Database section, and the access to it is not 
+protected with a password. The following command will start a backend container:
+
+`docker run -d --name workflow-backend -e SDC_PROTOCOL=http 
+-e SDC_ENDPOINT=$(docker inspect sdc-BE --format={{.NetworkSettings.IPAddress}}):8080
+-e CS_HOSTS=$(docker inspect workflow-cassandra --format={{.NetworkSettings.IPAddress}}) 
+-e SDC_USER=workflow -e SDC_PASSWORD=<secret> -e JAVA_OPTIONS="-Xmx128m -Xms128m -Xss1m"
+nexus3.onap.org:10001/onap/workflow-backend:latest`
+
+### Troubleshooting
+
+In order to verify that the Workflow Designer backend has started successfully, check the logs of the 
+backend container. For example, by running `docker logs workflow-backend`. The logs must not contain any 
+error messages.
+
+Application logs are located in the */var/log/ONAP/workflow-designer/backend* directory of a workflow backend 
+container. For example, you can view the audit log by running 
+`docker exec -ti workflow-backend less /var/log/ONAP/workflow-designer/backend/audit.log`.
+
+## 4. Frontend
+
+`docker run -d -e BACKEND=http://<backend-host>:<backend-port> -e JAVA_OPTIONS=<jvm-options>
+nexus3.onap.org:10001/onap/workflow-frontend:latest`
+
+- BACKEND &mdash; root endpoint of the RESTful APIs exposed by a workflow backend server.
+
+- JAVA_OPTIONS &mdash; optionally, JVM (Java Virtual Machine) arguments.
+
+### Example
+
+`docker run -d --name workflow-frontend 
+-e BACKEND=http://$(docker inspect workflow-backend --format={{.NetworkSettings.IPAddress}}):8080 
+-e JAVA_OPTIONS="-Xmx64m -Xms64m -Xss1m" -p 9088:8080 nexus3.onap.org:10001/onap/workflow-frontend:latest`
+
+Notice that port 8080 of the frontend container has been 
+[mapped]( https://docs.docker.com/config/containers/container-networking/#published-ports) to port 9088 of the host 
+machine. This makes the Workflow Designer Web application accessible from the outside world via the host machine's 
+IP address/hostname.
+
+### Troubleshooting
+
+In order to check if the Workflow Designer frontend has successfully started, look at the logs of the 
+frontend container. For example, by running `docker logs workflow-frontend`. The logs should not contain 
+error messages.
+
+Workflow frontend does not have backend logic, therefore there are no application logs.
+
+SDC Plugin Configuration
+========================
+
+In order to run as an SDC pluggable designer, Workflow Designer must be added to SDC configuration as described in
+[Generic plugin support](https://wiki.onap.org/display/DW/Generic+Designer+Support). 
+
+If you are deploying SDC using a standard procedure (OOM or the 
+[SDC shell script](https://wiki.onap.org/display/DW/Deploying+SDC+on+a+Linux+VM+for+Development)), 
+the easiest way to configure the Workflow plugin is to edit the *default_attributes/Plugins/WORKFLOW* 
+section of *AUTO.json*.
+
+### Plugin Source
+
+The main endpoint to load Workflow Designer Web application is defined by `"pluginSourceUrl": "http://<host>:<port>"`.
+
+Keep in mind that the URL **must be accessible from a user's browser**. In most cases, `<host>` will be the hostname or
+IP address of the machine that runs Docker engine, and `<port>` will be a host port to which you have published port 
+8080 of the Workflow frontend container.
+
+### Plugin Discovery
+
+In order to check the availability of a plugin, SDC uses `"pluginDiscoveryUrl"`. For Workflow the value is 
+`http://<host>:<port>/ping`.
+
+### Example
+
+Let's assume that hostname of the machine that runs Docker containers with the Workflow application is 
+*workflow.example.com*, and port 8080 of the Workflow frontend is mapped to 9088 on the host. In this case the corresponding 
+section of *AUTO.json* will look like below:
+
+```
+"Plugins": {
+    "WORKFLOW": {
+        "workflow_discovery_url": "http://workflow.example.com:9088/ping",
+        "workflow_source_url": "http://workflow.example.com:9088"
+    }
+},
+```
