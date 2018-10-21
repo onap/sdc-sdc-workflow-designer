@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bada0100_2f6962be",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-10-21T10:47:13Z",
+      "side": 0,
+      "message": "Thanks for the clarification. I will add this.",
+      "parentUuid": "bada0100_2f42c23e",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 62
+      },
+      "revId": "dbb0287caa2bdd16cfdfffab78495cdb3b2188a2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bada0100_cf51b60f",
         "filename": "README.md",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2018-10-21T10:12:49Z",
       "side": 0,
       "message": "the show-health flag is to decide who can see the health check indicators data. the default is \u0027never\u0027 meaning no one can, \u0027always\u0027 is everyone can and \u0027when-authorized\u0027 only authorized can. it has nothing to do with the printings(at least not according to the documentation",
+      "range": {
+        "startLine": 46,
+        "startChar": 66,
+        "endLine": 46,
+        "endChar": 86
+      },
+      "revId": "dbb0287caa2bdd16cfdfffab78495cdb3b2188a2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_4f64e6e4",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-10-21T10:47:13Z",
+      "side": 0,
+      "message": "What is the recommended value for manual deployment (to use in the example)?",
+      "parentUuid": "bada0100_cf51b60f",
       "range": {
         "startLine": 46,
         "startChar": 66,
