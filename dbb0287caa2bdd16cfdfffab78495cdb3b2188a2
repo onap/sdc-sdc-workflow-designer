@@ -93,6 +93,30 @@
       "revId": "dbb0287caa2bdd16cfdfffab78495cdb3b2188a2",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_4f92a6a0",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-10-21T11:33:45Z",
+      "side": 0,
+      "message": "I will leave it as in the example",
+      "parentUuid": "bada0100_4f64e6e4",
+      "range": {
+        "startLine": 46,
+        "startChar": 66,
+        "endLine": 46,
+        "endChar": 86
+      },
+      "revId": "dbb0287caa2bdd16cfdfffab78495cdb3b2188a2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
