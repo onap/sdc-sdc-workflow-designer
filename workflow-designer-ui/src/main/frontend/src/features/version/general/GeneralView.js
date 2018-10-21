@@ -39,12 +39,12 @@ const GeneralView = ({ onDataChange, versionInfo, isCertified }) => {
                 />
                 <VersionInfo>
                     <LabeledValue
-                        title={I18n.t('workflow.general.modified')}
-                        value={modifiedValue}
-                    />
-                    <LabeledValue
                         title={I18n.t('workflow.general.created')}
                         value={createdValue}
+                    />
+                    <LabeledValue
+                        title={I18n.t('workflow.general.modified')}
+                        value={modifiedValue}
                     />
                 </VersionInfo>
             </div>
