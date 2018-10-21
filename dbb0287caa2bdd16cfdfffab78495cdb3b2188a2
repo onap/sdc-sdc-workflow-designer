@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_2f42c23e",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-10-21T10:12:49Z",
+      "side": 0,
+      "message": "this 2 parameters are mandatory if the workflow is deployed and integrated as part of SDC. This are the configuration of the SDC BE and the WF application uses them in order to push WF artifacts from WF application to SDC when calling to WF artifact-deliveries API.\nThe WF application can also run as a standalone application to create artifacts and then this 2 parameters are not needed (in this case, artifact-deliveries API will fail)",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 62
+      },
+      "revId": "dbb0287caa2bdd16cfdfffab78495cdb3b2188a2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_cf51b60f",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-10-21T10:12:49Z",
+      "side": 0,
+      "message": "the show-health flag is to decide who can see the health check indicators data. the default is \u0027never\u0027 meaning no one can, \u0027always\u0027 is everyone can and \u0027when-authorized\u0027 only authorized can. it has nothing to do with the printings(at least not according to the documentation",
+      "range": {
+        "startLine": 46,
+        "startChar": 66,
+        "endLine": 46,
+        "endChar": 86
+      },
+      "revId": "dbb0287caa2bdd16cfdfffab78495cdb3b2188a2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
