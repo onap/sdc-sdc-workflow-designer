@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_0f301ee7",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 69
+      },
+      "writtenOn": "2018-10-21T10:04:45Z",
+      "side": 1,
+      "message": "looks good.\ni suggest you add a docker diagram to make thing more clear but that is optional.",
+      "revId": "8c3de242f21544e66bbe43f6b64aa72b596c00e0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_ef34badf",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 69
+      },
+      "writtenOn": "2018-10-21T10:04:45Z",
+      "side": 1,
+      "message": "i would make it more clear they you have two options one as a stand-alone and one as a plugin part of sdc which requires an sdc instance to be running",
+      "range": {
+        "startLine": 32,
+        "startChar": 1,
+        "endLine": 32,
+        "endChar": 22
+      },
+      "revId": "8c3de242f21544e66bbe43f6b64aa72b596c00e0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_4f3626e9",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 69
+      },
+      "writtenOn": "2018-10-21T10:04:45Z",
+      "side": 1,
+      "message": "i whould add a generic example with \u003ctag of the version you want\u003e\n\nand then add example.",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 56
+      },
+      "revId": "8c3de242f21544e66bbe43f6b64aa72b596c00e0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
