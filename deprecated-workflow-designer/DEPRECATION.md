@@ -1,1 +1,0 @@
-This implementation of SDC Workflow Designer is **deprecated**.

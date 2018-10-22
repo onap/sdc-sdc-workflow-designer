@@ -1,1 +1,0 @@
-		<exclusiveGateway id="${element.id}" name="${element.name}"></exclusiveGateway>
