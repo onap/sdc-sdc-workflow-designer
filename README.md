@@ -85,13 +85,13 @@ You can also see the logs of the initialization container using `docker logs wor
 `docker run -d -e SDC_PROTOCL=http/https -e SDC_ENDPOINT=<sdc-host>:<sdc-port> -e SDC_USER=<sdc-username> 
 -e SDC_PASSWORD=<sdc-password> -e CS_HOSTS=<cassandra-hosts> -e CS_PORT=<cassandra-port> 
 -e CS_AUTHENTICATE=true/false -e CS_USER=<cassandra-user> -e CS_PASSWORD=<cassandra-password> 
--e JAVA_OPTIONS=<jvm-options> -e SHOW_HEALTH=<heathcheck-mode> nexus3.onap.org:10001/onap/workflow-backend:latest`
+-e JAVA_OPTIONS=<jvm-options> nexus3.onap.org:10001/onap/workflow-backend:latest`
 
 ### Environment Variables
 
 - SDC_PROTOCOL &mdash; protocol to be used for calling SDC APIs (http or https).
 
-- SDC_ENDPOINT &mdash; the base path of SDC external API, in the format  ="10.247.41.20:8080" 
+- SDC_ENDPOINT &mdash; the base path of SDC external API, in the format `host:port`, where *host* is a SDC backend server, and *port* is usually 8080.
 
 - SDC_USER &mdash; Workflow consumer username 
 
@@ -109,10 +109,6 @@ assumed if this variable is not specified.
 - CS_PASSWORD &mdash; Cassandra password if CS_AUTHENTICATE is *true*.
 
 - JAVA_OPTIONS &mdash; optionally, JVM (Java Virtual Machine) arguments.
-
-- SHOW_HEALTH &mdash; how health information will be exposed, as documented in 
-[Spring Boot](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html#production-ready-health) documentation.
-The default for Workflow designer is *always*.
 
 ### Example
 
@@ -194,10 +190,12 @@ Let's assume that hostname of the machine that runs Docker containers with the W
 section of *AUTO.json* will look like below:
 
 ```
+
 "Plugins": {
     "WORKFLOW": {
         "workflow_discovery_url": "http://workflow.example.com:9088/ping",
         "workflow_source_url": "http://workflow.example.com:9088"
     }
 },
+
 ```
