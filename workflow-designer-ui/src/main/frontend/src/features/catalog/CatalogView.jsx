@@ -27,9 +27,6 @@ import { NAME, ASC, DESC } from 'features/catalog/catalogConstants';
 class CatalogView extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            searchValue: ''
-        };
     }
 
     componentDidMount() {
@@ -47,25 +44,26 @@ class CatalogView extends Component {
 
         const {
             handleFetchWorkflow,
-            catalog: { sort }
+            catalog: { sort, searchNameFilter }
         } = this.props;
 
         const payload = {
             ...sort
         };
         payload[NAME] = payload[NAME] === ASC ? DESC : ASC;
-        handleFetchWorkflow(payload, undefined, this.state.searchValue);
+        handleFetchWorkflow(payload, undefined, searchNameFilter);
     };
 
     handleScroll = () => {
         const {
             catalog: {
                 paging: { offset },
-                sort
+                sort,
+                searchNameFilter
             },
             handleFetchWorkflow
         } = this.props;
-        handleFetchWorkflow(sort, offset, this.state.searchValue);
+        handleFetchWorkflow(sort, offset, searchNameFilter);
     };
 
     goToOverviewPage = id => {
@@ -91,7 +89,8 @@ class CatalogView extends Component {
         const {
             sort,
             paging: { hasMore, total },
-            items
+            items,
+            searchNameFilter
         } = catalog;
         const alphabeticalOrder = sort[NAME];
 
@@ -99,7 +98,7 @@ class CatalogView extends Component {
             <div className="wf-catalog">
                 <Header
                     searchChange={this.searchChange}
-                    searchValue={this.state.searchValue}
+                    searchValue={searchNameFilter}
                 />
                 <InfiniteScroll
                     useWindow={false}
@@ -132,7 +131,8 @@ CatalogView.propTypes = {
     handleFetchWorkflow: PropTypes.func,
     showNewWorkflowModal: PropTypes.func,
     clearWorkflow: PropTypes.func,
-    searchInputChanged: PropTypes.func
+    searchInputChanged: PropTypes.func,
+    searchNameFilter: PropTypes.string
 };
 
 CatalogView.defaultProps = {

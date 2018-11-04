@@ -28,7 +28,8 @@ import { NEW_WORKFLOW_MODAL } from 'shared/modal/modalWrapperComponents';
 import { clearWorkflowAction } from 'features/workflow/workflowConstants';
 
 const mapStateToProps = state => ({
-    catalog: state.catalog
+    catalog: state.catalog,
+    searchNameFilter: state.searchNameFilter
 });
 
 const mapDispatchToProps = dispatch => ({

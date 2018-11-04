@@ -20,6 +20,7 @@ import {
     UPDATE_WORKFLOW,
     RESET_WORKFLOW
 } from 'features/catalog/catalogConstants';
+import { SEARCH_CHANGED } from './catalogConstants';
 
 export const initialState = {
     paging: {
@@ -36,7 +37,11 @@ const catalogReducer = (state = initialState, action) => {
 
     switch (type) {
         case RESET_WORKFLOW:
-            return { ...initialState, sort: state.sort };
+            return {
+                ...initialState,
+                sort: state.sort,
+                searchNameFilter: state.searchNameFilter
+            };
 
         case UPDATE_WORKFLOW:
             return {
@@ -47,7 +52,11 @@ const catalogReducer = (state = initialState, action) => {
                         ? [...payload.items]
                         : [...state.items, ...payload.items]
             };
-
+        case SEARCH_CHANGED:
+            return {
+                ...state,
+                searchNameFilter: action.payload.searchNameFilter
+            };
         default:
             return state;
     }
