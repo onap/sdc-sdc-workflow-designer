@@ -18,7 +18,7 @@
 
 import { NAME, ASC, DESC } from 'features/catalog/catalogConstants';
 import catalogReducer, { initialState } from 'features/catalog/catalogReducer';
-import { updateWorkflow, resetWorkflow } from 'features/catalog/catalogActions';
+import { updateWorkflow } from 'features/catalog/catalogActions';
 
 describe('Catalog Reducer', () => {
     const state = {
@@ -107,10 +107,4 @@ describe('Catalog Reducer', () => {
         );
     });
 
-    it('should reset state', () => {
-        expect(catalogReducer({ ...state, sort }, resetWorkflow())).toEqual({
-            ...initialState,
-            sort
-        });
-    });
 });

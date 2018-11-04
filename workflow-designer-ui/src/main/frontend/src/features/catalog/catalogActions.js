@@ -24,11 +24,10 @@ import {
 } from 'features/catalog/catalogConstants';
 
 export const {
-    [NAMESPACE]: { updateWorkflow, resetWorkflow }
+    [NAMESPACE]: { updateWorkflow }
 } = createActions({
     [NAMESPACE]: {
-        UPDATE_WORKFLOW: undefined,
-        RESET_WORKFLOW: undefined
+        UPDATE_WORKFLOW: undefined
     }
 });
 

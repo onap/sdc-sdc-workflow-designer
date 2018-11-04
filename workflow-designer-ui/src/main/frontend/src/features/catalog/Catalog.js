@@ -19,7 +19,6 @@ import { connect } from 'react-redux';
 import CatalogView from 'features/catalog/CatalogView';
 import {
     fetchWorkflow,
-    resetWorkflow,
     searchChangedAction
 } from 'features/catalog/catalogActions';
 
@@ -28,13 +27,13 @@ import { NEW_WORKFLOW_MODAL } from 'shared/modal/modalWrapperComponents';
 import { clearWorkflowAction } from 'features/workflow/workflowConstants';
 
 const mapStateToProps = state => ({
-    catalog: state.catalog
+    catalog: state.catalog,
+    searchNameFilter: state.searchNameFilter
 });
 
 const mapDispatchToProps = dispatch => ({
     handleFetchWorkflow: (sort, offset, searchNameFilter) =>
         dispatch(fetchWorkflow(sort, offset, searchNameFilter)),
-    handleResetWorkflow: () => dispatch(resetWorkflow()),
     clearWorkflow: () => dispatch(clearWorkflowAction),
     showNewWorkflowModal: () =>
         dispatch(

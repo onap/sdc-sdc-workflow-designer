@@ -19,16 +19,11 @@
 import {
     FETCH_WORKFLOW,
     UPDATE_WORKFLOW,
-    RESET_WORKFLOW,
     LIMIT,
     NAME,
     ASC
 } from 'features/catalog/catalogConstants';
-import {
-    fetchWorkflow,
-    updateWorkflow,
-    resetWorkflow
-} from 'features/catalog/catalogActions';
+import { fetchWorkflow, updateWorkflow } from 'features/catalog/catalogActions';
 
 describe('Catalog Actions', () => {
     it('should have `fetchWorkflow` action', () => {
@@ -63,12 +58,6 @@ describe('Catalog Actions', () => {
         expect(updateWorkflow(payload)).toEqual({
             type: UPDATE_WORKFLOW,
             payload
-        });
-    });
-
-    it('should have `resetWorkflow` action', () => {
-        expect(resetWorkflow()).toEqual({
-            type: RESET_WORKFLOW
         });
     });
 });

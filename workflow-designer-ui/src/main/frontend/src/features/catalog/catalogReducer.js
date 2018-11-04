@@ -14,12 +14,8 @@
 * limitations under the License.
 */
 
-import {
-    NAME,
-    ASC,
-    UPDATE_WORKFLOW,
-    RESET_WORKFLOW
-} from 'features/catalog/catalogConstants';
+import { NAME, ASC, UPDATE_WORKFLOW } from 'features/catalog/catalogConstants';
+import { SEARCH_CHANGED } from './catalogConstants';
 
 export const initialState = {
     paging: {
@@ -35,9 +31,6 @@ const catalogReducer = (state = initialState, action) => {
     const { type, payload } = action;
 
     switch (type) {
-        case RESET_WORKFLOW:
-            return { ...initialState, sort: state.sort };
-
         case UPDATE_WORKFLOW:
             return {
                 ...state,
@@ -47,7 +40,11 @@ const catalogReducer = (state = initialState, action) => {
                         ? [...payload.items]
                         : [...state.items, ...payload.items]
             };
-
+        case SEARCH_CHANGED:
+            return {
+                ...state,
+                searchNameFilter: action.payload.searchNameFilter
+            };
         default:
             return state;
     }
