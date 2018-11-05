@@ -20,14 +20,27 @@ import org.onap.sdc.workflow.services.types.WorkflowVersionState;
 
 public class VersionStateModificationException extends RuntimeException {
 
+    public static final String WORKFLOW_MODIFICATION_STATE_ERROR_TEMPLATE =
+            "Workflow %s, version %s: state can not be changed from %s to %s";
+    public static final String WORKFLOW_MODIFICATION_STATE_MISSING_ARTIFACT_TEMPLATE =
+            WORKFLOW_MODIFICATION_STATE_ERROR_TEMPLATE + ". Missing artifact";
+
     public VersionStateModificationException(String workflowId, String versionId, WorkflowVersionState sourceState,
-            WorkflowVersionState targetState) {
-        this(workflowId, versionId, sourceState, targetState, null);
+                                             WorkflowVersionState targetState) {
+        this(workflowId, versionId, sourceState, targetState, null, false);
     }
 
     public VersionStateModificationException(String workflowId, String versionId, WorkflowVersionState sourceState,
-            WorkflowVersionState targetState, Exception submitException) {
-        super(String.format("Workflow %s, version %s: state can not be changed from %s to %s", workflowId, versionId,
-                sourceState.name(), targetState.name()), submitException);
+                                             WorkflowVersionState targetState, Exception submitException
+                                            , boolean isMissingArtifact) {
+        super(generateErrorMessage(workflowId, versionId, sourceState, targetState, isMissingArtifact), submitException);
+    }
+
+    private static String generateErrorMessage(String workflowId, String versionId, WorkflowVersionState sourceState,
+                                               WorkflowVersionState targetState, boolean isMissingArtifact) {
+        return String.format(isMissingArtifact ?
+                    WORKFLOW_MODIFICATION_STATE_MISSING_ARTIFACT_TEMPLATE : WORKFLOW_MODIFICATION_STATE_ERROR_TEMPLATE,
+                workflowId, versionId,
+                sourceState.name(), targetState.name());
     }
 }
