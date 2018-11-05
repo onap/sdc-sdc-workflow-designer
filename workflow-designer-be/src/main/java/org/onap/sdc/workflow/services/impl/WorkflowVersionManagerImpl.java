@@ -29,6 +29,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
 import org.onap.sdc.workflow.persistence.ArtifactRepository;
 import org.onap.sdc.workflow.persistence.ParameterRepository;
 import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
@@ -40,15 +41,20 @@ import org.onap.sdc.workflow.services.exceptions.InvalidArtifactException;
 import org.onap.sdc.workflow.services.exceptions.VersionCreationException;
 import org.onap.sdc.workflow.services.exceptions.VersionModificationException;
 import org.onap.sdc.workflow.services.exceptions.VersionStateModificationException;
+import org.onap.sdc.workflow.services.exceptions.VersionStateModificationMissingArtifactException;
+import org.onap.sdc.workflow.services.exceptions.WorkflowModificationException;
 import org.onap.sdc.workflow.services.impl.mappers.VersionMapper;
 import org.onap.sdc.workflow.services.impl.mappers.VersionStateMapper;
 import org.onap.sdc.workflow.services.types.WorkflowVersion;
 import org.onap.sdc.workflow.services.types.WorkflowVersionState;
 import org.openecomp.sdc.logging.api.Logger;
 import org.openecomp.sdc.logging.api.LoggerFactory;
+import org.openecomp.sdc.versioning.ItemManager;
 import org.openecomp.sdc.versioning.VersioningManager;
 import org.openecomp.sdc.versioning.dao.types.Version;
 import org.openecomp.sdc.versioning.dao.types.VersionStatus;
+import org.openecomp.sdc.versioning.types.Item;
+import org.openecomp.sdc.versioning.types.ItemStatus;
 import org.openecomp.sdc.versioning.types.VersionCreationMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,6 +66,7 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
 
     private static final String VERSION_NOT_EXIST_MSG = "version with id '%s' does not exist for workflow with id '%s'";
     private final VersioningManager versioningManager;
+    private final ItemManager itemManager;
     private final ArtifactRepository artifactRepository;
     private final ParameterRepository parameterRepository;
     private final VersionMapper versionMapper;
@@ -68,8 +75,9 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
 
     @Autowired
     public WorkflowVersionManagerImpl(VersioningManager versioningManager, ArtifactRepository artifactRepository,
-            VersionMapper versionMapper, VersionStateMapper versionStateMapper,
+            VersionMapper versionMapper, VersionStateMapper versionStateMapper, ItemManager itemManager,
             ParameterRepository parameterRepository) {
+        this.itemManager = itemManager;
         this.versioningManager = versioningManager;
         this.artifactRepository = artifactRepository;
         this.parameterRepository = parameterRepository;
@@ -103,6 +111,7 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
 
     @Override
     public WorkflowVersion create(String workflowId, String baseVersionId, WorkflowVersion workflowVersion) {
+        validateWorkflowStatus(workflowId);
         List<Version> versions = versioningManager.list(workflowId);
 
         if (baseVersionId != null) {
@@ -131,6 +140,7 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
 
     @Override
     public void update(String workflowId, WorkflowVersion workflowVersion) {
+        validateWorkflowStatus(workflowId);
         Version retrievedVersion = getVersion(workflowId, workflowVersion.getId());
         if (CERTIFIED.equals(versionStateMapper.versionStatusToWorkflowVersionState(retrievedVersion.getStatus()))) {
             throw new VersionModificationException(workflowId, workflowVersion.getId());
@@ -157,23 +167,28 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
     }
 
     @Override
-    public void updateState(String workflowId, String versionId, WorkflowVersionState state) {
-        WorkflowVersionState retrievedState = getState(workflowId, versionId);
-        if (state == CERTIFIED) {
+    public void updateState(String workflowId, String versionId, WorkflowVersionState newState) {
+        WorkflowVersionState currentState = getState(workflowId, versionId);
+        if (newState == CERTIFIED) {
+            if(!artifactRepository.isExist(workflowId,versionId)){
+                throw new VersionStateModificationMissingArtifactException(workflowId, versionId, currentState,
+                        newState);
+            }
             try {
                 versioningManager.submit(workflowId, new Version(versionId),
-                        String.format("Update version state to %s", state.name()));
+                        String.format("Update version state to %s", newState.name()));
             } catch (Exception submitException) {
-                throw new VersionStateModificationException(workflowId, versionId, retrievedState,
-                        state, submitException);
+                throw new VersionStateModificationException(workflowId, versionId, currentState, newState,
+                        submitException);
             }
         } else {
-            throw new VersionStateModificationException(workflowId, versionId, retrievedState, state);
+            throw new VersionStateModificationException(workflowId, versionId, currentState, newState);
         }
     }
 
     @Override
     public void uploadArtifact(String workflowId, String versionId, MultipartFile artifact) {
+        validateWorkflowStatus(workflowId);
         Version retrievedVersion = getVersion(workflowId, versionId);
         if (CERTIFIED.equals(versionStateMapper.versionStatusToWorkflowVersionState(retrievedVersion.getStatus()))) {
             throw new VersionModificationException(workflowId, versionId);
@@ -210,6 +225,7 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
 
     @Override
     public void deleteArtifact(String workflowId, String versionId) {
+        validateWorkflowStatus(workflowId);
         WorkflowVersion retrievedVersion = get(workflowId, versionId);
         if (CERTIFIED.equals(retrievedVersion.getState())) {
             LOGGER.error(String.format(
@@ -284,6 +300,13 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
 
     private static Optional<Version> findVersion(List<Version> versions, String versionId) {
         return versions.stream().filter(version -> versionId.equals(version.getId())).findFirst();
+    }
+
+    protected void validateWorkflowStatus(String workflowId) {
+        Item workflowItem = itemManager.get(workflowId);
+        if (ItemStatus.ARCHIVED.equals(workflowItem.getStatus())) {
+            throw new WorkflowModificationException(workflowId);
+        }
     }
 
 }

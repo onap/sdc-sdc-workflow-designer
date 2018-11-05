@@ -1,11 +1,11 @@
 package org.onap.sdc.workflow.services.impl;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
@@ -15,15 +15,16 @@ import static org.onap.sdc.workflow.services.types.WorkflowVersionState.DRAFT;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
+
 import org.apache.commons.io.IOUtils;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
@@ -39,16 +40,20 @@ import org.onap.sdc.workflow.services.exceptions.EntityNotFoundException;
 import org.onap.sdc.workflow.services.exceptions.VersionCreationException;
 import org.onap.sdc.workflow.services.exceptions.VersionModificationException;
 import org.onap.sdc.workflow.services.exceptions.VersionStateModificationException;
+import org.onap.sdc.workflow.services.exceptions.VersionStateModificationMissingArtifactException;
+import org.onap.sdc.workflow.services.exceptions.WorkflowModificationException;
 import org.onap.sdc.workflow.services.impl.mappers.VersionMapper;
 import org.onap.sdc.workflow.services.impl.mappers.VersionStateMapper;
 import org.onap.sdc.workflow.services.types.WorkflowVersion;
 import org.onap.sdc.workflow.services.types.WorkflowVersionState;
+import org.openecomp.sdc.versioning.ItemManager;
 import org.openecomp.sdc.versioning.VersioningManager;
 import org.openecomp.sdc.versioning.dao.types.Version;
 import org.openecomp.sdc.versioning.dao.types.VersionState;
 import org.openecomp.sdc.versioning.dao.types.VersionStatus;
+import org.openecomp.sdc.versioning.types.Item;
+import org.openecomp.sdc.versioning.types.ItemStatus;
 import org.openecomp.sdc.versioning.types.VersionCreationMethod;
-import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
 import org.springframework.mock.web.MockMultipartFile;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -59,6 +64,8 @@ public class WorkflowVersionManagerImplTest {
     private static final String VERSION2_ID = "version_id_2";
 
     @Mock
+    private ItemManager itemManagerMock;
+    @Mock
     private VersioningManager versioningManagerMock;
     @Mock
     private ParameterRepository parameterRepositoryMock;
@@ -68,6 +75,8 @@ public class WorkflowVersionManagerImplTest {
     private VersionMapper versionMapperMock;
     @Mock
     private VersionStateMapper versionStateMapperMock;
+    @Rule
+    public ExpectedException exceptionRule = ExpectedException.none();
     @Spy
     @InjectMocks
     private WorkflowVersionManagerImpl workflowVersionManager;
@@ -77,6 +86,43 @@ public class WorkflowVersionManagerImplTest {
         Version nonExistingVersion = new Version(VERSION1_ID);
         doThrow(new RuntimeException()).when(versioningManagerMock).get(ITEM1_ID, nonExistingVersion);
         workflowVersionManager.get(ITEM1_ID, VERSION1_ID);
+    }
+
+    @Test(expected = WorkflowModificationException.class)
+    public void shouldThrowExceptionWhenCreatingVersionForArchivedWorkflow() {
+        Item mockItem = new Item();
+        mockItem.setId(ITEM1_ID);
+        mockItem.setStatus(ItemStatus.ARCHIVED);
+        doReturn(mockItem).when(itemManagerMock).get(ITEM1_ID);
+        workflowVersionManager.create(ITEM1_ID, null, new WorkflowVersion(VERSION1_ID));
+    }
+
+    @Test(expected = WorkflowModificationException.class)
+    public void shouldThrowExceptionWhenUpdatingVersionForArchivedWorkflow() {
+        Item mockItem = new Item();
+        mockItem.setId(ITEM1_ID);
+        mockItem.setStatus(ItemStatus.ARCHIVED);
+        doReturn(mockItem).when(itemManagerMock).get(ITEM1_ID);
+        workflowVersionManager.update(ITEM1_ID, new WorkflowVersion(VERSION1_ID));
+    }
+
+    @Test(expected = WorkflowModificationException.class)
+    public void shouldThrowExceptionWhenUploadingArtifactForArchivedWorkflow() {
+        Item mockItem = new Item();
+        mockItem.setId(ITEM1_ID);
+        mockItem.setStatus(ItemStatus.ARCHIVED);
+        doReturn(mockItem).when(itemManagerMock).get(ITEM1_ID);
+        MockMultipartFile mockFile = new MockMultipartFile("data", "filename.txt", "text/plain", "some xml".getBytes());
+        workflowVersionManager.uploadArtifact(ITEM1_ID, VERSION1_ID, mockFile);
+    }
+
+    @Test(expected = WorkflowModificationException.class)
+    public void shouldThrowExceptionWhenDeletingArtifactForArchivedWorkflow() {
+        Item mockItem = new Item();
+        mockItem.setId(ITEM1_ID);
+        mockItem.setStatus(ItemStatus.ARCHIVED);
+        doReturn(mockItem).when(itemManagerMock).get(ITEM1_ID);
+        workflowVersionManager.deleteArtifact(ITEM1_ID, VERSION1_ID);
     }
 
     @Test
@@ -95,7 +141,7 @@ public class WorkflowVersionManagerImplTest {
     public void shouldReturnWorkflowVersionList() {
         Version version1 = new Version(VERSION1_ID);
         Version version2 = new Version(VERSION2_ID);
-        List<Version> versionList = Arrays.asList(version1,version2);
+        List<Version> versionList = Arrays.asList(version1, version2);
         doReturn(versionList).when(versioningManagerMock).list(ITEM1_ID);
         WorkflowVersion workflowVersion1 = new WorkflowVersion();
         workflowVersion1.setId(VERSION1_ID);
@@ -104,8 +150,10 @@ public class WorkflowVersionManagerImplTest {
         workflowVersion2.setId(VERSION2_ID);
         workflowVersion2.setName(VERSION2_ID);
         doReturn(workflowVersion2).when(versionMapperMock).versionToWorkflowVersion(version2);
-        doReturn(Collections.emptyList()).when(parameterRepositoryMock).list(eq(ITEM1_ID),anyString(),eq(ParameterRole.INPUT));
-        doReturn(Collections.emptyList()).when(parameterRepositoryMock).list(eq(ITEM1_ID),anyString(),eq(ParameterRole.OUTPUT));
+        doReturn(Collections.emptyList()).when(parameterRepositoryMock)
+                .list(eq(ITEM1_ID), anyString(), eq(ParameterRole.INPUT));
+        doReturn(Collections.emptyList()).when(parameterRepositoryMock)
+                .list(eq(ITEM1_ID), anyString(), eq(ParameterRole.OUTPUT));
         workflowVersionManager.list(ITEM1_ID, null);
         verify(versioningManagerMock).list(ITEM1_ID);
         verify(versionMapperMock, times(2)).versionToWorkflowVersion(any(Version.class));
@@ -127,14 +175,15 @@ public class WorkflowVersionManagerImplTest {
         workflowVersion2.setName(VERSION2_ID);
         doReturn(workflowVersion1).when(versionMapperMock).versionToWorkflowVersion(version1);
         doReturn(Collections.emptyList()).when(parameterRepositoryMock)
-                                   .list(eq(ITEM1_ID), anyString(), eq(ParameterRole.INPUT));
+                .list(eq(ITEM1_ID), anyString(), eq(ParameterRole.INPUT));
         doReturn(Collections.emptyList()).when(parameterRepositoryMock)
-                                   .list(eq(ITEM1_ID), anyString(), eq(ParameterRole.OUTPUT));
+                .list(eq(ITEM1_ID), anyString(), eq(ParameterRole.OUTPUT));
         doReturn(VersionStatus.Certified).when(versionStateMapperMock)
-                                                                .workflowVersionStateToVersionStatus(
-                                                                       WorkflowVersionState.CERTIFIED);
+                .workflowVersionStateToVersionStatus(
+                        WorkflowVersionState.CERTIFIED);
 
-        assertEquals(1,  workflowVersionManager.list(ITEM1_ID, Collections.singleton(WorkflowVersionState.CERTIFIED)).size());
+        assertEquals(1,
+                workflowVersionManager.list(ITEM1_ID, Collections.singleton(WorkflowVersionState.CERTIFIED)).size());
         verify(versioningManagerMock).list(ITEM1_ID);
         verify(versionMapperMock, times(1)).versionToWorkflowVersion(any(Version.class));
 
@@ -142,6 +191,7 @@ public class WorkflowVersionManagerImplTest {
 
     @Test
     public void shouldUpdateWorkflowVersion() {
+        doNothing().when(workflowVersionManager).validateWorkflowStatus(ITEM1_ID);
         String updatedDescription = "WorkflowVersion description updated";
         Version retrievedVersion = new Version(VERSION1_ID);
         retrievedVersion.setName("1.0");
@@ -160,11 +210,12 @@ public class WorkflowVersionManagerImplTest {
         inputVersion.setInputs(Collections.singleton(toBeCreated));
         ParameterEntity toBeUpdated = new ParameterEntity("Output1");
         inputVersion.setOutputs(Collections.singleton(toBeUpdated));
-        doReturn(Collections.emptyList()).when(parameterRepositoryMock).list(ITEM1_ID,VERSION1_ID,ParameterRole.INPUT);
+        doReturn(Collections.emptyList()).when(parameterRepositoryMock)
+                .list(ITEM1_ID, VERSION1_ID, ParameterRole.INPUT);
         ParameterEntity toBeDeleted = new ParameterEntity("Output2");
         toBeDeleted.setId("parameter_id_1");
         Collection<ParameterEntity> currentOutputs = Arrays.asList(toBeDeleted, toBeUpdated);
-        doReturn(currentOutputs).when(parameterRepositoryMock).list(ITEM1_ID,VERSION1_ID,ParameterRole.OUTPUT);
+        doReturn(currentOutputs).when(parameterRepositoryMock).list(ITEM1_ID, VERSION1_ID, ParameterRole.OUTPUT);
 
         Version mappedInputVersion = new Version(VERSION1_ID);
         mappedInputVersion.setName("1.0");
@@ -181,15 +232,16 @@ public class WorkflowVersionManagerImplTest {
         assertEquals(VersionStatus.Draft, captorVersion.getStatus());
         verify(versioningManagerMock).publish(ITEM1_ID, mappedInputVersion, "Update version");
 
-        verify(parameterRepositoryMock).delete(ITEM1_ID,VERSION1_ID,"parameter_id_1");
-        verify(parameterRepositoryMock).create(ITEM1_ID,VERSION1_ID,ParameterRole.INPUT,toBeCreated);
-        verify(parameterRepositoryMock).update(ITEM1_ID,VERSION1_ID,ParameterRole.OUTPUT,toBeUpdated);
+        verify(parameterRepositoryMock).delete(ITEM1_ID, VERSION1_ID, "parameter_id_1");
+        verify(parameterRepositoryMock).create(ITEM1_ID, VERSION1_ID, ParameterRole.INPUT, toBeCreated);
+        verify(parameterRepositoryMock).update(ITEM1_ID, VERSION1_ID, ParameterRole.OUTPUT, toBeUpdated);
 
     }
 
 
     @Test
     public void shouldCreateWorkflowVersion() {
+        doNothing().when(workflowVersionManager).validateWorkflowStatus(ITEM1_ID);
         Version version = new Version(VERSION1_ID);
         version.setDescription("version desc");
         doReturn(version).when(versioningManagerMock).create(ITEM1_ID, version, VersionCreationMethod.major);
@@ -205,6 +257,7 @@ public class WorkflowVersionManagerImplTest {
 
     @Test(expected = VersionCreationException.class)
     public void shouldTrowExceptionWhenDraftVersionExists() {
+        doNothing().when(workflowVersionManager).validateWorkflowStatus(ITEM1_ID);
         WorkflowVersion versionRequestDto = new WorkflowVersion();
 
         Version baseVersion = new Version(VERSION2_ID);
@@ -217,6 +270,7 @@ public class WorkflowVersionManagerImplTest {
 
     @Test(expected = VersionCreationException.class)
     public void shouldTrowExceptionWhenInputsSupplied() {
+        doNothing().when(workflowVersionManager).validateWorkflowStatus(ITEM1_ID);
         WorkflowVersion versionRequestDto = new WorkflowVersion();
         versionRequestDto.setInputs(Collections.singleton(new ParameterEntity()));
         Version baseVersion = new Version(VERSION2_ID);
@@ -260,32 +314,46 @@ public class WorkflowVersionManagerImplTest {
         workflowVersionManager.updateState(ITEM1_ID, VERSION1_ID, DRAFT);
     }
 
-    @Test(expected = VersionStateModificationException.class)
+    @Test(expected = VersionStateModificationMissingArtifactException.class)
     public void updateStateWhenCertified() {
         Version version = new Version(VERSION1_ID);
         version.setStatus(VersionStatus.Certified);
         doReturn(version).when(versioningManagerMock).get(eq(ITEM1_ID), eqVersion(VERSION1_ID));
         doReturn(CERTIFIED).when(versionStateMapperMock).versionStatusToWorkflowVersionState(version.getStatus());
-        doThrow(new RuntimeException()).when(versioningManagerMock)
-                .submit(eq(ITEM1_ID), eqVersion(VERSION1_ID), anyString());
 
         workflowVersionManager.updateState(ITEM1_ID, VERSION1_ID, CERTIFIED);
     }
 
     @Test
-    public void updateState() {
+    public void shouldFailUpdateStateWhenNoArtifact() {
         Version retrievedVersion = new Version(VERSION1_ID);
         retrievedVersion.setStatus(VersionStatus.Draft);
         doReturn(retrievedVersion).when(versioningManagerMock).get(eq(ITEM1_ID), eqVersion(VERSION1_ID));
         doReturn(DRAFT).when(versionStateMapperMock).versionStatusToWorkflowVersionState(VersionStatus.Draft);
 
+        exceptionRule.expect(VersionStateModificationMissingArtifactException.class);
+        exceptionRule.expectMessage(String.format(
+                VersionStateModificationMissingArtifactException.WORKFLOW_MODIFICATION_STATE_MISSING_ARTIFACT_TEMPLATE,
+                ITEM1_ID, VERSION1_ID, DRAFT, CERTIFIED));
         workflowVersionManager.updateState(ITEM1_ID, VERSION1_ID, CERTIFIED);
 
         verify(versioningManagerMock).submit(eq(ITEM1_ID), eqVersion(VERSION1_ID), anyString());
     }
 
     @Test
+    public void shouldSuccessUpdateStateWhenArtifactExist() {
+        Version retrievedVersion = new Version(VERSION1_ID);
+        retrievedVersion.setStatus(VersionStatus.Draft);
+        doReturn(retrievedVersion).when(versioningManagerMock).get(eq(ITEM1_ID), eqVersion(VERSION1_ID));
+        doReturn(DRAFT).when(versionStateMapperMock).versionStatusToWorkflowVersionState(VersionStatus.Draft);
+        doReturn(true).when(artifactRepositoryMock).isExist(ITEM1_ID, VERSION1_ID);
+        workflowVersionManager.updateState(ITEM1_ID, VERSION1_ID, CERTIFIED);
+        verify(versioningManagerMock).submit(eq(ITEM1_ID), eqVersion(VERSION1_ID), anyString());
+    }
+
+    @Test
     public void shouldUploadArtifact() {
+        doNothing().when(workflowVersionManager).validateWorkflowStatus(ITEM1_ID);
         Version version = new Version(VERSION1_ID);
         version.setStatus(VersionStatus.Draft);
         VersionState versionState = new VersionState();
@@ -321,23 +389,25 @@ public class WorkflowVersionManagerImplTest {
 
     @Test(expected = VersionModificationException.class)
     public void shouldThrowExceptionInDeleteArtifactWhenVersionIsCertified() {
+        doNothing().when(workflowVersionManager).validateWorkflowStatus(ITEM1_ID);
         Version version = new Version(VERSION1_ID);
-        doReturn(version).when(versioningManagerMock).get(ITEM1_ID,version);
+        doReturn(version).when(versioningManagerMock).get(ITEM1_ID, version);
         WorkflowVersion workflowVersion = new WorkflowVersion(VERSION1_ID);
         workflowVersion.setState(WorkflowVersionState.CERTIFIED);
         doReturn(workflowVersion).when(versionMapperMock).versionToWorkflowVersion(version);
-        workflowVersionManager.deleteArtifact(ITEM1_ID,VERSION1_ID);
+        workflowVersionManager.deleteArtifact(ITEM1_ID, VERSION1_ID);
     }
 
     @Test
     public void shouldDeleteArtifact() {
+        doNothing().when(workflowVersionManager).validateWorkflowStatus(ITEM1_ID);
         Version version = new Version(VERSION1_ID);
-        doReturn(version).when(versioningManagerMock).get(ITEM1_ID,version);
+        doReturn(version).when(versioningManagerMock).get(ITEM1_ID, version);
         WorkflowVersion workflowVersion = new WorkflowVersion(VERSION1_ID);
         doReturn(workflowVersion).when(versionMapperMock).versionToWorkflowVersion(version);
-        workflowVersionManager.deleteArtifact(ITEM1_ID,VERSION1_ID);
-        verify(artifactRepositoryMock).delete(ITEM1_ID,VERSION1_ID);
-        verify(versioningManagerMock).publish(ITEM1_ID,version,"Delete Artifact");
+        workflowVersionManager.deleteArtifact(ITEM1_ID, VERSION1_ID);
+        verify(artifactRepositoryMock).delete(ITEM1_ID, VERSION1_ID);
+        verify(versioningManagerMock).publish(ITEM1_ID, version, "Delete Artifact");
     }
 
     private static Version eqVersion(String versionId) {
