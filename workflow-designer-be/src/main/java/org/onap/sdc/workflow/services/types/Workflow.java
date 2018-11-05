@@ -39,4 +39,5 @@ public class Workflow {
     private String description;
     private Set<WorkflowVersionState> versionStates;
     private Collection<WorkflowVersion> versions;
+    private WorkflowStatus status;
 }

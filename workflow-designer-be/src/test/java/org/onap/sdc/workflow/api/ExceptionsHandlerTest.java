@@ -14,6 +14,8 @@ import org.onap.sdc.workflow.api.types.ErrorResponse;
 import org.onap.sdc.workflow.api.types.UnexpectedErrorResponse;
 import org.onap.sdc.workflow.services.exceptions.EntityNotFoundException;
 import org.onap.sdc.workflow.services.exceptions.VersionModificationException;
+import org.onap.sdc.workflow.services.exceptions.VersionStateModificationMissingArtifactException;
+import org.onap.sdc.workflow.services.types.WorkflowVersionState;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -35,6 +37,17 @@ public class ExceptionsHandlerTest {
     @Test
     public void handleUnprocessableEntityException() {
         VersionModificationException exception = new VersionModificationException("1", "2");
+        ResponseEntity<ErrorResponse> response = exceptionsHandler.handleUnprocessableEntityException(exception);
+
+        assertEquals(UNPROCESSABLE_ENTITY, response.getStatusCode());
+        assertEquals(exception.getMessage(), response.getBody().getMessage());
+    }
+
+    @Test
+    public void handleUnprocessableEntityVersionStateModificationMissingArtifactException() {
+        VersionStateModificationMissingArtifactException exception =
+                new VersionStateModificationMissingArtifactException("WF_ID", "Version_id",
+                        WorkflowVersionState.DRAFT, WorkflowVersionState.CERTIFIED);
         ResponseEntity<ErrorResponse> response = exceptionsHandler.handleUnprocessableEntityException(exception);
 
         assertEquals(UNPROCESSABLE_ENTITY, response.getStatusCode());
