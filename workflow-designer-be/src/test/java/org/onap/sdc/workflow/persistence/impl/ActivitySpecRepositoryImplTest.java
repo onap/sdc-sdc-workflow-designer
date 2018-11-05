@@ -180,12 +180,6 @@ public class ActivitySpecRepositoryImplTest {
         }
 
         @Override
-        public Optional<ItemVersion> getFirstVersion(SessionContext context, Id itemId) {
-
-            return Optional.ofNullable(itemVersion);
-        }
-
-        @Override
         public Collection<ItemVersion> listPublicVersions(SessionContext context, Id itemId) {
             return null;
         }
