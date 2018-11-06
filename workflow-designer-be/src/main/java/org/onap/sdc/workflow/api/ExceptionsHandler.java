@@ -33,6 +33,8 @@ import org.onap.sdc.workflow.services.exceptions.VersionCreationException;
 import org.onap.sdc.workflow.services.exceptions.VersionModificationException;
 import org.onap.sdc.workflow.services.exceptions.VersionStateModificationException;
 import org.onap.sdc.workflow.services.exceptions.VersionStatusModificationException;
+import org.onap.sdc.workflow.services.exceptions.WorkflowModificationException;
+import org.onap.sdc.workflow.services.exceptions.WorkflowStatusModificationException;
 import org.openecomp.sdc.logging.api.Logger;
 import org.openecomp.sdc.logging.api.LoggerFactory;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -91,7 +93,8 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(
             {InvalidArtifactException.class, VersionCreationException.class, VersionModificationException.class,
                     VersionStateModificationException.class, VersionStatusModificationException.class,
-                    UniqueValueViolationException.class})
+                    UniqueValueViolationException.class, WorkflowStatusModificationException.class,
+                    WorkflowModificationException.class})
     public final ResponseEntity<ErrorResponse> handleUnprocessableEntityException(Exception exception) {
         LOG.debug(LOG_MSG, UNPROCESSABLE_ENTITY, exception);
         return new ResponseEntity<>(new ErrorResponse(exception.getMessage()), UNPROCESSABLE_ENTITY);
