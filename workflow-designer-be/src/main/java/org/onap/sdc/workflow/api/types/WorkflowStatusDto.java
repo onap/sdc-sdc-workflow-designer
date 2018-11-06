@@ -14,24 +14,12 @@
  * limitations under the License.
  */
 
-package org.onap.sdc.workflow.services;
+package org.onap.sdc.workflow.api.types;
 
-import java.util.Set;
-import org.onap.sdc.workflow.services.types.Page;
-import org.onap.sdc.workflow.services.types.RequestSpec;
-import org.onap.sdc.workflow.services.types.Workflow;
+import lombok.Data;
 import org.onap.sdc.workflow.services.types.WorkflowStatus;
-import org.onap.sdc.workflow.services.types.WorkflowVersionState;
 
-public interface WorkflowManager {
-
-    Page<Workflow> list(String statusFilter, String searchNameFilter, Set<WorkflowVersionState> versionStatesFilter, RequestSpec requestSpec);
-
-    Workflow get(Workflow workflow);
-
-    Workflow create(Workflow workflow);
-
-    void update(Workflow workflow);
-
-    void updateStatus(Workflow workflow, WorkflowStatus status);
+@Data
+public class WorkflowStatusDto {
+    private WorkflowStatus status;
 }

@@ -30,6 +30,7 @@ import io.swagger.annotations.ApiParam;
 import org.onap.sdc.workflow.api.types.Paging;
 import org.onap.sdc.workflow.api.types.Sorting;
 import org.onap.sdc.workflow.api.types.VersionStatesFormatter;
+import org.onap.sdc.workflow.api.types.WorkflowStatusDto;
 import org.onap.sdc.workflow.services.WorkflowManager;
 import org.onap.sdc.workflow.services.WorkflowVersionManager;
 import org.onap.sdc.workflow.services.annotations.UserId;
@@ -81,11 +82,13 @@ public class WorkflowController {
                     value = "Sorting criteria in the format: property:(asc|desc). Default sort order is ascending.",
                     allowableValues = "name:asc,name:desc"),
             @ApiImplicitParam(name = "searchNameFilter", dataType = "string", paramType = "query",
-            value = "Filter by workflow name")})
-    public Page<Workflow> list(@ApiIgnore String searchNameFilter,
+                    value = "Filter by workflow name"),
+            @ApiImplicitParam(name = "statusFilter", dataType = "string", paramType = "query",
+                    allowableValues = "ACTIVE,ARCHIVED", value = "Filter by workflow status")})
+    public Page<Workflow> list(@ApiIgnore String statusFilter, @ApiIgnore String searchNameFilter,
             @ApiIgnore VersionStatesFormatter versionStateFilter, @ApiIgnore Paging paging,
             @ApiIgnore Sorting sorting, @UserId String user) {
-        return workflowManager.list(searchNameFilter, versionStateFilter.getVersionStates(), initRequestSpec(paging, sorting));
+        return workflowManager.list(statusFilter, searchNameFilter, versionStateFilter.getVersionStates(), initRequestSpec(paging, sorting));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -115,6 +118,16 @@ public class WorkflowController {
         workflow.setId(workflowId);
         workflowManager.update(workflow);
         return workflow;
+    }
+
+    @PostMapping(path = "/{workflowId}/archiving", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation("Update workflow status")
+    public ResponseEntity updateStatus(@RequestBody WorkflowStatusDto request, @PathVariable("workflowId") String workflowId,
+            @UserId String user) {
+        Workflow workflow = new Workflow();
+        workflow.setId(workflowId);
+        workflowManager.updateStatus(workflowManager.get(workflow),request.getStatus());
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     private RequestSpec initRequestSpec(Paging paging, Sorting sorting) {
