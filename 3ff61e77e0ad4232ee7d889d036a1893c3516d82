@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_556d8a03",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/WorkflowController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-11-07T09:46:37Z",
+      "side": 1,
+      "message": "make updateStatus to get workflowId and move this logic(and the above 2 line) inside the updateStatus",
+      "range": {
+        "startLine": 129,
+        "startChar": 37,
+        "endLine": 129,
+        "endChar": 66
+      },
+      "revId": "3ff61e77e0ad4232ee7d889d036a1893c3516d82",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_150ce241",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/exceptions/WorkflowStatusModificationException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-11-07T09:46:37Z",
+      "side": 1,
+      "message": "we decided to be left with the default message from zusammen(\"item already archived\") because we cannot differentiate between the different core exception.\nI think your constructor should receive only the CoreException and call super with it\u0027s message.",
+      "range": {
+        "startLine": 24,
+        "startChar": 12,
+        "endLine": 24,
+        "endChar": 93
+      },
+      "revId": "3ff61e77e0ad4232ee7d889d036a1893c3516d82",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_35924658",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/impl/WorkflowManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-11-07T09:46:37Z",
+      "side": 1,
+      "message": "use simple if\\else",
+      "range": {
+        "startLine": 147,
+        "startChar": 12,
+        "endLine": 152,
+        "endChar": 46
+      },
+      "revId": "3ff61e77e0ad4232ee7d889d036a1893c3516d82",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_d59e5a63",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/impl/WorkflowManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-11-07T09:46:37Z",
+      "side": 1,
+      "message": "what if it\u0027snot archived or restore?",
+      "range": {
+        "startLine": 154,
+        "startChar": 16,
+        "endLine": 154,
+        "endChar": 24
+      },
+      "revId": "3ff61e77e0ad4232ee7d889d036a1893c3516d82",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_15b0628a",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/impl/WorkflowManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1741
+      },
+      "writtenOn": "2018-11-07T09:46:37Z",
+      "side": 1,
+      "message": "not needed",
+      "range": {
+        "startLine": 227,
+        "startChar": 8,
+        "endLine": 227,
+        "endChar": 12
+      },
+      "revId": "3ff61e77e0ad4232ee7d889d036a1893c3516d82",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
