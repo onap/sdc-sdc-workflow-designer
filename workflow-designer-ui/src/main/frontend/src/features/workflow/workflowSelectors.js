@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-
+import { WORKFLOW_STATUS } from './workflowConstants';
 export const getWorkflowName = state =>
     state && state.workflow.data.name && state.workflow.data.name;
 export const getTrimWorkflowName = state =>
@@ -21,3 +21,14 @@ export const getTrimWorkflowName = state =>
 export const getWorkflowId = state => state && state.workflow.data.id;
 export const getWorkflowDescription = state =>
     state && state.workflow.data.description;
+export const getWorkflowStatus = state =>
+    state &&
+    state.workflow &&
+    state.workflow.data &&
+    state.workflow.data.status;
+export const isWorkflowArchive = state =>
+    state &&
+    state.workflow &&
+    state.workflow.data &&
+    state.workflow.data.status &&
+    state.workflow.data.status === WORKFLOW_STATUS.ARCHIVE;

@@ -33,6 +33,8 @@
 		}
 
 		.version-status-container {
+			display: flex;
+			align-items: center;
 			.version-selector-more-versions {
 				@include body-1-emphasis;
 				color: $blue;

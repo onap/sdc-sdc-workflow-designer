@@ -147,7 +147,7 @@ class InputOutputView extends React.Component {
     };
 
     render() {
-        const { isShowInputs, search, handleAdd, isCertified } = this.props;
+        const { isShowInputs, search, handleAdd, isReadOnly } = this.props;
 
         const addLabel = isShowInputs
             ? I18n.t('workflow.inputOutput.addInput')
@@ -180,7 +180,7 @@ class InputOutputView extends React.Component {
                         </div>
                         <div
                             className={cn('input-output__add', {
-                                disabled: isCertified
+                                disabled: isReadOnly
                             })}
                             data-test-id="wf-input-output-add"
                             onClick={handleAdd}>
@@ -195,7 +195,7 @@ class InputOutputView extends React.Component {
                 </div>
                 <div className="input-output__table">
                     <TableHead />
-                    <TableBody isCertified={isCertified}>
+                    <TableBody isReadOnly={isReadOnly}>
                         <Scrollbars className="scrollbars">
                             {dataRowsView}
                         </Scrollbars>
@@ -218,7 +218,7 @@ InputOutputView.propTypes = {
     ),
     types: PropTypes.array,
     error: PropTypes.object,
-    isCertified: PropTypes.bool,
+    isReadOnly: PropTypes.bool,
     handleChangeError: PropTypes.func,
     handleShowInputs: PropTypes.func,
     handleShowOutputs: PropTypes.func,

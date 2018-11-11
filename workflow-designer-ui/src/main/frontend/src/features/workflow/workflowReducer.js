@@ -37,6 +37,11 @@ function workflowReducer(state = {}, action) {
             return {
                 ...action.payload
             };
+        //TODO change it when BE is done
+        // return {
+        //     ...action.payload,
+        //     status: 'archive'
+        // };
         case VALIDATION_ERROR:
             return {
                 ...state,

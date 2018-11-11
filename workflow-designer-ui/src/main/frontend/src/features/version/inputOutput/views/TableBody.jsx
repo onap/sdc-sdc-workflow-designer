@@ -29,12 +29,12 @@ class TableBody extends React.Component {
     };
 
     render() {
-        const { isCertified, children } = this.props;
+        const { isReadOnly, children } = this.props;
 
         return (
             <div
                 className={cn('input-output__table__tbody', {
-                    disabled: isCertified
+                    disabled: isReadOnly
                 })}>
                 {children}
             </div>
@@ -43,7 +43,7 @@ class TableBody extends React.Component {
 }
 
 TableBody.propTypes = {
-    isCertified: PropTypes.bool,
+    isReadOnly: PropTypes.bool,
     children: PropTypes.node
 };
 

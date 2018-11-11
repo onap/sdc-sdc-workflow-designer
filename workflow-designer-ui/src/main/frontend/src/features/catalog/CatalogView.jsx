@@ -40,26 +40,49 @@ class CatalogView extends Component {
 
         const {
             handleFetchWorkflow,
-            catalog: { sort, searchNameFilter }
+            catalog: { sort, status, searchNameFilter }
         } = this.props;
 
         const payload = {
             ...sort
         };
-        payload[NAME] = payload[NAME] === ASC ? DESC : ASC;
-        handleFetchWorkflow(payload, undefined, searchNameFilter);
-    };
 
+        payload[NAME] = payload[NAME] === ASC ? DESC : ASC;
+        handleFetchWorkflow({
+            sort: payload,
+            searchNameFilter,
+            status
+        });
+    };
+    handleStatusChange = value => {
+        const {
+            handleFetchWorkflow,
+            searchNameFilter,
+            catalog: { sort }
+        } = this.props;
+
+        handleFetchWorkflow({
+            sort,
+            searchNameFilter,
+            status: value
+        });
+    };
     handleScroll = () => {
         const {
             catalog: {
                 paging: { offset },
                 sort,
+                status,
                 searchNameFilter
             },
             handleFetchWorkflow
         } = this.props;
-        handleFetchWorkflow(sort, offset, searchNameFilter);
+        handleFetchWorkflow({
+            sort,
+            offset,
+            searchNameFilter,
+            status
+        });
     };
 
     goToOverviewPage = id => {
@@ -86,6 +109,7 @@ class CatalogView extends Component {
             sort,
             paging: { hasMore, total },
             items,
+            status,
             searchNameFilter
         } = catalog;
         const alphabeticalOrder = sort[NAME];
@@ -93,6 +117,8 @@ class CatalogView extends Component {
         return (
             <div className="wf-catalog">
                 <Header
+                    status={status}
+                    statusChange={this.handleStatusChange}
                     searchChange={this.searchChange}
                     searchValue={searchNameFilter}
                 />

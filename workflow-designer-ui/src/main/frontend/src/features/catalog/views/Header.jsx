@@ -16,11 +16,12 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import SearchInput from 'shared/searchInput/SearchInput';
+import StatusSelect from './StatusSelector';
 
-const Header = ({ searchChange, searchValue }) => (
+const Header = ({ searchChange, searchValue, statusChange, status }) => (
     <div className="header">
+        <StatusSelect status={status} onChange={statusChange} />
         <div className="header__search">
             <SearchInput
                 dataTestId="wf-catalog-search"
@@ -33,7 +34,9 @@ const Header = ({ searchChange, searchValue }) => (
 
 Header.propTypes = {
     searchChange: PropTypes.func,
-    searchValue: PropTypes.string
+    searchValue: PropTypes.string,
+    statusChange: PropTypes.func,
+    status: PropTypes.string
 };
 
 Header.defaultProps = {

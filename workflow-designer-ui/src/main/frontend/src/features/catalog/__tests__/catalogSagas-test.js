@@ -25,6 +25,7 @@ import {
     LIMIT,
     SEARCH_CHANGED
 } from 'features/catalog/catalogConstants';
+import { WORKFLOW_STATUS } from 'features/workflow/workflowConstants';
 import catalogApi from '../catalogApi';
 import { fetchWorkflow, updateWorkflow } from 'features/catalog/catalogActions';
 import catalogSaga, {
@@ -51,6 +52,7 @@ describe('Catalog Sagas', () => {
         const sort = {
             [NAME]: DESC
         };
+        const status = WORKFLOW_STATUS.ACTIVE;
         const offset = 0;
         const searchNameFilter = undefined;
         const data = {
@@ -61,6 +63,7 @@ describe('Catalog Sagas', () => {
                 hasMore: false,
                 total: 2
             },
+            status: WORKFLOW_STATUS.ACTIVE,
             searchNameFilter: 'w',
             items: [
                 {
@@ -88,18 +91,19 @@ describe('Catalog Sagas', () => {
                 dispatch: action => dispatched.push(action)
             },
             fetchWorkflowSaga,
-            fetchWorkflow(sort, offset)
+            fetchWorkflow({ sort, offset, status })
         ).done;
 
         expect(dispatched).toEqual(
             expect.arrayContaining([updateWorkflow({ sort, ...data })])
         );
 
-        expect(catalogApi.getWorkflows).toBeCalledWith(
+        expect(catalogApi.getWorkflows).toBeCalledWith({
             sort,
-            LIMIT,
-            offset + LIMIT,
+            status,
+            limit: LIMIT,
+            offset: offset + LIMIT,
             searchNameFilter
-        );
+        });
     });
 });

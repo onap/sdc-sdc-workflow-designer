@@ -15,10 +15,13 @@
 */
 
 import { createAction } from 'redux-actions';
+import { WORKFLOW_STATUS } from 'features/workflow/workflowConstants';
 
 export const FETCH_VERSION_LIST = 'overview/FETCH_VERSION_LIST';
 export const GET_OVERVIEW = 'overview/GET_OVERVIEW';
 export const UPDATE_WORKFLOW = 'overview/UPDATE_WORKFLOW';
+export const ARCHIVE_WORKFLOW = 'overview/ARCHIVE_WORKFLOW';
+export const RESTORE_WORKFLOW = 'overview/RESTORE_WORKFLOW';
 
 export const versionListFetchAction = payload => ({
     type: FETCH_VERSION_LIST,
@@ -34,3 +37,19 @@ export const updateWorkflowAction = createAction(
     UPDATE_WORKFLOW,
     payload => payload
 );
+
+export const archiveWorkflowAction = payload => ({
+    type: ARCHIVE_WORKFLOW,
+    payload: {
+        ...payload,
+        type: WORKFLOW_STATUS.ARCHIVE
+    }
+});
+
+export const restoreWorkflowAction = payload => ({
+    type: RESTORE_WORKFLOW,
+    payload: {
+        ...payload,
+        type: WORKFLOW_STATUS.ACTIVE
+    }
+});

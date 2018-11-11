@@ -25,11 +25,12 @@ function baseUrl() {
 }
 
 const Api = {
-    getWorkflows: (sort, limit, offset, searchNameFilter) => {
+    getWorkflows: ({ sort, limit, offset, searchNameFilter, status }) => {
         const queryParams = {
             sort: Object.keys(sort).map(key => `${key}:${sort[key]}`),
             limit,
-            offset
+            offset,
+            archiving: status
         };
         if (searchNameFilter) queryParams.searchNameFilter = searchNameFilter;
         const queryString = qs.stringify(queryParams, {

@@ -23,18 +23,20 @@ import {
     NAME,
     ASC
 } from 'features/catalog/catalogConstants';
+import { WORKFLOW_STATUS } from 'features/workflow/workflowConstants';
 import { fetchWorkflow, updateWorkflow } from 'features/catalog/catalogActions';
 
 describe('Catalog Actions', () => {
     it('should have `fetchWorkflow` action', () => {
         const sort = { [NAME]: ASC };
         const offset = 0;
-
-        expect(fetchWorkflow(sort, offset)).toEqual({
+        const status = WORKFLOW_STATUS.ACTIVE;
+        expect(fetchWorkflow({ sort, offset, status })).toEqual({
             type: FETCH_WORKFLOW,
             payload: {
                 sort,
                 limit: LIMIT,
+                status,
                 offset
             }
         });

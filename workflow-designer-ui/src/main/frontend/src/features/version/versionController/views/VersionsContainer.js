@@ -17,13 +17,15 @@ import React from 'react';
 import VersionSelect from 'features/version/versionController/views/VersionSelect';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from 'prop-types';
+import ArchiveLabel from 'shared/archiveLabel/ArchiveLabel';
 
 const VersionContainer = props => {
-    let {
+    const {
         currentWorkflowVersion,
         viewableVersions,
         onOverviewClick,
-        onVersionSelectChange
+        onVersionSelectChange,
+        isArchive
     } = props;
 
     return (
@@ -41,6 +43,7 @@ const VersionContainer = props => {
                     onClick={onOverviewClick}>
                     {I18n.t('workflow.overview.viewOverview')}
                 </span>
+                {isArchive && <ArchiveLabel />}
             </div>
         </div>
     );
@@ -50,7 +53,8 @@ VersionContainer.propTypes = {
     currentWorkflowVersion: PropTypes.object,
     viewableVersions: PropTypes.arrayOf(Object),
     onOverviewClick: PropTypes.func,
-    onVersionSelectChange: PropTypes.func
+    onVersionSelectChange: PropTypes.func,
+    isArchive: PropTypes.bool
 };
 
 export default VersionContainer;

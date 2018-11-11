@@ -37,7 +37,8 @@ export default class VersionControllerView extends Component {
         certifyVersion: PropTypes.func,
         changeVersion: PropTypes.func,
         isCertifyDisable: PropTypes.bool,
-        hasErrors: PropTypes.bool
+        hasErrors: PropTypes.bool,
+        isArchive: PropTypes.bool
     };
 
     constructor(props) {
@@ -96,8 +97,10 @@ export default class VersionControllerView extends Component {
             workflowName,
             versionsList,
             hasErrors,
-            isCertifyDisable
+            isCertifyDisable,
+            isArchive
         } = this.props;
+        const isReadonly = isCertifyDisable || hasErrors || isArchive;
         return (
             <div className="version-controller-bar">
                 <WorkflowTitle workflowName={workflowName} />
@@ -107,11 +110,12 @@ export default class VersionControllerView extends Component {
                         viewableVersions={versionsList}
                         onOverviewClick={this.routeToOverview}
                         onVersionSelectChange={this.versionChangeCallback}
+                        isArchive={isArchive}
                     />
                     <ActionButtons
-                        saveDisabled={isCertifyDisable || hasErrors}
+                        saveDisabled={isReadonly}
                         onSaveClick={this.sendSaveParamsToServer}
-                        certifyDisabled={isCertifyDisable || hasErrors}
+                        certifyDisabled={isReadonly}
                         onCertifyClick={this.certifyVersion}
                         onUndoClick={this.undoClickCallback}
                     />

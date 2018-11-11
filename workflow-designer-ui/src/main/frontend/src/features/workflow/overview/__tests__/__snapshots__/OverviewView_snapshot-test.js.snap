@@ -15,18 +15,33 @@ exports[`OverviewView Snapshot renders correctly 1`] = `
       title
     </div>
     <div
-      className="svg-icon-wrapper  go-catalog-btn  clickable right"
-      disabled={undefined}
-      onClick={[Function]}
+      className="header-buttons"
     >
-      <test-file-stub
-        className="svg-icon __back"
-      />
-      <span
-        className="svg-icon-label "
+      <div
+        className="svg-icon-wrapper  go-catalog-btn  clickable right"
+        disabled={undefined}
+        onClick={[Function]}
       >
-        backBtnLabel
-      </span>
+        <test-file-stub
+          className="svg-icon __back"
+        />
+        <span
+          className="svg-icon-label "
+        >
+          backBtnLabel
+        </span>
+      </div>
+      <div
+        className="svg-icon-wrapper  archive-btn  clickable bottom"
+        disabled={undefined}
+        onClick={[Function]}
+        title="Archive workflow"
+      >
+        <test-file-stub
+          className="svg-icon __archiveBox"
+        />
+        
+      </div>
     </div>
   </div>
   <div

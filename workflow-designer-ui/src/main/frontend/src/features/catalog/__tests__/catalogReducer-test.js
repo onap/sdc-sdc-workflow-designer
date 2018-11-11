@@ -19,6 +19,7 @@
 import { NAME, ASC, DESC } from 'features/catalog/catalogConstants';
 import catalogReducer, { initialState } from 'features/catalog/catalogReducer';
 import { updateWorkflow } from 'features/catalog/catalogActions';
+import { WORKFLOW_STATUS } from 'features/workflow/workflowConstants';
 
 describe('Catalog Reducer', () => {
     const state = {
@@ -29,6 +30,7 @@ describe('Catalog Reducer', () => {
             hasMore: false,
             total: 2
         },
+        status: WORKFLOW_STATUS.ACTIVE,
         sort: {
             [NAME]: ASC
         },
@@ -106,5 +108,4 @@ describe('Catalog Reducer', () => {
             expect.arrayContaining([...dataPayload.items, ...state.items])
         );
     });
-
 });

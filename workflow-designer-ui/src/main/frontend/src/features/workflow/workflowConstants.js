@@ -15,6 +15,11 @@
 */
 import { createAction } from 'redux-actions';
 
+export const WORKFLOW_STATUS = {
+    ACTIVE: 'ACTIVE',
+    ARCHIVE: 'ARCHIVED'
+};
+
 export const CLEAR_WORKFLOW_DATA = 'workflow/CLEAR_WORKFLOW_DATA';
 export const SET_WORKFLOW = 'workflow/SET_WORKFLOW';
 

@@ -17,42 +17,91 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import SVGIcon from 'sdc-ui/lib/react/SVGIcon';
+import Button from 'sdc-ui/lib/react/Button';
+import ArchiveLabel from 'shared/archiveLabel/ArchiveLabel';
 
-const BackBtn = ({ history }) => (
-    <SVGIcon
-        onClick={() => history.push('/')}
-        label={I18n.t('workflow.overview.backBtnLabel')}
-        className="go-catalog-btn"
-        labelPosition="right"
-        name="back"
-    />
+const Buttons = ({ history, archiveWorkflow, restoreWorkflow, isArchive }) => (
+    <div className="header-buttons">
+        <SVGIcon
+            onClick={() => history.push('/')}
+            label={I18n.t('workflow.overview.backBtnLabel')}
+            className="go-catalog-btn"
+            labelPosition="right"
+            name="back"
+        />
+        <ArchiveBtn
+            isArchive={isArchive}
+            restoreWorkflow={restoreWorkflow}
+            archiveWorkflow={archiveWorkflow}
+        />
+    </div>
 );
 
-BackBtn.propTypes = {
-    history: PropTypes.object
+Buttons.propTypes = {
+    history: PropTypes.object,
+    archiveWorkflow: PropTypes.func,
+    isArchive: PropTypes.bool,
+    restoreWorkflow: PropTypes.func
 };
 
-const Title = ({ name }) => (
+const Title = ({ name, isArchive }) => (
     <div className="title">
         {name} - {I18n.t('workflow.overview.title')}
+        {isArchive && <ArchiveLabel />}
     </div>
 );
 Title.propTypes = {
-    name: PropTypes.string
+    name: PropTypes.string,
+    isArchive: PropTypes.bool
 };
 
-const WorkflowHeader = ({ name, history }) => {
+const ArchiveBtn = ({ isArchive, archiveWorkflow, restoreWorkflow }) => {
+    return !isArchive ? (
+        <SVGIcon
+            onClick={archiveWorkflow}
+            title="Archive workflow"
+            className="archive-btn"
+            name="archiveBox"
+        />
+    ) : (
+        <Button className="restore-btn" onClick={restoreWorkflow}>
+            RESTORE
+        </Button>
+    );
+};
+ArchiveBtn.propTypes = {
+    status: PropTypes.string,
+    archiveWorkflow: PropTypes.func,
+    restoreWorkflow: PropTypes.func,
+    isArchive: PropTypes.bool
+};
+
+const WorkflowHeader = ({
+    name,
+    history,
+    archiveWorkflow,
+    restoreWorkflow,
+    isArchive
+}) => {
     return (
         <div className="overview-header">
-            <Title name={name} />
-            <BackBtn history={history} />
+            <Title isArchive={isArchive} name={name} />
+            <Buttons
+                restoreWorkflow={restoreWorkflow}
+                archiveWorkflow={archiveWorkflow}
+                isArchive={isArchive}
+                history={history}
+            />
         </div>
     );
 };
 
 WorkflowHeader.propTypes = {
     name: PropTypes.string,
-    history: PropTypes.object
+    history: PropTypes.object,
+    archiveWorkflow: PropTypes.func,
+    restoreWorkflow: PropTypes.func,
+    isArchive: PropTypes.bool
 };
 
 export default WorkflowHeader;
