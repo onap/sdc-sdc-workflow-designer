@@ -35,6 +35,11 @@ const Api = {
             name,
             description
         });
+    },
+    archiveRestoreWorkflow: ({ id, type }) => {
+        return RestfulAPIUtil.post(`${baseUrl()}${id}/archiving`, {
+            status: type
+        });
     }
 };
 

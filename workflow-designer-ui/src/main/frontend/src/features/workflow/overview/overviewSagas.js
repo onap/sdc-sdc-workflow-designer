@@ -13,17 +13,21 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { call, takeEvery, put } from 'redux-saga/effects';
+import { call, takeEvery, put, select } from 'redux-saga/effects';
 
 import { genericNetworkErrorAction } from 'wfapp/appConstants';
 import overviewApi from 'features/workflow/overview/overviewApi';
 import {
     versionListFetchAction,
     GET_OVERVIEW,
-    UPDATE_WORKFLOW
+    UPDATE_WORKFLOW,
+    ARCHIVE_WORKFLOW,
+    RESTORE_WORKFLOW
 } from 'features/workflow/overview/overviewConstansts';
 import { setWorkflowAction } from 'features/workflow/workflowConstants';
 import { notificationActions } from 'shared/notifications/notificationsActions';
+import { fetchWorkflow } from 'features/catalog/catalogActions';
+import { WORKFLOW_STATUS } from 'features/workflow/workflowConstants';
 
 export function* getOverview(action) {
     try {
@@ -50,7 +54,31 @@ export function* updateWorkflow(action) {
     }
 }
 
+export function* archiveRestoreWorkflow(action) {
+    try {
+        const { history, ...data } = action.payload;
+        yield call(overviewApi.archiveRestoreWorkflow, data);
+        const {
+            catalog: { sort },
+            searchNameFilter = ''
+        } = yield select();
+
+        yield put(
+            fetchWorkflow({
+                sort,
+                searchNameFilter,
+                status: WORKFLOW_STATUS.ACTIVE
+            })
+        );
+        history.push('/');
+    } catch (e) {
+        yield put(genericNetworkErrorAction(e));
+    }
+}
+
 export function* watchOverview() {
     yield takeEvery(GET_OVERVIEW, getOverview);
     yield takeEvery(UPDATE_WORKFLOW, updateWorkflow);
+    yield takeEvery(ARCHIVE_WORKFLOW, archiveRestoreWorkflow);
+    yield takeEvery(RESTORE_WORKFLOW, archiveRestoreWorkflow);
 }

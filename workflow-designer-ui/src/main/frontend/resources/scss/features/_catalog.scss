@@ -1,18 +1,26 @@
 .wf-catalog {
     overflow: auto;
     background-color: $light-silver;
-    display: grid;
     grid-template-rows: 35px 1fr;
     height: 100vh;
     padding-bottom: 20px;
     .header {
         align-items: center;
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
         background-color: $silver;
         margin-bottom: 2px;
         @include box-shadow(0px 1px 3px 0 rgba(0, 0, 0, 0.2));
-        padding: 8px 60px 0 60px;
+        padding: 8px 60px 0 0px;
+        .wf-status-select {
+            
+            display: grid;
+            width: 200px;
+            height: 34px;
+            margin-top: -8px;            
+            background-color: $light-silver;
+            color: $blue;
+        }
         &__search {
             height: 25px;
         }

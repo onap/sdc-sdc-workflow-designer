@@ -34,7 +34,10 @@ class OverviewView extends Component {
         location: PropTypes.object,
         match: PropTypes.object,
         updateWorkflow: PropTypes.func,
-        workflowInputChange: PropTypes.func
+        workflowInputChange: PropTypes.func,
+        archiveWorkflow: PropTypes.func,
+        restoreWorkflow: PropTypes.func,
+        isArchive: PropTypes.bool
     };
 
     constructor(props) {
@@ -70,14 +73,23 @@ class OverviewView extends Component {
         const { workflowInputChange } = this.props;
         workflowInputChange({ ...payload });
     };
+    onArchiveWorkflow = () => {
+        const { archiveWorkflow, workflow, history } = this.props;
 
+        archiveWorkflow({ id: workflow.id, history });
+    };
+    onRestoreWorkflow = () => {
+        const { restoreWorkflow, workflow, history } = this.props;
+        restoreWorkflow({ id: workflow.id, history });
+    };
     render() {
         const {
             versions,
             selectedVersion,
             workflow,
             isVersionsCertifies,
-            history
+            history,
+            isArchive
         } = this.props;
         const nodeVersions = versions.map(version => ({
             id: version.id,
@@ -87,9 +99,16 @@ class OverviewView extends Component {
 
         return (
             <div className="overview-page">
-                <WorkflowHeader history={history} name={workflow.name} />
+                <WorkflowHeader
+                    isArchive={isArchive}
+                    archiveWorkflow={this.onArchiveWorkflow}
+                    restoreWorkflow={this.onRestoreWorkflow}
+                    history={history}
+                    name={workflow.name}
+                />
                 <div className="overview-content">
                     <WorkflowDetails
+                        isArchive={isArchive}
                         name={workflow.name}
                         description={workflow.description}
                         modified={workflow.modified}

@@ -33,11 +33,12 @@ export const {
 
 export const fetchWorkflow = createAction(
     FETCH_WORKFLOW,
-    (sort, offset, searchNameFilter) => ({
+    ({ sort, offset, searchNameFilter, status }) => ({
         sort,
         limit: LIMIT,
         offset,
-        searchNameFilter
+        searchNameFilter,
+        status
     })
 );
 

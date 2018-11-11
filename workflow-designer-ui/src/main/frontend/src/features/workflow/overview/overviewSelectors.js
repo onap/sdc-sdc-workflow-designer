@@ -32,7 +32,6 @@ export const getWorkflowModificationTime = state =>
     state && state.workflow.data.modificationTime;
 
 export const getWorkflowId = state => state && state.workflow.data.id;
-
 export const getAllIsVersionsCertifies = createSelector(
     getSortedVersions,
     versions =>

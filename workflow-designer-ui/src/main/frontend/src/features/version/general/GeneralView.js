@@ -21,7 +21,7 @@ import { I18n } from 'react-redux-i18n';
 import Description from 'shared/components/Description';
 import { VersionInfo, LabeledValue } from 'shared/components/VersionInfo';
 
-const GeneralView = ({ onDataChange, versionInfo, isCertified }) => {
+const GeneralView = ({ onDataChange, versionInfo, isReadOnly }) => {
     const modifiedValue = I18n.l(versionInfo.modificationTime, {
         dateFormat: 'date.short'
     });
@@ -35,7 +35,7 @@ const GeneralView = ({ onDataChange, versionInfo, isCertified }) => {
                 <Description
                     description={versionInfo.description}
                     onDataChange={onDataChange}
-                    disabled={isCertified}
+                    disabled={isReadOnly}
                 />
                 <VersionInfo>
                     <LabeledValue
@@ -55,7 +55,7 @@ const GeneralView = ({ onDataChange, versionInfo, isCertified }) => {
 GeneralView.propTypes = {
     onDataChange: PropTypes.func,
     versionInfo: PropTypes.object,
-    isCertified: PropTypes.bool
+    isReadOnly: PropTypes.bool
 };
 
 export default GeneralView;

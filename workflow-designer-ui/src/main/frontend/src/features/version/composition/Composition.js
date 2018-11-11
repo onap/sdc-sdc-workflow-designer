@@ -24,6 +24,8 @@ import { activitiesSelector } from 'features/activities/activitiesSelectors';
 import { getInputOutputForComposition } from 'features/version/inputOutput/inputOutputSelectors';
 import { getVersionInfo } from 'features/version/general/generalSelectors';
 import { getIsCertified } from 'features/version/general/generalSelectors';
+import { isWorkflowArchive } from 'features/workflow/workflowSelectors';
+
 function mapStateToProps(state) {
     return {
         composition: getComposition(state),
@@ -32,7 +34,7 @@ function mapStateToProps(state) {
         activities: activitiesSelector(state),
         inputOutput: getInputOutputForComposition(state),
         errors: getErrors(state),
-        isReadOnly: getIsCertified(state)
+        isReadOnly: getIsCertified(state) || isWorkflowArchive(state)
     };
 }
 

@@ -39,7 +39,7 @@ import {
     changeMandatory,
     remove
 } from 'features/version/inputOutput/inputOutputActions';
-
+import { isWorkflowArchive } from 'features/workflow/workflowSelectors';
 import InputOutputView from 'features/version/inputOutput/InputOutputView';
 
 const mapStateToProps = state => ({
@@ -48,7 +48,7 @@ const mapStateToProps = state => ({
     dataRows: getDataRows(state),
     types: getTypes(state),
     error: getError(state),
-    isCertified: getIsCertified(state)
+    isReadOnly: getIsCertified(state) || isWorkflowArchive(state)
 });
 
 const mapDispatchToProps = dispatch => ({

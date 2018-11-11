@@ -21,6 +21,7 @@ import {
     getVersions,
     getSortedVersions
 } from 'features/workflow/overview/overviewSelectors';
+import { isWorkflowArchive } from 'features/workflow/workflowSelectors';
 import {
     getWorkflowId,
     getWorkflowName
@@ -42,6 +43,7 @@ function mapStateToProps(state) {
         savedParams: getSavedObjParams(state),
         hasErrors: getIOErrors(state) || getCompositionHasErrors(state),
         isCertifyDisable: getIsCertified(state),
+        isArchive: isWorkflowArchive(state),
         currentWorkflowVersion: state.currentVersion.general
     };
 }

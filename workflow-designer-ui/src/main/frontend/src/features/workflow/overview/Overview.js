@@ -21,9 +21,12 @@ import {
     getWorkflowData,
     getAllIsVersionsCertifies
 } from 'features/workflow/overview/overviewSelectors';
+import { isWorkflowArchive } from 'features/workflow/workflowSelectors';
 import {
     getVersionsAction,
-    updateWorkflowAction
+    updateWorkflowAction,
+    archiveWorkflowAction,
+    restoreWorkflowAction
 } from 'features/workflow/overview/overviewConstansts';
 import { NEW_VERSION_MODAL } from 'shared/modal/modalWrapperComponents';
 import { showCustomModalAction } from 'shared/modal/modalWrapperActions';
@@ -34,7 +37,8 @@ function mapStateToProps(state) {
         versions: getSortedVersions(state),
         selectedVersion: getSelectedVersionId(state),
         workflow: getWorkflowData(state),
-        isVersionsCertifies: getAllIsVersionsCertifies(state)
+        isVersionsCertifies: getAllIsVersionsCertifies(state),
+        isArchive: isWorkflowArchive(state)
     };
 }
 
@@ -49,7 +53,9 @@ function mapDispatchToProps(dispatch) {
                 })
             ),
         workflowInputChange: payload => dispatch(inputChangeAction(payload)),
-        updateWorkflow: payload => dispatch(updateWorkflowAction(payload))
+        updateWorkflow: payload => dispatch(updateWorkflowAction(payload)),
+        archiveWorkflow: payload => dispatch(archiveWorkflowAction(payload)),
+        restoreWorkflow: payload => dispatch(restoreWorkflowAction(payload))
     };
 }
 

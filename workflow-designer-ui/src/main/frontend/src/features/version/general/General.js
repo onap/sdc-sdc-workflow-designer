@@ -22,10 +22,10 @@ import {
     getIsCertified
 } from 'features/version/general/generalSelectors';
 import { workflowVersionDetailsChangedAction } from 'features/version/versionConstants';
-
+import { isWorkflowArchive } from 'features/workflow/workflowSelectors';
 const mapStateToProps = state => ({
     versionInfo: getVersionInfo(state),
-    isCertified: getIsCertified(state)
+    isReadOnly: getIsCertified(state) || isWorkflowArchive(state)
 });
 
 const mapDispatchToProps = dispatch => ({

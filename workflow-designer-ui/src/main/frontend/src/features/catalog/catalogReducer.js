@@ -14,9 +14,13 @@
 * limitations under the License.
 */
 
-import { NAME, ASC, UPDATE_WORKFLOW } from 'features/catalog/catalogConstants';
-import { SEARCH_CHANGED } from './catalogConstants';
-
+import {
+    NAME,
+    ASC,
+    UPDATE_WORKFLOW,
+    SEARCH_CHANGED
+} from 'features/catalog/catalogConstants';
+import { WORKFLOW_STATUS } from 'features/workflow/workflowConstants';
 export const initialState = {
     paging: {
         hasMore: true,
@@ -24,7 +28,8 @@ export const initialState = {
     },
     sort: {
         [NAME]: ASC
-    }
+    },
+    status: WORKFLOW_STATUS.ACTIVE
 };
 
 const catalogReducer = (state = initialState, action) => {

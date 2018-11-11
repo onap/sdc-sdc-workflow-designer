@@ -28,7 +28,12 @@ class WorkflowDetails extends Component {
     };
 
     render() {
-        const { name, description, workflowDetailsChanged } = this.props;
+        const {
+            name,
+            description,
+            workflowDetailsChanged,
+            isArchive
+        } = this.props;
         return (
             <div className="workflow-details">
                 <form onSubmit={this.handleSubmitForm}>
@@ -41,11 +46,12 @@ class WorkflowDetails extends Component {
                         disabled
                     />
                     <Description
+                        disabled={isArchive}
                         description={description}
                         onDataChange={workflowDetailsChanged}
                     />
                     <div className="save-description">
-                        <Button btnType="primary">
+                        <Button disabled={isArchive} btnType="primary">
                             {I18n.t('buttons.saveBtn')}
                         </Button>
                     </div>
@@ -62,7 +68,8 @@ WorkflowDetails.propTypes = {
     description: PropTypes.string,
     defaultDescription: PropTypes.string,
     updateWorkflow: PropTypes.func,
-    workflowDetailsChanged: PropTypes.func
+    workflowDetailsChanged: PropTypes.func,
+    isArchive: PropTypes.bool
 };
 
 export default WorkflowDetails;

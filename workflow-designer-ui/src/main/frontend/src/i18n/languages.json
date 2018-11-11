@@ -46,7 +46,8 @@
                 "newVersion": "Create New Version",
                 "title": "Overview",
                 "lastEdited": "Last Edited On",
-                "backBtnLabel": "WORKFLOW CATALOG"
+                "backBtnLabel": "WORKFLOW CATALOG",
+                "archived": "Archived"
             },
             "inputOutput": {
                 "name": "Name",

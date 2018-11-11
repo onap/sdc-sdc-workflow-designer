@@ -28,16 +28,16 @@ import {
 const noOp = () => {};
 
 export function* fetchWorkflowSaga({ payload }) {
-    const { sort, limit, offset, searchNameFilter } = payload;
+    const { sort, limit, offset, searchNameFilter, status } = payload;
     try {
-        const data = yield call(
-            catalogApi.getWorkflows,
+        const data = yield call(catalogApi.getWorkflows, {
             sort,
-            LIMIT,
-            offset === undefined ? 0 : offset + limit,
-            searchNameFilter
-        );
-        yield put(updateWorkflow({ sort, ...data }));
+            limit: LIMIT,
+            offset: offset === undefined ? 0 : offset + limit,
+            searchNameFilter,
+            status
+        });
+        yield put(updateWorkflow({ sort, status, ...data }));
     } catch (e) {
         noOp();
     }

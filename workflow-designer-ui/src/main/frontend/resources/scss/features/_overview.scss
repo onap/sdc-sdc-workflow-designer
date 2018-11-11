@@ -64,6 +64,7 @@
     color: $blue;
     justify-content: space-between;
     .title {
+      display: flex;
       @include heading-1;
       text-transform: uppercase;    
     }
@@ -79,6 +80,18 @@
           width: 16px;
           height: 16px;
         }
+    }
+    .restore-btn {
+      margin-left: 20px;
+    }
+    .archive-btn {
+      margin-left: 20px;
+      fill: $gray;
+      &:hover {
+        fill: $blue;
+        color: $light-blue;
+        cursor: pointer;
+      }
     }
   }
 
