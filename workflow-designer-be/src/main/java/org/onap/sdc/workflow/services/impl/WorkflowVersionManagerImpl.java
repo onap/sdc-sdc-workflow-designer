@@ -266,6 +266,7 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
             if (retrievedParam == null) {
                 parameterRepository.create(workflowId, versionId, role, parameter);
             } else {
+                parameter.setId(retrievedParam.getId());
                 parameterRepository.update(workflowId, versionId, role, parameter);
                 namesOfParamsToKeep.add(parameter.getName());
             }
