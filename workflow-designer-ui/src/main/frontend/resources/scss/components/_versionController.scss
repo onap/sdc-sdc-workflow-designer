@@ -1,173 +1,196 @@
 .version-controller-bar {
-	display: flex;
-	height: 70px;
-	border-bottom: 1px solid $silver;
-	background-color: transparent;
+    display: flex;
+    height: 70px;
+    border-bottom: 1px solid $silver;
+    background-color: transparent;
+    justify-content: space-between;
+    .group-name-wrapper {
+        width: 245px;
+        .group-name {
+            @include heading-4-emphasis;
+            @include ellipsis;
+            display: block;
+            padding: 24px 12px 13px 20px;
+            background-color: $white;
+        }
+    }
 
-	.group-name-wrapper {
-		width: 245px;
-		.group-name {
-			@include heading-4-emphasis;
-			@include ellipsis;
-			display: block;
-			padding: 24px 12px 13px 20px;
-			background-color: $white;
-		}
-	}
+    .vc-container {
+        display: flex;
+        flex: 1;
+        align-self: center;
+        background-color: transparent;
+        justify-content: space-between;
+        align-items: center;
+        padding-left: 16px;
+        padding-right: 100px;
+        border-left: 1px solid #eaeaea;
+        height: 45px;
+        &.vs-container-operation {
+            flex: inherit;
+        }
+        .vc-separator {
+            border-left: 1px solid $silver;
+            height: 37px;
+        }
 
-	.vc-container {
-		display: flex;
-		flex: 1;
-		align-self: center;
-		background-color: transparent;
-		justify-content: space-between;
-		align-items: center;
-		padding-left: 16px;
-		padding-right: 100px;
-		border-left: 1px solid #eaeaea;
-		height: 45px;
+        .version-status-container {
+            display: flex;
+            align-items: center;
+            .version-selector-more-versions {
+                @include body-1-emphasis;
+                color: $blue;
+                cursor: pointer;
+            }
 
-		.vc-separator {
-			border-left: 1px solid $silver;
-			height: 37px;
-		}
+            .version-selector {
+                margin-top: 0;
+                padding-right: 10px;
+                margin-right: 15px;
+                margin-left: 10px;
+                border-color: $light-gray;
+                border-radius: 2px;
+                width: 243px;
+                height: 30px;
+                @include body-1;
+            }
 
-		.version-status-container {
-			display: flex;
-			align-items: center;
-			.version-selector-more-versions {
-				@include body-1-emphasis;
-				color: $blue;
-				cursor: pointer;
-			}
+            .version-section {
+                .form-group {
+                    margin-right: 20px;
 
-			.version-selector {
-				margin-top: 0;
-				padding-right: 10px;
-				margin-right: 15px;
-				margin-left: 10px;
-				border-color: $light-gray;
-				border-radius: 2px;
-				width: 243px;
-				height: 30px;
-				@include body-1;
-			}
+                    .input-options {
+                        border: none;
 
-			.version-section {
-				.form-group {
-					margin-right: 20px;
+                        .input-options-select {
+                            padding-top: 4px;
+                        }
+                    }
+                }
+            }
 
-					.input-options {
-						border: none;
+            .vc-status {
+                display: flex;
+                padding-left: 20px;
+                border-left: $light-gray thin solid;
 
-						.input-options-select {
-							padding-top: 4px;
-						}
-					}
-				}
-			}
+                .status-text {
+                    align-self: center;
+                    margin-top: 2px;
+                    @include heading-5;
+                    color: $dark-gray;
+                }
+            }
+        }
 
-			.vc-status {
-				display: flex;
-				padding-left: 20px;
-				border-left: $light-gray thin solid;
+        .save-submit-cancel-container {
+            display: flex;
+            align-items: center;
+            height: 100%;
 
-				.status-text {
-					align-self: center;
-					margin-top: 2px;
-					@include heading-5;
-					color: $dark-gray;
-				}
-			}
-		}
+            .action-buttons,
+            .select-action-buttons,
+            .vc-save-section,
+            .vc-submit-section {
+                display: flex;
+                align-items: center;
+                height: 100%;
+                cursor: $cursor-pointer;
 
-		.save-submit-cancel-container {
-			display: flex;
-			align-items: center;
-			height: 100%;
+                .vc-submit-button {
+                    border: 1px solid $dark-gray;
+                    width: 94px;
+                    height: 30px;
+                    border-radius: 2px;
+                    padding-top: 5px;
+                    padding-left: 10px;
+                    margin-left: 10px;
+                    margin-right: 10px;
 
-			.action-buttons, .select-action-buttons, .vc-save-section, .vc-submit-section {
-				display: flex;
-				align-items: center;
-				height: 100%;
-				cursor: $cursor-pointer;
+                    &:hover:not(.disabled) {
+                        cursor: pointer;
+                        background-color: $silver;
+                    }
 
-				.vc-submit-button {
-					border: 1px solid $dark-gray;
-					width: 94px;
-					height: 30px;
-					border-radius: 2px;
-					padding-top: 5px;
-					padding-left: 10px;
-					margin-left: 10px;
-					margin-right: 10px;
+                    &.disabled {
+                        border-color: $light-gray;
+                    }
 
-					&:hover:not(.disabled) {
-						cursor: pointer;
-						background-color: $silver;
-					}
+                    .vc-v-submit {
+                        width: 11px;
+                        height: 8px;
+                        margin-right: 10px;
+                        position: relative;
+                        top: -1px;
+                    }
+                }
 
-					&.disabled {
-						border-color: $light-gray;
-					}
+                .certifyBtn {
+                    margin-left: 20px;
+                }
 
-					.vc-v-submit {
-						width: 11px;
-						height: 8px;
-						margin-right: 10px;
-						position: relative;
-						top: -1px;
-					}
-				}
+                .version-control-buttons {
+                    display: flex;
+                }
 
-				.certifyBtn {
-					margin-left: 20px;
-				}
+                .action-button-wrapper {
+                    display: flex;
+                    align-items: center;
+                    height: 70px;
+                    padding: 10px;
 
-				.version-control-buttons {
-					display: flex;
-				}
+                    &:hover {
+                        background-color: $silver;
+                    }
 
-				.action-button-wrapper {
-					display: flex;
-					align-items: center;
-					height: 70px;
-					padding: 10px;
+                    &:active {
+                        background-color: $light-gray;
+                    }
 
-					&:hover {
-						background-color: $silver;
-					}
+                    .action-buttons-svg {
+                        padding-left: 10px;
+                        padding-right: 10px;
 
-					&:active {
-						background-color: $light-gray;
-					}
+                        .svg-icon {
+                            fill: $text-black;
+                            height: 20px;
 
-					.action-buttons-svg {
-						padding-left: 10px;
-						padding-right: 10px;
+                            &,
+                            &.__version-controller-save {
+                                width: 20px;
+                            }
+                            &.__version-controller-permissions {
+                                width: 32px;
+                            }
+                            &.__version-controller-undo,
+                            &.__version-controller-revert {
+                                width: 20px;
+                            }
+                            &.__version-controller-sync,
+                            &.__version-controller-commit {
+                                width: 28px;
+                            }
+                        }
+                        .vs-back-btn {
+                            height: '35px';
+                            width: '35px';
+                            .svg-icon {
+                                height: '35px';
+                                width: '35px';
+                                transform: rotate(90deg);
+                            }
+                        }
+                    }
+                }
 
-						.svg-icon {
-							fill: $text-black;
-							height: 20px;
-
-							&, &.__version-controller-save { width: 20px; }
-							&.__version-controller-permissions { width: 32px; }
-							&.__version-controller-undo, &.__version-controller-revert { width: 20px; }
-							&.__version-controller-sync, &.__version-controller-commit { width: 28px; }
-						}
-					}
-
-				}
-
-				.action-button-label {
-					@include body-4;
-					display: block;
-					height: 1em;
-					margin-top: 5px;
-					margin-bottom: 0;
-				}
-
-			}
-		}
-	}
+                .action-button-label {
+                    @include body-4;
+                    display: block;
+                    height: 1em;
+                    margin-top: 5px;
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
 }

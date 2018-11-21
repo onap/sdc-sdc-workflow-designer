@@ -34,7 +34,7 @@ import { workflowVersionFetchRequestedAction } from '../versionConstants';
 import { getIsCertified } from 'features/version/general/generalSelectors';
 import { getIOErrors } from 'features/version/inputOutput/inputOutputSelectors';
 import { getCompositionHasErrors } from 'features/version/composition/compositionSelectors';
-
+import { pluginContextSelector } from 'wfapp/pluginContext/pluginContextSelector';
 function mapStateToProps(state) {
     return {
         workflowName: getWorkflowName(state),
@@ -44,7 +44,8 @@ function mapStateToProps(state) {
         hasErrors: getIOErrors(state) || getCompositionHasErrors(state),
         isCertifyDisable: getIsCertified(state),
         isArchive: isWorkflowArchive(state),
-        currentWorkflowVersion: state.currentVersion.general
+        currentWorkflowVersion: state.currentVersion.general,
+        pluginContext: pluginContextSelector(state)
     };
 }
 

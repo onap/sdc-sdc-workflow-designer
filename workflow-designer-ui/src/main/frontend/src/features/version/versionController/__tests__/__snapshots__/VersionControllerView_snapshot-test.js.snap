@@ -18,7 +18,7 @@ exports[`Version Controller View Snapshot renders correctly 1`] = `
     </div>
   </div>
   <div
-    className="vc-container"
+    className="vc-container "
   >
     <div
       className="version-section-wrapper"

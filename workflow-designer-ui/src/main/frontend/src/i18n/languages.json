@@ -18,9 +18,11 @@
             "createBtn": "Create",
             "cancelBtn": "Cancel",
             "certifyBtn": "Certify",
+            "completeBtn": "Complete",
             "undoBtn": "Undo",
             "closeBtn": "Close",
-            "okBtn": "Ok"
+            "okBtn": "Ok",
+            "backToCatalog": "Catalog"
         },
         "form": {
             "name": "Name",

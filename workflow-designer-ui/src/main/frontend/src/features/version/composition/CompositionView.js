@@ -196,7 +196,7 @@ class CompositionView extends Component {
             businessObject.name = name;
         }
 
-        if (businessObject.id === PROCESS_DEFAULT_ID) {
+        if (businessObject.id === PROCESS_DEFAULT_ID || !businessObject.id) {
             businessObject.id = name.toLowerCase().replace(/\s/g, '_');
         }
     };

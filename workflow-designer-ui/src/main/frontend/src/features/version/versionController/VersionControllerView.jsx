@@ -17,9 +17,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import ActionButtons from 'features/version/versionController/views/ActionButtons';
+import OperationModeButtons from 'features/version/versionController/views/OperationModeButtons';
 import VersionContainer from 'features/version/versionController/views/VersionsContainer';
 import WorkflowTitle from 'features/version/versionController/views/WorkflowTitle';
-
+import { PluginPubSub } from 'shared/pubsub/plugin-pubsub.ts';
+import { notificationType } from 'wfapp/pluginContext/pluginContextConstants';
 export default class VersionControllerView extends Component {
     static propTypes = {
         location: PropTypes.object,
@@ -38,7 +40,9 @@ export default class VersionControllerView extends Component {
         changeVersion: PropTypes.func,
         isCertifyDisable: PropTypes.bool,
         hasErrors: PropTypes.bool,
-        isArchive: PropTypes.bool
+        isArchive: PropTypes.bool,
+        operationMode: PropTypes.bool,
+        pluginContext: PropTypes.object
     };
 
     constructor(props) {
@@ -60,7 +64,13 @@ export default class VersionControllerView extends Component {
         } = this.props;
         saveParamsToServer({ params: savedParams, workflowId, workflowName });
     };
-
+    handleSendMsgToCatalog = isCompeleted => {
+        const {
+            pluginContext: { eventsClientId, parentUrl }
+        } = this.props;
+        const client = new PluginPubSub(eventsClientId, parentUrl);
+        client.notify(notificationType.CLOSE, { isCompleted: isCompeleted });
+    };
     certifyVersion = () => {
         const {
             certifyVersion,
@@ -98,27 +108,42 @@ export default class VersionControllerView extends Component {
             versionsList,
             hasErrors,
             isCertifyDisable,
-            isArchive
+            isArchive,
+            operationMode
         } = this.props;
         const isReadonly = isCertifyDisable || hasErrors || isArchive;
         return (
             <div className="version-controller-bar">
                 <WorkflowTitle workflowName={workflowName} />
-                <div className="vc-container">
-                    <VersionContainer
-                        currentWorkflowVersion={currentWorkflowVersion}
-                        viewableVersions={versionsList}
-                        onOverviewClick={this.routeToOverview}
-                        onVersionSelectChange={this.versionChangeCallback}
-                        isArchive={isArchive}
-                    />
-                    <ActionButtons
-                        saveDisabled={isReadonly}
-                        onSaveClick={this.sendSaveParamsToServer}
-                        certifyDisabled={isReadonly}
-                        onCertifyClick={this.certifyVersion}
-                        onUndoClick={this.undoClickCallback}
-                    />
+                <div
+                    className={`vc-container ${
+                        operationMode ? 'vs-container-operation' : ''
+                    }`}>
+                    {!operationMode && (
+                        <VersionContainer
+                            currentWorkflowVersion={currentWorkflowVersion}
+                            viewableVersions={versionsList}
+                            onOverviewClick={this.routeToOverview}
+                            onVersionSelectChange={this.versionChangeCallback}
+                            isArchive={isArchive}
+                        />
+                    )}
+                    {operationMode && (
+                        <OperationModeButtons
+                            sendMsgToCatalog={this.handleSendMsgToCatalog}
+                            saveDisabled={isReadonly}
+                            onSaveClick={this.sendSaveParamsToServer}
+                        />
+                    )}
+                    {!operationMode && (
+                        <ActionButtons
+                            saveDisabled={isReadonly}
+                            onSaveClick={this.sendSaveParamsToServer}
+                            certifyDisabled={isReadonly}
+                            onCertifyClick={this.certifyVersion}
+                            onUndoClick={this.undoClickCallback}
+                        />
+                    )}
                 </div>
             </div>
         );

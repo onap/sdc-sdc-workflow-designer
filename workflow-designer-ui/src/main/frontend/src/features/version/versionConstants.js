@@ -20,6 +20,7 @@ export const FETCH_REQUESTED = 'workflow/version/FETCH_REQUESTED';
 export const DETAILS_CHANGED = 'workflow/version/DETAILS_CHANGED';
 export const FETCH_REQUESTED_FAILED = 'workflow/version/FETCH_REQUESTED_FAILED';
 export const VERSION_STATE_CHANGED = 'workflow/version/VERSION_STATE_CHANGED';
+export const SET_OPERRATION_MODE = 'workflow/version/SET_OPERRATION_MODE';
 
 export const workflowVersionFetchRequestedAction = createAction(
     FETCH_REQUESTED
@@ -39,6 +40,8 @@ export const versionStateChangedAction = createAction(
     VERSION_STATE_CHANGED,
     payload => payload
 );
+
+export const setOperationModeAction = createAction(SET_OPERRATION_MODE);
 
 export const versionState = {
     DRAFT: 'draft',

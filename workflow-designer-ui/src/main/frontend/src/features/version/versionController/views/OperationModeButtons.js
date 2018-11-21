@@ -20,20 +20,14 @@ import { Button } from 'sdc-ui/lib/react';
 import PropTypes from 'prop-types';
 import SvgButton from 'features/version/versionController/views/SvgButton';
 
-const ActionButtons = props => {
-    const {
-        onSaveClick,
-        certifyDisabled,
-        onCertifyClick,
-        onUndoClick,
-        saveDisabled
-    } = props;
-
+const OperationModeButtons = props => {
+    const { onSaveClick, saveDisabled, sendMsgToCatalog } = props;
+    const handleCompleteMsgToCatalog = () => sendMsgToCatalog(true);
+    const handleGoBackMsgToCatalog = () => sendMsgToCatalog();
     return (
         <div className="save-submit-cancel-container">
             <div className="action-buttons">
                 <div className="select-action-buttons">
-                    <div className={'separator vc-separator'} />
                     <SvgButton
                         dataTestId="vc-save-btn"
                         name="version-controller-save"
@@ -42,37 +36,30 @@ const ActionButtons = props => {
                         onClick={onSaveClick}
                     />
 
-                    <div className={'separator vc-separator'} />
-
-                    <SvgButton
-                        dataTestId="vc-undo-btn"
-                        name="version-controller-undo"
-                        tooltipText={I18n.t('buttons.undoBtn')}
-                        disabled={certifyDisabled}
-                        onClick={onUndoClick}
-                    />
-
-                    <div className={'separator vc-separator'} />
-
                     <Button
                         className="certifyBtn"
                         btnType="primary"
-                        disabled={certifyDisabled}
-                        onClick={onCertifyClick}>
-                        {I18n.t('buttons.certifyBtn')}
+                        onClick={handleCompleteMsgToCatalog}>
+                        {I18n.t('buttons.completeBtn')}
                     </Button>
+
+                    <SvgButton
+                        tooltipText={I18n.t('buttons.backToCatalog')}
+                        className="vs-back-btn"
+                        dataTestId="vc-back-btn"
+                        name="upload"
+                        onClick={handleGoBackMsgToCatalog}
+                    />
                 </div>
             </div>
         </div>
     );
 };
 
-ActionButtons.propTypes = {
+OperationModeButtons.propTypes = {
     onSaveClick: PropTypes.func,
-    certifyDisabled: PropTypes.bool,
-    onCertifyClick: PropTypes.func,
-    onUndoClick: PropTypes.func,
-    saveDisabled: PropTypes.bool
+    saveDisabled: PropTypes.bool,
+    sendMsgToCatalog: PropTypes.func
 };
 
-export default ActionButtons;
+export default OperationModeButtons;

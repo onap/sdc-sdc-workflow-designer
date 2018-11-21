@@ -75,7 +75,7 @@ class VersionView extends React.Component {
     };
 
     render() {
-        const { match, routes, history } = this.props;
+        const { match, routes, history, operationMode } = this.props;
 
         const groups = this.getGroups();
         const activeItemId = this.getActiveItemIdProps();
@@ -83,18 +83,24 @@ class VersionView extends React.Component {
         return (
             <div className="version-wrapper">
                 <VersionController
+                    operationMode={operationMode}
                     history={history}
                     match={match}
                     key="versionControllerView"
                 />
-                <div className="workflow-view" key="workflowView">
-                    <div className="workflow-navigation-side-bar">
-                        <NavigationSideBar
-                            groups={groups}
-                            activeItemId={activeItemId}
-                            onSelect={this.onSelect}
-                        />
-                    </div>
+
+                <div
+                    className={`${operationMode ? '' : 'workflow-view'}`}
+                    key="workflowView">
+                    {!operationMode && (
+                        <div className="workflow-navigation-side-bar">
+                            <NavigationSideBar
+                                groups={groups}
+                                activeItemId={activeItemId}
+                                onSelect={this.onSelect}
+                            />
+                        </div>
+                    )}
                     {routes.map((route, i) => (
                         <Route
                             key={`Version.route.${i}`}
@@ -114,7 +120,8 @@ VersionView.propTypes = {
     location: PropTypes.object,
     match: PropTypes.object,
     routes: PropTypes.array,
-    loadSelectedVersion: PropTypes.func
+    loadSelectedVersion: PropTypes.func,
+    operationMode: PropTypes.bool
 };
 
 export default VersionView;

@@ -27,6 +27,8 @@ import overviewReducer from 'features/workflow/overview/overviewReducer';
 import workflowReducer from 'features/workflow/workflowReducer';
 import compositionReducer from 'features/version/composition/compositionReducer';
 import activitiesReducer from 'features/activities/activitiesReducer';
+import operationModeReducer from 'features/version/versionModeReducer';
+import pluginContextReducer from './pluginContext/pluginContextReducer';
 
 export default combineReducers({
     i18n: i18nReducer,
@@ -35,12 +37,14 @@ export default combineReducers({
     currentVersion: combineReducers({
         general: versionReducer,
         inputOutput,
-        composition: compositionReducer
+        composition: compositionReducer,
+        operationMode: operationModeReducer
     }),
     workflow: combineReducers({
         data: workflowReducer,
         versions: overviewReducer
     }),
+    pluginContext: pluginContextReducer,
     activities: activitiesReducer,
     loader,
     modal

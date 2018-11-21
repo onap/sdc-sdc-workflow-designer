@@ -19,6 +19,7 @@ import PropTypes from 'prop-types';
 
 const SvgButton = props => {
     const {
+        className = '',
         name,
         tooltipText,
         disabled,
@@ -35,6 +36,7 @@ const SvgButton = props => {
             onClick={onClickAction}>
             <div className="action-buttons-svg">
                 <SVGIcon
+                    className={className}
                     label={tooltipText}
                     labelPosition="bottom"
                     labelClassName="action-button-label"
@@ -53,7 +55,8 @@ SvgButton.propTypes = {
     disabled: PropTypes.bool,
     onClick: PropTypes.func,
     dataTestId: PropTypes.string,
-    actiontype: PropTypes.string
+    actiontype: PropTypes.string,
+    className: PropTypes.string
 };
 
 export default SvgButton;
