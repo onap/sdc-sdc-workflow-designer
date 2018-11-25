@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_dff8797e",
+        "filename": ".env",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-11-25T10:57:40Z",
+      "side": 1,
+      "message": "Is it possible to create two env files? One for development, the other for demo or other use-case for non-developers. I don\u0027t want Workflow to run with debug by default.",
+      "revId": "2b48cbb348ee1b54c3ba9445ee58d468d2029d4a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_1f84c1d2",
+        "filename": ".env",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-11-25T10:57:40Z",
+      "side": 1,
+      "message": "I think IMAGE_TAG would have been clearer.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 3
+      },
+      "revId": "2b48cbb348ee1b54c3ba9445ee58d468d2029d4a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_7f7dcde6",
+        "filename": ".env",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-11-25T10:57:40Z",
+      "side": 1,
+      "message": "Please leave it blank or write an explanation instead of the meaningless \"yyy\".",
+      "range": {
+        "startLine": 3,
+        "startChar": 8,
+        "endLine": 3,
+        "endChar": 11
+      },
+      "revId": "2b48cbb348ee1b54c3ba9445ee58d468d2029d4a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_3f398541",
+        "filename": ".env",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-11-25T10:57:40Z",
+      "side": 1,
+      "message": "Please, disable Cassandra authentication by default and leave username and password blank.",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 21
+      },
+      "revId": "2b48cbb348ee1b54c3ba9445ee58d468d2029d4a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_df3f1924",
+        "filename": ".env",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-11-25T10:57:40Z",
+      "side": 1,
+      "message": "Is it possible to use less cryptic names? CS\u003dCASSANDRA, WF\u003dWORKFLOW, BE\u003dBACKEND, etc. Users won\u0027t have to type them, will they? So it costs nothing to make the variable names a bit more readable.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 2
+      },
+      "revId": "2b48cbb348ee1b54c3ba9445ee58d468d2029d4a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_5f7a49f2",
+        "filename": ".env",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-11-25T10:57:40Z",
+      "side": 1,
+      "message": "Please leave it blank or write an explanation instead of the meaningless \"yyy\".",
+      "range": {
+        "startLine": 12,
+        "startChar": 9,
+        "endLine": 12,
+        "endChar": 12
+      },
+      "revId": "2b48cbb348ee1b54c3ba9445ee58d468d2029d4a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_bf1b35c9",
+        "filename": ".env",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-11-25T10:57:40Z",
+      "side": 1,
+      "message": "Can this be part of the compose file? I don\u0027t see value in it being a variable. By the way, it also means you have to write the debug port twice - in JAVA_OPTIONS, and DEBUG_PORT.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 18
+      },
+      "revId": "2b48cbb348ee1b54c3ba9445ee58d468d2029d4a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_5f1329b8",
+        "filename": "docker-compose.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-11-25T10:57:40Z",
+      "side": 1,
+      "message": "What is this port used for?",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 21
+      },
+      "revId": "2b48cbb348ee1b54c3ba9445ee58d468d2029d4a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_df263916",
+        "filename": "docker-compose.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-11-25T10:57:40Z",
+      "side": 1,
+      "message": "Debug ports may confuse users seeking to instantiate workflow to play around with it (or for a demo). I would prefer to document this, but disable by default.",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 51
+      },
+      "revId": "2b48cbb348ee1b54c3ba9445ee58d468d2029d4a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
