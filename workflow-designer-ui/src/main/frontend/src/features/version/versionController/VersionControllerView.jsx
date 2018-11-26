@@ -21,7 +21,10 @@ import OperationModeButtons from 'features/version/versionController/views/Opera
 import VersionContainer from 'features/version/versionController/views/VersionsContainer';
 import WorkflowTitle from 'features/version/versionController/views/WorkflowTitle';
 import { PluginPubSub } from 'shared/pubsub/plugin-pubsub.ts';
-import { notificationType } from 'wfapp/pluginContext/pluginContextConstants';
+import {
+    notificationType,
+    CATALOG_PATH
+} from 'wfapp/pluginContext/pluginContextConstants';
 export default class VersionControllerView extends Component {
     static propTypes = {
         location: PropTypes.object,
@@ -64,12 +67,18 @@ export default class VersionControllerView extends Component {
         } = this.props;
         saveParamsToServer({ params: savedParams, workflowId, workflowName });
     };
-    handleSendMsgToCatalog = isCompeleted => {
+    handleSendMsgToCatalog = () => {
         const {
-            pluginContext: { eventsClientId, parentUrl }
+            pluginContext: { eventsClientId, parentUrl },
+            workflowId,
+            isCertifyDisable
         } = this.props;
         const client = new PluginPubSub(eventsClientId, parentUrl);
-        client.notify(notificationType.CLOSE, { isCompleted: isCompeleted });
+        client.notify(notificationType.CLOSE, {
+            isCompleted: isCertifyDisable,
+            workflowId,
+            path: CATALOG_PATH
+        });
     };
     certifyVersion = () => {
         const {
@@ -133,6 +142,7 @@ export default class VersionControllerView extends Component {
                             sendMsgToCatalog={this.handleSendMsgToCatalog}
                             saveDisabled={isReadonly}
                             onSaveClick={this.sendSaveParamsToServer}
+                            onCertifyClick={this.certifyVersion}
                         />
                     )}
                     {!operationMode && (

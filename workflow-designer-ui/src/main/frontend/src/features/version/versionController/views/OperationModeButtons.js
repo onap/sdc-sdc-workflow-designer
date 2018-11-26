@@ -21,9 +21,12 @@ import PropTypes from 'prop-types';
 import SvgButton from 'features/version/versionController/views/SvgButton';
 
 const OperationModeButtons = props => {
-    const { onSaveClick, saveDisabled, sendMsgToCatalog } = props;
-    const handleCompleteMsgToCatalog = () => sendMsgToCatalog(true);
-    const handleGoBackMsgToCatalog = () => sendMsgToCatalog();
+    const {
+        onSaveClick,
+        saveDisabled,
+        sendMsgToCatalog,
+        onCertifyClick
+    } = props;
     return (
         <div className="save-submit-cancel-container">
             <div className="action-buttons">
@@ -37,9 +40,10 @@ const OperationModeButtons = props => {
                     />
 
                     <Button
+                        disabled={saveDisabled}
                         className="certifyBtn"
                         btnType="primary"
-                        onClick={handleCompleteMsgToCatalog}>
+                        onClick={onCertifyClick}>
                         {I18n.t('buttons.completeBtn')}
                     </Button>
 
@@ -48,7 +52,7 @@ const OperationModeButtons = props => {
                         className="vs-back-btn"
                         dataTestId="vc-back-btn"
                         name="upload"
-                        onClick={handleGoBackMsgToCatalog}
+                        onClick={sendMsgToCatalog}
                     />
                 </div>
             </div>
@@ -59,7 +63,8 @@ const OperationModeButtons = props => {
 OperationModeButtons.propTypes = {
     onSaveClick: PropTypes.func,
     saveDisabled: PropTypes.bool,
-    sendMsgToCatalog: PropTypes.func
+    sendMsgToCatalog: PropTypes.func,
+    onCertifyClick: PropTypes.func
 };
 
 export default OperationModeButtons;
