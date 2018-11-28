@@ -18,9 +18,9 @@ package org.onap.sdc.workflow.api.validation;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import org.onap.sdc.workflow.services.types.WorkflowStatus;
+import org.onap.sdc.workflow.services.types.ArchivingStatus;
 
-public class WorkflowStatusValidator implements ConstraintValidator<ValidStatus, String> {
+public class ArchivingStatusValidator implements ConstraintValidator<ValidStatus, String> {
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
@@ -28,7 +28,7 @@ public class WorkflowStatusValidator implements ConstraintValidator<ValidStatus,
             return false;
         } else {
             try {
-                Enum.valueOf(WorkflowStatus.class, value);
+                Enum.valueOf(ArchivingStatus.class, value);
                 return true;
             } catch (IllegalArgumentException var3) {
                 return false;

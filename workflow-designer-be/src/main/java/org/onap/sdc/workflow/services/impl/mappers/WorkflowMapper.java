@@ -27,7 +27,8 @@ import org.openecomp.sdc.versioning.types.Item;
 @Mapper(componentModel = "spring", imports = ItemType.class, uses = VersionStateMapper.class)
 public interface WorkflowMapper {
 
-    @Mapping(source = "versionStatusCounters", target = "versionStates")
+    @Mappings({@Mapping(source = "versionStatusCounters", target = "versionStates"),
+            @Mapping(source = "status", target = "archiving")})
     Workflow itemToWorkflow(Item item);
 
     @InheritInverseConfiguration

@@ -127,7 +127,7 @@ public class ActivitySpecManagerImpl implements ActivitySpecManager {
     public void update(ActivitySpecEntity activitySpec) {
         Item retrievedItem = itemManager.get(activitySpec.getId());
         if (retrievedItem == null) {
-            LOGGER.error(String.format("Activity Spec with id %s was not found", activitySpec.getId()));
+            LOGGER.error("Activity Spec with id %s was not found", activitySpec.getId());
             throw new EntityNotFoundException(ACTIVITY_SPEC_NOT_FOUND);
         }
         uniqueValueService.updateUniqueValue(ACTIVITY_SPEC_NAME, retrievedItem.getName(), activitySpec.getName());
