@@ -27,7 +27,7 @@ import javax.validation.Payload;
 @Target({ElementType.TYPE, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Constraint(validatedBy = {WorkflowStatusValidator.class})
+@Constraint(validatedBy = {ArchivingStatusValidator.class})
 public @interface ValidStatus {
 
   String message();

@@ -215,10 +215,10 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
         getVersion(workflowId, versionId);
         Optional<ArtifactEntity> artifactOptional = artifactRepository.get(workflowId, versionId);
         if (!artifactOptional.isPresent()) {
-            LOGGER.error(String.format("Workflow Version Artifact was not found for workflow id %s and version id %s",
-                    workflowId, versionId));
+            LOGGER.error("Workflow Version Artifact was not found for workflow id {} and version id {}",
+                    workflowId, versionId);
             throw new EntityNotFoundException(
-                    String.format("Artifact for workflow id %S version id %S was not found", workflowId, versionId));
+                    String.format("Artifact for workflow id %s version id %s was not found", workflowId, versionId));
         }
         return artifactOptional.get();
     }
@@ -228,9 +228,8 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
         validateWorkflowStatus(workflowId);
         WorkflowVersion retrievedVersion = get(workflowId, versionId);
         if (CERTIFIED.equals(retrievedVersion.getState())) {
-            LOGGER.error(String.format(
-                    "Workflow Version is certified and can not be edited.Workflow id %s and version id %s", workflowId,
-                    versionId));
+            LOGGER.error("Workflow Version is certified and can not be edited.Workflow id {} and version id {}",
+                    workflowId, versionId);
             throw new VersionModificationException(workflowId, versionId);
         }
 
@@ -302,7 +301,7 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
         return versions.stream().filter(version -> versionId.equals(version.getId())).findFirst();
     }
 
-    protected void validateWorkflowStatus(String workflowId) {
+    void validateWorkflowStatus(String workflowId) {
         Item workflowItem = itemManager.get(workflowId);
         if (ItemStatus.ARCHIVED.equals(workflowItem.getStatus())) {
             throw new WorkflowModificationException(workflowId);

@@ -31,7 +31,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-public class WorkflowStatusVelidatorTest {
+public class ArchivingStatusValidatorTest {
 
     class AnnotationWrapper {
 
@@ -46,14 +46,14 @@ public class WorkflowStatusVelidatorTest {
     @Mock
     private ConstraintValidatorContext.ConstraintViolationBuilder.NodeBuilderCustomizableContext nodeBuilderCustomizableContext;
 
-    private WorkflowStatusValidator validator;
+    private ArchivingStatusValidator validator;
 
     @Before
     public void setup() throws NoSuchFieldException {
         MockitoAnnotations.initMocks(this);
         when(context.buildConstraintViolationWithTemplate(anyString())).thenReturn(constraintViolationBuilder);
         when(constraintViolationBuilder.addPropertyNode(anyString())).thenReturn(nodeBuilderCustomizableContext);
-        validator = initializeValidator(WorkflowStatusVelidatorTest.AnnotationWrapper.class);
+        validator = initializeValidator(ArchivingStatusValidatorTest.AnnotationWrapper.class);
     }
 
     @Test
@@ -79,10 +79,10 @@ public class WorkflowStatusVelidatorTest {
 
 
 
-  private WorkflowStatusValidator initializeValidator(Class<?> classWithAnnotation)
+  private ArchivingStatusValidator initializeValidator(Class<?> classWithAnnotation)
             throws NoSuchFieldException {
         ValidStatus constraint = classWithAnnotation.getField("status").getAnnotation(ValidStatus.class);
-        WorkflowStatusValidator validator = new WorkflowStatusValidator();
+        ArchivingStatusValidator validator = new ArchivingStatusValidator();
         validator.initialize(constraint);
         return validator;
     }

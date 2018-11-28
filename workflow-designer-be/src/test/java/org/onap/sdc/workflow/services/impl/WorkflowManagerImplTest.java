@@ -31,6 +31,7 @@ import org.onap.sdc.workflow.services.exceptions.EntityNotFoundException;
 import org.onap.sdc.workflow.services.exceptions.WorkflowStatusModificationException;
 import org.onap.sdc.workflow.services.impl.mappers.VersionStateMapper;
 import org.onap.sdc.workflow.services.impl.mappers.WorkflowMapper;
+import org.onap.sdc.workflow.services.types.ArchivingStatus;
 import org.onap.sdc.workflow.services.types.Page;
 import org.onap.sdc.workflow.services.types.Paging;
 import org.onap.sdc.workflow.services.types.PagingRequest;
@@ -38,10 +39,8 @@ import org.onap.sdc.workflow.services.types.RequestSpec;
 import org.onap.sdc.workflow.services.types.Sort;
 import org.onap.sdc.workflow.services.types.SortingRequest;
 import org.onap.sdc.workflow.services.types.Workflow;
-import org.onap.sdc.workflow.services.types.WorkflowStatus;
 import org.onap.sdc.workflow.services.types.WorkflowVersionState;
 import org.openecomp.sdc.common.errors.CoreException;
-import org.openecomp.sdc.common.errors.ErrorCategory;
 import org.openecomp.sdc.common.errors.ErrorCode;
 import org.openecomp.sdc.versioning.ItemManager;
 import org.openecomp.sdc.versioning.types.Item;
@@ -63,8 +62,8 @@ public class WorkflowManagerImplTest {
         List<Item> items = new ArrayList<>();
         List<Workflow> mappedWorkflows = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            items.add(createItem(i, true, true));
-            mappedWorkflows.add(createWorkflow(i, true));
+            items.add(createItem(i, true, true, ItemStatus.ACTIVE));
+            mappedWorkflows.add(createWorkflow(i, true, ArchivingStatus.ACTIVE));
         }
         ITEMS = Collections.unmodifiableList(items);
         MAPPED_WORKFLOWS = Collections.unmodifiableList(mappedWorkflows);
@@ -86,7 +85,7 @@ public class WorkflowManagerImplTest {
         doReturn(ITEMS).when(itemManagerMock).list(any());
         mockItemToWorkflowMaps();
         RequestSpec requestSpec = createRequestSpec(0, 20, true);
-        Page<Workflow> workflows = workflowManager.list(null,null,null, requestSpec);
+        Page<Workflow> workflows = workflowManager.list(null, null, null, requestSpec);
 
         Map<String, Workflow> workflowById =
                 workflows.getItems().stream().collect(Collectors.toMap(Workflow::getId, Function.identity()));
@@ -108,7 +107,7 @@ public class WorkflowManagerImplTest {
 
         RequestSpec requestSpec = createRequestSpec(0, 20, true);
         Page<Workflow> workflows =
-                workflowManager.list(null,null,Collections.singleton(WorkflowVersionState.CERTIFIED), requestSpec);
+                workflowManager.list(null, null, Collections.singleton(WorkflowVersionState.CERTIFIED), requestSpec);
 
         Map<String, Workflow> workflowById =
                 workflows.getItems().stream().collect(Collectors.toMap(Workflow::getId, Function.identity()));
@@ -122,7 +121,7 @@ public class WorkflowManagerImplTest {
     @Test(expected = EntityNotFoundException.class)
     public void shouldThrowExceptionWhenWorkflowDontExistTryingToUpdateStatus() {
         doReturn(null).when(itemManagerMock).get(ITEM1_ID);
-        workflowManager.updateStatus(ITEM1_ID,WorkflowStatus.ARCHIVED);
+        workflowManager.updateStatus(ITEM1_ID, ArchivingStatus.ARCHIVED);
     }
 
     @Test(expected = WorkflowStatusModificationException.class)
@@ -132,7 +131,7 @@ public class WorkflowManagerImplTest {
         mockItem.setStatus(ItemStatus.ARCHIVED);
         doReturn(mockItem).when(itemManagerMock).get(ITEM1_ID);
         doThrow(new CoreException(new ErrorCode.ErrorCodeBuilder().build())).when(itemManagerMock).archive(mockItem);
-        workflowManager.updateStatus(ITEM1_ID,WorkflowStatus.ARCHIVED);
+        workflowManager.updateStatus(ITEM1_ID, ArchivingStatus.ARCHIVED);
     }
 
     @Test
@@ -141,7 +140,7 @@ public class WorkflowManagerImplTest {
         mockItem.setId(ITEM1_ID);
         mockItem.setStatus(ItemStatus.ACTIVE);
         doReturn(mockItem).when(itemManagerMock).get(ITEM1_ID);
-        workflowManager.updateStatus(ITEM1_ID,WorkflowStatus.ARCHIVED);
+        workflowManager.updateStatus(ITEM1_ID, ArchivingStatus.ARCHIVED);
         verify(itemManagerMock).archive(mockItem);
     }
 
@@ -151,7 +150,7 @@ public class WorkflowManagerImplTest {
         mockItem.setId(ITEM1_ID);
         mockItem.setStatus(ItemStatus.ARCHIVED);
         doReturn(mockItem).when(itemManagerMock).get(ITEM1_ID);
-        workflowManager.updateStatus(ITEM1_ID,WorkflowStatus.ACTIVE);
+        workflowManager.updateStatus(ITEM1_ID, ArchivingStatus.ACTIVE);
         verify(itemManagerMock).restore(mockItem);
     }
 
@@ -166,9 +165,9 @@ public class WorkflowManagerImplTest {
 
     @Test
     public void shouldReturnWorkflow() {
-        Item retrievedItem = createItem(1, true, true);
+        Item retrievedItem = createItem(1, true, true, ItemStatus.ACTIVE);
         doReturn(retrievedItem).when(itemManagerMock).get(ITEM1_ID);
-        Workflow workflow = createWorkflow(1, true);
+        Workflow workflow = createWorkflow(1, true, ArchivingStatus.ACTIVE);
         workflowManager.get(workflow);
         verify(itemManagerMock).get(ITEM1_ID);
         verify(workflowMapperMock).itemToWorkflow(retrievedItem);
@@ -176,26 +175,24 @@ public class WorkflowManagerImplTest {
 
     @Test
     public void shouldCreateWorkflowItemFromWorkflow() {
-        Workflow workflowToBeCreated = createWorkflow(1, false);
-        Item createdWorkflowItem = createItem(1, false, true);
+        Workflow workflowToBeCreated = createWorkflow(1, false, ArchivingStatus.ACTIVE);
+        Item createdWorkflowItem = createItem(1, false, true, ItemStatus.ACTIVE);
         doReturn(createdWorkflowItem).when(workflowMapperMock).workflowToItem(workflowToBeCreated);
         doReturn(createdWorkflowItem).when(itemManagerMock).create(createdWorkflowItem);
         workflowManager.create(workflowToBeCreated);
-        verify(uniqueValueServiceMock)
-                .validateUniqueValue(WORKFLOW_NAME_UNIQUE_TYPE, new String[] {workflowToBeCreated.getName()});
+        verify(uniqueValueServiceMock).validateUniqueValue(WORKFLOW_NAME_UNIQUE_TYPE, workflowToBeCreated.getName());
 
         createdWorkflowItem.setStatus(ItemStatus.ACTIVE);
         createdWorkflowItem.setType(WORKFLOW_TYPE);
         verify(itemManagerMock).create(createdWorkflowItem);
-        verify(uniqueValueServiceMock)
-                .createUniqueValue(WORKFLOW_NAME_UNIQUE_TYPE, new String[] {workflowToBeCreated.getName()});
+        verify(uniqueValueServiceMock).createUniqueValue(WORKFLOW_NAME_UNIQUE_TYPE, workflowToBeCreated.getName());
     }
 
     @Test
     public void shouldUpdateWorkflow() {
-        Item workflowItem = createItem(1, true, true);
+        Item workflowItem = createItem(1, true, true, ItemStatus.ACTIVE);
         doReturn(workflowItem).when(itemManagerMock).get(ITEM1_ID);
-        Workflow workflowToBeUpdated = createWorkflow(1, true);
+        Workflow workflowToBeUpdated = createWorkflow(1, true, ArchivingStatus.ACTIVE);
         doReturn(workflowItem).when(workflowMapperMock).workflowToItem(workflowToBeUpdated);
         workflowManager.update(workflowToBeUpdated);
         verify(itemManagerMock).update(workflowItem);
@@ -207,14 +204,14 @@ public class WorkflowManagerImplTest {
     @Test(expected = EntityNotFoundException.class)
     public void shouldThrowExceptionWhenWorkflowToUpdateNotFound() {
         doReturn(null).when(itemManagerMock).get(ITEM1_ID);
-        workflowManager.update(createWorkflow(1, true));
+        workflowManager.update(createWorkflow(1, true, ArchivingStatus.ACTIVE));
     }
 
     @Test
     public void listWhenRequestSpecIsNull() {
         doReturn(ITEMS).when(itemManagerMock).list(any());
         mockItemToWorkflowMaps();
-        Page<Workflow> workflows = workflowManager.list(null,null,null, null);
+        Page<Workflow> workflows = workflowManager.list(null, null, null, null);
 
         assertEquals(ITEMS.size(), workflows.getItems().size());
         assertPaging(workflows.getPaging(), DEFAULT_OFFSET, DEFAULT_LIMIT, ITEMS.size());
@@ -229,8 +226,8 @@ public class WorkflowManagerImplTest {
     public void listWhenPagingIsNull() {
         doReturn(ITEMS).when(itemManagerMock).list(any());
         mockItemToWorkflowMaps();
-        Page<Workflow> workflows = workflowManager.list(null,null,null, new RequestSpec(null,
-                SortingRequest.builder().sort(new Sort(SORT_FIELD_NAME, true)).build()));
+        Page<Workflow> workflows = workflowManager.list(null, null, null,
+                new RequestSpec(null, SortingRequest.builder().sort(new Sort(SORT_FIELD_NAME, true)).build()));
 
         assertEquals(ITEMS.size(), workflows.getItems().size());
         assertPaging(workflows.getPaging(), DEFAULT_OFFSET, DEFAULT_LIMIT, ITEMS.size());
@@ -242,7 +239,7 @@ public class WorkflowManagerImplTest {
         mockItemToWorkflowMaps();
         RequestSpec requestSpec = new RequestSpec(new PagingRequest(-2, -8),
                 SortingRequest.builder().sort(new Sort(SORT_FIELD_NAME, true)).build());
-        Page<Workflow> workflows = workflowManager.list(null,null,null, requestSpec);
+        Page<Workflow> workflows = workflowManager.list(null, null, null, requestSpec);
 
         assertEquals(ITEMS.size(), workflows.getItems().size());
         assertPaging(workflows.getPaging(), DEFAULT_OFFSET, DEFAULT_LIMIT, ITEMS.size());
@@ -253,7 +250,7 @@ public class WorkflowManagerImplTest {
         doReturn(ITEMS).when(itemManagerMock).list(any());
         mockItemToWorkflowMaps();
         RequestSpec requestSpec = new RequestSpec(new PagingRequest(2, 8), null);
-        Page<Workflow> workflows = workflowManager.list(null,null,null, requestSpec);
+        Page<Workflow> workflows = workflowManager.list(null, null, null, requestSpec);
 
         assertEquals(3, workflows.getItems().size());
         assertPaging(workflows.getPaging(), requestSpec.getPaging().getOffset(), requestSpec.getPaging().getLimit(),
@@ -270,7 +267,7 @@ public class WorkflowManagerImplTest {
         doReturn(ITEMS).when(itemManagerMock).list(any());
         mockItemToWorkflowMaps();
         RequestSpec requestSpec = new RequestSpec(new PagingRequest(2, 8), SortingRequest.builder().build());
-        Page<Workflow> workflows = workflowManager.list(null,null,null, requestSpec);
+        Page<Workflow> workflows = workflowManager.list(null, null, null, requestSpec);
 
         assertEquals(3, workflows.getItems().size());
         assertPaging(workflows.getPaging(), requestSpec.getPaging().getOffset(), requestSpec.getPaging().getLimit(),
@@ -287,7 +284,7 @@ public class WorkflowManagerImplTest {
         RequestSpec requestSpec = createRequestSpec(0, 5, true);
         doReturn(ITEMS).when(itemManagerMock).list(any());
         mockItemToWorkflowMaps();
-        Page<Workflow> workflows = workflowManager.list(null,null,null, requestSpec);
+        Page<Workflow> workflows = workflowManager.list(null, null, null, requestSpec);
 
         assertEquals(5, workflows.getItems().size());
         assertPaging(workflows.getPaging(), requestSpec.getPaging().getOffset(), requestSpec.getPaging().getLimit(),
@@ -299,7 +296,7 @@ public class WorkflowManagerImplTest {
         RequestSpec requestSpec = createRequestSpec(0, 3, true);
         doReturn(ITEMS).when(itemManagerMock).list(any());
         mockItemToWorkflowMaps();
-        Page<Workflow> workflows = workflowManager.list(null,null,null, requestSpec);
+        Page<Workflow> workflows = workflowManager.list(null, null, null, requestSpec);
         assertEquals(3, workflows.getItems().size());
         assertPaging(workflows.getPaging(), requestSpec.getPaging().getOffset(), requestSpec.getPaging().getLimit(),
                 ITEMS.size());
@@ -311,7 +308,7 @@ public class WorkflowManagerImplTest {
         RequestSpec requestSpec = createRequestSpec(3, 1, true);
         doReturn(ITEMS).when(itemManagerMock).list(any());
         mockItemToWorkflowMaps();
-        Page<Workflow> workflows = workflowManager.list(null,null,null, requestSpec);
+        Page<Workflow> workflows = workflowManager.list(null, null, null, requestSpec);
         assertEquals(1, workflows.getItems().size());
         assertPaging(workflows.getPaging(), requestSpec.getPaging().getOffset(), requestSpec.getPaging().getLimit(),
                 ITEMS.size());
@@ -322,7 +319,7 @@ public class WorkflowManagerImplTest {
         RequestSpec requestSpec = createRequestSpec(0, 10, true);
         doReturn(ITEMS).when(itemManagerMock).list(any());
         mockItemToWorkflowMaps();
-        Page<Workflow> workflows = workflowManager.list(null,null,null, requestSpec);
+        Page<Workflow> workflows = workflowManager.list(null, null, null, requestSpec);
         assertEquals(5, workflows.getItems().size());
         assertPaging(workflows.getPaging(), requestSpec.getPaging().getOffset(), requestSpec.getPaging().getLimit(),
                 ITEMS.size());
@@ -333,7 +330,7 @@ public class WorkflowManagerImplTest {
         RequestSpec requestSpec = createRequestSpec(6, 3, true);
         doReturn(ITEMS).when(itemManagerMock).list(any());
         mockItemToWorkflowMaps();
-        Page<Workflow> workflows = workflowManager.list(null,null,null, requestSpec);
+        Page<Workflow> workflows = workflowManager.list(null, null, null, requestSpec);
         assertEquals(0, workflows.getItems().size());
         assertPaging(workflows.getPaging(), requestSpec.getPaging().getOffset(), requestSpec.getPaging().getLimit(),
                 ITEMS.size());
@@ -344,7 +341,7 @@ public class WorkflowManagerImplTest {
         doReturn(ITEMS).when(itemManagerMock).list(any());
         mockItemToWorkflowMaps();
         RequestSpec requestSpec = createRequestSpec(0, 5555, true);
-        Page<Workflow> workflows = workflowManager.list(null,null,null, requestSpec);
+        Page<Workflow> workflows = workflowManager.list(null, null, null, requestSpec);
 
         assertEquals(ITEMS.size(), workflows.getItems().size());
         assertPaging(workflows.getPaging(), requestSpec.getPaging().getOffset(), MAX_LIMIT, ITEMS.size());
@@ -355,7 +352,7 @@ public class WorkflowManagerImplTest {
         RequestSpec requestSpec = createRequestSpec(10, 10, true);
         doReturn(ITEMS).when(itemManagerMock).list(any());
         mockItemToWorkflowMaps();
-        Page<Workflow> workflows = workflowManager.list(null,null,null, requestSpec);
+        Page<Workflow> workflows = workflowManager.list(null, null, null, requestSpec);
         assertEquals(0, workflows.getItems().size());
         assertPaging(workflows.getPaging(), requestSpec.getPaging().getOffset(), requestSpec.getPaging().getLimit(),
                 ITEMS.size());
@@ -366,7 +363,7 @@ public class WorkflowManagerImplTest {
         RequestSpec requestSpec = createRequestSpec(2, 1, false);
         doReturn(ITEMS).when(itemManagerMock).list(any());
         mockItemToWorkflowMaps();
-        Page<Workflow> workflows = workflowManager.list(null,null,null, requestSpec);
+        Page<Workflow> workflows = workflowManager.list(null, null, null, requestSpec);
         assertEquals(1, workflows.getItems().size());
         assertPaging(workflows.getPaging(), requestSpec.getPaging().getOffset(), requestSpec.getPaging().getLimit(),
                 ITEMS.size());

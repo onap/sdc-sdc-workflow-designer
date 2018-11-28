@@ -17,10 +17,10 @@
 package org.onap.sdc.workflow.services;
 
 import java.util.Set;
+import org.onap.sdc.workflow.services.types.ArchivingStatus;
 import org.onap.sdc.workflow.services.types.Page;
 import org.onap.sdc.workflow.services.types.RequestSpec;
 import org.onap.sdc.workflow.services.types.Workflow;
-import org.onap.sdc.workflow.services.types.WorkflowStatus;
 import org.onap.sdc.workflow.services.types.WorkflowVersionState;
 
 public interface WorkflowManager {
@@ -33,5 +33,5 @@ public interface WorkflowManager {
 
     void update(Workflow workflow);
 
-    void updateStatus(String workflowId, WorkflowStatus status);
+    void updateStatus(String workflowId, ArchivingStatus status);
 }

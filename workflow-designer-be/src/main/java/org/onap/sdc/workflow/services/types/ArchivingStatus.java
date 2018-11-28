@@ -16,7 +16,7 @@
 
 package org.onap.sdc.workflow.services.types;
 
-public enum WorkflowStatus {
+public enum ArchivingStatus {
   ARCHIVED,
   ACTIVE
 }
