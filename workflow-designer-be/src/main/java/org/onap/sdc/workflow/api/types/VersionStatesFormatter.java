@@ -45,9 +45,8 @@ public class VersionStatesFormatter {
             return value == null ? null : Arrays.stream(value.split(",")).map(WorkflowVersionState::valueOf)
                                                   .collect(Collectors.toSet());
         } catch (IllegalArgumentException ex) {
-            LOGGER.warn(String.format(
-                    "value %s is invalid and cannot be formatted to a set of version states, therefore it set to empty set",
-                    value), ex);
+            LOGGER.warn("value {} is invalid and cannot be formatted to a set of version states, "
+                                + "therefore it set to empty set", value, ex);
             return Collections.emptySet();
         }
     }
