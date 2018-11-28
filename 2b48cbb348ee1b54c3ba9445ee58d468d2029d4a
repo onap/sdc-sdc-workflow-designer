@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_2c84f8d2",
+        "filename": ".env",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1631
+      },
+      "writtenOn": "2018-11-28T11:28:22Z",
+      "side": 1,
+      "message": "Couldnt find a way for having two env files but tried to achieve the same behavior using two compose files. The dev command will now have to run by  \ndocker-compose -f docker-compose.yml -f docker-compose-dev.yml up\n\nThis will have the merged config. And by default the command will be docker-compose up which will not have the debug configuration exposed.",
+      "parentUuid": "9adffdf1_dff8797e",
+      "revId": "2b48cbb348ee1b54c3ba9445ee58d468d2029d4a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_1f84c1d2",
         "filename": ".env",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2018-11-25T10:57:40Z",
       "side": 1,
       "message": "I think IMAGE_TAG would have been clearer.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 3
+      },
+      "revId": "2b48cbb348ee1b54c3ba9445ee58d468d2029d4a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_423cade2",
+        "filename": ".env",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1631
+      },
+      "writtenOn": "2018-11-28T11:28:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_1f84c1d2",
       "range": {
         "startLine": 1,
         "startChar": 0,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_222169b4",
+        "filename": ".env",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1631
+      },
+      "writtenOn": "2018-11-28T11:28:22Z",
+      "side": 1,
+      "message": "This is a dummy string pattern which will be used as an identifier to be replaced by the actual CS host env ip at runtime in the shell script. The same is being used in other files like AUTO.json during the sdc-BE instantiation. \n\nAdded the same as an explanation.",
+      "parentUuid": "9adffdf1_7f7dcde6",
+      "range": {
+        "startLine": 3,
+        "startChar": 8,
+        "endLine": 3,
+        "endChar": 11
+      },
+      "revId": "2b48cbb348ee1b54c3ba9445ee58d468d2029d4a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_3f398541",
         "filename": ".env",
         "patchSetId": 1
@@ -76,6 +142,30 @@
       "writtenOn": "2018-11-25T10:57:40Z",
       "side": 1,
       "message": "Please, disable Cassandra authentication by default and leave username and password blank.",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 21
+      },
+      "revId": "2b48cbb348ee1b54c3ba9445ee58d468d2029d4a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_a503230c",
+        "filename": ".env",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1631
+      },
+      "writtenOn": "2018-11-28T11:28:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_3f398541",
       "range": {
         "startLine": 4,
         "startChar": 0,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_a21c7978",
+        "filename": ".env",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1631
+      },
+      "writtenOn": "2018-11-28T11:28:22Z",
+      "side": 1,
+      "message": "Done. Left CS_ as is as it was being used in the code and would required an updated image.",
+      "parentUuid": "9adffdf1_df3f1924",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 2
+      },
+      "revId": "2b48cbb348ee1b54c3ba9445ee58d468d2029d4a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_5f7a49f2",
         "filename": ".env",
         "patchSetId": 1
@@ -122,6 +236,30 @@
       "writtenOn": "2018-11-25T10:57:40Z",
       "side": 1,
       "message": "Please leave it blank or write an explanation instead of the meaningless \"yyy\".",
+      "range": {
+        "startLine": 12,
+        "startChar": 9,
+        "endLine": 12,
+        "endChar": 12
+      },
+      "revId": "2b48cbb348ee1b54c3ba9445ee58d468d2029d4a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_42134d66",
+        "filename": ".env",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1631
+      },
+      "writtenOn": "2018-11-28T11:28:22Z",
+      "side": 1,
+      "message": "Same as above. Added an explanation for the same.",
+      "parentUuid": "9adffdf1_5f7a49f2",
       "range": {
         "startLine": 12,
         "startChar": 9,
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_62169157",
+        "filename": ".env",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1631
+      },
+      "writtenOn": "2018-11-28T11:28:22Z",
+      "side": 1,
+      "message": "Done. Also done the same for backend options",
+      "parentUuid": "9adffdf1_bf1b35c9",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 18
+      },
+      "revId": "2b48cbb348ee1b54c3ba9445ee58d468d2029d4a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_5f1329b8",
         "filename": "docker-compose.yml",
         "patchSetId": 1
@@ -180,6 +342,30 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_f85eae44",
+        "filename": "docker-compose.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1631
+      },
+      "writtenOn": "2018-11-28T11:28:22Z",
+      "side": 1,
+      "message": "Seems to be a part of the old workflow. Removed as its no longer needed",
+      "parentUuid": "9adffdf1_5f1329b8",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 21
+      },
+      "revId": "2b48cbb348ee1b54c3ba9445ee58d468d2029d4a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_df263916",
         "filename": "docker-compose.yml",
         "patchSetId": 1
@@ -191,6 +377,30 @@
       "writtenOn": "2018-11-25T10:57:40Z",
       "side": 1,
       "message": "Debug ports may confuse users seeking to instantiate workflow to play around with it (or for a demo). I would prefer to document this, but disable by default.",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 51
+      },
+      "revId": "2b48cbb348ee1b54c3ba9445ee58d468d2029d4a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_d853aa37",
+        "filename": "docker-compose.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1631
+      },
+      "writtenOn": "2018-11-28T11:28:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_df263916",
       "range": {
         "startLine": 38,
         "startChar": 0,
