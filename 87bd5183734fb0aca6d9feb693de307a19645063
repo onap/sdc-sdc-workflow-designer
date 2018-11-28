@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_e7f92bc9",
+        "filename": ".env",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1631
+      },
+      "writtenOn": "2018-11-28T12:47:59Z",
+      "side": 1,
+      "message": "Changed to WORKFLOW_CASSANDRA_INIT_PORT (since service name is workflow-cassandra-init). Is it ok ?",
+      "parentUuid": "9adffdf1_6c320012",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 36
+      },
+      "revId": "87bd5183734fb0aca6d9feb693de307a19645063",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_0c21f4b3",
         "filename": ".env",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2018-11-28T11:35:47Z",
       "side": 1,
       "message": "WORKFLOW_FRONTEND_PORT, without HOST.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 27
+      },
+      "revId": "87bd5183734fb0aca6d9feb693de307a19645063",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_07f54fca",
+        "filename": ".env",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1631
+      },
+      "writtenOn": "2018-11-28T12:47:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_0c21f4b3",
       "range": {
         "startLine": 18,
         "startChar": 0,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_87305f9f",
+        "filename": "docker-compose-dev.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1631
+      },
+      "writtenOn": "2018-11-28T12:47:59Z",
+      "side": 1,
+      "message": "Yes. By specifying multiple files in the compose command \n\ndocker-compose -f docker-compose.yml -f docker-compose-dev.yml up\n\na \"merged\" configuration is achieved where docker-compose.yml contains the base configuration and the dev yaml contains the additional config. \n\nCare has been taken not to override the environment variables (e.g. JAVA_OPTIONS)\n\nRef: https://docs.docker.com/compose/extends/",
+      "parentUuid": "9adffdf1_ec5ef044",
+      "revId": "87bd5183734fb0aca6d9feb693de307a19645063",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_8c1c0479",
         "filename": "docker-compose-dev.yml",
         "patchSetId": 2
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_e7e7eb10",
+        "filename": "docker-compose-dev.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1631
+      },
+      "writtenOn": "2018-11-28T12:47:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_8c1c0479",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 109
+      },
+      "revId": "87bd5183734fb0aca6d9feb693de307a19645063",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_2c139867",
         "filename": "docker-compose-dev.yml",
         "patchSetId": 2
@@ -99,6 +189,24 @@
       "writtenOn": "2018-11-28T11:35:47Z",
       "side": 1,
       "message": "Same comment as above",
+      "revId": "87bd5183734fb0aca6d9feb693de307a19645063",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_07e30f06",
+        "filename": "docker-compose-dev.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1631
+      },
+      "writtenOn": "2018-11-28T12:47:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_2c139867",
       "revId": "87bd5183734fb0aca6d9feb693de307a19645063",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
