@@ -19,3 +19,4 @@ export const notificationType = {
     READY: 'READY',
     CLOSE: 'CLOSE'
 };
+export const CATALOG_PATH = 'workspace.interface_operation';
