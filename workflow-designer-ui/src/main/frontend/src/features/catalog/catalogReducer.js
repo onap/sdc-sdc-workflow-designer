@@ -29,7 +29,9 @@ export const initialState = {
     sort: {
         [NAME]: ASC
     },
-    status: WORKFLOW_STATUS.ACTIVE
+    status: WORKFLOW_STATUS.ACTIVE,
+    //In order to save state inside iframe session
+    searchNameFilter: sessionStorage.getItem('searchNameFilter') || ''
 };
 
 const catalogReducer = (state = initialState, action) => {

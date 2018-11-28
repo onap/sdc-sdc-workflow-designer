@@ -25,7 +25,7 @@ class ExpandableInput extends React.Component {
         value: PropTypes.string
     };
 
-    state = { showInput: false };
+    state = { showInput: !!this.props.value };
 
     handleRef = input => {
         this.domNode = input;

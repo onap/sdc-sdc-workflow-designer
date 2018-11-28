@@ -101,6 +101,7 @@ class CatalogView extends Component {
             ...catalog,
             searchNameFilter: searchValue
         });
+        sessionStorage.setItem('searchNameFilter', searchValue);
     };
 
     render() {
