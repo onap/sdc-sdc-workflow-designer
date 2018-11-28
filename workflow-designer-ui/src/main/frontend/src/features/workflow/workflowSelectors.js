@@ -30,5 +30,5 @@ export const isWorkflowArchive = state =>
     state &&
     state.workflow &&
     state.workflow.data &&
-    state.workflow.data.status &&
-    state.workflow.data.status === WORKFLOW_STATUS.ARCHIVE;
+    state.workflow.data.archiving &&
+    state.workflow.data.archiving === WORKFLOW_STATUS.ARCHIVE;
