@@ -40,7 +40,7 @@ import org.onap.sdc.workflow.services.types.RequestSpec;
 import org.onap.sdc.workflow.services.types.Sort;
 import org.onap.sdc.workflow.services.types.SortingRequest;
 import org.onap.sdc.workflow.services.types.Workflow;
-import org.onap.sdc.workflow.services.types.WorkflowStatus;
+import org.onap.sdc.workflow.services.types.ArchivingStatus;
 import org.onap.sdc.workflow.services.types.WorkflowVersionState;
 import org.openecomp.sdc.common.errors.CoreException;
 import org.openecomp.sdc.logging.api.Logger;
@@ -94,6 +94,7 @@ public class WorkflowManagerImpl implements WorkflowManager {
                                                      .skip(requestSpec.getPaging().getOffset())
                                                      .limit(requestSpec.getPaging().getLimit())
                                                      .collect(Collectors.toList());
+
         return new Page<>(workflowsSlice, requestSpec.getPaging(), workflowItems.size());
     }
 
@@ -101,7 +102,6 @@ public class WorkflowManagerImpl implements WorkflowManager {
     public Workflow get(Workflow workflow) {
         Item retrievedItem = itemManager.get(workflow.getId());
         if (retrievedItem == null) {
-            LOGGER.error(String.format("Workflow with id %s was not found", workflow.getId()));
             throw new EntityNotFoundException(String.format(WORKFLOW_NOT_FOUND_ERROR_MSG, workflow.getId()));
         }
         return this.workflowMapper.itemToWorkflow(retrievedItem);
@@ -123,7 +123,6 @@ public class WorkflowManagerImpl implements WorkflowManager {
     public void update(Workflow workflow) {
         Item retrievedItem = itemManager.get(workflow.getId());
         if (retrievedItem == null) {
-            LOGGER.error(String.format("Workflow with id %s was not found", workflow.getId()));
             throw new EntityNotFoundException(String.format(WORKFLOW_NOT_FOUND_ERROR_MSG, workflow.getId()));
         }
 
@@ -141,16 +140,15 @@ public class WorkflowManagerImpl implements WorkflowManager {
     }
 
     @Override
-    public void updateStatus(String workflowId, WorkflowStatus status) {
+    public void updateStatus(String workflowId, ArchivingStatus status) {
         Item item = itemManager.get(workflowId);
         if (item == null) {
-            LOGGER.error(String.format("Workflow with id %s was not found",workflowId));
             throw new EntityNotFoundException(String.format(WORKFLOW_NOT_FOUND_ERROR_MSG, workflowId));
         }
         try {
-            if (WorkflowStatus.ARCHIVED.equals(status)) {
+            if (ArchivingStatus.ARCHIVED.equals(status)) {
                 itemManager.archive(item);
-            } else if (WorkflowStatus.ACTIVE.equals(status)) {
+            } else if (ArchivingStatus.ACTIVE.equals(status)) {
                 itemManager.restore(item);
             }
         } catch (CoreException ex) {
@@ -158,7 +156,7 @@ public class WorkflowManagerImpl implements WorkflowManager {
         }
     }
 
-  private static RequestSpec getRequestSpec(RequestSpec requestSpec) {
+    private static RequestSpec getRequestSpec(RequestSpec requestSpec) {
         if (requestSpec == null) {
             return WORKSPACES_DEFAULT_REQUEST_SPEC;
         }
@@ -196,10 +194,10 @@ public class WorkflowManagerImpl implements WorkflowManager {
     private Predicate<Item> createFilter(String itemStatusFilter, String searchNameFilter,
             Set<WorkflowVersionState> versionStatesFilter) {
 
-        Set<VersionStatus> versionStatusesFilter =
-                versionStatesFilter == null ? null :
-                        versionStatesFilter.stream().map(versionStateMapper::workflowVersionStateToVersionStatus)
-                                           .collect(Collectors.toSet());
+        Set<VersionStatus> versionStatusesFilter = versionStatesFilter == null ? null :
+                                                           versionStatesFilter.stream()
+                                                           .map(versionStateMapper::workflowVersionStateToVersionStatus)
+                                                           .collect(Collectors.toSet());
 
         Predicate<Item> filter = addSearchNameFilter(WORKFLOW_ITEM_TYPE_FILTER, searchNameFilter);
 
@@ -210,13 +208,13 @@ public class WorkflowManagerImpl implements WorkflowManager {
     }
 
     private static Predicate<Item> addSearchNameFilter(Predicate<Item> filter, String searchNameFilter) {
-        return filter.and(item -> searchNameFilter == null
-            ||  item.getName().toLowerCase().contains(searchNameFilter.toLowerCase()));
+        return filter.and(item -> searchNameFilter == null || item.getName().toLowerCase()
+                                                                  .contains(searchNameFilter.toLowerCase()));
     }
 
     private static Predicate<Item> addVersionStatusFilter(Predicate<Item> filter, Set<VersionStatus> versionStatuses) {
-        return filter.and(item -> versionStatuses == null
-            || item.getVersionStatusCounters().keySet().stream().anyMatch(versionStatuses::contains));
+        return filter.and(item -> versionStatuses == null || item.getVersionStatusCounters().keySet().stream()
+                                                                 .anyMatch(versionStatuses::contains));
     }
 
     private static Predicate<Item> addItemStatusFilter(Predicate<Item> filter, String itemStatusFilter) {
@@ -224,7 +222,7 @@ public class WorkflowManagerImpl implements WorkflowManager {
             try {
                 ItemStatus.valueOf(itemStatusFilter.toUpperCase());
             } catch (IllegalArgumentException e) {
-                LOGGER.debug(String.format("Illegal Workflow status filter: %s. Ignoring filter", itemStatusFilter));
+                LOGGER.debug("Illegal Workflow status filter: {}. Ignoring filter", itemStatusFilter, e);
                 return filter;
             }
             return filter.and(item -> item.getStatus().equals(ItemStatus.valueOf(itemStatusFilter.toUpperCase())));
