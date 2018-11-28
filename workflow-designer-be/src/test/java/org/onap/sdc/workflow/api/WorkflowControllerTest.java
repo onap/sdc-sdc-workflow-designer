@@ -73,15 +73,14 @@ public class WorkflowControllerTest {
 
     @Test
     public void shouldReturnErrorWhenMissingUserIdInGetReqHeader() throws Exception {
-        Workflow workflowMock = createWorkflow(1, true);
+        Workflow workflowMock = createWorkflow(1, true, WorkflowStatus.ACTIVE);
         mockMvc.perform(get(RestPath.getWorkflowPath(workflowMock.getId())).contentType(APPLICATION_JSON))
-               .andExpect(status().isBadRequest())
-               .andExpect(jsonPath("$.message", is(MISSING_USER_HEADER_ERROR)));
+               .andExpect(status().isBadRequest()).andExpect(jsonPath("$.message", is(MISSING_USER_HEADER_ERROR)));
     }
 
     @Test
     public void shouldReturnWorkflowDataWhenRequestPathIsOk() throws Exception {
-        Workflow workflowMock = createWorkflow(1, true);
+        Workflow workflowMock = createWorkflow(1, true, WorkflowStatus.ACTIVE);
         doReturn(workflowMock).when(workflowManagerMock).get(any(Workflow.class));
         mockMvc.perform(get(RestPath.getWorkflowPath(workflowMock.getId())).header(USER_ID_HEADER, USER_ID)
                                                                            .contentType(APPLICATION_JSON))
@@ -97,18 +96,23 @@ public class WorkflowControllerTest {
 
     @Test
     public void shouldReturnOkWhenArchivingWorkflow() throws Exception {
-        Workflow workflowMock = createWorkflow(1, true);
+        Workflow workflowMock = createWorkflow(1, true, WorkflowStatus.ACTIVE);
         mockMvc.perform(post(RestPath.getArchiveWorkflowPath(workflowMock.getId())).header(USER_ID_HEADER, USER_ID)
-                 .contentType(APPLICATION_JSON).content("{\"status\": \"ARCHIVED\"}")).andExpect(status().isOk());
-        verify(workflowManagerMock).updateStatus(workflowMock.getId(),WorkflowStatus.ARCHIVED);
+                                                                                   .contentType(APPLICATION_JSON)
+                                                                                   .content(
+                                                                                           "{\"status\": \"ARCHIVED\"}"))
+               .andExpect(status().isOk());
+        verify(workflowManagerMock).updateStatus(workflowMock.getId(), WorkflowStatus.ARCHIVED);
     }
 
     @Test
     public void shouldReturnOkWhenRestoringWorkflow() throws Exception {
-        Workflow workflowMock = createWorkflow(1, true);
+        Workflow workflowMock = createWorkflow(1, true, WorkflowStatus.ACTIVE);
         mockMvc.perform(post(RestPath.getArchiveWorkflowPath(workflowMock.getId())).header(USER_ID_HEADER, USER_ID)
-                .contentType(APPLICATION_JSON).content("{\"status\": \"ACTIVE\"}")).andExpect(status().isOk());
-        verify(workflowManagerMock).updateStatus(workflowMock.getId(),WorkflowStatus.ACTIVE);
+                                                                                   .contentType(APPLICATION_JSON)
+                                                                                   .content("{\"status\": \"ACTIVE\"}"))
+               .andExpect(status().isOk());
+        verify(workflowManagerMock).updateStatus(workflowMock.getId(), WorkflowStatus.ACTIVE);
     }
 
     @Test
@@ -116,8 +120,7 @@ public class WorkflowControllerTest {
         mockManagerList3();
         ResultActions result = mockMvc.perform(
                 get(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON))
-                                      .andExpect(status().isOk())
-                                      .andExpect(jsonPath("$.items", hasSize(3)));
+                                      .andExpect(status().isOk()).andExpect(jsonPath("$.items", hasSize(3)));
         for (int i = 0; i < 3; i++) {
             result.andExpect(jsonPath(String.format("$.items[%s].id", i), is(String.valueOf(i + 1))));
         }
@@ -133,7 +136,8 @@ public class WorkflowControllerTest {
                                 .header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON))
                .andExpect(status().isOk()).andExpect(jsonPath("$.items", hasSize(3)));
         verify(workflowManagerMock).list(any(), any(), any(), requestSpecArg.capture());
-        assertRequestSpec(requestSpecArg.getValue(), 1, 2, Collections.singletonList(new Sort("name", true)));
+        assertRequestSpec(requestSpecArg.getValue(), 1, 2,
+                Collections.singletonList(new Sort("name", true)));
     }
 
     @Test
@@ -204,10 +208,10 @@ public class WorkflowControllerTest {
     public void shouldCreateWorkflowWhenCallingPostRestRequest() throws Exception {
         Item item = new Item();
         item.setId(new Id("abc"));
-        Workflow reqWorkflow = createWorkflow(1, false);
+        Workflow reqWorkflow = createWorkflow(1, false, any());
         mockMvc.perform(post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)
-                                .content(JsonUtil.object2Json(reqWorkflow)))
-                .andExpect(status().isCreated());
+                                                         .content(JsonUtil.object2Json(reqWorkflow)))
+               .andExpect(status().isCreated());
         verify(workflowManagerMock).create(reqWorkflow);
     }
 
@@ -216,8 +220,8 @@ public class WorkflowControllerTest {
         Workflow reqWorkflow = new Workflow();
         reqWorkflow.setName("Invalid workflow name %");
         mockMvc.perform(post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)
-                                .content(JsonUtil.object2Json(reqWorkflow)))
-                .andExpect(status().isBadRequest()).andExpect(
+                                                         .content(JsonUtil.object2Json(reqWorkflow)))
+               .andExpect(status().isBadRequest()).andExpect(
                 jsonPath("$.message", is("Workflow name must contain only letters, digits and underscores.")));
     }
 
@@ -253,11 +257,10 @@ public class WorkflowControllerTest {
         Workflow reqWorkflow = new Workflow();
         reqWorkflow.setName("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         mockMvc.perform(post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)
-                                .content(JsonUtil.object2Json(reqWorkflow))).andExpect(
-                                        status().isBadRequest()).andExpect(jsonPath("$.message", is(
-                                                "Workflow name must be at least " + MIN_LENGTH
-                                                        + " characters, and no more than " + MAX_LENGTH
-                                                        + " characters.")));
+                                                         .content(JsonUtil.object2Json(reqWorkflow)))
+               .andExpect(status().isBadRequest()).andExpect(jsonPath("$.message",
+                is("Workflow name must be at least " + MIN_LENGTH + " characters, and no more than " + MAX_LENGTH
+                           + " characters.")));
     }
 
     @Test
@@ -265,15 +268,15 @@ public class WorkflowControllerTest {
         Workflow reqWorkflow = new Workflow();
         reqWorkflow.setName("AAA");
         mockMvc.perform(post(RestPath.getWorkflowsPath()).header(USER_ID_HEADER, USER_ID).contentType(APPLICATION_JSON)
-                                .content(JsonUtil.object2Json(reqWorkflow))).andExpect(
-                                        status().isBadRequest()).andExpect(jsonPath("$.message",
-                is("Workflow name must be at least " + MIN_LENGTH + " characters, and no more than "
-                           + MAX_LENGTH + " characters.")));
+                                                         .content(JsonUtil.object2Json(reqWorkflow)))
+               .andExpect(status().isBadRequest()).andExpect(jsonPath("$.message",
+                is("Workflow name must be at least " + MIN_LENGTH + " characters, and no more than " + MAX_LENGTH
+                           + " characters.")));
     }
 
     private void mockManagerList3() {
-        doReturn(new Page<>(Arrays.asList(createWorkflow(1, true),
-                createWorkflow(2, true), createWorkflow(3, true)),
+        doReturn(new Page<>(Arrays.asList(createWorkflow(1, true, WorkflowStatus.ACTIVE),
+                createWorkflow(2, true, WorkflowStatus.ACTIVE), createWorkflow(3, true, WorkflowStatus.ACTIVE)),
                 new PagingRequest(DEFAULT_OFFSET, DEFAULT_LIMIT), 3)).when(workflowManagerMock)
                                                                      .list(any(), any(), any(), any());
     }

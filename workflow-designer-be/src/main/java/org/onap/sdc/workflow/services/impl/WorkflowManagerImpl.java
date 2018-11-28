@@ -90,10 +90,10 @@ public class WorkflowManagerImpl implements WorkflowManager {
                 itemManager.list(createFilter(statusFilter, searchNameFilter, versionStatesFilter));
 
         List<Workflow> workflowsSlice = workflowItems.stream().map(workflowMapper::itemToWorkflow)
-                                                     .sorted(getWorkflowComparator(requestSpec.getSorting()))
-                                                     .skip(requestSpec.getPaging().getOffset())
-                                                     .limit(requestSpec.getPaging().getLimit())
-                                                     .collect(Collectors.toList());
+                                      .sorted(getWorkflowComparator(requestSpec.getSorting()))
+                                      .skip(requestSpec.getPaging().getOffset())
+                                      .limit(requestSpec.getPaging().getLimit()).collect(Collectors.toList());
+
         return new Page<>(workflowsSlice, requestSpec.getPaging(), workflowItems.size());
     }
 
@@ -144,7 +144,7 @@ public class WorkflowManagerImpl implements WorkflowManager {
     public void updateStatus(String workflowId, WorkflowStatus status) {
         Item item = itemManager.get(workflowId);
         if (item == null) {
-            LOGGER.error(String.format("Workflow with id %s was not found",workflowId));
+            LOGGER.error(String.format("Workflow with id %s was not found", workflowId));
             throw new EntityNotFoundException(String.format(WORKFLOW_NOT_FOUND_ERROR_MSG, workflowId));
         }
         try {
@@ -158,7 +158,7 @@ public class WorkflowManagerImpl implements WorkflowManager {
         }
     }
 
-  private static RequestSpec getRequestSpec(RequestSpec requestSpec) {
+    private static RequestSpec getRequestSpec(RequestSpec requestSpec) {
         if (requestSpec == null) {
             return WORKSPACES_DEFAULT_REQUEST_SPEC;
         }
@@ -196,10 +196,11 @@ public class WorkflowManagerImpl implements WorkflowManager {
     private Predicate<Item> createFilter(String itemStatusFilter, String searchNameFilter,
             Set<WorkflowVersionState> versionStatesFilter) {
 
-        Set<VersionStatus> versionStatusesFilter =
-                versionStatesFilter == null ? null :
-                        versionStatesFilter.stream().map(versionStateMapper::workflowVersionStateToVersionStatus)
-                                           .collect(Collectors.toSet());
+        Set<VersionStatus> versionStatusesFilter = versionStatesFilter == null ? null : versionStatesFilter.stream()
+                                                                                                           .map(versionStateMapper::workflowVersionStateToVersionStatus)
+                                                                                                           .collect(
+                                                                                                                   Collectors
+                                                                                                                           .toSet());
 
         Predicate<Item> filter = addSearchNameFilter(WORKFLOW_ITEM_TYPE_FILTER, searchNameFilter);
 
@@ -210,13 +211,13 @@ public class WorkflowManagerImpl implements WorkflowManager {
     }
 
     private static Predicate<Item> addSearchNameFilter(Predicate<Item> filter, String searchNameFilter) {
-        return filter.and(item -> searchNameFilter == null
-            ||  item.getName().toLowerCase().contains(searchNameFilter.toLowerCase()));
+        return filter.and(item -> searchNameFilter == null || item.getName().toLowerCase()
+                                                                  .contains(searchNameFilter.toLowerCase()));
     }
 
     private static Predicate<Item> addVersionStatusFilter(Predicate<Item> filter, Set<VersionStatus> versionStatuses) {
-        return filter.and(item -> versionStatuses == null
-            || item.getVersionStatusCounters().keySet().stream().anyMatch(versionStatuses::contains));
+        return filter.and(item -> versionStatuses == null || item.getVersionStatusCounters().keySet().stream()
+                                                                 .anyMatch(versionStatuses::contains));
     }
 
     private static Predicate<Item> addItemStatusFilter(Predicate<Item> filter, String itemStatusFilter) {
