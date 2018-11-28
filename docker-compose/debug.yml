@@ -1,0 +1,17 @@
+version: '3'
+services:
+
+  # Added debug configurations - exposing port and added required JAVA_OPTIONS for debug
+  # for both backend and frontend
+
+  workflow-backend:
+    ports:
+    - "${BACKEND_DEBUG_PORT}:${BACKEND_DEBUG_PORT}"
+    environment:
+    - JAVA_OPTIONS=${JAVA_OPTIONS} -Xdebug -agentlib:jdwp=transport=dt_socket,address=${BACKEND_DEBUG_PORT},server=y,suspend=n
+
+  workflow-frontend:
+    ports:
+    - "${FRONTEND_DEBUG_PORT}:${FRONTEND_DEBUG_PORT}"
+    environment:
+    - JAVA_OPTIONS=${JAVA_OPTIONS} -Xdebug -agentlib:jdwp=transport=dt_socket,address=${FRONTEND_DEBUG_PORT},server=y,suspend=n
