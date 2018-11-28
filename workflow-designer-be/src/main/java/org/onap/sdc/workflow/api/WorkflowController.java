@@ -35,12 +35,12 @@ import org.onap.sdc.workflow.api.types.WorkflowStatusDto;
 import org.onap.sdc.workflow.services.WorkflowManager;
 import org.onap.sdc.workflow.services.WorkflowVersionManager;
 import org.onap.sdc.workflow.services.annotations.UserId;
+import org.onap.sdc.workflow.services.types.ArchivingStatus;
 import org.onap.sdc.workflow.services.types.Page;
 import org.onap.sdc.workflow.services.types.PagingRequest;
 import org.onap.sdc.workflow.services.types.RequestSpec;
 import org.onap.sdc.workflow.services.types.SortingRequest;
 import org.onap.sdc.workflow.services.types.Workflow;
-import org.onap.sdc.workflow.services.types.WorkflowStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -126,7 +126,7 @@ public class WorkflowController {
     @ApiOperation("Update workflow status")
     public ResponseEntity updateStatus(@RequestBody @Valid WorkflowStatusDto request, @PathVariable("workflowId") String workflowId,
             @UserId String user) {
-        workflowManager.updateStatus(workflowId,WorkflowStatus.valueOf(request.getStatus()));
+        workflowManager.updateStatus(workflowId, ArchivingStatus.valueOf(request.getStatus()));
         return new ResponseEntity(HttpStatus.OK);
     }
 
