@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_6c320012",
+        "filename": ".env",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-11-28T11:35:47Z",
+      "side": 1,
+      "message": "What about CASSANDRA_INIT_PORT? CASSANDRA_PORT?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 36
+      },
+      "revId": "87bd5183734fb0aca6d9feb693de307a19645063",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_0c21f4b3",
+        "filename": ".env",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-11-28T11:35:47Z",
+      "side": 1,
+      "message": "WORKFLOW_FRONTEND_PORT, without HOST.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 27
+      },
+      "revId": "87bd5183734fb0aca6d9feb693de307a19645063",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_ec5ef044",
+        "filename": "docker-compose-dev.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-11-28T11:35:47Z",
+      "side": 1,
+      "message": "How does it work? Does it mean this description \"extends\" docker-compose.yml? How do you run it?",
+      "revId": "87bd5183734fb0aca6d9feb693de307a19645063",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_8c1c0479",
+        "filename": "docker-compose-dev.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-11-28T11:35:47Z",
+      "side": 1,
+      "message": "Is it possible to have the container port as a variable, so that you don\u0027t have to write it twice? e.g. \n-\"${WORKFLOW_BACKEND_DEBUG_PORT}:${WORKFLOW_BACKEND_DEBUG_PORT}\"\n\n- JAVA_OPTIONS\u003d${JAVA_OPTIONS} -Xdebug -agentlib:jdwp\u003dtransport\u003ddt_socket,address\u003d${WORKFLOW_BACKEND_DEBUG_PORT},server\u003dy,suspend\u003dn",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 109
+      },
+      "revId": "87bd5183734fb0aca6d9feb693de307a19645063",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_2c139867",
+        "filename": "docker-compose-dev.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-11-28T11:35:47Z",
+      "side": 1,
+      "message": "Same comment as above",
+      "revId": "87bd5183734fb0aca6d9feb693de307a19645063",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
