@@ -34,6 +34,7 @@ describe('Catalog Reducer', () => {
         sort: {
             [NAME]: ASC
         },
+        searchNameFilter: '',
         items: [
             {
                 id: 'c5b7ca1a0f7944bfa948b85b32c5f314',
