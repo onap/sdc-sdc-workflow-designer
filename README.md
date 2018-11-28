@@ -18,15 +18,17 @@ to call an API on SDC. In order to do so, the location of a SDC server, and
  
 - Designer frontend serves static content of a Web application for creating and managing workflows, and forwards API 
 requests to the backend. The static content includes JavaScript, images, CSS, etc. A major part of the Web application 
-is Workflow Composition View &mdash; a graphical interface for arranging a workflow sequence. The Web application also produces a 
-workflow artifact that will be sent to the backend, saved along with other data, and later used by a service. The architecture 
-allows for different implementations of the frontend component. For example, a different technology can be used for the 
-Composition View, which will probably also result in a different type of the artifacts (e.g. Bpmn.io vs. Camunda).
+is Workflow Composition View &mdash; a graphical interface for arranging a workflow sequence. The Web application also 
+produces a workflow artifact that will be sent to the backend, saved along with other data, and later used by a 
+service. The architecture allows for different implementations of the frontend component. For example, a different 
+technology can be used for the Composition View, which will probably also result in a different type of the artifacts 
+(e.g. Bpmn.io vs. Camunda).
 
 - Cassandra database is used by the designer backend as the main storage for workflow data. A dedicated instance of 
 Cassandra can be deployed, or an existing cluster may be used.
 
-- Database initialization scripts run once per deployment to create the necessary Cassandra keyspaces and tables, pre-populate data, etc.     
+- Database initialization scripts run once per deployment to create the necessary Cassandra keyspaces and tables, 
+pre-populate data, etc.     
 
 Deployment on Docker
 ====================
@@ -36,8 +38,8 @@ The procedure below describes manual deployment on plain Docker for development 
 ## 1. Database
 
 Create a dedicated instance of Cassandra. This step is optional if you already have a Cassandra cluster.
-The designer is not expected to have problems working with Cassandra 3.x, but has been tested with 2.1.x because this is the version used by 
-SDC.
+The designer is not expected to have problems working with Cassandra 3.x, but has been tested with 2.1.x because this 
+is the version used by SDC.
 
 An easy way to spin up a Cassandra instance is using a Cassandra Docker image as described in the 
 [official documentation](https://hub.docker.com/_/cassandra/).
@@ -77,8 +79,8 @@ nexus3.onap.org:10001/onap/workflow-init:latest`
 
 ### Troubleshooting
 
-In order to see if the Workflow Designer was successfully initialized, make sure the console does not contain error messages. 
-You can also see the logs of the initialization container using `docker logs workflow-init` command.
+In order to see if the Workflow Designer was successfully initialized, make sure the console does not contain error 
+messages. You can also see the logs of the initialization container using `docker logs workflow-init` command.
 
 ## 3. Backend
 
@@ -91,7 +93,8 @@ You can also see the logs of the initialization container using `docker logs wor
 
 - SDC_PROTOCOL &mdash; protocol to be used for calling SDC APIs (http or https).
 
-- SDC_ENDPOINT &mdash; the base path of SDC external API, in the format `host:port`, where *host* is a SDC backend server, and *port* is usually 8080.
+- SDC_ENDPOINT &mdash; the base path of SDC external API, in the format `host:port`, where *host* is a SDC backend 
+server, and *port* is usually 8080.
 
 - SDC_USER &mdash; Workflow consumer username 
 
@@ -159,6 +162,90 @@ error messages.
 
 Workflow frontend does not have backend logic, therefore there are no application logs.
 
+Deployment Using Docker Compose
+===============================
+
+[Docker Compose](https://docs.docker.com/compose/) further simplifies the deployment of Workflow Designer. 
+The Docker Compose files can be find in the workflow designer Git repository, under _docker-compose_ directory. 
+
+> In order to use this deployment method, you need to install Docker Compose as described on 
+[Install Docker Compose](https://docs.docker.com/compose/install/) official page.
+
+## 1. Cassandra Database
+
+Instantiation of a Cassandra database is not part of the the Docker Compose service. You may already have a running 
+instance of Cassandra you want to use. It can be in a Docker container, on a VM, or a physical machine. 
+
+If you want to spin up a Cassandra database alongside the Workflow Designer service for development purposes, 
+use the following command:
+
+`docker-compose -p workflow -f cassandra.yml up -d`
+
+> Note, that since the database was created under the same project (`-p workflow`), but as a separate service, it will 
+keep running when you shut down the workflow designer service. This will cause an error message 
+_ERROR: network workflow_default id <......> has active endpoints_.  
+
+## 2. Environment Variables
+
+Edit _.env_ file located in _docker-compose_ directory. Here is a brief overview of some variables. 
+
+- IMAGE_TAG &mdash; enables to try other versions of the Docker images
+ 
+- REGISTRY &mdash; allows to use any Docker registry; leave it blank for locally built images
+
+- CS_HOST &mdash; Cassandra host name or IP address. Keep in mind that the host must be accessible from the 
+[Docker Compose network](https://docs.docker.com/compose/networking/) created for the workflow service. 
+Use `CS_HOST=cassandra` if you created the database as described in the previous section. 
+
+- SDC_HOST &mdash; usually, IP address of the Docker host (if you are using the SDC deploy script).
+
+- CASSANDRA_INIT_PORT &mdash; Cassandra Thrift port, usually 9160.
+
+- CASSANDRA_PORT &mdash; Cassandra CQL native client port, usually 9042.
+
+- BACKEND_DEBUG_PORT &mdash; *host* port used to debug the backend server (see below). 
+
+- FRONTEND_DEBUG_PORT &mdash; *host* port used to debug the frontend server (see below).
+
+- FRONTEND_PORT &mdash; *host* port Workflow Designer UI will be accessible at.
+
+> Other variables are described in _Deployment on Docker_ section.
+
+## 3. Starting Workflow Designer Service
+
+Assuming the database is up and running, execute the following in the command line: 
+
+`docker-compose -p workflow up -d`.
+
+It is easy to restart or recreate the entire service or a selected component using Docker Compose commands, for example 
+to pick up new versions of the Docker images. Keep in mind that the database may remain unchanged, so that the new 
+service will continue to work with old data.
+
+For example, you can restart just the frontend by issuing the command:
+                     
+`docker-compose -p workflow restart workflow-frontend`
+
+Keep in mind that changes to the _docker-compose.yml_ configuration or environment variables 
+[will not be reflected](https://docs.docker.com/compose/reference/restart/) when using `restart`. For that, you will 
+need to recreate the container (e.g. to change the image version):  
+
+`docker-compose -p workflow up -d --no-deps workflow-frontend`
+
+For more advanced features and commands, please refer to 
+[Docker Compose documentation](https://docs.docker.com/compose/).
+
+## 4. Stopping Workflow Designer Service
+
+You can shut down the entire stack of Workflow Designer components using
+`docker-compose -p workflow down`.
+
+## 5. Starting Workflow Designer in Debug Mode
+
+It is possible to start the service in debug mode, when both the front-end and the back-end are accessible from a
+remote debugger at mapped host ports. Run:
+
+`docker-compose -p workflow -f docker-compose.yml -f debug.yml up -d`.
+
 SDC Plugin Configuration
 ========================
 
@@ -186,8 +273,8 @@ In order to check the availability of a plugin, SDC uses `"pluginDiscoveryUrl"`.
 ### Example
 
 Let's assume that hostname of the machine that runs Docker containers with the Workflow application is 
-*workflow.example.com*, and port 8080 of the Workflow frontend is mapped to 9088 on the host. In this case the corresponding 
-section of *AUTO.json* will look like below:
+*workflow.example.com*, and port 8080 of the Workflow frontend is mapped to 9088 on the host. In this case the 
+corresponding section of *AUTO.json* will look like below:
 
 ```
 
@@ -199,3 +286,6 @@ section of *AUTO.json* will look like below:
 },
 
 ```
+
+In a development or demo environment, Workflow Designer will run on the same host as SDC, so that its IP address will 
+be the one of the Docker host. 
