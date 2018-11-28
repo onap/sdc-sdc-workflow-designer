@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_8c1644a6",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/impl/WorkflowManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-11-28T10:27:46Z",
+      "side": 1,
+      "message": "Should be LOGGER.error(\"Workflow with id {} was not found\", workflowId);\nThere are more places in the code that do this.",
+      "range": {
+        "startLine": 147,
+        "startChar": 25,
+        "endLine": 147,
+        "endChar": 74
+      },
+      "revId": "f57d32890a50d294813f980f5b466e3db4fee540",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_2c0dd890",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/impl/WorkflowManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-11-28T10:27:46Z",
+      "side": 1,
+      "message": "Bad auto-formatting :(",
+      "range": {
+        "startLine": 199,
+        "startChar": 1,
+        "endLine": 203,
+        "endChar": 133
+      },
+      "revId": "f57d32890a50d294813f980f5b466e3db4fee540",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_ec26f015",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/services/types/Workflow.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-11-28T10:27:46Z",
+      "side": 1,
+      "message": "Should it be ArchivingStatus? Does WorkflowStatus means something else?",
+      "range": {
+        "startLine": 44,
+        "startChar": 12,
+        "endLine": 44,
+        "endChar": 26
+      },
+      "revId": "f57d32890a50d294813f980f5b466e3db4fee540",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
