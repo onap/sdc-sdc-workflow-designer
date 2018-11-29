@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_b796ec4a",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1631
+      },
+      "writtenOn": "2018-11-29T07:19:32Z",
+      "side": 1,
+      "message": "Services can also be restarted selectively (if required) using\n\ndocker-compose restart \u003cservice-name\u003e",
+      "revId": "446fcfd46de1563eab61a0c5cced44e74317cd0e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_37a3dcb3",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1631
+      },
+      "writtenOn": "2018-11-29T07:19:32Z",
+      "side": 1,
+      "message": "May be we can also add the command to bring down the services gracefully which might be useful for the developers.\n\ndocker-compose -p workflow down",
+      "revId": "446fcfd46de1563eab61a0c5cced44e74317cd0e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
