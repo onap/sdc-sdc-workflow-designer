@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_522b0e82",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1631
+      },
+      "writtenOn": "2018-11-29T10:21:54Z",
+      "side": 1,
+      "message": "The project name defaults to the directory we are in(which is _docker-compose_ in our case). Since we are using \u0027-p workflow\u0027 in all the commands to mention the project name, the restart will require the same flag as well. So the command will be:\n\ndocker-compose -p workflow restart \u003cservice-names\u003e",
+      "parentUuid": "9adffdf1_37651c1e",
+      "revId": "446fcfd46de1563eab61a0c5cced44e74317cd0e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_37a3dcb3",
         "filename": "README.md",
         "patchSetId": 1
