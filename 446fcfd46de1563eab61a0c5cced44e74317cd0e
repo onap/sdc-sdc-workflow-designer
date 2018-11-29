@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_37651c1e",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-11-29T09:48:16Z",
+      "side": 1,
+      "message": "\"ERROR: No containers to restart\". \n\nI guess the commands must be different for \"restart\" to work. There is a notion of \"create\" containers, as opposed to just \"up\". In general, I would have left advanced commands and management tasks to the official documentation.",
+      "parentUuid": "9adffdf1_b796ec4a",
+      "revId": "446fcfd46de1563eab61a0c5cced44e74317cd0e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_37a3dcb3",
         "filename": "README.md",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-11-29T07:19:32Z",
       "side": 1,
       "message": "May be we can also add the command to bring down the services gracefully which might be useful for the developers.\n\ndocker-compose -p workflow down",
+      "revId": "446fcfd46de1563eab61a0c5cced44e74317cd0e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_77596459",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 329
+      },
+      "writtenOn": "2018-11-29T09:48:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_37a3dcb3",
       "revId": "446fcfd46de1563eab61a0c5cced44e74317cd0e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
