@@ -18,10 +18,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class InfiniteScroll extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            initialLoad: false
+        };
+    }
     componentDidMount() {
-        this.pageLoaded = this.props.pageStart;
         this.scrollEl = this.getScrollElement();
         this.attachScrollListener();
+        this.setState({ initialLoad: true });
     }
 
     componentDidUpdate() {
@@ -70,9 +76,7 @@ class InfiniteScroll extends React.Component {
         this.scrollEl.addEventListener('scroll', this.scrollListener, options);
         window.addEventListener('resize', this.scrollListener, options);
 
-        if (this.props.initialLoad) {
-            this.scrollListener();
-        }
+        this.scrollListener();
     }
 
     scrollListener = () => {
@@ -105,8 +109,11 @@ class InfiniteScroll extends React.Component {
         if (offset < Number(this.props.threshold) && el.offsetParent !== null) {
             this.detachScrollListener();
             // Call loadMore after detachScrollListener to allow for non-async loadMore functions
-            if (typeof this.props.loadMore === 'function') {
-                this.props.loadMore((this.pageLoaded += 1));
+            if (
+                typeof this.props.loadMore === 'function' &&
+                this.state.initialLoad
+            ) {
+                this.props.loadMore();
             }
         }
     };
@@ -137,9 +144,7 @@ InfiniteScroll.propTypes = {
     children: PropTypes.node.isRequired,
     element: PropTypes.node,
     hasMore: PropTypes.bool,
-    initialLoad: PropTypes.bool,
     loadMore: PropTypes.func.isRequired,
-    pageStart: PropTypes.number,
     threshold: PropTypes.number,
     useCapture: PropTypes.bool,
     useWindow: PropTypes.bool
@@ -148,8 +153,6 @@ InfiniteScroll.propTypes = {
 InfiniteScroll.defaultProps = {
     element: 'div',
     hasMore: false,
-    initialLoad: true,
-    pageStart: 0,
     threshold: 250,
     useWindow: true,
     useCapture: false

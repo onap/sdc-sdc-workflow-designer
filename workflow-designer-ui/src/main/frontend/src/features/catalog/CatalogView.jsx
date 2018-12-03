@@ -31,9 +31,21 @@ class CatalogView extends Component {
 
     componentDidMount() {
         const { clearWorkflow } = this.props;
-
         clearWorkflow();
+        this.fetchWorkflows();
     }
+
+    fetchWorkflows = () => {
+        const {
+            catalog: { sort, status, searchNameFilter },
+            handleFetchWorkflow
+        } = this.props;
+        handleFetchWorkflow({
+            sort,
+            searchNameFilter,
+            status
+        });
+    };
 
     handleAlphabeticalOrderByClick = e => {
         e.preventDefault();
@@ -67,6 +79,7 @@ class CatalogView extends Component {
             status: value
         });
     };
+
     handleScroll = () => {
         const {
             catalog: {
