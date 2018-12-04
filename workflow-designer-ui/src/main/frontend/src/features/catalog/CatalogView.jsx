@@ -19,6 +19,7 @@ import PropTypes from 'prop-types';
 import InfiniteScroll from 'shared/scroll/InfiniteScroll';
 import Workflows from 'features/catalog/views/Workflows';
 import AddWorkflow from 'features/catalog/views/AddWorkflow';
+import { WORKFLOW_STATUS } from 'features/workflow/workflowConstants';
 
 import Header from 'features/catalog/views/Header';
 import Main from 'features/catalog/views/Main';
@@ -134,7 +135,9 @@ class CatalogView extends Component {
                             this.handleAlphabeticalOrderByClick
                         }>
                         <div className="main__content">
-                            <AddWorkflow onClick={showNewWorkflowModal} />
+                            {status === WORKFLOW_STATUS.ACTIVE && (
+                                <AddWorkflow onClick={showNewWorkflowModal} />
+                            )}
                             <Workflows
                                 items={items}
                                 onWorkflowClick={this.goToOverviewPage}
