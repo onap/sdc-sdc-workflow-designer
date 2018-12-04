@@ -49,7 +49,9 @@
                 "title": "Overview",
                 "lastEdited": "Last Edited On",
                 "backBtnLabel": "WORKFLOW CATALOG",
-                "archived": "Archived"
+                "archived": "Archived",
+                "archive": "ARCHIVE",
+                "confirmArchive": "Are you sure you want to delete \"%{name}\"?"
             },
             "inputOutput": {
                 "name": "Name",

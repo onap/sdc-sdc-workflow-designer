@@ -76,7 +76,7 @@ class OverviewView extends Component {
     onArchiveWorkflow = () => {
         const { archiveWorkflow, workflow, history } = this.props;
 
-        archiveWorkflow({ id: workflow.id, history });
+        archiveWorkflow({ id: workflow.id, name: workflow.name, history });
     };
     onRestoreWorkflow = () => {
         const { restoreWorkflow, workflow, history } = this.props;

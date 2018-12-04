@@ -14,6 +14,8 @@
 * limitations under the License.
 */
 import { connect } from 'react-redux';
+import { I18n } from 'react-redux-i18n';
+
 import OverviewView from 'features/workflow/overview/OverviewView';
 import {
     getSortedVersions,
@@ -29,7 +31,11 @@ import {
     restoreWorkflowAction
 } from 'features/workflow/overview/overviewConstansts';
 import { NEW_VERSION_MODAL } from 'shared/modal/modalWrapperComponents';
-import { showCustomModalAction } from 'shared/modal/modalWrapperActions';
+import {
+    showCustomModalAction,
+    showAlertModalAction,
+    hideModalAction
+} from 'shared/modal/modalWrapperActions';
 import { inputChangeAction } from 'features/workflow/create/createWorkflowConstants';
 
 function mapStateToProps(state) {
@@ -54,7 +60,22 @@ function mapDispatchToProps(dispatch) {
             ),
         workflowInputChange: payload => dispatch(inputChangeAction(payload)),
         updateWorkflow: payload => dispatch(updateWorkflowAction(payload)),
-        archiveWorkflow: payload => dispatch(archiveWorkflowAction(payload)),
+        archiveWorkflow: payload => {
+            dispatch(
+                showAlertModalAction({
+                    title: I18n.t('workflow.overview.archive'),
+                    body: I18n.t('workflow.overview.confirmArchive', {
+                        name: payload.name
+                    }),
+                    withButtons: true,
+                    actionButtonText: I18n.t('workflow.overview.archive'),
+                    actionButtonClick: () => {
+                        dispatch(archiveWorkflowAction(payload));
+                        dispatch(hideModalAction());
+                    }
+                })
+            );
+        },
         restoreWorkflow: payload => dispatch(restoreWorkflowAction(payload))
     };
 }
