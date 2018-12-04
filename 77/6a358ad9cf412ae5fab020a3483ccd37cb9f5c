@@ -1,0 +1,8 @@
+Code-Review+1: Gildas Lanilis <gildas.lanilis@huawei.com>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: Ofir Sonsino <ofir.sonsino@intl.att.com>
+Submitted-by: Ofir Sonsino <ofir.sonsino@intl.att.com>
+Submitted-at: Tue, 04 Dec 2018 08:10:03 +0000
+Reviewed-on: https://gerrit.onap.org/r/74166
+Project: sdc/sdc-workflow-designer
+Branch: refs/heads/master
