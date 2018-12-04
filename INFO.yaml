@@ -3,11 +3,11 @@ project: 'sdc-workflow-designer'
 project_creation_date: '2017-08-02'
 lifecycle_state: 'Incubation'
 project_lead: &onap_releng_ptl
-    name: 'Michael Lando'
-    email: 'ml636r@att.com'
-    id: 'ml636r'
+    name: 'Ofir Sonsino'
+    email: 'ofir.sonsino@intl.att.com'
     company: 'ATT'
-    timezone: 'Asia/Karachi'
+    id: 'os0695'
+    timezone: 'Israel/Lod'
 primary_contact: *onap_releng_ptl
 issue_tracking:
     type: 'jira'
@@ -43,11 +43,6 @@ committers:
         company: 'ATT'
         id: 'einavk'
         timezone: 'Israel/Aviv'
-    - name: 'Ofir Sonsino'
-        email: 'ofir.sonsino@intl.att.com'
-        company: 'ATT'
-        id: 'os0695'
-        timezone: 'Israel/Lod'
 tsc:
     approval: 'https://lists.onap.org/pipermail/onap-tsc'
     changes:
@@ -67,3 +62,7 @@ tsc:
             name: 'Huabing Zhao'
             name: 'Zhaoxing Meng'
             link: 'https://lists.onap.org/g/onap-tsc/message/4188'
+        - type: 'Removal'
+            name: 'Michael Lando'
+            link: 'https://lists.onap.org/g/onap-tsc/message/4239'
+
