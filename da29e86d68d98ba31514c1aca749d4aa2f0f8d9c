@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_8a360de6",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/catalog/CatalogView.jsx",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1921
+      },
+      "writtenOn": "2018-12-05T06:49:40Z",
+      "side": 1,
+      "message": "this is not disabling, it is hiding. Is that the design?",
+      "revId": "da29e86d68d98ba31514c1aca749d4aa2f0f8d9c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
