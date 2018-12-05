@@ -70,8 +70,7 @@ class CatalogView extends Component {
     handleStatusChange = value => {
         const {
             handleFetchWorkflow,
-            searchNameFilter,
-            catalog: { sort }
+            catalog: { sort, searchNameFilter }
         } = this.props;
 
         handleFetchWorkflow({
