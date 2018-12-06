@@ -19,6 +19,7 @@ import { genericNetworkErrorAction } from 'wfapp/appConstants';
 import overviewApi from 'features/workflow/overview/overviewApi';
 import {
     versionListFetchAction,
+    getVersionsAction,
     GET_OVERVIEW,
     UPDATE_WORKFLOW,
     ARCHIVE_WORKFLOW,
@@ -29,11 +30,11 @@ import { notificationActions } from 'shared/notifications/notificationsActions';
 import { fetchWorkflow } from 'features/catalog/catalogActions';
 import { WORKFLOW_STATUS } from 'features/workflow/workflowConstants';
 
-export function* getOverview(action) {
+export function* getOverview({ payload }) {
     try {
-        const versions = yield call(overviewApi.getVersions, action.payload);
+        const versions = yield call(overviewApi.getVersions, payload);
         yield put(versionListFetchAction(versions));
-        const workflow = yield call(overviewApi.getWorkflow, action.payload);
+        const workflow = yield call(overviewApi.getWorkflow, payload);
         yield put(setWorkflowAction(workflow));
     } catch (error) {
         yield put(genericNetworkErrorAction(error));
@@ -56,7 +57,7 @@ export function* updateWorkflow(action) {
 
 export function* archiveRestoreWorkflow(action) {
     try {
-        const { history, ...data } = action.payload;
+        const { ...data } = action.payload;
         yield call(overviewApi.archiveRestoreWorkflow, data);
         const {
             catalog: { sort },
@@ -70,15 +71,26 @@ export function* archiveRestoreWorkflow(action) {
                 status: WORKFLOW_STATUS.ACTIVE
             })
         );
-        history.push('/');
     } catch (e) {
         yield put(genericNetworkErrorAction(e));
     }
 }
 
+export function* restoreWorkflow(action) {
+    const { id } = action.payload;
+    yield archiveRestoreWorkflow(action);
+    yield put(getVersionsAction(id));
+}
+
+export function* archiveWorkflow(action) {
+    const { history } = action.payload;
+    yield archiveRestoreWorkflow(action);
+    history.push('/');
+}
+
 export function* watchOverview() {
     yield takeEvery(GET_OVERVIEW, getOverview);
     yield takeEvery(UPDATE_WORKFLOW, updateWorkflow);
-    yield takeEvery(ARCHIVE_WORKFLOW, archiveRestoreWorkflow);
-    yield takeEvery(RESTORE_WORKFLOW, archiveRestoreWorkflow);
+    yield takeEvery(ARCHIVE_WORKFLOW, archiveWorkflow);
+    yield takeEvery(RESTORE_WORKFLOW, restoreWorkflow);
 }

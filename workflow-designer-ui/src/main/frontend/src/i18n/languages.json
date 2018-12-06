@@ -51,7 +51,7 @@
                 "backBtnLabel": "WORKFLOW CATALOG",
                 "archived": "Archived",
                 "archive": "ARCHIVE",
-                "confirmArchive": "Are you sure you want to delete \"%{name}\"?"
+                "confirmArchive": "Are you sure you want to archive \"%{name}\"?"
             },
             "inputOutput": {
                 "name": "Name",
