@@ -51,6 +51,7 @@
                 "backBtnLabel": "WORKFLOW CATALOG",
                 "archived": "Archived",
                 "archive": "ARCHIVE",
+                "archiveNotification": "\"%{name}\" successfully archived",
                 "confirmArchive": "Are you sure you want to archive \"%{name}\"?"
             },
             "inputOutput": {
