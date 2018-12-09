@@ -51,6 +51,10 @@
                 "backBtnLabel": "WORKFLOW CATALOG",
                 "archived": "Archived",
                 "archive": "ARCHIVE",
+                "archiveTitle": "Archive",
+                "updateTitle": "Update Workflow",
+                "updateNotification": "Successfully updated",
+                "archiveNotification": "\"%{name}\" successfully archived",
                 "confirmArchive": "Are you sure you want to archive \"%{name}\"?"
             },
             "inputOutput": {

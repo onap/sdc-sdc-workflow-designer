@@ -29,6 +29,7 @@ import { setWorkflowAction } from 'features/workflow/workflowConstants';
 import { notificationActions } from 'shared/notifications/notificationsActions';
 import { fetchWorkflow } from 'features/catalog/catalogActions';
 import { WORKFLOW_STATUS } from 'features/workflow/workflowConstants';
+import { I18n } from 'react-redux-i18n';
 
 export function* getOverview({ payload }) {
     try {
@@ -46,8 +47,8 @@ export function* updateWorkflow(action) {
         yield call(overviewApi.updateWorkflow, action.payload);
         yield put(
             notificationActions.showSuccess({
-                title: 'Update Workflow',
-                message: 'Successfully updated'
+                title: I18n.t('workflow.overview.updateTitle'),
+                message: I18n.t('workflow.overview.updateNotification')
             })
         );
     } catch (e) {
@@ -85,6 +86,14 @@ export function* restoreWorkflow(action) {
 export function* archiveWorkflow(action) {
     const { history } = action.payload;
     yield archiveRestoreWorkflow(action);
+    yield put(
+        notificationActions.showSuccess({
+            title: I18n.t('workflow.overview.archiveTitle'),
+            message: I18n.t('workflow.overview.archiveNotification', {
+                name: action.payload.name
+            })
+        })
+    );
     history.push('/');
 }
 
