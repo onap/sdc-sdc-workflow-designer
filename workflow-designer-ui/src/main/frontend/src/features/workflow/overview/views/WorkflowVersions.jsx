@@ -27,7 +27,8 @@ const WorkflowVersions = ({
     onCreateVersion,
     onSelectVersion,
     selectedVersion,
-    isVersionsCertifies
+    isVersionsCertifies,
+    isArchive
 }) => {
     return (
         <div className="workflow-versions">
@@ -35,6 +36,7 @@ const WorkflowVersions = ({
                 <NewVersionContainer
                     onCreateVersion={onCreateVersion}
                     isVersionsCertifies={isVersionsCertifies}
+                    isArchive={isArchive}
                 />
                 <div className="versions-page-list-and-tree">
                     <VersionTree
@@ -58,7 +60,8 @@ WorkflowVersions.propTypes = {
     onCreateVersion: PropTypes.func,
     onSelectVersion: PropTypes.func,
     selectedVersion: PropTypes.string,
-    isVersionsCertifies: PropTypes.bool
+    isVersionsCertifies: PropTypes.bool,
+    isArchive: PropTypes.bool
 };
 
 export default WorkflowVersions;

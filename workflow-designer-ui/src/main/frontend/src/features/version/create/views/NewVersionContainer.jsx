@@ -18,11 +18,14 @@ import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import SVGIcon from 'sdc-ui/lib/react/SVGIcon';
 
-const NewVersionContainer = ({ onCreateVersion, isVersionsCertifies }) => {
-    const newVersionDisabledClass = isVersionsCertifies
-        ? ''
-        : 'newVersionDisabled';
-    const svgColor = isVersionsCertifies ? 'primary' : 'secondary';
+const NewVersionContainer = ({
+    onCreateVersion,
+    isVersionsCertifies,
+    isArchive
+}) => {
+    const disableClass = isVersionsCertifies && !isArchive;
+    const newVersionDisabledClass = disableClass ? '' : 'newVersionDisabled';
+    const svgColor = disableClass ? 'primary' : 'secondary';
     return (
         <div className={`create-new-version ${newVersionDisabledClass}`}>
             <div className="create-item-plus-icon" onClick={onCreateVersion}>
@@ -35,7 +38,8 @@ const NewVersionContainer = ({ onCreateVersion, isVersionsCertifies }) => {
 
 NewVersionContainer.propTypes = {
     onCreateVersion: PropTypes.func,
-    isVersionsCertifies: PropTypes.bool
+    isVersionsCertifies: PropTypes.bool,
+    isArchive: PropTypes.bool
 };
 
 export default NewVersionContainer;

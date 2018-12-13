@@ -119,6 +119,7 @@ class OverviewView extends Component {
 
                     <div className={'separator overview-separator'} />
                     <WorkflowVersions
+                        isArchive={isArchive}
                         nodeVersions={nodeVersions}
                         versions={versions}
                         onCreateVersion={this.onCreateNewVersionFromTable}
