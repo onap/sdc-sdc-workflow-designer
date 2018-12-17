@@ -51,10 +51,11 @@ function disablePanelInputs(status) {
         setStatusToElement('button', status, panel);
         setStatusToElement('select', status, panel);
 
+        //distinguish editable and clickable fields using attr and style
         CAMUNDA_PANEL_INPUTS_NAMES.map(name => {
             const div = document.getElementById(name);
             if (div) {
-                div.setAttribute('contenteditable', !status);
+                div.setAttribute('editable-readonly', !status);
             }
         });
     }
@@ -73,8 +74,8 @@ class CompositionView extends Component {
         isReadOnly: PropTypes.bool
     };
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.generatedId = 'bpmn-container' + Date.now();
         this.fileInput = React.createRef();
         this.bpmnContainer = React.createRef();
@@ -148,10 +149,14 @@ class CompositionView extends Component {
         this.setDiagramToBPMN(composition ? composition : newDiagramXML);
         this.modeler.on('element.out', () => this.exportDiagramToStore());
         this.modeler.on('element.click', this.handleCompositionStatus);
-        this.bpmnContainer.current.click();
         this.modeling = this.modeler.get('modeling');
         this.modeler.get('readOnly').readOnly(isReadOnly);
+        //binding readonly updater callback on propertyPanel change
+        this.modeler
+            .get('propertiesProvider')
+            .bindStatusChange(this.handleCompositionStatus.bind(this));
     }
+
     handleCompositionStatus = () => {
         disablePanelInputs(this.props.isReadOnly);
     };

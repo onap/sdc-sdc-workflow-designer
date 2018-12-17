@@ -99,12 +99,12 @@ function ReadOnly(
     intercept(paletteProvider, 'getPaletteEntries', function(fn, args) {
         var entries = fn.apply(this, args);
         if (self._readOnly) {
-            let allowedEntries = ['hand-tool'];
+            // let allowedEntries = ['hand-tool'];
 
             forEach(entries, function(value, key) {
-                if (allowedEntries.indexOf(key) === -1) {
-                    delete entries[key];
-                }
+                // if (allowedEntries.indexOf(key) === -1) {
+                delete entries[key];
+                // }
             });
         }
         return entries;

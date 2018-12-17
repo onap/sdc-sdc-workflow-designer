@@ -35,6 +35,7 @@ import createInputOutputTabGroups from './parts/createInputOutputTabGroups';
 import workflowServiceTaskDelegateProps from './parts/WorkflowServiceTaskDelegateProps';
 
 const PROCESS_KEY_HINT = 'This maps to the process definition key.';
+const HIGH_PRIORITY = 10001;
 
 const isExternalTaskPriorityEnabled = function(element) {
     const businessObject = getBusinessObject(element);
@@ -244,6 +245,12 @@ function WorkflowPropertiesProvider(
         elementTemplates,
         translate
     );
+
+    this.bindStatusChange = function(changeStatusCb) {
+        eventBus.on('propertiesPanel.changed', HIGH_PRIORITY, function() {
+            changeStatusCb();
+        });
+    };
 
     this.getTabs = function(element) {
         const camundaPropertiesProvider = new CamundaPropertiesProvider(
