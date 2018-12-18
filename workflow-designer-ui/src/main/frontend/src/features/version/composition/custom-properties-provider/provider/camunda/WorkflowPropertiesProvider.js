@@ -10,7 +10,6 @@ import implementationTypeHelper from 'bpmn-js-properties-panel/lib/helper/Implem
 import idProps from 'bpmn-js-properties-panel/lib/provider/bpmn/parts/IdProps';
 import nameProps from 'bpmn-js-properties-panel/lib/provider/bpmn/parts/NameProps';
 import processProps from 'bpmn-js-properties-panel/lib/provider/bpmn/parts/ProcessProps';
-import executableProps from 'bpmn-js-properties-panel/lib/provider/bpmn/parts/ExecutableProps';
 import linkProps from 'bpmn-js-properties-panel/lib/provider/bpmn/parts/LinkProps';
 import eventProps from 'bpmn-js-properties-panel/lib/provider/bpmn/parts/EventProps';
 import documentationProps from 'bpmn-js-properties-panel/lib/provider/bpmn/parts/DocumentationProps';
@@ -120,7 +119,6 @@ function createGeneralTabGroups(
     nameProps(generalGroup, element, translate);
     processProps(generalGroup, element, translate, processOptions);
     versionTag(generalGroup, element, translate);
-    executableProps(generalGroup, element, translate);
     elementTemplateChooserProps(
         generalGroup,
         element,
