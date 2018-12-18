@@ -28,8 +28,10 @@ export const PROCESS_DEFAULT_ID = 'Process_1';
 export const COMPOSITION_ERROR_COLOR = '#f0c2c2';
 export const COMPOSITION_VALID_COLOR = 'white';
 
+//list of field ids (contenteditable) that has separate treatment
 export const CAMUNDA_PANEL_INPUTS_NAMES = [
     'camunda-parameterType-text',
     'camunda-documentation',
-    'camunda-name'
+    'camunda-name',
+    'camunda-listener-field-value'
 ];
