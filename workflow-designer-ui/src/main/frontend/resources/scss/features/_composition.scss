@@ -4,14 +4,23 @@
 
 	.bpmn-container {
 		flex-basis: 100%;
-		flex-grow: 1
+		flex-grow: 1;
+		.djs-palette.open {
+			border: none;
+		}
+		.djs-palette-entries {
+			border: solid 1px $light-gray;
+			&:empty {
+				border: none;
+			}
+		}
 	}
 	.bpmn-sidebar {
 		background-color: $light-silver;
 		height: 100%;
 		width: 320px;
-		height: 100%;		
-		label {			
+
+		label {
 			@include body-1;
 		}
 		.group-label {
@@ -23,6 +32,15 @@
 			max-height: 888px;
 			overflow-y: auto;
 			&, .bpp-properties-panel {
+				[disabled], [editable-readonly=false] {
+					background-color: $light-gray;
+					color: $dark-gray;
+                    pointer-events: none;
+				}
+				label[for] {
+					cursor: default;
+					background: transparent;
+				}
 				background-color: $light-silver;
 				#camunda-activitySelect-select {
 					&.invalid {
@@ -32,6 +50,14 @@
 				}
 			}
 		}
+		[editable-readonly] {
+			font-family: OpenSans-Regular, Arial, sans-serif;
+			font-style: normal;
+			font-weight: 400;
+			font-size: 14px;
+			box-sizing: border-box;
+		}
+
 		.composition-buttons {
 			position: fixed;
 			background-color: $light-silver;
