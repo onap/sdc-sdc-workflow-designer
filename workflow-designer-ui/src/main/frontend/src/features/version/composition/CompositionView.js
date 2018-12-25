@@ -16,15 +16,16 @@
 import React, { Component } from 'react';
 import fileSaver from 'file-saver';
 import isEqual from 'lodash.isequal';
-import CustomModeler from './custom-modeler';
+import PropTypes from 'prop-types';
 import propertiesPanelModule from 'bpmn-js-properties-panel';
+import { I18n } from 'react-redux-i18n';
+
+import CustomModeler from './custom-modeler';
 import propertiesProviderModule from './custom-properties-provider/provider/camunda';
 import camundaModuleDescriptor from './custom-properties-provider/descriptors/camunda';
 import newDiagramXML from './newDiagram.bpmn';
-import PropTypes from 'prop-types';
 import CompositionButtons from './components/CompositionButtonsPanel';
 import { setElementInputsOutputs } from './bpmnUtils.js';
-import { I18n } from 'react-redux-i18n';
 import {
     PROCESS_DEFAULT_ID,
     COMPOSITION_ERROR_COLOR,
@@ -79,10 +80,6 @@ class CompositionView extends Component {
         this.generatedId = 'bpmn-container' + Date.now();
         this.fileInput = React.createRef();
         this.bpmnContainer = React.createRef();
-        this.selectedElement = false;
-        this.state = {
-            diagram: false
-        };
         this.versionChanged = false;
     }
     componentDidUpdate(prevProps) {
@@ -146,7 +143,7 @@ class CompositionView extends Component {
         });
 
         this.modeler.attachTo('#' + this.generatedId);
-        this.setDiagramToBPMN(composition ? composition : newDiagramXML);
+        this.setDiagramToBPMN(composition);
         this.modeler.on('element.out', () => this.exportDiagramToStore());
         this.modeler.on('element.click', this.handleCompositionStatus);
         this.modeler.on(

@@ -80,7 +80,8 @@
                 "bpmnError" : "BPMN.IO Error",
                 "exportErrorMsg": "Could not export diagram",
                 "saveErrorMsg": "Could not save diagram",
-                "importErrorMsg": "Could not import diagram"
+                "importErrorMsg": "Could not import diagram",
+                "certifyArtifact": "Could not certify empty artifact"
             },
             "confirmationMessages": {
                 "certifyTitle": "Certify Version",
