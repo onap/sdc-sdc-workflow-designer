@@ -13,11 +13,19 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { SET_COMPOSITION, UPDATE_ERRORS } from './compositionConstants';
+import {
+    SET_COMPOSITION,
+    UPDATE_ERRORS,
+    DELETE_COMPOSITION
+} from './compositionConstants';
 
 export const updateComposition = payload => ({
     type: SET_COMPOSITION,
     payload
+});
+
+export const deleteCompositionArtifact = () => ({
+    type: DELETE_COMPOSITION
 });
 
 export const updateValidation = payload => ({

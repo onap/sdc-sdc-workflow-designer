@@ -13,15 +13,21 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-import { SET_COMPOSITION } from './compositionConstants';
+import { SET_COMPOSITION, DELETE_COMPOSITION } from './compositionConstants';
 import { UPDATE_ERRORS } from './compositionConstants';
+import newDiagramXML from './newDiagram.bpmn';
 
-export default (state = { diagram: false, errors: [] }, action) => {
+export default (state = { diagram: newDiagramXML, errors: [] }, action) => {
     switch (action.type) {
         case SET_COMPOSITION:
             return {
                 ...state,
                 diagram: action.payload
+            };
+        case DELETE_COMPOSITION:
+            return {
+                ...state,
+                diagram: newDiagramXML
             };
         case UPDATE_ERRORS: {
             const filteredErrors = state.errors.filter(

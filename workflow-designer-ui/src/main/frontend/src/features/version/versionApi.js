@@ -66,6 +66,11 @@ const Api = {
             formData
         );
     },
+    deleteVersionArtifact: ({ workflowId, versionId }) => {
+        return RestfulAPIUtil.delete(
+            `${baseUrl(workflowId)}/${versionId}/artifact`
+        );
+    },
     certifyVersion: ({ workflowId, versionId }) => {
         return RestfulAPIUtil.post(
             `${baseUrl(workflowId)}/${versionId}/state`,

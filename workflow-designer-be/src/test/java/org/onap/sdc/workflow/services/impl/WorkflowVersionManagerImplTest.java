@@ -399,15 +399,28 @@ public class WorkflowVersionManagerImplTest {
     }
 
     @Test
-    public void shouldDeleteArtifact() {
+    public void shouldNotDeleteArtifactIfNotExist() {
         doNothing().when(workflowVersionManager).validateWorkflowStatus(ITEM1_ID);
         Version version = new Version(VERSION1_ID);
         doReturn(version).when(versioningManagerMock).get(ITEM1_ID, version);
         WorkflowVersion workflowVersion = new WorkflowVersion(VERSION1_ID);
         doReturn(workflowVersion).when(versionMapperMock).versionToWorkflowVersion(version);
         workflowVersionManager.deleteArtifact(ITEM1_ID, VERSION1_ID);
-        verify(artifactRepositoryMock).delete(ITEM1_ID, VERSION1_ID);
-        verify(versioningManagerMock).publish(ITEM1_ID, version, "Delete Artifact");
+        verify(artifactRepositoryMock, times(0)).delete(ITEM1_ID, VERSION1_ID);
+        verify(versioningManagerMock, times(0)).publish(ITEM1_ID, version, "Delete Artifact");
+    }
+
+    @Test
+    public void shouldDeleteArtifactIfExist() {
+        doNothing().when(workflowVersionManager).validateWorkflowStatus(ITEM1_ID);
+        Version version = new Version(VERSION1_ID);
+        doReturn(version).when(versioningManagerMock).get(ITEM1_ID, version);
+        WorkflowVersion workflowVersion = new WorkflowVersion(VERSION1_ID);
+        doReturn(true).when(artifactRepositoryMock).isExist(ITEM1_ID, VERSION1_ID);
+        doReturn(workflowVersion).when(versionMapperMock).versionToWorkflowVersion(version);
+        workflowVersionManager.deleteArtifact(ITEM1_ID, VERSION1_ID);
+        verify(artifactRepositoryMock, times(1)).delete(ITEM1_ID, VERSION1_ID);
+        verify(versioningManagerMock, times(1)).publish(ITEM1_ID, version, "Delete Artifact");
     }
 
     private static Version eqVersion(String versionId) {

@@ -14,6 +14,7 @@
 * limitations under the License.
 */
 export const SET_COMPOSITION = 'composition/SET_COMPOSITION';
+export const DELETE_COMPOSITION = 'composition/DELETE_COMPOSITION';
 export const UPDATE_ERRORS = 'composition/UPDATE_ERRORS';
 
 export const bpmnElementsTypes = {

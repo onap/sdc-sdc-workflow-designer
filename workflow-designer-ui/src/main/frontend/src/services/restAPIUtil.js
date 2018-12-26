@@ -136,7 +136,7 @@ class RestAPIUtil {
         return this.handleRequest(url, PUT, options, data);
     }
 
-    destroy(url, options) {
+    delete(url, options) {
         return this.handleRequest(url, DELETE, options);
     }
 

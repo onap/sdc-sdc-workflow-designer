@@ -232,9 +232,10 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
                     workflowId, versionId);
             throw new VersionModificationException(workflowId, versionId);
         }
-
-        artifactRepository.delete(workflowId, versionId);
-        versioningManager.publish(workflowId, new Version(versionId), "Delete Artifact");
+        if(retrievedVersion.isHasArtifact()) {
+            artifactRepository.delete(workflowId, versionId);
+            versioningManager.publish(workflowId, new Version(versionId), "Delete Artifact");
+        }
     }
 
     private void validateVersionExistAndCertified(String workflowId, List<Version> versions, String versionId) {

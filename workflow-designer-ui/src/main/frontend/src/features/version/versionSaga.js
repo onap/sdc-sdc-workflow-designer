@@ -33,27 +33,46 @@ import { notificationActions } from 'shared/notifications/notificationsActions';
 import { versionState } from 'features/version/versionConstants';
 import overviewApi from '../workflow/overview/overviewApi';
 import { versionListFetchAction } from '../workflow/overview/overviewConstansts';
-import { updateComposition } from 'features/version/composition/compositionActions';
+import {
+    updateComposition,
+    deleteCompositionArtifact
+} from 'features/version/composition/compositionActions';
 import { getActivitiesList } from 'features/activities/activitiesActions';
+
+/**
+ * Composition validation - converting artifact string to xml
+ * and checking if bpmn diagram has only one child
+ * @param composition
+ * @returns {boolean}
+ */
+function validateCurrentArtifact(composition) {
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(composition, 'text/xml');
+    return Boolean(
+        xml.getElementsByTagName('bpmndi:BPMNPlane').BPMNPlane_1.children.length
+    );
+}
 
 function* fetchVersion(action) {
     try {
         yield put(getActivitiesList());
         const data = yield call(versionApi.fetchVersion, action.payload);
         const { inputs, outputs, ...rest } = data;
-        let composition = false;
+        let composition;
 
         if (rest.hasArtifact) {
             composition = yield call(
                 versionApi.fetchVersionArtifact,
                 action.payload
             );
+        } else {
+            //Clearing the store from old artifact using init the default
+            yield put(deleteCompositionArtifact());
         }
-
         yield all([
             put(setWorkflowVersionAction(rest)),
             put(setInputsOutputs({ inputs, outputs })),
-            put(updateComposition(composition))
+            composition && put(updateComposition(composition))
         ]);
     } catch (error) {
         yield put(genericNetworkErrorAction(error));
@@ -81,12 +100,12 @@ function* watchUpdateVersion(action) {
             workflowName,
             params: { composition, ...versionData }
         } = action.payload;
-
-        yield call(versionApi.updateVersion, {
-            workflowId,
-            params: versionData
-        });
-        if (composition) {
+        const isArtifactValid = validateCurrentArtifact(composition);
+        if (isArtifactValid) {
+            yield call(versionApi.updateVersion, {
+                workflowId,
+                params: versionData
+            });
             yield call(versionApi.updateVersionArtifact, {
                 workflowId,
                 workflowName,
@@ -94,13 +113,21 @@ function* watchUpdateVersion(action) {
                 versionId: versionData.id,
                 payload: composition
             });
+            yield put(
+                notificationActions.showSuccess({
+                    title: I18n.t('workflow.confirmationMessages.updateTitle'),
+                    message: I18n.t(
+                        'workflow.confirmationMessages.updateMessage'
+                    )
+                })
+            );
+        } else {
+            yield call(versionApi.deleteVersionArtifact, {
+                workflowId,
+                versionId: versionData.id
+            });
         }
-        yield put(
-            notificationActions.showSuccess({
-                title: I18n.t('workflow.confirmationMessages.updateTitle'),
-                message: I18n.t('workflow.confirmationMessages.updateMessage')
-            })
-        );
+        return isArtifactValid;
     } catch (error) {
         yield put(genericNetworkErrorAction(error));
     }
@@ -108,18 +135,26 @@ function* watchUpdateVersion(action) {
 
 function* watchCertifyVersion(action) {
     try {
-        yield call(watchUpdateVersion, action);
+        const isArtifactValid = yield call(watchUpdateVersion, action);
+        if (!isArtifactValid)
+            throw new Error('Could not update empty artifact');
         yield call(versionApi.certifyVersion, {
             ...action.payload
         });
+        yield put(versionStateChangedAction({ state: versionState.CERTIFIED }));
         yield put(
             notificationActions.showSuccess({
                 title: I18n.t('workflow.confirmationMessages.certifyTitle'),
                 message: I18n.t('workflow.confirmationMessages.certifyMessage')
             })
         );
-        yield put(versionStateChangedAction({ state: versionState.CERTIFIED }));
     } catch (error) {
+        yield put(
+            notificationActions.showError({
+                title: I18n.t('workflow.confirmationMessages.certifyTitle'),
+                message: I18n.t('workflow.composition.certifyArtifact')
+            })
+        );
         yield put(genericNetworkErrorAction(error));
     }
 }
