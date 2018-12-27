@@ -28,7 +28,6 @@ import {
 import { setWorkflowAction } from 'features/workflow/workflowConstants';
 import { notificationActions } from 'shared/notifications/notificationsActions';
 import { fetchWorkflow } from 'features/catalog/catalogActions';
-import { WORKFLOW_STATUS } from 'features/workflow/workflowConstants';
 import { I18n } from 'react-redux-i18n';
 
 export function* getOverview({ payload }) {
@@ -61,7 +60,7 @@ export function* archiveRestoreWorkflow(action) {
         const { ...data } = action.payload;
         yield call(overviewApi.archiveRestoreWorkflow, data);
         const {
-            catalog: { sort },
+            catalog: { sort, status },
             searchNameFilter = ''
         } = yield select();
 
@@ -69,7 +68,7 @@ export function* archiveRestoreWorkflow(action) {
             fetchWorkflow({
                 sort,
                 searchNameFilter,
-                status: WORKFLOW_STATUS.ACTIVE
+                status: status
             })
         );
     } catch (e) {
