@@ -1,0 +1,7 @@
+Code-Review+2: Einav Keidar <einavw@amdocs.com>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Submitted-by: Avi Gaffa <avi.gaffa@amdocs.com>
+Submitted-at: Sun, 30 Dec 2018 09:30:45 +0000
+Reviewed-on: https://gerrit.onap.org/r/75113
+Project: sdc/sdc-workflow-designer
+Branch: refs/heads/master
