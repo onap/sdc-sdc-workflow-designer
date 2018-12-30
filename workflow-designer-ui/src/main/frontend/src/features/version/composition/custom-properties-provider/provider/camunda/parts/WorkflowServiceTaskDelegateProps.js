@@ -63,22 +63,6 @@ function WorkflowServiceTaskDelegateProps(
         );
 
         group.entries = group.entries.concat(
-            workflowImplementationType(
-                element,
-                bpmnFactory,
-                {
-                    getBusinessObject: getBusinessObject,
-                    getImplementationType: getImplementationType,
-                    hasDmnSupport: isDmnCapable(element),
-                    hasExternalSupport: isExternalCapable(
-                        getBusinessObject(element)
-                    ),
-                    hasServiceTaskLikeSupport: true
-                },
-                translate
-            )
-        );
-        group.entries = group.entries.concat(
             workflowActivity(
                 element,
                 config,
@@ -111,6 +95,22 @@ function WorkflowServiceTaskDelegateProps(
                     getBusinessObject: getBusinessObject,
                     getImplementationType: getImplementationType,
                     hideResultVariable: hideResultVariable
+                },
+                translate
+            )
+        );
+        group.entries = group.entries.concat(
+            workflowImplementationType(
+                element,
+                bpmnFactory,
+                {
+                    getBusinessObject: getBusinessObject,
+                    getImplementationType: getImplementationType,
+                    hasDmnSupport: isDmnCapable(element),
+                    hasExternalSupport: isExternalCapable(
+                        getBusinessObject(element)
+                    ),
+                    hasServiceTaskLikeSupport: true
                 },
                 translate
             )
