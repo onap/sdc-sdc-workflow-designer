@@ -72,7 +72,7 @@
                     <artifactId>docker-maven-plugin</artifactId>
                     <version>0.28.0</version>
                     <configuration>
-                        <verbose>true</verbose>
+                        <verbose>false</verbose>
                         <registry>${nexus.registry}</registry>
                         <authConfig>
                             <pull>

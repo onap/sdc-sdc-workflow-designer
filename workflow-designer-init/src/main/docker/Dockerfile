@@ -1,6 +1,6 @@
-FROM alpine:3.7
+FROM python:2.7-alpine3.8
 
-RUN apk add --no-cache python py-pip && pip install cqlsh==4.0.1
+RUN pip install cqlsh==4.0.1
 
 COPY create_workflow_db.cql .
 COPY start.sh .
