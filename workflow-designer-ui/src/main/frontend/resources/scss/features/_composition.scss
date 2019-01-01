@@ -29,8 +29,8 @@
 		}
 		.properties-panel {
 			background-color: $light-silver;
-			max-height: 888px;
 			overflow-y: auto;
+			max-height: calc(100vh - 70px);
 			&, .bpp-properties-panel {
 				[disabled], [editable-readonly=false] {
 					background-color: $light-gray;
