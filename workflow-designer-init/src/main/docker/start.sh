@@ -25,9 +25,14 @@ if [[ -z "${CS_HOST}" ]]; then
 	exit 1
 fi
 
-if [ $is_cs_unauthenticated -eq 1 ]; then
-    cqlsh -u ${CS_USER} -p ${CS_PASSWORD} -f /create_workflow_db.cql ${CS_HOST} ${CS_PORT}
-else
-    cqlsh -f /create_workflow_db.cql ${CS_HOST} ${CS_PORT}
-fi
+cql_from_file() {
 
+    if [ $is_cs_unauthenticated -eq 1 ]; then
+        cqlsh -u ${CS_USER} -p ${CS_PASSWORD} -f $1 ${CS_HOST} ${CS_PORT}
+    else
+        cqlsh -f $1 ${CS_HOST} ${CS_PORT}
+    fi
+}
+
+cql_from_file /create_keyspaces.cql
+cql_from_file /create_tables.cql
