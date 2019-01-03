@@ -52,6 +52,17 @@ An easy way to spin up a Cassandra instance is using a Cassandra Docker image as
 
 **WARNING**: *This step must be executed only once.*
 
+Workflow Designer requires two Cassandra namespaces:
+
+- WORKFLOW
+- ZUSAMMEN_WORKFLOW
+
+By default, these keyspaces are configured to use a simple replication strategy (`'class' : 'SimpleStrategy'`)
+and the replication factor of one (`'replication_factor' : 1`). In order to override this configuration, override
+the *create_keyspaces.cql* file at the root of the initialization container using
+[Docker volume mapping](https://docs.docker.com/storage/volumes/). Include `IF NOT EXISTS` clause in the keyspace
+creation statements to prevent accidental data loss.
+
 `docker run -ti -e CS_HOST=<cassandra-host> -e CS_PORT=<cassandra-port> -e CS_AUTHENTICATE=true/false
 -e CS_USER=<cassandra-user> -e CS_PASSWORD=<cassandra-password> nexus3.onap.org:10001/onap/workflow-init:latest`
 
