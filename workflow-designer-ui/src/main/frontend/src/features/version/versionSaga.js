@@ -101,11 +101,17 @@ function* watchUpdateVersion(action) {
             params: { composition, ...versionData }
         } = action.payload;
         const isArtifactValid = validateCurrentArtifact(composition);
+        yield call(versionApi.updateVersion, {
+            workflowId,
+            params: versionData
+        });
+        yield put(
+            notificationActions.showSuccess({
+                title: I18n.t('workflow.confirmationMessages.updateTitle'),
+                message: I18n.t('workflow.confirmationMessages.updateMessage')
+            })
+        );
         if (isArtifactValid) {
-            yield call(versionApi.updateVersion, {
-                workflowId,
-                params: versionData
-            });
             yield call(versionApi.updateVersionArtifact, {
                 workflowId,
                 workflowName,
@@ -113,14 +119,6 @@ function* watchUpdateVersion(action) {
                 versionId: versionData.id,
                 payload: composition
             });
-            yield put(
-                notificationActions.showSuccess({
-                    title: I18n.t('workflow.confirmationMessages.updateTitle'),
-                    message: I18n.t(
-                        'workflow.confirmationMessages.updateMessage'
-                    )
-                })
-            );
         } else {
             yield call(versionApi.deleteVersionArtifact, {
                 workflowId,
