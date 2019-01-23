@@ -265,8 +265,7 @@ In order to run as an SDC pluggable designer, Workflow Designer must be added to
 
 If you are deploying SDC using a standard procedure (OOM or the
 [SDC shell script](https://wiki.onap.org/display/DW/Deploying+SDC+on+a+Linux+VM+for+Development)),
-the easiest way to configure the Workflow plugin is to edit the *default_attributes/Plugins/WORKFLOW*
-section of *AUTO.json*.
+the easiest way to configure the Workflow plugin is to edit the *plugins-configuration.yaml*.
 
 ### Plugin Source
 
@@ -285,16 +284,18 @@ In order to check the availability of a plugin, SDC uses `"pluginDiscoveryUrl"`.
 
 Let's assume that hostname of the machine that runs Docker containers with the Workflow application is
 *workflow.example.com*, and port 8080 of the Workflow frontend is mapped to 9088 on the host. In this case the
-corresponding section of *AUTO.json* will look like below:
+corresponding section of *plugins-configuration.yaml* will look like below:
 
 ```
 
-"Plugins": {
-    "WORKFLOW": {
-        "workflow_discovery_url": "http://workflow.example.com:9088/ping",
-        "workflow_source_url": "http://workflow.example.com:9088"
-    }
-},
+- pluginId: WORKFLOW
+     pluginDiscoveryUrl: "http://workflow.example.com:9088/ping"
+     pluginSourceUrl: "http://workflow.example.com:9088"
+     pluginStateUrl: "workflowDesigner"
+     pluginDisplayOptions:
+        tab:
+            displayName: "WORKFLOW"
+            displayRoles: ["DESIGNER", "TESTER"]
 
 ```
 
