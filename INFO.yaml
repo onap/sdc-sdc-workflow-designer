@@ -42,12 +42,12 @@ committers:
         email: 'einavw@amdocs.com'
         company: 'ATT'
         id: 'einavk'
-        timezone: 'Israel/Aviv'
+        timezone: 'Asia/Jerusalem'
     - name: 'Priyanshu Agarwal'
         email: 'pagarwal@amdocs.com'
         company: 'AMDOCS'
         id: 'priyanshua'
-        timezone: 'Israel/Aviv
+        timezone: 'Asia/Jerusalem'
 tsc:
     approval: 'https://lists.onap.org/pipermail/onap-tsc'
     changes:
