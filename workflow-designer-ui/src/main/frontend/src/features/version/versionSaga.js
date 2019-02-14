@@ -86,7 +86,7 @@ function* watchSubmitVersion(action) {
         const versions = yield call(overviewApi.getVersions, workflowId);
         yield put(versionListFetchAction(versions));
         yield call(
-            history.push('/workflow/' + workflowId + '/version/' + data.id)
+            history.push(`/workflows/workflow/${workflowId}/version/${data.id}`)
         );
     } catch (error) {
         yield put(genericNetworkErrorAction(error));

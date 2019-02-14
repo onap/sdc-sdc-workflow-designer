@@ -55,7 +55,7 @@ export default class VersionControllerView extends Component {
     routeToOverview = () => {
         const { history, match } = this.props;
         const workflowId = match.params.workflowId;
-        history.push('/workflow/' + workflowId + '/overview');
+        history.push(`/workflows/workflow/${workflowId}/overview`);
     };
 
     sendSaveParamsToServer = () => {

@@ -23,7 +23,7 @@ import ArchiveLabel from 'shared/archiveLabel/ArchiveLabel';
 const Buttons = ({ history, archiveWorkflow, restoreWorkflow, isArchive }) => (
     <div className="header-buttons">
         <SVGIcon
-            onClick={() => history.push('/')}
+            onClick={() => history.push('/workflows')}
             label={I18n.t('workflow.overview.backBtnLabel')}
             className="go-catalog-btn"
             labelPosition="right"

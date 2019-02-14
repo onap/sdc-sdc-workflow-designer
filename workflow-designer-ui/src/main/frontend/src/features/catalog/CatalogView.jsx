@@ -100,7 +100,8 @@ class CatalogView extends Component {
 
     goToOverviewPage = id => {
         const { history } = this.props;
-        history.push('/workflow/' + id + '/overview');
+        const { location } = history;
+        history.push(`${location.pathname}/workflow/${id}/overview`);
     };
 
     searchChange = searchValue => {

@@ -55,8 +55,8 @@ class OverviewView extends Component {
     }
 
     onSelectVersionFromTable = data => {
-        const { history, workflow } = this.props;
-        history.push('/workflow/' + workflow.id + '/version/' + data.id);
+        const { history } = this.props;
+        history.push('version/' + data.id);
     };
 
     onCreateNewVersionFromTable = () => {

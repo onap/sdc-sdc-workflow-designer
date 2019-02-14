@@ -23,7 +23,7 @@ import Composition from 'features/version/composition/Composition';
 
 export const routes = [
     {
-        path: '/workflow/:workflowId/version/:versionId',
+        path: '/workflows/workflow/:workflowId/version/:versionId',
         component: Version,
         routes: [
             {
@@ -48,12 +48,12 @@ export const routes = [
         ]
     },
     {
-        path: '/',
+        path: '/workflows',
         exact: true,
         component: Catalog
     },
     {
-        path: '/workflow/:workflowId/overview',
+        path: '/workflows/workflow/:workflowId/overview',
         component: OverviewView
     }
 ];
