@@ -1,6 +1,6 @@
 {
 	"version": "0.1",
 	"appContextPath" : "/",
-	"defaultRestPrefix": "/wf",
-	"activitiesRestPrefix": "/v1.0"
+	"defaultRestPrefix": "/workflows/wf",
+	"activitiesRestPrefix": "/workflows/v1.0"
 }
