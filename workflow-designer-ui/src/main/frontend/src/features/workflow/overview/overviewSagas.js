@@ -93,7 +93,7 @@ export function* archiveWorkflow(action) {
             })
         })
     );
-    history.push('/workflows');
+    history.push('/workflows/');
 }
 
 export function* watchOverview() {
