@@ -98,7 +98,8 @@ messages. You can also see the logs of the initialization container using `docke
 `docker run -d -e SDC_PROTOCL=http/https -e SDC_ENDPOINT=<sdc-host>:<sdc-port> -e SDC_USER=<sdc-username>
 -e SDC_PASSWORD=<sdc-password> -e CS_HOSTS=<cassandra-hosts> -e CS_PORT=<cassandra-port>
 -e CS_AUTHENTICATE=true/false -e CS_USER=<cassandra-user> -e CS_PASSWORD=<cassandra-password>
--e JAVA_OPTIONS=<jvm-options> nexus3.onap.org:10001/onap/workflow-backend:latest`
+-e SSL_ENABLED=true/false -e SSL_KEY_PASSWORD=<ssl_key_password> -e SSL_KEYSTORE_PATH=<ssl_keystore_path> 
+-e SSL_KEYSTORE_TYPE=<ssl_keystore_type> -e JAVA_OPTIONS=<jvm-options> nexus3.onap.org:10001/onap/workflow-backend:latest`
 
 ### Environment Variables
 
@@ -122,12 +123,21 @@ assumed if this variable is not specified.
 
 - CS_PASSWORD &mdash; Cassandra password if CS_AUTHENTICATE is *true*.
 
+- SSL_ENABLED &mdash; whether ssl authentication must be used to connect to application. A *false* will be
+assumed if this variable is not specified.
+
+- SSL_KEY_PASSWORD &mdash; SSL key password if SSL_ENABLED is *true*.
+
+- SSL_KEYSTORE_PATH &mdash; SSL Keystore path if SSL_ENABLED is *true*.
+
+- SSL_KEYSTORE_TYPE &mdash; SSL Keystore type if SSL_ENABLED is *true*.
+
 - JAVA_OPTIONS &mdash; optionally, JVM (Java Virtual Machine) arguments.
 
 ### Example
 
 Assuming you have a dedicated Cassandra container as described in Database section, and the access to it is not
-protected with a password. The following command will start a backend container:
+protected with a password. The following command will start a backend container without SSL support:
 
 `docker run -d --name workflow-backend -e SDC_PROTOCOL=http
 -e SDC_ENDPOINT=$(docker inspect sdc-BE --format={{.NetworkSettings.IPAddress}}):8080
