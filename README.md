@@ -98,8 +98,11 @@ messages. You can also see the logs of the initialization container using `docke
 `docker run -d -e SDC_PROTOCL=http/https -e SDC_ENDPOINT=<sdc-host>:<sdc-port> -e SDC_USER=<sdc-username>
 -e SDC_PASSWORD=<sdc-password> -e CS_HOSTS=<cassandra-hosts> -e CS_PORT=<cassandra-port>
 -e CS_AUTHENTICATE=true/false -e CS_USER=<cassandra-user> -e CS_PASSWORD=<cassandra-password>
--e SSL_ENABLED=true/false -e SSL_KEY_PASSWORD=<ssl_key_password> -e SSL_KEYSTORE_PATH=<ssl_keystore_path> 
--e SSL_KEYSTORE_TYPE=<ssl_keystore_type> -e JAVA_OPTIONS=<jvm-options> nexus3.onap.org:10001/onap/workflow-backend:latest`
+-e CS_SSL_ENABLED=true/false --volume <cassandra-truststore-path_container>:<cassandra-truststore-path_local>
+-e CS_TRUST_STORE_PATH=<cassandra-truststore-path_container> -e CS_TRUST_STORE_PASSWORD=<cassandra-truststore-password> 
+-e SERVER_SSL_ENABLED=true/false -e SERVER_SSL_KEY_PASSWORD=<ssl_key_password> 
+-e SERVER_SSL_KEYSTORE_PATH=<ssl_keystore_path> -e SERVER_SSL_KEYSTORE_TYPE=<ssl_keystore_type> 
+-e JAVA_OPTIONS=<jvm-options> nexus3.onap.org:10001/onap/workflow-backend:latest`
 
 ### Environment Variables
 
@@ -123,14 +126,21 @@ assumed if this variable is not specified.
 
 - CS_PASSWORD &mdash; Cassandra password if CS_AUTHENTICATE is *true*.
 
-- SSL_ENABLED &mdash; whether ssl authentication must be used to connect to application. A *false* will be
+- CS_SSL_ENABLED &mdash; whether ssl authentication must be used to connect to Cassandra. A *false* will be
 assumed if this variable is not specified.
 
-- SSL_KEY_PASSWORD &mdash; SSL key password if SSL_ENABLED is *true*.
+- CS_TRUST_STORE_PATH &mdash; Cassandra Truststore path if CS_SSL_ENABLED is *true*.
 
-- SSL_KEYSTORE_PATH &mdash; SSL Keystore path if SSL_ENABLED is *true*.
+- CS_TRUST_STORE_PASSWORD &mdash; Cassandra Truststore password if CS_SSL_ENABLED is *true*.
 
-- SSL_KEYSTORE_TYPE &mdash; SSL Keystore type if SSL_ENABLED is *true*.
+- SERVER_SSL_ENABLED &mdash; whether ssl authentication must be used to connect to application. A *false* will be
+assumed if this variable is not specified.
+
+- SERVER_SSL_KEY_PASSWORD &mdash; SSL key password if SERVER_SSL_ENABLED is *true*.
+
+- SERVER_SSL_KEYSTORE_PATH &mdash; SSL Keystore path if SERVER_SSL_ENABLED is *true*.
+
+- SERVER_SSL_KEYSTORE_TYPE &mdash; SSL Keystore type if SERVER_SSL_ENABLED is *true*.
 
 - JAVA_OPTIONS &mdash; optionally, JVM (Java Virtual Machine) arguments.
 
