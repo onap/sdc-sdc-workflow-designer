@@ -73,4 +73,7 @@ tsc:
         - type: 'Addition'
             name: 'Priyanshu Agarwal'
             link: 'https://wiki.onap.org/pages/viewpage.action?pageId=48531570'
+        - type: 'Addition'
+            name: 'Vitaliy Emporopulo'
+            link: 'https://wiki.onap.org/pages/viewpage.action?pageId=48531570'
 
