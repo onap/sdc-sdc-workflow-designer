@@ -19,6 +19,7 @@ import { I18n } from 'react-redux-i18n';
 import { Button } from 'sdc-ui/lib/react';
 import PropTypes from 'prop-types';
 import SvgButton from 'features/version/versionController/views/SvgButton';
+import CompositionUpdate from 'features/version/composition/CompositionUpdate';
 
 const ActionButtons = props => {
     const {
@@ -58,9 +59,20 @@ const ActionButtons = props => {
                         className="certifyBtn"
                         btnType="primary"
                         disabled={certifyDisabled}
-                        onClick={onCertifyClick}>
+                        onClick={() =>
+                            this.props.toggleCompositionUpdate(true)
+                        }>
                         {I18n.t('buttons.certifyBtn')}
                     </Button>
+
+                    {this.props.isCompositionUpdating && (
+                        <CompositionUpdate
+                            certifyBack={() => {
+                                this.props.toggleCompositionUpdate(false);
+                                onCertifyClick();
+                            }}
+                        />
+                    )}
                 </div>
             </div>
         </div>
@@ -72,7 +84,9 @@ ActionButtons.propTypes = {
     certifyDisabled: PropTypes.bool,
     onCertifyClick: PropTypes.func,
     onUndoClick: PropTypes.func,
-    saveDisabled: PropTypes.bool
+    saveDisabled: PropTypes.bool,
+    isCompositionUpdating: PropTypes.bool,
+    toggleCompositionUpdate: PropTypes.func
 };
 
 export default ActionButtons;

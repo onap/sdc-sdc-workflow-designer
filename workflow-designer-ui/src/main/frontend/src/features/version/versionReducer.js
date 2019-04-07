@@ -16,9 +16,13 @@
 import {
     SET_CURRENT_VERSION,
     DETAILS_CHANGED,
-    VERSION_STATE_CHANGED
+    VERSION_STATE_CHANGED,
+    TOGGLE_COMPOSITION_UPDATE
 } from 'features/version/versionConstants';
-const initialState = {};
+
+const initialState = {
+    isCompositionUpdating: false
+};
 
 function versionReducer(state = initialState, action) {
     switch (action.type) {
@@ -33,6 +37,11 @@ function versionReducer(state = initialState, action) {
             return {
                 ...state,
                 ...action.payload
+            };
+        case TOGGLE_COMPOSITION_UPDATE:
+            return {
+                ...state,
+                isCompositionUpdating: action.payload.isCompositionUpdating
             };
         default:
             return state;
