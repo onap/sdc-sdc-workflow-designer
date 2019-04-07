@@ -16,7 +16,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 
-import VersionControllerView from 'features/version/versionController/VersionControllerView';
+import VersionsContainer from 'features/version/versionController/views/VersionsContainer';
 
 describe('Version Controller View Snapshot', () => {
     it('renders correctly', () => {
@@ -27,6 +27,7 @@ describe('Version Controller View Snapshot', () => {
                 description:
                     'Initial version, bug fix for previous version that fixed an exception when the port was occupied',
                 status: 'Draft',
+                state: 'Draft',
                 creationTime: 1530687330460,
                 modificationTime: 1530687330575,
                 archivedStatus: 'ACTIVE'
@@ -37,6 +38,7 @@ describe('Version Controller View Snapshot', () => {
                 description:
                     'Test version, bug fix for previous version that fixed an exception when the port was occupied',
                 status: 'Draft',
+                state: 'Draft',
                 creationTime: 1530687330461,
                 modificationTime: 1530687330576,
                 archivedStatus: 'ACTIVE',
@@ -45,7 +47,7 @@ describe('Version Controller View Snapshot', () => {
         ];
         const tree = renderer
             .create(
-                <VersionControllerView
+                <VersionsContainer
                     viewableVersions={versionList}
                     currentWorkflowVersion={versionList[0]}
                 />
