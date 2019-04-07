@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10be50f7_48198c44",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/versionController/VersionController.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1999
+      },
+      "writtenOn": "2019-04-07T09:52:37Z",
+      "side": 1,
+      "message": "you can add it to the existing import of same module",
+      "range": {
+        "startLine": 34,
+        "startChar": 9,
+        "endLine": 34,
+        "endChar": 32
+      },
+      "revId": "81cf33c7b61c4425d152ccc1dd66dcb48c9ad07c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a002c00_21d51f12",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/versionController/VersionController.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1999
+      },
+      "writtenOn": "2019-04-07T09:52:37Z",
+      "side": 1,
+      "message": "you can add it to the existing import of same module",
+      "range": {
+        "startLine": 37,
+        "startChar": 9,
+        "endLine": 37,
+        "endChar": 33
+      },
+      "revId": "81cf33c7b61c4425d152ccc1dd66dcb48c9ad07c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ebb56bd_715083e3",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/versionController/views/ActionButtons.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1999
+      },
+      "writtenOn": "2019-04-07T09:52:37Z",
+      "side": 1,
+      "message": "define it as const, and call its name directly without \u0027this.props\u0027",
+      "range": {
+        "startLine": 63,
+        "startChar": 28,
+        "endLine": 63,
+        "endChar": 62
+      },
+      "revId": "81cf33c7b61c4425d152ccc1dd66dcb48c9ad07c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "adc0db06_d2910d5a",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/versionController/views/ActionButtons.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1999
+      },
+      "writtenOn": "2019-04-07T09:52:37Z",
+      "side": 1,
+      "message": "define it as const, and call its name directly without \u0027this.props\u0027",
+      "range": {
+        "startLine": 68,
+        "startChar": 21,
+        "endLine": 68,
+        "endChar": 53
+      },
+      "revId": "81cf33c7b61c4425d152ccc1dd66dcb48c9ad07c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c7a4169_74b1d32a",
+        "filename": "workflow-designer-ui/src/main/frontend/src/features/version/versionController/views/ActionButtons.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1999
+      },
+      "writtenOn": "2019-04-07T09:52:37Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 71,
+        "startChar": 32,
+        "endLine": 71,
+        "endChar": 66
+      },
+      "revId": "81cf33c7b61c4425d152ccc1dd66dcb48c9ad07c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
