@@ -20,6 +20,8 @@ export const FETCH_REQUESTED = 'workflow/version/FETCH_REQUESTED';
 export const DETAILS_CHANGED = 'workflow/version/DETAILS_CHANGED';
 export const FETCH_REQUESTED_FAILED = 'workflow/version/FETCH_REQUESTED_FAILED';
 export const VERSION_STATE_CHANGED = 'workflow/version/VERSION_STATE_CHANGED';
+export const TOGGLE_COMPOSITION_UPDATE =
+    'workflow/version/TOGGLE_COMPOSITION_UPDATE';
 export const SET_OPERRATION_MODE = 'workflow/version/SET_OPERRATION_MODE';
 
 export const workflowVersionFetchRequestedAction = createAction(
@@ -41,7 +43,15 @@ export const versionStateChangedAction = createAction(
     payload => payload
 );
 
+export const toggleCompositionUpdate = createAction(
+    TOGGLE_COMPOSITION_UPDATE,
+    payload => ({ isCompositionUpdating: payload })
+);
+
 export const setOperationModeAction = createAction(SET_OPERRATION_MODE);
+
+export const getIsCompositionUpdating = state =>
+    state.currentVersion.general.isCompositionUpdating;
 
 export const versionState = {
     DRAFT: 'draft',

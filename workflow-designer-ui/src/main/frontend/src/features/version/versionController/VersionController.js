@@ -30,11 +30,14 @@ import {
     saveParamsAction,
     certifyVersionAction
 } from 'features/version/versionController/versionControllerConstants';
-import { workflowVersionFetchRequestedAction } from '../versionConstants';
+import { workflowVersionFetchRequestedAction } from 'features/version/versionConstants';
+import { toggleCompositionUpdate } from 'features/version/versionConstants';
 import { getIsCertified } from 'features/version/general/generalSelectors';
 import { getIOErrors } from 'features/version/inputOutput/inputOutputSelectors';
+import { getIsCompositionUpdating } from 'features/version/versionConstants';
 import { getCompositionHasErrors } from 'features/version/composition/compositionSelectors';
 import { pluginContextSelector } from 'wfapp/pluginContext/pluginContextSelector';
+
 function mapStateToProps(state) {
     return {
         workflowName: getWorkflowName(state),
@@ -45,7 +48,8 @@ function mapStateToProps(state) {
         isCertifyDisable: getIsCertified(state),
         isArchive: isWorkflowArchive(state),
         currentWorkflowVersion: state.currentVersion.general,
-        pluginContext: pluginContextSelector(state)
+        pluginContext: pluginContextSelector(state),
+        isCompositionUpdating: getIsCompositionUpdating(state)
     };
 }
 
@@ -55,7 +59,9 @@ function mapDispatchToProps(dispatch) {
         saveParamsToServer: params => dispatch(saveParamsAction(params)),
         certifyVersion: payload => dispatch(certifyVersionAction(payload)),
         changeVersion: payload =>
-            dispatch(workflowVersionFetchRequestedAction(payload))
+            dispatch(workflowVersionFetchRequestedAction(payload)),
+        toggleCompositionUpdate: payload =>
+            dispatch(toggleCompositionUpdate(payload))
     };
 }
 

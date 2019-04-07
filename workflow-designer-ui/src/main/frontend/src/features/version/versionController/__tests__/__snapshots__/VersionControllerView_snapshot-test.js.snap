@@ -2,122 +2,38 @@
 
 exports[`Version Controller View Snapshot renders correctly 1`] = `
 <div
-  className="version-controller-bar"
+  className="version-section-wrapper"
 >
   <div
-    className="version-section-wrapper"
+    className="version-status-container"
   >
-    <div
-      className="group-name-wrapper"
+    version
+    <select
+      className="version-selector"
+      data-test-id="vc-versions-select-box"
+      onChange={[Function]}
+      value="7b5f6b086613470985082df2c0f6c713"
     >
-      <div
-        className="group-name"
+      <option
+        data-test-id="vc-version-option"
+        value="7b5f6b086613470985082df2c0f6c713"
       >
-        
-      </div>
-    </div>
-  </div>
-  <div
-    className="vc-container "
-  >
-    <div
-      className="version-section-wrapper"
+        1.0 DRAFT
+      </option>
+      <option
+        data-test-id="vc-version-option"
+        value="7b5f6b086613470985082df2c0f6c666"
+      >
+        2.0 Draft
+      </option>
+    </select>
+    <span
+      className="version-selector-more-versions"
+      data-test-id="vc-versions-page-link"
+      onClick={undefined}
     >
-      <div
-        className="version-status-container"
-      >
-        version
-        <select
-          className="version-selector"
-          data-test-id="vc-versions-select-box"
-          onChange={[Function]}
-          value="7b5f6b086613470985082df2c0f6c713"
-        />
-        <span
-          className="version-selector-more-versions"
-          data-test-id="vc-versions-page-link"
-          onClick={[Function]}
-        >
-          viewOverview
-        </span>
-      </div>
-    </div>
-    <div
-      className="save-submit-cancel-container"
-    >
-      <div
-        className="action-buttons"
-      >
-        <div
-          className="select-action-buttons"
-        >
-          <div
-            className="separator vc-separator"
-          />
-          <div
-            className="action-button-wrapper clickable"
-            onClick={[Function]}
-          >
-            <div
-              className="action-buttons-svg"
-            >
-              <div
-                className="svg-icon-wrapper     bottom"
-                data-test-id="vc-save-btn"
-                disabled={undefined}
-                onClick={undefined}
-              >
-                <test-file-stub
-                  className="svg-icon __version-controller-save"
-                />
-                <span
-                  className="svg-icon-label action-button-label"
-                >
-                  saveBtn
-                </span>
-              </div>
-            </div>
-          </div>
-          <div
-            className="separator vc-separator"
-          />
-          <div
-            className="action-button-wrapper clickable"
-            onClick={[Function]}
-          >
-            <div
-              className="action-buttons-svg"
-            >
-              <div
-                className="svg-icon-wrapper     bottom"
-                data-test-id="vc-undo-btn"
-                disabled={undefined}
-                onClick={undefined}
-              >
-                <test-file-stub
-                  className="svg-icon __version-controller-undo"
-                />
-                <span
-                  className="svg-icon-label action-button-label"
-                >
-                  undoBtn
-                </span>
-              </div>
-            </div>
-          </div>
-          <div
-            className="separator vc-separator"
-          />
-          <button
-            className="sdc-button sdc-button__primary  certifyBtn "
-            disabled={false}
-            onClick={[Function]}
-          >
-            certifyBtn
-          </button>
-        </div>
-      </div>
-    </div>
+      viewOverview
+    </span>
   </div>
 </div>
 `;
