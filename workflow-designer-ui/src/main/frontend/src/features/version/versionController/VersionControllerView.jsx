@@ -45,7 +45,9 @@ export default class VersionControllerView extends Component {
         hasErrors: PropTypes.bool,
         isArchive: PropTypes.bool,
         operationMode: PropTypes.bool,
-        pluginContext: PropTypes.object
+        pluginContext: PropTypes.object,
+        isCompositionUpdating: PropTypes.bool,
+        toggleCompositionUpdate: PropTypes.func
     };
 
     constructor(props) {
@@ -118,7 +120,9 @@ export default class VersionControllerView extends Component {
             hasErrors,
             isCertifyDisable,
             isArchive,
-            operationMode
+            operationMode,
+            isCompositionUpdating,
+            toggleCompositionUpdate
         } = this.props;
         const isReadonly = isCertifyDisable || hasErrors || isArchive;
         return (
@@ -147,11 +151,13 @@ export default class VersionControllerView extends Component {
                     )}
                     {!operationMode && (
                         <ActionButtons
+                            isCompositionUpdating={isCompositionUpdating}
                             saveDisabled={isReadonly}
                             onSaveClick={this.sendSaveParamsToServer}
                             certifyDisabled={isReadonly}
                             onCertifyClick={this.certifyVersion}
                             onUndoClick={this.undoClickCallback}
+                            toggleCompositionUpdate={toggleCompositionUpdate}
                         />
                     )}
                 </div>

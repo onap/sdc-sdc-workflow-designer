@@ -21,8 +21,8 @@ import {
     getVersions,
     getSortedVersions
 } from 'features/workflow/overview/overviewSelectors';
-import { isWorkflowArchive } from 'features/workflow/workflowSelectors';
 import {
+    isWorkflowArchive,
     getWorkflowId,
     getWorkflowName
 } from 'features/workflow/workflowSelectors';
@@ -30,11 +30,16 @@ import {
     saveParamsAction,
     certifyVersionAction
 } from 'features/version/versionController/versionControllerConstants';
-import { workflowVersionFetchRequestedAction } from '../versionConstants';
+import {
+    workflowVersionFetchRequestedAction,
+    toggleCompositionUpdate,
+    getIsCompositionUpdating
+} from 'features/version/versionConstants';
 import { getIsCertified } from 'features/version/general/generalSelectors';
 import { getIOErrors } from 'features/version/inputOutput/inputOutputSelectors';
 import { getCompositionHasErrors } from 'features/version/composition/compositionSelectors';
 import { pluginContextSelector } from 'wfapp/pluginContext/pluginContextSelector';
+
 function mapStateToProps(state) {
     return {
         workflowName: getWorkflowName(state),
@@ -45,7 +50,8 @@ function mapStateToProps(state) {
         isCertifyDisable: getIsCertified(state),
         isArchive: isWorkflowArchive(state),
         currentWorkflowVersion: state.currentVersion.general,
-        pluginContext: pluginContextSelector(state)
+        pluginContext: pluginContextSelector(state),
+        isCompositionUpdating: getIsCompositionUpdating(state)
     };
 }
 
@@ -55,7 +61,9 @@ function mapDispatchToProps(dispatch) {
         saveParamsToServer: params => dispatch(saveParamsAction(params)),
         certifyVersion: payload => dispatch(certifyVersionAction(payload)),
         changeVersion: payload =>
-            dispatch(workflowVersionFetchRequestedAction(payload))
+            dispatch(workflowVersionFetchRequestedAction(payload)),
+        toggleCompositionUpdate: payload =>
+            dispatch(toggleCompositionUpdate(payload))
     };
 }
 
