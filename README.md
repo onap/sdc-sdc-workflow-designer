@@ -174,17 +174,31 @@ nexus3.onap.org:10001/onap/workflow-frontend:latest`
 
 - JAVA_OPTIONS &mdash; optionally, JVM (Java Virtual Machine) arguments.
 
+For SSL connectivity:
+
+- IS_HTTPS &mdash; flag to set if frontend accepts https connection from client. Default is false.
+
+- KEYSTORE_PATH 
+- KEYSTORE_PASSWORD 
+- KEYSTORE_TYPE
+- TRUSTSTORE_PATH 
+- TRUSTSTORE_PASSWORD
+- TRUSTSTORE_TYPE
+
+If not set then Using jetty default SSL keys.
+
 ### Example
 
 `docker run -d --name workflow-frontend
 -e BACKEND=http://$(docker inspect workflow-backend --format={{.NetworkSettings.IPAddress}}):8080
--e JAVA_OPTIONS="-Xmx64m -Xms64m -Xss1m" -p 9088:8080 nexus3.onap.org:10001/onap/workflow-frontend:latest`
+-e JAVA_OPTIONS="-Xmx64m -Xms64m -Xss1m" -p 9088:8080 -p 8186:8443 -e IS_HTTPS=true nexus3.onap.org:10001/onap/workflow-frontend:latest`
 
 Notice that port 8080 of the frontend container has been
 [mapped]( https://docs.docker.com/config/containers/container-networking/#published-ports) to port 9088 of the host
 machine. This makes the Workflow Designer Web application accessible from the outside world via the host machine's
 IP address/hostname.
 
+To expose the https port 8443 of the container we have published in the example 8186.
 ### Troubleshooting
 
 In order to check if the Workflow Designer frontend has successfully started, look at the logs of the
