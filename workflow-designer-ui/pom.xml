@@ -26,7 +26,7 @@
     <parent>
         <groupId>org.onap.sdc.sdc-workflow-designer</groupId>
         <artifactId>workflow-designer-parent</artifactId>
-        <version>1.4.0-SNAPSHOT</version>
+        <version>1.4.1-SNAPSHOT</version>
     </parent>
 
     <properties>        
@@ -147,6 +147,28 @@
             <build>
                 <plugins>
                     <plugin>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <version>2.6</version>
+                        <executions>
+                            <execution>
+                                <id>copy-resources-docker</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${basedir}/docker</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>${project.build.directory}</directory>
+                                            <include>${project.artifactId}-${project.version}.war</include>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
                         <groupId>io.fabric8</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
                         <configuration>
@@ -157,15 +179,10 @@
                                         <tags>
                                             <tag>${project.version}</tag>
                                         </tags>
-                                        <from>jetty:9.4.11-alpine</from>
-                                        <user>root</user>
-                                        <assembly>
-                                            <descriptorRef>artifact</descriptorRef>
-                                            <targetDir>/var/lib/jetty/webapps</targetDir>
-                                        </assembly>
-                                        <entryPoint>
-                                            java -DproxyTo=$BACKEND $JAVA_OPTIONS -jar $JETTY_HOME/start.jar
-                                        </entryPoint>
+                                        <dockerFileDir>${project.basedir}/docker</dockerFileDir>
+                                        <args>
+                                            <ARTIFACT>${project.artifactId}-${project.version}.war</ARTIFACT>
+                                        </args>
                                     </build>
                                 </image>
                             </images>
