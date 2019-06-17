@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "615e9af4_180a24ee",
+        "filename": "workflow-designer-ui/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 3663
+      },
+      "writtenOn": "2019-06-17T08:59:07Z",
+      "side": 1,
+      "message": "Optional: you can upgrade to newer version as it is available since Jun 12",
+      "revId": "08da411bd572226675305bed9de7d42175f25d85",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
