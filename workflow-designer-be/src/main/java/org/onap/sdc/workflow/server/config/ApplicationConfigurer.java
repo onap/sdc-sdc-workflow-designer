@@ -12,6 +12,9 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * ============LICENSE_END=========================================================
+ * Modifications copyright (c) 2019 Nokia
+ * ================================================================================
  */
 
 package org.onap.sdc.workflow.server.config;
@@ -28,8 +31,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class ApplicationConfigurer implements WebMvcConfigurer {
 
+    private final LoggingInterceptor loggingInterceptor;
+
     @Autowired
-    LoggingInterceptor loggingInterceptor;
+    public ApplicationConfigurer(LoggingInterceptor loggingInterceptor) {
+        this.loggingInterceptor = loggingInterceptor;
+    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
