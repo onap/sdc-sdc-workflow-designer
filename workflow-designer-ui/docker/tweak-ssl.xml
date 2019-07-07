@@ -1,0 +1,11 @@
+<!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN"
+        "http://www.eclipse.org/jetty/configure_9_3.dtd">
+<Configure id="sslContextFactory" class="org.eclipse.jetty.util.ssl.SslContextFactory">
+    <Call name="setIncludeCipherSuites">
+        <Arg>
+            <Array type="String">
+                <Item>REPLACE_CYPHER</Item>
+            </Array>
+        </Arg>
+    </Call>
+</Configure>
