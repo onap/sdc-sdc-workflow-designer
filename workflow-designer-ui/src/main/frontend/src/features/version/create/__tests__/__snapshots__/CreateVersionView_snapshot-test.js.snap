@@ -41,15 +41,15 @@ exports[`Create new version snapshot renders correctly 1`] = `
         className="description-part"
       >
         <div
-          className="sdc-input"
+          className="sdc-textarea"
         >
           <div
-            className="sdc-input__label"
+            className="sdc-textarea__label"
           >
             description
           </div>
           <textarea
-            className="custom-textarea field-section sdc-input__input"
+            className="custom-textarea field-section sdc-textarea__textarea"
             data-test-id="new-version-description"
             disabled={false}
             onChange={[Function]}

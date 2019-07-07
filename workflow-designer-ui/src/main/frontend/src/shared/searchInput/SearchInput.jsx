@@ -16,7 +16,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import SVGIcon from 'sdc-ui/lib/react/SVGIcon';
+import { SVGIcon } from 'onap-ui-react';
 
 class ExpandableInput extends React.Component {
     static propTypes = {

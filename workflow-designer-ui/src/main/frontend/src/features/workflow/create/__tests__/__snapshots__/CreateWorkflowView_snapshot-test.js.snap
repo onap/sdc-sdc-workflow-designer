@@ -20,34 +20,38 @@ exports[`New Workflow View Snapshot renders correctly 1`] = `
         >
           name
         </label>
-        <input
-          className="sdc-input__input  "
-          data-test-id={undefined}
-          disabled={false}
-          id="workflowName"
-          name="workflowName"
-          onBlur={[Function]}
-          onChange={[Function]}
-          onKeyDown={[Function]}
-          placeholder={undefined}
-          readOnly={false}
-          type="text"
-          value=""
-        />
+        <div
+          className="sdc-input-wrapper"
+        >
+          <input
+            className="sdc-input__input  "
+            data-test-id={undefined}
+            disabled={false}
+            id="workflowName"
+            name="workflowName"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onKeyDown={[Function]}
+            placeholder={undefined}
+            readOnly={false}
+            type="text"
+            value=""
+          />
+        </div>
       </div>
       <div
         className="description-part"
       >
         <div
-          className="sdc-input"
+          className="sdc-textarea"
         >
           <div
-            className="sdc-input__label"
+            className="sdc-textarea__label"
           >
             description
           </div>
           <textarea
-            className="custom-textarea field-section sdc-input__input"
+            className="custom-textarea field-section sdc-textarea__textarea"
             data-test-id="description"
             disabled={false}
             onChange={[Function]}

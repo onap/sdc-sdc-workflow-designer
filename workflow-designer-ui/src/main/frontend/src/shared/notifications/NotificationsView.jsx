@@ -15,7 +15,7 @@
 */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Notification } from 'sdc-ui/lib/react/';
+import { Notification } from 'onap-ui-react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 export default class NotificationsView extends PureComponent {

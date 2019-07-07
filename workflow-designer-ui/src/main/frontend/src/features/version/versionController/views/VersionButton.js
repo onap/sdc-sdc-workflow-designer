@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 import React from 'react';
-import { Button } from 'sdc-ui/lib/react';
+import { Button } from 'onap-ui-react';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from 'prop-types';
 

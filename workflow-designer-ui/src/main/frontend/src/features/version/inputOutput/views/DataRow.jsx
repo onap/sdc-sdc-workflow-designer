@@ -17,7 +17,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Input, Checkbox, SVGIcon } from 'sdc-ui/lib/react';
+import { Input, Checkbox, SVGIcon } from 'onap-ui-react';
 
 const DataRow = ({
     data: { name, type, mandatory },
