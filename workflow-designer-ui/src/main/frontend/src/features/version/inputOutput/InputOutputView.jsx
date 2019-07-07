@@ -18,7 +18,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Translate, I18n } from 'react-redux-i18n';
 import cn from 'classnames';
-import { SVGIcon } from 'sdc-ui/lib/react';
+import { SVGIcon } from 'onap-ui-react';
 
 import Scrollbars from 'shared/scroll/Scrollbars';
 import SearchInput from 'shared/searchInput/SearchInput';

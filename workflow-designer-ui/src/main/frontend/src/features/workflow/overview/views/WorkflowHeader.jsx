@@ -16,8 +16,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
-import SVGIcon from 'sdc-ui/lib/react/SVGIcon';
-import Button from 'sdc-ui/lib/react/Button';
+import { SVGIcon, Button } from 'onap-ui-react';
 import ArchiveLabel from 'shared/archiveLabel/ArchiveLabel';
 
 const Buttons = ({ history, archiveWorkflow, restoreWorkflow, isArchive }) => (

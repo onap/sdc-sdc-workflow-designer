@@ -16,7 +16,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
-import { Button } from 'sdc-ui/lib/react';
+import { Button } from 'onap-ui-react';
 import Description from 'shared/components/Description';
 import Select from 'shared/components/Select/index';
 import { VERSION_LEVEL_LIST } from 'wfapp/appConstants';

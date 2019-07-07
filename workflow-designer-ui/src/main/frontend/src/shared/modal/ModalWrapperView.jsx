@@ -23,7 +23,7 @@ import {
     ModalTitle,
     ModalBody,
     ModalFooter
-} from 'sdc-ui/lib/react';
+} from 'onap-ui-react';
 
 import modalWrapperComponents from 'shared/modal/modalWrapperComponents';
 

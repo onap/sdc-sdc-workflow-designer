@@ -19,8 +19,8 @@ import { I18n } from 'react-redux-i18n';
 
 const Description = ({ description, onDataChange, dataTestId, disabled }) => (
     <div className="description-part">
-        <div className="sdc-input">
-            <div className="sdc-input__label">
+        <div className="sdc-textarea">
+            <div className="sdc-textarea__label">
                 {I18n.t('workflow.general.description')}
             </div>
             <textarea
@@ -29,7 +29,7 @@ const Description = ({ description, onDataChange, dataTestId, disabled }) => (
                 onChange={event => {
                     onDataChange({ description: event.target.value });
                 }}
-                className="custom-textarea field-section sdc-input__input"
+                className="custom-textarea field-section sdc-textarea__textarea"
                 disabled={disabled}
             />
         </div>

@@ -17,7 +17,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Tile, TileInfo, TileInfoLine } from 'sdc-ui/lib/react';
+import { Tile, TileInfo, TileInfoLine } from 'onap-ui-react';
 
 const Workflows = ({ items, onWorkflowClick }) =>
     items.map((workflow, index) => (

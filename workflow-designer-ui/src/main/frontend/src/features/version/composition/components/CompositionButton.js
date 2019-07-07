@@ -15,7 +15,7 @@
 */
 import React from 'react';
 import PropTypes from 'prop-types';
-import SVGIcon from 'sdc-ui/lib/react/SVGIcon';
+import { SVGIcon } from 'onap-ui-react';
 
 const CompositionButton = ({ onClick, name, title, disabled }) => (
     <div
