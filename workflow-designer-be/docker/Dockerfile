@@ -1,14 +1,12 @@
-FROM jetty:9.4.9-alpine
+FROM openjdk:8-jdk-alpine
 
 EXPOSE 8080
-EXPOSE 8443
 
 USER root
 
 ARG ARTIFACT
 
-ADD ${ARTIFACT} ${JETTY_BASE}/webapps/
-RUN chown -R jetty:jetty ${JETTY_BASE}/webapps
+ADD ${ARTIFACT} /app.jar
 
 COPY startup.sh .
 RUN chmod 744 startup.sh
