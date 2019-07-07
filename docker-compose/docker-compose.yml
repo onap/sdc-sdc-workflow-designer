@@ -24,7 +24,14 @@ services:
         - SDC_ENDPOINT="${SDC_HOST}:8080"
         - SDC_USER
         - SDC_PASSWORD
-
+        - SERVER_PORT
+        - SERVER_SSL_ENABLED
+        - SERVER_SSL_KEY_PASSWORD
+        - SERVER_SSL_KEYSTORE_PATH
+        - SERVER_SSL_KEYSTORE_TYPE
+        - SERVER_SSL_TRUST_PASSWORD
+        - SERVER_SSL_TRUSTSTORE_PATH
+        - SERVER_SSL_TRUSTSTORE_TYPE
   workflow-frontend:
     depends_on:
       - workflow-cassandra-init
@@ -35,3 +42,12 @@ services:
     environment:
         - JAVA_OPTIONS
         - BACKEND=http://workflow-backend:8080
+        - KEYSTORE_PASSWORD
+        - KEYSTORE_TYPE
+        - KEYSTORE_PATH
+        - KEYMANAGER_PASSWORD
+        - TRUSTSTORE_PASSWORD
+        - TRUSTSTORE_PATH
+        - TRUSTSTORE_TYPE
+        - IS_CLIENT_AUTH
+        - IS_HTTPS
