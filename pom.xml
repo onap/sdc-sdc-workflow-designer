@@ -33,6 +33,7 @@
     <packaging>pom</packaging>
 
     <properties>
+        <maven-checkstyle-plugin.version>2.17</maven-checkstyle-plugin.version>
         <jacoco.skip>true</jacoco.skip>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -47,6 +48,13 @@
         <sitePath>/content/sites/site/org/onap/sdc/workflow/${project.version}</sitePath>
         <staging.profile.id>176c31dfe190a</staging.profile.id>
     </properties>
+
+    <parent>
+        <groupId>org.onap.oparent</groupId>
+        <artifactId>oparent</artifactId>
+        <version>2.0.0</version>
+        <relativePath/>
+    </parent>
 
     <modules>
         <module>workflow-designer-init</module>
@@ -101,6 +109,14 @@
             </plugins>
         </pluginManagement>
         <plugins>
+            <plugin>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${maven-checkstyle-plugin.version}</version>
+                <configuration>
+                    <suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
+                    <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
