@@ -8292,19 +8292,17 @@ on-headers@~1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/on-headers/-/on-headers-1.0.1.tgz#928f5d0f470d49342651ea6794b0857c100693f7"
 
-onap-ui-common@1.0.100:
-  version "1.0.100"
-  resolved "https://registry.yarnpkg.com/onap-ui-common/-/onap-ui-common-1.0.100.tgz#c0dae1d3d1c3fd2b866340d27a1179ed10a3a860"
-  integrity sha512-d+eaYgVgrj9B8/3iVDlkxO2jiE7wXFrvMogxxHsyM8E0Fa7wXGEGwohA4JD5nGydT84dU2vPzwkby7SZNgGpKA==
+onap-ui-common@1.0.101, onap-ui-common@^1.0.101:
+  version "1.0.101"
+  resolved "https://registry.yarnpkg.com/onap-ui-common/-/onap-ui-common-1.0.101.tgz#c79b8fb903b7d2d3f959e3b5c27b561b563d961b"
 
-onap-ui-react@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/onap-ui-react/-/onap-ui-react-0.1.1.tgz#3640bdb9fb10f85104ad9dd57a9f320b0703abf3"
-  integrity sha512-hax7WzSMIPll9fHvKVjFbn2dIOh39fWuiy0VQKONq/ccU3f/y08Y6EzJo7rzWcwjt8bp2KDhqNZky0HwIquc6w==
+onap-ui-react@^1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/onap-ui-react/-/onap-ui-react-1.0.1.tgz#4e71297d5fd4ef1e79799d192a1fc57debc4490b"
   dependencies:
     "@storybook/react" "^3.1.5"
     http-loader "0.0.1"
-    onap-ui-common "1.0.100"
+    onap-ui-common "1.0.101"
     prop-types "^15.6.0"
     react "15.6.2"
     react-dom "15.6.2"
