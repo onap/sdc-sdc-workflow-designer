@@ -51,6 +51,11 @@ committers:
       company: 'AMDOCS'
       id: 'priyanshua'
       timezone: 'Asia/Jerusalem'
+    - name: 'Ojas Dubey'
+      email: 'Ojas.Dubey@amdocs.com'
+      company: 'AMDOCS'
+      id: 'ojasdubey'
+      timezone: 'Asia/Jerusalem'
 tsc:
     approval: 'https://lists.onap.org/pipermail/onap-tsc'
     changes:
@@ -93,3 +98,6 @@ tsc:
         - type: 'Removal'
           name: 'Vitaliy Emporopulo'
           link: 'https://wiki.onap.org/pages/viewpage.action?pageId=48531570'
+        - type: 'Addition'
+          name: 'Ojas Dubey'
+          link: 'https://wiki.onap.org/pages/viewpage.action?pageId=68536630'
