@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e02a7d8d_289066d2",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 2119
+      },
+      "writtenOn": "2019-07-16T07:08:06Z",
+      "side": 1,
+      "message": "version should be a parameter",
+      "revId": "4398a4b46d59512169c5adb04877ce8dfd072abe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4167f97_5c80cc06",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 2119
+      },
+      "writtenOn": "2019-07-16T07:08:06Z",
+      "side": 1,
+      "message": "version should be parameter.",
+      "revId": "4398a4b46d59512169c5adb04877ce8dfd072abe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
