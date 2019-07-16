@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9aa440b2_243a1ee0",
+        "filename": "pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 2119
+      },
+      "writtenOn": "2019-07-16T08:59:39Z",
+      "side": 1,
+      "message": "oparent version should be a param too.",
+      "revId": "412fe8c50c5253c6e828a746d89dbbbb7d1e5a56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
