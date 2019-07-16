@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "55b23923_940dced7",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 3663
+      },
+      "writtenOn": "2019-07-16T07:29:10Z",
+      "side": 1,
+      "message": "I am not sure whether it is a good idea - properties in parent section are prohibited for mvn \u003c 3.5. I suppose it will work on CI as there is version 3.5 installed but some devs can reach a problem here.",
+      "parentUuid": "e02a7d8d_289066d2",
+      "revId": "4398a4b46d59512169c5adb04877ce8dfd072abe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4167f97_5c80cc06",
         "filename": "pom.xml",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2019-07-16T07:08:06Z",
       "side": 1,
       "message": "version should be parameter.",
+      "revId": "4398a4b46d59512169c5adb04877ce8dfd072abe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8c3e988_0d878a6e",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 3663
+      },
+      "writtenOn": "2019-07-16T07:29:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4167f97_5c80cc06",
       "revId": "4398a4b46d59512169c5adb04877ce8dfd072abe",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
