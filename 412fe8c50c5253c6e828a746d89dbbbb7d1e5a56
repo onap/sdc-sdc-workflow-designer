@@ -34,6 +34,24 @@
       "revId": "412fe8c50c5253c6e828a746d89dbbbb7d1e5a56",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39f965d1_ac55b281",
+        "filename": "pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 3663
+      },
+      "writtenOn": "2019-07-16T09:18:23Z",
+      "side": 1,
+      "message": "As was mentioned - it wont compile even on jenkins job:\n\n09:09:32 [ERROR] [ERROR] Some problems were encountered while processing the POMs:\n09:09:32 [FATAL] Non-resolvable parent POM for org.onap.sdc.sdc-workflow-designer:workflow-designer-parent:1.5.0-SNAPSHOT: Could not transfer artifact org.onap.oparent:oparent:pom:${oparent.version} from/to ecomp-releases (${nexus.proxy}/content/repositories/releases/): Cannot access ${nexus.proxy}/content/repositories/releases/ with type default using the available connector factories: BasicRepositoryConnectorFactory and \u0027parent.relativePath\u0027 points at no local POM @ line 52, column 13\n09:09:32  @ \n09:09:32 [ERROR] The build could not read 1 project -\u003e [Help 1]\n09:09:32 [ERROR]   \n09:09:32 [ERROR]   The project org.onap.sdc.sdc-workflow-designer:workflow-designer-parent:1.5.0-SNAPSHOT (/w/workspace/sdc-sdc-workflow-designer-master-verify-java/pom.xml) has 1 error\n09:09:32 [ERROR]     Non-resolvable parent POM for org.onap.sdc.sdc-workflow-designer:workflow-designer-parent:1.5.0-SNAPSHOT: Could not transfer artifact org.onap.oparent:oparent:pom:${oparent.version} from/to ecomp-releases (${nexus.proxy}/content/repositories/releases/): Cannot access ${nexus.proxy}/content/repositories/releases/ with type default using the available connector factories: BasicRepositoryConnectorFactory and \u0027parent.relativePath\u0027 points at no local POM @ line 52, column 13: Cannot access ${nexus.proxy}/content/repositories/releases/ using the registered transporter factories: WagonTransporterFactory: Unsupported transport protocol -\u003e [Help 2]",
+      "parentUuid": "1de791df_c2aac5ab",
+      "revId": "412fe8c50c5253c6e828a746d89dbbbb7d1e5a56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
