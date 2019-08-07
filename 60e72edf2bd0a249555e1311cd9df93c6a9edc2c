@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b21dd647_957c3545",
+        "filename": "workflow-designer-be/docker/startup.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 653
+      },
+      "writtenOn": "2019-08-07T12:53:06Z",
+      "side": 1,
+      "message": "make sure default is true for SSL everywhere",
+      "range": {
+        "startLine": 3,
+        "startChar": 37,
+        "endLine": 3,
+        "endChar": 42
+      },
+      "revId": "60e72edf2bd0a249555e1311cd9df93c6a9edc2c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
