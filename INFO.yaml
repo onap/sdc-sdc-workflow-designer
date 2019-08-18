@@ -7,7 +7,7 @@ project_lead: &onap_releng_ptl
     email: 'ofir.sonsino@intl.att.com'
     company: 'ATT'
     id: 'os0695'
-    timezone: 'Israel/Lod'
+    timezone: 'Asia/Jerusalem'
 primary_contact: *onap_releng_ptl
 project_category: ''
 issue_tracking:
