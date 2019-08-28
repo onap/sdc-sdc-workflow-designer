@@ -22,10 +22,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.onap.sdc.workflow.api.types.dto.ArtifactDeliveriesRequestDto;
 import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
@@ -127,7 +127,7 @@ public class ArtifactAssociationService {
 
     private String getFormattedWorkflowArtifact(ArtifactEntity artifactEntity) throws IOException {
 
-        byte[] encodeBase64 = Base64.encodeBase64(IOUtils.toByteArray(artifactEntity.getArtifactData()));
+        byte[] encodeBase64 = Base64.getEncoder().encode(IOUtils.toByteArray(artifactEntity.getArtifactData()));
         String encodedPayloadData = new String(encodeBase64);
 
         Map<String, String> artifactInfo = new HashMap<>();
@@ -153,13 +153,13 @@ public class ArtifactAssociationService {
     private String calculateMD5Base64EncodedByString(String data) {
         String calculatedMd5 = md5Hex(data);
         // encode base-64 result
-        byte[] encodeBase64 = Base64.encodeBase64(calculatedMd5.getBytes());
+        byte[] encodeBase64 = Base64.getEncoder().encode(calculatedMd5.getBytes());
         return new String(encodeBase64);
     }
 
     private String createAuthorizationsHeaderValue(String username, String password) {
         String auth = username + ":" + password;
-        byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
+        byte[] encodedAuth = Base64.getEncoder().encode(auth.getBytes(Charset.forName("US-ASCII")));
         return "Basic " + new String(encodedAuth);
     }
 }
