@@ -23,7 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Profile("!dev")
+@Profile("!swagger")
 @RestController
 public class DisableSwaggerController {
     @RequestMapping("swagger-ui.html")
