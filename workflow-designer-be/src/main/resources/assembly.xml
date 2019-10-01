@@ -1,0 +1,23 @@
+<assembly
+        xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.1"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.1 http://maven.apache.org/xsd/assembly-1.1.1.xsd">
+    <id>sdc-wfd-be-files</id>
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <fileSets>
+        <fileSet>
+            <includes>
+                <include>${project.build.finalName}.jar</include>
+            </includes>
+            <directory>${project.build.directory}</directory>
+            <outputDirectory>/</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <includes>
+                <include>org.onap.sdc.p12</include>
+            </includes>
+            <directory>${project.basedir}/../workflow-designer-ui/docker</directory>
+            <outputDirectory>/etc/server-https-keystore</outputDirectory>
+        </fileSet>
+    </fileSets>
+</assembly>

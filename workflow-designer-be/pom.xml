@@ -188,8 +188,8 @@
                                         <from>openjdk:8-jdk-alpine</from>
                                         <user>root</user>
                                         <assembly>
-                                            <descriptorRef>artifact</descriptorRef>
                                             <targetDir>/</targetDir>
+                                            <descriptor>${project.basedir}/src/main/resources/assembly.xml</descriptor>
                                         </assembly>
                                         <entryPoint>
                                             java ${JAVA_OPTIONS} -jar /${project.build.finalName}.jar
