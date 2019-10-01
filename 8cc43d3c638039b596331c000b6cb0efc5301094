@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f916c1ce_cb47a87c",
+        "filename": "workflow-designer-ui/docker/Dockerfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2019-10-01T13:16:32Z",
+      "side": 1,
+      "message": "Ok, I\u0027ve checked it and mkdir is not needed, as COPY will precreate all necessary directories",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "8cc43d3c638039b596331c000b6cb0efc5301094",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad1eea3f_9de00ebf",
+        "filename": "workflow-designer-ui/docker/startup.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2019-10-01T13:16:32Z",
+      "side": 1,
+      "message": "Can we use default values instead? Something like:\n```\nx\u003d\"!ppJ.JvWn0hGh)oVF]([Kv)^\"\n# ...\njetty.sslContext.keyStorePassword\u003d\"${KEYSTORE_PASS:-$x}\"\n# ...\n```",
+      "range": {
+        "startLine": 12,
+        "startChar": 46,
+        "endLine": 15,
+        "endChar": 72
+      },
+      "revId": "8cc43d3c638039b596331c000b6cb0efc5301094",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
