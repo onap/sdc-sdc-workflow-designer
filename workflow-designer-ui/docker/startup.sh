@@ -7,12 +7,16 @@ if [ "$HTTPS_ENABLED" = "true" ]
 then
     echo "enable ssl"
     if [ -z "$KEYSTORE_PATH" ]; then
+
+        keystore_pass="!ppJ.JvWn0hGh)oVF]([Kv)^"
+        truststore_pass="].][xgtze]hBhz*wy]}m#lf*"
+
         java -jar "${JETTY_HOME}/start.jar" --add-to-start=https,ssl \
             jetty.sslContext.keyStorePath=$KEYSTORE_PATH \
-            jetty.sslContext.keyStorePassword=$KEYSTORE_PASSWORD \
+            jetty.sslContext.keyStorePassword=${KEYSTORE_PASS:-$keystore_pass} \
             jetty.sslContext.keyStoreType=$KEYSTORE_TYPE \
             jetty.sslContext.trustStorePath=$TRUSTSTORE_PATH \
-            jetty.sslContext.trustStorePassword=$TRUSTSTORE_PASSWORD \
+            jetty.sslContext.trustStorePassword=${TRUSTSTORE_PASS:-$truststore_pass} \
             jetty.sslContext.trustStoreType=$TRUSTSTORE_TYPE \
      else
          echo "Using jetty default SSL"
