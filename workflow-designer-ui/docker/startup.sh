@@ -9,10 +9,10 @@ then
     if [ -z "$KEYSTORE_PATH" ]; then
         java -jar "${JETTY_HOME}/start.jar" --add-to-start=https,ssl \
             jetty.sslContext.keyStorePath=$KEYSTORE_PATH \
-            jetty.sslContext.keyStorePassword=$KEYSTORE_PASSWORD \
+            jetty.sslContext.keyStorePassword=!ppJ.JvWn0hGh)oVF]([Kv)^ \
             jetty.sslContext.keyStoreType=$KEYSTORE_TYPE \
             jetty.sslContext.trustStorePath=$TRUSTSTORE_PATH \
-            jetty.sslContext.trustStorePassword=$TRUSTSTORE_PASSWORD \
+            jetty.sslContext.trustStorePassword=].][xgtze]hBhz*wy]}m#lf* \
             jetty.sslContext.trustStoreType=$TRUSTSTORE_TYPE \
      else
          echo "Using jetty default SSL"
