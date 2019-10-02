@@ -27,9 +27,9 @@
         because of a limitation of ONAP CI/CD infrastructure.
     -->
     <groupId>org.onap.sdc.sdc-workflow-designer</groupId>
-    <artifactId>workflow-designer-parent</artifactId>
+    <artifactId>sdc-workflow-designer-parent</artifactId>
     <name>sdc-sdc-workflow-designer</name>
-    <version>1.6.1-SNAPSHOT</version>
+    <version>1.7.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -60,9 +60,9 @@
     </parent>
 
     <modules>
-        <module>workflow-designer-init</module>
-        <module>workflow-designer-be</module>
-        <module>workflow-designer-ui</module>
+        <module>sdc-workflow-designer-init</module>
+        <module>sdc-workflow-designer-be</module>
+        <module>sdc-workflow-designer-ui</module>
     </modules>
 
     <build>

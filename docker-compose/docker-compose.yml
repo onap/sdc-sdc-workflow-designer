@@ -1,8 +1,8 @@
 version: '3'
 services:
-  
-  workflow-cassandra-init:
-    image: "${REGISTRY}onap/workflow-init:${IMAGE_TAG}"  
+
+  sdc-workflow-cassandra-init:
+    image: "${REGISTRY}onap/sdc-workflow-init:${IMAGE_TAG}"
     environment:
         - CS_HOST
         - CS_AUTHENTICATE
@@ -10,10 +10,10 @@ services:
         - CS_PASSWORD
         - CS_PORT=${CASSANDRA_INIT_PORT}
 
-  workflow-backend:
+  sdc-workflow-backend:
     depends_on:
-      - workflow-cassandra-init
-    image: "${REGISTRY}onap/workflow-backend:${IMAGE_TAG}"
+      - sdc-workflow-cassandra-init
+    image: "${REGISTRY}onap/sdc-workflow-backend:${IMAGE_TAG}"
     environment:
         - JAVA_OPTIONS
         - CS_HOSTS=${CS_HOST}
@@ -25,13 +25,13 @@ services:
         - SDC_USER
         - SDC_PASSWORD
 
-  workflow-frontend:
+  sdc-workflow-frontend:
     depends_on:
-      - workflow-cassandra-init
-      - workflow-backend
-    image: "${REGISTRY}onap/workflow-frontend:${IMAGE_TAG}"
+      - sdc-workflow-cassandra-init
+      - sdc-workflow-backend
+    image: "${REGISTRY}onap/sdc-workflow-frontend:${IMAGE_TAG}"
     ports:
         - "${FRONTEND_PORT}:8080"
     environment:
         - JAVA_OPTIONS
-        - BACKEND=http://workflow-backend:8080
+        - BACKEND=http://sdc-workflow-backend:8080

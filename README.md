@@ -46,7 +46,7 @@ An easy way to spin up a Cassandra instance is using a Cassandra Docker image as
 
 ### Example
 
-`docker run -d --name workflow-cassandra cassandra:2.1`
+`docker run -d --name sdc-workflow-cassandra cassandra:2.1`
 
 ## 2. Database Initialization
 
@@ -64,7 +64,7 @@ the *create_keyspaces.cql* file at the root of the initialization container usin
 creation statements to prevent accidental data loss.
 
 `docker run -ti -e CS_HOST=<cassandra-host> -e CS_PORT=<cassandra-port> -e CS_AUTHENTICATE=true/false
--e CS_USER=<cassandra-user> -e CS_PASSWORD=<cassandra-password> nexus3.onap.org:10001/onap/workflow-init:latest`
+-e CS_USER=<cassandra-user> -e CS_PASSWORD=<cassandra-password> nexus3.onap.org:10001/onap/sdc-workflow-init:latest`
 
 ### Environment Variables
 
@@ -84,14 +84,14 @@ assumed if this variable is not specified.
 Assuming you have created a dedicated Cassandra container as described in Database section, and the access to it is not
 protected with a password, the following command will initialize the database:
 
-`docker run -d --name workflow-init
--e CS_HOST=$(docker inspect workflow-cassandra --format={{.NetworkSettings.IPAddress}})
-nexus3.onap.org:10001/onap/workflow-init:latest`
+`docker run -d --name sdc-workflow-init
+-e CS_HOST=$(docker inspect sdc-workflow-cassandra --format={{.NetworkSettings.IPAddress}})
+nexus3.onap.org:10001/onap/sdc-workflow-init:latest`
 
 ### Troubleshooting
 
 In order to see if the Workflow Designer was successfully initialized, make sure the console does not contain error
-messages. You can also see the logs of the initialization container using `docker logs workflow-init` command.
+messages. You can also see the logs of the initialization container using `docker logs sdc-workflow-init` command.
 
 ## 3. Backend
 
@@ -99,10 +99,10 @@ messages. You can also see the logs of the initialization container using `docke
 -e SDC_PASSWORD=<sdc-password> -e CS_HOSTS=<cassandra-hosts> -e CS_PORT=<cassandra-port>
 -e CS_AUTHENTICATE=true/false -e CS_USER=<cassandra-user> -e CS_PASSWORD=<cassandra-password>
 -e CS_SSL_ENABLED=true/false --volume <cassandra-truststore-path_container>:<cassandra-truststore-path_local>
--e CS_TRUST_STORE_PATH=<cassandra-truststore-path_container> -e CS_TRUST_STORE_PASSWORD=<cassandra-truststore-password> 
--e SERVER_SSL_ENABLED=true/false -e SERVER_SSL_KEY_PASSWORD=<ssl_key_password> 
--e SERVER_SSL_KEYSTORE_PATH=<ssl_keystore_path> -e SERVER_SSL_KEYSTORE_TYPE=<ssl_keystore_type> 
--e JAVA_OPTIONS=<jvm-options> nexus3.onap.org:10001/onap/workflow-backend:latest`
+-e CS_TRUST_STORE_PATH=<cassandra-truststore-path_container> -e CS_TRUST_STORE_PASSWORD=<cassandra-truststore-password>
+-e SERVER_SSL_ENABLED=true/false -e SERVER_SSL_KEY_PASSWORD=<ssl_key_password>
+-e SERVER_SSL_KEYSTORE_PATH=<ssl_keystore_path> -e SERVER_SSL_KEYSTORE_TYPE=<ssl_keystore_type>
+-e JAVA_OPTIONS=<jvm-options> nexus3.onap.org:10001/onap/sdc-workflow-backend:latest`
 
 ### Environment Variables
 
@@ -149,26 +149,26 @@ assumed if this variable is not specified.
 Assuming you have a dedicated Cassandra container as described in Database section, and the access to it is not
 protected with a password. The following command will start a backend container without SSL support:
 
-`docker run -d --name workflow-backend -e SDC_PROTOCOL=http
+`docker run -d --name sdc-workflow-backend -e SDC_PROTOCOL=http
 -e SDC_ENDPOINT=$(docker inspect sdc-BE --format={{.NetworkSettings.IPAddress}}):8080
--e CS_HOSTS=$(docker inspect workflow-cassandra --format={{.NetworkSettings.IPAddress}})
+-e CS_HOSTS=$(docker inspect sdc-workflow-cassandra --format={{.NetworkSettings.IPAddress}})
 -e SDC_USER=workflow -e SDC_PASSWORD=<secret> -e JAVA_OPTIONS="-Xmx128m -Xms128m -Xss1m" -p 8184:8443
-nexus3.onap.org:10001/onap/workflow-backend:latest`
+nexus3.onap.org:10001/onap/sdc-workflow-backend:latest`
 
 ### Troubleshooting
 
 In order to verify that the Workflow Designer backend has started successfully, check the logs of the
-backend container. For example, by running `docker logs workflow-backend`. The logs must not contain any
+backend container. For example, by running `docker logs sdc-workflow-backend`. The logs must not contain any
 error messages.
 
 Application logs are located in the */var/log/ONAP/workflow-designer/backend* directory of a workflow backend
 container. For example, you can view the audit log by running
-`docker exec -ti workflow-backend less /var/log/ONAP/workflow-designer/backend/audit.log`.
+`docker exec -ti sdc-workflow-backend less /var/log/ONAP/workflow-designer/backend/audit.log`.
 
 ## 4. Frontend
 
 `docker run -d -e BACKEND=http://<backend-host>:<backend-port> -e JAVA_OPTIONS=<jvm-options>
-nexus3.onap.org:10001/onap/workflow-frontend:latest`
+nexus3.onap.org:10001/onap/sdc-workflow-frontend:latest`
 
 - BACKEND &mdash; root endpoint of the RESTful APIs exposed by a workflow backend server.
 
@@ -178,9 +178,9 @@ For SSL connectivity:
 
 - IS_HTTPS &mdash; flag to set if frontend accepts https connection from client. Default is false.
 
-- KEYSTORE_PATH 
+- KEYSTORE_PATH
 - KEYSTORE_PASS
-- TRUSTSTORE_PATH 
+- TRUSTSTORE_PATH
 - TRUSTSTORE_PASS
 
 If not set then Using jetty default SSL keys.
@@ -188,11 +188,11 @@ If not set then Using jetty default SSL keys.
 ### Example
 
 `docker run -d --name workflow-frontend
--e BACKEND=http://$(docker inspect workflow-backend --format={{.NetworkSettings.IPAddress}}):8443 -e IS_HTTPS=true 
+-e BACKEND=http://$(docker inspect sdc-workflow-backend --format={{.NetworkSettings.IPAddress}}):8443 -e IS_HTTPS=true 
 -e KEYSTORE_PATH="etc/org.onap.sdc.p12" -e KEYSTORE_PASS='!ppJ.JvWn0hGh)oVF]([Kv)^' 
 -e TRUSTSTORE_PATH="etc/org.onap.sdc.trust.jks" -e TRUSTSTORE_PASS="].][xgtze]hBhz*wy]}m#lf*" 
 -e JAVA_OPTIONS="-Xmx64m -Xms64m -Xss1m" -p 9088:8080 -p 8186:8443 
--e IS_HTTPS=true nexus3.onap.org:10001/onap/workflow-frontend:latest`
+-e IS_HTTPS=true nexus3.onap.org:10001/onap/sdc-workflow-frontend:latest`
 
 Notice that port 8080 of the frontend container has been
 [mapped]( https://docs.docker.com/config/containers/container-networking/#published-ports) to port 9088 of the host
@@ -203,7 +203,7 @@ To expose the https port 8443 of the container we have published in the example 
 ### Troubleshooting
 
 In order to check if the Workflow Designer frontend has successfully started, look at the logs of the
-frontend container. For example, by running `docker logs workflow-frontend`. The logs should not contain
+frontend container. For example, by running `docker logs sdc-workflow-frontend`. The logs should not contain
 error messages.
 
 Workflow frontend does not have backend logic, therefore there are no application logs.
@@ -269,13 +269,13 @@ service will continue to work with old data.
 
 For example, you can restart just the frontend by issuing the command:
 
-`docker-compose -p workflow restart workflow-frontend`
+`docker-compose -p workflow restart sdc-workflow-frontend`
 
 Keep in mind that changes to the _docker-compose.yml_ configuration or environment variables
 [will not be reflected](https://docs.docker.com/compose/reference/restart/) when using `restart`. For that, you will
 need to recreate the container (e.g. to change the image version):
 
-`docker-compose -p workflow up -d --no-deps workflow-frontend`
+`docker-compose -p workflow up -d --no-deps sdc-workflow-frontend`
 
 For more advanced features and commands, please refer to
 [Docker Compose documentation](https://docs.docker.com/compose/).
