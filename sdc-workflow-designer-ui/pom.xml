@@ -21,20 +21,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>workflow-designer-ui</artifactId>
+    <artifactId>sdc-workflow-designer-ui</artifactId>
     <packaging>war</packaging>
 
     <parent>
         <groupId>org.onap.sdc.sdc-workflow-designer</groupId>
-        <artifactId>workflow-designer-parent</artifactId>
+        <artifactId>sdc-workflow-designer-parent</artifactId>
         <version>1.6.1-SNAPSHOT</version>
     </parent>
 
-    <properties>        
+    <properties>
         <jest.command />
     </properties>
 
-    
+
     <dependencies>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
@@ -99,7 +99,7 @@
                             <yarnInheritsProxyConfigFromMaven>false</yarnInheritsProxyConfigFromMaven>
                             <arguments>test-build ${jest.command}</arguments>
                             <skip>${skipTests}</skip>
-                        </configuration>                       
+                        </configuration>
                         <phase>test</phase>
                     </execution>
                 </executions>
@@ -113,7 +113,7 @@
                         <resource>
                             <directory>src/main/frontend/dist</directory>
                             <includes>
-                                <include>*.*</include>                                
+                                <include>*.*</include>
                             </includes>
                         </resource>
                         <resource>
@@ -175,7 +175,7 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <name>onap/workflow-frontend</name>
+                                    <name>onap/sdc-workflow-frontend</name>
                                     <build>
                                         <tags>
                                             <tag>${project.version}</tag>

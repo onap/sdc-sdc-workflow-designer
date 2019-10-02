@@ -14,5 +14,4 @@ test1.json
 bpmnworkflow.bpmn20.xml
 dist
 *.log
-.idea/
-*.iml
+*.war
