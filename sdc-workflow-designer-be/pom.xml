@@ -5,11 +5,11 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>workflow-designer-be</artifactId>
+    <artifactId>sdc-workflow-designer-be</artifactId>
 
     <parent>
         <groupId>org.onap.sdc.sdc-workflow-designer</groupId>
-        <artifactId>workflow-designer-parent</artifactId>
+        <artifactId>sdc-workflow-designer-parent</artifactId>
         <version>1.6.1-SNAPSHOT</version>
     </parent>
 
@@ -220,7 +220,7 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <name>onap/workflow-backend</name>
+                                    <name>onap/sdc-workflow-backend</name>
                                     <build>
                                         <tags>
                                             <tag>${project.version}</tag>

@@ -4,12 +4,12 @@
         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>workflow-designer-init</artifactId>
+    <artifactId>sdc-workflow-designer-init</artifactId>
     <packaging>pom</packaging>
 
     <parent>
         <groupId>org.onap.sdc.sdc-workflow-designer</groupId>
-        <artifactId>workflow-designer-parent</artifactId>
+        <artifactId>sdc-workflow-designer-parent</artifactId>
         <version>1.6.1-SNAPSHOT</version>
     </parent>
 
@@ -27,7 +27,7 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <name>onap/workflow-init</name>
+                                    <name>onap/sdc-workflow-init</name>
                                     <build>
                                         <tags>
                                             <tag>${project.version}</tag>
