@@ -1,0 +1,8 @@
+Code-Review+1: Konrad Banka <k.banka@samsung.com>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: Ofir Sonsino <ofir.sonsino@intl.att.com>
+Submitted-by: Ofir Sonsino <ofir.sonsino@intl.att.com>
+Submitted-at: Mon, 07 Oct 2019 14:40:06 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/sdc/sdc-workflow-designer/+/96667
+Project: sdc/sdc-workflow-designer
+Branch: refs/heads/master
