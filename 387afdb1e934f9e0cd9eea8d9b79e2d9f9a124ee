@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e2060e2_d206eeb7",
+        "filename": "workflow-designer-ui/docker/startup.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2019-10-07T12:52:00Z",
+      "side": 1,
+      "message": "Although I do like splitting `then` to other line than `if` is, it\u0027s generally agreed good practice to put them both in the single line. Example rationale from google\u0027s styling guide: https://google.github.io/styleguide/shell.xml?showone\u003dLoops#Loops",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 8
+      },
+      "revId": "387afdb1e934f9e0cd9eea8d9b79e2d9f9a124ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "914b1742_0ecf35f4",
+        "filename": "workflow-designer-ui/docker/startup.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5550
+      },
+      "writtenOn": "2019-10-07T12:52:00Z",
+      "side": 1,
+      "message": "Please remove this backslash not to repeat error that was present in previous version of this script",
+      "range": {
+        "startLine": 18,
+        "startChar": 84,
+        "endLine": 18,
+        "endChar": 86
+      },
+      "revId": "387afdb1e934f9e0cd9eea8d9b79e2d9f9a124ee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
