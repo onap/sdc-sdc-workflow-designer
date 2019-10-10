@@ -1,0 +1,7 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: Piotr Darosz <piotr.darosz@nokia.com>
+Submitted-by: Piotr Darosz <piotr.darosz@nokia.com>
+Submitted-at: Thu, 10 Oct 2019 08:01:29 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/sdc/sdc-workflow-designer/+/96686
+Project: sdc/sdc-workflow-designer
+Branch: refs/heads/master
