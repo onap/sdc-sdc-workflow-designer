@@ -5,14 +5,13 @@
          version="4.0">
 
     <servlet>
-        <servlet-name>Transparent Proxy</servlet-name>
-        <servlet-class>org.onap.workflow.web.TransparentProxy</servlet-class>
+        <servlet-name>Backend Proxy</servlet-name>
+        <servlet-class>org.onap.workflow.web.SSLProxyServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
         <async-supported>true</async-supported>
     </servlet>
-
     <servlet-mapping>
-        <servlet-name>Transparent Proxy</servlet-name>
+        <servlet-name>Backend Proxy</servlet-name>
         <url-pattern>/wf/*</url-pattern>
         <url-pattern>/v1.0/activity-spec/*</url-pattern>
     </servlet-mapping>
