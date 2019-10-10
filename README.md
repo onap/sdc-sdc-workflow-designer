@@ -152,7 +152,7 @@ protected with a password. The following command will start a backend container 
 `docker run -d --name workflow-backend -e SDC_PROTOCOL=http
 -e SDC_ENDPOINT=$(docker inspect sdc-BE --format={{.NetworkSettings.IPAddress}}):8080
 -e CS_HOSTS=$(docker inspect workflow-cassandra --format={{.NetworkSettings.IPAddress}})
--e SDC_USER=workflow -e SDC_PASSWORD=<secret> -e JAVA_OPTIONS="-Xmx128m -Xms128m -Xss1m"
+-e SDC_USER=workflow -e SDC_PASSWORD=<secret> -e JAVA_OPTIONS="-Xmx128m -Xms128m -Xss1m" -p 8184:8443
 nexus3.onap.org:10001/onap/workflow-backend:latest`
 
 ### Troubleshooting
@@ -179,19 +179,20 @@ For SSL connectivity:
 - IS_HTTPS &mdash; flag to set if frontend accepts https connection from client. Default is false.
 
 - KEYSTORE_PATH 
-- KEYSTORE_PASSWORD 
-- KEYSTORE_TYPE
+- KEYSTORE_PASS
 - TRUSTSTORE_PATH 
-- TRUSTSTORE_PASSWORD
-- TRUSTSTORE_TYPE
+- TRUSTSTORE_PASS
 
 If not set then Using jetty default SSL keys.
 
 ### Example
 
 `docker run -d --name workflow-frontend
--e BACKEND=http://$(docker inspect workflow-backend --format={{.NetworkSettings.IPAddress}}):8080
--e JAVA_OPTIONS="-Xmx64m -Xms64m -Xss1m" -p 9088:8080 -p 8186:8443 -e IS_HTTPS=true nexus3.onap.org:10001/onap/workflow-frontend:latest`
+-e BACKEND=http://$(docker inspect workflow-backend --format={{.NetworkSettings.IPAddress}}):8443 -e IS_HTTPS=true 
+-e KEYSTORE_PATH="etc/org.onap.sdc.p12" -e KEYSTORE_PASS='!ppJ.JvWn0hGh)oVF]([Kv)^' 
+-e TRUSTSTORE_PATH="etc/org.onap.sdc.trust.jks" -e TRUSTSTORE_PASS="].][xgtze]hBhz*wy]}m#lf*" 
+-e JAVA_OPTIONS="-Xmx64m -Xms64m -Xss1m" -p 9088:8080 -p 8186:8443 
+-e IS_HTTPS=true nexus3.onap.org:10001/onap/workflow-frontend:latest`
 
 Notice that port 8080 of the frontend container has been
 [mapped]( https://docs.docker.com/config/containers/container-networking/#published-ports) to port 9088 of the host
@@ -323,13 +324,13 @@ corresponding section of *plugins-configuration.yaml* will look like below:
 ```
 
 - pluginId: WORKFLOW
-     pluginDiscoveryUrl: "http://workflow.example.com:9088/ping"
-     pluginSourceUrl: "http://workflow.example.com:9088"
-     pluginStateUrl: "workflowDesigner"
-     pluginDisplayOptions:
-        tab:
-            displayName: "WORKFLOW"
-            displayRoles: ["DESIGNER", "TESTER"]
+  pluginDiscoveryUrl: "http://workflow.example.com:9088/ping"
+  pluginSourceUrl: "http://workflow.example.com:9088"
+  pluginStateUrl: "workflowDesigner"
+  pluginDisplayOptions:
+    tab:
+      displayName: "WORKFLOW"
+      displayRoles: ["DESIGNER", "TESTER"]
 
 ```
 
