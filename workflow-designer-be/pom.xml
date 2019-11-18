@@ -93,6 +93,10 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>${mapstruct.version}</version>
@@ -189,6 +193,28 @@
             <build>
                 <plugins>
                     <plugin>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <version>2.6</version>
+                        <executions>
+                            <execution>
+                                <id>copy-resources-docker</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${basedir}/docker</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>${project.build.directory}</directory>
+                                            <include>${project.build.finalName}.jar</include>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
                         <groupId>io.fabric8</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
                         <configuration>
@@ -199,15 +225,10 @@
                                         <tags>
                                             <tag>${project.version}</tag>
                                         </tags>
-                                        <from>openjdk:8-jdk-alpine</from>
-                                        <user>root</user>
-                                        <assembly>
-                                            <descriptorRef>artifact</descriptorRef>
-                                            <targetDir>/</targetDir>
-                                        </assembly>
-                                        <entryPoint>
-                                            java ${JAVA_OPTIONS} -jar /${project.build.finalName}.jar
-                                        </entryPoint>
+                                        <dockerFileDir>${project.basedir}/docker</dockerFileDir>
+                                        <args>
+                                            <ARTIFACT>${project.build.finalName}.jar</ARTIFACT>
+                                        </args>
                                     </build>
                                 </image>
                             </images>
