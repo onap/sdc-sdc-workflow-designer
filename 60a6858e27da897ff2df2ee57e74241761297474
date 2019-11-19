@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5121f1a2_f83bc2df",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/ArtifactAssociationService.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 2119
+      },
+      "writtenOn": "2019-11-19T12:45:32Z",
+      "side": 1,
+      "message": "must be in try resource block",
+      "revId": "60a6858e27da897ff2df2ee57e74241761297474",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bce4eb1_7cff41cc",
+        "filename": "workflow-designer-be/src/main/java/org/onap/sdc/workflow/api/ArtifactAssociationService.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 2119
+      },
+      "writtenOn": "2019-11-19T12:45:32Z",
+      "side": 1,
+      "message": "log the exception too",
+      "revId": "60a6858e27da897ff2df2ee57e74241761297474",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
