@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d5aeccf_302a4edc",
+        "filename": "INFO.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 653
+      },
+      "writtenOn": "2019-11-19T15:01:40Z",
+      "side": 1,
+      "message": "It\u0027s already in line 104",
+      "range": {
+        "startLine": 116,
+        "startChar": 13,
+        "endLine": 118,
+        "endChar": 31
+      },
+      "revId": "2aa6c4fda2104b302873a578f201a644678f8507",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
