@@ -14,8 +14,8 @@
     </parent>
 
     <properties>
-        <spring.boot.version>2.1.0.RELEASE</spring.boot.version>
-        <mapstruct.version>1.2.0.Final</mapstruct.version>
+        <spring.boot.version>2.1.5.RELEASE</spring.boot.version>
+        <mapstruct.version>1.3.1.Final</mapstruct.version>
         <lombok.version>1.18.0</lombok.version>
         <springfox.version>2.8.0</springfox.version>
     </properties>
@@ -73,11 +73,6 @@
         </dependency>
         <dependency>
             <groupId>org.openecomp.sdc</groupId>
-            <artifactId>openecomp-sdc-versioning-api</artifactId>
-            <version>${onap.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openecomp.sdc</groupId>
             <artifactId>openecomp-sdc-logging-api</artifactId>
             <version>${onap.version}</version>
         </dependency>
@@ -96,29 +91,6 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.openecomp.sdc</groupId>
-            <artifactId>openecomp-sdc-versioning-core</artifactId>
-            <version>${onap.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.openecomp.sdc.core</groupId>
-            <artifactId>openecomp-zusammen-api</artifactId>
-            <version>${onap.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openecomp.sdc.core</groupId>
-            <artifactId>openecomp-zusammen-core</artifactId>
-            <version>${onap.version}</version>
-            <scope>runtime</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>javax.servlet-api</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -141,6 +113,48 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+            <version>1.3</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.9</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.sdc.sdc-be-common</groupId>
+            <artifactId>session-lib</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.sdc.sdc-be-common</groupId>
+            <artifactId>versioning-lib</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-data-cassandra</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.sdc.sdc-be-common</groupId>
+            <artifactId>zusammen-lib</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-data-cassandra</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 

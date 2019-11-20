@@ -17,8 +17,12 @@
 package org.onap.sdc.workflow.services.impl;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
+import static org.onap.sdc.workflow.TestUtil.createRetrievedVersion;
 import static org.onap.sdc.workflow.services.ActivitySpecConstant.ACTIVITY_SPEC_NOT_FOUND;
 import static org.onap.sdc.workflow.services.ActivitySpecConstant.VERSION_ID_DEFAULT_VALUE;
 
@@ -35,6 +39,14 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+import org.onap.sdc.common.versioning.persistence.types.InternalItem;
+import org.onap.sdc.common.versioning.persistence.types.InternalVersion;
+import org.onap.sdc.common.versioning.services.ItemManager;
+import org.onap.sdc.common.versioning.services.VersioningManager;
+import org.onap.sdc.common.versioning.services.types.Item;
+import org.onap.sdc.common.versioning.services.types.Version;
+import org.onap.sdc.common.versioning.services.types.VersionCreationMethod;
+import org.onap.sdc.common.versioning.services.types.VersionStatus;
 import org.onap.sdc.workflow.api.types.activityspec.ActivitySpecAction;
 import org.onap.sdc.workflow.persistence.ActivitySpecRepository;
 import org.onap.sdc.workflow.persistence.types.ActivitySpecEntity;
@@ -43,19 +55,13 @@ import org.onap.sdc.workflow.services.UniqueValueService;
 import org.onap.sdc.workflow.services.exceptions.EntityNotFoundException;
 import org.onap.sdc.workflow.services.exceptions.VersionStatusModificationException;
 import org.onap.sdc.workflow.services.impl.mappers.ActivitySpecMapper;
-import org.openecomp.sdc.common.errors.SdcRuntimeException;
-import org.openecomp.sdc.versioning.ItemManager;
-import org.openecomp.sdc.versioning.VersioningManager;
-import org.openecomp.sdc.versioning.dao.types.Version;
-import org.openecomp.sdc.versioning.dao.types.VersionStatus;
-import org.openecomp.sdc.versioning.types.Item;
 
 public class ActivitySpecManagerImplTest {
 
     private static final String STRING_TYPE = "String";
     private static final String TEST_ERROR_MSG = "Test Error";
     private static final String ID = "ID1";
-    private Version version01 = new Version("12345");
+    private String version01 = "12345";
     private ActivitySpecEntity input;
 
     @Spy
@@ -87,7 +93,7 @@ public class ActivitySpecManagerImplTest {
         ActivitySpecEntity activitySpecToCreate = new ActivitySpecEntity();
         activitySpecToCreate.setName("startserver");
         activitySpecToCreate.setDescription("start the server");
-        activitySpecToCreate.setVersion(version01);
+        activitySpecToCreate.setVersionId(version01);
 
         List<String> categoryList = new ArrayList<>();
         categoryList.add("category1");
@@ -109,17 +115,21 @@ public class ActivitySpecManagerImplTest {
         outputs.add(outputParams);
         activitySpecToCreate.setOutputs(outputs);
 
-        activitySpecToCreate.setId("ID1");
-        activitySpecToCreate.setVersion(version01);
+        activitySpecToCreate.setVersionId(version01);
 
-        Item mappedItem = new Item();
-        doReturn(mappedItem).when(activitySpecMapperMock).activitySpecToItem(activitySpecToCreate);
-        doReturn(new Item()).when(itemManagerMock).create(mappedItem);
+        String itemId = "ID1";
+
+        InternalItem createdItem = new InternalItem();
+        createdItem.setId(itemId);
+        doReturn(createdItem).when(itemManagerMock).create(any());
+
+        doReturn(createRetrievedVersion(version01, VersionStatus.Draft)).when(versionManagerMock)
+                .create(eq(itemId), isNull(), any(Version.class), eq(VersionCreationMethod.major));
 
         ActivitySpecEntity activitySpec = activitySpecManager.createActivitySpec(activitySpecToCreate);
 
         Assert.assertNotNull(activitySpec);
-        activitySpec.setId("ID1");
+        activitySpec.setId(itemId);
         activitySpec.setStatus(VersionStatus.Draft.name());
         assertActivitySpecEquals(activitySpec, activitySpecToCreate);
     }
@@ -136,7 +146,6 @@ public class ActivitySpecManagerImplTest {
     @Test
     public void testList() {
         Item item = new Item();
-        item.setId(ID);
         doReturn(Collections.singletonList(item)).when(itemManagerMock).list(any());
         doReturn(new ActivitySpecEntity(ID, null)).when(activitySpecMapperMock).itemToActivitySpec(item);
 
@@ -161,35 +170,33 @@ public class ActivitySpecManagerImplTest {
     public void testGet() {
         input = new ActivitySpecEntity();
         input.setId(ID);
-        input.setVersion(version01);
+        input.setVersionId(version01);
 
         mockListVersions();
         doReturn(input).when(activitySpecRepositoryMock).get(any());
-        version01.setStatus(VersionStatus.Draft);
-        doReturn(version01).when(versionManagerMock).get(any(), any());
+        doReturn(createRetrievedVersion(version01,VersionStatus.Draft)).when(versionManagerMock).get(any(), any());
         ActivitySpecEntity retrieved = activitySpecManager.get(input);
         assertActivitySpecEquals(retrieved, input);
         Assert.assertEquals(retrieved.getStatus(), VersionStatus.Draft.name());
 
 
-        input.setVersion(new Version(VERSION_ID_DEFAULT_VALUE));
         retrieved = activitySpecManager.get(input);
         assertActivitySpecEquals(retrieved, input);
         Assert.assertEquals(retrieved.getStatus(), VersionStatus.Draft.name());
     }
 
     private void mockListVersions() {
-        doReturn(Collections.singletonList(version01)).when(versionManagerMock).list(any());
+        doReturn(Collections.singletonList((Version)createRetrievedVersion(version01,VersionStatus.Draft))).when(versionManagerMock).list(any());
     }
 
     @Test
     public void testGetActivitySpecDaoFail() {
         input = new ActivitySpecEntity();
         input.setId(ID);
-        input.setVersion(version01);
+        input.setVersionId(version01);
         mockListVersions();
         doReturn(input).when(activitySpecRepositoryMock).get(any());
-        Mockito.doThrow(new SdcRuntimeException(TEST_ERROR_MSG)).when(activitySpecRepositoryMock).get(any());
+        Mockito.doThrow(new RuntimeException(TEST_ERROR_MSG)).when(activitySpecRepositoryMock).get(any());
         try {
             activitySpecManager.get(input);
             Assert.fail();
@@ -202,9 +209,8 @@ public class ActivitySpecManagerImplTest {
     public void testListVersionFail() {
         input = new ActivitySpecEntity();
         input.setId(ID);
-        input.setVersion(version01);
-        input.getVersion().setId(VERSION_ID_DEFAULT_VALUE);
-        Mockito.doThrow(new SdcRuntimeException(TEST_ERROR_MSG)).when(versionManagerMock).list(any());
+        input.setVersionId(VERSION_ID_DEFAULT_VALUE);
+        Mockito.doThrow(new RuntimeException(TEST_ERROR_MSG)).when(versionManagerMock).list(any());
         try {
             activitySpecManager.get(input);
             Assert.fail();
@@ -215,8 +221,7 @@ public class ActivitySpecManagerImplTest {
 
     @Test(expected = VersionStatusModificationException.class)
     public void testInvalidDeprecate() {
-        Version version = new Version(version01.getId());
-        version.setStatus(VersionStatus.Draft);
+        InternalVersion version = createRetrievedVersion(version01, VersionStatus.Draft);
         doReturn(version).when(versionManagerMock).get(ID, version01);
         activitySpecManager.actOnAction(new ActivitySpecEntity(ID, version01), ActivitySpecAction.DEPRECATE);
     }
@@ -228,8 +233,7 @@ public class ActivitySpecManagerImplTest {
     }
 
     private void mockCertifiedVersion() {
-        Version version = new Version(version01.getId());
-        version.setStatus(VersionStatus.Certified);
+        InternalVersion version = createRetrievedVersion(version01, VersionStatus.Certified);
         doReturn(version).when(versionManagerMock).get(ID, version01);
     }
 
@@ -241,22 +245,18 @@ public class ActivitySpecManagerImplTest {
 
     @Test
     public void testCertify() {
-        Version retrievedVersion = new Version(version01.getId());
-        retrievedVersion.setStatus(VersionStatus.Draft);
+        InternalVersion retrievedVersion = createRetrievedVersion(version01, VersionStatus.Draft);
         doReturn(Collections.singletonList(retrievedVersion)).when(versionManagerMock).list(any());
         doReturn(retrievedVersion).when(versionManagerMock).get(any(), any());
 
         activitySpecManager.actOnAction(new ActivitySpecEntity(ID, version01), ActivitySpecAction.CERTIFY);
 
-        verify(versionManagerMock).updateVersion(ID, retrievedVersion);
-        verify(itemManagerMock).updateVersionStatus(ID, VersionStatus.Certified, VersionStatus.Draft);
-        verify(versionManagerMock).publish(ID, retrievedVersion, "actionOnActivitySpec :CERTIFY");
+        verify(versionManagerMock).updateStatus(eq(ID), eq(version01), eq(VersionStatus.Certified), anyString());
     }
 
     @Test
     public void testGetVersionFailOnStatusChangeAction() {
         mockListVersions();
-        Mockito.doThrow(new SdcRuntimeException(TEST_ERROR_MSG)).when(versionManagerMock).get(any(), any());
         try {
             activitySpecManager.actOnAction(new ActivitySpecEntity(ID, version01), ActivitySpecAction.CERTIFY);
             Assert.fail();
@@ -267,35 +267,27 @@ public class ActivitySpecManagerImplTest {
 
     @Test
     public void testDeprecate() {
-        version01.setStatus(VersionStatus.Certified);
-        Version retrivedVersion = new Version("12");
-        retrivedVersion.setStatus(VersionStatus.Certified);
+        InternalVersion retrievedVersion = createRetrievedVersion(version01, VersionStatus.Certified);
         mockListVersions();
-        doReturn(retrivedVersion).when(versionManagerMock).get(any(), any());
-        activitySpecManager.actOnAction(new ActivitySpecEntity(ID, new Version(VERSION_ID_DEFAULT_VALUE)), ActivitySpecAction.DEPRECATE);
+        doReturn(retrievedVersion).when(versionManagerMock).get(any(), any());
+        activitySpecManager
+                .actOnAction(new ActivitySpecEntity(ID, VERSION_ID_DEFAULT_VALUE), ActivitySpecAction.DEPRECATE);
 
-        verify(versionManagerMock).updateVersion(ID, retrivedVersion);
-        verify(itemManagerMock).updateVersionStatus(ID, VersionStatus.Deprecated, VersionStatus.Certified);
-        verify(versionManagerMock).publish(any(), any(), any());
+        verify(versionManagerMock).updateStatus(eq(ID), eq(version01), eq(VersionStatus.Deprecated), anyString());
     }
 
     @Test
     public void testDelete() {
         ActivitySpecEntity activitySpec = new ActivitySpecEntity();
-        version01.setStatus(VersionStatus.Deprecated);
         activitySpec.setName("stopServer");
-        activitySpec.setVersion(version01);
-
-        Version retrivedVersion = new Version("12");
-        retrivedVersion.setStatus(VersionStatus.Deprecated);
+        activitySpec.setVersionId(version01);
 
         mockListVersions();
-        doReturn(retrivedVersion).when(versionManagerMock).get(any(), any());
+        doReturn(createRetrievedVersion(version01, VersionStatus.Deprecated)).when(versionManagerMock).get(any(), any());
         doReturn(activitySpec).when(activitySpecRepositoryMock).get(any());
-        activitySpecManager.actOnAction(new ActivitySpecEntity(ID, new Version(VERSION_ID_DEFAULT_VALUE)), ActivitySpecAction.DELETE);
+        activitySpecManager
+                .actOnAction(new ActivitySpecEntity(ID, VERSION_ID_DEFAULT_VALUE), ActivitySpecAction.DELETE);
 
-        verify(versionManagerMock).updateVersion(ID, version01);
-        verify(itemManagerMock).updateVersionStatus(ID, VersionStatus.Deleted, VersionStatus.Deprecated);
-        verify(versionManagerMock).publish(any(), any(), any());
+        verify(versionManagerMock).updateStatus(eq(ID), eq(version01), eq(VersionStatus.Deleted), anyString());
     }
 }

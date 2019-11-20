@@ -27,28 +27,27 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import org.onap.sdc.common.versioning.services.ItemManager;
+import org.onap.sdc.common.versioning.services.types.Item;
+import org.onap.sdc.common.versioning.services.types.ItemStatus;
+import org.onap.sdc.common.versioning.services.types.VersionStatus;
 import org.onap.sdc.workflow.services.UniqueValueService;
 import org.onap.sdc.workflow.services.WorkflowManager;
 import org.onap.sdc.workflow.services.exceptions.EntityNotFoundException;
 import org.onap.sdc.workflow.services.exceptions.WorkflowModificationException;
-import org.onap.sdc.workflow.services.exceptions.WorkflowStatusModificationException;
+import org.onap.sdc.workflow.services.impl.mappers.ArchivingStatusMapper;
 import org.onap.sdc.workflow.services.impl.mappers.VersionStateMapper;
 import org.onap.sdc.workflow.services.impl.mappers.WorkflowMapper;
+import org.onap.sdc.workflow.services.types.ArchivingStatus;
 import org.onap.sdc.workflow.services.types.Page;
 import org.onap.sdc.workflow.services.types.PagingRequest;
 import org.onap.sdc.workflow.services.types.RequestSpec;
 import org.onap.sdc.workflow.services.types.Sort;
 import org.onap.sdc.workflow.services.types.SortingRequest;
 import org.onap.sdc.workflow.services.types.Workflow;
-import org.onap.sdc.workflow.services.types.ArchivingStatus;
 import org.onap.sdc.workflow.services.types.WorkflowVersionState;
-import org.openecomp.sdc.common.errors.CoreException;
 import org.openecomp.sdc.logging.api.Logger;
 import org.openecomp.sdc.logging.api.LoggerFactory;
-import org.openecomp.sdc.versioning.ItemManager;
-import org.openecomp.sdc.versioning.dao.types.VersionStatus;
-import org.openecomp.sdc.versioning.types.Item;
-import org.openecomp.sdc.versioning.types.ItemStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -69,15 +68,17 @@ public class WorkflowManagerImpl implements WorkflowManager {
     private final ItemManager itemManager;
     private final UniqueValueService uniqueValueService;
     private final WorkflowMapper workflowMapper;
+    private final ArchivingStatusMapper archivingStatusMapper;
     private final VersionStateMapper versionStateMapper;
 
     @Autowired
     public WorkflowManagerImpl(ItemManager itemManager,
             @Qualifier("uniqueValueService") UniqueValueService uniqueValueService, WorkflowMapper workflowMapper,
-            VersionStateMapper versionStateMapper) {
+            ArchivingStatusMapper archivingStatusMapper, VersionStateMapper versionStateMapper) {
         this.itemManager = itemManager;
         this.uniqueValueService = uniqueValueService;
         this.workflowMapper = workflowMapper;
+        this.archivingStatusMapper = archivingStatusMapper;
         this.versionStateMapper = versionStateMapper;
     }
 
@@ -89,11 +90,10 @@ public class WorkflowManagerImpl implements WorkflowManager {
         Collection<Item> workflowItems =
                 itemManager.list(createFilter(statusFilter, searchNameFilter, versionStatesFilter));
 
-        List<Workflow> workflowsSlice = workflowItems.stream().map(workflowMapper::itemToWorkflow)
-                                                     .sorted(getWorkflowComparator(requestSpec.getSorting()))
-                                                     .skip(requestSpec.getPaging().getOffset())
-                                                     .limit(requestSpec.getPaging().getLimit())
-                                                     .collect(Collectors.toList());
+        List<Workflow> workflowsSlice = workflowItems.stream().map(workflowMapper::fromItem)
+                                                .sorted(getWorkflowComparator(requestSpec.getSorting()))
+                                                .skip(requestSpec.getPaging().getOffset())
+                                                .limit(requestSpec.getPaging().getLimit()).collect(Collectors.toList());
 
         return new Page<>(workflowsSlice, requestSpec.getPaging(), workflowItems.size());
     }
@@ -104,56 +104,41 @@ public class WorkflowManagerImpl implements WorkflowManager {
         if (retrievedItem == null) {
             throw new EntityNotFoundException(String.format(WORKFLOW_NOT_FOUND_ERROR_MSG, workflow.getId()));
         }
-        return this.workflowMapper.itemToWorkflow(retrievedItem);
+        return this.workflowMapper.fromItem(retrievedItem);
     }
 
     @Override
     public Workflow create(Workflow workflow) {
-        Item item = workflowMapper.workflowToItem(workflow);
-        item.setStatus(ItemStatus.ACTIVE);
+        Item item = new Item();
+        workflowMapper.toItem(workflow, item);
 
         uniqueValueService.validateUniqueValue(WORKFLOW_NAME_UNIQUE_TYPE, workflow.getName());
         Item createdItem = itemManager.create(item);
         uniqueValueService.createUniqueValue(WORKFLOW_NAME_UNIQUE_TYPE, workflow.getName());
 
-        return workflowMapper.itemToWorkflow(createdItem);
+        return workflowMapper.fromItem(createdItem);
     }
 
     @Override
     public void update(Workflow workflow) {
-        Item retrievedItem = itemManager.get(workflow.getId());
-        if (retrievedItem == null) {
+        Item item = itemManager.get(workflow.getId());
+        if (item == null) {
             throw new EntityNotFoundException(String.format(WORKFLOW_NOT_FOUND_ERROR_MSG, workflow.getId()));
         }
 
-        if (ItemStatus.ARCHIVED.equals(retrievedItem.getStatus())) {
+        if (ItemStatus.ARCHIVED.equals(item.getStatus())) {
             throw new WorkflowModificationException(workflow.getId());
         }
 
-        uniqueValueService.updateUniqueValue(WORKFLOW_NAME_UNIQUE_TYPE, retrievedItem.getName(), workflow.getName());
+        uniqueValueService.updateUniqueValue(WORKFLOW_NAME_UNIQUE_TYPE, item.getName(), workflow.getName());
 
-        Item item = workflowMapper.workflowToItem(workflow);
-        item.setId(workflow.getId());
-        item.setStatus(retrievedItem.getStatus());
-        item.setVersionStatusCounters(retrievedItem.getVersionStatusCounters());
-        itemManager.update(item);
+        workflowMapper.toItem(workflow, item);
+        itemManager.update(workflow.getId(), item);
     }
 
     @Override
     public void updateStatus(String workflowId, ArchivingStatus status) {
-        Item item = itemManager.get(workflowId);
-        if (item == null) {
-            throw new EntityNotFoundException(String.format(WORKFLOW_NOT_FOUND_ERROR_MSG, workflowId));
-        }
-        try {
-            if (ArchivingStatus.ARCHIVED.equals(status)) {
-                itemManager.archive(item);
-            } else if (ArchivingStatus.ACTIVE.equals(status)) {
-                itemManager.restore(item);
-            }
-        } catch (CoreException ex) {
-            throw new WorkflowStatusModificationException(ex);
-        }
+        itemManager.updateStatus(workflowId, archivingStatusMapper.toItemStatus(status));
     }
 
     private static RequestSpec getRequestSpec(RequestSpec requestSpec) {
@@ -184,8 +169,8 @@ public class WorkflowManagerImpl implements WorkflowManager {
 
     private static Comparator<Workflow> getWorkflowComparator(SortingRequest sorting) {
         Boolean byNameAscending = sorting.getSorts().stream()
-                                         .filter(sort -> WORKSPACES_SORT_PROPERTY.equalsIgnoreCase(sort.getProperty()))
-                                         .findFirst().map(Sort::isAscendingOrder).orElse(true);
+                                          .filter(sort -> WORKSPACES_SORT_PROPERTY.equalsIgnoreCase(sort.getProperty()))
+                                          .findFirst().map(Sort::isAscendingOrder).orElse(true);
         Comparator<Workflow> byName = Comparator.comparing(Workflow::getName);
 
         return byNameAscending ? byName : byName.reversed();
@@ -209,12 +194,12 @@ public class WorkflowManagerImpl implements WorkflowManager {
 
     private static Predicate<Item> addSearchNameFilter(Predicate<Item> filter, String searchNameFilter) {
         return filter.and(item -> searchNameFilter == null || item.getName().toLowerCase()
-                                                                  .contains(searchNameFilter.toLowerCase()));
+                                                                      .contains(searchNameFilter.toLowerCase()));
     }
 
     private static Predicate<Item> addVersionStatusFilter(Predicate<Item> filter, Set<VersionStatus> versionStatuses) {
         return filter.and(item -> versionStatuses == null || item.getVersionStatusCounters().keySet().stream()
-                                                                 .anyMatch(versionStatuses::contains));
+                                                                     .anyMatch(versionStatuses::contains));
     }
 
     private static Predicate<Item> addItemStatusFilter(Predicate<Item> filter, String itemStatusFilter) {

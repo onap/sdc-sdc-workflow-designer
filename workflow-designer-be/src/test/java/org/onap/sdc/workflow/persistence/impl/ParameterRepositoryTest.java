@@ -41,13 +41,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.onap.sdc.common.versioning.persistence.zusammen.ZusammenSessionContextCreator;
+import org.onap.sdc.common.zusammen.services.ZusammenAdaptor;
 import org.onap.sdc.workflow.persistence.impl.types.ParameterPropertyName;
 import org.onap.sdc.workflow.persistence.impl.types.WorkflowElementType;
 import org.onap.sdc.workflow.persistence.types.ParameterEntity;
 import org.onap.sdc.workflow.persistence.types.ParameterRole;
 import org.onap.sdc.workflow.persistence.types.ParameterType;
-import org.openecomp.core.zusammen.api.ZusammenAdaptor;
-import org.openecomp.sdc.common.session.SessionContextProviderFactory;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ParameterRepositoryTest {
@@ -57,17 +57,19 @@ public class ParameterRepositoryTest {
     private static final String PARAMETER1_ID = "parameter_id_1";
     private static final String PARAMETER2_ID = "parameter_id_2";
     private static final String PARAMETERS_PARENT_ID = "parameters_id";
-
+    private static final SessionContext SESSION_CONTEXT = new SessionContext();
 
     @Mock
     private ZusammenAdaptor zusammenAdaptorMock;
+    @Mock
+    private ZusammenSessionContextCreator contextCreatorMock;
     @Spy
     @InjectMocks
     private ParameterRepositoryImpl parameterRepository;
 
     @Before
     public void setUp() {
-        SessionContextProviderFactory.getInstance().createInterface().create("test_user", "workflow");
+        doReturn(SESSION_CONTEXT).when(contextCreatorMock).create();
     }
 
     @Test
@@ -81,11 +83,11 @@ public class ParameterRepositoryTest {
         info.addProperty(ParameterPropertyName.MANDATORY.name(), true);
         element.setInfo(info);
         doReturn(Optional.of(element)).when(zusammenAdaptorMock)
-                                      .getElementInfo(any(SessionContext.class), any(ElementContext.class),
+                                      .getElementInfo(eq(SESSION_CONTEXT), any(ElementContext.class),
                                               eq(new Id(PARAMETER1_ID)));
         ParameterEntity result = parameterRepository.get(ITEM1_ID, VERSION1_ID, PARAMETER1_ID);
         verify(zusammenAdaptorMock)
-                .getElementInfo(any(SessionContext.class), any(ElementContext.class), eq(new Id(PARAMETER1_ID)));
+                .getElementInfo(eq(SESSION_CONTEXT), any(ElementContext.class), eq(new Id(PARAMETER1_ID)));
         assertEquals("testInput", result.getName());
 
     }
@@ -101,7 +103,7 @@ public class ParameterRepositoryTest {
 
         parameterRepository.update(ITEM1_ID, VERSION1_ID, ParameterRole.INPUT, parameterEntityToUpdate);
         verify(zusammenAdaptorMock)
-                .saveElement(any(SessionContext.class), any(ElementContext.class), any(ZusammenElement.class),
+                .saveElement(eq(SESSION_CONTEXT), any(ElementContext.class), any(ZusammenElement.class),
                         eq("Update WorkflowVersion Parameter"));
 
     }
@@ -110,10 +112,10 @@ public class ParameterRepositoryTest {
     public void shouldCreateParameterStructure() {
         parameterRepository.createStructure(ITEM1_ID, VERSION1_ID);
         verify(zusammenAdaptorMock)
-                .saveElement(any(SessionContext.class), any(ElementContext.class), any(ZusammenElement.class),
+                .saveElement(eq(SESSION_CONTEXT), any(ElementContext.class), any(ZusammenElement.class),
                         eq("Create WorkflowVersion INPUTS Element"));
         verify(zusammenAdaptorMock)
-                .saveElement(any(SessionContext.class), any(ElementContext.class), any(ZusammenElement.class),
+                .saveElement(eq(SESSION_CONTEXT), any(ElementContext.class), any(ZusammenElement.class),
                         eq("Create WorkflowVersion OUTPUTS Element"));
     }
 
@@ -121,7 +123,7 @@ public class ParameterRepositoryTest {
     public void shouldDeleteParameter() {
         parameterRepository.delete(ITEM1_ID, VERSION1_ID, PARAMETER1_ID);
         verify(zusammenAdaptorMock)
-                .saveElement(any(SessionContext.class), any(ElementContext.class), any(ZusammenElement.class),
+                .saveElement(eq(SESSION_CONTEXT), any(ElementContext.class), any(ZusammenElement.class),
                         eq("Delete Parameter with id parameter_id_1"));
     }
 
@@ -145,11 +147,11 @@ public class ParameterRepositoryTest {
         parameter2.setInfo(info2);
         Collection<ElementInfo> parameters = Collections.asSet(parameter1, parameter2);
         doReturn(parameters).when(zusammenAdaptorMock)
-                            .listElementsByName(any(SessionContext.class), any(ElementContext.class), isNull(),
+                            .listElementsByName(eq(SESSION_CONTEXT), any(ElementContext.class), isNull(),
                                     eq(WorkflowElementType.INPUTS.name()));
         Collection<ParameterEntity> results = parameterRepository.list(ITEM1_ID, VERSION1_ID, ParameterRole.INPUT);
 
-        verify(zusammenAdaptorMock).listElementsByName(any(SessionContext.class), any(ElementContext.class), isNull(),
+        verify(zusammenAdaptorMock).listElementsByName(eq(SESSION_CONTEXT), any(ElementContext.class), isNull(),
                 eq(WorkflowElementType.INPUTS.name()));
         assertTrue(results.stream().anyMatch(parameterEntity -> parameterEntity.getId().equals(PARAMETER1_ID)));
         assertTrue(results.stream().anyMatch(parameterEntity -> parameterEntity.getId().equals(PARAMETER2_ID)));
@@ -170,19 +172,19 @@ public class ParameterRepositoryTest {
         Optional<ElementInfo> elementOptional = Optional.of(parameterParentElement);
 
         doReturn(elementOptional).when(zusammenAdaptorMock)
-                                 .getElementInfoByName(any(SessionContext.class), any(ElementContext.class), isNull(),
+                                 .getElementInfoByName(eq(SESSION_CONTEXT), any(ElementContext.class), isNull(),
                                          eq(WorkflowElementType.INPUTS.name()));
 
         parameterRepository.deleteAll(ITEM1_ID, VERSION1_ID, ParameterRole.INPUT);
         verify(zusammenAdaptorMock)
-                .saveElement(any(SessionContext.class), any(ElementContext.class), any(ZusammenElement.class),
+                .saveElement(eq(SESSION_CONTEXT), any(ElementContext.class), any(ZusammenElement.class),
                         eq("Delete all INPUT"));
     }
 
     @Test(expected = IllegalStateException.class)
     public void shouldFailIfParentElementDoesNotExist() {
         doReturn(Optional.empty()).when(zusammenAdaptorMock)
-                                 .getElementInfoByName(any(SessionContext.class), any(ElementContext.class), isNull(),
+                                 .getElementInfoByName(eq(SESSION_CONTEXT), any(ElementContext.class), isNull(),
                                          eq(WorkflowElementType.INPUTS.name()));
         parameterRepository.deleteAll(ITEM1_ID, VERSION1_ID, ParameterRole.INPUT);
     }
@@ -195,7 +197,7 @@ public class ParameterRepositoryTest {
         zusammenElement.setElementId(new Id(PARAMETER1_ID));
         zusammenParentElement.addSubElement(zusammenElement);
         doReturn(zusammenParentElement).when(zusammenAdaptorMock)
-                                       .saveElement(any(SessionContext.class), any(ElementContext.class),
+                                       .saveElement(eq(SESSION_CONTEXT), any(ElementContext.class),
                                                any(ZusammenElement.class), eq("Create WorkflowVersion Parameter Element"));
         ParameterEntity parameterEntity = new ParameterEntity("test_input_parameter");
         parameterEntity.setType(ParameterType.INTEGER);
@@ -204,7 +206,7 @@ public class ParameterRepositoryTest {
         ParameterEntity returnedParameter =
                 parameterRepository.create(ITEM1_ID, VERSION1_ID, ParameterRole.INPUT, parameterEntity);
         verify(zusammenAdaptorMock)
-                .saveElement(any(SessionContext.class), any(ElementContext.class), any(ZusammenElement.class),
+                .saveElement(eq(SESSION_CONTEXT), any(ElementContext.class), any(ZusammenElement.class),
                         eq("Create WorkflowVersion Parameter Element"));
         assertEquals(PARAMETER1_ID, returnedParameter.getId());
     }

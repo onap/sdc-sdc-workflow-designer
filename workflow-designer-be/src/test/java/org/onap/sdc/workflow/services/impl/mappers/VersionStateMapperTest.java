@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.onap.sdc.workflow.services.types.WorkflowVersionState;
-import org.openecomp.sdc.versioning.dao.types.VersionStatus;
+import org.onap.sdc.common.versioning.services.types.VersionStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -58,13 +58,6 @@ public class VersionStateMapperTest {
     public void shouldMapDeletedVersionStatusToWorkflowVersionStatus() {
         WorkflowVersionState mappedVersionStatus =
                 versionStateMapper.versionStatusToWorkflowVersionState(VersionStatus.Deleted);
-        assertEquals(WorkflowVersionState.DRAFT, mappedVersionStatus);
-    }
-
-    @Test
-    public void shouldMapLockedVersionStatusToWorkflowVersionStatus() {
-        WorkflowVersionState mappedVersionStatus =
-                versionStateMapper.versionStatusToWorkflowVersionState(VersionStatus.Locked);
         assertEquals(WorkflowVersionState.DRAFT, mappedVersionStatus);
     }
 

@@ -18,14 +18,13 @@ package org.onap.sdc.workflow.persistence.types;
 
 import java.util.List;
 import lombok.NoArgsConstructor;
-import org.openecomp.sdc.versioning.dao.types.Version;
 
 @lombok.Data
 @NoArgsConstructor
 public class ActivitySpecEntity {
 
     private String id;
-    private Version version;
+    private String versionId;
     private String name;
     private String description;
 
@@ -38,8 +37,8 @@ public class ActivitySpecEntity {
     //Not to be maintained in activityspec element
     private String status;
 
-    public ActivitySpecEntity(String id, Version version) {
+    public ActivitySpecEntity(String id, String versionId) {
         this.id = id;
-        this.version = version;
+        this.versionId = versionId;
     }
 }

@@ -23,7 +23,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.onap.sdc.workflow.api.mappers.ActivitySpecDtoMapper;
@@ -35,7 +34,6 @@ import org.onap.sdc.workflow.api.types.activityspec.ActivitySpecRequest;
 import org.onap.sdc.workflow.api.types.activityspec.ActivitySpecResponse;
 import org.onap.sdc.workflow.persistence.types.ActivitySpecEntity;
 import org.onap.sdc.workflow.services.ActivitySpecManager;
-import org.openecomp.sdc.versioning.dao.types.Version;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -83,8 +81,7 @@ public class ActivitySpecController {
     public ResponseEntity<ActivitySpecCreateResponse> create(@Valid @RequestBody ActivitySpecRequest request) {
         ActivitySpecEntity activitySpec =
                 activitySpecManager.createActivitySpec(activitySpecDtoMapper.fromActivitySpecRequest(request));
-        return new ResponseEntity<>(new ActivitySpecCreateResponse(activitySpec.getId(),
-                Objects.nonNull(activitySpec.getVersion()) ? activitySpec.getVersion().getId() : null),
+        return new ResponseEntity<>(new ActivitySpecCreateResponse(activitySpec.getId(),activitySpec.getVersionId()),
                 HttpStatus.CREATED);
     }
 
@@ -95,7 +92,7 @@ public class ActivitySpecController {
             @ApiParam(value = "Version Id", defaultValue = VERSION_ID_DEFAULT_VALUE) @PathVariable("versionId")
                     String versionId) {
         return activitySpecDtoMapper.toActivitySpecDataResponse(
-                activitySpecManager.get(new ActivitySpecEntity(activitySpecId, new Version(versionId))));
+                activitySpecManager.get(new ActivitySpecEntity(activitySpecId, versionId)));
     }
 
     @PutMapping("/{id}/versions/{versionId}")
@@ -107,7 +104,7 @@ public class ActivitySpecController {
                     String versionId) {
         ActivitySpecEntity activitySpec = activitySpecDtoMapper.fromActivitySpecRequest(request);
         activitySpec.setId(activitySpecId);
-        activitySpec.setVersion(new Version(versionId));
+        activitySpec.setVersionId(versionId);
 
         activitySpecManager.update(activitySpec);
     }
@@ -122,6 +119,6 @@ public class ActivitySpecController {
             @ApiParam(value = "Version Id", defaultValue = VERSION_ID_DEFAULT_VALUE) @PathVariable("versionId")
                     String versionId) {
         activitySpecManager
-                .actOnAction(new ActivitySpecEntity(activitySpecId, new Version(versionId)), request.getAction());
+                .actOnAction(new ActivitySpecEntity(activitySpecId, versionId), request.getAction());
     }
 }

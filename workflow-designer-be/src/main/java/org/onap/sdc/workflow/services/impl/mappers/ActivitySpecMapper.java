@@ -24,25 +24,26 @@ import java.util.Map;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
+import org.mapstruct.MappingTarget;
+import org.onap.sdc.common.versioning.services.types.Item;
+import org.onap.sdc.common.versioning.services.types.VersionStatus;
 import org.onap.sdc.workflow.persistence.types.ActivitySpecEntity;
 import org.onap.sdc.workflow.services.ActivitySpecConstant;
 import org.onap.sdc.workflow.services.impl.ItemType;
-import org.openecomp.sdc.versioning.dao.types.VersionStatus;
-import org.openecomp.sdc.versioning.types.Item;
 
 @Mapper(componentModel = "spring", imports = {ItemType.class, ActivitySpecConstant.class})
 public interface ActivitySpecMapper {
 
-    @Mappings({@Mapping(source = "versionStatusCounters", target = "status"),
-            @Mapping(source = "properties", target = "categoryList")})
+    @Mapping(source = "versionStatusCounters", target = "status")
+    @Mapping(source = "properties", target = "categoryList")
     ActivitySpecEntity itemToActivitySpec(Item item);
 
     @InheritInverseConfiguration
-    @Mappings({@Mapping(expression = "java(ItemType.ACTIVITYSPEC.name())", target = "type"),
-            @Mapping(target = "versionStatusCounters", ignore = true), @Mapping(target = "status", ignore = true),
-            @Mapping(source = "categoryList", target = "properties")})
-    Item activitySpecToItem(ActivitySpecEntity activitySpec);
+    @Mapping(expression = "java(ItemType.ACTIVITYSPEC.name())", target = "type")
+    @Mapping(target = "versionStatusCounters", ignore = true)
+    @Mapping(target = "status", ignore = true)
+    @Mapping(source = "categoryList", target = "properties")
+    void toItem(ActivitySpecEntity activitySpec, @MappingTarget Item retrievedItem);
 
     default String versionStatusCountersToStatus(Map<VersionStatus, Integer> versionStatusCounters) {
         return versionStatusCounters.keySet().stream().findFirst().map(Enum::name).orElse(null);

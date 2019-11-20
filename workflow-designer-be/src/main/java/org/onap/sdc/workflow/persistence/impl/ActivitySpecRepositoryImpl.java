@@ -16,12 +16,10 @@
 
 package org.onap.sdc.workflow.persistence.impl;
 
-import static org.openecomp.core.zusammen.api.ZusammenUtil.buildStructuralElement;
-import static org.openecomp.core.zusammen.api.ZusammenUtil.createSessionContext;
+import static org.onap.sdc.common.zusammen.services.ZusammenElementUtil.buildStructuralElement;
 
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.Element;
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.ZusammenElement;
-import com.amdocs.zusammen.datatypes.SessionContext;
 import com.amdocs.zusammen.datatypes.item.Action;
 import com.amdocs.zusammen.datatypes.item.ElementContext;
 import com.amdocs.zusammen.datatypes.item.Info;
@@ -29,13 +27,14 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Objects;
 import java.util.Optional;
+import org.onap.sdc.common.versioning.persistence.zusammen.ZusammenSessionContextCreator;
+import org.onap.sdc.common.zusammen.services.ZusammenAdaptor;
 import org.onap.sdc.workflow.persistence.ActivitySpecRepository;
 import org.onap.sdc.workflow.persistence.impl.types.ActivitySpecData;
 import org.onap.sdc.workflow.persistence.impl.types.ActivitySpecElementType;
 import org.onap.sdc.workflow.persistence.types.ActivitySpecEntity;
 import org.onap.sdc.workflow.services.ActivitySpecConstant;
 import org.onap.sdc.workflow.services.utilities.JsonUtil;
-import org.openecomp.core.zusammen.api.ZusammenAdaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -43,40 +42,39 @@ import org.springframework.stereotype.Repository;
 public class ActivitySpecRepositoryImpl implements ActivitySpecRepository {
 
     private final ZusammenAdaptor zusammenAdaptor;
+    private final ZusammenSessionContextCreator contextCreator;
 
     @Autowired
-    public ActivitySpecRepositoryImpl(ZusammenAdaptor zusammenAdaptor) {
+    public ActivitySpecRepositoryImpl(ZusammenAdaptor zusammenAdaptor, ZusammenSessionContextCreator contextCreator) {
         this.zusammenAdaptor = zusammenAdaptor;
+        this.contextCreator = contextCreator;
     }
 
     @Override
     public void create(ActivitySpecEntity activitySpec) {
-        SessionContext context = createSessionContext();
         ZusammenElement generalElement = mapActivityDetailsToZusammenElement(activitySpec, Action.CREATE);
 
-        ElementContext elementContext = new ElementContext(activitySpec.getId(), activitySpec.getVersion().getId());
+        ElementContext elementContext = new ElementContext(activitySpec.getId(), activitySpec.getVersionId());
         zusammenAdaptor
-                .saveElement(context, elementContext, generalElement, "Create Activity Spec General Info Element");
+                .saveElement(contextCreator.create(), elementContext, generalElement, "Create Activity Spec General Info Element");
     }
 
     @Override
     public ActivitySpecEntity get(ActivitySpecEntity entity) {
-        SessionContext context = createSessionContext();
-
-        ElementContext elementContext = new ElementContext(entity.getId(), entity.getVersion().getId());
+        ElementContext elementContext = new ElementContext(entity.getId(), entity.getVersionId());
         Optional<Element> element =
-                zusammenAdaptor.getElementByName(context, elementContext, null, ActivitySpecElementType.ACTIVITYSPEC.name());
+                zusammenAdaptor.getElementByName(contextCreator.create(), elementContext, null, ActivitySpecElementType.ACTIVITYSPEC.name());
         return element.map(this::mapZusammenElementToActivityDetails).orElse(null);
     }
 
     @Override
     public void update(ActivitySpecEntity entity) {
-        SessionContext context = createSessionContext();
+        
         ZusammenElement generalElement = mapActivityDetailsToZusammenElement(entity, Action.UPDATE);
 
-        ElementContext elementContext = new ElementContext(entity.getId(), entity.getVersion().getId());
+        ElementContext elementContext = new ElementContext(entity.getId(), entity.getVersionId());
         zusammenAdaptor
-                .saveElement(context, elementContext, generalElement, "Update Activity Spec General Info Element");
+                .saveElement(contextCreator.create(), elementContext, generalElement, "Update Activity Spec General Info Element");
     }
 
     private ZusammenElement mapActivityDetailsToZusammenElement(ActivitySpecEntity entity, Action action) {
