@@ -19,17 +19,27 @@ package org.onap.sdc.workflow.services.impl.mappers;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.onap.sdc.common.versioning.services.convertors.VersionConvertor;
+import org.onap.sdc.common.versioning.services.types.Version;
+import org.onap.sdc.workflow.services.impl.ItemType;
 import org.onap.sdc.workflow.services.types.WorkflowVersion;
-import org.openecomp.sdc.versioning.dao.types.Version;
 
 @Mapper(componentModel = "spring", uses = VersionStateMapper.class)
-public interface VersionMapper {
+public interface VersionMapper extends VersionConvertor<WorkflowVersion> {
 
+    @Override
+    default String getItemType(){
+        return ItemType.WORKFLOW.name();
+    }
 
+    @Override
     @Mapping(source = "status", target = "state")
-    WorkflowVersion versionToWorkflowVersion(Version version);
+    WorkflowVersion fromVersion(Version version);
 
+    @Override
     @InheritInverseConfiguration
-    Version workflowVersionToVersion(WorkflowVersion workflowVersion);
+    @Mapping(target = "status", ignore = true)
+    void toVersion(WorkflowVersion workflowVersion, @MappingTarget Version retrievedVersion);
 
 }

@@ -16,12 +16,12 @@
 
 package org.onap.sdc.workflow.services.impl;
 
+import static org.onap.sdc.common.versioning.services.types.VersionStatus.Certified;
+import static org.onap.sdc.common.versioning.services.types.VersionStatus.Deleted;
+import static org.onap.sdc.common.versioning.services.types.VersionStatus.Deprecated;
+import static org.onap.sdc.common.versioning.services.types.VersionStatus.Draft;
 import static org.onap.sdc.workflow.services.ActivitySpecConstant.ACTIVITY_SPEC_NOT_FOUND;
 import static org.onap.sdc.workflow.services.ActivitySpecConstant.VERSION_ID_DEFAULT_VALUE;
-import static org.openecomp.sdc.versioning.dao.types.VersionStatus.Certified;
-import static org.openecomp.sdc.versioning.dao.types.VersionStatus.Deleted;
-import static org.openecomp.sdc.versioning.dao.types.VersionStatus.Deprecated;
-import static org.openecomp.sdc.versioning.dao.types.VersionStatus.Draft;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -32,6 +32,12 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import org.onap.sdc.common.versioning.services.ItemManager;
+import org.onap.sdc.common.versioning.services.VersioningManager;
+import org.onap.sdc.common.versioning.services.types.Item;
+import org.onap.sdc.common.versioning.services.types.Version;
+import org.onap.sdc.common.versioning.services.types.VersionCreationMethod;
+import org.onap.sdc.common.versioning.services.types.VersionStatus;
 import org.onap.sdc.workflow.api.types.activityspec.ActivitySpecAction;
 import org.onap.sdc.workflow.persistence.ActivitySpecRepository;
 import org.onap.sdc.workflow.persistence.types.ActivitySpecEntity;
@@ -40,15 +46,8 @@ import org.onap.sdc.workflow.services.UniqueValueService;
 import org.onap.sdc.workflow.services.exceptions.EntityNotFoundException;
 import org.onap.sdc.workflow.services.exceptions.VersionStatusModificationException;
 import org.onap.sdc.workflow.services.impl.mappers.ActivitySpecMapper;
-import org.openecomp.sdc.common.errors.SdcRuntimeException;
 import org.openecomp.sdc.logging.api.Logger;
 import org.openecomp.sdc.logging.api.LoggerFactory;
-import org.openecomp.sdc.versioning.ItemManager;
-import org.openecomp.sdc.versioning.VersioningManager;
-import org.openecomp.sdc.versioning.dao.types.Version;
-import org.openecomp.sdc.versioning.dao.types.VersionStatus;
-import org.openecomp.sdc.versioning.types.Item;
-import org.openecomp.sdc.versioning.types.VersionCreationMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -91,13 +90,15 @@ public class ActivitySpecManagerImpl implements ActivitySpecManager {
 
         uniqueValueService.validateUniqueValue(ACTIVITY_SPEC_NAME, activitySpec.getName());
 
-        Item item = activitySpecMapper.activitySpecToItem(activitySpec);
-        item = itemManager.create(item);
+        Item item = new Item();
+        activitySpecMapper.toItem(activitySpec, item);
+        Item createdItem = itemManager.create(item);
 
-        Version version = getActivitySpecVersion(activitySpec);
-        versioningManager.create(item.getId(), version, VersionCreationMethod.major);
+        Version createdVersion =
+                versioningManager.create(createdItem.getId(), null, new Version(), VersionCreationMethod.major);
 
-        enrichActivitySpec(item, version, activitySpec);
+        activitySpec.setId(createdItem.getId());
+        activitySpec.setVersionId(createdVersion.getId());
         activitySpecDao.create(activitySpec);
 
         uniqueValueService.createUniqueValue(ACTIVITY_SPEC_NAME, activitySpec.getName());
@@ -106,18 +107,18 @@ public class ActivitySpecManagerImpl implements ActivitySpecManager {
 
     @Override
     public ActivitySpecEntity get(ActivitySpecEntity activitySpec) {
-        activitySpec.setVersion(calculateLatestVersion(activitySpec));
+        activitySpec.setVersionId(calculateLatestVersion(activitySpec));
         ActivitySpecEntity retrieved;
         try {
+
             retrieved = activitySpecDao.get(activitySpec);
-        } catch (SdcRuntimeException runtimeException) {
-            LOGGER.debug(
-                    "Failed to retrieve activity spec for activitySpecId: " + activitySpec.getId() + " and version: "
-                            + activitySpec.getVersion().getId(), runtimeException);
+        } catch (RuntimeException e) {
+            LOGGER.error("Failed to retrieve activity spec for activitySpecId: {} and version: {}",
+                    activitySpec.getId(), activitySpec.getVersionId(), e);
             throw new EntityNotFoundException(ACTIVITY_SPEC_NOT_FOUND);
         }
         if (retrieved != null) {
-            final Version retrievedVersion = versioningManager.get(activitySpec.getId(), activitySpec.getVersion());
+            final Version retrievedVersion = versioningManager.get(activitySpec.getId(), activitySpec.getVersionId());
             retrieved.setStatus(Objects.nonNull(retrievedVersion) ? retrievedVersion.getStatus().name() : null);
         }
         return retrieved;
@@ -125,74 +126,66 @@ public class ActivitySpecManagerImpl implements ActivitySpecManager {
 
     @Override
     public void update(ActivitySpecEntity activitySpec) {
-        Item retrievedItem = itemManager.get(activitySpec.getId());
-        if (retrievedItem == null) {
+        Item item = itemManager.get(activitySpec.getId());
+        if (item == null) {
             LOGGER.error("Activity Spec with id {} was not found", activitySpec.getId());
             throw new EntityNotFoundException(ACTIVITY_SPEC_NOT_FOUND);
         }
-        uniqueValueService.updateUniqueValue(ACTIVITY_SPEC_NAME, retrievedItem.getName(), activitySpec.getName());
+        uniqueValueService.updateUniqueValue(ACTIVITY_SPEC_NAME, item.getName(), activitySpec.getName());
 
-        Item item = activitySpecMapper.activitySpecToItem(activitySpec);
-        item.setId(activitySpec.getId());
-        item.setStatus(retrievedItem.getStatus());
-        item.setVersionStatusCounters(retrievedItem.getVersionStatusCounters());
-        itemManager.update(item);
+        activitySpecMapper.toItem(activitySpec, item);
+        itemManager.update(activitySpec.getId(), item);
 
-        activitySpec.setVersion(calculateLatestVersion(activitySpec));
+        activitySpec.setVersionId(calculateLatestVersion(activitySpec));
         activitySpecDao.update(activitySpec);
     }
 
     @Override
     public void actOnAction(ActivitySpecEntity activitySpec, ActivitySpecAction action) {
-        Version version = calculateLatestVersion(activitySpec);
-        if (action == ActivitySpecAction.CERTIFY) {
-            version.setStatus(Certified);
+        VersionStatus newStatus = getVersionStatusByAction(action);
+
+        String versionId = calculateLatestVersion(activitySpec);
+        Version retrievedVersion;
+        try {
+            retrievedVersion = versioningManager.get(activitySpec.getId(), versionId);
+        } catch (RuntimeException e) {
+            LOGGER.error("failed to get activity {}, version {}", activitySpec.getId(), versionId, e);
+            throw new EntityNotFoundException(ACTIVITY_SPEC_NOT_FOUND);
         }
-        if (action == ActivitySpecAction.DEPRECATE) {
-            version.setStatus(Deprecated);
-        }
-        if (action == ActivitySpecAction.DELETE) {
-            version.setStatus(Deleted);
+        if (retrievedVersion == null) {
+            throw new EntityNotFoundException(ACTIVITY_SPEC_NOT_FOUND);
         }
 
-        updateVersionStatus(activitySpec.getId(), action, version);
+        VersionStatus retrievedStatus = retrievedVersion.getStatus();
+        VersionStatus expectedPrevStatus = EXPECTED_PREV_STATUS.get(newStatus);
+        if (expectedPrevStatus != null && retrievedStatus != expectedPrevStatus) {
+            LOGGER.debug("Failed to {} since activity spec is in status {}", action.name(), retrievedStatus);
+            throw new VersionStatusModificationException(activitySpec.getId(), versionId, retrievedStatus,
+                    newStatus);
+        }
+
+        versioningManager.updateStatus(activitySpec.getId(), retrievedVersion.getId(), newStatus,
+                "actionOnActivitySpec :" + action.name());
+
         if (action == ActivitySpecAction.DELETE) {
-            final String activitySpecName = get(new ActivitySpecEntity(activitySpec.getId(), version)).getName();
+            final String activitySpecName = get(new ActivitySpecEntity(activitySpec.getId(), versionId)).getName();
             uniqueValueService.deleteUniqueValue(ACTIVITY_SPEC_NAME, activitySpecName);
         }
     }
 
-    private void updateVersionStatus(String activitySpecId, ActivitySpecAction action, Version version) {
-        VersionStatus prevVersionStatus = null;
-        Version retrievedVersion;
-        try {
-            retrievedVersion = versioningManager.get(activitySpecId, version);
-        } catch (SdcRuntimeException exception) {
-            LOGGER.debug(
-                    "Failed to get version for activitySpecId: " + activitySpecId + " and version: " + version.getId(),
-                    exception);
-            throw new EntityNotFoundException(ACTIVITY_SPEC_NOT_FOUND);
-
+    private VersionStatus getVersionStatusByAction(ActivitySpecAction action) {
+        switch (action) {
+            case DELETE:
+                return Deleted;
+            case DEPRECATE:
+                return Deprecated;
+            case CERTIFY:
+                return Certified;
+            default:
+                throw new UnsupportedOperationException(
+                        String.format("Activity Spec action %s is not supported", action.name()));
         }
 
-        VersionStatus status = version.getStatus();
-        VersionStatus expectedPrevStatus = EXPECTED_PREV_STATUS.get(status);
-        if (expectedPrevStatus != null) {
-
-            VersionStatus retrievedStatus = Objects.nonNull(retrievedVersion) ? retrievedVersion.getStatus() : null;
-            if (retrievedStatus != expectedPrevStatus) {
-                LOGGER.debug("Failed to " + version.getStatus() + " since activity spec is in " + retrievedStatus);
-                throw new VersionStatusModificationException(activitySpecId, version.getId(), retrievedStatus, status);
-            }
-            prevVersionStatus = expectedPrevStatus;
-        }
-
-        if (Objects.nonNull(retrievedVersion)) {
-            retrievedVersion.setStatus(status);
-            versioningManager.updateVersion(activitySpecId, retrievedVersion);
-            itemManager.updateVersionStatus(activitySpecId, status, prevVersionStatus);
-            versioningManager.publish(activitySpecId, retrievedVersion, "actionOnActivitySpec :" + action.name());
-        }
     }
 
     @Override
@@ -220,29 +213,19 @@ public class ActivitySpecManagerImpl implements ActivitySpecManager {
                        .map(activitySpecMapper::itemToActivitySpec).collect(Collectors.toList());
     }
 
-    private Version calculateLatestVersion(ActivitySpecEntity activitySpec) {
-        if (VERSION_ID_DEFAULT_VALUE.equalsIgnoreCase(activitySpec.getVersion().getId())) {
-            List<Version> list;
+    private String calculateLatestVersion(ActivitySpecEntity activitySpec) {
+        if (VERSION_ID_DEFAULT_VALUE.equalsIgnoreCase(activitySpec.getVersionId())) {
+            List<Version> versions;
             try {
-                list = versioningManager.list(activitySpec.getId());
-            } catch (SdcRuntimeException runtimeException) {
-                LOGGER.debug("Failed to list versions for activitySpecId " + activitySpec.getId(), runtimeException);
+                versions = versioningManager.list(activitySpec.getId());
+            } catch (RuntimeException e) {
+                LOGGER.error("Failed to list versions for activitySpecId {}", activitySpec.getId(), e);
                 throw new EntityNotFoundException(ACTIVITY_SPEC_NOT_FOUND);
             }
-            if (Objects.nonNull(list) && !list.isEmpty()) {
-                return list.get(0);
+            if (Objects.nonNull(versions) && !versions.isEmpty()) {
+                return versions.get(0).getId();
             }
         }
-        return activitySpec.getVersion();
-    }
-
-    private Version getActivitySpecVersion(ActivitySpecEntity activitySpecEntity) {
-        return activitySpecEntity.getVersion() == null ? new Version() : activitySpecEntity.getVersion();
-
-    }
-
-    private void enrichActivitySpec(Item item, Version version, ActivitySpecEntity activitySpecEntity) {
-        activitySpecEntity.setId(item.getId());
-        activitySpecEntity.setVersion(version);
+        return activitySpec.getVersionId();
     }
 }

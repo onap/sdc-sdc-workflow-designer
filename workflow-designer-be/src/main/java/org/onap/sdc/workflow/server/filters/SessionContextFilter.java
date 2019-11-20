@@ -24,20 +24,21 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import org.onap.sdc.workflow.server.config.ZusammenConfig;
-import org.openecomp.sdc.common.session.SessionContextProvider;
-import org.openecomp.sdc.common.session.SessionContextProviderFactory;
+import org.onap.sdc.common.session.SessionContextProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SessionContextFilter implements Filter {
 
-    private ZusammenConfig zusammenConfig;
+    private final SessionContextProvider sessionContextProvider;
+    @Value("${spring.data.cassandra.keyspace-name}")
+    private String tenant;
 
     @Autowired
-    public SessionContextFilter(ZusammenConfig zusammenConfig) {
-        this.zusammenConfig = zusammenConfig;
+    public SessionContextFilter(SessionContextProvider sessionContextProvider) {
+        this.sessionContextProvider = sessionContextProvider;
     }
 
     @Override
@@ -48,16 +49,14 @@ public class SessionContextFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
-        SessionContextProvider contextProvider = SessionContextProviderFactory.getInstance().createInterface();
-
         try {
             if (servletRequest instanceof HttpServletRequest) {
-                contextProvider.create(getUser(servletRequest), getTenant());
+                sessionContextProvider.create(getUser(servletRequest), tenant);
             }
 
             filterChain.doFilter(servletRequest, servletResponse);
         } finally {
-            contextProvider.close();
+            sessionContextProvider.close();
         }
     }
 
@@ -69,10 +68,6 @@ public class SessionContextFilter implements Filter {
     private String getUser(ServletRequest servletRequest) {
         return "GLOBAL_USER";
         // TODO: 7/11/2018 get user from header when collaboration will be supported
-                //((HttpServletRequest) servletRequest).getHeader(USER_ID_HEADER_PARAM);
-    }
-
-    private String getTenant() {
-        return zusammenConfig.getTenant();
+        //((HttpServletRequest) servletRequest).getHeader(USER_ID_HEADER_PARAM);
     }
 }

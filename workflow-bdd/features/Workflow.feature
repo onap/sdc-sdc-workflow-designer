@@ -14,18 +14,18 @@
 
 Feature: Workflow
 
-  Scenario: Create invalid - without name
-    Given I want to create input data
-    When I want the following to fail with response status code 400
-    Then I want to create for path "/workflows" with the input data from the context
+#  Scenario: Create invalid - without name
+#    Given I want to create input data
+#    When I want the following to fail with response status code 400
+#    Then I want to create for path "/workflows" with the input data from the context
 
   Scenario: Create
     When I want to create a Workflow
     Then I want to check property "description" for value "Workflow Description"
 
-  Scenario: Update and Get
-    Given I want to create a Workflow
-    And I want to update the input property "description" with value "workflow description updated"
-    When I want to update for path "/workflows/{item.id}" with the input data from the context
-    Then I want to get path "/workflows/{item.id}"
-    And I want to check property "description" for value "workflow description updated"
+#  Scenario: Update and Get
+#    Given I want to create a Workflow
+#    And I want to update the input property "description" with value "workflow description updated"
+#    When I want to update for path "/workflows/{item.id}" with the input data from the context
+#    Then I want to get path "/workflows/{item.id}"
+#    And I want to check property "description" for value "workflow description updated"

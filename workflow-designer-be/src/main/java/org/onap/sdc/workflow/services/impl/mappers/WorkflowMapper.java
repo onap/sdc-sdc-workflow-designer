@@ -19,21 +19,31 @@ package org.onap.sdc.workflow.services.impl.mappers;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
-import org.onap.sdc.workflow.services.types.Workflow;
+import org.mapstruct.MappingTarget;
+import org.onap.sdc.common.versioning.services.convertors.ItemConvertor;
+import org.onap.sdc.common.versioning.services.types.Item;
 import org.onap.sdc.workflow.services.impl.ItemType;
-import org.openecomp.sdc.versioning.types.Item;
+import org.onap.sdc.workflow.services.types.Workflow;
 
-@Mapper(componentModel = "spring", imports = ItemType.class, uses = VersionStateMapper.class)
-public interface WorkflowMapper {
+@Mapper(componentModel = "spring", imports = ItemType.class,
+        uses = {VersionStateMapper.class, ArchivingStatusMapper.class})
+public interface WorkflowMapper extends ItemConvertor<Workflow> {
 
-    @Mappings({@Mapping(source = "versionStatusCounters", target = "versionStates"),
-            @Mapping(source = "status", target = "archiving")})
-    Workflow itemToWorkflow(Item item);
+    @Override
+    default String getItemType() {
+        return ItemType.WORKFLOW.name();
+    }
 
+    @Override
+    @Mapping(source = "versionStatusCounters", target = "versionStates")
+    @Mapping(source = "status", target = "archiving")
+    Workflow fromItem(Item item);
+
+    @Override
     @InheritInverseConfiguration
-    @Mappings({@Mapping(expression = "java(ItemType.WORKFLOW.name())", target = "type"),
-            @Mapping(target = "versionStatusCounters", ignore = true)})
-    Item workflowToItem(Workflow workflow);
+    @Mapping(target = "status", ignore = true)
+    @Mapping(target = "versionStatusCounters", ignore = true)
+    @Mapping(expression = "java(ItemType.WORKFLOW.name())", target = "type")
+    void toItem(Workflow workflow, @MappingTarget Item item);
 
 }

@@ -16,7 +16,7 @@
 
 package org.onap.sdc.workflow.services.exceptions;
 
-import org.openecomp.sdc.versioning.dao.types.VersionStatus;
+import org.onap.sdc.common.versioning.services.types.VersionStatus;
 
 public class VersionStatusModificationException extends RuntimeException {
 

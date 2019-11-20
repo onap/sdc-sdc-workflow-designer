@@ -29,7 +29,13 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
+import org.onap.sdc.common.versioning.services.ItemManager;
+import org.onap.sdc.common.versioning.services.VersioningManager;
+import org.onap.sdc.common.versioning.services.types.Item;
+import org.onap.sdc.common.versioning.services.types.ItemStatus;
+import org.onap.sdc.common.versioning.services.types.Version;
+import org.onap.sdc.common.versioning.services.types.VersionCreationMethod;
+import org.onap.sdc.common.versioning.services.types.VersionStatus;
 import org.onap.sdc.workflow.persistence.ArtifactRepository;
 import org.onap.sdc.workflow.persistence.ParameterRepository;
 import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
@@ -49,13 +55,6 @@ import org.onap.sdc.workflow.services.types.WorkflowVersion;
 import org.onap.sdc.workflow.services.types.WorkflowVersionState;
 import org.openecomp.sdc.logging.api.Logger;
 import org.openecomp.sdc.logging.api.LoggerFactory;
-import org.openecomp.sdc.versioning.ItemManager;
-import org.openecomp.sdc.versioning.VersioningManager;
-import org.openecomp.sdc.versioning.dao.types.Version;
-import org.openecomp.sdc.versioning.dao.types.VersionStatus;
-import org.openecomp.sdc.versioning.types.Item;
-import org.openecomp.sdc.versioning.types.ItemStatus;
-import org.openecomp.sdc.versioning.types.VersionCreationMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -95,7 +94,7 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
         return versioningManager.list(workflowId).stream()
                                 .filter(version -> versionStatusFilter == null || versionStatusFilter.contains(
                                         version.getStatus()))
-                                .map(versionMapper::versionToWorkflowVersion)
+                                .map(versionMapper::fromVersion)
                                 .sorted(Comparator.comparing(WorkflowVersion::getName).reversed())
                                 .peek(workflowVersion -> loadAndAddParameters(workflowId, workflowVersion))
                                 .collect(Collectors.toList());
@@ -103,7 +102,7 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
 
     @Override
     public WorkflowVersion get(String workflowId, String versionId) {
-        WorkflowVersion workflowVersion = versionMapper.versionToWorkflowVersion(getVersion(workflowId, versionId));
+        WorkflowVersion workflowVersion = versionMapper.fromVersion(getVersion(workflowId, versionId));
         loadAndAddParameters(workflowId, workflowVersion);
         workflowVersion.setHasArtifact(artifactRepository.isExist(workflowId,versionId));
         return workflowVersion;
@@ -125,14 +124,13 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
 
         Version version = new Version();
         version.setDescription(workflowVersion.getDescription());
-        version.setBaseId(baseVersionId);
-        Version createdVersion = versioningManager.create(workflowId, version, VersionCreationMethod.major);
+        Version createdVersion = versioningManager.create(workflowId, baseVersionId, version, VersionCreationMethod.major);
 
-        if (versions.isEmpty()) { // only for first version
+        if (versions.isEmpty()) { // only for first versionId
             artifactRepository.createStructure(workflowId, createdVersion.getId());
             parameterRepository.createStructure(workflowId, createdVersion.getId());
             updateParameters(workflowId, createdVersion.getId(), workflowVersion.getInputs(), workflowVersion.getOutputs());
-            versioningManager.publish(workflowId, createdVersion, "Add initial data");
+            versioningManager.publish(workflowId, createdVersion.getId(), "Add initial data");
         }
 
         return get(workflowId, createdVersion.getId());
@@ -141,22 +139,20 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
     @Override
     public void update(String workflowId, WorkflowVersion workflowVersion) {
         validateWorkflowStatus(workflowId);
-        Version retrievedVersion = getVersion(workflowId, workflowVersion.getId());
-        if (CERTIFIED.equals(versionStateMapper.versionStatusToWorkflowVersionState(retrievedVersion.getStatus()))) {
+        Version version = getVersion(workflowId, workflowVersion.getId());
+        if (CERTIFIED.equals(versionStateMapper.versionStatusToWorkflowVersionState(version.getStatus()))) {
             throw new VersionModificationException(workflowId, workflowVersion.getId());
         }
 
-        Version version = versionMapper.workflowVersionToVersion(workflowVersion);
-        version.setName(retrievedVersion.getName());
-        version.setStatus(retrievedVersion.getStatus());
+        versionMapper.toVersion(workflowVersion, version);
 
         updateParameters(workflowId, version.getId(), workflowVersion.getInputs(), workflowVersion.getOutputs());
 
-        versioningManager.updateVersion(workflowId, version);
+        versioningManager.update(workflowId, version.getId(), version);
 
-        Version updatedVersion = versioningManager.get(workflowId, version);
-        if(updatedVersion.getState().isDirty()) {
-            versioningManager.publish(workflowId, version, "Update version");
+        Version updatedVersion = versioningManager.get(workflowId, version.getId());
+        if (updatedVersion.getState().isDirty()) {
+            versioningManager.publish(workflowId, version.getId(), "Update version");
         }
     }
 
@@ -175,7 +171,7 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
                         newState);
             }
             try {
-                versioningManager.submit(workflowId, new Version(versionId),
+                versioningManager.updateStatus(workflowId, versionId, VersionStatus.Certified,
                         String.format("Update version state to %s", newState.name()));
             } catch (Exception submitException) {
                 throw new VersionStateModificationException(workflowId, versionId, currentState, newState,
@@ -198,9 +194,9 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
             ArtifactEntity artifactEntity =
                     new ArtifactEntity(StringUtils.cleanPath(artifact.getOriginalFilename()), artifactData);
             artifactRepository.update(workflowId, versionId, artifactEntity);
-            Version updatedVersion = versioningManager.get(workflowId, new Version(versionId));
+            Version updatedVersion = versioningManager.get(workflowId, versionId);
             if(updatedVersion.getState().isDirty()) {
-                versioningManager.publish(workflowId, updatedVersion, "Update artifact");
+                versioningManager.publish(workflowId, updatedVersion.getId(), "Update artifact");
             }
 
         } catch (IOException e) {
@@ -234,7 +230,7 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
         }
         if(retrievedVersion.isHasArtifact()) {
             artifactRepository.delete(workflowId, versionId);
-            versioningManager.publish(workflowId, new Version(versionId), "Delete Artifact");
+            versioningManager.publish(workflowId, versionId, "Delete Artifact");
         }
     }
 
@@ -249,7 +245,7 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
 
     private Version getVersion(String workflowId, String versionId) {
         try {
-            Version version = versioningManager.get(workflowId, new Version(versionId));
+            Version version = versioningManager.get(workflowId, versionId);
             if (version == null) {
                 throw new EntityNotFoundException(String.format(VERSION_NOT_EXIST_MSG, versionId, workflowId));
             }

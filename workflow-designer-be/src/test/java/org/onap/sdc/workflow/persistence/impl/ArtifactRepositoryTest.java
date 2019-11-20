@@ -19,12 +19,12 @@ package org.onap.sdc.workflow.persistence.impl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.isNull;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
-import static org.openecomp.core.zusammen.api.ZusammenUtil.buildStructuralElement;
+import static org.onap.sdc.common.zusammen.services.ZusammenElementUtil.buildStructuralElement;
 
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.Element;
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.ElementInfo;
@@ -44,10 +44,10 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
+import org.onap.sdc.common.versioning.persistence.zusammen.ZusammenSessionContextCreator;
+import org.onap.sdc.common.zusammen.services.ZusammenAdaptor;
 import org.onap.sdc.workflow.persistence.impl.types.WorkflowElementType;
-import org.openecomp.core.zusammen.api.ZusammenAdaptor;
-import org.openecomp.sdc.common.session.SessionContextProviderFactory;
+import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ArtifactRepositoryTest {
@@ -56,17 +56,19 @@ public class ArtifactRepositoryTest {
     private static final String FILE_NAME = "fileName.txt";
     private static final String ITEM1_ID = "item_id_1";
     private static final String VERSION1_ID = "version_id_1";
+    private static final SessionContext SESSION_CONTEXT = new SessionContext();
 
 
     @Mock
     private ZusammenAdaptor zusammenAdaptorMock;
-
+    @Mock
+    private ZusammenSessionContextCreator contextCreatorMock;
     @InjectMocks
     private ArtifactRepositoryImpl artifactRepository;
 
     @Before
     public void setUp() {
-        SessionContextProviderFactory.getInstance().createInterface().create("test_user", "workflow");
+        doReturn(SESSION_CONTEXT).when(contextCreatorMock).create();
     }
 
     @Test
@@ -77,7 +79,7 @@ public class ArtifactRepositoryTest {
 
         artifactRepository.update(ITEM1_ID, VERSION1_ID, artifactMock);
         verify(zusammenAdaptorMock)
-                .saveElement(any(SessionContext.class), any(ElementContext.class), any(ZusammenElement.class),
+                .saveElement(eq(SESSION_CONTEXT), any(ElementContext.class), any(ZusammenElement.class),
                         eq("Update WorkflowVersion Artifact Element"));
     }
 
@@ -90,25 +92,25 @@ public class ArtifactRepositoryTest {
         Optional<Element> elementOptional = Optional.of(artifactElement);
 
         doReturn(elementOptional).when(zusammenAdaptorMock)
-                                 .getElementByName(any(SessionContext.class), any(ElementContext.class), isNull(Id.class),
+                                 .getElementByName(eq(SESSION_CONTEXT), any(ElementContext.class), isNull(),
                                          eq(WorkflowElementType.ARTIFACT.name()));
 
         Optional<ArtifactEntity> result = artifactRepository.get(ITEM1_ID, VERSION1_ID);
         assertTrue(result.isPresent());
         assertEquals(FILE_NAME,result.get().getFileName());
-        verify(zusammenAdaptorMock).getElementByName(any(SessionContext.class), any(ElementContext.class), isNull(Id.class),
+        verify(zusammenAdaptorMock).getElementByName(eq(SESSION_CONTEXT), any(ElementContext.class), isNull(),
                 eq(WorkflowElementType.ARTIFACT.name()));
     }
 
     @Test
-    public void shouldReturnOptionalEmptyWhenDoesNotExist() throws IOException {
+    public void shouldReturnOptionalEmptyWhenDoesNotExist() {
 
         doReturn(Optional.empty()).when(zusammenAdaptorMock)
-                                 .getElementByName(any(SessionContext.class), any(ElementContext.class), isNull(Id.class),
+                                 .getElementByName(eq(SESSION_CONTEXT), any(ElementContext.class), isNull(),
                                          eq(WorkflowElementType.ARTIFACT.name()));
 
         Optional<ArtifactEntity> result = artifactRepository.get(ITEM1_ID, VERSION1_ID);
-        verify(zusammenAdaptorMock).getElementByName(any(SessionContext.class), any(ElementContext.class), isNull(Id.class),
+        verify(zusammenAdaptorMock).getElementByName(eq(SESSION_CONTEXT), any(ElementContext.class), isNull(),
                 eq(WorkflowElementType.ARTIFACT.name()));
         assertFalse(result.isPresent());
     }
@@ -117,14 +119,14 @@ public class ArtifactRepositoryTest {
     public void shouldCreateArtifactStructure() {
         artifactRepository.createStructure(ITEM1_ID, VERSION1_ID);
         verify(zusammenAdaptorMock)
-                .saveElement(any(SessionContext.class), any(ElementContext.class), any(ZusammenElement.class),
+                .saveElement(eq(SESSION_CONTEXT), any(ElementContext.class), any(ZusammenElement.class),
                         eq("Create WorkflowVersion Artifact Element"));
     }
 
     @Test
     public void shouldDeleteArtifact() {
         artifactRepository.delete(ITEM1_ID,VERSION1_ID);
-        verify(zusammenAdaptorMock).saveElement(any(SessionContext.class), any(ElementContext.class), any(ZusammenElement.class),
+        verify(zusammenAdaptorMock).saveElement(eq(SESSION_CONTEXT), any(ElementContext.class), any(ZusammenElement.class),
                 eq("Delete WorkflowVersion Artifact Data"));
     }
 
@@ -137,7 +139,7 @@ public class ArtifactRepositoryTest {
         elementInfo.setInfo(info);
 
         doReturn(Optional.of(elementInfo)).when(zusammenAdaptorMock)
-                             .getElementInfoByName(any(SessionContext.class), any(ElementContext.class), isNull(),
+                             .getElementInfoByName(eq(SESSION_CONTEXT), any(ElementContext.class), isNull(),
                                      eq(WorkflowElementType.ARTIFACT.name()));
 
         assertTrue(artifactRepository.isExist(ITEM1_ID, VERSION1_ID));
