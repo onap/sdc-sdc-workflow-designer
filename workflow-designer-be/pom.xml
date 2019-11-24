@@ -10,7 +10,7 @@
     <parent>
         <groupId>org.onap.sdc.sdc-workflow-designer</groupId>
         <artifactId>workflow-designer-parent</artifactId>
-        <version>1.5.2-SNAPSHOT</version>
+        <version>1.6.0-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -136,12 +136,12 @@
         <dependency>
             <groupId>org.onap.sdc.sdc-be-common</groupId>
             <artifactId>session-lib</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.6.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.onap.sdc.sdc-be-common</groupId>
             <artifactId>versioning-lib</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.6.0-SNAPSHOT</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
@@ -152,7 +152,7 @@
         <dependency>
             <groupId>org.onap.sdc.sdc-be-common</groupId>
             <artifactId>zusammen-lib</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.6.0-SNAPSHOT</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
