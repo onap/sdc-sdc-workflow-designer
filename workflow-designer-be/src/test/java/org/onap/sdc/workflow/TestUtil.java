@@ -18,10 +18,13 @@ package org.onap.sdc.workflow;
 
 import static org.onap.sdc.workflow.services.impl.ItemType.WORKFLOW;
 
+import org.onap.sdc.common.versioning.persistence.types.InternalItem;
+import org.onap.sdc.common.versioning.persistence.types.InternalVersion;
+import org.onap.sdc.common.versioning.services.types.VersionStatus;
 import org.onap.sdc.workflow.services.types.Workflow;
 import org.onap.sdc.workflow.services.types.ArchivingStatus;
-import org.openecomp.sdc.versioning.types.Item;
-import org.openecomp.sdc.versioning.types.ItemStatus;
+import org.onap.sdc.common.versioning.services.types.Item;
+import org.onap.sdc.common.versioning.services.types.ItemStatus;
 
 public class TestUtil {
 
@@ -38,7 +41,7 @@ public class TestUtil {
     }
 
     public static Item createItem(int itemNum, boolean setType, boolean setId, ItemStatus archivingStatus) {
-        Item item = new Item();
+        InternalItem item = new InternalItem();
         if (setId) {
             item.setId(String.valueOf(itemNum));
         }
@@ -49,6 +52,13 @@ public class TestUtil {
         }
         item.setStatus(archivingStatus);
         return item;
+    }
+
+    public static InternalVersion createRetrievedVersion(String id, VersionStatus status) {
+        InternalVersion version = new InternalVersion();
+        version.setId(id);
+        version.setStatus(status);
+        return version;
     }
 
 

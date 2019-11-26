@@ -16,76 +16,66 @@
 
 package org.onap.sdc.workflow.persistence.impl;
 
-import static org.openecomp.core.zusammen.api.ZusammenUtil.createSessionContext;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doAnswer;
+import static org.onap.sdc.common.zusammen.services.ZusammenElementUtil.ELEMENT_TYPE_PROPERTY;
 
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.Element;
-import com.amdocs.zusammen.adaptor.inbound.api.types.item.ElementConflict;
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.ElementInfo;
-import com.amdocs.zusammen.adaptor.inbound.api.types.item.ItemVersionConflict;
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.ZusammenElement;
-import com.amdocs.zusammen.commons.health.data.HealthInfo;
 import com.amdocs.zusammen.datatypes.Id;
-import com.amdocs.zusammen.datatypes.SessionContext;
 import com.amdocs.zusammen.datatypes.item.Action;
 import com.amdocs.zusammen.datatypes.item.ElementContext;
 import com.amdocs.zusammen.datatypes.item.Info;
-import com.amdocs.zusammen.datatypes.item.Item;
 import com.amdocs.zusammen.datatypes.item.ItemVersion;
-import com.amdocs.zusammen.datatypes.item.ItemVersionData;
-import com.amdocs.zusammen.datatypes.item.ItemVersionStatus;
-import com.amdocs.zusammen.datatypes.item.Resolution;
-import com.amdocs.zusammen.datatypes.itemversion.ItemVersionRevisions;
-import com.amdocs.zusammen.datatypes.itemversion.Tag;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.onap.sdc.common.versioning.persistence.zusammen.ZusammenSessionContextCreator;
+import org.onap.sdc.common.zusammen.services.ZusammenAdaptor;
 import org.onap.sdc.workflow.persistence.impl.ActivitySpecRepositoryImpl.InfoPropertyName;
 import org.onap.sdc.workflow.persistence.impl.types.ActivitySpecData;
 import org.onap.sdc.workflow.persistence.impl.types.ActivitySpecElementType;
 import org.onap.sdc.workflow.persistence.types.ActivitySpecEntity;
 import org.onap.sdc.workflow.persistence.types.ActivitySpecParameter;
 import org.onap.sdc.workflow.services.utilities.JsonUtil;
-import org.openecomp.core.zusammen.api.ZusammenAdaptor;
-import org.openecomp.sdc.common.session.SessionContextProviderFactory;
-import org.openecomp.sdc.versioning.dao.types.Version;
-import org.openecomp.types.ElementPropertyName;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class ActivitySpecRepositoryImplTest {
 
-    private static final Version version = new Version();
     private static final String versionId = "1234";
     private static final String itemId = "5678";
-    private static final String tenant = "dox";
 
-    private ZusammenAdaptorMock zusammenAdaptor;
+    @Mock
+    private ZusammenAdaptor zusammenAdaptor;
+    @Mock
+    private ZusammenSessionContextCreator contextCreator;
+    @InjectMocks
     private ActivitySpecRepositoryImpl daoImpl;
-    private ActivitySpecEntity entity;
 
+    private ActivitySpecEntity entity;
+    private final Map<String, Element> elementMap = new HashMap<>();
+    private String elementId;
 
     @Before
     public void setUp() {
-        SessionContextProviderFactory.getInstance().createInterface().create("test", tenant);
-        zusammenAdaptor = new ZusammenAdaptorMock();
-        daoImpl = new ActivitySpecRepositoryImpl(zusammenAdaptor);
+        daoImpl = new ActivitySpecRepositoryImpl(zusammenAdaptor, contextCreator);
         entity = new ActivitySpecEntity();
         entity = new ActivitySpecEntity();
 
         entity.setId(itemId);
-        version.setId(versionId);
-        entity.setVersion(version);
+        entity.setVersionId(versionId);
         entity.setName("activitySpec");
         List<String> categoryList = new ArrayList<>();
         categoryList.add("category1");
@@ -95,11 +85,9 @@ public class ActivitySpecRepositoryImplTest {
         List<ActivitySpecParameter> inputs = new ArrayList<>();
         inputs.add(inputParams);
         entity.setInputs(inputs);
-    }
 
-    @After
-    public void tearDown() {
-        SessionContextProviderFactory.getInstance().createInterface().close();
+
+        mockZusammenAdapter();
     }
 
     @Test
@@ -108,10 +96,10 @@ public class ActivitySpecRepositoryImplTest {
         itemVersionmock.setId(new Id());
 
         daoImpl.create(entity);
-        SessionContext context = createSessionContext();
-        ElementContext elementContext = new ElementContext(entity.getId(), entity.getVersion().getId());
-        Optional<ElementInfo> testElementInfo = zusammenAdaptor.getElementInfoByName(context, elementContext, Id.ZERO,
-                ActivitySpecElementType.ACTIVITYSPEC.name());
+        ElementContext elementContext = new ElementContext(entity.getId(), entity.getVersionId());
+        Optional<ElementInfo> testElementInfo = zusammenAdaptor
+                                                        .getElementInfoByName(contextCreator.create(), elementContext,
+                                                                Id.ZERO, ActivitySpecElementType.ACTIVITYSPEC.name());
         Assert.assertTrue(testElementInfo.isPresent());
         Assert.assertEquals(testElementInfo.get().getInfo().getName(), ActivitySpecElementType.ACTIVITYSPEC.name());
         Assert.assertEquals(testElementInfo.get().getInfo()
@@ -124,7 +112,7 @@ public class ActivitySpecRepositoryImplTest {
                 entity.getName());
 
         final Optional<Element> testElement =
-                zusammenAdaptor.getElement(context, elementContext, zusammenAdaptor.elementId);
+                zusammenAdaptor.getElement(contextCreator.create(), elementContext, new Id(elementId));
         final InputStream data = testElement.get().getData();
         final ActivitySpecData activitySpecData = JsonUtil.json2Object(data, ActivitySpecData.class);
         Assert.assertEquals(activitySpecData.getInputs().get(0).getName(), entity.getInputs().get(0).getName());
@@ -148,123 +136,15 @@ public class ActivitySpecRepositoryImplTest {
         Assert.assertEquals(retrieved.getCategoryList(), entity.getCategoryList());
     }
 
-    private class ZusammenAdaptorMock implements ZusammenAdaptor {
 
-        private final Map<String, Element> elementMap = new HashMap<>();
-        String elementId;
-        private ItemVersion itemVersion;
+    private void mockZusammenAdapter() {
 
-        @Override
-        public Collection<Item> listItems(SessionContext context) {
-            return null;
-        }
+        doAnswer(invocationOnMock -> {
+            Id elementId = invocationOnMock.getArgument(2);
+            return Optional.of(elementMap.get(elementId.getValue()));
+        }).when(zusammenAdaptor).getElement(any(), any(), any());
 
-        @Override
-        public Item getItem(SessionContext context, Id itemId) {
-            return null;
-        }
-
-        @Override
-        public void deleteItem(SessionContext context, Id itemId) {
-
-        }
-
-        @Override
-        public Id createItem(SessionContext context, Info info) {
-            return null;
-        }
-
-        @Override
-        public void updateItem(SessionContext context, Id itemId, Info info) {
-
-        }
-
-        @Override
-        public Optional<ItemVersion> getFirstVersion(SessionContext context, Id itemId) {
-
-            return Optional.ofNullable(itemVersion);
-        }
-
-        @Override
-        public Collection<ItemVersion> listPublicVersions(SessionContext context, Id itemId) {
-            return null;
-        }
-
-        @Override
-        public ItemVersion getPublicVersion(SessionContext context, Id itemId, Id versionId) {
-            return null;
-        }
-
-        @Override
-        public Id createVersion(SessionContext context, Id itemId, Id baseVersionId, ItemVersionData itemVersionData) {
-            return null;
-        }
-
-        @Override
-        public void updateVersion(SessionContext context, Id itemId, Id versionId, ItemVersionData itemVersionData) {
-
-        }
-
-        @Override
-        public ItemVersion getVersion(SessionContext context, Id itemId, Id versionId) {
-            return null;
-        }
-
-        @Override
-        public ItemVersionStatus getVersionStatus(SessionContext context, Id itemId, Id versionId) {
-            return null;
-        }
-
-        @Override
-        public ItemVersionConflict getVersionConflict(SessionContext context, Id itemId, Id versionId) {
-            return null;
-        }
-
-        @Override
-        public void tagVersion(SessionContext context, Id itemId, Id versionId, Tag tag) {
-
-        }
-
-        @Override
-        public void resetVersionHistory(SessionContext context, Id itemId, Id versionId, String changeRef) {
-
-        }
-
-        @Override
-        public void publishVersion(SessionContext context, Id itemId, Id versionId, String message) {
-
-        }
-
-        @Override
-        public void syncVersion(SessionContext sessionContext, Id itemId, Id versionId) {
-
-        }
-
-        @Override
-        public void forceSyncVersion(SessionContext context, Id itemId, Id versionId) {
-
-        }
-
-        @Override
-        public void cleanVersion(SessionContext sessionContext, Id itemId, Id versionId) {
-
-        }
-
-        @Override
-        public Optional<ElementInfo> getElementInfo(SessionContext context, ElementContext elementContext,
-                Id elementId) {
-            return Optional.empty();
-        }
-
-        @Override
-        public Optional<Element> getElement(SessionContext context, ElementContext elementContext, String elementId) {
-            return Optional.of(elementMap.get(elementId));
-        }
-
-        @Override
-        public Optional<Element> getElementByName(SessionContext context, ElementContext elementContext,
-                Id parentElementId, String elementName) {
-            //return Optional.empty();
+        doAnswer(invocationOnMock -> {
             ZusammenElement element = new ZusammenElement();
             Info info = new Info();
             element.setElementId(Id.ZERO);
@@ -272,94 +152,29 @@ public class ActivitySpecRepositoryImplTest {
             info.addProperty("description", entity.getDescription());
             info.addProperty("category", entity.getCategoryList());
             element.setInfo(info);
-            return Optional.ofNullable(element);
-        }
+            return Optional.of(element);
+        }).when(zusammenAdaptor).getElementByName(any(), any(), any(), any());
 
-        @Override
-        public Collection<ElementInfo> listElements(SessionContext context, ElementContext elementContext,
-                Id parentElementId) {
-            return null;
-        }
+        doAnswer(invocationOnMock -> {
+            String elementName = invocationOnMock.getArgument(3);
+            return elementMap.values().stream()
+                           .filter(element -> elementName.equals(element.getInfo().getProperty(ELEMENT_TYPE_PROPERTY)))
+                           .map(element -> {
+                               ElementInfo elementInfo = new ElementInfo();
+                               elementInfo.setId(element.getElementId());
+                               elementInfo.setInfo(element.getInfo());
+                               return elementInfo;
+                           }).findAny();
+        }).when(zusammenAdaptor).getElementInfoByName(any(), any(), any(), any());
 
-        @Override
-        public Collection<Element> listElementData(SessionContext context, ElementContext elementContext,
-                Id parentElementId) {
-            return elementMap.values();
-        }
-
-        @Override
-        public Collection<ElementInfo> listElementsByName(SessionContext context, ElementContext elementContext,
-                Id parentElementId, String elementName) {
-
-            return elementMap.values().stream().filter(element -> elementName.equals(element.getInfo().getProperty(
-                    ElementPropertyName.elementType.name()))).map(element -> {
-                ElementInfo elementInfo = new ElementInfo();
-                elementInfo.setId(element.getElementId());
-                elementInfo.setInfo(element.getInfo());
-                return elementInfo;
-            }).collect(Collectors.toList());
-
-        }
-
-        @Override
-        public Optional<ElementInfo> getElementInfoByName(SessionContext context, ElementContext elementContext,
-                Id parentElementId, String elementName) {
-
-
-            return elementMap.values().stream().filter(element -> elementName.equals(element.getInfo().getProperty(
-                    ElementPropertyName.elementType.name()))).map(element -> {
-                ElementInfo elementInfo = new ElementInfo();
-                elementInfo.setId(element.getElementId());
-                elementInfo.setInfo(element.getInfo());
-                return elementInfo;
-            }).findAny();
-
-
-        }
-
-        @Override
-        public Optional<ElementConflict> getElementConflict(SessionContext context, ElementContext elementContext,
-                Id id) {
-            return Optional.empty();
-        }
-
-        @Override
-        public Element saveElement(SessionContext context, ElementContext elementContext, ZusammenElement element,
-                String message) {
+        doAnswer(invocationOnMock -> {
+            ZusammenElement element = invocationOnMock.getArgument(2);
             if (element.getAction().equals(Action.CREATE) || element.getAction().equals(Action.UPDATE)) {
                 element.setElementId(new Id(UUID.randomUUID().toString()));
             }
             elementMap.put(element.getElementId().getValue(), element);
             elementId = element.getElementId().getValue();
             return element;
-        }
-
-        @Override
-        public void resolveElementConflict(SessionContext context, ElementContext elementContext,
-                ZusammenElement element, Resolution resolution) {
-
-        }
-
-        @Override
-        public void revert(SessionContext sessionContext, Id itemId, Id versionId, Id revisionId) {
-
-        }
-
-        @Override
-        public ItemVersionRevisions listRevisions(SessionContext sessionContext, Id itemId, Id versionId) {
-            return null;
-        }
-
-        @Override
-        public Collection<HealthInfo> checkHealth(SessionContext context) {
-            return null;
-        }
-
-        @Override
-        public String getVersion(SessionContext sessionContext) {
-            return null;
-        }
-
+        }).when(zusammenAdaptor).saveElement(any(), any(), any(), any());
     }
-
 }

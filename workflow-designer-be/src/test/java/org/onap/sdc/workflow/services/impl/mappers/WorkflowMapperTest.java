@@ -23,10 +23,11 @@ import static org.onap.sdc.workflow.TestUtil.createWorkflow;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.onap.sdc.workflow.services.types.Workflow;
+import org.onap.sdc.common.versioning.services.types.Item;
+import org.onap.sdc.common.versioning.services.types.ItemStatus;
+import org.onap.sdc.workflow.services.impl.ItemType;
 import org.onap.sdc.workflow.services.types.ArchivingStatus;
-import org.openecomp.sdc.versioning.types.Item;
-import org.openecomp.sdc.versioning.types.ItemStatus;
+import org.onap.sdc.workflow.services.types.Workflow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -48,7 +49,7 @@ public class WorkflowMapperTest {
     public void shouldMapItemToWorkflow() {
 
         Item item = createItem(1, false, true, ItemStatus.ACTIVE);
-        Workflow mappedWorkflow = workflowMapper.itemToWorkflow(item);
+        Workflow mappedWorkflow = workflowMapper.fromItem(item);
         assertEquals(mappedWorkflow.getId(), item.getId());
         assertEquals(mappedWorkflow.getDescription(), item.getDescription());
         assertEquals(mappedWorkflow.getName(), item.getName());
@@ -59,11 +60,11 @@ public class WorkflowMapperTest {
     public void shouldMapWorkflowToItem() {
 
         Workflow workflow = createWorkflow(1, true, ArchivingStatus.ARCHIVED);
-        Item mappedItem = workflowMapper.workflowToItem(workflow);
-        assertEquals(mappedItem.getId(), workflow.getId());
-        assertEquals(mappedItem.getDescription(), workflow.getDescription());
-        assertEquals(mappedItem.getName(), workflow.getName());
-        assertEquals(mappedItem.getStatus().name(), workflow.getArchiving().name());
+        Item mappedItem = new Item();
+        workflowMapper.toItem(workflow, mappedItem);
+        assertEquals(ItemType.WORKFLOW.name(), mappedItem.getType());
+        assertEquals(workflow.getDescription(), mappedItem.getDescription());
+        assertEquals(workflow.getName(), mappedItem.getName());
     }
 
 }
