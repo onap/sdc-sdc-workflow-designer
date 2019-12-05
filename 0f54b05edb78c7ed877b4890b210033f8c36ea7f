@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4aa3cd8_852b8653",
+        "filename": "pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 653
+      },
+      "writtenOn": "2019-12-05T15:07:31Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 154,
+        "startChar": 16,
+        "endLine": 154,
+        "endChar": 20
+      },
+      "revId": "0f54b05edb78c7ed877b4890b210033f8c36ea7f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
