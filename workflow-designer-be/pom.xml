@@ -240,7 +240,7 @@
                         <version>1.6.8</version>
                         <extensions>true</extensions>
                         <configuration>
-                            <serverId>onap-staging</serverId>
+                            <serverId>ecomp-staging</serverId>
                             <nexusUrl>${nexus.proxy}</nexusUrl>
                             <stagingProfileId>${staging.profile.id}</stagingProfileId>
                         </configuration>
