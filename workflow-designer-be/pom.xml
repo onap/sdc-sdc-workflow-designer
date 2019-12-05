@@ -234,17 +234,6 @@
                             </images>
                         </configuration>
                     </plugin>
-                    <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.8</version>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <serverId>onap-staging</serverId>
-                            <nexusUrl>${nexus.proxy}</nexusUrl>
-                            <stagingProfileId>${staging.profile.id}</stagingProfileId>
-                        </configuration>
-                    </plugin>
                 </plugins>
             </build>
         </profile>
