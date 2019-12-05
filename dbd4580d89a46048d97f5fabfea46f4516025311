@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e558aa17_99746b34",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 653
+      },
+      "writtenOn": "2019-12-05T12:23:29Z",
+      "side": 1,
+      "message": "must be: ecomp not onap",
+      "range": {
+        "startLine": 154,
+        "startChar": 16,
+        "endLine": 154,
+        "endChar": 20
+      },
+      "revId": "dbd4580d89a46048d97f5fabfea46f4516025311",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a000274b_06f56fdd",
+        "filename": "workflow-designer-be/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 653
+      },
+      "writtenOn": "2019-12-05T12:23:29Z",
+      "side": 1,
+      "message": "Actually this plugin must be removed for self-release and OParent integration, just like:\nhttps://git.onap.org/sdc/sdc-distribution-client/commit/?id\u003d759ea36d4c2f5eb65a6a42eb7c3bff92e28961ee",
+      "range": {
+        "startLine": 239,
+        "startChar": 42,
+        "endLine": 239,
+        "endChar": 55
+      },
+      "revId": "dbd4580d89a46048d97f5fabfea46f4516025311",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
