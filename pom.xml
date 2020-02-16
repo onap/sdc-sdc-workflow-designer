@@ -34,7 +34,6 @@
 
     <properties>
         <maven-checkstyle-plugin.version>2.17</maven-checkstyle-plugin.version>
-        <jacoco.skip>true</jacoco.skip>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -46,6 +45,11 @@
         <nexus.registry>nexus3.onap.org:10001</nexus.registry>
         <nexus.proxy>https://nexus.onap.org</nexus.proxy>
         <sitePath>/content/sites/site/org/onap/sdc/workflow/${project.version}</sitePath>
+		
+		<!-- Sonar properties -->
+		<sonar.coverage.jacoco.xmlReportPaths>
+			${project.reporting.outputDirectory}/jacoco-ut/jacoco.xml
+		</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
     <parent>
@@ -140,8 +144,7 @@
                             <goal>report</goal>
                         </goals>
                         <configuration>
-                            <dataFile>target/jacoco.exec</dataFile>
-                            <outputDirectory>target/jacoco-ut</outputDirectory>
+                            <destFile>${sonar.jacoco.reportPath}</destFile>
                         </configuration>
                     </execution>
                 </executions>
