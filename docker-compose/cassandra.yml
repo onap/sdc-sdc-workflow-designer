@@ -2,4 +2,4 @@ version: '3'
 services:
 
   cassandra:
-    image: "cassandra:2.1"
+    image: "cassandra:3.11.4"
