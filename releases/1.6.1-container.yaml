@@ -1,0 +1,12 @@
+distribution_type: 'container'
+container_release_tag: '1.6.1'
+project: 'sdc-sdc-workflow-designer'
+log_dir: 'sdc-sdc-workflow-designer-maven-docker-stage-master/227'
+ref: I5106d6aadba325fb334893c7512f6f4d9a117504
+containers:
+  - name: 'workflow-init'
+    version: '1.6.0'
+  - name: 'workflow-backend'
+    version: '1.6.0'
+  - name: 'workflow-frontend'
+    version: ''1.6.0'
