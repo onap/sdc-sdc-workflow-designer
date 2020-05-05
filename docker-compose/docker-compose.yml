@@ -21,7 +21,7 @@ services:
         - CS_PASSWORD
         - CS_PORT=${CASSANDRA_PORT}
         - SDC_PROTOCOL
-        - SDC_ENDPOINT="${SDC_HOST}:8080"
+        - SDC_ENDPOINT=${SDC_HOST}:8080
         - SDC_USER
         - SDC_PASSWORD
 

@@ -5,7 +5,9 @@ debug.log
 dist
 docs
 node_modules
+node
 .npmrc
 npm-debug.log
 devConfig.json
 jenkinsConfig.json
+/yarn.lock
