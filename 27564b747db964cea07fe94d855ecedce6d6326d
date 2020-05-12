@@ -46,6 +46,30 @@
       "revId": "27564b747db964cea07fe94d855ecedce6d6326d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92ef3426_4ccb8f0e",
+        "filename": "sdc-workflow-designer-be/src/main/resources/application.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 653
+      },
+      "writtenOn": "2020-05-12T11:43:38Z",
+      "side": 1,
+      "message": "Ok thanks, it\u0027s set to true in OOM charts so I guess it\u0027s fine",
+      "parentUuid": "112120ab_6517bdfe",
+      "range": {
+        "startLine": 20,
+        "startChar": 21,
+        "endLine": 20,
+        "endChar": 45
+      },
+      "revId": "27564b747db964cea07fe94d855ecedce6d6326d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
