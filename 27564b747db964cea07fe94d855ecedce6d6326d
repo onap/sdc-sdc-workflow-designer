@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "968d2d21_f3bb2c34",
+        "filename": "sdc-workflow-designer-be/src/main/resources/application.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 653
+      },
+      "writtenOn": "2020-05-12T06:28:12Z",
+      "side": 1,
+      "message": "Doesn\u0027t it turn SSL off in the container pushed to nexus too?\nMaybe should change in application-dev.properties",
+      "range": {
+        "startLine": 20,
+        "startChar": 21,
+        "endLine": 20,
+        "endChar": 45
+      },
+      "revId": "27564b747db964cea07fe94d855ecedce6d6326d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
