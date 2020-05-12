@@ -22,6 +22,30 @@
       "revId": "27564b747db964cea07fe94d855ecedce6d6326d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "112120ab_6517bdfe",
+        "filename": "sdc-workflow-designer-be/src/main/resources/application.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5565
+      },
+      "writtenOn": "2020-05-12T10:39:35Z",
+      "side": 1,
+      "message": "Turns off by default. If the environment variable SERVER_SSL_ENABLED is set, it get the variable value. Anyone running the container that wants SSL should set the variable to true.\nI\u0027m just returning to the original idea, also explained by the README, that SSL is disabled by default.\n\nI could investigate how to make the environment (prod, dev) configurable in the docker. So I can set spring.profiles.active variable and it would take the desired configuration.\n\nOr I can leave it as it is and set the docker-compose files to disable it, because it is breaking the local environment when enabled.",
+      "parentUuid": "968d2d21_f3bb2c34",
+      "range": {
+        "startLine": 20,
+        "startChar": 21,
+        "endLine": 20,
+        "endChar": 45
+      },
+      "revId": "27564b747db964cea07fe94d855ecedce6d6326d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
