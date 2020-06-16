@@ -30,7 +30,9 @@
                                     <name>onap/sdc-workflow-init</name>
                                     <build>
                                         <tags>
-                                            <tag>${project.version}</tag>
+                                            <tag>latest</tag>
+                                            <tag>${project.docker.latesttagtimestamp.version}</tag>
+                                            <tag>${project.docker.latesttag.version}</tag>
                                         </tags>
                                         <dockerFile>Dockerfile</dockerFile>
                                     </build>

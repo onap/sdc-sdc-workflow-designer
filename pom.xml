@@ -36,8 +36,11 @@
         <maven-checkstyle-plugin.version>2.17</maven-checkstyle-plugin.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.build.timestamp.format>yyyyMMdd'T'HHmmss'Z'</maven.build.timestamp.format>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <sdc.project.version>${project.version}</sdc.project.version>
+        <sdc.build.timestamp>${maven.build.timestamp}</sdc.build.timestamp>
         <onap.version>1.3.0</onap.version>
         <docker.optimize>true</docker.optimize>
         <docker.username>docker</docker.username>
@@ -45,7 +48,6 @@
         <nexus.registry>nexus3.onap.org:10001</nexus.registry>
         <nexus.proxy>https://nexus.onap.org</nexus.proxy>
         <sitePath>/content/sites/site/org/onap/sdc/workflow/${project.version}</sitePath>
-		
 		<!-- Sonar properties -->
 		<sonar.coverage.jacoco.xmlReportPaths>
 			${project.reporting.outputDirectory}/jacoco-ut/jacoco.xml
@@ -145,6 +147,40 @@
                         </goals>
                         <configuration>
                             <destFile>${sonar.jacoco.reportPath}</destFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.groovy.maven</groupId>
+                <artifactId>gmaven-plugin</artifactId>
+                <version>1.0</version>
+                <inherited>true</inherited>
+                <executions>
+                    <execution>
+                        <id>docker-tags</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <source>
+                                println 'Docker Tagging Script:' + project.properties['sdc.project.version'] + '/' + project.properties['sdc.build.timestamp'];
+                                def versionArray;
+                                if ( project.properties['sdc.project.version'] != null ) {
+                                    versionArray = project.properties['sdc.project.version'].split('\\.');
+                                }
+
+                                if ( project.properties['sdc.project.version'].endsWith("-SNAPSHOT") ) {
+                                    project.properties.setProperty('project.docker.latesttag.version',versionArray[0] + '.' + versionArray[1] + "-SNAPSHOT-latest");
+                                    project.properties.setProperty('project.docker.latesttagtimestamp.version',versionArray[0] + '.' + versionArray[1] + "-SNAPSHOT-"+project.properties['sdc.build.timestamp']);
+                                } else {
+                                    project.properties.setProperty('project.docker.latesttag.version',versionArray[0] + '.' + versionArray[1] + "-STAGING-latest");
+                                    project.properties.setProperty('project.docker.latesttagtimestamp.version',versionArray[0] + '.' + versionArray[1] + "-STAGING-"+project.properties['sdc.build.timestamp']);
+                                }
+
+                                println 'New Tags for docker:' + project.properties['project.docker.latesttag.version'] + '/' + project.properties['project.docker.latesttagtimestamp.version'];
+                            </source>
                         </configuration>
                     </execution>
                 </executions>
