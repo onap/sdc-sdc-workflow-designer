@@ -29,7 +29,7 @@
     <groupId>org.onap.sdc.sdc-workflow-designer</groupId>
     <artifactId>workflow-designer-parent</artifactId>
     <name>sdc-sdc-workflow-designer</name>
-    <version>1.5.2-SNAPSHOT</version>
+    <version>1.5.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
