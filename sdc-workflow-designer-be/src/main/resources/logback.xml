@@ -23,6 +23,9 @@
     <property name="log.home" value="/var/log/ONAP"/>
     <property name="log.location" value="${log.home}/${ONAP-component-name}/${ONAP-subcomponent-name}"/>
 
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+	</appender>
+
     <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
 
         <file>${log.location}/error.log</file>
