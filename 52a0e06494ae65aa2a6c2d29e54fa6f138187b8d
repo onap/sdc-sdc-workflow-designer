@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9baed68b_a5c2ccdd",
+        "filename": "sdc-workflow-designer-be/src/main/resources/logback.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 23
+      },
+      "writtenOn": "2020-08-12T14:14:57Z",
+      "side": 1,
+      "message": "Not sure to see the goal of defining an appender not used at all ?\nDid i miss something?",
+      "revId": "52a0e06494ae65aa2a6c2d29e54fa6f138187b8d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f521eac_67c5b3ec",
+        "filename": "sdc-workflow-designer-be/src/main/resources/logback.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 23
+      },
+      "writtenOn": "2020-08-12T14:14:57Z",
+      "side": 1,
+      "message": "This appender CONSOLE is used but not defined, may be you want to replace it by the new one defined STDOUT ?",
+      "revId": "52a0e06494ae65aa2a6c2d29e54fa6f138187b8d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
