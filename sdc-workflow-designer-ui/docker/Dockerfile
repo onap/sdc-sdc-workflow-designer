@@ -1,4 +1,4 @@
-FROM jetty:9.4-jre8-alpine
+FROM jetty:9.4.31-jre11-slim
 
 EXPOSE 8080
 EXPOSE 8443
