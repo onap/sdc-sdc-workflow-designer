@@ -64,6 +64,7 @@ public class SSLProxyServlet extends ProxyServlet {
 
     public static final int TIMEOUT = 600000;
     protected static final String PROXY_TO = "proxyTo";
+    protected static final String BASIC_AUTH = "basicAuth";
     protected static final String TRUST_ALL = "sslTrustAll";
     protected static final String MAX_POOL_CONNECTIONS = "maxPoolConnections";
     protected static final String KEYSTORE_PATH = "keystorePath";
@@ -117,6 +118,12 @@ public class SSLProxyServlet extends ProxyServlet {
                 String headerVal = request.getHeader(headerName);
                 proxyRequest.header(headerName, headerVal);
             }
+        }
+
+        String basicAuth = System.getProperty(BASIC_AUTH);
+        if (basicAuth != null && !basicAuth.isEmpty()) {
+            proxyRequest.getHeaders().remove(HttpHeader.AUTHORIZATION);
+            proxyRequest.header(HttpHeader.AUTHORIZATION, "Basic " + basicAuth);
         }
         proxyRequest.getHeaders().remove(HttpHeader.HOST);
         super.sendProxyRequest(request, response, proxyRequest);

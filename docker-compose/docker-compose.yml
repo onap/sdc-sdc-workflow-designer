@@ -33,6 +33,7 @@ services:
         - SDC_USER
         - SDC_PASSWORD
         - SERVER_SSL_ENABLED
+        - BASIC_AUTH_CREDENTIAL
     networks:
       - sdc-network
 
@@ -47,6 +48,7 @@ services:
     environment:
         - JAVA_OPTIONS
         - BACKEND=http://sdc-workflow-backend:8080
+        - BASIC_AUTH_CREDENTIAL
     networks:
       - sdc-network
 
