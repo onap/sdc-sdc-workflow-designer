@@ -33,6 +33,7 @@ services:
         - SDC_USER
         - SDC_PASSWORD
         - SERVER_SSL_ENABLED
+        - BASIC_AUTH_CREDENTIAL
     networks:
       - sdc-network
 
