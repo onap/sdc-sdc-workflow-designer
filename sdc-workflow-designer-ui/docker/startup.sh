@@ -23,5 +23,5 @@ then
 else
     echo "no ssl required"
 fi
-java $JAVA_OPTIONS -DproxyTo=$BACKEND $SSL_JAVA_OPTS -jar $JETTY_HOME/start.jar
+java $JAVA_OPTIONS -DproxyTo=$BACKEND -DbasicAuth=$BASIC_AUTH_CREDENTIAL $SSL_JAVA_OPTS -jar $JETTY_HOME/start.jar
 
