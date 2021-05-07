@@ -19,7 +19,7 @@ package org.onap.sdc.workflow.api.swagger;
 import static org.onap.sdc.workflow.api.RestParams.USER_ID_HEADER;
 
 import com.fasterxml.classmate.TypeResolver;
-import com.google.common.base.Optional;
+import java.util.Optional;
 import org.onap.sdc.workflow.services.annotations.UserId;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;

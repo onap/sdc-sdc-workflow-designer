@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.classmate.TypeResolver;
-import com.google.common.base.Optional;
+import java.util.Optional;
 import java.lang.annotation.Annotation;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -60,7 +60,7 @@ public class UserIdReaderTest {
     @Test
     public void shouldNotCallToParameterBuilderIfUserIdAnnotationNotFound() {
         when(parameterContext.resolvedMethodParameter()).thenReturn(resolvedMethodParameter);
-        when(resolvedMethodParameter.findAnnotation(UserId.class)).thenReturn(Optional.absent());
+        when(resolvedMethodParameter.findAnnotation(UserId.class)).thenReturn(Optional.empty());
         userIdReader.apply(parameterContext);
         verify(parameterContext, times(0)).parameterBuilder();
     }
@@ -70,7 +70,7 @@ public class UserIdReaderTest {
 
         doReturn(resolvedMethodParameter).when(parameterContext).resolvedMethodParameter();
         doReturn(parameterBuilder).when(parameterContext).parameterBuilder();
-        doReturn(parameterBuilder).when(parameterBuilder).parameterType(any());
+        doReturn(parameterBuilder).when(parameterBuilder).parameterType((String)(any()));
         doReturn(parameterBuilder).when(parameterBuilder).name(any());
         doReturn(parameterBuilder).when(parameterBuilder).type(any());
         doReturn(Optional.of(USER_ID_ANNOTATION)).when(resolvedMethodParameter).findAnnotation(UserId.class);

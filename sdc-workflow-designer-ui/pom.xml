@@ -27,7 +27,7 @@
     <parent>
         <groupId>org.onap.sdc.sdc-workflow-designer</groupId>
         <artifactId>sdc-workflow-designer-parent</artifactId>
-        <version>1.8.0-SNAPSHOT</version>
+        <version>1.9.0-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -39,13 +39,24 @@
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-proxy</artifactId>
-            <version>9.4.18.v20190429</version>
+            <version>9.4.40.v20210413</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jetty-http</artifactId>
+                    <groupId>org.eclipse.jetty</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>3.0.1</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-http</artifactId>
+            <version>9.4.40.v20210413</version>
         </dependency>
     </dependencies>
 
