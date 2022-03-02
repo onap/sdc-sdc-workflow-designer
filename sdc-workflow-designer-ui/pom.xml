@@ -32,6 +32,7 @@
 
     <properties>
         <jest.command />
+        <jetty.version>9.4.45.v20220203</jetty.version>
     </properties>
 
 
@@ -39,7 +40,7 @@
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-proxy</artifactId>
-            <version>9.4.40.v20210413</version>
+            <version>${jetty.version}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>jetty-http</artifactId>
@@ -56,7 +57,7 @@
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-http</artifactId>
-            <version>9.4.40.v20210413</version>
+            <version>${jetty.version}</version>
         </dependency>
     </dependencies>
 
