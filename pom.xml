@@ -15,9 +15,9 @@
   -->
 
 <project
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns="http://maven.apache.org/POM/4.0.0"
-        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -41,17 +41,17 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <sdc.project.version>${project.version}</sdc.project.version>
         <sdc.build.timestamp>${maven.build.timestamp}</sdc.build.timestamp>
-        <onap.version>1.3.0</onap.version>
+        <onap.version>1.5.0</onap.version>
         <docker.optimize>true</docker.optimize>
         <docker.username>docker</docker.username>
         <docker.password>docker</docker.password>
         <nexus.registry>nexus3.onap.org:10001</nexus.registry>
         <nexus.proxy>https://nexus.onap.org</nexus.proxy>
         <sitePath>/content/sites/site/org/onap/sdc/workflow/${project.version}</sitePath>
-		<!-- Sonar properties -->
-		<sonar.coverage.jacoco.xmlReportPaths>
-			${project.reporting.outputDirectory}/jacoco-ut/jacoco.xml
-		</sonar.coverage.jacoco.xmlReportPaths>
+        <!-- Sonar properties -->
+        <sonar.coverage.jacoco.xmlReportPaths>
+            ${project.reporting.outputDirectory}/jacoco-ut/jacoco.xml
+        </sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
     <parent>
@@ -167,16 +167,16 @@
                             <source>
                                 println 'Docker Tagging Script:' + project.properties['sdc.project.version'] + '/' + project.properties['sdc.build.timestamp'];
                                 def versionArray;
-                                if ( project.properties['sdc.project.version'] != null ) {
+                                if (project.properties['sdc.project.version'] != null) {
                                     versionArray = project.properties['sdc.project.version'].split('\\.');
                                 }
 
-                                if ( project.properties['sdc.project.version'].endsWith("-SNAPSHOT") ) {
-                                    project.properties.setProperty('project.docker.latesttag.version',versionArray[0] + '.' + versionArray[1] + "-SNAPSHOT-latest");
-                                    project.properties.setProperty('project.docker.latesttagtimestamp.version',versionArray[0] + '.' + versionArray[1] + "-SNAPSHOT-"+project.properties['sdc.build.timestamp']);
+                                if (project.properties['sdc.project.version'].endsWith("-SNAPSHOT")) {
+                                    project.properties.setProperty('project.docker.latesttag.version', versionArray[0] + '.' + versionArray[1] + "-SNAPSHOT-latest");
+                                    project.properties.setProperty('project.docker.latesttagtimestamp.version', versionArray[0] + '.' + versionArray[1] + "-SNAPSHOT-" + project.properties['sdc.build.timestamp']);
                                 } else {
-                                    project.properties.setProperty('project.docker.latesttag.version',versionArray[0] + '.' + versionArray[1] + "-STAGING-latest");
-                                    project.properties.setProperty('project.docker.latesttagtimestamp.version',versionArray[0] + '.' + versionArray[1] + "-STAGING-"+project.properties['sdc.build.timestamp']);
+                                    project.properties.setProperty('project.docker.latesttag.version', versionArray[0] + '.' + versionArray[1] + "-STAGING-latest");
+                                    project.properties.setProperty('project.docker.latesttagtimestamp.version', versionArray[0] + '.' + versionArray[1] + "-STAGING-" + project.properties['sdc.build.timestamp']);
                                 }
 
                                 println 'New Tags for docker:' + project.properties['project.docker.latesttag.version'] + '/' + project.properties['project.docker.latesttagtimestamp.version'];

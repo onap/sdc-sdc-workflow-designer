@@ -14,14 +14,15 @@
     </parent>
 
     <properties>
-        <spring.boot.version>2.6.4</spring.boot.version>
-        <org.springframework.version>5.3.13</org.springframework.version>
+        <spring.boot.version>2.1.18.RELEASE</spring.boot.version>
+        <org.springframework.version>5.1.19.RELEASE</org.springframework.version>
         <mapstruct.version>1.3.1.Final</mapstruct.version>
         <lombok.version>1.18.0</lombok.version>
         <springfox.version>3.0.0</springfox.version>
         <jaxb.api.version>2.3.0</jaxb.api.version>
         <org.glassfish.version>4.0.2</org.glassfish.version>
         <mockito.version>3.7.7</mockito.version>
+        <springframework.plugin.version>2.0.0.RELEASE</springframework.plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -122,6 +123,11 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-handler</artifactId>
+            <version>4.1.75.Final</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
@@ -141,6 +147,26 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-boot-starter</artifactId>
             <version>${springfox.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.plugin</groupId>
+                    <artifactId>spring-plugin-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.plugin</groupId>
+                    <artifactId>spring-plugin-metadata</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.plugin</groupId>
+            <artifactId>spring-plugin-core</artifactId>
+            <version>${springframework.plugin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.plugin</groupId>
+            <artifactId>spring-plugin-metadata</artifactId>
+            <version>${springframework.plugin.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openecomp.sdc</groupId>
@@ -352,4 +378,3 @@
     </profiles>
 
 </project>
-
