@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b70eccea_eaceb255",
+        "filename": "releases/1.11.0-container.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5269
+      },
+      "writtenOn": "2022-04-08T16:22:01Z",
+      "side": 1,
+      "message": "this looks like the wrong ref",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 45
+      },
+      "revId": "266630d98b4e6af861d728579b3df9c5403e7dbc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
