@@ -23,6 +23,7 @@
         <org.glassfish.version>4.0.2</org.glassfish.version>
         <mockito.version>3.7.7</mockito.version>
         <springframework.plugin.version>2.0.0.RELEASE</springframework.plugin.version>
+        <zusammen.version>1.0.2</zusammen.version>
     </properties>
 
     <dependencyManagement>
@@ -295,15 +296,20 @@
             <artifactId>jaxb-api</artifactId>
             <version>${jaxb.api.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.amdocs.zusammen</groupId>
+            <artifactId>zusammen-sdk</artifactId>
+            <version>${zusammen.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.amdocs.zusammen</groupId>
+            <artifactId>zusammen-commons-configuration</artifactId>
+            <version>${zusammen.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -354,6 +360,7 @@
                         <groupId>io.fabric8</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
                         <configuration>
+                            <apiVersion>${docker.api.version}</apiVersion>
                             <images>
                                 <image>
                                     <name>onap/sdc-workflow-backend</name>
