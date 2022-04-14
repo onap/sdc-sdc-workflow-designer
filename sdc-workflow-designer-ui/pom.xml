@@ -185,6 +185,7 @@
                         <groupId>io.fabric8</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
                         <configuration>
+                            <apiVersion>${docker.api.version}</apiVersion>
                             <images>
                                 <image>
                                     <name>onap/sdc-workflow-frontend</name>
