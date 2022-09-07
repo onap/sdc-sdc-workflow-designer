@@ -49,7 +49,7 @@
         <sonar.coverage.jacoco.xmlReportPaths>
             ${project.reporting.outputDirectory}/jacoco-ut/jacoco.xml
         </sonar.coverage.jacoco.xmlReportPaths>
-	<docker.api.version>1.41</docker.api.version>
+        <docker.api.version>1.41</docker.api.version>
         <checkstyle.skip>true</checkstyle.skip>
     </properties>
 

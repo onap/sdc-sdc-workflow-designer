@@ -8,10 +8,10 @@ services:
     ports:
     - "${BACKEND_DEBUG_PORT}:${BACKEND_DEBUG_PORT}"
     environment:
-    - JAVA_OPTIONS=${JAVA_OPTIONS} -Xdebug -agentlib:jdwp=transport=dt_socket,address=${BACKEND_DEBUG_PORT},server=y,suspend=n
+    - JAVA_OPTIONS=${JAVA_OPTIONS} -Xdebug -agentlib:jdwp=transport=dt_socket,address=*:${BACKEND_DEBUG_PORT},server=y,suspend=n
 
   sdc-workflow-frontend:
     ports:
     - "${FRONTEND_DEBUG_PORT}:${FRONTEND_DEBUG_PORT}"
     environment:
-    - JAVA_OPTIONS=${JAVA_OPTIONS} -Xdebug -agentlib:jdwp=transport=dt_socket,address=${FRONTEND_DEBUG_PORT},server=y,suspend=n
+    - JAVA_OPTIONS=${JAVA_OPTIONS} -Xdebug -agentlib:jdwp=transport=dt_socket,address=*:${FRONTEND_DEBUG_PORT},server=y,suspend=n
