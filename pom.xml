@@ -51,6 +51,7 @@
         </sonar.coverage.jacoco.xmlReportPaths>
         <docker.api.version>1.41</docker.api.version>
         <checkstyle.skip>true</checkstyle.skip>
+        <jetty.version>9.4.49.v20220914</jetty.version>
     </properties>
 
     <parent>
@@ -240,5 +241,23 @@
             <url>dav:${nexus.proxy}${sitePath}</url>
         </site>
     </distributionManagement>
+
+    <profiles>
+        <profile>
+            <id>fast-build</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+                <skipYamlJsonValidator>true</skipYamlJsonValidator>
+                <checkstyle.skip>true</checkstyle.skip>
+                <jacoco.skip>true</jacoco.skip>
+                <maven.antrun.skip>true</maven.antrun.skip>
+                <swagger.skip>true</swagger.skip>
+            </properties>
+        </profile>
+
+    </profiles>
 
 </project>
