@@ -25,6 +25,8 @@
         <springframework.plugin.version>2.0.0.RELEASE</springframework.plugin.version>
         <zusammen.version>1.0.2</zusammen.version>
         <sdc-be-common.version>1.7.1</sdc-be-common.version>
+        <junitJupiter.version>5.9.1</junitJupiter.version>
+        <junit.platform.version>1.9.0</junit.platform.version>
     </properties>
 
     <dependencyManagement>
@@ -514,11 +516,26 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.2</version>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>${junitJupiter.version}</version>
+            <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-commons</artifactId>
+            <version>${junit.platform.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-engine</artifactId>
+            <version>${junit.platform.version}</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.onap.sdc.sdc-be-common</groupId>
             <artifactId>versioning-lib</artifactId>
@@ -591,6 +608,18 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.surefire</groupId>
+                        <artifactId>surefire-junit-platform</artifactId>
+                        <version>2.22.2</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
