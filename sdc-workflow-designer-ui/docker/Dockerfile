@@ -1,4 +1,4 @@
-FROM jetty:9.4.31-jre11-slim
+FROM jetty:${jetty.docker.version}-jre11-alpine
 
 EXPOSE 8080
 EXPOSE 8443
