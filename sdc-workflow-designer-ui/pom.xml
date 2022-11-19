@@ -17,8 +17,8 @@
 -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>sdc-workflow-designer-ui</artifactId>
@@ -31,8 +31,7 @@
     </parent>
 
     <properties>
-        <jest.command />
-        <jetty.version>9.4.48.v20220622</jetty.version>
+        <jest.command/>
     </properties>
 
     <dependencies>
@@ -97,7 +96,8 @@
                             <goal>yarn</goal>
                         </goals>
                         <configuration>
-                            <yarnInheritsProxyConfigFromMaven>false</yarnInheritsProxyConfigFromMaven>
+                            <yarnInheritsProxyConfigFromMaven>false
+                            </yarnInheritsProxyConfigFromMaven>
                             <arguments>build</arguments>
                         </configuration>
                     </execution>
@@ -107,7 +107,8 @@
                             <goal>yarn</goal>
                         </goals>
                         <configuration>
-                            <yarnInheritsProxyConfigFromMaven>false</yarnInheritsProxyConfigFromMaven>
+                            <yarnInheritsProxyConfigFromMaven>false
+                            </yarnInheritsProxyConfigFromMaven>
                             <arguments>test-build ${jest.command}</arguments>
                             <skip>${skipTests}</skip>
                         </configuration>
@@ -136,6 +137,26 @@
                         </resource>
                     </webResources>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <id>regex-property</id>
+                        <goals>
+                            <goal>regex-property</goal>
+                        </goals>
+                        <configuration>
+                            <name>jetty.docker.version</name>
+                            <value>${jetty.version}</value>
+                            <regex>.v[0-9]+</regex>
+                            <replacement/>
+                            <failIfNoMatch>false</failIfNoMatch>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -173,7 +194,8 @@
                                     <resources>
                                         <resource>
                                             <directory>${project.build.directory}</directory>
-                                            <include>${project.artifactId}-${project.version}.war</include>
+                                            <include>${project.artifactId}-${project.version}.war
+                                            </include>
                                         </resource>
                                     </resources>
                                 </configuration>
@@ -196,7 +218,8 @@
                                         </tags>
                                         <dockerFileDir>${project.basedir}/docker</dockerFileDir>
                                         <args>
-                                            <ARTIFACT>${project.artifactId}-${project.version}.war</ARTIFACT>
+                                            <ARTIFACT>${project.artifactId}-${project.version}.war
+                                            </ARTIFACT>
                                         </args>
                                     </build>
                                 </image>
@@ -208,4 +231,3 @@
         </profile>
     </profiles>
 </project>
-
