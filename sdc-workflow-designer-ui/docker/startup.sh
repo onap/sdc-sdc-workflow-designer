@@ -26,6 +26,7 @@ else
   echo "no ssl required"
 fi
 
+echo "jetty.httpConfig.sendServerVersion=false" >>${JETTY_BASE}/start.d/start.ini
 echo "etc/rewrite-root-to-workflows.xml" >>${JETTY_BASE}/start.d/rewrite.ini
 
 java ${JAVA_OPTIONS} -DproxyTo=${BACKEND} ${SSL_JAVA_OPTS} -jar ${JETTY_HOME}/start.jar
