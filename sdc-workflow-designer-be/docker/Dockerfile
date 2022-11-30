@@ -1,4 +1,4 @@
-FROM onap/integration-java11:7.1.0
+FROM onap/integration-java11:10.0.0
 
 EXPOSE 8080
 
