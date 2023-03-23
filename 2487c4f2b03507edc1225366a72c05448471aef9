@@ -22,6 +22,30 @@
       "revId": "2487c4f2b03507edc1225366a72c05448471aef9",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab3619d7_00790cd5",
+        "filename": "sdc-workflow-designer-be/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5562
+      },
+      "writtenOn": "2023-03-23T12:49:11Z",
+      "side": 1,
+      "message": "upgraded from 5.2.22.RELEASE to 5.3.25 by https://gerrit.onap.org/r/c/sdc/sdc-workflow-designer/+/133726/2/sdc-workflow-designer-be/pom.xml\nv5.3.25 is incompatible with current version of org.springframework.boot\nreverting to latest v5.2.2+.RELEASE",
+      "parentUuid": "2bb9ae3f_3baff33f",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 81
+      },
+      "revId": "2487c4f2b03507edc1225366a72c05448471aef9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
