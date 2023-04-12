@@ -171,40 +171,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.codehaus.groovy.maven</groupId>
-                <artifactId>gmaven-plugin</artifactId>
-                <version>1.0</version>
-                <inherited>true</inherited>
-                <executions>
-                    <execution>
-                        <id>docker-tags</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>execute</goal>
-                        </goals>
-                        <configuration>
-                            <source>
-                                println 'Docker Tagging Script:' + project.properties['sdc.project.version'] + '/' + project.properties['sdc.build.timestamp'];
-                                def versionArray;
-                                if (project.properties['sdc.project.version'] != null) {
-                                    versionArray = project.properties['sdc.project.version'].split('\\.');
-                                }
-
-                                if (project.properties['sdc.project.version'].endsWith("-SNAPSHOT")) {
-                                    project.properties.setProperty('project.docker.latesttag.version', versionArray[0] + '.' + versionArray[1] + "-SNAPSHOT-latest");
-                                    project.properties.setProperty('project.docker.latesttagtimestamp.version', versionArray[0] + '.' + versionArray[1] + "-SNAPSHOT-" + project.properties['sdc.build.timestamp']);
-                                } else {
-                                    project.properties.setProperty('project.docker.latesttag.version', versionArray[0] + '.' + versionArray[1] + "-STAGING-latest");
-                                    project.properties.setProperty('project.docker.latesttagtimestamp.version', versionArray[0] + '.' + versionArray[1] + "-STAGING-" + project.properties['sdc.build.timestamp']);
-                                }
-
-                                println 'New Tags for docker:' + project.properties['project.docker.latesttag.version'] + '/' + project.properties['project.docker.latesttagtimestamp.version'];
-                            </source>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 
