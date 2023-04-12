@@ -32,8 +32,8 @@
                                     <build>
                                         <tags>
                                             <tag>latest</tag>
-                                            <tag>${project.docker.latesttagtimestamp.version}</tag>
-                                            <tag>${project.docker.latesttag.version}</tag>
+                                            <tag>${project.version}-latest</tag>
+                                            <tag>${project.version}-${maven.build.timestamp}</tag>
                                         </tags>
                                         <dockerFile>Dockerfile</dockerFile>
                                     </build>
