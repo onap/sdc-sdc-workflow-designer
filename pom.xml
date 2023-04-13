@@ -15,9 +15,9 @@
   -->
 
 <project
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns="http://maven.apache.org/POM/4.0.0"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -49,6 +49,8 @@
         <sonar.coverage.jacoco.xmlReportPaths>
             ${project.reporting.outputDirectory}/jacoco-ut/jacoco.xml
         </sonar.coverage.jacoco.xmlReportPaths>
+
+        <build-helper-maven-plugin.version>3.3.0</build-helper-maven-plugin.version>
         <docker.api.version>1.41</docker.api.version>
         <checkstyle.skip>true</checkstyle.skip>
         <jetty.version>9.4.49.v20220914</jetty.version>
@@ -138,8 +140,8 @@
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <configuration>
                     <suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
-		    <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
-		    <skip>${checkstyle.skip}</skip>
+                    <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
+                    <skip>${checkstyle.skip}</skip>
                 </configuration>
             </plugin>
             <plugin>
@@ -172,36 +174,16 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.groovy.maven</groupId>
-                <artifactId>gmaven-plugin</artifactId>
-                <version>1.0</version>
-                <inherited>true</inherited>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>${build-helper-maven-plugin.version}</version>
                 <executions>
                     <execution>
-                        <id>docker-tags</id>
-                        <phase>validate</phase>
+                        <phase>initialize</phase>
+                        <id>parse-version</id>
                         <goals>
-                            <goal>execute</goal>
+                            <goal>parse-version</goal>
                         </goals>
-                        <configuration>
-                            <source>
-                                println 'Docker Tagging Script:' + project.properties['sdc.project.version'] + '/' + project.properties['sdc.build.timestamp'];
-                                def versionArray;
-                                if (project.properties['sdc.project.version'] != null) {
-                                    versionArray = project.properties['sdc.project.version'].split('\\.');
-                                }
-
-                                if (project.properties['sdc.project.version'].endsWith("-SNAPSHOT")) {
-                                    project.properties.setProperty('project.docker.latesttag.version', versionArray[0] + '.' + versionArray[1] + "-SNAPSHOT-latest");
-                                    project.properties.setProperty('project.docker.latesttagtimestamp.version', versionArray[0] + '.' + versionArray[1] + "-SNAPSHOT-" + project.properties['sdc.build.timestamp']);
-                                } else {
-                                    project.properties.setProperty('project.docker.latesttag.version', versionArray[0] + '.' + versionArray[1] + "-STAGING-latest");
-                                    project.properties.setProperty('project.docker.latesttagtimestamp.version', versionArray[0] + '.' + versionArray[1] + "-STAGING-" + project.properties['sdc.build.timestamp']);
-                                }
-
-                                println 'New Tags for docker:' + project.properties['project.docker.latesttag.version'] + '/' + project.properties['project.docker.latesttagtimestamp.version'];
-                            </source>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>

@@ -139,7 +139,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>${build-helper-maven-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>regex-property</id>
@@ -210,8 +210,8 @@
                                     <build>
                                         <tags>
                                             <tag>latest</tag>
-                                            <tag>${project.docker.latesttagtimestamp.version}</tag>
-                                            <tag>${project.docker.latesttag.version}</tag>
+                                            <tag>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}-STAGING-latest</tag>
+                                            <tag>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}-STAGING-${maven.build.timestamp}</tag>
                                         </tags>
                                         <dockerFileDir>${project.basedir}/docker</dockerFileDir>
                                         <args>
