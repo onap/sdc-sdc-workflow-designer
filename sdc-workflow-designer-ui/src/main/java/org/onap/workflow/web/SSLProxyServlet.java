@@ -22,20 +22,22 @@
 package org.onap.workflow.web;
 
 
-import org.eclipse.jetty.client.HttpClient;
-import org.eclipse.jetty.client.api.Request;
-import org.eclipse.jetty.http.HttpHeader;
-import org.eclipse.jetty.http.HttpScheme;
-import org.eclipse.jetty.proxy.ProxyServlet;
-import org.eclipse.jetty.util.URIUtil;
-import org.eclipse.jetty.util.ssl.SslContextFactory;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jetty.client.HttpClient;
+import org.eclipse.jetty.client.api.Request;
+import org.eclipse.jetty.client.dynamic.HttpClientTransportDynamic;
+import org.eclipse.jetty.http.HttpFields;
+import org.eclipse.jetty.http.HttpHeader;
+import org.eclipse.jetty.http.HttpScheme;
+import org.eclipse.jetty.io.ClientConnector;
+import org.eclipse.jetty.proxy.ProxyServlet;
+import org.eclipse.jetty.util.URIUtil;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
 
 
 /***
@@ -85,8 +87,9 @@ public class SSLProxyServlet extends ProxyServlet {
 
     private void initProxyUrl() throws ServletException, MalformedURLException {
 
-        if (SSLProxyServlet.proxyUrl != null)
+        if (SSLProxyServlet.proxyUrl != null) {
             return;
+        }
         String proxyUrlStr = System.getProperty(PROXY_TO);
         if (proxyUrlStr == null) {
             throw new ServletException("-D" + PROXY_TO + " must be specified");
@@ -113,12 +116,12 @@ public class SSLProxyServlet extends ProxyServlet {
         Enumeration<String> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
             String headerName = headerNames.nextElement();
-            if (!proxyRequest.getHeaders().containsKey(headerName)) {
+            if (!proxyRequest.getHeaders().contains(headerName)) {
                 String headerVal = request.getHeader(headerName);
                 proxyRequest.header(headerName, headerVal);
             }
         }
-        proxyRequest.getHeaders().remove(HttpHeader.HOST);
+        ((HttpFields.Mutable) proxyRequest.getHeaders()).remove(HttpHeader.HOST);
         super.sendProxyRequest(request, response, proxyRequest);
 
     }
@@ -131,7 +134,7 @@ public class SSLProxyServlet extends ProxyServlet {
                 proxyUrl.getProtocol().equalsIgnoreCase(HttpScheme.HTTPS.toString()));
         if ((isSecureClient)) {
             String trustAll = System.getProperty(TRUST_ALL);
-            SslContextFactory sslContextFactory = null;
+            SslContextFactory.Client sslContextFactory = null;
             if (trustAll != null && Boolean.parseBoolean(trustAll) == Boolean.TRUE) {
                 sslContextFactory = new SslContextFactory.Client(true);
             } else {
@@ -157,8 +160,9 @@ public class SSLProxyServlet extends ProxyServlet {
                     sslContextFactory.setIncludeCipherSuites(System.getProperty(KEYSTORE_CYPHER));
                 }
             }
-
-            return new HttpClient(sslContextFactory);
+            ClientConnector clientConnector = new ClientConnector();
+            clientConnector.setSslContextFactory(sslContextFactory);
+            return new HttpClient(new HttpClientTransportDynamic(clientConnector));
 
         } else {
             return super.newHttpClient();
@@ -178,7 +182,6 @@ public class SSLProxyServlet extends ProxyServlet {
         HttpClient client = super.createHttpClient();
         setTimeout(TIMEOUT);
         client.setIdleTimeout(TIMEOUT);
-        client.setStopTimeout(TIMEOUT);
         if (System.getProperty(MAX_POOL_CONNECTIONS) != null) {
             client.setMaxConnectionsPerDestination(
                 Integer.valueOf(System.getProperty(MAX_POOL_CONNECTIONS)));
@@ -186,7 +189,6 @@ public class SSLProxyServlet extends ProxyServlet {
         return client;
 
     }
-
 
 
     @Override
