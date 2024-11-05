@@ -18,6 +18,7 @@ package org.onap.sdc.workflow.persistence.impl;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.lenient;
 import static org.onap.sdc.common.zusammen.services.ZusammenElementUtil.ELEMENT_TYPE_PROPERTY;
 
 import com.amdocs.zusammen.adaptor.inbound.api.types.item.Element;
@@ -35,13 +36,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.sdc.common.versioning.persistence.zusammen.ZusammenSessionContextCreator;
 import org.onap.sdc.common.zusammen.services.ZusammenAdaptor;
 import org.onap.sdc.workflow.persistence.impl.ActivitySpecRepositoryImpl.InfoPropertyName;
@@ -51,7 +52,7 @@ import org.onap.sdc.workflow.persistence.types.ActivitySpecEntity;
 import org.onap.sdc.workflow.persistence.types.ActivitySpecParameter;
 import org.onap.sdc.workflow.services.utilities.JsonUtil;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class ActivitySpecRepositoryImplTest {
 
     private static final String versionId = "1234";
@@ -68,7 +69,7 @@ public class ActivitySpecRepositoryImplTest {
     private final Map<String, Element> elementMap = new HashMap<>();
     private String elementId;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         daoImpl = new ActivitySpecRepositoryImpl(zusammenAdaptor, contextCreator);
         entity = new ActivitySpecEntity();
@@ -100,14 +101,14 @@ public class ActivitySpecRepositoryImplTest {
         Optional<ElementInfo> testElementInfo = zusammenAdaptor
                                                         .getElementInfoByName(contextCreator.create(), elementContext,
                                                                 Id.ZERO, ActivitySpecElementType.ACTIVITYSPEC.name());
-        Assert.assertTrue(testElementInfo.isPresent());
-        Assert.assertEquals(testElementInfo.get().getInfo().getName(), ActivitySpecElementType.ACTIVITYSPEC.name());
-        Assert.assertEquals(testElementInfo.get().getInfo()
+        Assertions.assertTrue(testElementInfo.isPresent());
+        Assertions.assertEquals(testElementInfo.get().getInfo().getName(), ActivitySpecElementType.ACTIVITYSPEC.name());
+        Assertions.assertEquals(testElementInfo.get().getInfo()
                                     .getProperty(ActivitySpecRepositoryImpl.InfoPropertyName.DESCRIPTION.getValue()),
                 entity.getDescription());
-        Assert.assertEquals(testElementInfo.get().getInfo().getProperty(InfoPropertyName.CATEGORY.getValue()),
+        Assertions.assertEquals(testElementInfo.get().getInfo().getProperty(InfoPropertyName.CATEGORY.getValue()),
                 entity.getCategoryList());
-        Assert.assertEquals(testElementInfo.get().getInfo()
+        Assertions.assertEquals(testElementInfo.get().getInfo()
                                     .getProperty(ActivitySpecRepositoryImpl.InfoPropertyName.NAME.getValue()),
                 entity.getName());
 
@@ -115,15 +116,15 @@ public class ActivitySpecRepositoryImplTest {
                 zusammenAdaptor.getElement(contextCreator.create(), elementContext, new Id(elementId));
         final InputStream data = testElement.get().getData();
         final ActivitySpecData activitySpecData = JsonUtil.json2Object(data, ActivitySpecData.class);
-        Assert.assertEquals(activitySpecData.getInputs().get(0).getName(), entity.getInputs().get(0).getName());
+        Assertions.assertEquals(activitySpecData.getInputs().get(0).getName(), entity.getInputs().get(0).getName());
     }
 
     @Test
     public void testGet() {
         final ActivitySpecEntity retrieved = daoImpl.get(entity);
-        Assert.assertEquals(retrieved.getName(), entity.getName());
-        Assert.assertEquals(retrieved.getDescription(), entity.getDescription());
-        Assert.assertEquals(retrieved.getCategoryList(), entity.getCategoryList());
+        Assertions.assertEquals(retrieved.getName(), entity.getName());
+        Assertions.assertEquals(retrieved.getDescription(), entity.getDescription());
+        Assertions.assertEquals(retrieved.getCategoryList(), entity.getCategoryList());
     }
 
     @Test
@@ -131,20 +132,20 @@ public class ActivitySpecRepositoryImplTest {
         entity.setDescription("Update AS version1");
         daoImpl.update(entity);
         final ActivitySpecEntity retrieved = daoImpl.get(entity);
-        Assert.assertEquals(retrieved.getName(), entity.getName());
-        Assert.assertEquals(retrieved.getDescription(), entity.getDescription());
-        Assert.assertEquals(retrieved.getCategoryList(), entity.getCategoryList());
+        Assertions.assertEquals(retrieved.getName(), entity.getName());
+        Assertions.assertEquals(retrieved.getDescription(), entity.getDescription());
+        Assertions.assertEquals(retrieved.getCategoryList(), entity.getCategoryList());
     }
 
 
     private void mockZusammenAdapter() {
 
-        doAnswer(invocationOnMock -> {
+        lenient().doAnswer(invocationOnMock -> {
             Id elementId = invocationOnMock.getArgument(2);
             return Optional.of(elementMap.get(elementId.getValue()));
         }).when(zusammenAdaptor).getElement(any(), any(), any());
 
-        doAnswer(invocationOnMock -> {
+        lenient().doAnswer(invocationOnMock -> {
             ZusammenElement element = new ZusammenElement();
             Info info = new Info();
             element.setElementId(Id.ZERO);
@@ -155,7 +156,7 @@ public class ActivitySpecRepositoryImplTest {
             return Optional.of(element);
         }).when(zusammenAdaptor).getElementByName(any(), any(), any(), any());
 
-        doAnswer(invocationOnMock -> {
+        lenient().doAnswer(invocationOnMock -> {
             String elementName = invocationOnMock.getArgument(3);
             return elementMap.values().stream()
                            .filter(element -> elementName.equals(element.getInfo().getProperty(ELEMENT_TYPE_PROPERTY)))
@@ -167,7 +168,7 @@ public class ActivitySpecRepositoryImplTest {
                            }).findAny();
         }).when(zusammenAdaptor).getElementInfoByName(any(), any(), any(), any());
 
-        doAnswer(invocationOnMock -> {
+        lenient().doAnswer(invocationOnMock -> {
             ZusammenElement element = invocationOnMock.getArgument(2);
             if (element.getAction().equals(Action.CREATE) || element.getAction().equals(Action.UPDATE)) {
                 element.setElementId(new Id(UUID.randomUUID().toString()));

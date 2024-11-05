@@ -16,11 +16,12 @@
 
 package org.onap.sdc.workflow.persistence.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.isNull;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 
@@ -33,14 +34,14 @@ import com.amdocs.zusammen.datatypes.item.Info;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.ap.internal.util.Collections;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.sdc.common.versioning.persistence.zusammen.ZusammenSessionContextCreator;
 import org.onap.sdc.common.zusammen.services.ZusammenAdaptor;
 import org.onap.sdc.workflow.persistence.impl.types.ParameterPropertyName;
@@ -49,7 +50,7 @@ import org.onap.sdc.workflow.persistence.types.ParameterEntity;
 import org.onap.sdc.workflow.persistence.types.ParameterRole;
 import org.onap.sdc.workflow.persistence.types.ParameterType;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class ParameterRepositoryTest {
 
     private static final String ITEM1_ID = "item_id_1";
@@ -67,7 +68,7 @@ public class ParameterRepositoryTest {
     @InjectMocks
     private ParameterRepositoryImpl parameterRepository;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         doReturn(SESSION_CONTEXT).when(contextCreatorMock).create();
     }
@@ -181,12 +182,14 @@ public class ParameterRepositoryTest {
                         eq("Delete all INPUT"));
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void shouldFailIfParentElementDoesNotExist() {
-        doReturn(Optional.empty()).when(zusammenAdaptorMock)
-                                 .getElementInfoByName(eq(SESSION_CONTEXT), any(ElementContext.class), isNull(),
-                                         eq(WorkflowElementType.INPUTS.name()));
-        parameterRepository.deleteAll(ITEM1_ID, VERSION1_ID, ParameterRole.INPUT);
+        assertThrows(IllegalStateException.class, () -> {
+            doReturn(Optional.empty()).when(zusammenAdaptorMock)
+                    .getElementInfoByName(eq(SESSION_CONTEXT), any(ElementContext.class), isNull(),
+                            eq(WorkflowElementType.INPUTS.name()));
+            parameterRepository.deleteAll(ITEM1_ID, VERSION1_ID, ParameterRole.INPUT);
+        });
     }
 
     @Test

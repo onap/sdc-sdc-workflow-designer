@@ -24,18 +24,18 @@ import static org.mockito.Mockito.when;
 
 import com.fasterxml.classmate.TypeResolver;
 import java.util.Optional;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import java.lang.annotation.Annotation;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.onap.sdc.workflow.services.annotations.UserId;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.service.ResolvedMethodParameter;
 import springfox.documentation.spi.service.contexts.ParameterContext;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 public class UserIdReaderTest {
 
     private static final UserId USER_ID_ANNOTATION = new UserId() {

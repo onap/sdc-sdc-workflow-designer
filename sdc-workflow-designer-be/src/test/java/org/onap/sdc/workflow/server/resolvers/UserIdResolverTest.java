@@ -16,15 +16,16 @@
 
 package org.onap.sdc.workflow.server.resolvers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.onap.sdc.workflow.api.RestParams.USER_ID_HEADER;
 
 import javax.servlet.http.HttpServletRequest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.sdc.workflow.services.annotations.UserId;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.ServletRequestBindingException;
@@ -53,26 +54,32 @@ public class UserIdResolverTest {
         assertEquals(headerValue, resolved);
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void illegalTypeErrorThrownWhenAnnotatedParameterIsNotOfTypeString() {
-        MethodParameter methodParameterMock = mock(MethodParameter.class);
-        when(methodParameterMock.hasParameterAnnotation(UserId.class)).thenReturn(true);
-        //noinspection unchecked
-        when(methodParameterMock.getParameterType()).thenReturn((Class)String[].class);
-        new UserIdResolver().supportsParameter(methodParameterMock);
+        assertThrows(IllegalStateException.class, () -> {
+            MethodParameter methodParameterMock = mock(MethodParameter.class);
+            when(methodParameterMock.hasParameterAnnotation(UserId.class)).thenReturn(true);
+            //noinspection unchecked
+            when(methodParameterMock.getParameterType()).thenReturn((Class) String[].class);
+            new UserIdResolver().supportsParameter(methodParameterMock);
+        });
     }
 
-    @Test(expected = ServletRequestBindingException.class)
-    public void missingHeaderErrorThrownWhenUserIdHeaderNotPopulated() throws ServletRequestBindingException {
-        NativeWebRequest webRequestMock = mock(NativeWebRequest.class);
-        when(webRequestMock.getNativeRequest(HttpServletRequest.class)).thenReturn(mock(HttpServletRequest.class));
-        new UserIdResolver().resolveArgument(null, null, webRequestMock, null);
+    @Test
+    public void missingHeaderErrorThrownWhenUserIdHeaderNotPopulated() {
+        assertThrows(ServletRequestBindingException.class, () -> {
+            NativeWebRequest webRequestMock = mock(NativeWebRequest.class);
+            when(webRequestMock.getNativeRequest(HttpServletRequest.class)).thenReturn(mock(HttpServletRequest.class));
+            new UserIdResolver().resolveArgument(null, null, webRequestMock, null);
+        });
     }
 
-    @Test(expected = NullPointerException.class)
-    public void exceptionThrownWhenRequestTypeIsNotHttpRequest() throws ServletRequestBindingException {
-        NativeWebRequest webRequestMock = mock(NativeWebRequest.class);
-        new UserIdResolver().resolveArgument(null, null, webRequestMock, null);
+    @Test
+    public void exceptionThrownWhenRequestTypeIsNotHttpRequest() {
+        assertThrows(NullPointerException.class, () -> {
+            NativeWebRequest webRequestMock = mock(NativeWebRequest.class);
+            new UserIdResolver().resolveArgument(null, null, webRequestMock, null);
+        });
     }
 
     @Test
