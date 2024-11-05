@@ -16,7 +16,7 @@
 
 package org.onap.sdc.workflow.api;
 
-import static junit.framework.TestCase.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -24,9 +24,8 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.io.InputStream;
 import org.apache.commons.io.IOUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.onap.sdc.workflow.api.types.dto.ArtifactDeliveriesRequestDto;
 import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
@@ -40,14 +39,12 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.web.client.RestTemplate;
 
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(
+@SpringJUnitConfig(
         classes = {ArtifactAssociationHandlerTest.RestBuilderMockProvider.class, ArtifactAssociationService.class})
 @TestPropertySource(locations = "classpath:application-test.properties")
 @Component("ArtifactAssociationHandlerTest")
@@ -92,7 +89,7 @@ public class ArtifactAssociationHandlerTest {
     @Autowired
     private ArtifactAssociationService associationService;
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
         inputStreamMock = IOUtils.toInputStream("some test data for my input stream", "UTF-8");
         artifactMock = new ArtifactEntity(FILE_NAME, inputStreamMock);

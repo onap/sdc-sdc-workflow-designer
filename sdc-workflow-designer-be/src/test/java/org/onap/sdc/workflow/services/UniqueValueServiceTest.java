@@ -16,8 +16,9 @@
 
 package org.onap.sdc.workflow.services;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
@@ -26,8 +27,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.util.Optional;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -48,7 +49,7 @@ public class UniqueValueServiceTest {
     @InjectMocks
     private UniqueValueService uniqueValueService;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
@@ -66,10 +67,12 @@ public class UniqueValueServiceTest {
         verify(uniqueValueRepositoryMock, never()).findById(any(UniqueValueEntity.class));
     }
 
-    @Test(expected = UniqueValueViolationException.class)
+    @Test
     public void shouldThrowExceptionIfValueIsNotUnique() {
-        doReturn(Optional.of("xxx")).when(uniqueValueRepositoryMock).findById(any());
-        uniqueValueService.createUniqueValue(TYPE, DUMMY_COMBINATION);
+        assertThrows(UniqueValueViolationException.class, () -> {
+            doReturn(Optional.of("xxx")).when(uniqueValueRepositoryMock).findById(any());
+            uniqueValueService.createUniqueValue(TYPE, DUMMY_COMBINATION);
+        });
     }
 
     @Test

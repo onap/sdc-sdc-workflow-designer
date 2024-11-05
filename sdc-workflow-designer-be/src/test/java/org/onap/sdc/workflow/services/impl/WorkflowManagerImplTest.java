@@ -16,8 +16,9 @@
 
 package org.onap.sdc.workflow.services.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
@@ -38,8 +39,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.onap.sdc.common.versioning.services.ItemManager;
@@ -58,9 +59,9 @@ import org.onap.sdc.workflow.services.types.Sort;
 import org.onap.sdc.workflow.services.types.SortingRequest;
 import org.onap.sdc.workflow.services.types.Workflow;
 import org.onap.sdc.workflow.services.types.WorkflowVersionState;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 public class WorkflowManagerImplTest {
 
 
@@ -131,13 +132,15 @@ public class WorkflowManagerImplTest {
         assertPaging(workflows.getPaging(), requestSpec.getPaging().getOffset(), requestSpec.getPaging().getLimit(), 2);
     }
 
-    @Test(expected = EntityNotFoundException.class)
+    @Test
     public void shouldThrowExceptionWhenWorkflowDontExist() {
-        Workflow nonExistingWorkflow = new Workflow();
-        nonExistingWorkflow.setId(ITEM1_ID);
-        doReturn(null).when(itemManagerMock).get(ITEM1_ID);
-        workflowManager.get(nonExistingWorkflow);
-        verify(workflowMapperMock, times(3)).fromItem(any(Item.class));
+        assertThrows(EntityNotFoundException.class, () -> {
+            Workflow nonExistingWorkflow = new Workflow();
+            nonExistingWorkflow.setId(ITEM1_ID);
+            doReturn(null).when(itemManagerMock).get(ITEM1_ID);
+            workflowManager.get(nonExistingWorkflow);
+            verify(workflowMapperMock, times(3)).fromItem(any(Item.class));
+        });
     }
 
     @Test
@@ -170,10 +173,12 @@ public class WorkflowManagerImplTest {
 
     }
 
-    @Test(expected = EntityNotFoundException.class)
+    @Test
     public void shouldThrowExceptionWhenWorkflowToUpdateNotFound() {
-        doReturn(null).when(itemManagerMock).get(ITEM1_ID);
-        workflowManager.update(createWorkflow(1, true, ArchivingStatus.ACTIVE));
+        assertThrows(EntityNotFoundException.class, () -> {
+            doReturn(null).when(itemManagerMock).get(ITEM1_ID);
+            workflowManager.update(createWorkflow(1, true, ArchivingStatus.ACTIVE));
+        });
     }
 
     @Test

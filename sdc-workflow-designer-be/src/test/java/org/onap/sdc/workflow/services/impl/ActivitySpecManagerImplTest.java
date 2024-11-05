@@ -16,6 +16,7 @@
 
 package org.onap.sdc.workflow.services.impl;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -30,10 +31,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -78,12 +79,12 @@ public class ActivitySpecManagerImplTest {
     @Mock
     private ActivitySpecMapper activitySpecMapperMock;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         activitySpecManager = null;
     }
@@ -128,19 +129,19 @@ public class ActivitySpecManagerImplTest {
 
         ActivitySpecEntity activitySpec = activitySpecManager.createActivitySpec(activitySpecToCreate);
 
-        Assert.assertNotNull(activitySpec);
+        Assertions.assertNotNull(activitySpec);
         activitySpec.setId(itemId);
         activitySpec.setStatus(VersionStatus.Draft.name());
         assertActivitySpecEquals(activitySpec, activitySpecToCreate);
     }
 
     private void assertActivitySpecEquals(ActivitySpecEntity actual, ActivitySpecEntity expected) {
-        Assert.assertEquals(actual.getId(), expected.getId());
-        Assert.assertEquals(actual.getName(), expected.getName());
-        Assert.assertEquals(actual.getDescription(), expected.getDescription());
-        Assert.assertEquals(actual.getCategoryList(), expected.getCategoryList());
-        Assert.assertEquals(actual.getInputs(), expected.getInputs());
-        Assert.assertEquals(actual.getOutputs(), expected.getOutputs());
+        Assertions.assertEquals(actual.getId(), expected.getId());
+        Assertions.assertEquals(actual.getName(), expected.getName());
+        Assertions.assertEquals(actual.getDescription(), expected.getDescription());
+        Assertions.assertEquals(actual.getCategoryList(), expected.getCategoryList());
+        Assertions.assertEquals(actual.getInputs(), expected.getInputs());
+        Assertions.assertEquals(actual.getOutputs(), expected.getOutputs());
     }
 
     @Test
@@ -150,20 +151,20 @@ public class ActivitySpecManagerImplTest {
         doReturn(new ActivitySpecEntity(ID, null)).when(activitySpecMapperMock).itemToActivitySpec(item);
 
         final Collection<ActivitySpecEntity> activitySpecs = activitySpecManager.list("Certified");
-        Assert.assertEquals(1, activitySpecs.size());
-        Assert.assertEquals(ID, activitySpecs.iterator().next().getId());
+        Assertions.assertEquals(1, activitySpecs.size());
+        Assertions.assertEquals(ID, activitySpecs.iterator().next().getId());
     }
 
     @Test
     public void testListInvalidFilter() {
         final Collection<ActivitySpecEntity> activitySpecs = activitySpecManager.list("invalid_status");
-        Assert.assertEquals(0, activitySpecs.size());
+        Assertions.assertEquals(0, activitySpecs.size());
     }
 
     @Test
     public void testListNoFilter() {
         final Collection<ActivitySpecEntity> activitySpecs = activitySpecManager.list(null);
-        Assert.assertEquals(0, activitySpecs.size());
+        Assertions.assertEquals(0, activitySpecs.size());
     }
 
     @Test
@@ -177,12 +178,12 @@ public class ActivitySpecManagerImplTest {
         doReturn(createRetrievedVersion(version01,VersionStatus.Draft)).when(versionManagerMock).get(any(), any());
         ActivitySpecEntity retrieved = activitySpecManager.get(input);
         assertActivitySpecEquals(retrieved, input);
-        Assert.assertEquals(retrieved.getStatus(), VersionStatus.Draft.name());
+        Assertions.assertEquals(retrieved.getStatus(), VersionStatus.Draft.name());
 
 
         retrieved = activitySpecManager.get(input);
         assertActivitySpecEquals(retrieved, input);
-        Assert.assertEquals(retrieved.getStatus(), VersionStatus.Draft.name());
+        Assertions.assertEquals(retrieved.getStatus(), VersionStatus.Draft.name());
     }
 
     private void mockListVersions() {
@@ -199,9 +200,9 @@ public class ActivitySpecManagerImplTest {
         Mockito.doThrow(new RuntimeException(TEST_ERROR_MSG)).when(activitySpecRepositoryMock).get(any());
         try {
             activitySpecManager.get(input);
-            Assert.fail();
+            Assertions.fail();
         } catch (EntityNotFoundException exception) {
-            Assert.assertEquals(ACTIVITY_SPEC_NOT_FOUND, exception.getMessage());
+            Assertions.assertEquals(ACTIVITY_SPEC_NOT_FOUND, exception.getMessage());
         }
     }
 
@@ -213,23 +214,27 @@ public class ActivitySpecManagerImplTest {
         Mockito.doThrow(new RuntimeException(TEST_ERROR_MSG)).when(versionManagerMock).list(any());
         try {
             activitySpecManager.get(input);
-            Assert.fail();
+            Assertions.fail();
         } catch (EntityNotFoundException exception) {
-            Assert.assertEquals(ACTIVITY_SPEC_NOT_FOUND, exception.getMessage());
+            Assertions.assertEquals(ACTIVITY_SPEC_NOT_FOUND, exception.getMessage());
         }
     }
 
-    @Test(expected = VersionStatusModificationException.class)
+    @Test
     public void testInvalidDeprecate() {
-        InternalVersion version = createRetrievedVersion(version01, VersionStatus.Draft);
-        doReturn(version).when(versionManagerMock).get(ID, version01);
-        activitySpecManager.actOnAction(new ActivitySpecEntity(ID, version01), ActivitySpecAction.DEPRECATE);
+        assertThrows(VersionStatusModificationException.class, () -> {
+            InternalVersion version = createRetrievedVersion(version01, VersionStatus.Draft);
+            doReturn(version).when(versionManagerMock).get(ID, version01);
+            activitySpecManager.actOnAction(new ActivitySpecEntity(ID, version01), ActivitySpecAction.DEPRECATE);
+        });
     }
 
-    @Test(expected = VersionStatusModificationException.class)
+    @Test
     public void testInvalidDelete() {
-        mockCertifiedVersion();
-        activitySpecManager.actOnAction(new ActivitySpecEntity(ID, version01), ActivitySpecAction.DELETE);
+        assertThrows(VersionStatusModificationException.class, () -> {
+            mockCertifiedVersion();
+            activitySpecManager.actOnAction(new ActivitySpecEntity(ID, version01), ActivitySpecAction.DELETE);
+        });
     }
 
     private void mockCertifiedVersion() {
@@ -237,10 +242,12 @@ public class ActivitySpecManagerImplTest {
         doReturn(version).when(versionManagerMock).get(ID, version01);
     }
 
-    @Test(expected = VersionStatusModificationException.class)
+    @Test
     public void testInvalidCertify() {
-        mockCertifiedVersion();
-        activitySpecManager.actOnAction(new ActivitySpecEntity(ID, version01), ActivitySpecAction.CERTIFY);
+        assertThrows(VersionStatusModificationException.class, () -> {
+            mockCertifiedVersion();
+            activitySpecManager.actOnAction(new ActivitySpecEntity(ID, version01), ActivitySpecAction.CERTIFY);
+        });
     }
 
     @Test
@@ -259,9 +266,9 @@ public class ActivitySpecManagerImplTest {
         mockListVersions();
         try {
             activitySpecManager.actOnAction(new ActivitySpecEntity(ID, version01), ActivitySpecAction.CERTIFY);
-            Assert.fail();
+            Assertions.fail();
         } catch (EntityNotFoundException exception) {
-            Assert.assertEquals(ACTIVITY_SPEC_NOT_FOUND, exception.getMessage());
+            Assertions.assertEquals(ACTIVITY_SPEC_NOT_FOUND, exception.getMessage());
         }
     }
 
