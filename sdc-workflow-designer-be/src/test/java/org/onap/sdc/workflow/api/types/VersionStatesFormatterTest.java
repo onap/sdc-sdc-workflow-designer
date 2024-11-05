@@ -16,20 +16,19 @@
 
 package org.onap.sdc.workflow.api.types;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.onap.sdc.workflow.services.types.WorkflowVersionState.CERTIFIED;
 import static org.onap.sdc.workflow.services.types.WorkflowVersionState.DRAFT;
 
 import java.util.Collections;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 public class VersionStatesFormatterTest {
 
     @InjectMocks

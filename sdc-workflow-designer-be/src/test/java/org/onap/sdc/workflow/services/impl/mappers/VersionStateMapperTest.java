@@ -16,20 +16,17 @@
 
 package org.onap.sdc.workflow.services.impl.mappers;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.onap.sdc.workflow.services.types.WorkflowVersionState;
 import org.onap.sdc.common.versioning.services.types.VersionStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-@ContextConfiguration(classes = VersionStateMapperTest.VersionStatusMapperSpringTestConfig.class)
-@RunWith(SpringJUnit4ClassRunner.class)
+@SpringJUnitConfig(classes = VersionStateMapperTest.VersionStatusMapperSpringTestConfig.class)
 public class VersionStateMapperTest {
 
     @Configuration

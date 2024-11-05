@@ -16,9 +16,9 @@
 
 package org.onap.sdc.workflow.persistence.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
@@ -38,18 +38,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Optional;
 import org.apache.commons.io.IOUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.sdc.common.versioning.persistence.zusammen.ZusammenSessionContextCreator;
 import org.onap.sdc.common.zusammen.services.ZusammenAdaptor;
 import org.onap.sdc.workflow.persistence.impl.types.WorkflowElementType;
 import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class ArtifactRepositoryTest {
 
     private static final String FILE_NAME_PROPERTY = "fileName";
@@ -66,7 +66,7 @@ public class ArtifactRepositoryTest {
     @InjectMocks
     private ArtifactRepositoryImpl artifactRepository;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         doReturn(SESSION_CONTEXT).when(contextCreatorMock).create();
     }
