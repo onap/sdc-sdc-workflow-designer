@@ -10,7 +10,7 @@
     <parent>
         <groupId>org.onap.sdc.sdc-workflow-designer</groupId>
         <artifactId>sdc-workflow-designer-parent</artifactId>
-        <version>1.13.1-SNAPSHOT</version>
+        <version>1.13.2-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -28,6 +28,7 @@
         <sdc-be-common.version>1.7.1</sdc-be-common.version>
         <junitJupiter.version>5.9.1</junitJupiter.version>
         <junit.platform.version>1.9.0</junit.platform.version>
+        <janino.version>3.1.10</janino.version>
     </properties>
 
     <dependencyManagement>
@@ -52,6 +53,11 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>org.codehaus.janino</groupId>
+                <artifactId>commons-compiler</artifactId>
+                <version>${janino.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -59,8 +65,7 @@
         <dependency>
             <groupId>org.codehaus.janino</groupId>
             <artifactId>janino</artifactId>
-            <version>3.1.10</version>
-            <scope>runtime</scope>
+            <version>${janino.version}</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish</groupId>
