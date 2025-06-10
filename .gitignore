@@ -15,3 +15,4 @@ bpmnworkflow.bpmn20.xml
 dist
 *.log
 *.war
+.vscode
