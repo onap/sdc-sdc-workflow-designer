@@ -80,6 +80,7 @@ public class TracingTest {
       .accept(MediaType.APPLICATION_JSON))
       .andExpect(MockMvcResultMatchers.status().isOk());
 
+    Thread.sleep(500);
     verify(postRequestedFor(urlEqualTo("/api/v2/spans")));
   }
 

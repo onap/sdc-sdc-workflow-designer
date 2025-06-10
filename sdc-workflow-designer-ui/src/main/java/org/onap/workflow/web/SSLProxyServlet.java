@@ -30,11 +30,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.client.HttpClient;
 import org.eclipse.jetty.client.api.Request;
-import org.eclipse.jetty.client.dynamic.HttpClientTransportDynamic;
-import org.eclipse.jetty.http.HttpFields;
 import org.eclipse.jetty.http.HttpHeader;
 import org.eclipse.jetty.http.HttpScheme;
-import org.eclipse.jetty.io.ClientConnector;
 import org.eclipse.jetty.proxy.ProxyServlet;
 import org.eclipse.jetty.util.URIUtil;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
@@ -116,12 +113,12 @@ public class SSLProxyServlet extends ProxyServlet {
         Enumeration<String> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
             String headerName = headerNames.nextElement();
-            if (!proxyRequest.getHeaders().contains(headerName)) {
+            if (!proxyRequest.getHeaders().containsKey(headerName)) {
                 String headerVal = request.getHeader(headerName);
                 proxyRequest.header(headerName, headerVal);
             }
         }
-        ((HttpFields.Mutable) proxyRequest.getHeaders()).remove(HttpHeader.HOST);
+        proxyRequest.getHeaders().remove(HttpHeader.HOST);
         super.sendProxyRequest(request, response, proxyRequest);
 
     }
@@ -160,9 +157,7 @@ public class SSLProxyServlet extends ProxyServlet {
                     sslContextFactory.setIncludeCipherSuites(System.getProperty(KEYSTORE_CYPHER));
                 }
             }
-            ClientConnector clientConnector = new ClientConnector();
-            clientConnector.setSslContextFactory(sslContextFactory);
-            return new HttpClient(new HttpClientTransportDynamic(clientConnector));
+            return new HttpClient(sslContextFactory);
 
         } else {
             return super.newHttpClient();
@@ -181,6 +176,7 @@ public class SSLProxyServlet extends ProxyServlet {
         // calling the parent and setting the configuration for our implementation
         HttpClient client = super.createHttpClient();
         setTimeout(TIMEOUT);
+        client.setStopTimeout(TIMEOUT);
         client.setIdleTimeout(TIMEOUT);
         if (System.getProperty(MAX_POOL_CONNECTIONS) != null) {
             client.setMaxConnectionsPerDestination(
