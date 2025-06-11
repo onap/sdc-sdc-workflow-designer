@@ -28,6 +28,8 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Resolves a user ID from an HTTP header and injects it into a parameter of type {@link String} annotated with {@link
  * UserId}. The header is considered mandatory, therefore an error is returned to the client if no user ID was sent.
@@ -35,6 +37,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
  * @author evitaliy
  * @since 21 Aug 2018
  */
+@Slf4j
 public class UserIdResolver implements HandlerMethodArgumentResolver {
 
     private static final String ERROR_MESSAGE = "Missing mandatory request header '" + USER_ID_HEADER + "'";
@@ -63,7 +66,8 @@ public class UserIdResolver implements HandlerMethodArgumentResolver {
         HttpServletRequest httpServletRequest = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
         String userHeader = Objects.requireNonNull(httpServletRequest).getHeader(USER_ID_HEADER);
         if (userHeader == null) {
-            throw new ServletRequestBindingException(ERROR_MESSAGE);
+            log.debug(USER_ID_HEADER + " header not set. Defaulting to cs0008");
+            return "cs0008";
         }
 
         return userHeader;

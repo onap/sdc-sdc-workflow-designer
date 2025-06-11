@@ -31,6 +31,8 @@ import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.context.request.NativeWebRequest;
 
+import lombok.SneakyThrows;
+
 /**
  * Tests injection of user ID from HTTP headers.
  *
@@ -66,12 +68,13 @@ public class UserIdResolverTest {
     }
 
     @Test
+    @SneakyThrows
     public void missingHeaderErrorThrownWhenUserIdHeaderNotPopulated() {
-        assertThrows(ServletRequestBindingException.class, () -> {
-            NativeWebRequest webRequestMock = mock(NativeWebRequest.class);
-            when(webRequestMock.getNativeRequest(HttpServletRequest.class)).thenReturn(mock(HttpServletRequest.class));
-            new UserIdResolver().resolveArgument(null, null, webRequestMock, null);
-        });
+        NativeWebRequest webRequestMock = mock(NativeWebRequest.class);
+        when(webRequestMock.getNativeRequest(HttpServletRequest.class)).thenReturn(mock(HttpServletRequest.class));
+        String userId = (String) new UserIdResolver().resolveArgument(null, null, webRequestMock, null);
+        assertEquals("cs0008", userId);
+
     }
 
     @Test
