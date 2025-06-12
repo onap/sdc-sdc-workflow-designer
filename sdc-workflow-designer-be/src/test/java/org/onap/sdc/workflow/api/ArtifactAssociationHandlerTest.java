@@ -1,5 +1,6 @@
 /*
  * Copyright © 2018 European Support Limited
+ * Modifications Copyright © 2025 Deutsche Telekom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,43 +27,25 @@ import java.io.InputStream;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.onap.sdc.workflow.api.types.dto.ArtifactDeliveriesRequestDto;
 import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.web.client.RestTemplate;
 
-
-@SpringJUnitConfig(
-        classes = {ArtifactAssociationHandlerTest.RestBuilderMockProvider.class, ArtifactAssociationService.class})
+@DirtiesContext
+@SpringBootTest(classes = {ArtifactAssociationService.class})
 @TestPropertySource(locations = "classpath:application-test.properties")
-@Component("ArtifactAssociationHandlerTest")
 public class ArtifactAssociationHandlerTest {
-
-    @Configuration
-    static class RestBuilderMockProvider {
-
-        @Bean
-        public RestTemplateBuilder templateBuilder() {
-            return Mockito.mock(RestTemplateBuilder.class);
-        }
-
-        @Bean
-        public RestTemplate restTemplate() {
-            return Mockito.mock(RestTemplate.class);
-        }
-    }
 
     private static final String FILE_NAME = "fileName.txt";
     private static final String USER_ID = "cs0008";
@@ -82,7 +65,9 @@ public class ArtifactAssociationHandlerTest {
     @Value("${sdc.be.external.password}")
     private String sdcPassword;
 
-    @Autowired
+    @MockBean
+    private RestTemplateBuilder restTemplateBuilder;
+    @MockBean
     private RestTemplate restClientMock;
 
 

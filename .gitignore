@@ -16,3 +16,4 @@ dist
 *.log
 *.war
 .vscode
+sdc-workflow-designer-be/src/test/resources/db/*.cql
