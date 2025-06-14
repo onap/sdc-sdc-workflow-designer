@@ -1,4 +1,4 @@
-FROM python:2.7-alpine3.8
+FROM python:2.7-alpine3.20
 
 RUN pip install cassandra-driver==3.25.0 cqlsh==5.0.4
 
