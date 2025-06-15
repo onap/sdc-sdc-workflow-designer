@@ -1,6 +1,6 @@
-FROM python:2.7-alpine3.20
+FROM python:3.12-alpine
 
-RUN pip install cassandra-driver==3.25.0 cqlsh==5.0.4
+RUN pip install cassandra-driver==3.29.2 cqlsh==6.2.0
 
 RUN addgroup -g 1000 sdc && adduser -S -u 1000 -G sdc -s /bin/sh sdc
 USER sdc
