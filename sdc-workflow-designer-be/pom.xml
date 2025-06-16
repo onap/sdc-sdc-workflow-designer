@@ -10,7 +10,7 @@
     <parent>
         <groupId>org.onap.sdc.sdc-workflow-designer</groupId>
         <artifactId>sdc-workflow-designer-parent</artifactId>
-        <version>1.13.2-SNAPSHOT</version>
+        <version>1.14.0-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -25,7 +25,7 @@
         <mockito.version>3.7.7</mockito.version>
         <springframework.plugin.version>2.0.0.RELEASE</springframework.plugin.version>
         <zusammen.version>1.0.2</zusammen.version>
-        <sdc-be-common.version>1.7.1</sdc-be-common.version>
+        <sdc-be-common.version>1.10.0</sdc-be-common.version>
         <junitJupiter.version>5.9.1</junitJupiter.version>
         <junit.platform.version>1.9.0</junit.platform.version>
         <janino.version>3.1.10</janino.version>
