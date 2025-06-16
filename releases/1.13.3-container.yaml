@@ -1,0 +1,11 @@
+distribution_type: 'container'
+container_release_tag: '1.13.3'
+project: 'sdc-sdc-workflow-designer'
+ref: 76e87a1f0e051f073b7b100026e719653e71f8a7
+containers:
+  - name: 'sdc-workflow-init'
+    version: '1.13-STAGING-20250615T180059Z'
+  - name: 'sdc-workflow-backend'
+    version: '1.13-STAGING-20250615T180059Z'
+  - name: 'sdc-workflow-frontend'
+    version: '1.13-STAGING-20250615T180059Z'
