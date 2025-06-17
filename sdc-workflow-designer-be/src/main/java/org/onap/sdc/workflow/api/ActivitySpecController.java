@@ -34,7 +34,6 @@ import org.onap.sdc.workflow.api.types.activityspec.ActivitySpecRequest;
 import org.onap.sdc.workflow.api.types.activityspec.ActivitySpecResponse;
 import org.onap.sdc.workflow.persistence.types.ActivitySpecEntity;
 import org.onap.sdc.workflow.services.ActivitySpecManager;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,7 +56,6 @@ public class ActivitySpecController {
     private final ActivitySpecManager activitySpecManager;
     private final ActivitySpecDtoMapper activitySpecDtoMapper;
 
-    @Autowired
     public ActivitySpecController(@Qualifier("activitySpecManager") ActivitySpecManager activitySpecManager,
             ActivitySpecDtoMapper activitySpecDtoMapper) {
         this.activitySpecManager = activitySpecManager;
@@ -89,7 +87,7 @@ public class ActivitySpecController {
     @ApiOperation(value = "Get Activity Spec")
     @ApiImplicitParam(name = USER_ID_HEADER, required = true, dataType = "string", paramType = "header")
     public ActivitySpecDataResponse get(@ApiParam(value = "Activity Spec Id") @PathVariable("id") String activitySpecId,
-            @ApiParam(value = "Version Id", defaultValue = VERSION_ID_DEFAULT_VALUE) @PathVariable("versionId")
+            @ApiParam(value = "Version Id", defaultValue = VERSION_ID_DEFAULT_VALUE) @PathVariable
                     String versionId) {
         return activitySpecDtoMapper.toActivitySpecDataResponse(
                 activitySpecManager.get(new ActivitySpecEntity(activitySpecId, versionId)));
@@ -100,7 +98,7 @@ public class ActivitySpecController {
     @ApiImplicitParam(name = USER_ID_HEADER, required = true, dataType = "string", paramType = "header")
     public void update(@Valid @RequestBody ActivitySpecRequest request,
             @ApiParam(value = "Activity Spec Id") @PathVariable("id") String activitySpecId,
-            @ApiParam(value = "Version Id", defaultValue = VERSION_ID_DEFAULT_VALUE) @PathVariable("versionId")
+            @ApiParam(value = "Version Id", defaultValue = VERSION_ID_DEFAULT_VALUE) @PathVariable
                     String versionId) {
         ActivitySpecEntity activitySpec = activitySpecDtoMapper.fromActivitySpecRequest(request);
         activitySpec.setId(activitySpecId);
@@ -116,7 +114,7 @@ public class ActivitySpecController {
     @ApiImplicitParam(name = USER_ID_HEADER, required = true, dataType = "string", paramType = "header")
     public void actOn(@Valid @RequestBody ActivitySpecActionRequest request,
             @ApiParam(value = "Activity Spec Id") @PathVariable("id") String activitySpecId,
-            @ApiParam(value = "Version Id", defaultValue = VERSION_ID_DEFAULT_VALUE) @PathVariable("versionId")
+            @ApiParam(value = "Version Id", defaultValue = VERSION_ID_DEFAULT_VALUE) @PathVariable
                     String versionId) {
         activitySpecManager
                 .actOnAction(new ActivitySpecEntity(activitySpecId, versionId), request.getAction());

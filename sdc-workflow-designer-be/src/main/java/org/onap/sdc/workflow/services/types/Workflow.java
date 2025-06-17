@@ -22,6 +22,8 @@ import static org.onap.sdc.workflow.services.types.WorkflowValidationConstants.M
 
 import java.util.Collection;
 import java.util.Set;
+
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -29,6 +31,7 @@ import lombok.Data;
 
 
 @Data
+@Valid
 public class Workflow {
 
     private String id;

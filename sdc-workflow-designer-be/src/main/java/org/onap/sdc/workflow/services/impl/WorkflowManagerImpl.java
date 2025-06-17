@@ -48,7 +48,6 @@ import org.onap.sdc.workflow.services.types.Workflow;
 import org.onap.sdc.workflow.services.types.WorkflowVersionState;
 import org.openecomp.sdc.logging.api.Logger;
 import org.openecomp.sdc.logging.api.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -71,7 +70,6 @@ public class WorkflowManagerImpl implements WorkflowManager {
     private final ArchivingStatusMapper archivingStatusMapper;
     private final VersionStateMapper versionStateMapper;
 
-    @Autowired
     public WorkflowManagerImpl(ItemManager itemManager,
             @Qualifier("uniqueValueService") UniqueValueService uniqueValueService, WorkflowMapper workflowMapper,
             ArchivingStatusMapper archivingStatusMapper, VersionStateMapper versionStateMapper) {
