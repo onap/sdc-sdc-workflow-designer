@@ -50,7 +50,6 @@ import org.apache.http.ssl.SSLContexts;
 import org.onap.sdc.workflow.api.types.dto.ArtifactDeliveriesRequestDto;
 import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
@@ -96,7 +95,6 @@ public class ArtifactAssociationService {
     }
 
 
-    @Autowired
     public ArtifactAssociationService(RestTemplateBuilder builder,
                                       @Value("${server.ssl.trust-store}")
                                               String truststorePath,

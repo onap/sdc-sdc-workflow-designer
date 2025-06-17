@@ -22,12 +22,14 @@ import static org.onap.sdc.workflow.api.RestParams.SORT;
 import static org.onap.sdc.workflow.services.types.PagingConstants.DEFAULT_LIMIT;
 import static org.onap.sdc.workflow.services.types.PagingConstants.DEFAULT_OFFSET;
 
+import javax.validation.Valid;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import javax.validation.Valid;
+// import javax.validation.Valid;
 import org.onap.sdc.workflow.api.types.Paging;
 import org.onap.sdc.workflow.api.types.Sorting;
 import org.onap.sdc.workflow.api.types.VersionStatesFormatter;
@@ -41,7 +43,6 @@ import org.onap.sdc.workflow.services.types.PagingRequest;
 import org.onap.sdc.workflow.services.types.RequestSpec;
 import org.onap.sdc.workflow.services.types.SortingRequest;
 import org.onap.sdc.workflow.services.types.Workflow;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -57,6 +58,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
+@Validated
 @RequestMapping("/wf/workflows")
 @Api("Workflows")
 @RestController("workflowController")
@@ -65,7 +67,6 @@ public class WorkflowController {
     private final WorkflowManager workflowManager;
     private final WorkflowVersionManager workflowVersionManager;
 
-    @Autowired
     public WorkflowController(@Qualifier("workflowManager") WorkflowManager workflowManager,
             @Qualifier("workflowVersionManager") WorkflowVersionManager workflowVersionManager) {
         this.workflowManager = workflowManager;
@@ -101,9 +102,9 @@ public class WorkflowController {
 
     @GetMapping(path = "/{workflowId}")
     @ApiOperation("Get workflow")
-    public Workflow get(@PathVariable("workflowId") String workflowId,
+    public Workflow get(@PathVariable String workflowId,
             @ApiParam(value = "Expand workflow data", allowableValues = "versions")
-            @RequestParam(value = "expand", required = false) String expand, @UserId String user) {
+            @RequestParam(required = false) String expand, @UserId String user) {
         Workflow workflow = new Workflow();
         workflow.setId(workflowId);
         Workflow retrievedWorkflow = workflowManager.get(workflow);
@@ -115,7 +116,7 @@ public class WorkflowController {
 
     @PutMapping(path = "/{workflowId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation("Update workflow")
-    public Workflow update(@RequestBody Workflow workflow, @PathVariable("workflowId") String workflowId,
+    public Workflow update(@RequestBody Workflow workflow, @PathVariable String workflowId,
             @UserId String user) {
         workflow.setId(workflowId);
         workflowManager.update(workflow);
@@ -124,7 +125,7 @@ public class WorkflowController {
 
     @PostMapping(path = "/{workflowId}/archiving", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation("Update workflow status")
-    public ResponseEntity updateStatus(@RequestBody @Valid WorkflowStatusDto request, @PathVariable("workflowId") String workflowId,
+    public ResponseEntity updateStatus(@RequestBody @Valid WorkflowStatusDto request, @PathVariable String workflowId,
             @UserId String user) {
         workflowManager.updateStatus(workflowId, ArchivingStatus.valueOf(request.getStatus()));
         return new ResponseEntity(HttpStatus.OK);

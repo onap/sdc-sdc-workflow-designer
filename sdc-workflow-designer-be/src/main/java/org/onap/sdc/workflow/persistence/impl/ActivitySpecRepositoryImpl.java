@@ -35,7 +35,6 @@ import org.onap.sdc.workflow.persistence.impl.types.ActivitySpecElementType;
 import org.onap.sdc.workflow.persistence.types.ActivitySpecEntity;
 import org.onap.sdc.workflow.services.ActivitySpecConstant;
 import org.onap.sdc.workflow.services.utilities.JsonUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -44,7 +43,6 @@ public class ActivitySpecRepositoryImpl implements ActivitySpecRepository {
     private final ZusammenAdaptor zusammenAdaptor;
     private final ZusammenSessionContextCreator contextCreator;
 
-    @Autowired
     public ActivitySpecRepositoryImpl(ZusammenAdaptor zusammenAdaptor, ZusammenSessionContextCreator contextCreator) {
         this.zusammenAdaptor = zusammenAdaptor;
         this.contextCreator = contextCreator;

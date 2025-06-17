@@ -21,7 +21,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.onap.sdc.workflow.persistence.UniqueValueRepository;
 import org.onap.sdc.workflow.persistence.types.UniqueValueEntity;
 import org.onap.sdc.workflow.services.exceptions.UniqueValueViolationException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service("uniqueValueService")
@@ -31,7 +30,6 @@ public class UniqueValueService {
 
     private final UniqueValueRepository uniqueValueRepository;
 
-    @Autowired
     public UniqueValueService(UniqueValueRepository uniqueValueRepository) {
         this.uniqueValueRepository = uniqueValueRepository;
     }

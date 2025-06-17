@@ -38,11 +38,11 @@ public class WorkflowZusammenConfigProvider implements ZusammenConfigProvider {
     private String cassandraPassword;
     @Value("${zusammen.cassandra.isAuthenticate}")
     private String cassandraAuth;
-    @Value("${spring.data.cassandra.ssl}")
 
-    private String cassandraSSL;
+    private String cassandraSSL = "false";
     @Value("${zusammen.cassandra.trustStorePath}")
     private String cassandraTrustStorePath;
     @Value("${zusammen.cassandra.trustStorePassword}")
     private String cassandraTrustStorePassword;
+
 }
