@@ -25,7 +25,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import org.onap.sdc.common.session.SessionContextProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -36,7 +35,6 @@ public class SessionContextFilter implements Filter {
     @Value("${spring.data.cassandra.keyspace-name}")
     private String tenant;
 
-    @Autowired
     public SessionContextFilter(SessionContextProvider sessionContextProvider) {
         this.sessionContextProvider = sessionContextProvider;
     }

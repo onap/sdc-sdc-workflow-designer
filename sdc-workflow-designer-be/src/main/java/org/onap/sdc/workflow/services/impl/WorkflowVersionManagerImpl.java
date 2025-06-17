@@ -55,7 +55,6 @@ import org.onap.sdc.workflow.services.types.WorkflowVersion;
 import org.onap.sdc.workflow.services.types.WorkflowVersionState;
 import org.openecomp.sdc.logging.api.Logger;
 import org.openecomp.sdc.logging.api.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -72,7 +71,6 @@ public class WorkflowVersionManagerImpl implements WorkflowVersionManager {
     private final VersionStateMapper versionStateMapper;
     private static final Logger LOGGER = LoggerFactory.getLogger(WorkflowVersionManagerImpl.class);
 
-    @Autowired
     public WorkflowVersionManagerImpl(VersioningManager versioningManager, ArtifactRepository artifactRepository,
             VersionMapper versionMapper, VersionStateMapper versionStateMapper, ItemManager itemManager,
             ParameterRepository parameterRepository) {

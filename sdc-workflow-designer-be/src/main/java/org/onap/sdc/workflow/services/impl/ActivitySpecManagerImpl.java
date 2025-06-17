@@ -48,7 +48,6 @@ import org.onap.sdc.workflow.services.exceptions.VersionStatusModificationExcept
 import org.onap.sdc.workflow.services.impl.mappers.ActivitySpecMapper;
 import org.openecomp.sdc.logging.api.Logger;
 import org.openecomp.sdc.logging.api.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -73,7 +72,6 @@ public class ActivitySpecManagerImpl implements ActivitySpecManager {
     private final ActivitySpecMapper activitySpecMapper;
 
 
-    @Autowired
     public ActivitySpecManagerImpl(ItemManager itemManager, VersioningManager versioningManager,
             ActivitySpecRepository activitySpecDao,
             @Qualifier("uniqueValueService") UniqueValueService uniqueValueService,
