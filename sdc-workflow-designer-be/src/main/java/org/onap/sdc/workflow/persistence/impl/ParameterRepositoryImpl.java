@@ -38,7 +38,6 @@ import org.onap.sdc.workflow.persistence.impl.types.WorkflowElementType;
 import org.onap.sdc.workflow.persistence.types.ParameterEntity;
 import org.onap.sdc.workflow.persistence.types.ParameterRole;
 import org.onap.sdc.workflow.persistence.types.ParameterType;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -47,7 +46,6 @@ public class ParameterRepositoryImpl implements ParameterRepository {
     private final ZusammenAdaptor zusammenAdaptor;
     private final ZusammenSessionContextCreator contextCreator;
 
-    @Autowired
     public ParameterRepositoryImpl(ZusammenAdaptor zusammenAdaptor, ZusammenSessionContextCreator contextCreator) {
         this.zusammenAdaptor = zusammenAdaptor;
         this.contextCreator = contextCreator;

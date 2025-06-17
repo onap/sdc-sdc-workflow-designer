@@ -22,7 +22,6 @@ package org.onap.sdc.workflow.server.config;
 import java.util.List;
 import org.onap.sdc.workflow.server.resolvers.UserIdResolver;
 import org.openecomp.sdc.logging.servlet.spring.LoggingInterceptor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -33,7 +32,6 @@ public class ApplicationConfigurer implements WebMvcConfigurer {
 
     private final LoggingInterceptor loggingInterceptor;
 
-    @Autowired
     public ApplicationConfigurer(LoggingInterceptor loggingInterceptor) {
         this.loggingInterceptor = loggingInterceptor;
     }

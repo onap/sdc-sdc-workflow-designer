@@ -34,7 +34,6 @@ import org.onap.sdc.common.zusammen.services.ZusammenAdaptor;
 import org.onap.sdc.workflow.persistence.ArtifactRepository;
 import org.onap.sdc.workflow.persistence.impl.types.WorkflowElementType;
 import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -46,7 +45,6 @@ public class ArtifactRepositoryImpl implements ArtifactRepository {
     private final ZusammenAdaptor zusammenAdaptor;
     private final ZusammenSessionContextCreator contextCreator;
 
-    @Autowired
     public ArtifactRepositoryImpl(ZusammenAdaptor zusammenAdaptor, ZusammenSessionContextCreator contextCreator) {
         this.zusammenAdaptor = zusammenAdaptor;
         this.contextCreator = contextCreator;
