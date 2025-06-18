@@ -32,8 +32,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
-import org.springframework.cloud.sleuth.autoconfig.TraceAutoConfiguration;
-import org.springframework.cloud.sleuth.zipkin2.ZipkinAutoConfiguration;
+import org.springframework.cloud.sleuth.autoconfig.zipkin2.ZipkinAutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -45,7 +44,7 @@ import lombok.SneakyThrows;
 
 @AutoConfigureMockMvc
 @AutoConfigureWireMock(port = 0)
-@ImportAutoConfiguration(classes = {TraceAutoConfiguration.class, ZipkinAutoConfiguration.class})
+@ImportAutoConfiguration(classes = {ZipkinAutoConfiguration.class})
 @SpringBootTest(properties = {
   "spring.sleuth.enabled=true",
   "spring.zipkin.baseUrl=http://localhost:${wiremock.server.port}",
