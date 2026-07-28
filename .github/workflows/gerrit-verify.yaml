@@ -1,0 +1,187 @@
+---
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 The Linux Foundation
+
+# =============================================================================
+# Supplementary Node.js verify for the sdc-workflow-designer UI frontend.
+#
+# This is a NON-AUTHORITATIVE, supplementary check. The source of truth for
+# building/testing/packaging the UI remains the Maven reactor, which drives
+# the frontend through com.github.eirslett:frontend-maven-plugin
+# (sdc-workflow-designer-ui/pom.xml: Node v10.17.0 + Yarn v1.19.1, then
+# webpack build, jest test and WAR packaging).
+#
+# To mirror that toolchain faithfully the reusable workflow is pinned to the
+# same Node.js version and build tool, and scoped to the frontend directory
+# via path_prefix. The committed yarn.lock makes the install reproducible.
+#
+# Dependency-audit, test and Grype failures are permitted (soft-fail) because
+# the frontend pins a 2018-era toolchain; this check surfaces status without
+# gating Gerrit on findings the Maven build does not gate on either.
+#
+# DEPLOYMENT NOTES:
+#   * gerrit_to_platform discovers this caller by filename (contains both
+#     'gerrit' and 'verify') and dispatches it on patchset creation.
+#   * The file must exist on every active branch that should run the check;
+#     this change targets 'master' only.
+#   * GERRIT_DISABLED lets you run manually from the GitHub UI without Gerrit.
+#   * Requires repository variables GERRIT_SERVER, GERRIT_SSH_USER,
+#     GERRIT_KNOWN_HOSTS, GERRIT_URL and secret GERRIT_SSH_PRIVKEY.
+# =============================================================================
+name: 'Gerrit Verify (Node UI)'
+
+# yamllint disable-line rule:truthy
+on:
+  workflow_dispatch:
+    inputs:
+      GERRIT_BRANCH:
+        description: 'Branch that change is against'
+        required: false
+        type: string
+        default: ''
+      GERRIT_CHANGE_ID:
+        description: 'The ID for the change'
+        required: false
+        type: string
+        default: ''
+      GERRIT_CHANGE_NUMBER:
+        description: 'The Gerrit number'
+        required: false
+        type: string
+        default: ''
+      GERRIT_CHANGE_URL:
+        description: 'URL to the change'
+        required: false
+        type: string
+        default: ''
+      GERRIT_EVENT_TYPE:
+        description: 'Type of Gerrit event'
+        required: false
+        type: string
+        default: ''
+      GERRIT_PATCHSET_NUMBER:
+        description: 'The patch number for the change'
+        required: false
+        type: string
+        default: ''
+      GERRIT_PATCHSET_REVISION:
+        description: 'The revision sha'
+        required: false
+        type: string
+        default: ''
+      GERRIT_PROJECT:
+        description: 'Project in Gerrit'
+        required: false
+        type: string
+        default: ''
+      GERRIT_REFSPEC:
+        description: 'Gerrit refspec of change'
+        required: false
+        type: string
+        default: ''
+      GERRIT_DISABLED:
+        description: 'Run without Gerrit components'
+        required: false
+        default: false
+        type: boolean
+
+concurrency:
+  group: ${{ github.event.inputs.GERRIT_CHANGE_ID || github.run_id }}
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  # Clear any previous Verified vote so the change starts from a clean state.
+  clear-vote:
+    if: inputs.GERRIT_DISABLED != true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 5
+    steps:
+      - name: 'Harden runner'
+        # yamllint disable-line rule:line-length
+        uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411  # v2.19.4
+        with:
+          egress-policy: audit
+      - name: 'Clear votes'
+        # yamllint disable-line rule:line-length
+        uses: lfreleng-actions/gerrit-review-action@b26a98041c59f9a877048c320313ab13bcc19aae  # v1.0.1
+        with:
+          host: ${{ vars.GERRIT_SERVER }}
+          username: ${{ vars.GERRIT_SSH_USER }}
+          key: ${{ secrets.GERRIT_SSH_PRIVKEY }}
+          known_hosts: ${{ vars.GERRIT_KNOWN_HOSTS }}
+          gerrit-change-number: ${{ inputs.GERRIT_CHANGE_NUMBER }}
+          gerrit-patchset-number: ${{ inputs.GERRIT_PATCHSET_NUMBER }}
+          vote-type: clear
+      - name: 'Allow replication'
+        run: sleep 10s
+
+  # Call the reusable build-test workflow, scoped to the UI frontend and
+  # pinned to the Maven-plugin toolchain (Node 10.17.0 + Yarn).
+  build-test:
+    needs: clear-vote
+    if: >-
+      always()
+      && (needs.clear-vote.result == 'success'
+          || needs.clear-vote.result == 'skipped')
+    permissions:
+      contents: read
+      pull-requests: read  # repository-metadata-action queries PR data
+    # yamllint disable-line rule:line-length
+    uses: lfreleng-actions/node-workflows/.github/workflows/build-test.yaml@d781fc1bde8f850a6aeff00d7725154c0f1b18da  # v0.1.1
+    with:
+      # When GERRIT_DISABLED is true the gerrit_* values are blanked so the
+      # reusable workflow falls back to a standard checkout.
+      # yamllint disable-line rule:line-length
+      gerrit_refspec: ${{ !inputs.GERRIT_DISABLED && inputs.GERRIT_REFSPEC || '' }}
+      # yamllint disable-line rule:line-length
+      gerrit_project: ${{ !inputs.GERRIT_DISABLED && inputs.GERRIT_PROJECT || '' }}
+      # yamllint disable-line rule:line-length
+      gerrit_branch: ${{ !inputs.GERRIT_DISABLED && inputs.GERRIT_BRANCH || '' }}
+      # gerrit_url falls back to the GERRIT_URL repository variable.
+      # Scope the workflow to the UI frontend module.
+      path_prefix: 'sdc-workflow-designer-ui/src/main/frontend'
+      # Match the frontend-maven-plugin toolchain (see UI pom.xml).
+      node_version: '10.17.0'
+      build_tool: 'yarn'
+      build_scripts: 'build'
+      # Mirror the Maven 'ui test' execution (jest with coverage).
+      test_script: 'test-build'
+      # Supplementary check: surface status without gating Gerrit.
+      test_permit_fail: true
+      audit_permit_fail: true
+      grype_permit_fail: true
+
+  # Report the overall workflow conclusion back to Gerrit as a Verified vote.
+  vote:
+    if: ${{ always() && inputs.GERRIT_DISABLED != true }}
+    needs: [clear-vote, build-test]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # workflow-conclusion queries the Actions API to list run jobs
+      actions: read
+    timeout-minutes: 5
+    steps:
+      - name: 'Harden runner'
+        # yamllint disable-line rule:line-length
+        uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411  # v2.19.4
+        with:
+          egress-policy: audit
+      - name: 'Get conclusion'
+        # yamllint disable-line rule:line-length
+        uses: im-open/workflow-conclusion@fce18569e28a9f2ed1feca1e6d4251e6a7365fdc  # v2.2.4
+      - name: 'Set vote'
+        # yamllint disable-line rule:line-length
+        uses: lfreleng-actions/gerrit-review-action@b26a98041c59f9a877048c320313ab13bcc19aae  # v1.0.1
+        with:
+          host: ${{ vars.GERRIT_SERVER }}
+          username: ${{ vars.GERRIT_SSH_USER }}
+          key: ${{ secrets.GERRIT_SSH_PRIVKEY }}
+          known_hosts: ${{ vars.GERRIT_KNOWN_HOSTS }}
+          gerrit-change-number: ${{ inputs.GERRIT_CHANGE_NUMBER }}
+          gerrit-patchset-number: ${{ inputs.GERRIT_PATCHSET_NUMBER }}
+          vote-type: ${{ env.WORKFLOW_CONCLUSION }}
