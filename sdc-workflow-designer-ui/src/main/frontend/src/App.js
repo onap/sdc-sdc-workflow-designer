@@ -87,11 +87,11 @@ class App extends Component {
 
     render() {
         return (
-            <div className="workflow-app">
+            <main className="workflow-app">
                 {routes.map((route, i) => (
                     <RouteWithSubRoutes key={`App.route.${i}`} {...route} />
                 ))}
-            </div>
+            </main>
         );
     }
 }

@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { I18n } from 'react-redux-i18n';
 import { WORKFLOW_STATUS } from 'features/workflow/workflowConstants';
 
 const StatusSelect = ({ status, onChange }) => (
     <select
         className="wf-status-select"
+        aria-label={I18n.t('catalog.status')}
         value={status}
         data-test-id="status-select"
         onChange={e => onChange(e.target.value)}>

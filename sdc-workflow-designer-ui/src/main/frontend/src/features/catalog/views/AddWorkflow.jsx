@@ -18,6 +18,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Translate } from 'react-redux-i18n';
 import { SVGIcon } from 'onap-ui-react';
+import { activateOnKey } from 'shared/a11y/activateOnKey';
 
 class AddWorkflow extends React.Component {
     render() {
@@ -26,9 +27,12 @@ class AddWorkflow extends React.Component {
             <div
                 className="add-workflow"
                 data-test-id="wf-catalog-add-workflow"
-                onClick={onClick}>
+                role="button"
+                tabIndex={0}
+                onClick={onClick}
+                onKeyDown={activateOnKey(onClick)}>
                 <div className="add-workflow__icon">
-                    <SVGIcon name="plusCircleThick" />
+                    <SVGIcon name="plusCircleThick" aria-hidden="true" />
                 </div>
                 <div className="add-workflow__label">
                     <Translate value="catalog.addWorkflow" />

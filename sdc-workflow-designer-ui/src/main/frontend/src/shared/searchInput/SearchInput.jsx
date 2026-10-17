@@ -16,11 +16,14 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { I18n } from 'react-redux-i18n';
 import { SVGIcon } from 'onap-ui-react';
+import { activateOnKey } from 'shared/a11y/activateOnKey';
 
 class ExpandableInput extends React.Component {
     static propTypes = {
         dataTestId: PropTypes.string,
+        label: PropTypes.string,
         onChange: PropTypes.func,
         value: PropTypes.string
     };
@@ -77,6 +80,7 @@ class ExpandableInput extends React.Component {
 
     render() {
         let { value, dataTestId } = this.props;
+        const label = this.props.label || I18n.t('buttons.searchBtn');
 
         const { showInput } = this.state;
 
@@ -87,7 +91,11 @@ class ExpandableInput extends React.Component {
                         className="search-input-wrapper closed"
                         name="search"
                         data-test-id={dataTestId}
+                        role="button"
+                        tabIndex={0}
+                        aria-label={label}
                         onClick={this.showInput}
+                        onKeyDown={activateOnKey(this.showInput)}
                     />
                 </div>
             );
@@ -102,6 +110,7 @@ class ExpandableInput extends React.Component {
                             value={value}
                             ref={this.handleRef}
                             className="input-control"
+                            aria-label={label}
                             data-test-id={`${dataTestId}-input-control`}
                             onChange={this.handleChange}
                             onKeyDown={this.handleKeyDown}
@@ -111,13 +120,18 @@ class ExpandableInput extends React.Component {
                     {value && (
                         <SVGIcon
                             data-test-id={`${dataTestId}-close-search`}
+                            role="button"
+                            tabIndex={0}
+                            aria-label={I18n.t('buttons.clearSearchBtn')}
                             onClick={() => this.handleClose()}
+                            onKeyDown={activateOnKey(() => this.handleClose())}
                             name="close"
                         />
                     )}
                     {!value && (
                         <SVGIcon
                             name="search"
+                            aria-hidden="true"
                             data-test-id={`${dataTestId}-blur-search`}
                             onClick={this.handleBlur}
                         />

@@ -17,6 +17,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SearchInput from 'shared/searchInput/SearchInput';
+import { I18n } from 'react-redux-i18n';
 import StatusSelect from './StatusSelector';
 
 const Header = ({ searchChange, searchValue, statusChange, status }) => (
@@ -25,6 +26,7 @@ const Header = ({ searchChange, searchValue, statusChange, status }) => (
         <div className="header__search">
             <SearchInput
                 dataTestId="wf-catalog-search"
+                label={I18n.t('catalog.search')}
                 onChange={searchChange}
                 value={searchValue}
             />

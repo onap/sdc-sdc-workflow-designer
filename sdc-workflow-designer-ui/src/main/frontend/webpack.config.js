@@ -77,7 +77,12 @@ module.exports = (env, argv) => {
                             loader: 'style-loader'
                         },
                         {
-                            loader: 'css-loader'
+                            loader: 'css-loader',
+                            // the onap-ui-common stylesheet is a CSS @import, which needs the palette loader too
+                            options: { importLoaders: 1 }
+                        },
+                        {
+                            loader: path.resolve(__dirname, 'tools/paletteLoader.js')
                         },
                         {
                             loader: 'sass-loader',

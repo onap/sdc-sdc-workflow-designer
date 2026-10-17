@@ -71,7 +71,7 @@
             padding: 0 60px;
         }
         .add-workflow {
-            border: 2px dashed #a8b3b9;
+            border: 2px dashed #6f7d85;
             width: 204px;
             height: 204px;
             padding: 10px;
@@ -81,10 +81,10 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: $gray;
+            color: $dark-gray;
             &__icon {
-                color: $gray;
-                fill: $gray;
+                color: $dark-gray;
+                fill: $dark-gray;
             }
             &__label {
                 text-transform: uppercase;

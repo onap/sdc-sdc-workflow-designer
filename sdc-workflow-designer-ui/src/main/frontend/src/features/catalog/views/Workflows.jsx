@@ -17,22 +17,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Tile, TileInfo, TileInfoLine } from 'onap-ui-react';
+import WorkflowTile from 'features/catalog/views/WorkflowTile';
 
 const Workflows = ({ items, onWorkflowClick }) =>
     items.map((workflow, index) => (
-        <Tile
+        <WorkflowTile
             key={`workflow.${index}`}
             dataTestId="wf-catalog-workflow-item"
-            headerText="WF"
-            headerColor="blue"
-            iconName="workflow"
-            iconColor="blue"
-            onClick={() => onWorkflowClick(workflow.id)}>
-            <TileInfo>
-                <TileInfoLine type="title">{workflow.name}</TileInfoLine>
-            </TileInfo>
-        </Tile>
+            name={workflow.name}
+            onClick={() => onWorkflowClick(workflow.id)}
+        />
     ));
 
 Workflows.propTypes = {

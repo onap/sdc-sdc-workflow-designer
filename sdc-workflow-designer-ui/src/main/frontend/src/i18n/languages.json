@@ -6,7 +6,11 @@
             "elementFound_1": "%{count} Element found",
             "orderBy": "Order By",
             "alphabeticalOrder": "Alphabetical order",
-            "addWorkflow": "Add Workflow"
+            "addWorkflow": "Add Workflow",
+            "alphabeticalOrderAscending": "Alphabetical order, ascending",
+            "alphabeticalOrderDescending": "Alphabetical order, descending",
+            "status": "Workflow status",
+            "search": "Search workflows"
         },
         "date": {
             "short": "D/MM/YYYY hh:mm A",
@@ -22,7 +26,9 @@
             "undoBtn": "Undo",
             "closeBtn": "Close",
             "okBtn": "Ok",
-            "backToCatalog": "Catalog"
+            "backToCatalog": "Catalog",
+            "searchBtn": "Search",
+            "clearSearchBtn": "Clear search"
         },
         "form": {
             "name": "Name",

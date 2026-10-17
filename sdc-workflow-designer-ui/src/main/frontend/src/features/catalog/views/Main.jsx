@@ -16,7 +16,8 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Translate } from 'react-redux-i18n';
+import { I18n, Translate } from 'react-redux-i18n';
+import { activateOnKey } from 'shared/a11y/activateOnKey';
 
 import { ASC } from 'features/catalog/catalogConstants';
 import { SVGIcon } from 'onap-ui-react';
@@ -33,7 +34,7 @@ class Main extends Component {
         return (
             <div className="main">
                 <div className="main__header">
-                    <div className="main__header__total">
+                    <div className="main__header__total" role="status">
                         <Translate value="catalog.elementFound" count={total} />
                     </div>
                     <div className="main__header__order">
@@ -43,7 +44,17 @@ class Main extends Component {
                         <div
                             className="main__header__order__alphabetical"
                             data-test-id="wf-catalog-alphabetical-order"
-                            onClick={onAlphabeticalOrderByClick}>
+                            role="button"
+                            tabIndex={0}
+                            aria-label={I18n.t(
+                                alphabeticalOrder === ASC
+                                    ? 'catalog.alphabeticalOrderAscending'
+                                    : 'catalog.alphabeticalOrderDescending'
+                            )}
+                            onClick={onAlphabeticalOrderByClick}
+                            onKeyDown={activateOnKey(
+                                onAlphabeticalOrderByClick
+                            )}>
                             <div className="main__header__order__alphabetical__label">
                                 <Translate value="catalog.alphabeticalOrder" />
                             </div>
@@ -53,7 +64,7 @@ class Main extends Component {
                                         'main__header__order__alphabetical__icon') ||
                                     'main__header__order__alphabetical__icon main__header__order__alphabetical__icon--flip'
                                 }>
-                                <SVGIcon name="caretDown" />
+                                <SVGIcon name="caretDown" aria-hidden="true" />
                             </div>
                         </div>
                     </div>
