@@ -32,9 +32,9 @@ public class WorkflowZusammenConfigProvider implements ZusammenConfigProvider {
     @Value("${spring.data.cassandra.port}")
     private String cassandraPort;
 
-    @Value("${spring.data.cassandra.username}")
+    @Value("${workflow.cassandra.username}")
     private String cassandraUser;
-    @Value("${spring.data.cassandra.password}")
+    @Value("${workflow.cassandra.password}")
     private String cassandraPassword;
     @Value("${zusammen.cassandra.isAuthenticate}")
     private String cassandraAuth;

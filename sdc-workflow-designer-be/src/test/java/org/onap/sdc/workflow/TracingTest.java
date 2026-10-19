@@ -18,8 +18,10 @@ package org.onap.sdc.workflow;
 import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.verify;
+import static org.awaitility.Awaitility.await;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
+import java.time.Duration;
 import org.junit.jupiter.api.Test;
 import org.onap.sdc.workflow.api.WorkflowController;
 import org.onap.sdc.workflow.services.WorkflowManager;
@@ -79,8 +81,8 @@ public class TracingTest {
       .accept(MediaType.APPLICATION_JSON))
       .andExpect(MockMvcResultMatchers.status().isOk());
 
-    Thread.sleep(500);
-    verify(postRequestedFor(urlEqualTo("/api/v2/spans")));
+    await().atMost(Duration.ofSeconds(10))
+        .untilAsserted(() -> verify(postRequestedFor(urlEqualTo("/api/v2/spans"))));
   }
 
 }

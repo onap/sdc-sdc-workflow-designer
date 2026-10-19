@@ -16,9 +16,12 @@
 
 package org.onap.sdc.workflow.api;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.actuate.metrics.AutoConfigureMetrics;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -38,6 +41,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 
 @Testcontainers
+@AutoConfigureMetrics
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT,
     properties = {
         "spring.data.cassandra.contact-points=localhost",
@@ -92,4 +96,20 @@ public class WorkflowControllerIntegrationTest {
 
     }
 
+    @Test
+    public void prometheusEndpointShouldReturnMetrics() {
+        ResponseEntity<String> response = restTemplate.getForEntity("/actuator/prometheus", String.class);
+
+        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        assertThat(response.getBody()).contains("# HELP");
+    }
+
+    @Test
+    public void apiDocsShouldDescribeWorkflowEndpointsWithUserIdHeader() {
+        ResponseEntity<String> response = restTemplate.getForEntity("/v2/api-docs", String.class);
+
+        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        assertThat(response.getBody()).contains("\"/wf/workflows\"", "\"/v1.0/activity-spec\"", "\"USER_ID\"")
+                                      .doesNotContain("\"/actuator");
+    }
 }
