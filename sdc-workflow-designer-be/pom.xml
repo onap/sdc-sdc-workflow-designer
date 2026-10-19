@@ -431,6 +431,7 @@
                                 <image>
                                     <name>onap/sdc-workflow-backend</name>
                                     <build>
+                                        <imagePullPolicy>Always</imagePullPolicy>
                                         <tags>
                                             <tag>latest</tag>
                                             <tag>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}-STAGING-latest</tag>
