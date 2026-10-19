@@ -39,18 +39,13 @@ import {
 } from 'features/version/composition/compositionActions';
 import { getActivitiesList } from 'features/activities/activitiesActions';
 
-/**
- * Composition validation - converting artifact string to xml
- * and checking if bpmn diagram has only one child
- * @param composition
- * @returns {boolean}
- */
-function validateCurrentArtifact(composition) {
-    const parser = new DOMParser();
-    const xml = parser.parseFromString(composition, 'text/xml');
-    return Boolean(
-        xml.getElementsByTagName('bpmndi:BPMNPlane').BPMNPlane_1.children.length
-    );
+const BPMN_DI_NAMESPACE = 'http://www.omg.org/spec/BPMN/20100524/DI';
+
+function hasDiagramElements(composition) {
+    const xml = new DOMParser().parseFromString(composition, 'text/xml');
+    return Array.from(
+        xml.getElementsByTagNameNS(BPMN_DI_NAMESPACE, 'BPMNPlane')
+    ).some(plane => plane.children.length > 0);
 }
 
 function* fetchVersion(action) {
@@ -93,49 +88,57 @@ function* watchSubmitVersion(action) {
     }
 }
 
-function* watchUpdateVersion(action) {
-    try {
-        const {
+function* saveVersion({
+    workflowId,
+    workflowName,
+    params: { composition, ...versionData }
+}) {
+    yield call(versionApi.updateVersion, {
+        workflowId,
+        params: versionData
+    });
+    if (hasDiagramElements(composition)) {
+        yield call(versionApi.updateVersionArtifact, {
             workflowId,
             workflowName,
-            params: { composition, ...versionData }
-        } = action.payload;
-        const isArtifactValid = validateCurrentArtifact(composition);
-        yield call(versionApi.updateVersion, {
-            workflowId,
-            params: versionData
+            versionName: versionData.name.split('.').join('_'),
+            versionId: versionData.id,
+            payload: composition
         });
+    } else {
+        yield call(versionApi.deleteVersionArtifact, {
+            workflowId,
+            versionId: versionData.id
+        });
+    }
+}
+
+export function* watchUpdateVersion(action) {
+    try {
+        yield call(saveVersion, action.payload);
         yield put(
             notificationActions.showSuccess({
                 title: I18n.t('workflow.confirmationMessages.updateTitle'),
                 message: I18n.t('workflow.confirmationMessages.updateMessage')
             })
         );
-        if (isArtifactValid) {
-            yield call(versionApi.updateVersionArtifact, {
-                workflowId,
-                workflowName,
-                versionName: versionData.name.split('.').join('_'),
-                versionId: versionData.id,
-                payload: composition
-            });
-        } else {
-            yield call(versionApi.deleteVersionArtifact, {
-                workflowId,
-                versionId: versionData.id
-            });
-        }
-        return isArtifactValid;
     } catch (error) {
         yield put(genericNetworkErrorAction(error));
     }
 }
 
-function* watchCertifyVersion(action) {
+export function* watchCertifyVersion(action) {
+    if (!hasDiagramElements(action.payload.params.composition)) {
+        yield put(
+            notificationActions.showError({
+                title: I18n.t('workflow.confirmationMessages.certifyTitle'),
+                message: I18n.t('workflow.composition.certifyEmptyComposition')
+            })
+        );
+        return;
+    }
     try {
-        const isArtifactValid = yield call(watchUpdateVersion, action);
-        if (!isArtifactValid)
-            throw new Error('Could not update empty artifact');
+        yield call(saveVersion, action.payload);
         yield call(versionApi.certifyVersion, {
             ...action.payload
         });
@@ -147,12 +150,6 @@ function* watchCertifyVersion(action) {
             })
         );
     } catch (error) {
-        yield put(
-            notificationActions.showError({
-                title: I18n.t('workflow.confirmationMessages.certifyTitle'),
-                message: I18n.t('workflow.composition.certifyArtifact')
-            })
-        );
         yield put(genericNetworkErrorAction(error));
     }
 }

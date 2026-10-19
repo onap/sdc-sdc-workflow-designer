@@ -87,7 +87,7 @@
                 "exportErrorMsg": "Could not export diagram",
                 "saveErrorMsg": "Could not save diagram",
                 "importErrorMsg": "Could not import diagram",
-                "certifyArtifact": "Could not certify empty artifact"
+                "certifyEmptyComposition": "Add at least one element on the Composition tab before certifying"
             },
             "confirmationMessages": {
                 "certifyTitle": "Certify Version",
