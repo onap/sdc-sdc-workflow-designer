@@ -26,6 +26,8 @@
         <sdc-be-common.version>1.12.0</sdc-be-common.version>
         <janino.version>3.1.10</janino.version>
         <testcontainers.version>1.19.1</testcontainers.version>
+        <opentelemetry-instrumentation.version>2.32.0</opentelemetry-instrumentation.version>
+        <opentelemetry-contrib.version>1.60.0-alpha</opentelemetry-contrib.version>
     </properties>
 
     <dependencyManagement>
@@ -34,6 +36,13 @@
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-bom</artifactId>
                 <version>${jetty.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.opentelemetry.instrumentation</groupId>
+                <artifactId>opentelemetry-instrumentation-bom</artifactId>
+                <version>${opentelemetry-instrumentation.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -86,12 +95,43 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-sleuth</artifactId>
+            <groupId>io.opentelemetry.instrumentation</groupId>
+            <artifactId>opentelemetry-spring-boot-starter</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.opentelemetry</groupId>
+                    <artifactId>opentelemetry-exporter-sender-okhttp</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.opentelemetry.contrib</groupId>
+                    <artifactId>opentelemetry-aws-resources</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.opentelemetry.contrib</groupId>
+                    <artifactId>opentelemetry-azure-resources</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.opentelemetry.contrib</groupId>
+                    <artifactId>opentelemetry-gcp-resources</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.opentelemetry.contrib</groupId>
+                    <artifactId>opentelemetry-cloudfoundry-resources</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-sleuth-zipkin</artifactId>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-exporter-sender-jdk</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-extension-trace-propagators</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.opentelemetry.contrib</groupId>
+            <artifactId>opentelemetry-samplers</artifactId>
+            <version>${opentelemetry-contrib.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -184,16 +224,6 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>commons-codec</artifactId>
-                    <groupId>commons-codec</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>

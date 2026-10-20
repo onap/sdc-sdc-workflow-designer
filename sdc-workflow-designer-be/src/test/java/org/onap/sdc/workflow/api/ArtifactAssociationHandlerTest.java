@@ -58,8 +58,6 @@ public class ArtifactAssociationHandlerTest {
     private ArtifactDeliveriesRequestDto requestDto;
     @Value("${sdc.be.endpoint}")
     private String sdcBeEndpoint;
-    @Value("${sdc.be.protocol}")
-    private String sdcBeProtocol;
     @Value("${sdc.be.external.user}")
     private String sdcUser;
     @Value("${sdc.be.external.password}")
@@ -86,7 +84,7 @@ public class ArtifactAssociationHandlerTest {
     @Test
     public void shouldGetResponseStatusOk() {
         ResponseEntity<String> responseEntity = new ResponseEntity(HttpStatus.OK);
-        when(restClientMock.exchange(eq(sdcBeProtocol + "://" + sdcBeEndpoint + "/" + requestDto.getEndpoint()),
+        when(restClientMock.exchange(eq("http://" + sdcBeEndpoint + "/" + requestDto.getEndpoint()),
                 eq(HttpMethod.POST), any(HttpEntity.class), eq(String.class))).thenReturn(responseEntity);
 
         ResponseEntity<String> response = associationService.execute(USER_ID, requestDto, artifactMock);

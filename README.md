@@ -95,7 +95,7 @@ messages. You can also see the logs of the initialization container using `docke
 
 ## 3. Backend
 
-`docker run -d -e SDC_PROTOCL=http/https -e SDC_ENDPOINT=<sdc-host>:<sdc-port> -e SDC_USER=<sdc-username>
+`docker run -d -e SDC_ENDPOINT=<sdc-host>:<sdc-port> -e SDC_USER=<sdc-username>
 -e SDC_PASSWORD=<sdc-password> -e CS_HOSTS=<cassandra-hosts> -e CS_PORT=<cassandra-port>
 -e CS_AUTHENTICATE=true/false -e CS_USER=<cassandra-user> -e CS_PASSWORD=<cassandra-password>
 -e CS_SSL_ENABLED=true/false --volume <cassandra-truststore-path_container>:<cassandra-truststore-path_local>
@@ -106,10 +106,9 @@ messages. You can also see the logs of the initialization container using `docke
 
 ### Environment Variables
 
-- SDC_PROTOCOL &mdash; protocol to be used for calling SDC APIs (http or https).
-
 - SDC_ENDPOINT &mdash; the base path of SDC external API, in the format `host:port`, where *host* is a SDC backend
-server, and *port* is usually 8080.
+server, and *port* is usually 8080. SDC is called over plain HTTP; transport encryption is left to the service
+mesh.
 
 - SDC_USER &mdash; Workflow consumer username
 
@@ -144,12 +143,22 @@ assumed if this variable is not specified.
 
 - JAVA_OPTIONS &mdash; optionally, JVM (Java Virtual Machine) arguments.
 
+- OTEL_SDK_DISABLED &mdash; set to *false* to export traces. Tracing is off if this variable is not specified.
+
+- OTEL_EXPORTER_OTLP_ENDPOINT &mdash; OTLP/HTTP endpoint of the trace collector, e.g.
+`http://jaeger-collector:4318`.
+
+- OTEL_TRACES_SAMPLER_ARG &mdash; fraction of traces to sample, between 0 and 1. Defaults to 1.
+
+Any other [OpenTelemetry SDK variable](https://opentelemetry.io/docs/languages/java/configuration/) is honoured as
+well.
+
 ### Example
 
 Assuming you have a dedicated Cassandra container as described in Database section, and the access to it is not
 protected with a password. The following command will start a backend container without SSL support:
 
-`docker run -d --name sdc-workflow-backend -e SDC_PROTOCOL=http
+`docker run -d --name sdc-workflow-backend
 -e SDC_ENDPOINT=$(docker inspect sdc-BE --format={{.NetworkSettings.IPAddress}}):8080
 -e CS_HOSTS=$(docker inspect sdc-workflow-cassandra --format={{.NetworkSettings.IPAddress}})
 -e SDC_USER=workflow -e SDC_PASSWORD=<secret> -e JAVA_OPTIONS="-Xmx128m -Xms128m -Xss1m" -p 8184:8443

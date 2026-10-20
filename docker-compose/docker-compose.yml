@@ -28,7 +28,6 @@ services:
         - CS_PORT
         - CS_AUTHENTICATE
         - CS_SSL_ENABLED
-        - SDC_PROTOCOL
         - SDC_ENDPOINT=${SDC_HOST}:8080
         - SDC_USER
         - SDC_PASSWORD

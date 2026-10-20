@@ -1,5 +1,6 @@
 /*
  * Copyright © 2018 European Support Limited
+ * Modifications Copyright © 2026 Deutsche Telekom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,46 +20,28 @@ package org.onap.sdc.workflow.api;
 import static org.apache.commons.codec.digest.DigestUtils.md5Hex;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.security.GeneralSecurityException;
-import java.security.KeyStore;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-
-import org.apache.http.conn.ssl.TrustStrategy;
-import org.openecomp.sdc.logging.api.Logger;
-import org.openecomp.sdc.logging.api.LoggerFactory;
-
-import java.util.Base64;
-
 import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpHost;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.ssl.SSLContexts;
 import org.onap.sdc.workflow.api.types.dto.ArtifactDeliveriesRequestDto;
 import org.onap.sdc.workflow.persistence.types.ArtifactEntity;
-
+import org.openecomp.sdc.logging.api.Logger;
+import org.openecomp.sdc.logging.api.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.*;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-
-import javax.net.ssl.SSLContext;
-
 
 @Component("ArtifactAssociationHandler")
 public class ArtifactAssociationService {
@@ -70,13 +53,9 @@ public class ArtifactAssociationService {
     private static final String X_ECOMP_INSTANCE_ID_HEADER = "X-ECOMP-InstanceID";
     private static final String INIT_ERROR_MSG =
             "Failed while attaching workflow artifact to Operation in SDC. Parameters were not initialized: %s";
-    private static final String INIT_CLIENT_MSG =
-            "Failed while creating the HTTP client to SDC. Following exception: %s";
     private static final Logger LOGGER = LoggerFactory.getLogger(ArtifactAssociationService.class);
     @Value("${sdc.be.endpoint}")
     private String sdcBeEndpoint;
-    @Value("${sdc.be.protocol}")
-    private String sdcBeProtocol;
     @Value("${sdc.be.external.user}")
     private String sdcUser;
     @Value("${sdc.be.external.password}")
@@ -84,59 +63,8 @@ public class ArtifactAssociationService {
 
     private RestTemplate restClient;
 
-    private KeyStore getKeyStore(String file, String password, String keyStoreType) throws IOException, GeneralSecurityException {
-        KeyStore keyStore = KeyStore.getInstance(keyStoreType);
-        File keyFile = new File(file);
-        try (FileInputStream inStr = new FileInputStream(keyFile)) {
-            keyStore.load(inStr, password.toCharArray());
-        }
-        return keyStore;
-
-    }
-
-
-    public ArtifactAssociationService(RestTemplateBuilder builder,
-                                      @Value("${server.ssl.trust-store}")
-                                              String truststorePath,
-                                      @Value("${server.ssl.trust-store-password}")
-                                              String truststorePassword,
-                                      @Value("${server.ssl.trust-store-type}")
-                                              String truststoreType,
-                                      @Value("${server.ssl.key-store}")
-                                              String keystorePath,
-                                      @Value("${server.ssl.key-password}")
-                                              String keystorePassword,
-                                      @Value("${server.ssl.key-store-type}")
-                                              String keystoreType,
-                                      @Value("${sdc.be.protocol}")
-                                              String protocol) {
-        if (protocol != null &&
-                !protocol.equalsIgnoreCase(HttpHost.DEFAULT_SCHEME_NAME)) {
-            try {
-                KeyStore trustStore = getKeyStore(truststorePath, truststorePassword, truststoreType);
-                KeyStore keyStore = getKeyStore(keystorePath, keystorePassword, keystoreType);
-
-                SSLContext sslcontext = SSLContexts.custom()
-                        .loadKeyMaterial(keyStore, keystorePassword.toCharArray())
-                        .loadTrustMaterial(trustStore, new TrustSelfSignedStrategy())
-                        .build();
-                SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
-                        sslcontext,
-                        new NoopHostnameVerifier()
-                );
-                CloseableHttpClient httpClient =
-                        HttpClients.custom()
-                                .setSSLSocketFactory(sslsf)
-                                .setSSLHostnameVerifier(new NoopHostnameVerifier())
-                                .build();
-                HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory(httpClient);
-                this.restClient = new RestTemplate(factory);
-            } catch (Exception e) {
-                LOGGER.error(String.format(INIT_CLIENT_MSG, e.getMessage()), e);
-            }
-        } else {
-            this.restClient = builder.build();
-        }
+    public ArtifactAssociationService(RestTemplateBuilder builder) {
+        this.restClient = builder.build();
     }
 
     void setRestClient(RestTemplate restClient) {
@@ -166,7 +94,7 @@ public class ArtifactAssociationService {
 
         HttpEntity<String> request = new HttpEntity<>(formattedArtifact, createHeaders(userId, formattedArtifact));
 
-        return restClient.exchange(sdcBeProtocol + "://" + sdcBeEndpoint + "/" + deliveriesRequestDto.getEndpoint(),
+        return restClient.exchange("http://" + sdcBeEndpoint + "/" + deliveriesRequestDto.getEndpoint(),
                 HttpMethod.valueOf(deliveriesRequestDto.getMethod()), request, String.class);
     }
 
@@ -174,9 +102,6 @@ public class ArtifactAssociationService {
         ArrayList<String> result = new ArrayList<>();
         if (sdcBeEndpoint == null || sdcBeEndpoint.equals("")) {
             result.add("SDC_ENDPOINT");
-        }
-        if (sdcBeProtocol == null || sdcBeProtocol.equals("")) {
-            result.add("SDC_PROTOCOL");
         }
         if (sdcUser == null || sdcUser.equals("")) {
             result.add("SDC_USER");
