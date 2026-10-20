@@ -41,6 +41,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 @Component("ArtifactAssociationHandler")
@@ -94,8 +95,20 @@ public class ArtifactAssociationService {
 
         HttpEntity<String> request = new HttpEntity<>(formattedArtifact, createHeaders(userId, formattedArtifact));
 
-        return restClient.exchange("http://" + sdcBeEndpoint + "/" + deliveriesRequestDto.getEndpoint(),
-                HttpMethod.valueOf(deliveriesRequestDto.getMethod()), request, String.class);
+        String url = "http://" + sdcBeEndpoint + "/" + deliveriesRequestDto.getEndpoint();
+        HttpMethod method = HttpMethod.valueOf(deliveriesRequestDto.getMethod());
+        LOGGER.info("Delivering artifact {} to SDC: {} {}", artifactEntity.getFileName(), method, url);
+        long start = System.currentTimeMillis();
+        try {
+            ResponseEntity<String> response = restClient.exchange(url, method, request, String.class);
+            LOGGER.info("SDC answered the delivery of artifact {} with {} after {} ms", artifactEntity.getFileName(),
+                    response.getStatusCodeValue(), System.currentTimeMillis() - start);
+            return response;
+        } catch (RestClientException e) {
+            LOGGER.error("Delivering artifact {} to SDC failed after {} ms: {} {}", artifactEntity.getFileName(),
+                    System.currentTimeMillis() - start, method, url, e);
+            throw e;
+        }
     }
 
     Optional<String> parametersInitializationState() {

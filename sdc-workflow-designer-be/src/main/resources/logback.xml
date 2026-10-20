@@ -2,6 +2,7 @@
 
 <!--
   ~ Copyright © 2016-2018 European Support Limited
+  ~ Modifications Copyright © 2026 Deutsche Telekom
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -16,211 +17,16 @@
   ~ limitations under the License.
   -->
 
-<configuration scan="true" scanPeriod="9 seconds">
+<configuration>
 
-    <property scope="system" name="ONAP-component-name" value="workflow-designer"/>
-    <property scope="system" name="ONAP-subcomponent-name" value="backend"/>
-    <property name="log.home" value="/var/log/ONAP"/>
-    <property name="log.location" value="${log.home}/${ONAP-component-name}/${ONAP-subcomponent-name}"/>
-    <property name="error-log-pattern"
-        value="%date{yyyy-MM-dd'T'HH:mm:ss.SSSXXX}|%X{RequestID}|%thread|%X{ServiceName}|%X{PartnerName}|%X{TargetEntity}|%X{TargetServiceName}|%X{ErrorCategory}|%X{ErrorCode}|${p_msg} ${p_ex}|%n%nopex"/>
-    <property name="debug-log-pattern"
-        value="%date{yyyy-MM-dd'T'HH:mm:ss.SSSXXX}|%X{RequestID}|${p_debugInfo} ${p_ex}|^\n%n%nopex"/>
-
-    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
-
-        <file>${log.location}/error.log</file>
-
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>INFO</level>
-        </filter>
-
-        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
-            <evaluator class="ch.qos.logback.classic.boolex.OnMarkerEvaluator">
-                <marker>AUDIT</marker>
-            </evaluator>
-            <onMismatch>NEUTRAL</onMismatch>
-            <onMatch>DENY</onMatch>
-        </filter>
-
-        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
-            <evaluator class="ch.qos.logback.classic.boolex.OnMarkerEvaluator">
-                <marker>METRICS</marker>
-            </evaluator>
-            <onMismatch>NEUTRAL</onMismatch>
-            <onMatch>DENY</onMatch>
-        </filter>
-
-        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-            <fileNamePattern>${log.location}/error.log.%i
-            </fileNamePattern>
-            <minIndex>1</minIndex>
-            <maxIndex>10</maxIndex>
-        </rollingPolicy>
-
-        <triggeringPolicy
-                class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <maxFileSize>20MB</maxFileSize>
-        </triggeringPolicy>
-
-        <encoder>
-            <pattern>
-                %d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX}|%X{RequestId}|%thread||%X{ServiceName}|%X{PartnerName}|%X{TargetEntity}|%X{TargetServiceName}|%level||%X{ErrorCode}|%X{ErrorDescription}|%msg%n
-            </pattern>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>{"service.name":"sdc-wfd-be"}</customFields>
         </encoder>
     </appender>
-
-    <appender name="DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
-
-        <file>${log.location}/debug.log</file>
-
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>DEBUG</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
-
-        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-            <fileNamePattern>${log.location}/debug.log.%i
-            </fileNamePattern>
-            <minIndex>1</minIndex>
-            <maxIndex>10</maxIndex>
-        </rollingPolicy>
-
-        <triggeringPolicy
-                class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <maxFileSize>20MB</maxFileSize>
-        </triggeringPolicy>
-
-        <encoder>
-            <pattern>
-                %d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX}|%X{RequestId}|%msg%n
-            </pattern>
-        </encoder>
-    </appender>
-
-    <appender name="ASYNC_DEBUG" class="ch.qos.logback.classic.AsyncAppender">
-        <appender-ref ref="DEBUG"/>
-    </appender>
-
-    <appender name="AUDIT" class="ch.qos.logback.core.rolling.RollingFileAppender">
-
-        <file>${log.location}/audit.log</file>
-
-        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
-            <evaluator class="ch.qos.logback.classic.boolex.OnMarkerEvaluator">
-                <marker>AUDIT</marker>
-            </evaluator>
-            <onMismatch>DENY</onMismatch>
-            <onMatch>ACCEPT</onMatch>
-        </filter>
-
-        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-            <fileNamePattern>${log.location}/audit.log.%i
-            </fileNamePattern>
-            <minIndex>1</minIndex>
-            <maxIndex>10</maxIndex>
-        </rollingPolicy>
-
-        <triggeringPolicy
-                class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <maxFileSize>20MB</maxFileSize>
-        </triggeringPolicy>
-
-        <encoder>
-            <pattern>
-                %X{BeginTimestamp}|%X{EndTimestamp}|%X{RequestId}|%X{ServiceInstanceId}|%thread||%X{ServiceName}|%X{PartnerName}|%X{StatusCode}|%X{ResponseCode}|%X{ResponseDescription}|%X{InstanceId}|%level||%X{ServerIpAddress}|%X{ElapsedTime}|%X{Server}|%X{ClientIpAddress}||||||||%msg%n
-            </pattern>
-        </encoder>
-    </appender>
-
-    <appender name="METRICS" class="ch.qos.logback.core.rolling.RollingFileAppender">
-
-        <file>${log.location}/metrics.log</file>
-
-        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
-            <evaluator class="ch.qos.logback.classic.boolex.OnMarkerEvaluator">
-                <marker>METRICS</marker>
-            </evaluator>
-            <onMismatch>DENY</onMismatch>
-            <onMatch>ACCEPT</onMatch>
-        </filter>
-
-        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-            <fileNamePattern>${log.location}/metrics.log.%i
-            </fileNamePattern>
-            <minIndex>1</minIndex>
-            <maxIndex>10</maxIndex>
-        </rollingPolicy>
-
-        <triggeringPolicy
-                class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <maxFileSize>20MB</maxFileSize>
-        </triggeringPolicy>
-
-        <encoder>
-            <pattern>
-                %X{BeginTimestamp}|%X{EndTimestamp}|%X{RequestId}|%X{ServiceInstanceId}|%thread||%X{ServiceName}|%X{TargetEntity}|%X{TargetServiceName}|%X{StatusCode}|%X{ResponseCode}|%X{ResponseDescription}|%X{InstanceId}|%level||%X{ServerIpAddress}|%X{ElapsedTime}|%X{Server}|%X{ClientIpAddress}||||||||||%msg%n
-            </pattern>
-        </encoder>
-    </appender>
-
-    <appender name="ERROR_STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>WARN</level>
-        </filter>
-
-        <encoder>
-            <pattern>
-                %d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX}|%X{RequestId}|%thread||%X{ServiceName}|%X{PartnerName}|%X{TargetEntity}|%X{TargetServiceName}|%level||%X{ErrorCode}|%X{ErrorDescription}|%msg%n
-            </pattern>
-        </encoder>
-    </appender>
-    <appender name="DEBUG_STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
-            <evaluator> <!-- defaults to type ch.qos.logback.classic.boolex.JaninoEventEvaluator -->
-                <expression>return level &lt;= INFO;</expression>
-            </evaluator>
-            <OnMismatch>DENY</OnMismatch>
-            <OnMatch>ACCEPT</OnMatch>
-        </filter>
-
-        <encoder>
-            <pattern>
-                %d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX}|%X{RequestId}|%msg%n
-            </pattern>
-        </encoder>
-    </appender>
-
-    <logger name="org.openecomp" level="info" additivity="false">
-        <appender-ref ref="ERROR"/>
-        <appender-ref ref="ASYNC_DEBUG"/>
-        <appender-ref ref="AUDIT"/>
-        <appender-ref ref="METRICS"/>
-    </logger>
-
-    <logger name="org.onap" level="info" additivity="false">
-        <appender-ref ref="ERROR"/>
-        <appender-ref ref="ASYNC_DEBUG"/>
-        <appender-ref ref="AUDIT"/>
-        <appender-ref ref="METRICS"/>
-    </logger>
-
-    <!-- See https://docs.spring.io/spring-boot/docs/current/reference/html/howto-logging.html -->
-    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
-    <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
 
     <root level="INFO">
-        <appender-ref ref="DEBUG_STDOUT"/>
-        <appender-ref ref="ERROR_STDOUT"/>
+        <appender-ref ref="STDOUT"/>
     </root>
-
-    <logger name="org.springframework.web" level="error">
-        <appender-ref ref="CONSOLE"/>
-    </logger>
-
-    <logger name="logging.level.org.hibernate" level="error">
-        <appender-ref ref="CONSOLE"/>
-    </logger>
 
 </configuration>

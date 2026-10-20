@@ -1,5 +1,6 @@
 /*
  * Copyright © 2018 European Support Limited
+ * Modifications Copyright © 2026 Deutsche Telekom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +34,7 @@ public class LoggingInterceptorConfig {
 
     @Bean
     public LoggingInterceptor createLoggingInterceptor() {
-        return new LoggingInterceptor(new HttpHeader(loggingRequestIdHeaders),
-                new HttpHeader(loggingPartnerNameHeader));
+        return new LoggingInterceptor(new HttpHeader(loggingPartnerNameHeader),
+                new HttpHeader(loggingRequestIdHeaders));
     }
 }

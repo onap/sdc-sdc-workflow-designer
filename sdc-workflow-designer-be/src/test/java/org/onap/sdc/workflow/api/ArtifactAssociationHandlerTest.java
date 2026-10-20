@@ -1,6 +1,6 @@
 /*
  * Copyright © 2018 European Support Limited
- * Modifications Copyright © 2025 Deutsche Telekom
+ * Modifications Copyright © 2025-2026 Deutsche Telekom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,13 +18,21 @@
 package org.onap.sdc.workflow.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
 import java.io.IOException;
 import java.io.InputStream;
 import org.apache.commons.io.IOUtils;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.onap.sdc.workflow.api.types.dto.ArtifactDeliveriesRequestDto;
@@ -40,6 +48,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @DirtiesContext
@@ -72,12 +82,24 @@ public class ArtifactAssociationHandlerTest {
     @Autowired
     private ArtifactAssociationService associationService;
 
+    private final Logger serviceLogger = (Logger) LoggerFactory.getLogger(ArtifactAssociationService.class);
+    private final ListAppender<ILoggingEvent> logged = new ListAppender<>();
+
     @BeforeEach
     public void setUp() throws IOException {
         inputStreamMock = IOUtils.toInputStream("some test data for my input stream", "UTF-8");
         artifactMock = new ArtifactEntity(FILE_NAME, inputStreamMock);
         requestDto = new ArtifactDeliveriesRequestDto("POST", END_POINT);
         associationService.setRestClient(restClientMock);
+        logged.start();
+        serviceLogger.addAppender(logged);
+        serviceLogger.setLevel(Level.INFO);
+    }
+
+    @AfterEach
+    public void detachLogAppender() {
+        serviceLogger.detachAppender(logged);
+        serviceLogger.setLevel(null);
     }
 
 
@@ -99,6 +121,37 @@ public class ArtifactAssociationHandlerTest {
         ResponseEntity<String> response = associationService.execute(USER_ID, requestDto, artifactMock);
         assertEquals(417, response.getStatusCode().value());
         assertEquals(EROR_MSG, response.getBody());
+    }
+
+
+    @Test
+    public void shouldLogStartAndOutcomeOfTheSdcCall() {
+        when(restClientMock.exchange(eq("http://" + sdcBeEndpoint + "/" + requestDto.getEndpoint()),
+                eq(HttpMethod.POST), any(HttpEntity.class), eq(String.class)))
+                .thenReturn(new ResponseEntity<>(HttpStatus.OK));
+
+        associationService.execute(USER_ID, requestDto, artifactMock);
+
+        assertEquals(2, logged.list.size());
+        assertEquals("Delivering artifact fileName.txt to SDC: POST http://" + sdcBeEndpoint + "/" + END_POINT,
+                logged.list.get(0).getFormattedMessage());
+        assertTrue(logged.list.get(1).getFormattedMessage()
+                .matches("SDC answered the delivery of artifact fileName.txt with 200 after \\d+ ms"));
+    }
+
+    @Test
+    public void shouldLogAndRethrowAFailedSdcCall() {
+        HttpServerErrorException failure = new HttpServerErrorException(HttpStatus.BAD_GATEWAY);
+        when(restClientMock.exchange(eq("http://" + sdcBeEndpoint + "/" + requestDto.getEndpoint()),
+                eq(HttpMethod.POST), any(HttpEntity.class), eq(String.class))).thenThrow(failure);
+
+        assertSame(failure, assertThrows(HttpServerErrorException.class,
+                () -> associationService.execute(USER_ID, requestDto, artifactMock)));
+
+        ILoggingEvent error = logged.list.get(logged.list.size() - 1);
+        assertEquals(Level.ERROR, error.getLevel());
+        assertTrue(error.getFormattedMessage().startsWith("Delivering artifact fileName.txt to SDC failed after "));
+        assertEquals(HttpServerErrorException.class.getName(), error.getThrowableProxy().getClassName());
     }
 
 }

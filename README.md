@@ -170,9 +170,9 @@ In order to verify that the Workflow Designer backend has started successfully, 
 backend container. For example, by running `docker logs sdc-workflow-backend`. The logs must not contain any
 error messages.
 
-Application logs are located in the */var/log/ONAP/workflow-designer/backend* directory of a workflow backend
-container. For example, you can view the audit log by running
-`docker exec -ti sdc-workflow-backend less /var/log/ONAP/workflow-designer/backend/audit.log`.
+The backend writes all its logs to standard output, one JSON object per line. Request audit records carry the
+`AUDIT` tag, and every line carries `trace_id` and `span_id` when tracing is enabled. Log levels can be raised
+with Spring Boot's `LOGGING_LEVEL_<logger>` variables, e.g. `-e LOGGING_LEVEL_ORG_ONAP_SDC_WORKFLOW=DEBUG`.
 
 ## 4. Frontend
 

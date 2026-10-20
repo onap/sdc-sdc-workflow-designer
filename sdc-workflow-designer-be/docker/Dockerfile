@@ -6,8 +6,8 @@ ARG ARTIFACT
 
 RUN addgroup -g 101 -S onap && \
     adduser -S -u 1000 -G onap -h /home/onap onap && \
-    mkdir -p /app /var/log/ONAP && \
-    chown onap:onap /app /var/log/ONAP
+    mkdir -p /app && \
+    chown onap:onap /app
 
 WORKDIR /app
 

@@ -24,7 +24,7 @@
         <springframework.plugin.version>2.0.0.RELEASE</springframework.plugin.version>
         <zusammen.version>1.0.2</zusammen.version>
         <sdc-be-common.version>1.12.0</sdc-be-common.version>
-        <janino.version>3.1.10</janino.version>
+        <logstash-logback-encoder.version>7.3</logstash-logback-encoder.version>
         <testcontainers.version>1.19.1</testcontainers.version>
         <opentelemetry-instrumentation.version>2.32.0</opentelemetry-instrumentation.version>
         <opentelemetry-contrib.version>1.60.0-alpha</opentelemetry-contrib.version>
@@ -60,20 +60,10 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
-                <groupId>org.codehaus.janino</groupId>
-                <artifactId>commons-compiler</artifactId>
-                <version>${janino.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <dependencies>
-        <dependency>
-            <groupId>org.codehaus.janino</groupId>
-            <artifactId>janino</artifactId>
-            <version>${janino.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.el</artifactId>
@@ -223,6 +213,12 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>${logstash-logback-encoder.version}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
