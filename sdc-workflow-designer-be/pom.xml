@@ -15,6 +15,7 @@
 
     <properties>
         <spring.boot.version>2.7.18</spring.boot.version>
+        <jetty.backend.version>10.0.26</jetty.backend.version>
         <spring-cloud.version>2021.0.9</spring-cloud.version>
         <mapstruct.version>1.5.3.Final</mapstruct.version>
         <lombok.version>1.18.38</lombok.version>
@@ -35,7 +36,7 @@
             <dependency>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-bom</artifactId>
-                <version>${jetty.version}</version>
+                <version>${jetty.backend.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -126,6 +127,22 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jetty</artifactId>
+            <exclusions>
+                <!-- Retain the Servlet 4 API supplied by Spring Boot. -->
+                <exclusion>
+                    <groupId>org.eclipse.jetty.toolchain</groupId>
+                    <artifactId>jetty-servlet-api</artifactId>
+                </exclusion>
+                <!-- Jetty 9 WebSocket artifacts are incompatible with Jetty 10. -->
+                <exclusion>
+                    <groupId>org.eclipse.jetty.websocket</groupId>
+                    <artifactId>websocket-server</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.eclipse.jetty.websocket</groupId>
+                    <artifactId>javax-websocket-server-impl</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
