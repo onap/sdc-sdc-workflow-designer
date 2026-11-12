@@ -18,6 +18,10 @@ package org.onap.sdc.workflow.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import org.eclipse.jetty.server.ServerConnector;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +29,8 @@ import org.springframework.boot.test.autoconfigure.actuate.metrics.AutoConfigure
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.boot.web.embedded.jetty.JettyWebServer;
+import org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +42,7 @@ import org.testcontainers.containers.CassandraContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.SneakyThrows;
@@ -44,6 +51,7 @@ import lombok.SneakyThrows;
 @AutoConfigureMetrics
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT,
     properties = {
+        "http.port=0",
         "spring.data.cassandra.contact-points=localhost",
         "spring.data.cassandra.schema-action=CREATE_IF_NOT_EXISTS"
 })
@@ -55,6 +63,9 @@ public class WorkflowControllerIntegrationTest {
     ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
+    ServletWebServerApplicationContext applicationContext;
+
+    @Autowired
     RestTemplateBuilder builder;
     RestTemplate restTemplate;
 
@@ -63,6 +74,7 @@ public class WorkflowControllerIntegrationTest {
         this.restTemplate = builder
             .rootUri("http://localhost:" + port)
             .defaultHeader(HttpHeaders.ACCEPT, "application/json")
+            .defaultHeader("USER_ID", "workflow-test")
             .build();
     }
 
@@ -94,6 +106,31 @@ public class WorkflowControllerIntegrationTest {
         ResponseEntity<String> response = restTemplate.getForEntity(queryParams, String.class);
         assert(response.getStatusCode().is2xxSuccessful());
 
+    }
+
+    @Test
+    @SneakyThrows
+    public void bothConfiguredHttpConnectorsServeWorkflowRequests() {
+        JettyWebServer webServer = (JettyWebServer) applicationContext.getWebServer();
+        assertThat(webServer.getServer().getConnectors()).hasSize(2);
+        List<Integer> ports = Arrays.stream(webServer.getServer().getConnectors())
+                .map(ServerConnector.class::cast)
+                .peek(connector -> assertThat(connector.isStarted()).isTrue())
+                .map(ServerConnector::getLocalPort)
+                .collect(Collectors.toList());
+        assertThat(ports).contains(port).doesNotHaveDuplicates().allSatisfy(localPort ->
+                assertThat(localPort).isPositive());
+
+        String query = "/wf/workflows?sort=name:asc&limit=31&offset=0&archiving=ACTIVE";
+        JsonNode expected = mapper.readTree(restTemplate.getForObject(query, String.class));
+        assertThat(expected.path("items").isArray()).isTrue();
+        assertThat(expected.path("paging").path("limit").asInt()).isEqualTo(31);
+        for (int localPort : ports) {
+            ResponseEntity<String> response = restTemplate.getForEntity(
+                    "http://localhost:" + localPort + query, String.class);
+            assertThat(response.getStatusCodeValue()).isEqualTo(200);
+            assertThat(mapper.readTree(response.getBody())).isEqualTo(expected);
+        }
     }
 
     @Test

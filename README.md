@@ -104,6 +104,29 @@ messages. You can also see the logs of the initialization container using `docke
 -e SERVER_SSL_KEYSTORE_PATH=<ssl_keystore_path> -e SERVER_SSL_KEYSTORE_TYPE=<ssl_keystore_type>
 -e JAVA_OPTIONS=<jvm-options> nexus3.onap.org:10001/onap/sdc-workflow-backend:latest`
 
+### Runtime compatibility and verification
+
+The backend uses Spring Boot 2.7.18, Spring Framework 5.3.31 and embedded Jetty 10.0.26.
+It compiles for Java 11 and runs on Java 17 in the Docker image. The Servlet 4 API retains
+`javax.servlet` packages. The backend POM's `jetty.backend.version` controls its Jetty BOM
+independently of the frontend's Jetty version.
+
+Jetty 10 is [end of life](https://jetty.org/download.html). It is the newest Jetty major version
+supported by this Spring Boot version; moving to maintained Jetty 12 requires a separate backend
+framework migration.
+
+Run the backend verification with JDK 11 and a working Docker daemon for Cassandra Testcontainers:
+
+```bash
+mvn -B -pl sdc-workflow-designer-be clean verify
+mvn -B -pl sdc-workflow-designer-be dependency:tree '-Dincludes=org.eclipse.jetty:*'
+```
+
+The real-server integration tests cover both configured HTTP connectors, workflow requests,
+API documentation and Prometheus metrics. Build the Java 17 runtime image with
+`mvn -B -pl sdc-workflow-designer-be clean install -Pdocker` and verify its primary connector
+(default 8443, with optional TLS) and additional HTTP connector (default 8080) when deploying.
+
 ### Environment Variables
 
 - SDC_ENDPOINT &mdash; the base path of SDC external API, in the format `host:port`, where *host* is a SDC backend
