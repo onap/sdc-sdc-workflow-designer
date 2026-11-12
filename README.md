@@ -176,6 +176,26 @@ with Spring Boot's `LOGGING_LEVEL_<logger>` variables, e.g. `-e LOGGING_LEVEL_OR
 
 ## 4. Frontend
 
+The frontend uses Jetty 12.1.15 on Java 17, with EE8 / Servlet 4.0 support.
+Maven must run on JDK 17 or newer to compile the frontend proxy. The backend's
+framework and Jetty dependencies remain independent; its compilation target is still Java 11.
+The frontend image uses the exact `jetty:12.1.15-jdk17-alpine` base and explicitly
+enables EE8 WAR deployment. It serves `/workflows/` and `/workflows/ping`, with
+backend proxy mappings under `/workflows/wf/*` and `/workflows/v1.0/activity-spec/*`.
+HTTP and HTTPS listen on ports 8080 and 8443 respectively.
+
+Build and verify the complete application, including its container images:
+
+```sh
+mvn clean install -Pdocker
+python3 sdc-workflow-designer-ui/docker/test-startup.py
+sh sdc-workflow-designer-ui/docker/test-runtime.sh onap/sdc-workflow-frontend:latest
+```
+
+The runtime check requires a local Docker daemon, curl, Python 3 and JDK 17+
+`keytool`. It creates disposable containers, a network and short-lived test
+certificates, and removes them when it finishes.
+
 `docker run -d -e BACKEND=http://<backend-host>:<backend-port> -e JAVA_OPTIONS=<jvm-options>
 nexus3.onap.org:10001/onap/sdc-workflow-frontend:latest`
 
@@ -192,7 +212,14 @@ For SSL connectivity:
 - TRUSTSTORE_PATH
 - TRUSTSTORE_PASS
 
-If not set then Using jetty default SSL keys.
+When `IS_HTTPS=true`, set `KEYSTORE_PATH` and `KEYSTORE_PASS` for the frontend
+certificate. Store paths can be absolute (for mounted files) or relative to
+`JETTY_BASE`. `TRUSTSTORE_PATH` and `TRUSTSTORE_PASS` configure trust for HTTPS
+backend connections; they apply even when the frontend accepts plain HTTP.
+`TRUST_ALL=true` explicitly disables backend certificate verification; the default
+is to verify certificates. Additional proxy TLS properties such as `keystoreType`,
+`truststoreType` and `endpointIdentificationAlgorithm` can be supplied as JVM
+`-D` arguments through `JAVA_OPTIONS`.
 
 ### Example
 

@@ -24,17 +24,15 @@ package org.onap.workflow.web;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Enumeration;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.client.HttpClient;
-import org.eclipse.jetty.client.api.Request;
-import org.eclipse.jetty.http.HttpHeader;
+import org.eclipse.jetty.ee8.proxy.ProxyServlet;
 import org.eclipse.jetty.http.HttpScheme;
-import org.eclipse.jetty.proxy.ProxyServlet;
+import org.eclipse.jetty.io.ClientConnector;
 import org.eclipse.jetty.util.URIUtil;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
+import org.eclipse.jetty.util.thread.QueuedThreadPool;
 
 
 /***
@@ -75,23 +73,19 @@ public class SSLProxyServlet extends ProxyServlet {
     protected static final String TRUSTSTORE_P = "truststorePassword";
     protected static final String ENDPOINT_IDENTIFICATION_ALGORITHM = "endpointIdentificationAlgorithm";
     private static final long serialVersionUID = 1L;
-    private static URL proxyUrl = null;
+    private URL proxyUrl = null;
 
-
-    private static void setProxyUrl(URL proxy) {
-        SSLProxyServlet.proxyUrl = proxy;
-    }
 
     private void initProxyUrl() throws ServletException, MalformedURLException {
 
-        if (SSLProxyServlet.proxyUrl != null) {
+        if (proxyUrl != null) {
             return;
         }
         String proxyUrlStr = System.getProperty(PROXY_TO);
         if (proxyUrlStr == null) {
             throw new ServletException("-D" + PROXY_TO + " must be specified");
         }
-        setProxyUrl(new URL(proxyUrlStr));
+        proxyUrl = new URL(proxyUrlStr);
     }
 
 
@@ -107,62 +101,40 @@ public class SSLProxyServlet extends ProxyServlet {
 
 
     @Override
-    public void sendProxyRequest(HttpServletRequest request, HttpServletResponse response, Request proxyRequest) {
-
-        @SuppressWarnings("unchecked")
-        Enumeration<String> headerNames = request.getHeaderNames();
-        while (headerNames.hasMoreElements()) {
-            String headerName = headerNames.nextElement();
-            if (!proxyRequest.getHeaders().containsKey(headerName)) {
-                String headerVal = request.getHeader(headerName);
-                proxyRequest.header(headerName, headerVal);
-            }
-        }
-        proxyRequest.getHeaders().remove(HttpHeader.HOST);
-        super.sendProxyRequest(request, response, proxyRequest);
-
-    }
-
-    @Override
-    protected HttpClient newHttpClient() {
-        // ioverride parent method to be able to create a secured client as well.
-        boolean isSecureClient = (
-            proxyUrl.getProtocol() != null &&
-                proxyUrl.getProtocol().equalsIgnoreCase(HttpScheme.HTTPS.toString()));
-        if ((isSecureClient)) {
-            String trustAll = System.getProperty(TRUST_ALL);
-            SslContextFactory.Client sslContextFactory = null;
-            if (trustAll != null && Boolean.parseBoolean(trustAll) == Boolean.TRUE) {
-                sslContextFactory = new SslContextFactory.Client(true);
-            } else {
-                sslContextFactory = new SslContextFactory.Client(false);
-                // setting up truststore
-                sslContextFactory.setTrustStorePath(System.getProperty(TRUSTSTORE_PATH));
-                sslContextFactory.setTrustStorePassword(System.getProperty(TRUSTSTORE_P));
-                sslContextFactory.setTrustStoreType(System.getProperty(TRUSTSTORE_TYPE));
-                // setting up keystore
-                sslContextFactory.setKeyStorePath(System.getProperty(KEYSTORE_PATH));
-                sslContextFactory.setKeyStorePassword(System.getProperty(KEYSTORE_P));
-                sslContextFactory.setKeyStoreType(System.getProperty(KEYSTORE_TYPE));
-                sslContextFactory.setKeyManagerPassword(System.getProperty(KEYMANAGER_P));
-
-                if (System.getProperty(ENDPOINT_IDENTIFICATION_ALGORITHM) != null &&
-                    !System.getProperty(ENDPOINT_IDENTIFICATION_ALGORITHM).equals("")) {
-                    sslContextFactory
-                        .setEndpointIdentificationAlgorithm(System.getProperty(ENDPOINT_IDENTIFICATION_ALGORITHM));
+    protected ClientConnector newClientConnector() {
+        ClientConnector connector = super.newClientConnector();
+        if (HttpScheme.HTTPS.is(proxyUrl.getProtocol())) {
+            SslContextFactory.Client ssl = new SslContextFactory.Client(
+                Boolean.parseBoolean(System.getProperty(TRUST_ALL)));
+            if (!ssl.isTrustAll()) {
+                // These stores are optional: server-authenticated TLS needs no client key.
+                if (System.getProperty(TRUSTSTORE_PATH) != null) {
+                    ssl.setTrustStorePath(System.getProperty(TRUSTSTORE_PATH));
+                    ssl.setTrustStorePassword(System.getProperty(TRUSTSTORE_P));
                 }
-
-                if (System.getProperty(KEYSTORE_CYPHER) != null &&
-                    !System.getProperty(KEYSTORE_CYPHER).equals("")) {
-                    sslContextFactory.setIncludeCipherSuites(System.getProperty(KEYSTORE_CYPHER));
+                if (System.getProperty(TRUSTSTORE_TYPE) != null) {
+                    ssl.setTrustStoreType(System.getProperty(TRUSTSTORE_TYPE));
+                }
+                if (System.getProperty(KEYSTORE_PATH) != null) {
+                    ssl.setKeyStorePath(System.getProperty(KEYSTORE_PATH));
+                    ssl.setKeyStorePassword(System.getProperty(KEYSTORE_P));
+                    ssl.setKeyManagerPassword(System.getProperty(KEYMANAGER_P));
+                }
+                if (System.getProperty(KEYSTORE_TYPE) != null) {
+                    ssl.setKeyStoreType(System.getProperty(KEYSTORE_TYPE));
+                }
+                String endpointAlgorithm = System.getProperty(ENDPOINT_IDENTIFICATION_ALGORITHM);
+                if (endpointAlgorithm != null && !endpointAlgorithm.isEmpty()) {
+                    ssl.setEndpointIdentificationAlgorithm(endpointAlgorithm);
+                }
+                String ciphers = System.getProperty(KEYSTORE_CYPHER);
+                if (ciphers != null && !ciphers.isEmpty()) {
+                    ssl.setIncludeCipherSuites(ciphers);
                 }
             }
-            return new HttpClient(sslContextFactory);
-
-        } else {
-            return super.newHttpClient();
+            connector.setSslContextFactory(ssl);
         }
-
+        return connector;
     }
 
     @Override
@@ -176,7 +148,10 @@ public class SSLProxyServlet extends ProxyServlet {
         // calling the parent and setting the configuration for our implementation
         HttpClient client = super.createHttpClient();
         setTimeout(TIMEOUT);
-        client.setStopTimeout(TIMEOUT);
+        if (client.getExecutor() instanceof QueuedThreadPool
+            && getInitParameter("maxThreads") != null && !"-".equals(getInitParameter("maxThreads"))) {
+            ((QueuedThreadPool) client.getExecutor()).setStopTimeout(TIMEOUT);
+        }
         client.setIdleTimeout(TIMEOUT);
         if (System.getProperty(MAX_POOL_CONNECTIONS) != null) {
             client.setMaxConnectionsPerDestination(
