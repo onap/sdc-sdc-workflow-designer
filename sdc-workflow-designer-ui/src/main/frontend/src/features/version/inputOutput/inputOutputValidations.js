@@ -21,14 +21,14 @@ export const getValidationsError = dataRows => {
         const groupKey = value.name.toLowerCase();
 
         if (groupKey) {
-            if (result.hasOwnProperty(groupKey)) {
+            if (Object.prototype.hasOwnProperty.call(result, groupKey)) {
                 result[groupKey].push(key);
             } else {
                 result[groupKey] = [key];
             }
         }
         return result;
-    }, {});
+    }, Object.create(null));
 
     error.alreadyExists = Object.keys(groupBy).reduce((result, value) => {
         if (groupBy[value].length > 1) {

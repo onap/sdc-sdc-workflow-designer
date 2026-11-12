@@ -242,7 +242,7 @@ class CompositionView extends Component {
         reader.onloadend = event => {
             var xml = event.target.result;
             this.setDiagramToBPMN(xml);
-            this.fileInput.value = '';
+            this.fileInput.current.value = '';
         };
         reader.readAsText(file);
     };

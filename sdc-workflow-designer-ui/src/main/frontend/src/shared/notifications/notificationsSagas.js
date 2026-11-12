@@ -21,11 +21,10 @@ import {
 } from 'shared/notifications/notificationsConstants.js';
 import { notificationActions } from 'shared/notifications/notificationsActions';
 
-export function* handleComingNotifications(params) {
-    const { timeout, ...data } = params;
-    const interval = timeout || notificationTimeout;
+export function* handleComingNotifications({ payload }) {
+    const interval = payload.timeout || notificationTimeout;
     yield delay(interval);
-    yield put(notificationActions.removeNotification(data.payload));
+    yield put(notificationActions.removeNotification(payload));
 }
 
 export function* watchNotifications() {

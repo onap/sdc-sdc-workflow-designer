@@ -34,7 +34,7 @@ export class BasePubSub {
 
     public on(callback: Function) {
         let functionExists = this.eventsCallbacks.find((func: Function) => {
-            return callback.toString() == func.toString()
+            return callback === func
         });
 
         if (!functionExists) {
@@ -44,7 +44,9 @@ export class BasePubSub {
 
     public off(callback: Function) {
         let index = this.eventsCallbacks.indexOf(callback);
-        this.eventsCallbacks.splice(index, 1)
+        if (index !== -1) {
+            this.eventsCallbacks.splice(index, 1);
+        }
     }
 
     public notify(eventType:string, eventData?:any) {
@@ -79,11 +81,11 @@ export class BasePubSub {
                     this.subscribers.forEach((subscriber: ISubscriber, subscriberId: string) => {
                         if (this.eventsToWait.has(subscriberId) && this.eventsToWait.get(subscriberId).indexOf(eventType) !== -1) {
 
-                            const actionCompletedFunction = (eventData, subId = subscriberId) => {
-                                if (eventData.type == "ACTION_COMPLETED") {
-                                    checkNotifyComplete(subId);
+                            const actionCompletedFunction = (eventData) => {
+                                if (eventData.type === "ACTION_COMPLETED" && eventData.originId === subscriberId) {
+                                    checkNotifyComplete(subscriberId);
+                                    this.off(actionCompletedFunction);
                                 }
-                                this.off(actionCompletedFunction);
 
                             };
                             this.on(actionCompletedFunction);
@@ -108,7 +110,7 @@ export class BasePubSub {
 
     protected onMessage(event: any) {
         if (this.subscribers.has(event.data.originId)) {
-            this.eventsCallbacks.forEach((callback: Function) => {
+            this.eventsCallbacks.slice().forEach((callback: Function) => {
                 callback(event.data, event);
             })
         }

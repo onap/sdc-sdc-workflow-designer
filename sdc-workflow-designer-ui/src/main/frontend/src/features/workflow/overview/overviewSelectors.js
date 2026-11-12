@@ -21,7 +21,7 @@ import { versionState } from 'features/version/versionConstants';
 export const getVersions = state => state && state.workflow.versions;
 export const getSortedVersions = createSelector(
     getVersions,
-    versions => versions && versions.sort((a, b) => a.name - b.name)
+    versions => versions && versions.slice().sort((a, b) => a.name - b.name)
 );
 export const getSelectedVersionId = state =>
     state && state.currentVersion.general.id;
@@ -58,5 +58,5 @@ export const getWorkflowData = createSelector(
 
 export const getLatestBaseId = createSelector(
     getSortedVersions,
-    versions => versions.length && versions[versions.length - 1].id
+    versions => (versions.length ? versions[versions.length - 1].id : undefined)
 );

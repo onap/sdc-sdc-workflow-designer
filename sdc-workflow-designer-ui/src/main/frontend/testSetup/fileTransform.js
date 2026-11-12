@@ -17,9 +17,23 @@
 'use strict';
 
 const path = require('path');
+const crypto = require('crypto');
+const fs = require('fs');
 
 module.exports = {
+    getCacheKey(src, filename, config, options = {}) {
+        return crypto
+            .createHash('md5')
+            .update(src)
+            .update(filename)
+            .update(config)
+            .update(options.instrument ? 'instrument' : 'plain')
+            .update(fs.readFileSync(__filename))
+            .digest('hex');
+    },
     process(src, filename) {
-        return `module.exports = ${JSON.stringify(path.basename(filename))};`;
+        return `module.exports = ${JSON.stringify(
+            path.extname(filename) === '.bpmn' ? src : path.basename(filename)
+        )};`;
     }
 };

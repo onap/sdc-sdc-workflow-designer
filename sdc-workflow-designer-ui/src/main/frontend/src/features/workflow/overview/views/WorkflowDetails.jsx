@@ -24,7 +24,7 @@ class WorkflowDetails extends Component {
     handleSubmitForm = e => {
         e.preventDefault();
         const { description } = this.props;
-        this.props.updateWorkflow(description);
+        this.props.updateWorkflow({ description });
     };
 
     render() {

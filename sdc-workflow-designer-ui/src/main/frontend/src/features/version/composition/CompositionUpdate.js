@@ -35,7 +35,7 @@ class CompositionUpdate extends Component {
         showErrorModal: PropTypes.func,
         composition: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
         inputOutput: PropTypes.object,
-        activities: PropTypes.object,
+        activities: PropTypes.array,
         certifyBack: PropTypes.func
     };
 

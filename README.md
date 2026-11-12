@@ -30,6 +30,12 @@ Cassandra can be deployed, or an existing cluster may be used.
 - Database initialization scripts run once per deployment to create the necessary Cassandra keyspaces and tables,
 pre-populate data, etc.
 
+Frontend testing
+================
+
+See the [frontend testing guide](sdc-workflow-designer-ui/src/main/frontend/TESTING.md)
+for the pinned toolchain, focused tests, coverage gates, and Maven validation.
+
 Deployment on Docker
 ====================
 

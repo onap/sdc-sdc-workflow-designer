@@ -70,7 +70,7 @@ class CreateWorkflowView extends Component {
                             isRequired
                         />
                         <Description
-                            value={workflowDescription || ''}
+                            description={workflowDescription || ''}
                             label={I18n.t('workflow.general.description')}
                             onDataChange={workflowInputChange}
                         />

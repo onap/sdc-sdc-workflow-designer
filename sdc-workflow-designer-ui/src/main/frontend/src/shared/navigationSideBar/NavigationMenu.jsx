@@ -32,7 +32,7 @@ const NavigationMenu = ({ menu, activeItemId, onNavigationItemClick }) => {
 
 NavigationMenu.propTypes = {
     menu: PropTypes.object,
-    activeItemId: PropTypes.string.isRequired,
+    activeItemId: PropTypes.string,
     onNavigationItemClick: PropTypes.func
 };
 

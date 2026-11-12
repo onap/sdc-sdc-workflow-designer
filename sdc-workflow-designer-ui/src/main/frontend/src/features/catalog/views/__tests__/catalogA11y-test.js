@@ -28,7 +28,7 @@ import { ASC } from 'features/catalog/catalogConstants';
 const key = k => ({ key: k, preventDefault: jest.fn() });
 
 describe('Workflow catalog keyboard and screen-reader access', () => {
-    beforeAll(() => {
+    beforeEach(() => {
         jest.spyOn(I18n, 't').mockImplementation(k => `t(${k})`);
     });
 

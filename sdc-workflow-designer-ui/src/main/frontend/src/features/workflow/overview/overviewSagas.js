@@ -71,20 +71,24 @@ export function* archiveRestoreWorkflow(action) {
                 status: status
             })
         );
+        return true;
     } catch (e) {
         yield put(genericNetworkErrorAction(e));
+        return false;
     }
 }
 
 export function* restoreWorkflow(action) {
     const { id } = action.payload;
-    yield archiveRestoreWorkflow(action);
+    const succeeded = yield archiveRestoreWorkflow(action);
+    if (!succeeded) return;
     yield put(getVersionsAction(id));
 }
 
 export function* archiveWorkflow(action) {
     const { history } = action.payload;
-    yield archiveRestoreWorkflow(action);
+    const succeeded = yield archiveRestoreWorkflow(action);
+    if (!succeeded) return;
     yield put(
         notificationActions.showSuccess({
             title: I18n.t('workflow.overview.archiveTitle'),

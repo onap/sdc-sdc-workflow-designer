@@ -15,20 +15,45 @@
 */
 
 module.exports = {
-    collectCoverageFrom: ['src/**/*.{js,jsx,mjs}'],
+    collectCoverageFrom: [
+        'src/**/*.{js,jsx,mjs,ts}',
+        '!src/i18n/i18next-scanner.config.js'
+    ],
+    coverageReporters: ['text-summary', 'lcov', 'json', 'json-summary'],
+    coverageThreshold: {
+        global: { statements: 90, branches: 85, functions: 90, lines: 90 },
+        './src/services/restAPIUtil.js': {
+            statements: 100,
+            branches: 95,
+            functions: 100,
+            lines: 100
+        },
+        './src/features/version/inputOutput/inputOutputValidations.js': {
+            statements: 100,
+            branches: 100,
+            functions: 100,
+            lines: 100
+        }
+    },
+    clearMocks: true,
+    restoreMocks: true,
+    setupTestFrameworkScriptFile: '<rootDir>/testSetup/setupTests.js',
     setupFiles: ['jest-localstorage-mock'],
     testMatch: [
-        '<rootDir>/src/**/__tests__/**/*.{js,jsx,mjs}',
-        '<rootDir>/src/**/?(*.)(spec|test).{js,jsx,mjs}'
+        '<rootDir>/src/**/__tests__/**/*.{js,jsx,mjs,ts}',
+        '<rootDir>/src/**/?(*.)(spec|test).{js,jsx,mjs,ts}'
     ],
-    testEnvironment: 'node',
+    testEnvironment: 'jsdom',
     testURL: 'http://localhost',
     globals: {
         DEBUG: false
     },
-    transformIgnorePatterns: ['[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$'],
+    // BPMN packages publish ES modules consumed by webpack and Babel in tests.
+    transformIgnorePatterns: [
+        'node_modules[/\\\\](?!(bpmn-js|bpmn-moddle|moddle|moddle-xml|min-dash|diagram-js|tiny-svg|didi|object-refs|min-dom|ids|css.escape)[/\\\\])'
+    ],
     moduleNameMapper: {
-        '\\.(css|scss)$': 'identity-obj-proxy',
+        '\\.(css|scss|less)$': 'identity-obj-proxy',
         '\\.(gif|ttf|eot|svg)$': '<rootDir>/__mocks__/fileMock.js',
         '^src(.*)$': '<rootDir>/src$1',
         '^config(.*)$': '<rootDir>/src/config$1',
@@ -39,10 +64,12 @@ module.exports = {
         '^shared(.*)$': '<rootDir>/src/shared$1',
         '^i18n(.*)$': '<rootDir>/src/i18n$1'
     },
+    moduleFileExtensions: ['js', 'jsx', 'mjs', 'ts', 'json', 'node'],
     transform: {
+        '^.+\\.ts$': '<rootDir>/testSetup/typescriptTransform.js',
         '^.+\\.(js|jsx|mjs)$': '<rootDir>/node_modules/babel-jest',
-        '^(?!.*\\.(js|jsx|mjs|css|json)$)':
+        '^(?!.*\\.(js|jsx|mjs|ts|css|json)$)':
             '<rootDir>/testSetup/fileTransform.js'
     },
-    roots: ['<rootDir>/src/features', '<rootDir>/src/shared']
+    roots: ['<rootDir>/src']
 };

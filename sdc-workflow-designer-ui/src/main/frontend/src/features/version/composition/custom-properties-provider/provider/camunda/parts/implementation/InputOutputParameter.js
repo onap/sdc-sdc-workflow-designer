@@ -236,7 +236,7 @@ export default function(element, bpmnFactory, options, translate) {
         validate: function(element, values, node) {
             var bo = getSelected(element, node);
             return bo && isScript(bo.definition)
-                ? script.validate(element, bo.definition)
+                ? script.validate(element, script.get(element, bo.definition))
                 : {};
         },
 

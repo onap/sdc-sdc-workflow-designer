@@ -79,7 +79,7 @@ class App extends Component {
             if (workflowId && versionId) {
                 this.props.getOverview(workflowId);
                 this.props.history.push(
-                    `/workflow/${workflowId}/version/${versionId}/composition`
+                    `/workflows/workflow/${workflowId}/version/${versionId}/composition`
                 );
             }
         }

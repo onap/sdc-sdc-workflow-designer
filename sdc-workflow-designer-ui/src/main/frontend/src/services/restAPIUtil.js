@@ -113,9 +113,13 @@ class RestAPIUtil {
                 : result.data;
         } catch (error) {
             store.dispatch(recieveResponseAction(url));
-            errorResponseHandler(error.response);
+            const response = error.response || {
+                statusText: 'Network Error',
+                data: { message: error.message || 'Network Error' }
+            };
+            errorResponseHandler(response);
             return Promise.reject({
-                responseJSON: error.response.data
+                responseJSON: response.data
             });
         }
     }

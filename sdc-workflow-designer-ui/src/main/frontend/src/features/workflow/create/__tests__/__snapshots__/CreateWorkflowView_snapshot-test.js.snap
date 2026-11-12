@@ -55,7 +55,7 @@ exports[`New Workflow View Snapshot renders correctly 1`] = `
             data-test-id="description"
             disabled={false}
             onChange={[Function]}
-            value={undefined}
+            value=""
           />
         </div>
       </div>

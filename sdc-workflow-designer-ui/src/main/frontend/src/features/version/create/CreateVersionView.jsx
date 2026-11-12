@@ -38,7 +38,8 @@ class CreateVersionView extends Component {
             newVersion: ''
         };
     }
-    handleSubmitForm = () => {
+    handleSubmitForm = event => {
+        event.preventDefault();
         const {
             submitNewVersion,
             workflowId,
