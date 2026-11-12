@@ -67,9 +67,8 @@ jobs:
       #
       # Build before analysing so the Java analyser sees bytecode and the
       # JaCoCo report; a source-only scan reports no coverage. Phases
-      # match the Jenkins job's 'clean install'. java_version is left
-      # unset so the lane detects the project's JDK rather than pinning a
-      # value that can drift out of step with the POMs.
+      # match the Jenkins job's 'clean install'. The UI's Jetty 12
+      # dependencies require JDK 17 even though the backend still targets 11.
       #
       # analysis_mode is deliberately unset so security-workflows derives
       # sonar-maven-plugin from build_type. This matters more here than
@@ -80,6 +79,7 @@ jobs:
       # throwaway branch can absorb that mistake. This lane writes the
       # project's own analysis, so it cannot.
       build_type: 'maven'
+      java_version: '17'
       mvn_phases: 'clean install'
       mvn_params: '-Djib.skip=true --fail-at-end'
       #
