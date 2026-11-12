@@ -7,6 +7,11 @@
     <servlet>
         <servlet-name>Backend Proxy</servlet-name>
         <servlet-class>org.onap.workflow.web.SSLProxyServlet</servlet-class>
+        <!-- Preserve the dedicated proxy executor used by Jetty 9. -->
+        <init-param>
+            <param-name>maxThreads</param-name>
+            <param-value>256</param-value>
+        </init-param>
         <load-on-startup>1</load-on-startup>
         <async-supported>true</async-supported>
     </servlet>
