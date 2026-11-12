@@ -136,6 +136,7 @@ jobs:
       # tests nor the container image affect the dependency set, so both
       # are skipped.
       build_type: 'maven'
+      java_version: '17'
       mvn_params: '-DskipTests -Djib.skip=true --fail-at-end'
       # Surface a broken pre-scan build instead of scanning whatever
       # happens to have compiled. The reusable defaults this to true, on
