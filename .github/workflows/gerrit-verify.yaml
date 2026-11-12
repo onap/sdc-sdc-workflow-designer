@@ -15,9 +15,8 @@
 # same Node.js version and build tool, and scoped to the frontend directory
 # via path_prefix. The committed yarn.lock makes the install reproducible.
 #
-# Dependency-audit, test and Grype failures are permitted (soft-fail) because
-# the frontend pins a 2018-era toolchain; this check surfaces status without
-# gating Gerrit on findings the Maven build does not gate on either.
+# Tests and coverage thresholds must pass. Dependency-audit and Grype
+# findings remain supplementary because the frontend pins a legacy toolchain.
 #
 # DEPLOYMENT NOTES:
 #   * gerrit_to_platform discovers this caller by filename (contains both
@@ -150,8 +149,8 @@ jobs:
       build_scripts: 'build'
       # Mirror the Maven 'ui test' execution (jest with coverage).
       test_script: 'test-build'
-      # Supplementary check: surface status without gating Gerrit.
-      test_permit_fail: true
+      # Test and coverage failures must be visible in the verification result.
+      test_permit_fail: false
       audit_permit_fail: true
       grype_permit_fail: true
 
